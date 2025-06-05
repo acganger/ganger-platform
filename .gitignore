@@ -109,3 +109,7 @@ migrations/
 # Temporary files
 *.tmp
 *.temp
+
+# Claude Code - Contains sensitive project information
+CLAUDE.md
+.claude/
