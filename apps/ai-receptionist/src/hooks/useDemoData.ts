@@ -25,15 +25,15 @@ export const useDemoData = () => {
       id: 'scenario_1',
       name: 'Routine Appointment Scheduling',
       description: 'Patient calls to schedule a routine dermatology appointment',
-      patient_name: 'Sarah Johnson',
-      caller_phone: '+15551234567',
+      patient_name: 'Sarah M. Johnson',
+      caller_phone: '+1 (734) 555-4821',
       scenario_type: 'appointment',
       location: 'Ann Arbor',
       conversation_script: [
         {
           turn: 1,
           speaker: 'ai',
-          text: "Thank you for calling Ganger Dermatology. I'm your AI assistant. How can I help you today?",
+          text: "Thank you for calling Ganger Dermatology. This is our AI assistant. How may I help you today?",
         },
         {
           turn: 2,
@@ -45,12 +45,12 @@ export const useDemoData = () => {
         {
           turn: 3,
           speaker: 'ai',
-          text: "I'd be happy to help you schedule a skin check appointment. Can you provide your name and date of birth?"
+          text: "I'd be happy to help you schedule a skin check appointment with Dr. Ganger. Can you please provide your name and date of birth for verification?"
         },
         {
           turn: 4,
           speaker: 'patient',
-          text: "Sure, my name is Sarah Johnson and my date of birth is March 15, 1985.",
+          text: "Sure, my name is Sarah Marie Johnson and my date of birth is March 15, 1985.",
           intent: 'personal_information',
           confidence: 0.98
         },
@@ -66,8 +66,8 @@ export const useDemoData = () => {
       id: 'scenario_2',
       name: 'Billing Inquiry - Account Balance',
       description: 'Patient calls to check their account balance and make a payment',
-      patient_name: 'Michael Chen',
-      caller_phone: '+15552345678',
+      patient_name: 'Michael T. Chen',
+      caller_phone: '+1 (248) 555-7392',
       scenario_type: 'billing',
       location: 'Wixom',
       conversation_script: [
@@ -197,8 +197,8 @@ export const useDemoData = () => {
         {
           id: 'call_001',
           call_id: '3cx_001',
-          caller_phone: '+15551234567',
-          caller_name: 'Sarah Johnson',
+          caller_phone: '+1 (734) 555-4821',
+          caller_name: 'Sarah M. Johnson',
           patient_id: 'patient_001',
           call_direction: 'inbound',
           call_status: 'active',
@@ -213,8 +213,8 @@ export const useDemoData = () => {
         {
           id: 'call_002',
           call_id: '3cx_002',
-          caller_phone: '+15552345678',
-          caller_name: 'Michael Chen',
+          caller_phone: '+1 (248) 555-7392',
+          caller_name: 'Michael T. Chen',
           patient_id: 'patient_002',
           call_direction: 'inbound',
           call_status: 'active',
@@ -233,8 +233,8 @@ export const useDemoData = () => {
         {
           id: 'call_003',
           call_id: '3cx_003',
-          caller_phone: '+15553456789',
-          caller_name: 'Jennifer Martinez',
+          caller_phone: '+1 (734) 555-9841',
+          caller_name: 'Jennifer L. Martinez',
           call_direction: 'inbound',
           call_status: 'transferred',
           location: 'Plymouth',
@@ -244,8 +244,8 @@ export const useDemoData = () => {
           ai_handled: false,
           ai_confidence_score: 0.34,
           resolution_type: 'transferred',
-          transfer_reason: 'Medical question',
-          transferred_to: 'Clinical Staff',
+          transfer_reason: 'Skin rash requiring clinical assessment',
+          transferred_to: 'Dr. Sarah Williams, PA-C',
           escalation_required: true,
           patient_satisfaction_score: 5,
           quality_score: 95.5,
@@ -255,8 +255,8 @@ export const useDemoData = () => {
         {
           id: 'call_004',
           call_id: '3cx_004',
-          caller_phone: '+15554567890',
-          caller_name: 'Lisa Park',
+          caller_phone: '+1 (248) 555-6273',
+          caller_name: 'Lisa R. Park',
           call_direction: 'inbound',
           call_status: 'completed',
           location: 'Ann Arbor',
@@ -276,8 +276,8 @@ export const useDemoData = () => {
         {
           id: 'call_005',
           call_id: '3cx_005',
-          caller_phone: '+15555678901',
-          caller_name: 'David Thompson',
+          caller_phone: '+1 (734) 555-8147',
+          caller_name: 'David A. Thompson',
           call_direction: 'inbound',
           call_status: 'completed',
           location: 'Wixom',

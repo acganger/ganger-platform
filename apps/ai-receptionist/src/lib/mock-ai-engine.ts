@@ -38,29 +38,29 @@ export class MockAIEngine {
     ],
     conversation_templates: {
       greeting: [
-        "Thank you for calling Ganger Dermatology. I'm your AI assistant. How can I help you today?",
-        "Hello! Welcome to Ganger Dermatology. I'm here to assist you. What can I do for you?",
-        "Good {timeOfDay}! This is Ganger Dermatology's AI assistant. How may I help you today?"
+        "Thank you for calling Ganger Dermatology. This is our AI assistant. How may I help you today?",
+        "Good morning! Welcome to Ganger Dermatology. I'm here to assist with appointments, billing, and general information. How can I help you?",
+        "Hello, and thank you for calling Ganger Dermatology. I'm our virtual assistant and I'm here to help. What can I do for you today?"
       ],
       appointment_scheduling: [
-        "I'd be happy to help you schedule an appointment. Can you please provide your name and date of birth?",
-        "Let me help you find an available appointment. What type of appointment are you looking for?",
-        "I can check our availability for you. Which location would you prefer - Ann Arbor, Wixom, or Plymouth?"
+        "I'd be happy to help you schedule an appointment with Dr. Ganger. Can you please provide your name and date of birth for verification?",
+        "Let me help you find an available appointment slot. What type of dermatology service are you looking for today?",
+        "I can check our availability across all locations. Would you prefer Ann Arbor, Wixom, or Plymouth, and do you have a preference for morning or afternoon?"
       ],
       billing_inquiry: [
-        "I can help you with billing questions. Let me look up your account. Can you provide your name and date of birth?",
-        "I'll be happy to check your account balance. For security, can you verify your phone number?",
-        "Let me access your billing information. What specific question do you have about your account?"
+        "I can help you with billing and insurance questions. For account security, please provide your full name and date of birth so I can access your account.",
+        "I'll be happy to check your account balance and payment options. Can you verify your information with your name and phone number?",
+        "Let me look up your billing information. What specific question do you have - account balance, insurance claims, or payment arrangements?"
       ],
       medical_escalation: [
-        "I understand you have a medical question. Let me connect you with one of our clinical staff who can better assist you.",
-        "For medical concerns, I need to transfer you to our medical team. Please hold while I connect you.",
-        "This sounds like something our clinical staff should address. I'm transferring you now for immediate assistance."
+        "I understand you have medical questions that require clinical expertise. Let me connect you with one of our medical providers who can properly address your concerns.",
+        "For specific medical questions or concerns, our clinical team is best equipped to help you. Please hold while I transfer you to a medical professional.",
+        "This type of medical inquiry needs to be handled by our clinical staff. I'm transferring you now to ensure you receive the appropriate medical guidance."
       ],
       emergency: [
-        "This sounds like a medical emergency. I'm immediately connecting you to our clinical team.",
-        "For urgent medical situations, I'm transferring you right away to our medical staff.",
-        "I'm prioritizing your call and connecting you to our emergency protocol team now."
+        "This sounds like it may be a medical emergency. I'm immediately connecting you to our clinical team for urgent assessment.",
+        "For potentially urgent medical situations, I'm transferring you directly to our medical staff right away. Please stay on the line.",
+        "I'm prioritizing your call as urgent and connecting you to our medical team immediately for proper evaluation."
       ]
     }
   };

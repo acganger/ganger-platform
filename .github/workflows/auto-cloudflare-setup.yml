@@ -19,16 +19,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           
       - name: Install Wrangler CLI
         run: npm install -g wrangler@latest
         
-      - name: Setup Cloudflare CLI Auth
-        run: |
-          echo "${{ secrets.CLOUDFLARE_API_TOKEN }}" | wrangler auth token
-        
       - name: Create Pages Projects via Wrangler
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "🚀 Creating Cloudflare Pages projects..."
           
