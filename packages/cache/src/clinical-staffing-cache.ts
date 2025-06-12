@@ -10,7 +10,18 @@
  */
 
 import { redisClient } from './redis-client';
-import { secureLogger } from '@ganger/utils/server/secure-error-handler';
+// Simple logger to avoid dependency cascade
+const secureLogger = {
+  info: (message: string, context: any = {}) => {
+    console.info('[CACHE_LOG]', message, context);
+  },
+  warn: (message: string, context: any = {}) => {
+    console.warn('[CACHE_LOG]', message, context);
+  },
+  error: (message: string, context: any = {}) => {
+    console.error('[CACHE_LOG]', message, context);
+  }
+};
 import * as crypto from 'crypto';
 
 // Cache configuration constants
