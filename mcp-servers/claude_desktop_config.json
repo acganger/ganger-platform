@@ -24,10 +24,12 @@
       "args": ["-m", "mcp_server_fetch"],
       "env": {}
     },
-    "google-sheets": {
+    "google-drive": {
       "command": "node",
-      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\mkummer-google-sheets-mcp\\dist\\index.js"],
-      "env": {}
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\gdrive\\dist\\index.js"],
+      "env": {
+        "GDRIVE_CREDENTIALS_PATH": "Q:\\Projects\\ganger-platform\\mcp-servers\\gdrive\\.gdrive-server-credentials.json"
+      }
     },
     "slack": {
       "command": "npx",
