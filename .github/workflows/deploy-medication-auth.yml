@@ -24,18 +24,22 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
-        cache: 'npm'
+        node-version: '20'
+        
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 8
+        run_install: false
         
     - name: Install dependencies
       run: |
-        cd apps/medication-auth
-        npm install
+        pnpm install
         
     - name: Build application
       run: |
         cd apps/medication-auth
-        npm run build
+        pnpm run build
       env:
         SUPABASE_URL: ${{ env.SUPABASE_URL }}
         SUPABASE_ANON_KEY: ${{ env.SUPABASE_ANON_KEY }}
