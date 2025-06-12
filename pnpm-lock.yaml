@@ -1612,18 +1612,18 @@ importers:
 
   packages/monitoring:
     dependencies:
-      '@ganger/cache':
-        specifier: 1.0.0
-        version: link:../cache
-      '@ganger/db':
-        specifier: 1.0.0
-        version: link:../db
+      '@supabase/supabase-js':
+        specifier: ^2.39.0
+        version: 2.50.0
     devDependencies:
-      '@ganger/config':
-        specifier: 0.1.0
-        version: link:../config
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.0
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
       typescript:
-        specifier: ^5.0.0
+        specifier: ^5.5.0
         version: 5.8.3
 
   packages/types:
@@ -7807,7 +7807,7 @@ packages:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
       eslint: 8.56.0
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.34.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.56.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.56.0)
       get-tsconfig: 4.10.1
       is-bun-module: 2.0.0
       stable-hash: 0.0.5
