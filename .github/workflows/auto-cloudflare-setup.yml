@@ -69,6 +69,9 @@ jobs:
           wrangler pages domain add kiosk-production kiosk.gangerdermatology.com || echo "Domain may exist"
           
       - name: Deploy Path Router Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "🔄 Deploying path-based routing worker..."
           cd cloudflare-workers
