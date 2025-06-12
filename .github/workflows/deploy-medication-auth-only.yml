@@ -46,7 +46,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: medication-auth-production
+          projectName: staff-production
           directory: apps/medication-auth/dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           
