@@ -191,9 +191,6 @@ function createNextConfig(appName, appSpecificConfig = {}) {
     
     // Power behavior for development
     poweredByHeader: false,
-    
-    // Standalone build for deployment
-    output: isProduction ? 'standalone' : undefined,
   };
   
   // Merge with app-specific configuration
