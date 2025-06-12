@@ -42,15 +42,16 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
-      - name: Deploy to Cloudflare Workers
-        run: |
-          cd apps/medication-auth
-          npx wrangler deploy --env production
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: medication-auth-production
+          directory: apps/medication-auth/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deployment Success
         run: |
           echo "✅ Medication Auth deployed successfully!"
-          echo "🌐 URL: https://meds.gangerdermatology.com"
+          echo "🌐 URL: https://medication-auth-production.pages.dev"
