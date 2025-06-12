@@ -1,0 +1,53 @@
+name: Deploy Medication Auth App
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/medication-auth/**'
+      - '.github/workflows/deploy-medication-auth.yml'
+  workflow_dispatch:
+
+env:
+  SUPABASE_URL: https://pfqtzmxxxhhsxmlddrta.supabase.co
+  SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s
+  NEXTAUTH_SECRET: ganger-medication-auth-production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd apps/medication-auth
+        npm install
+        
+    - name: Build application
+      run: |
+        cd apps/medication-auth
+        npm run build
+      env:
+        SUPABASE_URL: ${{ env.SUPABASE_URL }}
+        SUPABASE_ANON_KEY: ${{ env.SUPABASE_ANON_KEY }}
+        NEXTAUTH_SECRET: ${{ env.NEXTAUTH_SECRET }}
+        NODE_ENV: production
+        
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        vercel-args: '--prod'
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./apps/medication-auth

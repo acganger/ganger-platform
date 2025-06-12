@@ -584,6 +584,7 @@ export class IntegrationMonitoringJobs {
         .select('id', { count: 'exact' })
         .in('status', ['open', 'acknowledged']);
 
+      await this.broadcastStatusUpdate({
         timestamp: new Date().toISOString(),
         integrations: healthStats,
         active_incidents: activeIncidents || 0
@@ -592,6 +593,7 @@ export class IntegrationMonitoringJobs {
       // Store report or send to monitoring system
 
     } catch (error) {
+      console.error('Health report generation failed:', error);
     }
   }
 

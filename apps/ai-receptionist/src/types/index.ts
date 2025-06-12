@@ -43,6 +43,11 @@ export interface ConversationTurn {
   sentiment_score?: number;
   emotion_detected?: string;
   escalation_triggered: boolean;
+  verification_required?: boolean;
+  verification_challenge_id?: string;
+  verification_status?: 'pending' | 'verified' | 'failed';
+  sms_sent?: boolean;
+  sms_type?: 'verification' | 'appointment' | 'other';
   created_at: string;
 }
 
@@ -111,6 +116,27 @@ export interface CallDashboardMetrics {
   };
 }
 
+// Zenefits employee data
+export interface ZenefitsEmployee {
+  id: string;
+  first_name: string;
+  last_name: string;
+  preferred_name?: string;
+  email: string;
+  phone: string;
+  mobile_phone?: string;
+  work_phone?: string;
+  title: string;
+  department: string;
+  manager?: {
+    first_name: string;
+    last_name: string;
+  };
+  employment_status: 'active' | 'inactive' | 'terminated';
+  start_date: string;
+  location?: string;
+}
+
 export interface MockAIConfig {
   intent_recognition_delay: number;
   response_generation_delay: number;
@@ -135,7 +161,7 @@ export interface DemoScenario {
   description: string;
   patient_name: string;
   caller_phone: string;
-  scenario_type: 'appointment' | 'billing' | 'clinical' | 'emergency' | 'multilingual';
+  scenario_type: 'appointment' | 'billing' | 'clinical' | 'emergency' | 'multilingual' | 'employee_recognition';
   conversation_script: Array<{
     turn: number;
     speaker: 'patient' | 'ai';

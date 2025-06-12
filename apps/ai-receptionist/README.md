@@ -10,6 +10,7 @@ This demo showcases an intelligent AI receptionist system that integrates with:
 - ✅ **Shared UI Components** (@ganger/ui with medical design system)
 - ✅ **Authentication System** (@ganger/auth with Google OAuth)
 - ✅ **Time MCP** (HIPAA-compliant timestamps)
+- ✅ **Zenefits HR Integration** (Employee recognition and personalized greetings)
 
 ## Features
 
@@ -25,11 +26,18 @@ This demo showcases an intelligent AI receptionist system that integrates with:
 - Sentiment analysis and confidence scoring
 - Escalation triggers for clinical questions
 
+### Employee Recognition
+- Automatic employee identification by phone number lookup
+- Personalized AI greetings for recognized staff members
+- Integration with Zenefits HR system for real-time employee status
+- Fallback to demo data when Zenefits API unavailable
+
 ### Integration Showcase
 - Communication Hub integration for message delivery
 - Database operations with real-time updates
 - Authentication with role-based access control
 - HIPAA-compliant audit logging
+- HR system integration for employee recognition
 
 ## Development
 
@@ -43,6 +51,19 @@ npm run build
 # Type checking
 npm run type-check
 ```
+
+### Environment Variables
+
+Required for Zenefits employee recognition:
+
+```bash
+# Zenefits HR Integration
+ZENEFITS_API_KEY=your_api_key_here
+ZENEFITS_COMPANY_ID=your_company_id
+ZENEFITS_API_URL=https://api.zenefits.com/core
+```
+
+**Note**: The system gracefully falls back to demo employee data if Zenefits credentials are not configured.
 
 ## Architecture
 

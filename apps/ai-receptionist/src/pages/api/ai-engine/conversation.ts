@@ -23,7 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       call_id, 
       user_input, 
       conversation_history = [], 
-      patient_context = null 
+      patient_context = null,
+      caller_phone = null 
     } = req.body;
 
     if (!call_id || !user_input) {
@@ -35,12 +36,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Initialize AI engine
     const aiEngine = new MockAIEngine();
 
-    // Process the conversation turn
-    const aiResponse = await aiEngine.processConversationTurn(
-      user_input,
-      conversation_history,
-      patient_context
-    );
+    // Process the conversation turn with employee detection if caller_phone provided
+    const aiResponse = caller_phone 
+      ? await aiEngine.processConversationTurnWithCallerID(
+          user_input,
+          conversation_history,
+          caller_phone,
+          patient_context
+        )
+      : await aiEngine.processConversationTurn(
+          user_input,
+          conversation_history,
+          patient_context
+        );
 
     // Create conversation turn records
     const userTurn: ConversationTurn = {

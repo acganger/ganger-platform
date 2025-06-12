@@ -91,8 +91,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(errorReport)
+        });
       }
     } catch (reportingError) {
+      // Fail silently for error reporting errors
     }
   };
 

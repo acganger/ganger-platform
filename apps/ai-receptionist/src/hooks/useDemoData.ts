@@ -186,13 +186,78 @@ export const useDemoData = () => {
         }
       ],
       expected_outcome: 'AI recognizes Spanish and transfers to bilingual staff member'
+    },
+    {
+      id: 'scenario_6',
+      name: '🏢 Employee Recognition - Dr. Ganger',
+      description: 'Practice owner calls and is recognized by phone number with personalized greeting',
+      patient_name: 'Dr. Anand Ganger',
+      caller_phone: '+1 (734) 555-0101',
+      scenario_type: 'employee_recognition',
+      location: 'Ann Arbor',
+      conversation_script: [
+        {
+          turn: 1,
+          speaker: 'ai',
+          text: "Hi Anand! This is our AI assistant. How can I help you today?",
+        },
+        {
+          turn: 2,
+          speaker: 'patient',
+          text: "I need to check if Mrs. Patterson's biopsy results are ready.",
+          intent: 'employee_request',
+          confidence: 0.96
+        },
+        {
+          turn: 3,
+          speaker: 'ai',
+          text: "Of course! Let me check our lab results system for Mrs. Patterson's biopsy. I'll have that information for you in just a moment."
+        },
+        {
+          turn: 4,
+          speaker: 'patient',
+          text: "Also, can you remind me what time my 3 PM appointment is scheduled for?",
+          intent: 'schedule_inquiry',
+          confidence: 0.98
+        }
+      ],
+      expected_outcome: 'AI recognizes Dr. Ganger by phone number and provides personalized staff-level service'
+    },
+    {
+      id: 'scenario_7',
+      name: '🏢 Employee Recognition - Practice Manager',
+      description: 'Practice manager calls and gets immediate recognition with appropriate access level',
+      patient_name: 'Jessica Martinez',
+      caller_phone: '+1 (248) 555-0103',
+      scenario_type: 'employee_recognition',
+      location: 'Wixom',
+      conversation_script: [
+        {
+          turn: 1,
+          speaker: 'ai',
+          text: "Hello Jess! I recognize your number. How may I help you today?",
+        },
+        {
+          turn: 2,
+          speaker: 'patient',
+          text: "I need to check our appointment availability for tomorrow at the Wixom location.",
+          intent: 'staff_scheduling_inquiry',
+          confidence: 0.94
+        },
+        {
+          turn: 3,
+          speaker: 'ai',
+          text: "Absolutely! I can pull up the Wixom schedule for you. Let me check tomorrow's availability across all providers."
+        }
+      ],
+      expected_outcome: 'AI recognizes practice manager and provides administrative-level access to scheduling information'
     }
   ];
 
   // Generate mock data
   useEffect(() => {
     const generateMockData = () => {
-      // Generate active calls
+      // Generate active calls (including employee call for demo)
       const activeCallsData: CallRecord[] = [
         {
           id: 'call_001',
@@ -213,15 +278,15 @@ export const useDemoData = () => {
         {
           id: 'call_002',
           call_id: '3cx_002',
-          caller_phone: '+1 (248) 555-7392',
-          caller_name: 'Michael T. Chen',
-          patient_id: 'patient_002',
+          caller_phone: '+1 (734) 555-0102',
+          caller_name: 'Sarah Williams, PA-C',
+          patient_id: 'employee_002',
           call_direction: 'inbound',
           call_status: 'active',
-          location: 'Wixom',
+          location: 'Ann Arbor',
           started_at: new Date(Date.now() - 90000).toISOString(), // 1.5 minutes ago
           ai_handled: true,
-          ai_confidence_score: 0.76,
+          ai_confidence_score: 0.98,
           escalation_required: false,
           created_at: new Date(Date.now() - 90000).toISOString(),
           updated_at: new Date().toISOString()

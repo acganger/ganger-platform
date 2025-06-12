@@ -59,7 +59,7 @@ export function InsuranceChecker({ patientId, medicationId, onCoverageVerified }
         };
         
         setInsuranceInfo(mockInsurance);
-      } catch (err) {
+      } catch {
         setError('Failed to load insurance information');
       } finally {
         setLoading(false);
@@ -102,7 +102,7 @@ export function InsuranceChecker({ patientId, medicationId, onCoverageVerified }
 
       setCoverageInfo(mockCoverage);
       onCoverageVerified(mockCoverage);
-    } catch (err) {
+    } catch {
       setError('Failed to verify coverage. Please try again.');
     } finally {
       setVerifying(false);

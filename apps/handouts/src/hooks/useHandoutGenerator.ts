@@ -60,6 +60,7 @@ export function useHandoutGenerator() {
       const pdfBlob = await PDFService.generateHandouts({
         patient: request.patient,
         templates: state.templates.filter(t => request.templateIds.includes(t.id)),
+        formData: {}
       });
 
       // Step 2: Upload PDF to storage

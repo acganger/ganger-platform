@@ -41,10 +41,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Initialize AI engine for this call
     const aiEngine = new MockAIEngine();
     
-    // Generate initial AI greeting
-    const initialResponse = await aiEngine.processConversationTurn(
+    // Generate initial AI greeting with employee detection
+    const initialResponse = await aiEngine.processConversationTurnWithCallerID(
       '', // Empty input for greeting
       [], // No conversation history
+      caller_phone, // Caller phone for employee lookup
       null // No patient context yet
     );
 

@@ -81,7 +81,7 @@ export default function InventoryDashboard() {
           user_role: user?.role,
           total_items: 1247
         });
-      } catch (error) {
+      } catch {
         // eslint-disable-next-line no-console
       } finally {
         setLoading(false);

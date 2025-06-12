@@ -1,7 +1,10 @@
 // Mock AI Engine for Demonstration
 // Simulates AWS Bedrock Claude 3.5 Sonnet responses with realistic medical conversation handling
 
-import { AIEngineResponse, ConversationTurn, MockAIConfig } from '@/types';
+import { AIEngineResponse, ConversationTurn, MockAIConfig, ZenefitsEmployee } from '@/types';
+import { zenefitsService } from './zenefits-service';
+import { phoneVerificationService } from './verification-service';
+import { appointmentSMSService } from './appointment-sms-service';
 
 export class MockAIEngine {
   private config: MockAIConfig = {
@@ -72,6 +75,59 @@ export class MockAIEngine {
   }
 
   /**
+   * Process a conversation turn with caller ID lookup for employee recognition
+   */
+  async processConversationTurnWithCallerID(
+    userInput: string,
+    conversationHistory: ConversationTurn[],
+    callerPhone: string,
+    patientContext?: any
+  ): Promise<AIEngineResponse & { employee?: ZenefitsEmployee }> {
+    const startTime = Date.now();
+
+    // Check if caller is an employee first
+    let employee: ZenefitsEmployee | null = null;
+    try {
+      employee = await zenefitsService.lookupEmployeeByPhone(callerPhone);
+    } catch (error) {
+      console.warn('Failed to lookup employee:', error);
+    }
+
+    // If this is the first turn and caller is an employee, use personalized greeting
+    if (conversationHistory.length === 0 && employee && userInput === '') {
+      const personalizedGreeting = zenefitsService.generateEmployeeGreeting(employee);
+      
+      return {
+        success: true,
+        response_text: personalizedGreeting,
+        intent_detected: 'employee_greeting',
+        confidence_score: 1.0,
+        sentiment_score: 0.8,
+        emotion_detected: 'professional',
+        escalation_required: false,
+        suggested_actions: ['await_employee_request'],
+        processing_time_ms: Date.now() - startTime,
+        context_updates: {
+          caller_type: 'employee',
+          employee_id: employee.id,
+          employee_name: zenefitsService.getDisplayName(employee),
+          employee_title: employee.title,
+          employee_department: employee.department
+        },
+        employee
+      };
+    }
+
+    // Regular conversation processing
+    const result = await this.processConversationTurn(userInput, conversationHistory, patientContext);
+    
+    return {
+      ...result,
+      employee: employee || undefined
+    };
+  }
+
+  /**
    * Process a conversation turn and generate AI response
    */
   async processConversationTurn(
@@ -127,6 +183,15 @@ export class MockAIEngine {
     // Medical emergency keywords (highest priority)
     if (this.containsAny(input, ['emergency', 'urgent', 'chest pain', 'can\'t breathe', 'severe pain', 'bleeding'])) {
       return 'emergency';
+    }
+
+    // Verification and SMS requests  
+    if (this.containsAny(input, ['verify', 'verification', 'confirm identity', 'authenticate'])) {
+      return 'verification_request';
+    }
+
+    if (this.containsAny(input, ['appointment', 'schedule', 'text me', 'send sms', 'send message', 'text appointment'])) {
+      return 'appointment_sms_request';
     }
 
     // Medical questions
@@ -309,6 +374,12 @@ export class MockAIEngine {
     }
 
     switch (intent) {
+      case 'verification_request':
+        return "For security purposes, I need to verify your identity. I'll send a verification code to your registered phone number. Please check your phone for a text message and say the word you receive.";
+        
+      case 'appointment_sms_request':
+        return "I'd be happy to text you your appointment details. Let me send that information to your registered phone number right now.";
+        
       case 'appointment_scheduling':
         return this.generateAppointmentResponse(userInput, history, patientContext);
       
@@ -543,5 +614,149 @@ export class MockAIEngine {
     };
 
     return patients[patientId] || null;
+  }
+
+  /**
+   * Generate verification response
+   */
+  private async generateVerificationResponse(userInput: string, history: ConversationTurn[], patientContext?: any): Promise<string> {
+    // This needs to be async to handle verification service calls
+    // For now, return a placeholder - this should be called from an async context
+    return "For security purposes, I need to verify your identity. I'll send a verification code to your registered phone number. Please check your phone for a text message and say the word you receive.";
+  }
+
+  /**
+   * Generate appointment SMS response
+   */
+  private async generateAppointmentSMSResponse(userInput: string, history: ConversationTurn[], patientContext?: any): Promise<string> {
+    // This needs to be async to handle SMS service calls
+    // For now, return a placeholder - this should be called from an async context
+    return "I'd be happy to text you your appointment details. Let me send that information to your registered phone number right now.";
+  }
+
+  /**
+   * Process conversation with verification and SMS capabilities (async version)
+   */
+  async processConversationWithServices(
+    userInput: string,
+    conversationHistory: ConversationTurn[],
+    callerPhone: string,
+    patientContext?: any
+  ): Promise<AIEngineResponse & { 
+    employee?: ZenefitsEmployee;
+    verification_initiated?: boolean;
+    verification_challenge_id?: string;
+    sms_sent?: boolean;
+    sms_type?: string;
+  }> {
+    const startTime = Date.now();
+
+    // Check if caller is an employee first
+    let employee: ZenefitsEmployee | null = null;
+    try {
+      employee = await zenefitsService.lookupEmployeeByPhone(callerPhone);
+    } catch (error) {
+      console.warn('Failed to lookup employee:', error);
+    }
+
+    // Analyze intent
+    const intent = this.detectIntent(userInput);
+    const confidence = this.calculateConfidence(userInput, intent);
+    const sentiment = this.analyzeSentiment(userInput);
+    const emotion = this.detectEmotion(userInput, sentiment);
+    
+    let responseText: string;
+    let verificationInitiated = false;
+    let verificationChallengeId: string | undefined;
+    let smsSent = false;
+    let smsType: string | undefined;
+
+    // Handle special cases for employees with verification and SMS
+    if (employee) {
+      if (intent === 'verification_request' || 
+          (conversationHistory.length > 0 && this.requiresVerification(userInput, conversationHistory))) {
+        
+        // Initiate verification
+        const verificationResult = await phoneVerificationService.initiateVerification(employee, callerPhone);
+        verificationInitiated = verificationResult.success;
+        verificationChallengeId = verificationResult.challenge_id;
+        
+        if (verificationResult.success) {
+          responseText = `Hi ${zenefitsService.getDisplayName(employee)}! For security, I've sent a verification word to your phone. Please say the word you receive in the text message.`;
+        } else {
+          responseText = `Hi ${zenefitsService.getDisplayName(employee)}! I'm having trouble with the verification system right now. Let me connect you directly with our team.`;
+        }
+      } else if (intent === 'appointment_sms_request' || 
+                 this.containsAny(userInput.toLowerCase(), ['text me', 'send sms', 'send message', 'text appointment'])) {
+        
+        // Send appointment SMS
+        const smsResult = await appointmentSMSService.sendNextAppointmentSMS(employee, callerPhone);
+        smsSent = smsResult.success;
+        smsType = 'appointment';
+        
+        if (smsResult.success) {
+          if (smsResult.appointment_found) {
+            responseText = `Perfect! I've sent your next appointment details to your phone. ${appointmentSMSService.getAppointmentSummary(employee)}`;
+          } else {
+            responseText = `I've sent a message to your phone. You don't have any upcoming appointments scheduled. Would you like me to help you schedule one?`;
+          }
+        } else {
+          responseText = `I'm having trouble sending the text message right now. Let me tell you about your next appointment instead. ${appointmentSMSService.getAppointmentSummary(employee)}`;
+        }
+      } else if (conversationHistory.length === 0 && userInput === '') {
+        // Initial employee greeting
+        responseText = zenefitsService.generateEmployeeGreeting(employee);
+      } else {
+        // Regular processing for employees
+        responseText = this.generateResponse(intent, userInput, conversationHistory, patientContext);
+      }
+    } else {
+      // Regular processing for non-employees
+      responseText = this.generateResponse(intent, userInput, conversationHistory, patientContext);
+    }
+
+    // Check for escalation needs
+    const escalationRequired = this.shouldEscalate(userInput, intent, conversationHistory);
+    if (escalationRequired) {
+      responseText = this.generateEscalationResponse(intent, userInput);
+    }
+
+    const processingTime = Date.now() - startTime;
+
+    return {
+      success: true,
+      response_text: responseText,
+      intent_detected: intent,
+      confidence_score: confidence,
+      sentiment_score: sentiment,
+      emotion_detected: emotion,
+      escalation_required: escalationRequired,
+      escalation_reason: escalationRequired ? this.getEscalationReason(userInput, intent) : undefined,
+      suggested_actions: this.getSuggestedActions(intent, escalationRequired),
+      processing_time_ms: processingTime,
+      context_updates: this.getContextUpdates(intent, userInput, patientContext),
+      employee: employee || undefined,
+      verification_initiated: verificationInitiated,
+      verification_challenge_id: verificationChallengeId,
+      sms_sent: smsSent,
+      sms_type: smsType
+    };
+  }
+
+  /**
+   * Check if verification is required for the request
+   */
+  private requiresVerification(userInput: string, history: ConversationTurn[]): boolean {
+    const input = userInput.toLowerCase();
+    
+    // Require verification for sensitive requests
+    const sensitiveKeywords = [
+      'schedule', 'appointment', 'cancel', 'reschedule', 
+      'billing', 'payment', 'balance', 'account',
+      'medical', 'prescription', 'medication'
+    ];
+    
+    // If employee is making any sensitive request, require verification
+    return this.containsAny(input, sensitiveKeywords);
   }
 }

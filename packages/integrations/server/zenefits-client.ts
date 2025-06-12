@@ -317,6 +317,14 @@ export class ZenefitsClient {
       companyId: process.env.ZENEFITS_COMPANY_ID || ''
     };
 
+    if (!config.apiKey) {
+      console.warn('⚠️  Zenefits API key not configured. Set ZENEFITS_API_KEY in environment variables.');
+    }
+    
+    if (!config.companyId) {
+      console.warn('⚠️  Zenefits Company ID not configured. Set ZENEFITS_COMPANY_ID in environment variables.');
+    }
+
     this.apiClient = new ZenefitsAPIClient(config);
   }
 

@@ -57,12 +57,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const scriptTurn = scenario.conversation_script[i];
       
       if (scriptTurn.speaker === 'patient') {
-        // Process patient input with AI
-        const aiResponse = await aiEngine.processConversationTurn(
-          scriptTurn.text,
-          conversationTurns,
-          aiEngine.getMockPatientData('patient_001')
-        );
+        // Process patient input with AI (use caller ID detection for employee scenarios)
+        const aiResponse = scenario.scenario_type === 'employee_recognition' 
+          ? await aiEngine.processConversationTurnWithCallerID(
+              scriptTurn.text,
+              conversationTurns,
+              scenario.caller_phone,
+              aiEngine.getMockPatientData('patient_001')
+            )
+          : await aiEngine.processConversationTurn(
+              scriptTurn.text,
+              conversationTurns,
+              aiEngine.getMockPatientData('patient_001')
+            );
 
         // Create patient turn
         const patientTurn: ConversationTurn = {
