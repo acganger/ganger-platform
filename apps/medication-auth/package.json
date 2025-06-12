@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "next dev --port 3005",
     "build": "next build",
-    "build:worker": "npm run upload:r2",
-    "upload:r2": "wrangler r2 object put ganger-medication-auth-assets --recursive --exclude '*.map' dist/",
+    "build:worker": "echo 'Skipping R2 upload for now'",
+    "upload:r2": "find dist -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.ico' | while read file; do key=${file#dist/}; wrangler r2 object put ganger-medication-auth-assets/$key --file $file; done",
     "deploy": "wrangler deploy",
     "deploy:staging": "wrangler deploy --env staging",
     "deploy:production": "wrangler deploy --env production",
