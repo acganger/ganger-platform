@@ -1,0 +1,25 @@
+# 🔧 Cloudflare Workers Configuration for Ganger Platform Routing
+
+name = "ganger-staff-router"
+main = "staff-router.js"
+compatibility_date = "2024-01-01"
+
+# 🌐 Custom Domain Routing
+[[routes]]
+pattern = "staff.gangerdermatology.com/*"
+zone_name = "gangerdermatology.com"
+
+# 🔒 Environment Variables
+[env.production.vars]
+ENVIRONMENT = "production"
+PLATFORM_NAME = "Ganger Medical Platform"
+
+[env.staging.vars] 
+ENVIRONMENT = "staging"
+PLATFORM_NAME = "Ganger Medical Platform (Staging)"
+
+# 📊 Analytics and Monitoring
+[analytics_engine_datasets]
+[[analytics_engine_datasets.bindings]]
+name = "GANGER_ANALYTICS"
+dataset = "ganger_platform_routing"
