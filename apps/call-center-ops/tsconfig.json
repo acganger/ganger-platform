@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ganger/auth": ["../../packages/auth/src"],
+      "@ganger/db": ["../../packages/db/src"],
+      "@ganger/ui": ["../../packages/ui/src"],
+      "@ganger/utils": ["../../packages/utils/src"],
+      "@ganger/integrations": ["../../packages/integrations/src"],
+      "@ganger/types": ["../../packages/types/src"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
+}

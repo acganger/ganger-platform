@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AI Receptionist Demo Specific Styles */
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
+}
+
+@layer components {
+  /* Call monitoring specific styles */
+  .call-card {
+    @apply bg-white rounded-lg shadow-sm border border-slate-200 p-4 transition-all duration-200 hover:shadow-md;
+  }
+  
+  .call-card.active {
+    @apply border-ai-active shadow-lg;
+  }
+  
+  .call-card.transferred {
+    @apply border-human-transfer;
+  }
+  
+  .confidence-indicator {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .confidence-high {
+    @apply bg-ai-confident/10 text-ai-confident border border-ai-confident/20;
+  }
+  
+  .confidence-medium {
+    @apply bg-ai-uncertain/10 text-ai-uncertain border border-ai-uncertain/20;
+  }
+  
+  .confidence-low {
+    @apply bg-red-50 text-red-600 border border-red-200;
+  }
+  
+  /* Real-time indicators */
+  .status-indicator {
+    @apply inline-block w-2 h-2 rounded-full;
+  }
+  
+  .status-active {
+    @apply bg-ai-active animate-pulse;
+  }
+  
+  .status-processing {
+    @apply bg-ai-uncertain animate-pulse;
+  }
+  
+  .status-transferred {
+    @apply bg-human-transfer;
+  }
+  
+  .status-completed {
+    @apply bg-slate-400;
+  }
+  
+  /* Conversation flow styles */
+  .conversation-turn {
+    @apply mb-4 p-3 rounded-lg;
+  }
+  
+  .conversation-turn.ai {
+    @apply bg-blue-50 border-l-4 border-ai-confident;
+  }
+  
+  .conversation-turn.patient {
+    @apply bg-slate-50 border-l-4 border-slate-300;
+  }
+  
+  .conversation-turn.staff {
+    @apply bg-green-50 border-l-4 border-green-500;
+  }
+  
+  /* Emergency transfer button */
+  .emergency-transfer {
+    @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 animate-pulse;
+  }
+  
+  /* Dashboard metrics */
+  .metric-card {
+    @apply bg-white rounded-lg p-6 shadow-sm border border-slate-200;
+  }
+  
+  .metric-value {
+    @apply text-2xl font-bold text-slate-900;
+  }
+  
+  .metric-label {
+    @apply text-sm text-slate-600 mt-1;
+  }
+  
+  .metric-trend {
+    @apply text-xs font-medium mt-2;
+  }
+  
+  .metric-trend.positive {
+    @apply text-green-600;
+  }
+  
+  .metric-trend.negative {
+    @apply text-red-600;
+  }
+  
+  /* Loading states */
+  .skeleton {
+    @apply animate-pulse bg-slate-200 rounded;
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 640px) {
+    .call-card {
+      @apply p-3 text-sm;
+    }
+    
+    .conversation-turn {
+      @apply p-2 mb-3;
+    }
+  }
+}

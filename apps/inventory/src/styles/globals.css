@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  .inventory-gradient {
+    @apply bg-gradient-to-br from-secondary-50 to-primary-50;
+  }
+  
+  .inventory-card {
+    @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+  }
+  
+  .inventory-stat {
+    @apply text-2xl font-bold text-secondary-600;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

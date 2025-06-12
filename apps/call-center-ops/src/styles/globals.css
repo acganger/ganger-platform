@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Call Center Dashboard Specific Styles */
+@layer components {
+  .performance-excellent {
+    @apply bg-emerald-50 text-emerald-700 border-emerald-200;
+  }
+  
+  .performance-good {
+    @apply bg-green-50 text-green-700 border-green-200;
+  }
+  
+  .performance-average {
+    @apply bg-blue-50 text-blue-700 border-blue-200;
+  }
+  
+  .performance-below {
+    @apply bg-amber-50 text-amber-700 border-amber-200;
+  }
+  
+  .performance-poor {
+    @apply bg-red-50 text-red-700 border-red-200;
+  }
+  
+  .call-status-active {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .call-status-completed {
+    @apply bg-blue-100 text-blue-800;
+  }
+  
+  .call-status-transferred {
+    @apply bg-purple-100 text-purple-800;
+  }
+  
+  .call-status-abandoned {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .metric-card {
+    @apply bg-white rounded-lg shadow-sm border border-neutral-200 p-6;
+  }
+  
+  .metric-value {
+    @apply text-2xl font-bold text-neutral-900;
+  }
+  
+  .metric-label {
+    @apply text-sm font-medium text-neutral-600;
+  }
+  
+  .metric-change-positive {
+    @apply text-green-600;
+  }
+  
+  .metric-change-negative {
+    @apply text-red-600;
+  }
+  
+  .dashboard-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  
+  .dashboard-sidebar {
+    @apply w-64 bg-white border-r border-neutral-200 h-full;
+  }
+  
+  .dashboard-content {
+    @apply flex-1 p-6 bg-neutral-50;
+  }
+}

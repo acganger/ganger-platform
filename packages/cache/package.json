@@ -1,0 +1,26 @@
+{
+  "name": "@ganger/cache",
+  "version": "1.0.0",
+  "description": "Ganger Platform caching layer with Redis support",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ioredis": "^5.3.2",
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/ioredis": "^5.0.0",
+    "typescript": "^5.3.0"
+  },
+  "peerDependencies": {
+    "@ganger/db": "1.0.0"
+  }
+}

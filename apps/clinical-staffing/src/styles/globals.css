@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles for Clinical Staffing */
+
+/* Clinical Staffing specific styles */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-neutral-50 text-neutral-900;
+  }
+}
+
+@layer components {
+  /* Drag and Drop specific styles */
+  .drag-item {
+    @apply cursor-grab transition-all duration-200 ease-in-out;
+  }
+  
+  .drag-item:hover {
+    @apply shadow-md transform -translate-y-0.5;
+  }
+  
+  .drag-item.dragging {
+    @apply cursor-grabbing shadow-lg transform rotate-2 z-50;
+  }
+  
+  .drop-zone {
+    @apply border-2 border-dashed border-neutral-300 rounded-lg transition-all duration-200;
+  }
+  
+  .drop-zone.drag-over {
+    @apply border-primary-500 bg-primary-50;
+  }
+  
+  .drop-zone.can-drop {
+    @apply border-green-400 bg-green-50;
+  }
+  
+  .drop-zone.cannot-drop {
+    @apply border-red-400 bg-red-50;
+  }
+  
+  .drop-target-active {
+    @apply border-primary-400 bg-primary-50 shadow-lg;
+  }
+  
+  /* Schedule Grid styles */
+  .schedule-grid {
+    @apply grid gap-4 h-full;
+  }
+  
+  .time-slot {
+    @apply border border-neutral-200 rounded p-2 min-h-[60px] transition-colors duration-150;
+  }
+  
+  .time-slot.occupied {
+    @apply bg-primary-100 border-primary-300;
+  }
+  
+  .time-slot.available {
+    @apply hover:bg-neutral-100;
+  }
+  
+  /* Staff Card styles */
+  .staff-card {
+    @apply bg-white border border-neutral-200 rounded-lg p-3 shadow-sm transition-all duration-200;
+  }
+  
+  .staff-card.assigned {
+    @apply bg-green-50 border-green-200;
+  }
+  
+  .staff-card.unavailable {
+    @apply bg-neutral-100 border-neutral-300 opacity-60;
+  }
+  
+  /* Provider Card styles */
+  .provider-card {
+    @apply bg-white border border-neutral-200 rounded-lg p-4 shadow-sm;
+  }
+  
+  .provider-card.needs-staff {
+    @apply border-orange-300 bg-orange-50;
+  }
+  
+  .provider-card.fully-staffed {
+    @apply border-green-300 bg-green-50;
+  }
+  
+  /* Loading states */
+  .skeleton {
+    @apply animate-pulse bg-neutral-200 rounded;
+  }
+  
+  .loading-overlay {
+    @apply absolute inset-0 bg-white/80 flex items-center justify-center z-10;
+  }
+  
+  /* Mobile specific styles */
+  @media (max-width: 768px) {
+    .mobile-schedule-view {
+      @apply space-y-4;
+    }
+    
+    .mobile-staff-card {
+      @apply p-4 touch-manipulation;
+    }
+    
+    .mobile-drag-handle {
+      @apply text-2xl p-2 cursor-grab;
+    }
+  }
+  
+  /* Accessibility improvements */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  }
+  
+  /* Focus styles for keyboard navigation */
+  .focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .drop-zone {
+      @apply border-4;
+    }
+    
+    .staff-card, .provider-card {
+      @apply border-2;
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .drag-item, .time-slot, .staff-card, .provider-card {
+      @apply transition-none;
+    }
+    
+    .skeleton {
+      @apply animate-none;
+    }
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .drag-ghost {
+    @apply opacity-50 transform rotate-3;
+  }
+  
+  .interactive-element {
+    @apply transition-all duration-150 ease-in-out;
+  }
+  
+  .interactive-element:hover {
+    @apply transform scale-[1.02];
+  }
+  
+  .interactive-element:active {
+    @apply transform scale-[0.98];
+  }
+  
+  /* Performance optimization utilities */
+  .gpu-accelerated {
+    @apply transform-gpu;
+  }
+  
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  /* Chart animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-in-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+    to {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+  }
+}

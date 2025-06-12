@@ -5,6 +5,9 @@ node_modules/
 
 # Testing
 /coverage
+coverage/
+__tests__/coverage/
+**/coverage/
 
 # Next.js
 .next/
@@ -50,8 +53,9 @@ pids
 *.pid.lock
 
 # Logs
-logs
+logs/
 *.log
+**/*.log
 
 # Dependency directories
 jspm_packages/
@@ -73,6 +77,7 @@ jspm_packages/
 
 # Output of 'npm pack'
 *.tgz
+*.tar.gz
 
 # Yarn Integrity file
 .yarn-integrity
@@ -86,9 +91,11 @@ jspm_packages/
 
 # TypeScript cache
 *.tsbuildinfo
+.tsbuildinfo
 
 # Turborepo
 .turbo
+**/.turbo/
 
 # Supabase
 .branches
@@ -104,7 +111,6 @@ service-account-key.json
 
 # Generated files
 schema.prisma.bak
-migrations/
 
 # Temporary files
 *.tmp
@@ -113,3 +119,48 @@ migrations/
 # Claude Code - Contains sensitive project information
 CLAUDE.md
 .claude/
+
+# Documentation archive - Completed work records
+docs/_docs_archive/
+
+# Legacy/Development artifacts that shouldn't be in version control
+legacy-a2hosting-apps/mysql*/
+legacy-a2hosting-apps/staff/logs/
+legacy-a2hosting-apps/staff/uploads/
+legacy-a2hosting-apps/staff/vendor/
+**/mysql*/
+backup-*.txt
+backup-*.ps1
+*.sql.bak
+
+# Large binary files and archives
+gh.tar.gz
+*.gz
+*.zip
+*.rar
+
+# Sensitive scripts and automation
+**/ssh-*.sh
+**/tunnel*.sh
+**/automate-*.md
+powershell-ssh-command.md
+fix-ssh-key-corruption.md
+
+# Development/testing scripts that contain credentials
+alternative-mysql-access.md
+explore-legacy-database.js
+test-mysql-tunnel.js
+start-mysql-tunnel.sh
+stop-tunnel.sh
+quick-tunnel.sh
+
+# MCP Servers development files
+_claude_desktop/logs/
+mcp-servers/*/node_modules/
+mcp-servers/mcp-server-synology/=*
+
+# Private configuration and credential files
+**/config/oauth.php
+**/config/database.php
+**/.env*
+!.env.example

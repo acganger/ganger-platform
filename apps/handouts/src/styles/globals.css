@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --handouts-primary: 56 189 248;
+    --handouts-secondary: 168 85 247;
+    --handouts-accent: 236 72 153;
+    --handouts-education: 34 197 94;
+    --handouts-treatment: 249 115 22;
+    --handouts-medication: 168 85 247;
+    --handouts-procedure: 239 68 68;
+  }
+  
+  html {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  .handouts-gradient {
+    @apply bg-gradient-to-br from-handouts-primary/5 to-handouts-secondary/5;
+  }
+  
+  .handouts-card {
+    @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+  }
+  
+  .category-education {
+    @apply bg-handouts-education/10 text-handouts-education border-handouts-education/20;
+  }
+  
+  .category-treatment {
+    @apply bg-handouts-treatment/10 text-handouts-treatment border-handouts-treatment/20;
+  }
+  
+  .category-medication {
+    @apply bg-handouts-medication/10 text-handouts-medication border-handouts-medication/20;
+  }
+  
+  .category-procedure {
+    @apply bg-handouts-procedure/10 text-handouts-procedure border-handouts-procedure/20;
+  }
+  
+  .template-complexity-simple {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .template-complexity-moderate {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .template-complexity-complex {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .delivery-status-pending {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .delivery-status-sent {
+    @apply bg-blue-100 text-blue-800;
+  }
+  
+  .delivery-status-delivered {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .delivery-status-failed {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}

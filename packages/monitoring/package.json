@@ -1,0 +1,20 @@
+{
+  "name": "@ganger/monitoring",
+  "version": "1.0.0",
+  "description": "Health monitoring and alerting system for Ganger Platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ganger/db": "1.0.0",
+    "@ganger/cache": "1.0.0"
+  },
+  "devDependencies": {
+    "@ganger/config": "0.1.0",
+    "typescript": "^5.0.0"
+  }
+}

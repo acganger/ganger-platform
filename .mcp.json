@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "google-sheets": {
+      "command": "node",
+      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/mkummer-google-sheets-mcp/dist/index.js"],
+      "permissions": {
+        "resources": "*",
+        "tools": "*"
+      }
+    },
+    "memory": {
+      "command": "node", 
+      "args": ["./mcp-servers/mcp-servers-official/src/memory/dist/index.js"],
+      "env": {},
+      "permissions": {
+        "resources": "*",
+        "tools": "*"
+      }
+    },
+    "fetch": {
+      "command": "python3",
+      "args": ["-m", "mcp_server_fetch", "--user-agent", "Ganger-Platform-MCP/1.0"],
+      "env": {},
+      "permissions": {
+        "resources": "*",
+        "tools": "*"
+      }
+    },
+    "time": {
+      "command": "python3", 
+      "args": ["-m", "mcp_server_time", "--local-timezone", "America/Detroit"],
+      "env": {},
+      "permissions": {
+        "resources": "*",
+        "tools": "*"
+      }
+    }
+  }
+}

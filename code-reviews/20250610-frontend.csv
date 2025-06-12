@@ -1,0 +1,148 @@
+App,Category,Issue,File,Line,Status,Priority,Description
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/dashboard/AuthorizationCard.tsx,9,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/dashboard/AuthorizationDashboard.tsx,10,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/dashboard/AuthorizationFilters.tsx,2,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/dashboard/AuthorizationListView.tsx,3,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/dashboard/DashboardStats.tsx,7,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/dashboard/QuickActions.tsx,2,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/shared/Navigation.tsx,12,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/shared/NotificationCenter.tsx,2,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/shared/RealtimeStatus.tsx,2,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/wizard/AuthorizationWizard.tsx,3,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing @heroicons/react/24/outline,src/components/wizard/PatientSelector.tsx,2,*,High,Cannot find module '@heroicons/react/24/outline'
+medication-auth,Dependencies,Missing openai,src/lib/ai/authorization-ai-service.ts,1,*,High,Cannot find module 'openai'
+medication-auth,Dependencies,Missing @ganger/integrations-medication-auth,src/pages/api/patients/[id].ts,3,*,High,Cannot find module '@ganger/integrations-medication-auth'
+medication-auth,Dependencies,Missing @ganger/utils/health-check,src/pages/api/health.ts,1,*,Medium,Cannot find module '@ganger/utils/health-check'
+medication-auth,Dependencies,Missing @ganger/utils/health-check,src/pages/api/monitoring/database.ts,1,*,Medium,Cannot find module '@ganger/utils/health-check'
+medication-auth,Components,Missing MedicationSelector,src/components/wizard/AuthorizationWizard.tsx,5,*,High,Cannot find module './MedicationSelector'
+medication-auth,Components,Missing InsuranceChecker,src/components/wizard/AuthorizationWizard.tsx,6,*,High,Cannot find module './InsuranceChecker'
+medication-auth,Components,Missing DynamicFormBuilder,src/components/wizard/AuthorizationWizard.tsx,7,*,High,Cannot find module '../forms/DynamicFormBuilder'
+medication-auth,Components,Missing AuthorizationPreview,src/components/wizard/AuthorizationWizard.tsx,8,*,High,Cannot find module './AuthorizationPreview'
+medication-auth,Types,Type assignment error,src/components/dashboard/AuthorizationListView.tsx,39,*,Medium,Type assignment error for className
+medication-auth,Types,Object property error,src/hooks/useRealtimeUpdates.ts,48,*,Medium,authorization_id does not exist in type Notification
+medication-auth,Types,Object property error,src/hooks/useRealtimeUpdates.ts,84,*,Medium,authorization_id does not exist in type Notification
+medication-auth,Types,Object property error,src/hooks/useRealtimeUpdates.ts,155,*,Medium,authorization_id does not exist in type Notification
+medication-auth,Types,Missing property,src/lib/ai/authorization-ai-service.ts,49,*,Medium,Property missingInformation missing in AIRecommendation
+medication-auth,Types,Property does not exist,src/lib/ai/authorization-ai-service.ts,222,*,Medium,Property genericName does not exist
+medication-auth,Types,Property does not exist,src/lib/ai/authorization-ai-service.ts,223,*,Medium,Property therapeuticClass does not exist
+medication-auth,Types,Property does not exist,src/lib/ai/authorization-ai-service.ts,224,*,Medium,Property mechanismOfAction does not exist
+medication-auth,Types,Argument type error,src/lib/analytics/analytics-service.ts,642,*,Low,Argument type mismatch in analytics
+medication-auth,API,Roles property error,src/pages/api/monitoring/database.ts,9,*,Medium,roles does not exist in AuthorizationOptions
+medication-auth,API,Roles property error,src/pages/api/monitoring/rls-performance.ts,57,*,Medium,roles does not exist in AuthorizationOptions
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,46,*,Medium,Property checkAllIntegrations does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,88,*,Medium,Property generateHealthAlerts does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,124,*,Medium,Property checkAllIntegrations does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,143,*,Medium,Property getAlertConfiguration does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,149,*,Medium,Property checkAndAlert does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,190,*,Medium,Property testAlert does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/health-dashboard.ts,217,*,Medium,Property checkAndAlert does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/performance.ts,37,*,Medium,Property collectSystemMetrics does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/performance.ts,75,*,Medium,Property getPerformanceTrends does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/performance.ts,95,*,Medium,Property collectSystemMetrics does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/performance.ts,96,*,Medium,Property getPerformanceSummary does not exist
+medication-auth,API,Method does not exist,src/pages/api/monitoring/performance.ts,121,*,Medium,Property collectSystemMetrics does not exist
+medication-auth,API,Type assignment error,src/pages/api/example-migrated.ts,98,*,Medium,AuthenticatedRequest vs NextApiRequest mismatch
+medication-auth,API,Type assignment error,src/pages/api/example-migrated.ts,120,*,Medium,AuthenticatedRequest vs NextApiRequest mismatch
+medication-auth,API,Cannot find name,src/pages/api/example-migrated.ts,131,*,Medium,Cannot find name withManagerAuth
+medication-auth,API,Implicit any type,src/pages/api/monitoring/health-dashboard.ts,128,*,Low,Parameter integration implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,82,*,Low,Parameter t implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,83,*,Low,Parameter t implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,84,*,Low,Parameter t implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,103,*,Low,Parameter a implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,104,*,Low,Parameter a implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,126,*,Low,Parameter a implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,127,*,Low,Parameter a implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,128,*,Low,Parameter a implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,129,*,Low,Parameter a implicitly has any type
+medication-auth,API,Implicit any type,src/pages/api/monitoring/performance.ts,131,*,Low,Parameter alert implicitly has any type
+medication-auth,API,String argument error,src/pages/api/docs/[[...slug]].ts,175,*,Low,String argument type error
+medication-auth,API,String argument error,src/pages/api/docs/[[...slug]].ts,180,*,Low,String argument type error
+medication-auth,Assignments,Constant assignment,src/pages/api/patients/[id].ts,114,*,Medium,Cannot assign to localPatient because it is a constant
+pharma-scheduling,React,JSX component error,src/components/calendar/AvailabilityCalendar.tsx,131,x,High,Button cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/calendar/AvailabilityCalendar.tsx,139,x,High,Button cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingConfirmation.tsx,121,x,High,Card cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingConfirmation.tsx,122,x,High,CardContent cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingConfirmation.tsx,153,x,High,Card cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingConfirmation.tsx,154,x,High,CardHeader cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingConfirmation.tsx,155,x,High,CardTitle cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingConfirmation.tsx,157,x,High,CardContent cannot be used as JSX component - React type conflict
+pharma-scheduling,React,JSX component error,src/components/forms/BookingForm.tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+pharma-scheduling,React,JSX component error,src/components/layout/PublicLayout.tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+pharma-scheduling,React,JSX component error,src/components/ui/LocationCard.tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+pharma-scheduling,React,JSX component error,src/pages/_app.tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+pharma-scheduling,React,JSX component error,src/pages/book/[location].tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+pharma-scheduling,React,JSX component error,src/pages/index.tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+pharma-scheduling,React,JSX component error,src/pages/locations.tsx,Multiple,x,High,Multiple JSX component errors - React type conflicts
+eos-l10,React,JSX component error,src/components/dashboard/QuickActions.tsx,67,*,High,Link cannot be used as JSX component - React type conflict
+eos-l10,React,JSX component error,src/components/dashboard/RecentActivity.tsx,108,*,High,Link cannot be used as JSX component - React type conflict
+eos-l10,React,JSX component error,src/components/dashboard/RecentActivity.tsx,115,*,High,Link cannot be used as JSX component - React type conflict
+eos-l10,React,JSX component error,src/components/dashboard/RecentActivity.tsx,122,*,High,Link cannot be used as JSX component - React type conflict
+eos-l10,React,JSX component error,src/components/dashboard/RecentActivity.tsx,142,*,High,Link cannot be used as JSX component - React type conflict
+eos-l10,React,JSX component error,src/components/dashboard/UpcomingMeetings.tsx,40,*,High,Link cannot be used as JSX component - React type conflict
+eos-l10,React,JSX component error,src/components/issues/IssueCard.tsx,Multiple,*,High,Multiple Link JSX component errors
+eos-l10,React,JSX component error,src/components/meeting/MeetingAgenda.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/components/navigation/DesktopSidebar.tsx,Multiple,*,High,Multiple Link JSX component errors
+eos-l10,React,JSX component error,src/components/navigation/MobileNavigation.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/components/scorecard/ScorecardMetricCard.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/components/todos/TodoCard.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/index.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/issues/index.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/meeting/start.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/rocks/[id].tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/rocks/index.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/rocks/new.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/scorecard/index.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/scorecard/metrics.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,React,JSX component error,src/pages/todos/index.tsx,Multiple,*,High,Multiple JSX component errors
+eos-l10,Database,Schema mismatch,src/pages/scorecard/index.tsx,154,*,High,Scorecard insert type mismatch
+eos-l10,Database,Schema mismatch,src/pages/scorecard/index.tsx,180,*,High,Scorecard update type mismatch
+eos-l10,Database,Schema mismatch,src/pages/scorecard/metrics.tsx,146,*,High,Scorecard metrics insert mismatch
+eos-l10,Database,Schema mismatch,src/pages/scorecard/metrics.tsx,170,*,High,Scorecard metrics insert array mismatch
+eos-l10,Database,Schema mismatch,src/pages/scorecard/metrics.tsx,245,*,High,Scorecard metrics update mismatch
+eos-l10,Database,Schema mismatch,src/pages/scorecard/metrics.tsx,246,*,High,String assignment mismatch
+eos-l10,Database,Schema mismatch,src/pages/todos/index.tsx,151,*,High,Todos insert type mismatch
+eos-l10,Types,Property missing,src/pages/todos/index.tsx,33,*,Medium,Property teamId does not exist in auth context
+pharma-scheduling,React,ReactNode conflict,Multiple files,Multiple,x,Critical,React.ReactNode vs ReactNode type conflicts throughout
+eos-l10,React,ReactNode conflict,Multiple files,Multiple,*,Critical,React.ReactNode vs ReactNode type conflicts throughout
+medication-auth,Build,Package dependencies,package.json,All,*,High,Multiple missing package dependencies need installation
+pharma-scheduling,Build,React types,package.json,All,*,Critical,React type version compatibility issues
+eos-l10,Build,React types,package.json,All,*,Critical,React type version compatibility issues
+medication-auth,Components,Wizard incomplete,src/components/wizard/,All,*,High,Incomplete wizard component implementations
+medication-auth,Components,Forms incomplete,src/components/forms/,All,*,High,Missing form components referenced
+medication-auth,API,Integration incomplete,src/lib/integrations/,All,*,Medium,Integration services incomplete
+medication-auth,AI,Service incomplete,src/lib/ai/,All,*,Medium,AI service implementation incomplete
+pharma-scheduling,Components,Calendar incomplete,src/components/calendar/,All,*,High,Calendar components have type issues
+pharma-scheduling,Components,Forms incomplete,src/components/forms/,All,*,High,Form components have type issues
+eos-l10,Components,Meeting incomplete,src/components/meeting/,All,*,High,Meeting components have type issues
+eos-l10,Components,Scorecard incomplete,src/components/scorecard/,All,*,High,Scorecard components have type issues
+eos-l10,Database,Tables missing,Database schema,All,*,Critical,Database tables don't match TypeScript types
+medication-auth,Database,Schema outdated,Database schema,All,*,High,Database schema doesn't match TypeScript types
+pharma-scheduling,Dependencies,UI package,@ganger/ui,All,*,Critical,UI package type incompatibilities
+eos-l10,Dependencies,UI package,@ganger/ui,All,*,Critical,UI package type incompatibilities
+medication-auth,Tests,Unit tests missing,All test files,All,*,Low,No unit tests for components
+pharma-scheduling,Tests,Unit tests missing,All test files,All,*,Low,No unit tests for components
+eos-l10,Tests,Unit tests missing,All test files,All,*,Low,No unit tests for components
+medication-auth,Documentation,Component docs missing,All components,All,*,Low,Missing component documentation
+pharma-scheduling,Documentation,Component docs missing,All components,All,*,Low,Missing component documentation
+eos-l10,Documentation,Component docs missing,All components,All,*,Low,Missing component documentation
+medication-auth,Performance,Bundle optimization,Build output,All,*,Low,Bundle size optimization needed
+pharma-scheduling,Performance,Bundle optimization,Build output,All,*,Low,Bundle size optimization needed
+eos-l10,Performance,Bundle optimization,Build output,All,*,Low,Bundle size optimization needed
+medication-auth,Security,Input validation,Form components,All,*,Medium,Input validation needs enhancement
+pharma-scheduling,Security,Input validation,Form components,All,*,Medium,Input validation needs enhancement
+eos-l10,Security,Input validation,Form components,All,*,Medium,Input validation needs enhancement
+medication-auth,Accessibility,ARIA labels,UI components,All,*,Medium,Missing accessibility features
+pharma-scheduling,Accessibility,ARIA labels,UI components,All,*,Medium,Missing accessibility features
+eos-l10,Accessibility,ARIA labels,UI components,All,*,Medium,Missing accessibility features
+medication-auth,SEO,Meta tags,Pages,All,*,Low,Missing SEO optimization
+pharma-scheduling,SEO,Meta tags,Pages,All,*,Low,Missing SEO optimization
+eos-l10,SEO,Meta tags,Pages,All,*,Low,Missing SEO optimization
+medication-auth,Monitoring,Error tracking,Error boundaries,All,*,Medium,Error tracking implementation needed
+pharma-scheduling,Monitoring,Error tracking,Error boundaries,All,*,Medium,Error tracking implementation needed
+eos-l10,Monitoring,Error tracking,Error boundaries,All,*,Medium,Error tracking implementation needed
+medication-auth,Deployment,Environment config,Environment files,All,*,High,Environment configuration for deployment
+pharma-scheduling,Deployment,Environment config,Environment files,All,*,High,Environment configuration for deployment
+eos-l10,Deployment,Environment config,Environment files,All,*,High,Environment configuration for deployment
+medication-auth,Integration,API endpoints,API routes,All,*,High,API endpoint integration incomplete
+pharma-scheduling,Integration,API endpoints,API routes,All,*,Medium,API endpoint integration needed
+eos-l10,Integration,API endpoints,API routes,All,*,Medium,API endpoint integration needed
