@@ -6,6 +6,11 @@
   "scripts": {
     "dev": "next dev --port 3005",
     "build": "next build",
+    "build:worker": "npm run upload:r2",
+    "upload:r2": "wrangler r2 object put ganger-medication-auth-assets --recursive --exclude '*.map' dist/",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
     "start": "node server.js",
     "lint": "next lint",
     "type-check": "tsc --noEmit"
