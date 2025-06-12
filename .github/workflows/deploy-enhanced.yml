@@ -181,8 +181,9 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 📱 Notify Team - Staging Deployment
+        if: false  # Temporarily disabled - setup modern Slack app
+        if: false # Disabled - setup modern Slack app
         uses: 8398a7/action-slack@v3
-        if: always()
         with:
           status: ${{ job.status }}
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -227,6 +228,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 🎉 Production Deployment Success
+        if: false # Disabled - setup modern Slack app
         uses: 8398a7/action-slack@v3
         if: success()
         with:
@@ -261,6 +263,7 @@ jobs:
           # This will be implemented with Cloudflare Workers in the next step
           
       - name: 📋 Deployment Summary
+        if: false # Disabled - setup modern Slack app
         uses: 8398a7/action-slack@v3
         with:
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -317,6 +320,7 @@ jobs:
           curl -f https://kiosk.gangerdermatology.com/api/health || echo "Health check will be available after first deployment"
           
       - name: 🏥 Health Check Results
+        if: false # Disabled - setup modern Slack app
         uses: 8398a7/action-slack@v3
         if: always()
         with:

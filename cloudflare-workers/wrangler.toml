@@ -19,7 +19,6 @@ ENVIRONMENT = "staging"
 PLATFORM_NAME = "Ganger Medical Platform (Staging)"
 
 # 📊 Analytics and Monitoring
-[analytics_engine_datasets]
-[[analytics_engine_datasets.bindings]]
-name = "GANGER_ANALYTICS"
+[[analytics_engine_datasets]]
+binding = "GANGER_ANALYTICS"
 dataset = "ganger_platform_routing"
