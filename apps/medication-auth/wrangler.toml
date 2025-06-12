@@ -1,9 +1,10 @@
 name = "ganger-medication-auth"
-main = "worker.js"
+main = "worker-simple.js"
 compatibility_date = "2024-06-12"
 compatibility_flags = ["nodejs_compat"]
 
-# Build is handled in CI/CD pipeline
+# Build is handled in CI/CD pipeline - using simple worker for now
+# main = "worker.js"  # Full R2-based worker for later
 # [build]
 # command = "npm run build && npm run build:worker"
 
@@ -16,11 +17,11 @@ routes = [
 [env.staging]
 name = "ganger-medication-auth-staging"
 
-# R2 bucket for static assets
-[[r2_buckets]]
-binding = "ASSETS"
-bucket_name = "ganger-medication-auth-assets"
-preview_bucket_name = "ganger-medication-auth-assets-preview"
+# R2 bucket for static assets (disabled for simple deployment)
+# [[r2_buckets]]
+# binding = "ASSETS"
+# bucket_name = "ganger-medication-auth-assets"
+# preview_bucket_name = "ganger-medication-auth-assets-preview"
 
 # Environment variables
 [vars]
