@@ -10,6 +10,7 @@ import {
   ClockIcon,
   BellIcon
 } from '@/components/icons';
+import { GangerLogo } from '@ganger/ui';
 import { RealtimeStatusCompact } from './RealtimeStatus';
 
 const navigation = [
@@ -30,14 +31,15 @@ export function Navigation() {
           <div className="flex">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="flex items-center">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">MA</span>
-                </div>
-                <span className="ml-2 text-xl font-semibold text-gray-900">
-                  MedAuth
-                </span>
-              </Link>
+              <GangerLogo href="/" size="lg" />
+              <div className="hidden sm:block ml-4 pl-4 border-l border-gray-300">
+                <h1 className="text-lg font-semibold text-gray-900">
+                  Medication Authorization
+                </h1>
+                <p className="text-xs text-gray-500">
+                  Prior Authorization Assistant
+                </p>
+              </div>
             </div>
 
             {/* Desktop Navigation */}

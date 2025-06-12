@@ -42,6 +42,13 @@ export { PageHeader } from './components/PageHeader';
 export { StatCard } from './components/StatCard';
 export { ThemeProvider, useTheme } from './components/ThemeProvider';
 
+// Branding Components
+export { 
+  GangerLogo, 
+  GangerHeader, 
+  GangerLogoCompact 
+} from './components/GangerLogo';
+
 // Utilities
 export { cn } from './utils/cn';
 

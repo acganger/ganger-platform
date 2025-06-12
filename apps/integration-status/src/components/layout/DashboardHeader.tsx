@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react'
 import { formatDistanceToNow } from 'date-fns'
+import { GangerLogo } from '@ganger/ui'
 
 interface ConnectionStatus {
   isConnected: boolean
@@ -69,9 +70,20 @@ export function DashboardHeader({
       <div className="px-6 py-6">
         <div className="flex items-center justify-between">
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-bold text-gray-900 truncate">
+            <div className="flex items-center mb-4">
+              <GangerLogo href="/" size="lg" />
+              <div className="ml-4 pl-4 border-l border-gray-300">
+                <h1 className="text-xl font-semibold text-gray-900">
+                  Integration Status
+                </h1>
+                <p className="text-sm text-gray-500">
+                  System Health Monitor
+                </p>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 truncate">
               {title}
-            </h1>
+            </h2>
             {subtitle && (
               <p className="mt-1 text-sm text-gray-500">
                 {subtitle}
