@@ -991,10 +991,6 @@ export default {
                         <span class="w-2 h-2 bg-success-400 rounded-full mr-2 animate-pulse"></span>
                         Live System
                     </span>
-                    <div class="text-sm text-gray-700">
-                        <span class="font-medium">Tailwind CSS:</span> 
-                        <span class="text-success-600 font-semibold">✓ Working</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1005,20 +1001,9 @@ export default {
         <div class="animate-fade-in">
             <!-- Welcome Banner -->
             <div class="bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl shadow-lg mb-8 p-8 text-white">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-3xl font-bold mb-2">Welcome to Staff Portal</h2>
-                        <p class="text-primary-100 text-lg">Comprehensive employee management and collaboration hub</p>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold">✨</div>
-                                <div class="text-sm font-medium">Tailwind CSS</div>
-                                <div class="text-xs text-primary-200">Fully Operational</div>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">Welcome to Staff Portal</h2>
+                    <p class="text-primary-100 text-lg">Comprehensive employee management and collaboration hub</p>
                 </div>
             </div>
 
@@ -1317,93 +1302,6 @@ export default {
                 </div>
             </div>
 
-            <!-- Tailwind CSS Demo Section -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">Tailwind CSS Components Demo</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <!-- Status Badges -->
-                    <div>
-                        <h4 class="font-semibold text-gray-700 mb-3">Status Badges</h4>
-                        <div class="space-y-2">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
-                            <br>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>
-                            <br>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Urgent</span>
-                            <br>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">In Progress</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Buttons -->
-                    <div>
-                        <h4 class="font-semibold text-gray-700 mb-3">Buttons</h4>
-                        <div class="space-y-2">
-                            <button class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">Primary</button>
-                            <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200">Secondary</button>
-                            <button class="w-full bg-success-600 hover:bg-success-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">Success</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Form Elements -->
-                    <div>
-                        <h4 class="font-semibold text-gray-700 mb-3">Form Elements</h4>
-                        <div class="space-y-2">
-                            <input type="text" placeholder="Text Input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                                <option>Select Option</option>
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- Responsive Grid -->
-                    <div>
-                        <h4 class="font-semibold text-gray-700 mb-3">Responsive Grid</h4>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-primary-100 text-primary-800 p-2 rounded text-center text-xs font-medium">1</div>
-                            <div class="bg-primary-200 text-primary-800 p-2 rounded text-center text-xs font-medium">2</div>
-                            <div class="bg-primary-300 text-primary-800 p-2 rounded text-center text-xs font-medium">3</div>
-                            <div class="bg-primary-400 text-primary-800 p-2 rounded text-center text-xs font-medium">4</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Animation Demo -->
-                <div>
-                    <h4 class="font-semibold text-gray-700 mb-3">Animations & Effects</h4>
-                    <div class="flex flex-wrap gap-4">
-                        <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg animate-pulse">Pulse Animation</div>
-                        <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg animate-bounce">Bounce Animation</div>
-                        <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg hover:scale-105 transform transition-transform duration-200 cursor-pointer">Hover Scale</div>
-                        <div class="bg-purple-100 text-purple-800 px-4 py-2 rounded-lg hover:shadow-lg transition-shadow duration-200 cursor-pointer">Hover Shadow</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- System Information -->
-            <div class="bg-gray-50 rounded-xl border border-gray-200 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-success-600">✓</div>
-                        <div class="text-sm font-medium text-gray-700">Tailwind CSS</div>
-                        <div class="text-xs text-gray-500">Fully Operational</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-success-600">✓</div>
-                        <div class="text-sm font-medium text-gray-700">Cloudflare Workers</div>
-                        <div class="text-xs text-gray-500">Deployed Successfully</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-success-600">✓</div>
-                        <div class="text-sm font-medium text-gray-700">Responsive Design</div>
-                        <div class="text-xs text-gray-500">Mobile Ready</div>
-                    </div>
-                </div>
-            </div>
         </div>
     </main>
 
@@ -1412,7 +1310,7 @@ export default {
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between">
                 <div class="text-sm text-gray-500">
-                    © 2025 Ganger Dermatology. Staff Management Portal with Tailwind CSS.
+                    © 2025 Ganger Dermatology. Staff Management Portal.
                 </div>
                 <div class="flex items-center space-x-4 text-sm text-gray-500">
                     <span>Platform Status: All 17 applications operational</span>
