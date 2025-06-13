@@ -28,7 +28,7 @@ export function GangerLogo({
   const logoElement = (
     <div className={`flex items-center ${className}`}>
       <Image
-        src="/logo.png"
+        src="/gd-logo.png"
         alt="Ganger Dermatology"
         width={variant === 'icon' ? 40 : 200}
         height={40}
