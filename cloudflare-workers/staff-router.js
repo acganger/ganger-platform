@@ -8,19 +8,19 @@ export default {
     
     // 🎯 Path-based routing configuration
     const routes = {
-      '/inventory': 'inventory-production.pages.dev',
-      '/handouts': 'handouts-production.pages.dev', 
+      '/inventory': 'ganger-inventory-prod.workers.dev',
+      '/handouts': 'ganger-handouts-prod.workers.dev', 
       '/staffing': 'clinical-staffing-production.pages.dev',
-      '/l10': 'eos-l10-production.pages.dev',
-      '/meds': 'medication-auth-production.pages.dev',
+      '/l10': 'ganger-eos-l10-prod.workers.dev',
+      '/meds': 'ganger-medication-auth-prod.workers.dev',
       '/compliance': 'compliance-training-production.pages.dev',
       '/phones': 'call-center-ops-production.pages.dev',
       '/batch': 'batch-closeout-production.pages.dev',
       '/config': 'config-dashboard-production.pages.dev',
       '/social': 'socials-reviews-production.pages.dev',
-      '/status': 'integration-status-production.pages.dev',
+      '/status': 'ganger-integration-status-prod.workers.dev',
       '/pepe': 'ai-receptionist-production.pages.dev',
-      '/dashboard': 'platform-dashboard-production.pages.dev'
+      '/dashboard': 'ganger-platform-dashboard-prod.workers.dev'
     };
     
     // 🏠 Check for sub-application routes

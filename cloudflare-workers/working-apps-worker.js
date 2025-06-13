@@ -19,6 +19,12 @@ export default {
     }
 
     // 🌐 Route based on hostname and path
+    if (hostname === 'staff.gangerdermatology.com') {
+      // Use staff-router for path-based routing
+      const { default: staffRouter } = await import('./staff-router.js');
+      return staffRouter.fetch(request, env, ctx);
+    }
+    
     const appConfig = getAppConfig(hostname, pathname);
     
     if (!appConfig) {
