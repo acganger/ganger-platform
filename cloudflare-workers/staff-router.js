@@ -7,24 +7,18 @@ export default {
     const pathname = url.pathname;
     
     // 🎯 Path-based routing configuration
-    const routes = {
-      '/inventory': 'ganger-inventory-prod.workers.dev',
-      '/handouts': 'ganger-handouts-prod.workers.dev', 
-      '/staffing': 'clinical-staffing-production.pages.dev',
-      '/l10': 'ganger-eos-l10-prod.workers.dev',
-      '/meds': 'ganger-medication-auth-prod.workers.dev',
-      '/compliance': 'compliance-training-production.pages.dev',
-      '/phones': 'call-center-ops-production.pages.dev',
-      '/batch': 'batch-closeout-production.pages.dev',
-      '/config': 'config-dashboard-production.pages.dev',
-      '/social': 'socials-reviews-production.pages.dev',
+    const workingRoutes = {
       '/status': 'ganger-integration-status-prod.workers.dev',
-      '/pepe': 'ai-receptionist-production.pages.dev',
-      '/dashboard': 'ganger-platform-dashboard-prod.workers.dev'
+      '/meds': 'ganger-medication-auth-prod.workers.dev'
     };
     
-    // 🏠 Check for sub-application routes
-    for (const [path, targetDomain] of Object.entries(routes)) {
+    const comingSoonApps = [
+      '/inventory', '/handouts', '/l10', '/dashboard', '/compliance', 
+      '/phones', '/batch', '/config', '/social', '/pepe', '/staffing'
+    ];
+    
+    // 🏠 Check for working application routes
+    for (const [path, targetDomain] of Object.entries(workingRoutes)) {
       if (pathname.startsWith(path)) {
         // Create new URL with target domain
         const targetUrl = new URL(request.url);
@@ -53,19 +47,56 @@ export default {
       }
     }
     
+    // 🚧 Check for coming soon applications
+    for (const path of comingSoonApps) {
+      if (pathname.startsWith(path)) {
+        const appName = path.substring(1).charAt(0).toUpperCase() + path.substring(2);
+        return new Response(`
+          <!DOCTYPE html>
+          <html>
+          <head><title>${appName} - Coming Soon</title></head>
+          <body style="font-family: system-ui; text-align: center; padding: 4rem;">
+            <h1>🚧 ${appName} Application</h1>
+            <p>This application is currently being deployed to the platform.</p>
+            <p>The Next.js application will be available shortly.</p>
+            <a href="/">← Back to Staff Portal</a>
+          </body>
+          </html>
+        `, {
+          headers: { 
+            'Content-Type': 'text/html',
+            'X-Ganger-Route': `${path} → coming-soon`
+          }
+        });
+      }
+    }
+    
     // 🏠 Default route - Staff Management (main portal)
-    const mainStaffUrl = new URL(request.url);
-    mainStaffUrl.hostname = 'staff-production.pages.dev';
-    
-    const response = await fetch(mainStaffUrl.toString(), {
-      method: request.method,
-      headers: request.headers,
-      body: request.body
+    return new Response(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>Ganger Dermatology - Staff Portal</title></head>
+      <body style="font-family: system-ui; padding: 2rem;">
+        <h1>🏥 Ganger Dermatology - Staff Portal</h1>
+        <h2>📱 Available Applications:</h2>
+        <ul>
+          <li><a href="/status">🔍 Integration Status</a> ✅ Working</li>
+          <li><a href="/meds">💊 Medication Authorization</a> ✅ Working</li>
+        </ul>
+        <h2>🚧 Coming Soon:</h2>
+        <ul>
+          <li><a href="/inventory">📦 Inventory Management</a></li>
+          <li><a href="/handouts">📄 Patient Handouts</a></li>
+          <li><a href="/l10">🎯 EOS L10 System</a></li>
+          <li><a href="/dashboard">📊 Platform Dashboard</a></li>
+        </ul>
+      </body>
+      </html>
+    `, {
+      headers: { 
+        'Content-Type': 'text/html',
+        'X-Ganger-Route': 'main-staff-portal'
+      }
     });
-    
-    const newResponse = new Response(response.body, response);
-    newResponse.headers.set('X-Ganger-Route', 'main-staff-portal');
-    
-    return newResponse;
   }
 };
