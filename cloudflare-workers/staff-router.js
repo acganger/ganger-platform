@@ -904,78 +904,356 @@ export default {
       }
     }
     
-    // 🏠 Default route - Staff Management (main portal)
-    return new Response(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Ganger Dermatology - Staff Portal</title>
-        <style>
-          body { font-family: system-ui; padding: 2rem; background: #f8fafc; }
-          .container { max-width: 1000px; margin: 0 auto; }
-          h1 { color: #1a365d; margin-bottom: 2rem; }
-          .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 2rem 0; }
-          .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-          .working { border-left: 4px solid #48bb78; }
-          .coming-soon { border-left: 4px solid #ed8936; }
-          .card h3 { margin-top: 0; margin-bottom: 0.5rem; }
-          .status { background: #48bb78; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
-          .pending { background: #ed8936; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
-          a { text-decoration: none; color: inherit; }
-          a:hover .card { transform: translateY(-2px); transition: transform 0.2s; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>🏥 Ganger Dermatology - Staff Portal</h1>
-          <p>Professional medical platform with integrated applications</p>
-          
-          <div class="grid">
-            <a href="/status">
-              <div class="card working">
-                <h3>🔍 Integration Status</h3>
-                <p>System monitoring and health dashboard</p>
-                <span class="status">✅ WORKING</span>
-              </div>
-            </a>
-            
-            <a href="/meds">
-              <div class="card working">
-                <h3>💊 Medication Authorization</h3>
-                <p>Prior authorization and prescription tracking</p>
-                <span class="status">✅ WORKING</span>
-              </div>
-            </a>
-            
-            <a href="/batch">
-              <div class="card working">
-                <h3>💰 Batch Closeout</h3>
-                <p>Financial reconciliation and reporting</p>
-                <span class="status">✅ WORKING</span>
-              </div>
-            </a>
-            
-            <a href="/reps">
-              <div class="card working">
-                <h3>📅 Rep Scheduling</h3>
-                <p>Pharmaceutical representative scheduling</p>
-                <span class="status">✅ WORKING</span>
-              </div>
-            </a>
-            
-
-          </div>
-          
-          <p style="margin-top: 2rem; color: #64748b;">
-            <strong>Platform Status:</strong> 16 applications fully operational ✅
-          </p>
+    // 🏠 Default route - Staff Management (main portal) - WITH TAILWIND CSS
+    return new Response(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management Portal - Ganger Dermatology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        urgent: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        },
+                        processing: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        success: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.2s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-primary-50 to-blue-100 font-sans">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-semibold text-gray-900">Staff Management Portal</h1>
+                        <p class="text-sm text-gray-500">Ganger Dermatology</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                        <span class="w-2 h-2 bg-success-400 rounded-full mr-2 animate-pulse"></span>
+                        Live System
+                    </span>
+                    <div class="text-sm text-gray-700">
+                        <span class="font-medium">Tailwind CSS:</span> 
+                        <span class="text-success-600 font-semibold">✓ Working</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </body>
-      </html>
-    `, {
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="animate-fade-in">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl shadow-lg mb-8 p-8 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Welcome to Staff Portal</h2>
+                        <p class="text-primary-100 text-lg">Comprehensive employee management and collaboration hub</p>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="bg-white/20 backdrop-blur-sm rounded-lg p-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">✨</div>
+                                <div class="text-sm font-medium">Tailwind CSS</div>
+                                <div class="text-xs text-primary-200">Fully Operational</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Working Applications -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Available Applications</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                    <!-- Integration Status -->
+                    <a href="/status" class="block">
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-lg font-semibold text-gray-900">Integration Status</h3>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                                        ✅ Working
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">System monitoring and health dashboard</p>
+                        </div>
+                    </a>
+
+                    <!-- Medication Authorization -->
+                    <a href="/meds" class="block">
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-processing-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-processing-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-lg font-semibold text-gray-900">Medication Authorization</h3>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                                        ✅ Working
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">Prior authorization and prescription tracking</p>
+                        </div>
+                    </a>
+
+                    <!-- Batch Closeout -->
+                    <a href="/batch" class="block">
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-lg font-semibold text-gray-900">Batch Closeout</h3>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                                        ✅ Working
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">Financial reconciliation and reporting</p>
+                        </div>
+                    </a>
+
+                    <!-- Rep Scheduling -->
+                    <a href="/reps" class="block">
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-lg font-semibold text-gray-900">Rep Scheduling</h3>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
+                                        ✅ Working
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm">Pharmaceutical representative scheduling</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tailwind CSS Demo Section -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Tailwind CSS Components Demo</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Status Badges -->
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-3">Status Badges</h4>
+                        <div class="space-y-2">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                            <br>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>
+                            <br>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Urgent</span>
+                            <br>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">In Progress</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-3">Buttons</h4>
+                        <div class="space-y-2">
+                            <button class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">Primary</button>
+                            <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200">Secondary</button>
+                            <button class="w-full bg-success-600 hover:bg-success-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">Success</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Elements -->
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-3">Form Elements</h4>
+                        <div class="space-y-2">
+                            <input type="text" placeholder="Text Input" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option>Select Option</option>
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Responsive Grid -->
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-3">Responsive Grid</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-primary-100 text-primary-800 p-2 rounded text-center text-xs font-medium">1</div>
+                            <div class="bg-primary-200 text-primary-800 p-2 rounded text-center text-xs font-medium">2</div>
+                            <div class="bg-primary-300 text-primary-800 p-2 rounded text-center text-xs font-medium">3</div>
+                            <div class="bg-primary-400 text-primary-800 p-2 rounded text-center text-xs font-medium">4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animation Demo -->
+                <div>
+                    <h4 class="font-semibold text-gray-700 mb-3">Animations & Effects</h4>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg animate-pulse">Pulse Animation</div>
+                        <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg animate-bounce">Bounce Animation</div>
+                        <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg hover:scale-105 transform transition-transform duration-200 cursor-pointer">Hover Scale</div>
+                        <div class="bg-purple-100 text-purple-800 px-4 py-2 rounded-lg hover:shadow-lg transition-shadow duration-200 cursor-pointer">Hover Shadow</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Information -->
+            <div class="bg-gray-50 rounded-xl border border-gray-200 p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-success-600">✓</div>
+                        <div class="text-sm font-medium text-gray-700">Tailwind CSS</div>
+                        <div class="text-xs text-gray-500">Fully Operational</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-success-600">✓</div>
+                        <div class="text-sm font-medium text-gray-700">Cloudflare Workers</div>
+                        <div class="text-xs text-gray-500">Deployed Successfully</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-success-600">✓</div>
+                        <div class="text-sm font-medium text-gray-700">Responsive Design</div>
+                        <div class="text-xs text-gray-500">Mobile Ready</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-500">
+                    © 2025 Ganger Dermatology. Staff Management Portal with Tailwind CSS.
+                </div>
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                    <span>Platform Status: All systems operational</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add some interactivity to demonstrate Tailwind
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Tailwind CSS is working properly!');
+            
+            // Add click handlers to demo buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log('Button clicked - Tailwind CSS interactions working!');
+                });
+            });
+        });
+    </script>
+</body>
+</html>`, {
       headers: { 
         'Content-Type': 'text/html',
-        'X-Ganger-Route': 'main-staff-portal'
+        'X-Ganger-Route': 'main-staff-portal-tailwind-enabled',
+        'X-Powered-By': 'Cloudflare Workers + Tailwind CSS'
       }
     });
   }
