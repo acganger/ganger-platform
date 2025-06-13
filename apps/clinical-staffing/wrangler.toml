@@ -1,0 +1,16 @@
+name = "ganger-clinical-staffing"
+main = "worker-simple.js"
+compatibility_date = "2024-06-12"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "ganger-clinical-staffing-prod"
+# Routes handled by staff-router.js at staff.gangerdermatology.com/clinical-staffing
+
+[env.staging]
+name = "ganger-clinical-staffing-staging"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "Clinical Staffing System"

@@ -1,0 +1,16 @@
+name = "ganger-pharma-scheduling"
+main = "worker-simple.js"
+compatibility_date = "2024-06-12"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "ganger-pharma-scheduling-prod"
+# Routes handled by staff-router.js at staff.gangerdermatology.com/pharma-scheduling
+
+[env.staging]
+name = "ganger-pharma-scheduling-staging"
+
+# Environment variables
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "Pharmaceutical Representative Scheduling"

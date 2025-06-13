@@ -84,8 +84,8 @@
       "command": "node",
       "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\trello\\dist\\index.js"],
       "env": {
-        "TRELLO_API_KEY": "YOUR_TRELLO_API_KEY_HERE",
-        "TRELLO_TOKEN": "YOUR_TRELLO_TOKEN_HERE",
+        "TRELLO_API_KEY": "CONFIGURE_YOUR_TRELLO_API_KEY",
+        "TRELLO_TOKEN": "CONFIGURE_YOUR_TRELLO_TOKEN",
         "TRELLO_BASE_URL": "https://api.trello.com/1"
       }
     }
