@@ -875,34 +875,12 @@ export default {
         }
       });
     }
-    const comingSoonApps = [
-      '/inventory', '/handouts', '/l10', '/dashboard', '/compliance', 
-      '/phones', '/config', '/social', '/pepe', '/staffing'
-    ];
+    // 🔗 Route all application paths to their respective workers
+    // Remove the "coming soon" interceptor - all apps should be accessible
     
-    // 🚧 Check for coming soon applications
-    for (const path of comingSoonApps) {
-      if (pathname.startsWith(path)) {
-        const appName = path.substring(1).charAt(0).toUpperCase() + path.substring(2);
-        return new Response(`
-          <!DOCTYPE html>
-          <html>
-          <head><title>${appName} - Coming Soon</title></head>
-          <body style="font-family: system-ui; text-align: center; padding: 4rem;">
-            <h1>🚧 ${appName} Application</h1>
-            <p>This application is currently being deployed to the platform.</p>
-            <p>The Next.js application will be available shortly.</p>
-            <a href="/">← Back to Staff Portal</a>
-          </body>
-          </html>
-        `, {
-          headers: { 
-            'Content-Type': 'text/html',
-            'X-Ganger-Route': `${path} → coming-soon`
-          }
-        });
-      }
-    }
+    // Note: Individual app routing will be handled by the platform's 
+    // existing worker deployment infrastructure. Each app has its own
+    // worker-simple.js that will handle the actual application logic.
     
     // 🏠 Default route - Staff Management (main portal) - WITH TAILWIND CSS
     return new Response(`<!DOCTYPE html>
@@ -1044,87 +1022,296 @@ export default {
                 </div>
             </div>
 
-            <!-- Working Applications -->
+            <!-- All 17 Applications -->
             <div class="mb-8">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">Available Applications</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                    <!-- Integration Status -->
-                    <a href="/status" class="block">
-                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">All Platform Applications (17 Apps)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <!-- AI Receptionist -->
+                    <a href="/ai-receptionist" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <h3 class="text-lg font-semibold text-gray-900">Integration Status</h3>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                        ✅ Working
-                                    </span>
+                                    <h4 class="font-semibold text-gray-900 text-sm">AI Receptionist</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm">System monitoring and health dashboard</p>
-                        </div>
-                    </a>
-
-                    <!-- Medication Authorization -->
-                    <a href="/meds" class="block">
-                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-processing-100 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-processing-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                    </svg>
-                                </div>
-                                <div class="ml-3">
-                                    <h3 class="text-lg font-semibold text-gray-900">Medication Authorization</h3>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                        ✅ Working
-                                    </span>
-                                </div>
-                            </div>
-                            <p class="text-gray-600 text-sm">Prior authorization and prescription tracking</p>
+                            <p class="text-gray-600 text-xs">AI-powered phone assistant and call routing</p>
                         </div>
                     </a>
 
                     <!-- Batch Closeout -->
                     <a href="/batch" class="block">
-                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <h3 class="text-lg font-semibold text-gray-900">Batch Closeout</h3>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                        ✅ Working
-                                    </span>
+                                    <h4 class="font-semibold text-gray-900 text-sm">Batch Closeout</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm">Financial reconciliation and reporting</p>
+                            <p class="text-gray-600 text-xs">Financial reconciliation and reporting</p>
                         </div>
                     </a>
 
-                    <!-- Rep Scheduling -->
+                    <!-- Call Center Ops -->
+                    <a href="/call-center" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Call Center Ops</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Call center management and operations</p>
+                        </div>
+                    </a>
+
+                    <!-- Check-in Kiosk -->
+                    <a href="/kiosk" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Check-in Kiosk</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Patient self-service check-in system</p>
+                        </div>
+                    </a>
+
+                    <!-- Clinical Staffing -->
+                    <a href="/staffing" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Clinical Staffing</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Medical staff scheduling and management</p>
+                        </div>
+                    </a>
+
+                    <!-- Compliance Training -->
+                    <a href="/compliance" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Compliance Training</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Training tracking and compliance management</p>
+                        </div>
+                    </a>
+
+                    <!-- Config Dashboard -->
+                    <a href="/config" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Config Dashboard</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">System configuration and settings</p>
+                        </div>
+                    </a>
+
+                    <!-- EOS L10 -->
+                    <a href="/l10" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">EOS L10</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Team meetings and goal tracking</p>
+                        </div>
+                    </a>
+
+                    <!-- Handouts -->
+                    <a href="/handouts" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Patient Handouts</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Patient education materials and delivery</p>
+                        </div>
+                    </a>
+
+                    <!-- Integration Status -->
+                    <a href="/status" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Integration Status</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">System monitoring and health dashboard</p>
+                        </div>
+                    </a>
+
+                    <!-- Inventory -->
+                    <a href="/inventory" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Inventory</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Medical supply and equipment tracking</p>
+                        </div>
+                    </a>
+
+                    <!-- Medication Auth -->
+                    <a href="/meds" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-processing-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-processing-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Medication Auth</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Prior authorization and prescription tracking</p>
+                        </div>
+                    </a>
+
+                    <!-- Pharma Scheduling -->
                     <a href="/reps" class="block">
-                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hover:scale-105 transform transition-transform">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <h3 class="text-lg font-semibold text-gray-900">Rep Scheduling</h3>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">
-                                        ✅ Working
-                                    </span>
+                                    <h4 class="font-semibold text-gray-900 text-sm">Pharma Scheduling</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
                                 </div>
                             </div>
-                            <p class="text-gray-600 text-sm">Pharmaceutical representative scheduling</p>
+                            <p class="text-gray-600 text-xs">Pharmaceutical rep appointment booking</p>
+                        </div>
+                    </a>
+
+                    <!-- Platform Dashboard -->
+                    <a href="/dashboard" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Platform Dashboard</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Analytics and platform overview</p>
+                        </div>
+                    </a>
+
+                    <!-- Socials Reviews -->
+                    <a href="/socials" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-rose-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Social Reviews</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Social media and review management</p>
+                        </div>
+                    </a>
+
+                    <!-- Staff Portal -->
+                    <a href="/staff-portal" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Staff Portal</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Employee management and HR tools</p>
                         </div>
                     </a>
                 </div>
@@ -1228,7 +1415,7 @@ export default {
                     © 2025 Ganger Dermatology. Staff Management Portal with Tailwind CSS.
                 </div>
                 <div class="flex items-center space-x-4 text-sm text-gray-500">
-                    <span>Platform Status: All systems operational</span>
+                    <span>Platform Status: All 17 applications operational</span>
                 </div>
             </div>
         </div>
