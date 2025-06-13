@@ -237,6 +237,87 @@ function getMedicationAuthApp() {
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            margin: 0.5rem;
+        }
+        .form-container {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .form-container h3 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        .recent-auth {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .recent-auth h3 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .auth-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: white;
+        }
+        .auth-info strong {
+            color: #2d3748;
+        }
+        .auth-info small {
+            color: #718096;
+        }
+        .auth-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .auth-status.approved {
+            background: #d1fae5;
+            color: #047857;
+        }
+        .auth-status.pending {
+            background: #fef3cd;
+            color: #92400e;
+        }
+        .auth-status.denied {
+            background: #fecaca;
+            color: #dc2626;
         }
     </style>
 </head>
@@ -247,8 +328,96 @@ function getMedicationAuthApp() {
         <div class="subtitle">Prior Authorization System</div>
         <div class="status">✅ System Online</div>
         <p>Professional medication authorization management for prior authorization requests, insurance approvals, and prescription processing.</p>
-        <button class="btn" onclick="alert('Authorization system active!')">Submit Prior Authorization</button>
+        
+        <!-- Prior Authorization Form -->
+        <div class="form-container">
+            <h3>Prior Authorization Request</h3>
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="patient">Patient Name:</label>
+                    <input type="text" id="patient" name="patient" placeholder="Enter patient name" required>
+                </div>
+                <div class="form-group">
+                    <label for="medication">Medication:</label>
+                    <input type="text" id="medication" name="medication" placeholder="Medication name" required>
+                </div>
+                <div class="form-group">
+                    <label for="insurance">Insurance Provider:</label>
+                    <select id="insurance" name="insurance" required>
+                        <option value="">Select Insurance</option>
+                        <option value="bcbs">Blue Cross Blue Shield</option>
+                        <option value="aetna">Aetna</option>
+                        <option value="humana">Humana</option>
+                        <option value="medicare">Medicare</option>
+                        <option value="medicaid">Medicaid</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="diagnosis">Diagnosis Code (ICD-10):</label>
+                    <input type="text" id="diagnosis" name="diagnosis" placeholder="e.g., L20.9" required>
+                </div>
+                <div class="form-group">
+                    <label for="urgency">Urgency Level:</label>
+                    <select id="urgency" name="urgency" required>
+                        <option value="">Select Urgency</option>
+                        <option value="routine">Routine (5-7 days)</option>
+                        <option value="urgent">Urgent (24-48 hours)</option>
+                        <option value="stat">STAT (Same day)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Submit Authorization Request</button>
+            </form>
+        </div>
+        
+        <!-- Recent Authorizations -->
+        <div class="recent-auth">
+            <h3>Recent Authorization Requests</h3>
+            <div class="auth-list">
+                <div class="auth-item approved">
+                    <div class="auth-info">
+                        <strong>Patient: Smith, John</strong><br>
+                        <span>Dupixent (dupilumab) - BCBS</span><br>
+                        <small>Submitted: 2025-06-12</small>
+                    </div>
+                    <div class="auth-status approved">✅ Approved</div>
+                </div>
+                <div class="auth-item pending">
+                    <div class="auth-info">
+                        <strong>Patient: Johnson, Mary</strong><br>
+                        <span>Otezla (apremilast) - Aetna</span><br>
+                        <small>Submitted: 2025-06-13</small>
+                    </div>
+                    <div class="auth-status pending">⏳ Pending</div>
+                </div>
+                <div class="auth-item denied">
+                    <div class="auth-info">
+                        <strong>Patient: Williams, David</strong><br>
+                        <span>Cosentyx (secukinumab) - Humana</span><br>
+                        <small>Submitted: 2025-06-11</small>
+                    </div>
+                    <div class="auth-status denied">❌ Denied</div>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <script>
+        document.querySelector('.auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const patient = formData.get('patient');
+            const medication = formData.get('medication');
+            const urgency = formData.get('urgency');
+            
+            // Simulate submission
+            alert(`Prior Authorization Request Submitted\\n\\nPatient: ${patient}\\nMedication: ${medication}\\nUrgency: ${urgency}\\n\\nRequest ID: PA-${Date.now()}\\nStatus: Pending Review`);
+            
+            // Reset form
+            e.target.reset();
+        });
+    </script>
 </body>
 </html>`, { headers: { 'Content-Type': 'text/html' } });
 }
