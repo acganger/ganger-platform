@@ -161,6 +161,14 @@ export default function SocialsReviewsDashboard({
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => window.open('/studio', '_blank')}
+                className="flex items-center space-x-2"
+              >
+                <span>Studio View</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleRefresh}
                 disabled={isLoadingStats}
                 className="flex items-center space-x-2"
