@@ -197,6 +197,30 @@ export const fileUploadSchema = z.object({
   description: z.string().max(500, 'Description too long').optional()
 });
 
+export const attachmentQuerySchema = z.object({
+  ticket_id: uuidSchema.optional(),
+  is_internal: z.string().transform(val => val === 'true').optional(),
+  uploaded_by: uuidSchema.optional(),
+  mime_type: z.string().optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'filename', 'original_filename', 'file_size']).default('created_at'),
+  sort_order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0 && n <= 100, 'Limit must be between 1 and 100').default('50'),
+  offset: z.string().regex(/^\d+$/).transform(Number).refine(n => n >= 0, 'Offset must be non-negative').default('0'),
+  created_after: z.string().datetime('Invalid date format').optional(),
+  created_before: z.string().datetime('Invalid date format').optional(),
+  min_size: z.string().regex(/^\d+$/).transform(Number).optional(),
+  max_size: z.string().regex(/^\d+$/).transform(Number).optional()
+});
+
+export const createAttachmentSchema = z.object({
+  ticket_id: uuidSchema,
+  original_filename: z.string().min(1, 'Filename is required').max(255, 'Filename too long'),
+  file_size: z.number().min(1, 'File must have content').max(50 * 1024 * 1024, 'File too large (max 50MB)'),
+  mime_type: z.string().min(1, 'File type is required'),
+  is_internal: z.boolean().default(false)
+});
+
 // Authentication schemas
 export const googleOAuthCallbackSchema = z.object({
   code: z.string().min(1, 'Authorization code is required'),

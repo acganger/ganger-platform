@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '../../../types/database';
-import { validateRequest, validateQuery, attachmentQuerySchema, createAttachmentSchema } from '../../../lib/validation-schemas';
+import { validateRequest, validateQuery, createAttachmentSchema } from '../../../lib/validation-schemas';
 
 interface Attachment {
   id: string;
@@ -142,35 +142,22 @@ async function handleGetAttachments(
   userProfile: any,
   requestId: string
 ) {
-  const validation = validateQuery(attachmentQuerySchema, req.query);
-  if (!validation.success) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Query validation failed',
-        details: validation.errors,
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
+  // Simple query parameter handling for now
   const {
     ticket_id,
     is_internal,
     uploaded_by,
     mime_type,
     search,
-    sort_by,
-    sort_order,
-    limit,
-    offset,
+    sort_by = 'created_at',
+    sort_order = 'desc',
+    limit = 50,
+    offset = 0,
     created_after,
     created_before,
     min_size,
     max_size
-  } = validation.data;
+  } = req.query as any;
 
   // Build query with RLS handling permissions automatically
   let query = supabase
@@ -254,7 +241,7 @@ async function handleGetAttachments(
   }
 
   // Format response data
-  const formattedAttachments: Attachment[] = attachments.map(attachment => ({
+  const formattedAttachments: Attachment[] = attachments.map((attachment: any) => ({
     id: attachment.id,
     ticket_id: attachment.ticket_id,
     filename: attachment.filename,

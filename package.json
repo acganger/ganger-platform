@@ -32,7 +32,8 @@
     "validate:env:production": "NODE_ENV=production node scripts/validate-environment.js",
     "docs:update": "node scripts/docs/update-docs.js",
     "docs:check": "bash scripts/docs/updatedocs.sh",
-    "docs:sprint": "node scripts/docs/sprint.js"
+    "docs:sprint": "node scripts/docs/sprint.js",
+    "dev:showcase": "cd apps/component-showcase && npm run dev"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
