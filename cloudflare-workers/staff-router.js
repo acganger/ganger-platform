@@ -122,9 +122,42 @@ export default {
       });
     }
     
+    // 🎯 Additional working routes (successfully deployed)
+    if (pathname === '/batch') {
+      const targetUrl = new URL(request.url);
+      targetUrl.hostname = 'ganger-batch-closeout-prod.workers.dev';
+      targetUrl.pathname = pathname === '/batch' ? '/' : pathname.substring(6);
+      
+      const response = await fetch(targetUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+        body: request.body
+      });
+      
+      const newResponse = new Response(response.body, response);
+      newResponse.headers.set('X-Ganger-Route', '/batch → ganger-batch-closeout-prod.workers.dev');
+      return newResponse;
+    }
+    
+    if (pathname === '/reps') {
+      const targetUrl = new URL(request.url);
+      targetUrl.hostname = 'ganger-pharma-scheduling-prod.workers.dev';
+      targetUrl.pathname = pathname === '/reps' ? '/' : pathname.substring(5);
+      
+      const response = await fetch(targetUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+        body: request.body
+      });
+      
+      const newResponse = new Response(response.body, response);
+      newResponse.headers.set('X-Ganger-Route', '/reps → ganger-pharma-scheduling-prod.workers.dev');
+      return newResponse;
+    }
+    
     const comingSoonApps = [
       '/inventory', '/handouts', '/l10', '/dashboard', '/compliance', 
-      '/phones', '/batch', '/config', '/social', '/pepe', '/staffing'
+      '/phones', '/config', '/social', '/pepe', '/staffing'
     ];
     
     // 🚧 Check for coming soon applications
@@ -155,21 +188,98 @@ export default {
     return new Response(`
       <!DOCTYPE html>
       <html>
-      <head><title>Ganger Dermatology - Staff Portal</title></head>
-      <body style="font-family: system-ui; padding: 2rem;">
-        <h1>🏥 Ganger Dermatology - Staff Portal</h1>
-        <h2>📱 Available Applications:</h2>
-        <ul>
-          <li><a href="/status">🔍 Integration Status</a> ✅ Working</li>
-          <li><a href="/meds">💊 Medication Authorization</a> ✅ Working</li>
-        </ul>
-        <h2>🚧 Coming Soon:</h2>
-        <ul>
-          <li><a href="/inventory">📦 Inventory Management</a></li>
-          <li><a href="/handouts">📄 Patient Handouts</a></li>
-          <li><a href="/l10">🎯 EOS L10 System</a></li>
-          <li><a href="/dashboard">📊 Platform Dashboard</a></li>
-        </ul>
+      <head>
+        <title>Ganger Dermatology - Staff Portal</title>
+        <style>
+          body { font-family: system-ui; padding: 2rem; background: #f8fafc; }
+          .container { max-width: 1000px; margin: 0 auto; }
+          h1 { color: #1a365d; margin-bottom: 2rem; }
+          .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 2rem 0; }
+          .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+          .working { border-left: 4px solid #48bb78; }
+          .coming-soon { border-left: 4px solid #ed8936; }
+          .card h3 { margin-top: 0; margin-bottom: 0.5rem; }
+          .status { background: #48bb78; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+          .pending { background: #ed8936; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+          a { text-decoration: none; color: inherit; }
+          a:hover .card { transform: translateY(-2px); transition: transform 0.2s; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>🏥 Ganger Dermatology - Staff Portal</h1>
+          <p>Professional medical platform with integrated applications</p>
+          
+          <div class="grid">
+            <a href="/status">
+              <div class="card working">
+                <h3>🔍 Integration Status</h3>
+                <p>System monitoring and health dashboard</p>
+                <span class="status">✅ WORKING</span>
+              </div>
+            </a>
+            
+            <a href="/meds">
+              <div class="card working">
+                <h3>💊 Medication Authorization</h3>
+                <p>Prior authorization and prescription tracking</p>
+                <span class="status">✅ WORKING</span>
+              </div>
+            </a>
+            
+            <a href="/batch">
+              <div class="card working">
+                <h3>💰 Batch Closeout</h3>
+                <p>Financial reconciliation and reporting</p>
+                <span class="status">✅ WORKING</span>
+              </div>
+            </a>
+            
+            <a href="/reps">
+              <div class="card working">
+                <h3>📅 Rep Scheduling</h3>
+                <p>Pharmaceutical representative scheduling</p>
+                <span class="status">✅ WORKING</span>
+              </div>
+            </a>
+            
+            <a href="/inventory">
+              <div class="card coming-soon">
+                <h3>📦 Inventory Management</h3>
+                <p>Medical supply tracking and alerts</p>
+                <span class="pending">🚧 COMING SOON</span>
+              </div>
+            </a>
+            
+            <a href="/handouts">
+              <div class="card coming-soon">
+                <h3>📄 Patient Handouts</h3>
+                <p>Educational materials and QR codes</p>
+                <span class="pending">🚧 COMING SOON</span>
+              </div>
+            </a>
+            
+            <a href="/l10">
+              <div class="card coming-soon">
+                <h3>🎯 EOS L10 System</h3>
+                <p>Leadership team meeting management</p>
+                <span class="pending">🚧 COMING SOON</span>
+              </div>
+            </a>
+            
+            <a href="/compliance">
+              <div class="card coming-soon">
+                <h3>🎓 Compliance Training</h3>
+                <p>HIPAA and regulatory training</p>
+                <span class="pending">🚧 COMING SOON</span>
+              </div>
+            </a>
+          </div>
+          
+          <p style="margin-top: 2rem; color: #64748b;">
+            <strong>Platform Status:</strong> 5 applications operational, 11 applications in development
+          </p>
+        </div>
       </body>
       </html>
     `, {
