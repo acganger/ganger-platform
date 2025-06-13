@@ -10,9 +10,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 name = "ganger-medication-auth-prod"
-routes = [
-  { pattern = "meds.gangerdermatology.com/*", zone_name = "gangerdermatology.com" }
-]
+# Routes handled by staff-router.js at staff.gangerdermatology.com/meds
 
 [env.staging]
 name = "ganger-medication-auth-staging"

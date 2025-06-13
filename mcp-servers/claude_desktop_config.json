@@ -24,13 +24,6 @@
       "args": ["-m", "mcp_server_fetch"],
       "env": {}
     },
-    "google-drive": {
-      "command": "node",
-      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\gdrive\\dist\\index.js"],
-      "env": {
-        "GDRIVE_CREDENTIALS_PATH": "Q:\\Projects\\ganger-platform\\mcp-servers\\gdrive\\.gdrive-server-credentials.json"
-      }
-    },
     "slack": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-slack"],
@@ -80,6 +73,20 @@
         "MYSQL_USER": "gangerne_api_hub",
         "MYSQL_PASSWORD": "3D{.YAKxufOgoG^;t)",
         "MYSQL_DATABASE": "gangerne_apihub"
+      }
+    },
+    "puppeteer": {
+      "command": "node",
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\puppeteer\\dist\\index.js"],
+      "env": {}
+    },
+    "trello": {
+      "command": "node",
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\trello\\dist\\index.js"],
+      "env": {
+        "TRELLO_API_KEY": "YOUR_TRELLO_API_KEY_HERE",
+        "TRELLO_TOKEN": "YOUR_TRELLO_TOKEN_HERE",
+        "TRELLO_BASE_URL": "https://api.trello.com/1"
       }
     }
   }

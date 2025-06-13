@@ -8,9 +8,7 @@ command = "npm run build && npm run build:worker"
 
 [env.production]
 name = "ganger-platform-dashboard-prod"
-routes = [
-  { pattern = "dashboard.gangerdermatology.com/*", zone_name = "gangerdermatology.com" }
-]
+# Routes handled by staff-router.js at staff.gangerdermatology.com/dashboard
 
 [env.staging]
 name = "ganger-platform-dashboard-staging"
