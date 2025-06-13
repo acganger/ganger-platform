@@ -1,5 +1,5 @@
 name = "ganger-staff"
-main = "worker-simple.js"
+main = "worker-tailwind.js"
 compatibility_date = "2024-06-12"
 compatibility_flags = ["nodejs_compat"]
 
