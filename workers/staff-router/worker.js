@@ -4,8 +4,8 @@
  */
 
 const WORKER_ROUTES = {
-  '/l10': 'ganger-eos-l10-prod.michiganger.workers.dev',
-  '/eos-l10': 'ganger-eos-l10-prod.michiganger.workers.dev'
+  '/l10': 'ganger-eos-l10-v2.michiganger.workers.dev',
+  '/eos-l10': 'ganger-eos-l10-v2.michiganger.workers.dev'
 };
 
 export default {

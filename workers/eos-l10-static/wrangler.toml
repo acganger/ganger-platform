@@ -7,7 +7,10 @@ main = "worker.js"
 bucket = "../../apps/eos-l10/out"
 
 [env.production]
-name = "ganger-eos-l10-prod"
+name = "ganger-eos-l10-v2"
+account_id = "68d0160c9915efebbbecfddfd48cddab"
+
+# KV namespace is automatically bound by Workers Sites
 
 [env.staging]  
 name = "ganger-eos-l10-staging"
