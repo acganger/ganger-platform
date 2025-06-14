@@ -10,7 +10,15 @@ bucket = "../../apps/eos-l10/out"
 name = "ganger-eos-l10-v2"
 account_id = "68d0160c9915efebbbecfddfd48cddab"
 
-# KV namespace is automatically bound by Workers Sites
+# R2 bucket for static assets (preferred) - requires R2 enabled in dashboard
+# [[env.production.r2_buckets]]
+# binding = "STATIC_ASSETS"
+# bucket_name = "ganger-eos-l10-assets"
+
+# KV namespace fallback (current working solution)
+[[env.production.kv_namespaces]]
+binding = "STATIC_CONTENT_V2"
+id = "c32c4b305b324e7689e087aa11f79463"
 
 [env.staging]  
 name = "ganger-eos-l10-staging"

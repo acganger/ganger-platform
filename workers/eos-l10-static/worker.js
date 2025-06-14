@@ -26,8 +26,9 @@ export default {
       }
 
       try {
-        // Use getAssetFromKV with proper options
+        // Use getAssetFromKV with proper options and KV binding
         const response = await getAssetFromKV(request, {
+          ASSET_NAMESPACE: env.STATIC_CONTENT_V2,
           mapRequestToAsset: (req) => {
             const url = new URL(req.url);
             let pathname = url.pathname;
@@ -71,7 +72,9 @@ export default {
               new URL('/index.html', request.url).toString(),
               request
             );
-            const indexResponse = await getAssetFromKV(indexRequest);
+            const indexResponse = await getAssetFromKV(indexRequest, {
+              ASSET_NAMESPACE: env.STATIC_CONTENT_V2,
+            });
             return new Response(indexResponse.body, {
               ...indexResponse,
               headers: {
