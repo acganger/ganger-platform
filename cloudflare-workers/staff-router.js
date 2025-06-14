@@ -27,6 +27,10 @@ export default {
       return getEOSL10App();
     }
     
+    if (pathname === '/l10/compass') {
+      return getEOSL10CompassTemplate();
+    }
+    
     // 🚀 Enhanced Applications
     if (pathname === '/handouts') {
       return getPatientHandoutsApp();
@@ -1537,6 +1541,238 @@ function getEOSL10App() {
         function reviewGoals() {
             alert('Quarterly Goals Review\\n\\n🎯 Q2 2025 Goals:\\n• Revenue: $580k (on track)\\n• New Patients: 150 (ahead)\\n• Staff Training: 100% (complete)\\n• Patient Portal: 65% adoption (behind)\\n\\n📈 3 of 4 goals on track');
         }
+    </script>
+</body>
+</html>`, { headers: { 'Content-Type': 'text/html' } });
+}
+
+function getEOSL10CompassTemplate() {
+  return new Response(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOS L10 Compass Dashboard - Ganger Dermatology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .fadeIn { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .sidebar-hidden { transform: translateX(-100%); }
+        .sidebar-visible { transform: translateX(0); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Mobile sidebar backdrop -->
+    <div id="sidebar-backdrop" class="fixed inset-0 z-40 bg-gray-900/80 hidden lg:hidden"></div>
+    
+    <!-- Desktop sidebar -->
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 ring-1 ring-gray-900/5">
+            <div class="flex h-16 shrink-0 items-center gap-2">
+                <div class="h-8 w-8 bg-blue-600 rounded"></div>
+                <h1 class="text-xl font-semibold text-gray-900">EOS L10 Platform</h1>
+            </div>
+            <nav class="flex flex-1 flex-col">
+                <ul class="flex flex-1 flex-col gap-y-7">
+                    <li>
+                        <ul class="-mx-2 space-y-1">
+                            <li><a href="/scorecard" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="bar-chart-3" class="h-6 w-6 shrink-0"></i>Scorecard</a></li>
+                            <li><a href="/rocks" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="target" class="h-6 w-6 shrink-0"></i>Rock Review</a></li>
+                            <li><a href="/headlines" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="trending-up" class="h-6 w-6 shrink-0"></i>Headlines</a></li>
+                            <li><a href="/todos" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="check-square" class="h-6 w-6 shrink-0"></i>To-Do List</a></li>
+                            <li><a href="/issues" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="users" class="h-6 w-6 shrink-0"></i>IDS</a></li>
+                            <li><a href="/meetings" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="calendar" class="h-6 w-6 shrink-0"></i>Meetings</a></li>
+                        </ul>
+                    </li>
+                    <li class="mt-auto">
+                        <div class="rounded-lg bg-blue-50 p-4">
+                            <div class="flex items-center gap-x-3">
+                                <i data-feather="play" class="h-8 w-8 text-blue-600"></i>
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-900">Weekly L10</h3>
+                                    <p class="text-xs text-gray-600">Next meeting in 2 days</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button class="w-full rounded-full bg-blue-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-blue-500">Start Meeting</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Mobile sidebar -->
+    <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white px-6 py-6 transform sidebar-hidden transition-transform duration-300 lg:hidden">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="h-6 w-6 bg-blue-600 rounded"></div>
+                <h1 class="text-lg font-semibold text-gray-900">EOS L10</h1>
+            </div>
+            <button id="close-sidebar" class="-m-2.5 p-2.5">
+                <i data-feather="x" class="h-6 w-6 text-gray-400"></i>
+            </button>
+        </div>
+        <nav class="mt-6">
+            <ul class="space-y-1">
+                <li><a href="/scorecard" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="bar-chart-3" class="h-6 w-6 shrink-0"></i>Scorecard</a></li>
+                <li><a href="/rocks" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="target" class="h-6 w-6 shrink-0"></i>Rock Review</a></li>
+                <li><a href="/headlines" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="trending-up" class="h-6 w-6 shrink-0"></i>Headlines</a></li>
+                <li><a href="/todos" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="check-square" class="h-6 w-6 shrink-0"></i>To-Do List</a></li>
+                <li><a href="/issues" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="users" class="h-6 w-6 shrink-0"></i>IDS</a></li>
+                <li><a href="/meetings" class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-blue-600"><i data-feather="calendar" class="h-6 w-6 shrink-0"></i>Meetings</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="lg:pl-72">
+        <!-- Header -->
+        <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+            <button id="open-sidebar" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
+                <i data-feather="menu" class="h-6 w-6"></i>
+            </button>
+
+            <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+                <div class="relative flex flex-1 items-center">
+                    <h2 class="text-sm font-semibold leading-6 text-gray-900">Team Performance Dashboard</h2>
+                </div>
+                <div class="flex items-center gap-x-4 lg:gap-x-6">
+                    <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"></div>
+                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                        <span>Week of Jan 15, 2024</span>
+                        <div class="h-2 w-2 rounded-full bg-green-500"></div>
+                        <span class="text-green-600">On Track</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page content -->
+        <main class="py-10">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="space-y-8">
+                    <!-- Hero Section -->
+                    <div class="fadeIn bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white">
+                        <h1 class="text-3xl font-bold mb-2">EOS L10 Meeting Dashboard</h1>
+                        <p class="text-blue-100 text-lg">Streamline your weekly Level 10 meetings with structured accountability and clear visibility.</p>
+                    </div>
+
+                    <!-- Scorecard Section -->
+                    <div class="fadeIn bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i data-feather="bar-chart-3" class="h-6 w-6 text-blue-600"></i>
+                            <h2 class="text-xl font-semibold text-gray-900">Scorecard</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-600 mb-1">Revenue</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-2xl font-bold text-gray-900">$125K</div>
+                                    <div class="flex items-center text-sm text-green-600">
+                                        <i data-feather="arrow-up-right" class="h-4 w-4"></i>
+                                        Target: $120K
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-600 mb-1">Customer Satisfaction</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-2xl font-bold text-gray-900">94%</div>
+                                    <div class="flex items-center text-sm text-green-600">
+                                        <i data-feather="arrow-up-right" class="h-4 w-4"></i>
+                                        Target: 90%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-600 mb-1">Employee Engagement</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-2xl font-bold text-gray-900">87%</div>
+                                    <div class="flex items-center text-sm text-green-600">
+                                        <i data-feather="arrow-up-right" class="h-4 w-4"></i>
+                                        Target: 85%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm font-medium text-gray-600 mb-1">Safety Incidents</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-2xl font-bold text-gray-900">2</div>
+                                    <div class="flex items-center text-sm text-red-600">
+                                        <i data-feather="arrow-down-right" class="h-4 w-4 rotate-180"></i>
+                                        Target: 0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Summary -->
+                    <div class="fadeIn bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 border border-green-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <i data-feather="award" class="h-6 w-6 text-green-600"></i>
+                            <h2 class="text-xl font-semibold text-gray-900">Weekly Performance</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-600">85%</div>
+                                <div class="text-sm text-gray-600">Goals Met</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">3</div>
+                                <div class="text-sm text-gray-600">Issues Resolved</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-purple-600">12</div>
+                                <div class="text-sm text-gray-600">Action Items</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // Mobile sidebar functionality
+        const openSidebar = document.getElementById('open-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+        openSidebar.addEventListener('click', () => {
+            mobileSidebar.classList.remove('sidebar-hidden');
+            mobileSidebar.classList.add('sidebar-visible');
+            sidebarBackdrop.classList.remove('hidden');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            mobileSidebar.classList.add('sidebar-hidden');
+            mobileSidebar.classList.remove('sidebar-visible');
+            sidebarBackdrop.classList.add('hidden');
+        });
+
+        sidebarBackdrop.addEventListener('click', () => {
+            mobileSidebar.classList.add('sidebar-hidden');
+            mobileSidebar.classList.remove('sidebar-visible');
+            sidebarBackdrop.classList.add('hidden');
+        });
+
+        // Add fadeIn animation to elements
+        setTimeout(() => {
+            const elements = document.querySelectorAll('.fadeIn');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.animation = \`fadeIn 0.5s ease-in forwards\`;
+                }, index * 100);
+            });
+        }, 100);
     </script>
 </body>
 </html>`, { headers: { 'Content-Type': 'text/html' } });
