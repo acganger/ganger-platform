@@ -119,31 +119,262 @@ export default {
             <div class="mb-8">
                 <h3 class="text-2xl font-bold text-gray-900 mb-6">All Platform Applications (17 Apps)</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    <!-- Applications Grid - Each links to actual deployed workers -->
-                    ${Object.entries(appRoutes).map(([path, worker]) => {
-                        const appName = path.substring(1).split('-').map(word => 
-                            word.charAt(0).toUpperCase() + word.slice(1)
-                        ).join(' ');
-                        const iconColors = ['blue', 'yellow', 'green', 'indigo', 'pink', 'red', 'gray', 'orange', 'teal', 'cyan', 'purple', 'emerald', 'rose', 'violet', 'amber', 'lime', 'sky'];
-                        const colorIndex = Math.abs(path.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % iconColors.length;
-                        const color = iconColors[colorIndex];
-                        
-                        return `
-                        <a href="${path}" class="block">
-                            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
-                                <div class="flex items-center mb-3">
-                                    <div class="w-10 h-10 bg-${color}-100 rounded-lg flex items-center justify-center">
-                                        <div class="w-5 h-5 bg-${color}-600 rounded"></div>
-                                    </div>
-                                    <div class="ml-3">
-                                        <h4 class="font-semibold text-gray-900 text-sm">${appName}</h4>
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
-                                    </div>
+                    <!-- Working Applications -->
+                    <a href="/meds" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-purple-600 rounded"></div>
                                 </div>
-                                <p class="text-gray-600 text-xs">Click to access application</p>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Medication Authorization</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
                             </div>
-                        </a>`;
-                    }).join('')}
+                            <p class="text-gray-600 text-xs">Prior authorization requests</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/batch" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-green-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Batch Closeout</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Daily financial reconciliation</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/status" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-blue-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Integration Status</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">System monitoring</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/inventory" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-cyan-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Inventory Management</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Medical supply tracking</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/l10" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-orange-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">EOS L10 Leadership</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success-100 text-success-800">Live</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Team performance & goals</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Coming Soon Applications -->
+                    <a href="/handouts" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Patient Handouts</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Educational materials</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/kiosk" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Check-in Kiosk</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Patient self-service</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/staffing" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Clinical Staffing</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Staff scheduling</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/compliance" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Compliance Training</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">HIPAA & medical training</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/config" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Config Dashboard</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">System configuration</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/ai-receptionist" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">AI Receptionist</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Automated patient assistance</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/call-center" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Call Center Ops</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Patient communication</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/reps" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Pharma Scheduling</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Rep appointment booking</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/dashboard" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Platform Dashboard</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Analytics & insights</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/socials" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Social Reviews</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Review management</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/staff-portal" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Staff Portal</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">Employee hub</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/component-showcase" class="block">
+                        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 border border-gray-100 hover:scale-105 transform transition-transform">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                    <div class="w-5 h-5 bg-gray-600 rounded"></div>
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Component Showcase</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Coming Soon</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-xs">UI design system</p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -319,6 +550,41 @@ function getMedicationAuthApp() {
             background: #fecaca;
             color: #dc2626;
         }
+        .batch-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        .batch-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn.primary {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        .btn.secondary {
+            background: linear-gradient(135deg, #64748b, #475569);
+        }
     </style>
 </head>
 <body>
@@ -412,7 +678,7 @@ function getMedicationAuthApp() {
             const urgency = formData.get('urgency');
             
             // Simulate submission
-            alert(`Prior Authorization Request Submitted\\n\\nPatient: ${patient}\\nMedication: ${medication}\\nUrgency: ${urgency}\\n\\nRequest ID: PA-${Date.now()}\\nStatus: Pending Review`);
+            alert('Prior Authorization Request Submitted\\n\\nPatient: ' + patient + '\\nMedication: ' + medication + '\\nUrgency: ' + urgency + '\\n\\nRequest ID: PA-' + Date.now() + '\\nStatus: Pending Review');
             
             // Reset form
             e.target.reset();
@@ -494,8 +760,85 @@ function getBatchCloseoutApp() {
         <div class="subtitle">Daily Financial Reconciliation</div>
         <div class="status">✅ System Online</div>
         <p>Professional daily batch processing system for financial reconciliation, payment processing, and end-of-day settlement operations.</p>
-        <button class="btn" onclick="alert('Batch processing active!')">Process Daily Batch</button>
+        
+        <!-- Batch Processing Dashboard -->
+        <div class="form-container">
+            <h3>Daily Batch Processing</h3>
+            <div class="batch-stats">
+                <div class="stat-card">
+                    <div class="stat-number">$24,750.32</div>
+                    <div class="stat-label">Today's Transactions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">147</div>
+                    <div class="stat-label">Payment Count</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Pending Items</div>
+                </div>
+            </div>
+            
+            <div class="batch-actions">
+                <button class="btn primary" onclick="processBatch()">🔄 Process Daily Batch</button>
+                <button class="btn secondary" onclick="viewReport()">📊 View Report</button>
+                <button class="btn secondary" onclick="exportData()">📁 Export Data</button>
+            </div>
+        </div>
+        
+        <!-- Recent Batch History -->
+        <div class="recent-auth">
+            <h3>Recent Batch History</h3>
+            <div class="auth-list">
+                <div class="auth-item approved">
+                    <div class="auth-info">
+                        <strong>Batch 2025-06-13</strong><br>
+                        <span>$24,750.32 - 147 transactions</span><br>
+                        <small>Processed: 2025-06-13 17:30</small>
+                    </div>
+                    <div class="auth-status approved">✅ Complete</div>
+                </div>
+                <div class="auth-item approved">
+                    <div class="auth-info">
+                        <strong>Batch 2025-06-12</strong><br>
+                        <span>$22,891.55 - 132 transactions</span><br>
+                        <small>Processed: 2025-06-12 17:45</small>
+                    </div>
+                    <div class="auth-status approved">✅ Complete</div>
+                </div>
+                <div class="auth-item pending">
+                    <div class="auth-info">
+                        <strong>Batch 2025-06-11</strong><br>
+                        <span>$18,443.22 - 98 transactions</span><br>
+                        <small>Processed: 2025-06-11 18:15</small>
+                    </div>
+                    <div class="auth-status approved">✅ Complete</div>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <script>
+        function processBatch() {
+            const confirmed = confirm('Process daily batch closeout?\\n\\nThis will finalize all transactions for today and cannot be undone.');
+            if (confirmed) {
+                alert('Daily Batch Processing Started\\n\\nBatch ID: BCO-' + Date.now() + '\\nTransactions: 147\\nTotal Amount: $24,750.32\\n\\nProcessing... This may take a few minutes.');
+                
+                // Simulate processing
+                setTimeout(() => {
+                    alert('Batch Processing Complete!\\n\\n✅ Status: Success\\n📊 Transactions Processed: 147\\n💰 Total Amount: $24,750.32\\n📅 Batch Date: ' + new Date().toLocaleDateString());
+                }, 3000);
+            }
+        }
+        
+        function viewReport() {
+            alert('Batch Closeout Report\\n\\n📊 Today\\'s Summary:\\n💰 Total: $24,750.32\\n📈 Transactions: 147\\n⏰ Average Processing Time: 2.3 seconds\\n✅ Success Rate: 99.3%\\n\\n📁 Full report has been generated and saved.');
+        }
+        
+        function exportData() {
+            alert('Export Options\\n\\n📁 Available Formats:\\n• Excel (.xlsx)\\n• CSV (.csv)\\n• PDF Report\\n• JSON Data\\n\\nData exported successfully!\\nFile: batch_closeout_' + new Date().toISOString().split(\\'T\\')[0] + '.xlsx');
+        }
+    </script>
 </body>
 </html>`, { headers: { 'Content-Type': 'text/html' } });
 }

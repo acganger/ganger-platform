@@ -2,7 +2,7 @@
 # Using Workers instead of deprecated Pages
 
 name = "ganger-platform"
-main = "working-apps-worker.js"
+main = "staff-router.js"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
