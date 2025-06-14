@@ -24,7 +24,7 @@ export default {
     }
     
     if (pathname === '/l10') {
-      return getEOSL10App();
+      return Response.redirect(new URL('/l10/compass', request.url).toString(), 302);
     }
     
     if (pathname === '/l10/compass') {
