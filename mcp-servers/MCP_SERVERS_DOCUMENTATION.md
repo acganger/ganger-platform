@@ -6,7 +6,7 @@ This document provides comprehensive configuration and usage documentation for a
 
 ## ✅ Installation Status
 
-All 12 MCP servers have been successfully installed and configured:
+All 13 MCP servers have been successfully installed and configured:
 
 **Original 7 Servers:**
 1. ✅ **Supabase MCP Server** - Database operations and project management
@@ -23,6 +23,9 @@ All 12 MCP servers have been successfully installed and configured:
 11. ✅ **Time MCP Server** - HIPAA-compliant timestamping and timezone management
 12. ✅ **Google Sheets MCP Server** - Direct spreadsheet operations and real-time data export
 
+**Network Infrastructure Enhancement:**
+13. ✅ **UniFi Network MCP Server** - Network monitoring and management across all locations
+
 ## 🏗️ Directory Structure
 
 ```
@@ -35,6 +38,7 @@ All 12 MCP servers have been successfully installed and configured:
 ├── google-sheets-mcp/            # Google Sheets direct integration
 ├── mcp-servers-official/        # Official MCP servers (filesystem, memory, fetch)
 ├── clickhouse-mcp/              # ClickHouse analytics database
+├── unifi-network/               # UniFi Network monitoring and management
 └── package.json                 # Main MCP servers package config
 ```
 
@@ -394,6 +398,55 @@ node Q:\Projects\ganger-platform\mcp-servers\google-sheets-mcp\index.js
 
 ---
 
+### 13. UniFi Network MCP Server
+
+**Repository**: https://github.com/sirkirby/unifi-network-mcp
+**Status**: ✅ Installed and configured
+**Dependencies**: Python 3.10+, aiounifi, aiohttp, pyyaml, python-dotenv
+
+**Capabilities**:
+- UniFi Network Controller integration
+- Real-time network device monitoring
+- Site-wide statistics and analytics
+- Client connection tracking
+- Access point performance monitoring
+- Network health assessment and alerts
+- Device connectivity status reporting
+
+**Configuration Requirements**:
+- UniFi Network Controller host/IP address
+- Controller username and password
+- Controller port (typically 443 for HTTPS)
+- Site identifier (default: "default")
+- SSL verification settings
+
+**Usage Command**:
+```bash
+python -m unifi_network_mcp
+```
+
+**Medical Use Cases**:
+- Monitor patient kiosk network connectivity
+- Track staff device connections across all locations (Ann Arbor, Plymouth, Wixom)
+- Ensure medical equipment network reliability
+- Real-time network health monitoring for clinical operations
+- Proactive network issue detection to prevent clinical disruptions
+- Network performance optimization for medical workflows
+
+**Environment Configuration**:
+```bash
+UNIFI_HOST=192.168.1.1
+UNIFI_USERNAME=anand@gangerdermatology.com
+UNIFI_PASSWORD=ganger7072
+UNIFI_PORT=443
+UNIFI_SITE=default
+UNIFI_VERIFY_SSL=false
+```
+
+**Installation Status**: ✅ Successfully installed with dependency fixes (aiounifi>=50.0.0, python>=3.10)
+
+---
+
 ## 🔧 Environment Configuration
 
 ### Required Environment Variables
@@ -410,7 +463,7 @@ GITHUB_PERSONAL_ACCESS_TOKEN=<your-github-token>
 GITHUB_HOST=https://github.com
 
 # Cloudflare Configuration
-CLOUDFLARE_API_TOKEN=CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
 CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
 CLOUDFLARE_ACCOUNT_ID=<your-cloudflare-account-id>
 
@@ -426,6 +479,14 @@ STRIPE_ACCOUNT_ID=<optional-connect-account-id>
 TWILIO_ACCOUNT_SID=<your-twilio-account-sid>
 TWILIO_API_KEY=<your-twilio-api-key>
 TWILIO_API_SECRET=<your-twilio-api-secret>
+
+# UniFi Network Management
+UNIFI_SITE_MANAGER_API_KEY=X9HOYp_hBGvczT-f7Yt3xzkbeZ_eiSmi
+UNIFI_SITE_MANAGER_URL=https://developer.ui.com/site-manager-api/
+UNIFI_NETWORK_CONTROLLER=https://10.1.10.1
+UNIFI_ANN_ARBOR_API_KEY=xuqjItbqzMJzJcM8TC9SmS2MdbBXJGN2
+UNIFI_PLYMOUTH_API_KEY=dfefdZNMxjoLydgyYkO7BZV-O-FKOnXP
+UNIFI_WIXOM_API_KEY=uRu3Bgtq6aJ61ijIzFvY0S2U_ZLhIjph
 
 # Memory MCP Configuration
 MEMORY_STORAGE_PATH=<optional-custom-storage-path>
@@ -444,6 +505,14 @@ CLICKHOUSE_PASSWORD=<your-clickhouse-password>
 
 # Google Sheets Configuration
 GOOGLE_SERVICE_ACCOUNT_PATH=Q:\Projects\ganger-platform\mcp-servers\google-sheets-mcp\service-account.json
+
+# UniFi Network MCP Configuration
+UNIFI_HOST=192.168.1.1
+UNIFI_USERNAME=anand@gangerdermatology.com
+UNIFI_PASSWORD=ganger7072
+UNIFI_PORT=443
+UNIFI_SITE=default
+UNIFI_VERIFY_SSL=false
 ```
 
 ### MCP Client Configuration
@@ -501,6 +570,18 @@ For Claude Desktop or similar MCP clients, add to your configuration:
     "time": {
       "command": "python3",
       "args": ["-m", "mcp_server_time", "--local-timezone", "America/New_York"]
+    },
+    "unifi-network": {
+      "command": "python3",
+      "args": ["-m", "unifi_network_mcp"],
+      "env": {
+        "UNIFI_HOST": "${UNIFI_HOST}",
+        "UNIFI_USERNAME": "${UNIFI_USERNAME}",
+        "UNIFI_PASSWORD": "${UNIFI_PASSWORD}",
+        "UNIFI_PORT": "${UNIFI_PORT}",
+        "UNIFI_SITE": "${UNIFI_SITE}",
+        "UNIFI_VERIFY_SSL": "${UNIFI_VERIFY_SSL}"
+      }
     }
   }
 }
@@ -523,6 +604,7 @@ For Claude Desktop or similar MCP clients, add to your configuration:
 | **Fetch** | ✅ | ✅ | ✅ | Ready |
 | **ClickHouse** | ✅ | ✅ | ➖ | Ready |
 | **Google Sheets** | ✅ | ✅ | ✅ | Ready |
+| **UniFi Network** | ✅ | ✅ | ➖ | Ready |
 
 ### Manual Verification Commands
 
@@ -553,6 +635,9 @@ cd mcp-servers/google-sheets-mcp && node index.js
 
 # Test Time MCP Server
 python3 -m mcp_server_time --help
+
+# Test UniFi Network MCP Server
+cd mcp-servers/unifi-network && python -m unifi_network_mcp --help
 ```
 
 ## 🚀 Integration with Ganger Platform
@@ -637,16 +722,17 @@ python3 -m mcp_server_time --help
 
 ---
 
-**Generated**: June 9, 2025  
-**Status**: All 12 MCP servers successfully installed and configured  
-**Original 7 + Tier 1 Medical Enhancement (5 additional)**  
+**Generated**: January 14, 2025  
+**Status**: All 13 MCP servers successfully installed and configured  
+**Original 7 + Tier 1 Medical Enhancement (5 additional) + Network Infrastructure (1 additional)**  
 **Ready for**: Development workflow integration and testing
 
 ## 🎯 **Final Status: Complete Medical MCP Infrastructure**
 
-✅ **12 Total MCP Servers Installed**
+✅ **13 Total MCP Servers Installed**
 - 7 Original servers (Supabase, GitHub, Cloudflare, GCP, Stripe, Twilio, Filesystem)
 - 5 Tier 1 Medical Enhancement servers (Memory, Fetch, ClickHouse, Time, Google Sheets)
+- 1 Network Infrastructure server (UniFi Network)
 
 ✅ **Expected Development Acceleration**: 
 - **800-1200% faster medical development cycles**

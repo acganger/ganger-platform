@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Bell, Search } from 'lucide-react'
+import { Menu, X, Bell, Search, Users } from 'lucide-react'
 
 import { GangerLogo } from '@ganger/ui'
 import { Navigation } from '@/components/protocol/Navigation'

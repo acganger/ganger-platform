@@ -625,15 +625,29 @@ const BUILD_TIME_BUDGETS = {
 - **Backup Strategy**: Automated daily backups with point-in-time recovery
 
 ### **MCP-Enhanced Development Infrastructure**
-**8 Active MCP Servers for Accelerated Development:**
+**15 Active MCP Servers for Accelerated Development:**
+
+**Core Infrastructure MCP Servers:**
 - **Supabase MCP**: Database operations, migrations, edge functions
-- **GitHub MCP**: Repository management, automated PRs, issue tracking
 - **Cloudflare MCP**: Workers deployment, DNS management, analytics
 - **Google Cloud Run MCP**: Containerized microservices, auto-scaling
-- **Stripe MCP**: Payment processing for medical billing
-- **Twilio MCP**: HIPAA-compliant SMS/voice communication
 - **Filesystem MCP**: Advanced file operations and build automation
+
+**Medical & Business MCP Servers:**
+- **Stripe Agent Toolkit MCP**: Payment processing for medical billing
+- **Twilio MCP**: HIPAA-compliant SMS/voice communication
+- **Google Sheets MCP**: Real-time spreadsheet operations and data export
 - **Time MCP**: Real-time timestamps, timezone management, HIPAA compliance auditing
+
+**Development & Analytics MCP Servers:**
+- **Memory MCP**: Knowledge graph-based persistent memory for AI workflows
+- **Fetch MCP**: Web content fetching and external API integration
+- **ClickHouse MCP**: Advanced analytics and medical data analysis
+- **Puppeteer MCP**: Web automation and testing capabilities
+- **Trello MCP**: Project management and task tracking integration
+
+**Network Infrastructure MCP Servers:**
+- **UniFi Network MCP**: Multi-site network monitoring and management across all 4 medical practice locations
 
 ## Development Environment Requirements
 
@@ -663,7 +677,38 @@ GOOGLE_DOMAIN=gangerdermatology.com
 
 # Cloudflare Configuration
 CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
-CLOUDFLARE_API_TOKEN=CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
+
+# UniFi Network Management
+UNIFI_SITE_MANAGER_API_KEY=X9HOYp_hBGvczT-f7Yt3xzkbeZ_eiSmi
+UNIFI_SITE_MANAGER_URL=https://developer.ui.com/site-manager-api/
+UNIFI_NETWORK_CONTROLLER=https://10.1.10.1
+UNIFI_ANN_ARBOR_API_KEY=xuqjItbqzMJzJcM8TC9SmS2MdbBXJGN2
+UNIFI_PLYMOUTH_API_KEY=dfefdZNMxjoLydgyYkO7BZV-O-FKOnXP
+UNIFI_WIXOM_API_KEY=uRu3Bgtq6aJ61ijIzFvY0S2U_ZLhIjph
+
+# UniFi MCP Server Configuration (Community MCP) - Multi-Site Network Access
+# CRITICAL: Use iPhone UniFi Authenticator for MFA codes (new code every 30 seconds)
+# Strategy: Authenticate to all 4 controllers simultaneously while MFA code is active
+UNIFI_HOST=192.168.1.1
+UNIFI_USERNAME=anand@gangerdermatology.com
+UNIFI_PASSWORD=ganger7072
+UNIFI_PORT=443
+UNIFI_SITE=default
+UNIFI_VERIFY_SSL=false
+
+# Multi-Site Controller Access (All use same username/password + MFA)
+UNIFI_MAIN_CONTROLLER=192.168.1.1          # Main/Home - UDM SE
+UNIFI_ANN_ARBOR_CONTROLLER=50.238.160.230   # Ann Arbor Practice - UDM Pro
+UNIFI_PLYMOUTH_CONTROLLER=50.216.114.162    # Plymouth Practice - UDM Pro  
+UNIFI_WIXOM_CONTROLLER=50.238.161.46        # Wixom Practice - UDM Pro
+
+# MFA Authentication Notes:
+# - iPhone UniFi Authenticator generates new codes every 30 seconds
+# - When provided MFA code, authenticate to ALL controllers quickly while code is active
+# - Successful authentication provides 2-hour session cookies for each controller
+# - Session cookies stored in /tmp/ for reuse: unifi_cookies.txt, ann_arbor_cookies.txt, 
+#   plymouth_cookies.txt, wixom_cookies.txt
 ```
 
 ### **Initial Setup Commands**

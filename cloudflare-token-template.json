@@ -25,7 +25,7 @@
       ],
       "usage": "Claude MCP servers for monitoring",
       "environment_variable": "CLOUDFLARE_MONITORING_TOKEN",
-      "current_token": "CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj"
+      "current_token": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf"
     }
   },
   "mcp_configuration_with_deployment_token": {

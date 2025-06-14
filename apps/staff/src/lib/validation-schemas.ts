@@ -20,8 +20,11 @@ export const emergencyContactSchema = z.object({
 });
 
 export const createUserSchema = z.object({
+  employee_id: z.string().min(1, 'Employee ID is required').max(20, 'Employee ID too long'),
   first_name: z.string().min(1, 'First name is required').max(50, 'First name too long'),
   last_name: z.string().min(1, 'Last name is required').max(50, 'Last name too long'),
+  full_name: z.string().min(1, 'Full name is required').max(100, 'Full name too long'),
+  email: emailSchema,
   personal_email: emailSchema,
   department: departmentSchema,
   role: userRoleSchema,
@@ -67,6 +70,7 @@ export const updateTicketSchema = z.object({
   priority: ticketPrioritySchema.optional(),
   assigned_to: emailSchema.nullable().optional(),
   due_date: z.string().datetime('Invalid date format').nullable().optional(),
+  completed_at: z.string().datetime('Invalid date format').nullable().optional(),
   location: locationSchema.optional(),
   metadata: z.record(z.any()).optional()
 });
@@ -79,10 +83,10 @@ export const ticketQuerySchema = z.object({
   form_type: z.string().optional(),
   location: z.string().optional(),
   search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'updated_at', 'title', 'priority', 'status', 'due_date']).default('created_at'),
-  sort_order: z.enum(['asc', 'desc']).default('desc'),
-  limit: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0 && n <= 100, 'Limit must be between 1 and 100').default('50'),
-  offset: z.string().regex(/^\d+$/).transform(Number).refine(n => n >= 0, 'Offset must be non-negative').default('0'),
+  sort_by: z.enum(['created_at', 'updated_at', 'title', 'priority', 'status', 'due_date']),
+  sort_order: z.enum(['asc', 'desc']),
+  limit: z.number(),
+  offset: z.number(),
   created_after: z.string().datetime('Invalid date format').optional(),
   created_before: z.string().datetime('Invalid date format').optional(),
   due_after: z.string().datetime('Invalid date format').optional(),
@@ -92,12 +96,27 @@ export const ticketQuerySchema = z.object({
 // Comment-related schemas
 export const createCommentSchema = z.object({
   content: z.string().min(1, 'Comment content is required').max(5000, 'Comment too long'),
+  ticket_id: uuidSchema,
   is_internal: z.boolean().default(false),
   mentioned_users: z.array(emailSchema).max(10, 'Too many mentions').optional()
 });
 
 export const updateCommentSchema = z.object({
-  content: z.string().min(1, 'Comment content is required').max(5000, 'Comment too long')
+  content: z.string().min(1, 'Comment content is required').max(5000, 'Comment too long'),
+  is_internal: z.boolean().optional()
+});
+
+export const commentQuerySchema = z.object({
+  ticket_id: uuidSchema.optional(),
+  is_internal: z.boolean().optional(),
+  author_id: uuidSchema.optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'updated_at']),
+  sort_order: z.enum(['asc', 'desc']),
+  limit: z.number(),
+  offset: z.number(),
+  created_after: z.string().datetime('Invalid date format').optional(),
+  created_before: z.string().datetime('Invalid date format').optional()
 });
 
 // Notification-related schemas
@@ -147,10 +166,26 @@ export const bulkNotificationSchema = z.object({
   { message: 'Cannot use both notification_ids and filters' }
 );
 
+export const notificationQuerySchema = z.object({
+  type: notificationTypeSchema.optional(),
+  priority: notificationPrioritySchema.optional(),
+  read: z.boolean().optional(),
+  user_id: uuidSchema.optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'updated_at', 'priority']),
+  sort_order: z.enum(['asc', 'desc']),
+  limit: z.number(),
+  offset: z.number(),
+  created_after: z.string().datetime('Invalid date format').optional(),
+  created_before: z.string().datetime('Invalid date format').optional()
+});
+
 // Form-related schemas
 export const formCategorySchema = z.enum(['general', 'hr', 'it', 'facilities', 'training', 'other']);
 
 export const createFormSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(50, 'Name too long'),
+  title: z.string().min(1, 'Title is required').max(100, 'Title too long'),
   form_type: z.string()
     .min(1, 'Form type is required')
     .max(50, 'Form type too long')
@@ -158,6 +193,7 @@ export const createFormSchema = z.object({
   display_name: z.string().min(1, 'Display name is required').max(100, 'Display name too long'),
   description: z.string().max(500, 'Description too long').optional(),
   category: formCategorySchema.default('general'),
+  fields: z.array(z.object({}).passthrough()).optional(),
   form_schema: z.object({}).passthrough(), // JSON Schema validation
   ui_schema: z.object({}).passthrough().optional(),
   workflow_config: z.object({
@@ -165,6 +201,7 @@ export const createFormSchema = z.object({
     transitions: z.record(z.array(z.string()))
   }).optional(),
   notification_config: z.object({}).passthrough().optional(),
+  metadata: z.record(z.any()).optional(),
   requires_manager_approval: z.boolean().default(false),
   requires_admin_approval: z.boolean().default(false),
   auto_assign_to: emailSchema.optional(),
@@ -172,9 +209,12 @@ export const createFormSchema = z.object({
 });
 
 export const updateFormSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(50, 'Name too long').optional(),
+  title: z.string().min(1, 'Title is required').max(100, 'Title too long').optional(),
   display_name: z.string().min(1, 'Display name is required').max(100, 'Display name too long').optional(),
   description: z.string().max(500, 'Description too long').optional(),
   category: formCategorySchema.optional(),
+  fields: z.array(z.object({}).passthrough()).optional(),
   form_schema: z.object({}).passthrough().optional(),
   ui_schema: z.object({}).passthrough().optional(),
   workflow_config: z.object({
@@ -182,11 +222,39 @@ export const updateFormSchema = z.object({
     transitions: z.record(z.array(z.string()))
   }).optional(),
   notification_config: z.object({}).passthrough().optional(),
+  metadata: z.record(z.any()).optional(),
   is_active: z.boolean().optional(),
   requires_manager_approval: z.boolean().optional(),
   requires_admin_approval: z.boolean().optional(),
   auto_assign_to: emailSchema.nullable().optional(),
   sla_hours: z.number().min(1, 'SLA must be at least 1 hour').max(8760, 'SLA cannot exceed 1 year').nullable().optional()
+});
+
+export const formQuerySchema = z.object({
+  is_active: z.boolean().optional(),
+  category: formCategorySchema.optional(),
+  created_by: uuidSchema.optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'updated_at', 'display_name']),
+  sort_order: z.enum(['asc', 'desc']),
+  limit: z.number(),
+  offset: z.number(),
+  created_after: z.string().datetime('Invalid date format').optional(),
+  created_before: z.string().datetime('Invalid date format').optional()
+});
+
+export const userQuerySchema = z.object({
+  department: z.string().optional(),
+  role: userRoleSchema.optional(),
+  location: locationSchema.optional(),
+  is_active: z.boolean().optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'updated_at', 'first_name', 'last_name', 'hire_date']),
+  sort_order: z.enum(['asc', 'desc']),
+  limit: z.number(),
+  offset: z.number(),
+  hired_after: z.string().datetime('Invalid date format').optional(),
+  hired_before: z.string().datetime('Invalid date format').optional()
 });
 
 // File attachment schemas

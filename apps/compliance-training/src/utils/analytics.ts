@@ -569,7 +569,11 @@ class AnalyticsService {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(event)
+        }).catch(() => {
+          // Silent fail for analytics
+        });
       } catch (e) {
+        // Silent fail
       }
     }
   }
@@ -597,7 +601,11 @@ class AnalyticsService {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(report)
+        }).catch(() => {
+          // Silent fail for batch analytics
+        });
       } catch (e) {
+        // Silent fail
       }
     }
   }

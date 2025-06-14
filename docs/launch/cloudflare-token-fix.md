@@ -14,7 +14,7 @@ Your current Cloudflare API token only has **zone-level permissions** but we nee
 
 ### Option 1: Update Existing Token
 1. Go to: https://dash.cloudflare.com/profile/api-tokens
-2. Find your token: `CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj`
+2. Find your token: `TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf`
 3. Click **"Edit"**
 4. Add these permissions:
    - **Cloudflare Pages:Edit** (Account level)

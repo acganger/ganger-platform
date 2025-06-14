@@ -2,7 +2,7 @@
   "name": "ganger-platform",
   "version": "1.0.0",
   "private": true,
-  "description": "Ganger Platform - Staff Management, Lunch System, and L10 Platform",
+  "description": "Ganger Platform - A comprehensive platfor for Ganger Dermatology",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -46,6 +46,7 @@
     "@types/qrcode": "^1.5.5",
     "@typescript-eslint/eslint-plugin": "^8.33.1",
     "@typescript-eslint/parser": "^8.33.1",
+    "babel-loader": "^10.0.0",
     "eslint": "^8.55.0",
     "eslint-config-next": "^15.3.3",
     "jest": "^29.7.0",
@@ -59,6 +60,8 @@
   },
   "packageManager": "pnpm@8.15.0",
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.9.0",
     "@supabase/supabase-js": "^2.49.10",
     "@tailwindcss/postcss": "^4.1.8",

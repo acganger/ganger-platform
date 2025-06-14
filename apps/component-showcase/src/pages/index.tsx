@@ -21,7 +21,8 @@ import {
   StatCard,
   PageHeader,
   useTheme,
-  colors
+  colors,
+  GangerLogo
 } from '@ganger/ui';
 
 // Sample data for DataTable

@@ -129,10 +129,20 @@ const workingRoutes = {
 ## 🔑 Required Secrets (GitHub)
 
 ```
-CLOUDFLARE_API_TOKEN=CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
 CLOUDFLARE_ACCOUNT_ID=[Your Account ID]
 SUPABASE_URL=https://pfqtzmxxxhhsxmlddrta.supabase.co
 SUPABASE_ANON_KEY=[Your Supabase Key]
+UNIFI_SITE_MANAGER_API_KEY=X9HOYp_hBGvczT-f7Yt3xzkbeZ_eiSmi
+UNIFI_ANN_ARBOR_API_KEY=xuqjItbqzMJzJcM8TC9SmS2MdbBXJGN2
+UNIFI_PLYMOUTH_API_KEY=dfefdZNMxjoLydgyYkO7BZV-O-FKOnXP
+UNIFI_WIXOM_API_KEY=uRu3Bgtq6aJ61ijIzFvY0S2U_ZLhIjph
+UNIFI_HOST=192.168.1.1
+UNIFI_USERNAME=anand@gangerdermatology.com
+UNIFI_PASSWORD=ganger7072
+UNIFI_PORT=443
+UNIFI_SITE=default
+UNIFI_VERIFY_SSL=false
 ```
 
 ## 🛠️ CI/CD Pipeline

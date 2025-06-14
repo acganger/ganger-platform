@@ -3,7 +3,18 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { GangerLogo } from '@ganger/ui'
+// Local GangerLogo component
+const GangerLogo = ({ size = 'md', className = '' }: { size?: string; className?: string }) => {
+  const sizeClass = size === 'lg' ? 'h-10 w-10' : 'h-8 w-8';
+  return (
+    <div className={`flex items-center ${className}`}>
+      <div className={`${sizeClass} bg-blue-600 rounded-lg flex items-center justify-center`}>
+        <span className="text-white font-bold text-sm">G</span>
+      </div>
+      <span className="ml-2 font-semibold">Ganger Dermatology</span>
+    </div>
+  );
+}
 import { Container } from '@/components/transmit/Container'
 import { Activity, Database, Globe, Server, Shield, Zap } from 'lucide-react'
 

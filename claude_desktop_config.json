@@ -1,8 +1,12 @@
 {
+  "workingDirectory": "Q:\\Projects\\ganger-platform",
+  "allowedPaths": [
+    "Q:\\Projects\\ganger-platform"
+  ],
   "mcpServers": {
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/mnt/q/Projects/ganger-platform"],
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "Q:\\Projects\\ganger-platform"],
       "env": {}
     },
     "memory": {
@@ -42,7 +46,7 @@
     },
     "git": {
       "command": "python",
-      "args": ["-m", "mcp_server_git", "--repository", "/mnt/q/Projects/ganger-platform"]
+      "args": ["-m", "mcp_server_git", "--repository", "Q:\\Projects\\ganger-platform"]
     },
     "mysql-legacy": {
       "command": "npx",
@@ -57,7 +61,7 @@
     },
     "synology": {
       "command": "python",
-      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/mcp-server-synology/main.py"],
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\mcp-server-synology\\main.py"],
       "env": {
         "SYNOLOGY_URL": "https://192.168.1.111:9875",
         "SYNOLOGY_USERNAME": "ganger",
@@ -73,12 +77,12 @@
     },
     "puppeteer": {
       "command": "node",
-      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/puppeteer/dist/index.js"],
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\puppeteer\\dist\\index.js"],
       "env": {}
     },
     "trello": {
       "command": "node",
-      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/trello/dist/index.js"],
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\trello\\dist\\index.js"],
       "env": {
         "TRELLO_API_KEY": "c04c6c3101732a677397280dce583cb0",
         "TRELLO_TOKEN": "ATTA7c28d9eda6a41cf0afec71acf41978339e49bb1e76db4168cc30379208bba1aeB4E4F8A4",

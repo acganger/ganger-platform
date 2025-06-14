@@ -6,7 +6,7 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 
-const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || 'CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj';
+const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || 'TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf';
 const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || '68d0160c9915efebbbecfddfd48cddab';
 const CLOUDFLARE_ZONE_ID = process.env.CLOUDFLARE_ZONE_ID || 'ba76d3d3f41251c49f0365421bd644a5';
 

@@ -19,6 +19,7 @@ const variantStyles = {
   outline: {
     slate:
       'ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 focus-visible:outline-blue-600 focus-visible:ring-slate-300 active:bg-slate-100 active:text-slate-600',
+    blue: 'ring-blue-200 text-blue-700 hover:text-blue-900 hover:ring-blue-300 focus-visible:outline-blue-600 focus-visible:ring-blue-300 active:bg-blue-100 active:text-blue-600',
     white:
       'ring-slate-700 text-white hover:ring-slate-500 focus-visible:outline-white focus-visible:ring-slate-500 active:ring-slate-700 active:text-slate-400',
   },

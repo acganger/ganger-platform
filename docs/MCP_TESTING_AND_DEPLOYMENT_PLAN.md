@@ -92,7 +92,7 @@ TWILIO_PHONE_NUMBER=+1...
       "command": "npx",
       "args": ["mcp-remote", "https://builds.mcp.cloudflare.com/sse"],
       "env": {
-        "CLOUDFLARE_API_TOKEN": "CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj"
+        "CLOUDFLARE_API_TOKEN": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf"
       }
     }
   }
@@ -173,7 +173,7 @@ TWILIO_AUTH_TOKEN=...
 TWILIO_PHONE_NUMBER=+1...
 
 # Cloudflare MCP  
-CLOUDFLARE_API_TOKEN=CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
 CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
 
 # Stripe MCP

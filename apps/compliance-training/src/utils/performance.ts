@@ -353,7 +353,11 @@ class PerformanceMonitor {
             timestamp: Date.now(),
             userAgent: navigator.userAgent
           })
+        }).catch(() => {
+          // Silent fail for performance metrics
+        });
       } catch (e) {
+        // Silent fail
       }
     }
   }
@@ -509,6 +513,7 @@ export class MemoryLeakDetector {
         if (this.measurements.length >= 5) {
           const trend = this.calculateTrend();
           if (trend > this.LEAK_THRESHOLD) {
+            console.warn('Memory leak detected:', {
               trend: `+${trend.toFixed(2)} MB`,
               currentUsage: `${currentUsage.toFixed(2)} MB`,
               measurements: this.measurements

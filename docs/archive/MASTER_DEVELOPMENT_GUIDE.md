@@ -1489,7 +1489,7 @@ GOOGLE_DOMAIN=gangerdermatology.com
 
 # Cloudflare Configuration
 CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
-CLOUDFLARE_API_TOKEN=CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
 
 # Application URLs
 NEXT_PUBLIC_STAFF_URL=https://staff.gangerdermatology.com
@@ -1593,7 +1593,7 @@ GOOGLE_DOMAIN=gangerdermatology.com
 
 # Cloudflare Configuration
 CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
-CLOUDFLARE_API_TOKEN=CNJuDfW4xVxdeNfcNToaqtwKjtqRdQLxF7DvcKuj
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
 ```
 
 ### 3. Start Local Infrastructure

@@ -211,6 +211,7 @@ export async function attemptRecovery(
           result
         };
       } catch (recoveryError) {
+        console.error(
           `Recovery strategy "${strategy.description}" failed on attempt ${attempt}:`,
           recoveryError
         );

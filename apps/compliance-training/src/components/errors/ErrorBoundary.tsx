@@ -289,6 +289,9 @@ export function useErrorReporting() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(errorReport)
+      }).catch(() => {
+        // Silent fail for error reporting
+      });
     }
 
     return errorId;
