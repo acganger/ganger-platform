@@ -220,9 +220,15 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.21(postcss@8.5.5)
+      clsx:
+        specifier: ^2.0.0
+        version: 2.1.1
       formidable:
         specifier: ^3.5.1
         version: 3.5.4
+      framer-motion:
+        specifier: ^10.16.16
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.376.0
         version: 0.376.0(react@18.3.1)
@@ -366,6 +372,12 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.50.0
+      clsx:
+        specifier: ^2.0.0
+        version: 2.1.1
+      framer-motion:
+        specifier: ^10.16.0
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.294.0
         version: 0.294.0(react@18.3.1)
@@ -427,6 +439,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      framer-motion:
+        specifier: ^10.16.0
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       next:
         specifier: ^14.2.0
         version: 14.2.29(@babel/core@7.27.4)(react-dom@18.3.1)(react@18.3.1)
@@ -512,6 +527,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      framer-motion:
+        specifier: ^10.16.0
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       ioredis:
         specifier: ^5.3.2
         version: 5.6.1
@@ -825,6 +843,12 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.45.0
         version: 2.50.0
+      clsx:
+        specifier: ^2.0.0
+        version: 2.1.1
+      framer-motion:
+        specifier: ^10.16.0
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       jspdf:
         specifier: ^2.5.1
         version: 2.5.2
@@ -889,6 +913,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      framer-motion:
+        specifier: ^10.16.16
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.344.0
         version: 0.344.0(react@18.3.1)
@@ -989,6 +1016,12 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.45.0
         version: 2.50.0
+      clsx:
+        specifier: ^2.0.0
+        version: 2.1.1
+      framer-motion:
+        specifier: ^10.16.16
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       next:
         specifier: ^14.2.0
         version: 14.2.29(@babel/core@7.27.4)(react-dom@18.3.1)(react@18.3.1)
@@ -1062,9 +1095,15 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.0.0
         version: 5.80.7(react@18.3.1)
+      clsx:
+        specifier: ^2.0.0
+        version: 2.1.1
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      framer-motion:
+        specifier: ^10.16.16
+        version: 10.18.0(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.390.0
         version: 0.390.0(react@18.3.1)
