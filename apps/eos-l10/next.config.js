@@ -60,6 +60,9 @@ const withPWA = require('next-pwa')({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
   eslint: {
     // Disable linting during builds for deployment
     ignoreDuringBuilds: true,
@@ -72,7 +75,8 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@dnd-kit/core', '@dnd-kit/sortable']
   },
   images: {
-    domains: ['pfqtzmxxxhhsxmlddrta.supabase.co']
+    domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true // Required for static export
   },
   async headers() {
     return [
