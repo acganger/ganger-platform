@@ -1,0 +1,13 @@
+name = "ganger-pharma-scheduling-prod"
+compatibility_date = "2024-12-13"
+main = "worker.js"
+
+[env.production]
+name = "ganger-pharma-scheduling-prod"
+
+[env.staging]
+name = "ganger-pharma-scheduling-staging"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+APP_NAME = "pharma-scheduling"
