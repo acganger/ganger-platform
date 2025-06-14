@@ -5,33 +5,7 @@
 
 const WORKER_ROUTES = {
   '/l10': 'ganger-eos-l10-prod.michiganger.workers.dev',
-  '/eos-l10': 'ganger-eos-l10-prod.michiganger.workers.dev',
-  '/pharma': 'ganger-pharma-scheduling-prod.michiganger.workers.dev',
-  '/pharma-scheduling': 'ganger-pharma-scheduling-prod.michiganger.workers.dev',
-  '/handouts': 'ganger-handouts-prod.michiganger.workers.dev',
-  '/kiosk': 'ganger-checkin-kiosk-prod.michiganger.workers.dev',
-  '/checkin-kiosk': 'ganger-checkin-kiosk-prod.michiganger.workers.dev',
-  '/inventory': 'ganger-inventory-prod.michiganger.workers.dev',
-  '/medication-auth': 'ganger-medication-auth-prod.michiganger.workers.dev',
-  '/meds': 'ganger-medication-auth-prod.michiganger.workers.dev',
-  '/clinical-staffing': 'ganger-clinical-staffing-prod.michiganger.workers.dev',
-  '/staffing': 'ganger-clinical-staffing-prod.michiganger.workers.dev',
-  '/platform-dashboard': 'ganger-platform-dashboard-prod.michiganger.workers.dev',
-  '/dashboard': 'ganger-platform-dashboard-prod.michiganger.workers.dev',
-  '/ai-receptionist': 'ganger-ai-receptionist-prod.michiganger.workers.dev',
-  '/receptionist': 'ganger-ai-receptionist-prod.michiganger.workers.dev',
-  '/call-center': 'ganger-call-center-ops-prod.michiganger.workers.dev',
-  '/call-center-ops': 'ganger-call-center-ops-prod.michiganger.workers.dev',
-  '/compliance': 'ganger-compliance-training-prod.michiganger.workers.dev',
-  '/compliance-training': 'ganger-compliance-training-prod.michiganger.workers.dev',
-  '/config': 'ganger-config-dashboard-prod.michiganger.workers.dev',
-  '/config-dashboard': 'ganger-config-dashboard-prod.michiganger.workers.dev',
-  '/integration': 'ganger-integration-status-prod.michiganger.workers.dev',
-  '/integration-status': 'ganger-integration-status-prod.michiganger.workers.dev',
-  '/socials': 'ganger-socials-reviews-prod.michiganger.workers.dev',
-  '/socials-reviews': 'ganger-socials-reviews-prod.michiganger.workers.dev',
-  '/batch': 'ganger-batch-closeout-prod.michiganger.workers.dev',
-  '/batch-closeout': 'ganger-batch-closeout-prod.michiganger.workers.dev'
+  '/eos-l10': 'ganger-eos-l10-prod.michiganger.workers.dev'
 };
 
 export default {
@@ -171,7 +145,7 @@ function getStaffPortalHTML() {
             </div>
 
             <!-- Application Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- EOS L10 -->
                 <a href="/l10" class="group block">
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
@@ -180,151 +154,41 @@ function getStaffPortalHTML() {
                         </div>
                         <h3 class="text-lg font-semibold text-gray-900 group-hover:text-purple-600">EOS L10</h3>
                         <p class="text-sm text-gray-600 mt-1">Meeting management, scorecards, and rocks tracking</p>
+                        <div class="mt-3">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✅ Live
+                            </span>
+                        </div>
                     </div>
                 </a>
 
-                <!-- Pharma Scheduling -->
-                <a href="/pharma" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-green-600 text-xl">💊</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-green-600">Pharma Scheduling</h3>
-                        <p class="text-sm text-gray-600 mt-1">Pharmaceutical representative appointments</p>
+                <!-- Coming Soon Applications -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 opacity-60">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-gray-400 text-xl">🚧</span>
                     </div>
-                </a>
+                    <h3 class="text-lg font-semibold text-gray-500">More Applications</h3>
+                    <p class="text-sm text-gray-400 mt-1">Additional staff applications coming soon</p>
+                    <div class="mt-3">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            🔨 In Development
+                        </span>
+                    </div>
+                </div>
 
-                <!-- Patient Handouts -->
-                <a href="/handouts" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-blue-600 text-xl">📄</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-blue-600">Patient Handouts</h3>
-                        <p class="text-sm text-gray-600 mt-1">Generate and manage patient education materials</p>
+                <!-- Platform Status -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-blue-600 text-xl">📈</span>
                     </div>
-                </a>
-
-                <!-- Inventory Management -->
-                <a href="/inventory" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-orange-600 text-xl">📦</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-orange-600">Inventory</h3>
-                        <p class="text-sm text-gray-600 mt-1">Medical supply tracking and barcode scanning</p>
+                    <h3 class="text-lg font-semibold text-gray-900">Platform Growth</h3>
+                    <p class="text-sm text-gray-600 mt-1">Applications added incrementally as they're completed</p>
+                    <div class="mt-3">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            📊 1 of 15 Apps Live
+                        </span>
                     </div>
-                </a>
-
-                <!-- Medication Authorization -->
-                <a href="/meds" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-red-600 text-xl">🔐</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-red-600">Medication Auth</h3>
-                        <p class="text-sm text-gray-600 mt-1">Prior authorization and medication management</p>
-                    </div>
-                </a>
-
-                <!-- Clinical Staffing -->
-                <a href="/staffing" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-indigo-600 text-xl">👥</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-indigo-600">Clinical Staffing</h3>
-                        <p class="text-sm text-gray-600 mt-1">Staff scheduling and clinical assignments</p>
-                    </div>
-                </a>
-
-                <!-- Platform Dashboard -->
-                <a href="/dashboard" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-gray-600 text-xl">⚡</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-gray-600">Platform Dashboard</h3>
-                        <p class="text-sm text-gray-600 mt-1">System overview and platform management</p>
-                    </div>
-                </a>
-
-                <!-- AI Receptionist -->
-                <a href="/receptionist" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-teal-600 text-xl">🤖</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-teal-600">AI Receptionist</h3>
-                        <p class="text-sm text-gray-600 mt-1">Automated patient communication and scheduling</p>
-                    </div>
-                </a>
-
-                <!-- Call Center Ops -->
-                <a href="/call-center" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-pink-600 text-xl">📞</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-pink-600">Call Center</h3>
-                        <p class="text-sm text-gray-600 mt-1">Patient call management and operations</p>
-                    </div>
-                </a>
-
-                <!-- Compliance Training -->
-                <a href="/compliance" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-yellow-600 text-xl">🎓</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-yellow-600">Compliance Training</h3>
-                        <p class="text-sm text-gray-600 mt-1">Staff training and compliance management</p>
-                    </div>
-                </a>
-
-                <!-- Config Dashboard -->
-                <a href="/config" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-slate-600 text-xl">⚙️</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-slate-600">Configuration</h3>
-                        <p class="text-sm text-gray-600 mt-1">System configuration and settings</p>
-                    </div>
-                </a>
-
-                <!-- Integration Status -->
-                <a href="/integration" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-emerald-600 text-xl">🔗</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600">Integration Status</h3>
-                        <p class="text-sm text-gray-600 mt-1">API and system integration monitoring</p>
-                    </div>
-                </a>
-
-                <!-- Socials & Reviews -->
-                <a href="/socials" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-violet-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-violet-600 text-xl">💬</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-600">Socials & Reviews</h3>
-                        <p class="text-sm text-gray-600 mt-1">Social media and patient review management</p>
-                    </div>
-                </a>
-
-                <!-- Batch Closeout -->
-                <a href="/batch" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-cyan-600 text-xl">💳</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-cyan-600">Batch Closeout</h3>
-                        <p class="text-sm text-gray-600 mt-1">Payment processing and financial reconciliation</p>
-                    </div>
-                </a>
+                </div>
             </div>
 
             <!-- Footer -->
