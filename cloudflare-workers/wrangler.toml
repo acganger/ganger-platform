@@ -1,7 +1,7 @@
 # 🚀 Ganger Platform - Modern Workers Configuration
 # Using Workers instead of deprecated Pages
 
-name = "ganger-platform"
+name = "ganger-platform-production"
 main = "staff-router.js"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
@@ -33,15 +33,15 @@ SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
 DOMAIN_BASE = "gangerdermatology.com"
 
 # 📊 Analytics Engine
-[[analytics_engine_datasets]]
-binding = "GANGER_ANALYTICS"
-dataset = "ganger_platform_routing"
+# [[analytics_engine_datasets]]
+# binding = "GANGER_ANALYTICS"
+# dataset = "ganger_platform_routing"
 
 # 🗄️ R2 Storage for Static Assets (replaces Pages static hosting)
-[[r2_buckets]]
-binding = "STATIC_ASSETS"
-bucket_name = "ganger-platform-assets"
-preview_bucket_name = "ganger-platform-assets-preview"
+# [[r2_buckets]]
+# binding = "STATIC_ASSETS"
+# bucket_name = "ganger-platform-assets"
+# preview_bucket_name = "ganger-platform-assets-preview"
 
 # 🔐 Secrets (set via wrangler secret put)
 # SUPABASE_SERVICE_ROLE_KEY
