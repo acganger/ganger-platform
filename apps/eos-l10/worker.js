@@ -23,15 +23,12 @@ export default {
 
     // Handle L10 prefix - remove it since our static files don't have it
     let pathname = url.pathname;
-    console.log('Original pathname:', pathname);
     
     if (pathname.startsWith('/l10/')) {
       pathname = pathname.substring(4); // Remove '/l10'
     } else if (pathname === '/l10') {
       pathname = '/';
     }
-    
-    console.log('After L10 prefix removal:', pathname);
 
     // Handle root path
     if (pathname === '/') {
@@ -50,7 +47,18 @@ export default {
 
     // Remove leading slash for R2 key
     const key = pathname.startsWith('/') ? pathname.slice(1) : pathname;
-    console.log('Final R2 key:', key);
+    
+    // Debug: return the key for testing
+    if (url.searchParams.has('debug')) {
+      return new Response(JSON.stringify({
+        originalPath: url.pathname,
+        processedPath: pathname,
+        r2Key: key,
+        timestamp: new Date().toISOString()
+      }), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
     
     try {
       // Attempt to get file from R2
