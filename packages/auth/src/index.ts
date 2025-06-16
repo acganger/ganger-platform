@@ -13,10 +13,22 @@ export {
   TeamMemberOnly,
   TeamLeaderOnly
 } from './guards';
+export { AuthCallback, withAuthCallback } from './callback';
 export { getSupabaseClient, createAppSupabaseClient, getTypedSupabaseClient, supabase } from './supabase';
+export { 
+  navigateToApp, 
+  getCurrentApp, 
+  isSSONavigation, 
+  sessionManager, 
+  universalLogout, 
+  getAppNavigationMenu,
+  getAppAuthCallbackUrl,
+  APP_URLS,
+  CrossAppSessionManager
+} from './cross-app';
 
 // Re-export types
-export type { AuthConfig, UserProfile, Team, TeamSettings, TeamMember, AppPermission, AuthUser, AuthSession, AuthContextType, AuditLogEvent, AuthGuardLevel, AuthGuardProps } from './types';
+export type { AuthConfig, UserProfile, Team, TeamSettings, TeamMember, AppPermission, AuthUser, AuthSession, AuthContextType, AuditLogEvent, AuthGuardLevel, AuthGuardProps, AppName, AppMenuItem } from './types';
 export type { Database, TypedSupabaseClient } from './supabase';
 
 // Utility functions

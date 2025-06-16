@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -24,7 +24,7 @@ interface Template {
 }
 
 function TemplatesPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { state, loadTemplates } = useHandoutContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -83,7 +83,7 @@ function TemplatesPage() {
         setTemplates(mockTemplates);
         
         analytics.track('templates_page_viewed', 'navigation', {
-          user_role: user?.role,
+          user_role: profile?.role,
           template_count: mockTemplates.length
         });
       } catch (error) {
@@ -93,7 +93,7 @@ function TemplatesPage() {
     };
 
     loadData();
-  }, [loadTemplates, user]);
+  }, [loadTemplates, profile]);
 
   const filteredTemplates = templates.filter(template => {
     const matchesSearch = template.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -147,7 +147,7 @@ function TemplatesPage() {
     { key: 'lastModified', header: 'Last Modified', sortable: true }
   ];
 
-  const canManageTemplates = user?.role === 'manager' || user?.role === 'superadmin';
+  const canManageTemplates = profile?.role === 'admin';
 
   if (loading) {
     return (
@@ -260,7 +260,11 @@ function TemplatesPage() {
   );
 }
 
-export default withAuthComponent(TemplatesPage, {
-  requiredRoles: ['staff', 'clinical_staff', 'manager', 'superadmin'],
-  redirectTo: '/auth/login'
-});
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedTemplatesPage() {
+  return (
+    <AuthGuard level="staff" appName="handouts">
+      <TemplatesPage />
+    </AuthGuard>
+  );
+}

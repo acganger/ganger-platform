@@ -16,6 +16,7 @@ import {
   AuthUser,
   AuthSession
 } from './types';
+import { sessionManager, isSSONavigation } from './cross-app';
 
 // Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -90,7 +91,29 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       }
     );
 
-    return () => subscription.unsubscribe();
+    // Listen for cross-app authentication changes
+    const unsubscribeCrossApp = sessionManager.onAuthChange((event) => {
+      console.log('Cross-app auth event:', event);
+      if (event === 'signout') {
+        // Force refresh authentication state when another app signs out
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          if (!session) {
+            setUser(null);
+            setSession(null);
+            setProfile(null);
+            setUserTeams([]);
+            setActiveTeamState(null);
+            setTeamRole(null);
+            setAppPermissions({});
+          }
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      unsubscribeCrossApp();
+    };
   }, []);
 
   /**
@@ -262,6 +285,9 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
         console.error('Error signing out:', error);
         throw error;
       }
+
+      // Notify other apps of sign out
+      sessionManager.notifyAuthChange('signout');
 
       // Clear local storage
       localStorage.removeItem(`${appName}-active-team`);

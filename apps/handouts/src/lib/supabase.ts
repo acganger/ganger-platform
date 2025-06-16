@@ -41,7 +41,6 @@ async function createSupabaseClient() {
 
   // Dynamic import to avoid module-level evaluation
   const { createClient } = await import('@supabase/supabase-js');
-  const { Database } = await import('@ganger/db');
 
   // Create and cache the real client
   _supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {

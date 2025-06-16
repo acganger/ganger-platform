@@ -11,7 +11,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.0"
+    "@supabase/supabase-js": "^2.39.0",
+    "@ganger/db": "workspace:*",
+    "@ganger/cache": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

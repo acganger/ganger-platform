@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -25,8 +25,8 @@ interface Patient {
   dateOfBirth?: string;
 }
 
-export default function HandoutGeneratorPage() {
-  const { user } = useAuth();
+function HandoutGeneratorPage() {
+  const { user, profile } = useAuth();
   const { generateHandouts, isGenerating } = useHandoutGenerator();
   
   const [currentStep, setCurrentStep] = useState<'patient' | 'templates' | 'delivery' | 'generate'>('patient');
@@ -42,9 +42,9 @@ export default function HandoutGeneratorPage() {
 
   useEffect(() => {
     analytics.track('handout_generator_opened', 'navigation', {
-      user_role: user?.role
+      user_role: profile?.role
     });
-  }, [user]);
+  }, [profile]);
 
   const handleQRCodeScanned = async (qrData: string) => {
     try {
@@ -274,5 +274,14 @@ export default function HandoutGeneratorPage() {
 
       {renderStepContent()}
     </AppLayout>
+  );
+}
+
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedHandoutGeneratorPage() {
+  return (
+    <AuthGuard level="staff" appName="handouts">
+      <HandoutGeneratorPage />
+    </AuthGuard>
   );
 }

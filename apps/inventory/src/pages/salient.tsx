@@ -1,5 +1,6 @@
 'use client'
 
+import { AuthGuard } from '@ganger/auth'
 import { InventoryLayout } from '@/components/salient/InventoryLayout'
 import { Container } from '@/components/salient/Container'
 import { FadeIn, FadeInStagger } from '@/components/salient/FadeIn'
@@ -166,7 +167,7 @@ function CategoryCard({ category }: { category: typeof stockCategories[0] }) {
   )
 }
 
-export default function InventorySalient() {
+function InventorySalient() {
   return (
     <InventoryLayout>
       <Container className="mt-24 sm:mt-32 lg:mt-40">
@@ -249,4 +250,13 @@ export default function InventorySalient() {
       </Container>
     </InventoryLayout>
   )
+}
+
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedInventorySalient() {
+  return (
+    <AuthGuard level="staff" appName="inventory">
+      <InventorySalient />
+    </AuthGuard>
+  );
 }

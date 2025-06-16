@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -27,7 +27,7 @@ interface GeneratedHandout {
 }
 
 function HistoryPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [handouts, setHandouts] = useState<GeneratedHandout[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -81,7 +81,7 @@ function HistoryPage() {
         setHandouts(mockHandouts);
         
         analytics.track('history_page_viewed', 'navigation', {
-          user_role: user?.role,
+          user_role: profile?.role,
           date_range: dateRange
         });
       } catch (error) {
@@ -91,7 +91,7 @@ function HistoryPage() {
     };
 
     loadHistory();
-  }, [user, dateRange]);
+  }, [profile, dateRange]);
 
   const filteredHandouts = handouts.filter(handout => {
     const searchLower = searchTerm.toLowerCase();
@@ -283,7 +283,11 @@ function HistoryPage() {
   );
 }
 
-export default withAuthComponent(HistoryPage, {
-  requiredRoles: ['staff', 'clinical_staff', 'manager', 'superadmin'],
-  redirectTo: '/auth/login'
-});
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedHistoryPage() {
+  return (
+    <AuthGuard level="staff" appName="handouts">
+      <HistoryPage />
+    </AuthGuard>
+  );
+}

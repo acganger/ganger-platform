@@ -5,7 +5,7 @@ import { Button, LoadingSpinner } from '@ganger/ui';
 import { analytics } from '@ganger/utils';
 
 export default function LoginPage() {
-  const { signInWithGoogle, user, isLoading } = useAuth();
+  const { signIn, user, loading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -14,7 +14,7 @@ export default function LoginPage() {
       setError(null);
       analytics.track('login_attempt', 'authentication', { method: 'google' });
       
-      await signInWithGoogle();
+      await signIn('/dashboard');
       
       analytics.track('login_success', 'authentication', { method: 'google' });
       router.push('/dashboard');
@@ -34,7 +34,7 @@ export default function LoginPage() {
     return null;
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />
@@ -67,9 +67,9 @@ export default function LoginPage() {
               variant="primary"
               size="lg"
               className="w-full"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? (
+              {loading ? (
                 <LoadingSpinner size="sm" />
               ) : (
                 'Sign in with Google'

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -28,8 +28,8 @@ interface InventoryItem {
   status: 'In Stock' | 'Low Stock' | 'Out of Stock';
 }
 
-export default function InventoryDashboard() {
-  const { user } = useAuth();
+function InventoryDashboard() {
+  const { user, profile } = useAuth();
   const [stats, setStats] = useState<InventoryStats | null>(null);
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +78,7 @@ export default function InventoryDashboard() {
         ]);
 
         analytics.track('dashboard_loaded', 'navigation', {
-          user_role: user?.role,
+          user_role: profile?.role,
           total_items: 1247
         });
       } catch {
@@ -89,7 +89,7 @@ export default function InventoryDashboard() {
     };
 
     loadDashboardData();
-  }, [user]);
+  }, [profile]);
 
   const filteredItems = items.filter(item =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -188,5 +188,14 @@ export default function InventoryDashboard() {
         />
       </div>
     </AppLayout>
+  );
+}
+
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedInventoryDashboard() {
+  return (
+    <AuthGuard level="staff" appName="inventory">
+      <InventoryDashboard />
+    </AuthGuard>
   );
 }

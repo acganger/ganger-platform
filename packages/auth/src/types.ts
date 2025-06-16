@@ -130,3 +130,14 @@ export interface AuthGuardProps {
   fallback?: React.ComponentType;
   children: React.ReactNode;
 }
+
+// Cross-app types
+export type AppName = 'eos-l10' | 'handouts' | 'inventory' | 'checkin-kiosk' | 'medication-auth' | 'staff' | 'lunch' | 'pharma-scheduling';
+
+export interface AppMenuItem {
+  name: string;
+  displayName: string;
+  url: string;
+  icon?: string;
+  description?: string;
+}

@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth, withAuthComponent } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth';
 import { LoadingSpinner } from '@ganger/ui';
 import { analytics } from '@ganger/utils';
 
 function InventoryHomePage() {
-  const { user, isLoading } = useAuth();
+  const { user, profile, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!loading) {
       analytics.track('page_view', 'navigation', {
         page: 'inventory_home',
-        user_role: user?.role
+        user_role: profile?.role
       });
 
       // Redirect to dashboard after authentication
@@ -20,9 +20,9 @@ function InventoryHomePage() {
         router.push('/dashboard');
       }
     }
-  }, [user, isLoading, router]);
+  }, [user, profile, loading, router]);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />
@@ -50,7 +50,11 @@ function InventoryHomePage() {
   );
 }
 
-export default withAuthComponent(InventoryHomePage, {
-  requiredRoles: ['staff', 'manager', 'superadmin'],
-  redirectTo: '/auth/login'
-});
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedInventoryHomePage() {
+  return (
+    <AuthGuard level="staff" appName="inventory">
+      <InventoryHomePage />
+    </AuthGuard>
+  );
+}
