@@ -21,6 +21,35 @@ export default {
       });
     }
 
+    // Test R2 bucket access
+    if (url.pathname === '/l10/test-r2' || url.pathname === '/test-r2') {
+      try {
+        // Try to list first 10 objects in bucket
+        const list = await env.EOS_L10_BUCKET.list({ limit: 10 });
+        return new Response(JSON.stringify({
+          status: 'r2-accessible',
+          objectCount: list.objects?.length || 0,
+          objects: list.objects?.map(obj => ({
+            key: obj.key,
+            size: obj.size,
+            lastModified: obj.uploaded
+          })) || [],
+          timestamp: new Date().toISOString()
+        }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({
+          status: 'r2-error',
+          error: error.message,
+          timestamp: new Date().toISOString()
+        }), {
+          headers: { 'Content-Type': 'application/json' },
+          status: 500
+        });
+      }
+    }
+
     // Handle L10 prefix - remove it since our static files don't have it
     let pathname = url.pathname;
     
