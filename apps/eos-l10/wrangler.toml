@@ -9,6 +9,10 @@ preview_bucket_name = "ganger-eos-l10-preview"
 
 [env.production]
 name = "ganger-eos-l10-v2"
+routes = [
+  { pattern = "staff.gangerdermatology.com/l10", zone_id = "ba76d3d3f41251c49f0365421bd644a5" },
+  { pattern = "staff.gangerdermatology.com/l10/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+]
 
 [[env.production.r2_buckets]]
 binding = "EOS_L10_BUCKET"
