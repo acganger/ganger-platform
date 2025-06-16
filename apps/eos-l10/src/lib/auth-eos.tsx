@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-// Temporarily removing universal auth to fix build issue
+// Import universal auth components - testing workspace fix
+import { AuthProvider as UniversalAuthProvider } from '@ganger/auth';
 import { supabase } from './supabase';
 import { Team, TeamMember } from '@/types/eos';
 
@@ -141,7 +142,7 @@ export function EOSAuthProvider({ children }: { children: ReactNode }) {
     if (!user) return;
 
     try {
-      setTeamsLoading(true);
+      setLoading(true);
       const { data: memberships } = await supabase
         .from('team_members')
         .select(`
@@ -172,7 +173,7 @@ export function EOSAuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error loading user teams:', error);
     } finally {
-      setTeamsLoading(false);
+      setLoading(false);
     }
   };
 

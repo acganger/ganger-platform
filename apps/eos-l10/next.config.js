@@ -75,7 +75,7 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   experimental: {
-    optimizePackageImports: ['lucide-react', '@dnd-kit/core', '@dnd-kit/sortable']
+    optimizePackageImports: ['@dnd-kit/core', '@dnd-kit/sortable']
   },
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
