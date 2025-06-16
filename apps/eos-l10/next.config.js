@@ -63,6 +63,9 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
+  env: {
+    NEXT_PUBLIC_DEMO_MODE: process.env.NEXT_PUBLIC_DEMO_MODE
+  },
   eslint: {
     // Disable linting during builds for deployment
     ignoreDuringBuilds: true,

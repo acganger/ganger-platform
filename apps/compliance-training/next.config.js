@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Optimize for dashboard performance
-  images: {
-    domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com']
-  },
-  
-  // Enable real-time features
-  experimental: {
-    serverActions: true
-  },
+  // Static export configuration for R2 deployment
+  reactStrictMode: true,
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  eslint: { ignoreDuringBuilds: true },
+  images: { domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'], unoptimized: true },
   
   // Bundle optimization for compliance dashboard
   webpack: (config, { isServer }) => {
@@ -42,13 +41,7 @@ const nextConfig = {
     return config;
   },
   
-  experimental: {
-    serverComponentsExternalPackages: [
-      'puppeteer',
-      'googleapis', 
-      '@ganger/db'
-    ]
-  }
+  // Note: serverActions removed for static export compatibility
 };
 
 module.exports = nextConfig;

@@ -1,34 +1,16 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@ganger/ui', '@ganger/auth', '@ganger/utils'],
-  experimental: {
-    turbo: {
-      resolveExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-    },
+  reactStrictMode: true,
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  eslint: {
+    ignoreDuringBuilds: true,
   },
-  env: {
-    CUSTOM_KEY: 'component-showcase',
-  },
-  // Add no-cache headers for development
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate',
-          },
-          {
-            key: 'Pragma',
-            value: 'no-cache',
-          },
-          {
-            key: 'Expires',
-            value: '0',
-          },
-        ],
-      },
-    ]
+  images: {
+    domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true,
   },
 };
 

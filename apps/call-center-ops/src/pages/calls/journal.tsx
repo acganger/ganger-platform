@@ -1,7 +1,5 @@
-'use client'
-
 import { useState, useEffect } from 'react';
-import { useAuth, withAuth } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -331,7 +329,7 @@ function CallJournalPage() {
                     <FormField label="Follow-up Type" required error={errors.follow_up_type}>
                       <Select
                         value={formData.follow_up_type}
-                        onChange={(value) => handleInputChange('follow_up_type', value)}
+                        onChange={(e) => handleInputChange('follow_up_type', e.target.value)}
                         options={FOLLOW_UP_TYPES}
                         placeholder="Select follow-up type"
                       />
@@ -371,7 +369,7 @@ function CallJournalPage() {
                     <FormField label="Referral Type" required error={errors.referral_type}>
                       <Select
                         value={formData.referral_type}
-                        onChange={(value) => handleInputChange('referral_type', value)}
+                        onChange={(e) => handleInputChange('referral_type', e.target.value)}
                         options={REFERRAL_TYPES}
                         placeholder="Select referral type"
                       />
@@ -506,6 +504,6 @@ function CallJournalPage() {
   );
 }
 
-export default withAuth(CallJournalPage, {
-  requiredRoles: ['staff', 'clinical_staff', 'manager', 'superadmin']
+export default withAuthComponent(CallJournalPage, {
+  requiredRoles: ['staff', 'manager', 'superadmin']
 });

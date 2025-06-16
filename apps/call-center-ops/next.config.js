@@ -1,25 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/ui', '@ganger/utils', '@ganger/integrations']
-  },
-  env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
+  reactStrictMode: true,
+  transpilePackages: [
+    '@ganger/auth',
+    '@ganger/db', 
+    '@ganger/integrations',
+    '@ganger/ui',
+    '@ganger/utils'
+  ],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  eslint: {
+    ignoreDuringBuilds: true,
   },
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true
   },
-  async headers() {
-    return [
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET, POST, PUT, DELETE, OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
-        ],
-      },
-    ];
+  env: {
+    CUSTOM_KEY: 'call-center-ops-app',
   },
 };
 

@@ -55,31 +55,103 @@ npx wrangler deploy --env production
 **Pros**: Instant deployment, no DNS issues, maximum reliability  
 **Cons**: Limited to static content with embedded JavaScript
 
-### Method 2: Individual Workers (FOR COMPLEX APPS)
-**For apps requiring server-side processing, databases, or advanced features:**
+### Method 2: R2 Static Asset Workers (FOR COMPLEX NEXT.JS APPS)
+**✅ PROVEN: Handouts, Inventory, L10 Apps Successfully Deployed**
 
-1. **Create `wrangler.toml`**:
+**For Next.js applications requiring full static export with R2 asset storage:**
+
+1. **Create `wrangler.toml` with R2 binding**:
 ```toml
-name = "ganger-app-name"
-main = "worker-simple.js"
-compatibility_date = "2024-06-12"
-# No direct routes - handled by staff-router
+name = "ganger-app-name-prod"
+compatibility_date = "2024-12-13"
+main = "worker.js"
+
+[env.production]
+name = "ganger-app-name-production"
+account_id = "68d0160c9915efebbbecfddfd48cddab"
+
+# R2 bucket for static assets
+[[env.production.r2_buckets]]
+binding = "STATIC_ASSETS"
+bucket_name = "ganger-app-name-assets"
+preview_bucket_name = "ganger-app-name-assets"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+APP_NAME = "app-name"
 ```
 
-2. **Create `worker-simple.js`**:
+2. **Create R2-compatible worker**:
 ```javascript
 export default {
   async fetch(request, env, ctx) {
-    // App logic here
-    return new Response(html, { headers: { 'Content-Type': 'text/html' } });
+    const url = new URL(request.url);
+    let pathname = url.pathname;
+    
+    // Strip app prefix if routed through staff-router
+    if (pathname.startsWith('/app-name/')) {
+      pathname = pathname.slice(10); // Remove '/app-name'
+    }
+
+    // Handle Next.js routing
+    if (pathname === '/') pathname = '/index.html';
+    
+    const key = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+    const object = await env.STATIC_ASSETS.get(key);
+    
+    if (object === null) {
+      // 404 for static assets, fallback for pages
+      if (key.includes('/_next/') || key.includes('.js') || key.includes('.css')) {
+        return new Response(`Static asset not found: ${key}`, { status: 404 });
+      }
+      // SPA fallback
+      const indexObject = await env.STATIC_ASSETS.get('index.html');
+      return new Response(indexObject.body, {
+        headers: { 'Content-Type': 'text/html' }
+      });
+    }
+
+    // Serve file with correct content-type
+    const headers = new Headers();
+    if (key.endsWith('.js')) headers.set('Content-Type', 'application/javascript');
+    else if (key.endsWith('.css')) headers.set('Content-Type', 'text/css');
+    else if (key.endsWith('.html')) headers.set('Content-Type', 'text/html');
+    
+    return new Response(object.body, { headers });
   }
 };
 ```
 
-3. **Update staff-router.js to proxy**:
+3. **Create upload script (`upload-assets.js`)**:
 ```javascript
-const workingRoutes = {
-  '/your-app': 'ganger-your-app-prod.workers.dev'
+const cmd = `npx wrangler r2 object put ganger-app-name-assets/${file.key} --file="${tempFile}" --content-type="${contentType}" --remote`;
+execSync(cmd, { 
+  env: { 
+    CLOUDFLARE_API_TOKEN: process.env.CLOUDFLARE_API_TOKEN,
+    CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID 
+  }
+});
+```
+
+4. **Deploy process**:
+```bash
+# Build app (must have output: 'export' in next.config.js)
+cd apps/your-app && npm run build
+
+# Upload assets to R2
+cd workers/your-app-static
+export CLOUDFLARE_API_TOKEN="TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf"
+export CLOUDFLARE_ACCOUNT_ID="68d0160c9915efebbbecfddfd48cddab"
+node upload-assets.js
+
+# Deploy worker
+npx wrangler deploy --env production
+```
+
+5. **Update staff-router.js**:
+```javascript
+const WORKER_ROUTES = {
+  '/your-app': 'ganger-your-app-production.michiganger.workers.dev'
 };
 ```
 
@@ -216,10 +288,33 @@ curl https://your-app.workers.dev/api/health
 ```
 
 ### Common Issues:
-1. **"Project not found"** = Using Pages instead of Workers
-2. **"Must specify project name"** = Wrong wrangler command
-3. **"Build failed"** = Missing environment variables
-4. **DNS issues** = Wait 24-48h for propagation
+
+#### R2 Deployment Issues:
+1. **"Static asset not found"** = Assets not uploaded to R2 or missing `--remote` flag
+   ```bash
+   # Fix: Re-upload with correct credentials and --remote flag
+   export CLOUDFLARE_API_TOKEN="TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf"
+   export CLOUDFLARE_ACCOUNT_ID="68d0160c9915efebbbecfddfd48cddab"
+   node upload-assets.js
+   ```
+
+2. **Loading spinner stuck** = JavaScript files not loading, check R2 bucket contents
+   ```bash
+   # Check bucket contents
+   curl -H "Authorization: Bearer TOKEN" "https://api.cloudflare.com/client/v4/accounts/ACCOUNT_ID/r2/buckets/BUCKET_NAME/objects"
+   ```
+
+3. **Worker can't access R2** = R2 binding missing in wrangler.toml or worker not deployed after bucket setup
+   ```bash
+   # Fix: Redeploy worker after R2 bucket configuration
+   npx wrangler deploy --env production
+   ```
+
+#### General Issues:
+4. **"Project not found"** = Using Pages instead of Workers
+5. **"Must specify project name"** = Wrong wrangler command
+6. **"Build failed"** = Missing environment variables
+7. **DNS issues** = Wait 24-48h for propagation
 
 ## 🎯 Working Examples
 
@@ -231,6 +326,9 @@ curl https://your-app.workers.dev/api/health
 - ✅ **Mobile responsive** - Works perfectly on all devices
 
 ### **Working Applications (Live in Production)**:
+- ✅ **L10 Management** (`/l10`) - EOS Level 10 meetings platform (R2 deployment)
+- ✅ **Patient Handouts** (`/handouts`) - Digital handout generation system (R2 deployment) 
+- ✅ **Inventory Management** (`/inventory`) - Medical supply tracking with barcode scanning (R2 deployment)
 - ✅ **Integration Status** (`/status`) - System monitoring dashboard
 - ✅ **Medication Authorization** (`/meds`) - Prior authorization system
 - ✅ **Batch Closeout** (`/batch`) - Financial reconciliation
@@ -403,7 +501,8 @@ node scripts/update-theme.js --all --theme=medical-teal
 
 ---
 
-**Last Updated**: June 13, 2025 at 3:15 PM EST  
-**Status**: ✅ **ALL 16 APPLICATIONS FULLY OPERATIONAL** - Complete platform deployment  
-**Achievement**: 16/16 working apps with efficient change management system  
-**Efficiency**: 1 deployment updates all apps, 30-second change cycles, automated tools
+**Last Updated**: June 16, 2025 at 3:32 PM EST  
+**Status**: ✅ **L10 APPLICATION FIXED** - JavaScript routing issue resolved with proper R2 upload  
+**Achievement**: Proven R2 deployment pattern documented for complex Next.js applications  
+**Working Deployments**: L10, Handouts, Inventory apps successfully deployed using R2 + Worker pattern  
+**Pattern**: R2 static assets + Cloudflare Worker + Staff Router integration verified working

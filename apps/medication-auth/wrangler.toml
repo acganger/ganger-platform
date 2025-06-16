@@ -1,0 +1,23 @@
+name = "medication-auth"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "medication-auth"
+preview_bucket_name = "medication-auth-preview"
+
+[env.production]
+name = "medication-auth-production"
+route = { pattern = "medication-auth.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+
+[[env.production.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "medication-auth-production"
+
+[env.staging]
+name = "medication-auth-staging"
+
+[[env.staging.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "medication-auth-staging"

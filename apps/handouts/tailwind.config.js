@@ -12,13 +12,13 @@ module.exports = {
     extend: {
       colors: {
         handouts: {
-          primary: 'rgb(var(--handouts-primary) / <alpha-value>)',
-          secondary: 'rgb(var(--handouts-secondary) / <alpha-value>)',
-          accent: 'rgb(var(--handouts-accent) / <alpha-value>)',
-          education: 'rgb(var(--handouts-education) / <alpha-value>)',
-          treatment: 'rgb(var(--handouts-treatment) / <alpha-value>)',
-          medication: 'rgb(var(--handouts-medication) / <alpha-value>)',
-          procedure: 'rgb(var(--handouts-procedure) / <alpha-value>)'
+          primary: '#3b82f6',  // Maps to primary-500 from base config
+          secondary: '#a855f7', // Maps to accent-500 from base config  
+          accent: '#ec4899',
+          education: '#22c55e', // Maps to success-500 from base config
+          treatment: '#f59e0b', // Maps to warning-500 from base config
+          medication: '#a855f7',
+          procedure: '#ef4444'  // Maps to error-500 from base config
         }
       },
       animation: {

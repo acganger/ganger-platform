@@ -1,7 +1,7 @@
-'use client'
+
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuth } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -9,7 +9,6 @@ import {
   Button, 
   DataTable,
   StatCard,
-  Chart,
   LoadingSpinner,
   Select,
 } from '@ganger/ui';
@@ -110,32 +109,32 @@ function ManagerDashboard() {
   const locationColumns = [
     {
       key: 'location_name',
-      label: 'Location',
+      header: 'Location',
       sortable: true
     },
     {
       key: 'total_calls',
-      label: 'Total Calls',
+      header: 'Total Calls',
       sortable: true
     },
     {
       key: 'avg_quality_score',
-      label: 'Quality Score',
+      header: 'Quality Score',
       render: (row: LocationMetrics) => `${row.avg_quality_score}%`
     },
     {
       key: 'appointments_scheduled',
-      label: 'Appointments',
+      header: 'Appointments',
       sortable: true
     },
     {
       key: 'revenue_attributed',
-      label: 'Revenue',
+      header: 'Revenue',
       render: (row: LocationMetrics) => formatCurrency(row.revenue_attributed)
     },
     {
       key: 'utilization_rate',
-      label: 'Utilization',
+      header: 'Utilization',
       render: (row: LocationMetrics) => (
         <div className="flex items-center">
           <div className="flex-1 bg-gray-200 rounded-full h-2 mr-2">
@@ -157,27 +156,27 @@ function ManagerDashboard() {
   const campaignColumns = [
     {
       key: 'campaign_name',
-      label: 'Campaign',
+      header: 'Campaign',
       sortable: true
     },
     {
       key: 'calls_attempted',
-      label: 'Calls Made',
+      header: 'Calls Made',
       sortable: true
     },
     {
       key: 'conversion_rate',
-      label: 'Conversion Rate',
+      header: 'Conversion Rate',
       render: (row: CampaignPerformance) => `${row.conversion_rate}%`
     },
     {
       key: 'revenue_generated',
-      label: 'Revenue',
+      header: 'Revenue',
       render: (row: CampaignPerformance) => formatCurrency(row.revenue_generated)
     },
     {
       key: 'roi',
-      label: 'ROI',
+      header: 'ROI',
       render: (row: CampaignPerformance) => (
         <span className={`font-medium ${
           row.roi > 0 ? 'text-green-600' : 'text-red-600'
@@ -193,39 +192,40 @@ function ManagerDashboard() {
       <PageHeader 
         title="Manager Dashboard" 
         subtitle="Executive performance summaries and strategic analytics"
-      >
-        <div className="flex space-x-3">
-          <Select
-            value={selectedLocation}
-            onChange={setSelectedLocation}
-            options={[
-              { value: 'all', label: 'All Locations' },
-              { value: 'ann_arbor', label: 'Ann Arbor' },
-              { value: 'wixom', label: 'Wixom' },
-              { value: 'plymouth', label: 'Plymouth' }
-            ]}
-          />
-          <Select
-            value={selectedPeriod}
-            onChange={setSelectedPeriod}
-            options={[
-              { value: '7d', label: 'Last 7 Days' },
-              { value: '30d', label: 'Last 30 Days' },
-              { value: '90d', label: 'Last 90 Days' },
-              { value: '1y', label: 'Last Year' }
-            ]}
-          />
-          <Button variant="outline" onClick={exportReport}>
-            📊 Export Report
-          </Button>
-          <Button 
-            variant="primary"
-            onClick={() => window.location.href = '/management/campaigns'}
-          >
-            🎯 Manage Campaigns
-          </Button>
-        </div>
-      </PageHeader>
+        actions={
+          <div className="flex space-x-3">
+            <Select
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              options={[
+                { value: 'all', label: 'All Locations' },
+                { value: 'ann_arbor', label: 'Ann Arbor' },
+                { value: 'wixom', label: 'Wixom' },
+                { value: 'plymouth', label: 'Plymouth' }
+              ]}
+            />
+            <Select
+              value={selectedPeriod}
+              onChange={(e) => setSelectedPeriod(e.target.value)}
+              options={[
+                { value: '7d', label: 'Last 7 Days' },
+                { value: '30d', label: 'Last 30 Days' },
+                { value: '90d', label: 'Last 90 Days' },
+                { value: '1y', label: 'Last Year' }
+              ]}
+            />
+            <Button variant="outline" onClick={exportReport}>
+              📊 Export Report
+            </Button>
+            <Button 
+              variant="primary"
+              onClick={() => window.location.href = '/management/campaigns'}
+            >
+              🎯 Manage Campaigns
+            </Button>
+          </div>
+        }
+      />
 
       <div className="space-y-6">
         {/* Executive KPIs */}
@@ -233,36 +233,46 @@ function ManagerDashboard() {
           <StatCard
             title="Total Calls"
             value={data.executiveMetrics.total_calls || 0}
-            change={data.executiveMetrics.calls_change || 0}
-            trend={data.executiveMetrics.calls_trend || 'neutral'}
+            trend={data.executiveMetrics.calls_trend && data.executiveMetrics.calls_trend !== 'neutral' ? {
+              value: data.executiveMetrics.calls_change || 0,
+              direction: data.executiveMetrics.calls_trend as 'up' | 'down'
+            } : undefined}
             icon="phone"
           />
           <StatCard
             title="Revenue Impact"
             value={formatCurrency(data.executiveMetrics.revenue_attributed || 0)}
-            change={data.executiveMetrics.revenue_change || 0}
-            trend={data.executiveMetrics.revenue_trend || 'neutral'}
+            trend={data.executiveMetrics.revenue_trend && data.executiveMetrics.revenue_trend !== 'neutral' ? {
+              value: data.executiveMetrics.revenue_change || 0,
+              direction: data.executiveMetrics.revenue_trend as 'up' | 'down'
+            } : undefined}
             icon="dollar-sign"
           />
           <StatCard
             title="Avg Quality Score"
             value={`${data.executiveMetrics.avg_quality_score || 0}%`}
-            change={data.executiveMetrics.quality_change || 0}
-            trend={data.executiveMetrics.quality_trend || 'neutral'}
+            trend={data.executiveMetrics.quality_trend && data.executiveMetrics.quality_trend !== 'neutral' ? {
+              value: data.executiveMetrics.quality_change || 0,
+              direction: data.executiveMetrics.quality_trend as 'up' | 'down'
+            } : undefined}
             icon="star"
           />
           <StatCard
             title="Cost Per Call"
             value={formatCurrency(data.executiveMetrics.cost_per_call || 0)}
-            change={data.executiveMetrics.cost_change || 0}
-            trend={data.executiveMetrics.cost_trend === 'up' ? 'down' : 'up'} // Inverse for cost
+            trend={data.executiveMetrics.cost_trend && data.executiveMetrics.cost_trend !== 'neutral' ? {
+              value: data.executiveMetrics.cost_change || 0,
+              direction: data.executiveMetrics.cost_trend === 'up' ? 'down' : 'up' // Inverse for cost
+            } : undefined}
             icon="trending-down"
           />
           <StatCard
             title="Customer Satisfaction"
             value={`${data.executiveMetrics.customer_satisfaction || 0}/5`}
-            change={data.executiveMetrics.satisfaction_change || 0}
-            trend={data.executiveMetrics.satisfaction_trend || 'neutral'}
+            trend={data.executiveMetrics.satisfaction_trend && data.executiveMetrics.satisfaction_trend !== 'neutral' ? {
+              value: data.executiveMetrics.satisfaction_change || 0,
+              direction: data.executiveMetrics.satisfaction_trend as 'up' | 'down'
+            } : undefined}
             icon="heart"
           />
         </div>
@@ -271,107 +281,17 @@ function ManagerDashboard() {
           {/* Performance Trends */}
           <Card className="p-6">
             <h3 className="text-lg font-medium text-neutral-900 mb-4">Performance Trends</h3>
-            <Chart
-              type="line"
-              data={{
-                labels: data.executiveMetrics.trend_labels || [],
-                datasets: [
-                  {
-                    label: 'Call Volume',
-                    data: data.executiveMetrics.call_volume_trend || [],
-                    borderColor: 'rgb(59, 130, 246)',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y'
-                  },
-                  {
-                    label: 'Quality Score',
-                    data: data.executiveMetrics.quality_trend_data || [],
-                    borderColor: 'rgb(16, 185, 129)',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y1'
-                  }
-                ]
-              }}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: 'top' as const
-                  }
-                },
-                scales: {
-                  y: {
-                    type: 'linear' as const,
-                    display: true,
-                    position: 'left' as const,
-                    title: {
-                      display: true,
-                      text: 'Call Volume'
-                    }
-                  },
-                  y1: {
-                    type: 'linear' as const,
-                    display: true,
-                    position: 'right' as const,
-                    title: {
-                      display: true,
-                      text: 'Quality Score (%)'
-                    },
-                    grid: {
-                      drawOnChartArea: false,
-                    }
-                  }
-                }
-              }}
-            />
+            <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+              <p className="text-gray-500">Performance trend chart will be displayed here</p>
+            </div>
           </Card>
 
           {/* Revenue Analysis */}
           <Card className="p-6">
             <h3 className="text-lg font-medium text-neutral-900 mb-4">Revenue Analysis</h3>
-            <Chart
-              type="bar"
-              data={{
-                labels: ['Ann Arbor', 'Wixom', 'Plymouth'],
-                datasets: [
-                  {
-                    label: 'Revenue Attributed',
-                    data: data.locationMetrics.map(loc => loc.revenue_attributed),
-                    backgroundColor: [
-                      'rgba(59, 130, 246, 0.8)',
-                      'rgba(16, 185, 129, 0.8)',
-                      'rgba(245, 158, 11, 0.8)'
-                    ],
-                    borderColor: [
-                      'rgb(59, 130, 246)',
-                      'rgb(16, 185, 129)',
-                      'rgb(245, 158, 11)'
-                    ],
-                    borderWidth: 1
-                  }
-                ]
-              }}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    display: false
-                  }
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: {
-                      callback: function(value) {
-                        return formatCurrency(value as number);
-                      }
-                    }
-                  }
-                }
-              }}
-            />
+            <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+              <p className="text-gray-500">Revenue analysis chart will be displayed here</p>
+            </div>
           </Card>
         </div>
 
@@ -390,8 +310,6 @@ function ManagerDashboard() {
           <DataTable
             data={data.locationMetrics}
             columns={locationColumns}
-            pagination={{ enabled: false }}
-            searchable={false}
           />
         </Card>
 
@@ -410,8 +328,6 @@ function ManagerDashboard() {
           <DataTable
             data={data.campaignPerformance}
             columns={campaignColumns}
-            pagination={{ enabled: true, pageSize: 10 }}
-            searchable={true}
           />
         </Card>
 
@@ -489,6 +405,6 @@ function ManagerDashboard() {
   );
 }
 
-export default withAuth(ManagerDashboard, {
+export default withAuthComponent(ManagerDashboard, {
   requiredRoles: ['manager', 'superadmin']
 });

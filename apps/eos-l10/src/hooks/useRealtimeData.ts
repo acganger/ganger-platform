@@ -18,6 +18,7 @@ export interface RealtimeTeamData {
 export function useRealtimeData(teamId?: string): RealtimeTeamData {
   const { activeTeam } = useAuth();
   const currentTeamId = teamId || activeTeam?.id;
+  const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
 
   const [rocks, setRocks] = useState<Rock[]>([]);
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -28,6 +29,104 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
 
   useEffect(() => {
     if (!currentTeamId) {
+      setLoading(false);
+      return;
+    }
+    
+    if (isDemoMode) {
+      // Demo mode: Create sample data for testing
+      const mockRocks: Rock[] = [
+        {
+          id: 'rock-1',
+          team_id: currentTeamId,
+          owner_id: 'demo-user-123',
+          title: 'Implement Patient Portal Updates',
+          description: 'Modernize patient portal with new booking system',
+          quarter: 'Q2 2025',
+          status: 'on_track',
+          completion_percentage: 75,
+          priority: 1,
+          due_date: '2025-06-30',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          milestones: []
+        },
+        {
+          id: 'rock-2',
+          team_id: currentTeamId,
+          owner_id: 'demo-user-123',
+          title: 'Complete HIPAA Compliance Audit',
+          description: 'Annual security and compliance review',
+          quarter: 'Q2 2025',
+          status: 'complete',
+          completion_percentage: 100,
+          priority: 2,
+          due_date: '2025-05-15',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          milestones: []
+        }
+      ];
+
+      const mockIssues: Issue[] = [
+        {
+          id: 'issue-1',
+          team_id: currentTeamId,
+          title: 'Staff Training Scheduling Conflicts',
+          description: 'Multiple staff requesting same training dates',
+          type: 'process',
+          priority: 'medium',
+          status: 'identified',
+          created_by: 'demo-user-123',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      ];
+
+      const mockTodos: Todo[] = [
+        {
+          id: 'todo-1',
+          team_id: currentTeamId,
+          title: 'Review Q2 Budget Reports',
+          description: 'Analyze departmental spending vs projections',
+          assigned_to: 'demo-user-123',
+          created_by: 'demo-user-123',
+          due_date: '2025-06-20',
+          status: 'pending',
+          priority: 'high',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      ];
+
+      const mockMeetings: L10Meeting[] = [
+        {
+          id: 'meeting-1',
+          team_id: currentTeamId,
+          title: 'Weekly Leadership Team L10',
+          scheduled_date: '2025-06-18',
+          start_time: '09:00',
+          end_time: '10:30',
+          status: 'scheduled',
+          facilitator_id: 'demo-user-123',
+          agenda: {
+            segue: { duration: 5, completed: false },
+            scorecard: { duration: 5, completed: false },
+            rock_review: { duration: 5, completed: false },
+            customer_employee_headlines: { duration: 5, completed: false },
+            todo_review: { duration: 5, completed: false },
+            ids: { duration: 60, completed: false },
+            conclude: { duration: 5, completed: false }
+          },
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      ];
+
+      setRocks(mockRocks);
+      setIssues(mockIssues);
+      setTodos(mockTodos);
+      setMeetings(mockMeetings);
       setLoading(false);
       return;
     }

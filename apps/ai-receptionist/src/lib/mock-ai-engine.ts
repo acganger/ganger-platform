@@ -619,7 +619,7 @@ export class MockAIEngine {
   /**
    * Generate verification response
    */
-  private async generateVerificationResponse(userInput: string, history: ConversationTurn[], patientContext?: any): Promise<string> {
+  private async generateVerificationResponse(_userInput: string, _history: ConversationTurn[], _patientContext?: any): Promise<string> {
     // This needs to be async to handle verification service calls
     // For now, return a placeholder - this should be called from an async context
     return "For security purposes, I need to verify your identity. I'll send a verification code to your registered phone number. Please check your phone for a text message and say the word you receive.";
@@ -628,7 +628,7 @@ export class MockAIEngine {
   /**
    * Generate appointment SMS response
    */
-  private async generateAppointmentSMSResponse(userInput: string, history: ConversationTurn[], patientContext?: any): Promise<string> {
+  private async generateAppointmentSMSResponse(_userInput: string, _history: ConversationTurn[], _patientContext?: any): Promise<string> {
     // This needs to be async to handle SMS service calls
     // For now, return a placeholder - this should be called from an async context
     return "I'd be happy to text you your appointment details. Let me send that information to your registered phone number right now.";
@@ -746,7 +746,7 @@ export class MockAIEngine {
   /**
    * Check if verification is required for the request
    */
-  private requiresVerification(userInput: string, history: ConversationTurn[]): boolean {
+  private requiresVerification(userInput: string, _history: ConversationTurn[]): boolean {
     const input = userInput.toLowerCase();
     
     // Require verification for sensitive requests

@@ -12,9 +12,23 @@ module.exports = {
     extend: {
       colors: {
         inventory: {
-          primary: 'rgb(var(--inventory-primary) / <alpha-value>)',
-          secondary: 'rgb(var(--inventory-secondary) / <alpha-value>)',
-          accent: 'rgb(var(--inventory-accent) / <alpha-value>)'
+          primary: '#22c55e',   // Maps to success-500 from base config (green for inventory)
+          secondary: '#3b82f6', // Maps to primary-500 from base config
+          accent: '#f59e0b',    // Maps to warning-500 from base config
+          success: '#22c55e',
+          warning: '#f59e0b', 
+          error: '#ef4444',
+          info: '#3b82f6'
+        }
+      },
+      animation: {
+        'barcode-scan': 'scan 2s ease-in-out infinite',
+        'stock-update': 'pulse 1.5s ease-in-out infinite'
+      },
+      keyframes: {
+        scan: {
+          '0%, 100%': { transform: 'translateY(-100%)' },
+          '50%': { transform: 'translateY(100%)' }
         }
       }
     }

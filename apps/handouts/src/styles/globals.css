@@ -24,7 +24,7 @@
 
 @layer components {
   .handouts-gradient {
-    @apply bg-gradient-to-br from-handouts-primary/5 to-handouts-secondary/5;
+    @apply bg-gradient-to-br from-blue-50 to-purple-50;
   }
   
   .handouts-card {
@@ -32,19 +32,19 @@
   }
   
   .category-education {
-    @apply bg-handouts-education/10 text-handouts-education border-handouts-education/20;
+    @apply bg-green-100 text-green-800 border-green-200;
   }
   
   .category-treatment {
-    @apply bg-handouts-treatment/10 text-handouts-treatment border-handouts-treatment/20;
+    @apply bg-orange-100 text-orange-800 border-orange-200;
   }
   
   .category-medication {
-    @apply bg-handouts-medication/10 text-handouts-medication border-handouts-medication/20;
+    @apply bg-purple-100 text-purple-800 border-purple-200;
   }
   
   .category-procedure {
-    @apply bg-handouts-procedure/10 text-handouts-procedure border-handouts-procedure/20;
+    @apply bg-red-100 text-red-800 border-red-200;
   }
   
   .template-complexity-simple {

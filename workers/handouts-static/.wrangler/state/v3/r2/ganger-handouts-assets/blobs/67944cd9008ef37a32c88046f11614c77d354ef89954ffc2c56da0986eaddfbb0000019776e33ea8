@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><meta charSet="utf-8"/><meta name="description" content="Ganger Platform - Rapid Custom Handouts Generator"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="icon" href="/favicon.ico"/><link rel="manifest" href="/manifest.json"/><meta name="theme-color" content="#7c3aed"/><style>
+            :root {
+              --handouts-primary: 124 58 237;
+              --handouts-secondary: 16 185 129;
+              --handouts-accent: 245 101 101;
+              --handouts-education: 249 115 22;
+              --handouts-treatment: 34 197 94;
+              --handouts-medication: 168 85 247;
+              --handouts-procedure: 59 130 246;
+            }
+            
+            .camera-overlay {
+              position: relative;
+              overflow: hidden;
+            }
+            
+            .scan-line {
+              position: absolute;
+              width: 100%;
+              height: 2px;
+              background: linear-gradient(90deg, transparent, #7c3aed, transparent);
+              animation: scan 2s ease-in-out infinite;
+            }
+          </style><link rel="preload" href="/_next/static/css/ef46db3751d8e999.css" as="style"/><link rel="stylesheet" href="/_next/static/css/ef46db3751d8e999.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/_next/static/chunks/webpack-e1078e63206812e8.js" defer=""></script><script src="/_next/static/chunks/framework-e0f347a11a70369e.js" defer=""></script><script src="/_next/static/chunks/main-a99b11475da7a0fd.js" defer=""></script><script src="/_next/static/chunks/pages/_app-ee05c3c7cbce9493.js" defer=""></script><script src="/_next/static/chunks/pages/index-3fa7e0faa3eed111.js" defer=""></script><script src="/_next/static/3rznzGU-05Z8YFSyw8XiP/_buildManifest.js" defer=""></script><script src="/_next/static/3rznzGU-05Z8YFSyw8XiP/_ssgManifest.js" defer=""></script></head><body><div id="__next"><div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50"><div class="text-center space-y-6 max-w-md mx-auto p-8"><div class="space-y-2"><h1 class="text-4xl font-bold text-gray-900">Handouts Generator</h1><p class="text-lg text-gray-600">Rapid Custom Patient Education Materials</p></div><div class="text-sm text-gray-500">Redirecting to generator...</div></div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/","query":{},"buildId":"3rznzGU-05Z8YFSyw8XiP","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>

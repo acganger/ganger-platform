@@ -1,14 +1,118 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+// Lazy-loaded clients to avoid build-time issues
+let _supabaseClient: any = null;
+let _supabaseAdminClient: any = null;
+
+function getSupabaseUrl() {
+  return process.env.NEXT_PUBLIC_SUPABASE_URL;
+}
+
+function getSupabaseKey() {
+  return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+}
+
+function getSupabaseServiceKey() {
+  return process.env.SUPABASE_SERVICE_ROLE_KEY;
+}
 
 // Client for browser/client-side operations
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export function getSupabaseClient() {
+  if (_supabaseClient) {
+    return _supabaseClient;
+  }
+
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseKey = getSupabaseKey();
+
+  if (!supabaseUrl || !supabaseKey) {
+    // Return mock client for build-time
+    return {
+      auth: {
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+      },
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            single: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+            limit: () => Promise.resolve({ data: [], error: null })
+          }),
+          limit: () => Promise.resolve({ data: [], error: null }),
+          order: () => Promise.resolve({ data: [], error: null })
+        }),
+        insert: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+        update: () => ({
+          eq: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } })
+        }),
+        delete: () => ({
+          eq: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } })
+        })
+      }),
+      rpc: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } })
+    } as any;
+  }
+
+  _supabaseClient = createClient(supabaseUrl, supabaseKey);
+  return _supabaseClient;
+}
 
 // Admin client for server-side operations with elevated permissions
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+export function getSupabaseAdminClient() {
+  if (_supabaseAdminClient) {
+    return _supabaseAdminClient;
+  }
+
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseServiceKey = getSupabaseServiceKey();
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    // Return mock client for build-time
+    return {
+      auth: {
+        admin: {
+          createUser: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+          updateUserById: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+          deleteUser: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+        }
+      },
+      from: () => ({
+        select: () => ({
+          eq: () => ({
+            single: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+            limit: () => Promise.resolve({ data: [], error: null })
+          }),
+          limit: () => Promise.resolve({ data: [], error: null }),
+          order: () => Promise.resolve({ data: [], error: null })
+        }),
+        insert: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } }),
+        update: () => ({
+          eq: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } })
+        }),
+        delete: () => ({
+          eq: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } })
+        })
+      }),
+      rpc: () => Promise.resolve({ data: null, error: { message: 'Not available during build' } })
+    } as any;
+  }
+
+  _supabaseAdminClient = createClient(supabaseUrl, supabaseServiceKey);
+  return _supabaseAdminClient;
+}
+
+// Export getters for backward compatibility
+export const supabase = new Proxy({} as any, {
+  get(target, prop) {
+    return getSupabaseClient()[prop];
+  }
+});
+
+export const supabaseAdmin = new Proxy({} as any, {
+  get(target, prop) {
+    return getSupabaseAdminClient()[prop];
+  }
+});
 
 // Database configuration
 export const dbConfig = {

@@ -1,0 +1,22 @@
+name = "ganger-batch-closeout-v2"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "BATCH_CLOSEOUT_BUCKET"
+bucket_name = "ganger-batch-closeout"
+preview_bucket_name = "ganger-batch-closeout-preview"
+
+[env.production]
+name = "ganger-batch-closeout-v2"
+
+[[env.production.r2_buckets]]
+binding = "BATCH_CLOSEOUT_BUCKET"
+bucket_name = "ganger-batch-closeout-production"
+
+[env.staging]
+name = "ganger-batch-closeout-staging"
+
+[[env.staging.r2_buckets]]
+binding = "BATCH_CLOSEOUT_BUCKET"
+bucket_name = "ganger-batch-closeout-staging"

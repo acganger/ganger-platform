@@ -1,7 +1,7 @@
-'use client'
+
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuth } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth';
 import { AppLayout, PageHeader, Card, Button } from '@ganger/ui';
 // Remove User import as it's not needed - user type comes from auth context
 

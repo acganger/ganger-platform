@@ -1,7 +1,5 @@
-'use client'
-
 import { useState, useEffect } from 'react';
-import { useAuth, withAuth } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -337,22 +335,22 @@ function CallHistoryPage() {
             
             <Select
               value={filters.location || ''}
-              onChange={(value) => handleFilterChange('location', value)}
+              onChange={(e) => handleFilterChange('location', e.target.value)}
               options={[
-                { value: '', label: 'All Locations' },
-                { value: 'Ann Arbor', label: 'Ann Arbor' },
-                { value: 'Wixom', label: 'Wixom' },
-                { value: 'Plymouth', label: 'Plymouth' }
+                { value: 'all', label: 'All Locations' },
+                { value: 'ann_arbor', label: 'Ann Arbor' },
+                { value: 'wixom', label: 'Wixom' },
+                { value: 'plymouth', label: 'Plymouth' }
               ]}
               placeholder="Location"
             />
             
-            {(user?.role === 'clinical_staff' || user?.role === 'manager' || user?.role === 'superadmin') && (
+            {(user?.role === 'manager' || user?.role === 'superadmin') && (
               <Select
                 value={filters.agent || ''}
-                onChange={(value) => handleFilterChange('agent', value)}
+                onChange={(e) => handleFilterChange('agent', e.target.value)}
                 options={[
-                  { value: '', label: 'All Agents' },
+                  { value: 'all', label: 'All Agents' },
                 ]}
                 placeholder="Agent"
               />
@@ -360,9 +358,9 @@ function CallHistoryPage() {
             
             <Select
               value={filters.period || ''}
-              onChange={(value) => handleFilterChange('period', value)}
+              onChange={(e) => handleFilterChange('period', e.target.value)}
               options={[
-                { value: '1d', label: 'Today' },
+                { value: 'today', label: 'Today' },
                 { value: '7d', label: 'Last 7 Days' },
                 { value: '30d', label: 'Last 30 Days' },
                 { value: '90d', label: 'Last 90 Days' }
@@ -561,6 +559,6 @@ function CallDetailsView({
   );
 }
 
-export default withAuth(CallHistoryPage, {
-  requiredRoles: ['staff', 'clinical_staff', 'manager', 'superadmin']
+export default withAuthComponent(CallHistoryPage, {
+  requiredRoles: ['staff', 'manager', 'superadmin']
 });

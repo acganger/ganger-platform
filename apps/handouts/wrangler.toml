@@ -1,0 +1,23 @@
+name = "handouts-generator"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "HANDOUTS_BUCKET"
+bucket_name = "handouts-generator"
+preview_bucket_name = "handouts-generator-preview"
+
+[env.production]
+name = "handouts-generator-production"
+route = { pattern = "handouts.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+
+[[env.production.r2_buckets]]
+binding = "HANDOUTS_BUCKET"
+bucket_name = "handouts-generator-production"
+
+[env.staging]
+name = "handouts-generator-staging"
+
+[[env.staging.r2_buckets]]
+binding = "HANDOUTS_BUCKET"
+bucket_name = "handouts-generator-staging"

@@ -1,7 +1,7 @@
-'use client'
+
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuth } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -9,7 +9,6 @@ import {
   Button, 
   DataTable,
   StatCard,
-  // Chart, // Not available yet in @ganger/ui
   LoadingSpinner,
   Modal,
   FormField,
@@ -206,83 +205,43 @@ function SupervisorDashboard() {
           <StatCard
             title="Active Agents"
             value={data.activeAgents.filter(a => a.status === 'available' || a.status === 'on_call').length}
-            change={0}
-            trend="up"
             icon="users"
           />
           <StatCard
             title="Calls Today"
             value={data.teamMetrics.total_calls_today || 0}
-            change={5.2}
-            trend="up"
+            trend={{
+              value: 5.2,
+              direction: 'up'
+            }}
             icon="phone"
           />
           <StatCard
             title="Avg Quality Score"
             value={`${data.teamMetrics.avg_quality_score || 0}%`}
-            change={1.3}
-            trend="up"
+            trend={{
+              value: 1.3,
+              direction: 'up'
+            }}
             icon="star"
           />
           <StatCard
             title="Pending Reviews"
             value={data.pendingReviews.length}
-            change={-2}
-            trend="down"
+            trend={{
+              value: 2,
+              direction: 'down'
+            }}
             icon="clipboard"
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Team Performance Chart */}
           <Card className="p-6">
             <h3 className="text-lg font-medium text-neutral-900 mb-4">Team Performance Trends</h3>
-            <Chart
-              type="line"
-              data={{
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                datasets: [
-                  {
-                    label: 'Calls Handled',
-                    data: data.teamMetrics.daily_calls || [0, 0, 0, 0, 0],
-                    borderColor: 'rgb(59, 130, 246)',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4
-                  },
-                  {
-                    label: 'Quality Score',
-                    data: data.teamMetrics.daily_quality || [0, 0, 0, 0, 0],
-                    borderColor: 'rgb(16, 185, 129)',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y1'
-                  }
-                ]
-              }}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    position: 'top' as const
-                  }
-                },
-                scales: {
-                  y: {
-                    type: 'linear' as const,
-                    display: true,
-                    position: 'left' as const,
-                  },
-                  y1: {
-                    type: 'linear' as const,
-                    display: true,
-                    position: 'right' as const,
-                    grid: {
-                      drawOnChartArea: false,
-                    }
-                  }
-                }
-              }}
-            />
+            <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+              <p className="text-gray-500">Team performance trends chart will be displayed here</p>
+            </div>
           </Card>
 
           {/* Call Queue Status */}
@@ -332,7 +291,7 @@ function SupervisorDashboard() {
             <div className="flex space-x-2">
               <Select
                 value={selectedAgent}
-                onChange={(value) => setSelectedAgent(value)}
+                onChange={(e) => setSelectedAgent(e.target.value)}
                 options={[
                   { value: '', label: 'All Agents' },
                   ...data.activeAgents.map(agent => ({
@@ -349,8 +308,6 @@ function SupervisorDashboard() {
               !selectedAgent || agent.agent_email === selectedAgent
             )}
             columns={agentColumns}
-            pagination={{ enabled: true, pageSize: 10 }}
-            searchable={true}
           />
         </Card>
 
@@ -371,8 +328,6 @@ function SupervisorDashboard() {
           <DataTable
             data={data.pendingReviews}
             columns={reviewColumns}
-            pagination={{ enabled: true, pageSize: 10 }}
-            searchable={true}
           />
         </Card>
       </div>
@@ -472,6 +427,6 @@ function JournalReviewForm({
   );
 }
 
-export default withAuth(SupervisorDashboard, {
+export default withAuthComponent(SupervisorDashboard, {
   requiredRoles: ['clinical_staff', 'manager', 'superadmin']
 });

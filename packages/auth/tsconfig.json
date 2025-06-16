@@ -3,6 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": ".",
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
     "paths": {
       "@ganger/*": ["../*/src"]
     }

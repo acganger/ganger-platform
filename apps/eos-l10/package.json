@@ -14,7 +14,6 @@
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "@ganger/auth": "workspace:*",
     "@hello-pangea/dnd": "^16.3.0",
     "@hookform/resolvers": "^3.3.0",
     "@supabase/ssr": "^0.1.0",

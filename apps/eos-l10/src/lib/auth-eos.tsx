@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
+// Temporarily removing universal auth to fix build issue
 import { supabase } from './supabase';
 import { Team, TeamMember } from '@/types/eos';
 
@@ -28,9 +29,52 @@ export function EOSAuthProvider({ children }: { children: ReactNode }) {
   const [userRole, setUserRole] = useState<TeamMember['role'] | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Check if we're in demo mode for user testing
+  const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
   // Get initial session
   useEffect(() => {
     const getSession = async () => {
+      if (isDemoMode) {
+        // Demo mode: Create mock user and team data for testing
+        const mockUser = {
+          id: 'demo-user-123',
+          email: 'demo@gangerdermatology.com',
+          user_metadata: {
+            full_name: 'Demo User',
+            avatar_url: null
+          },
+          app_metadata: {},
+          aud: 'authenticated',
+          created_at: new Date().toISOString()
+        } as User;
+        
+        const mockTeam: Team = {
+          id: 'demo-team-123',
+          name: 'Ganger Dermatology Demo Team',
+          description: 'Demo team for testing L10 functionality',
+          owner_id: 'demo-user-123',
+          settings: {
+            meeting_day: 'monday',
+            meeting_time: '09:00',
+            timezone: 'America/New_York',
+            meeting_duration: 90,
+            scorecard_frequency: 'weekly',
+            rock_quarters: ['Q2 2025', 'Q3 2025']
+          },
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        setUser(mockUser);
+        setSession({ user: mockUser } as Session);
+        setUserTeams([mockTeam]);
+        setActiveTeam(mockTeam);
+        setUserRole('leader');
+        setLoading(false);
+        return;
+      }
+
       const { data: { session }, error } = await supabase.auth.getSession();
       if (error) {
       } else {
@@ -74,6 +118,7 @@ export function EOSAuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user]);
 
+
   // Update user role when active team changes
   useEffect(() => {
     if (activeTeam && user) {
@@ -96,6 +141,7 @@ export function EOSAuthProvider({ children }: { children: ReactNode }) {
     if (!user) return;
 
     try {
+      setTeamsLoading(true);
       const { data: memberships } = await supabase
         .from('team_members')
         .select(`
@@ -124,6 +170,9 @@ export function EOSAuthProvider({ children }: { children: ReactNode }) {
         setActiveTeam(teams[0]);
       }
     } catch (error) {
+      console.error('Error loading user teams:', error);
+    } finally {
+      setTeamsLoading(false);
     }
   };
 

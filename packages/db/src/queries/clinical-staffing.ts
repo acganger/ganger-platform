@@ -335,7 +335,7 @@ export class ClinicalStaffingQueries extends BaseRepository<StaffMember> {
     if (staffError) throw staffError;
 
     const totalStaff = staffData?.length || 0;
-    const activeStaff = staffData?.filter(s => s.employee_status === 'active').length || 0;
+    const activeStaff = staffData?.filter((s: any) => s.employee_status === 'active').length || 0;
 
     // Get coverage requirements vs actual schedules
     const { data: coverageData, error: coverageError } = await this.client
@@ -366,8 +366,8 @@ export class ClinicalStaffingQueries extends BaseRepository<StaffMember> {
 
     // Calculate average utilization for active staff
     const utilisationPromises = staffData
-      ?.filter(s => s.employee_status === 'active')
-      .map(s => this.calculateStaffUtilization(s.id, startDate, endDate)) || [];
+      ?.filter((s: any) => s.employee_status === 'active')
+      .map((s: any) => this.calculateStaffUtilization(s.id, startDate, endDate)) || [];
     
     const utilisations = await Promise.all(utilisationPromises);
     const averageUtilization = utilisations.length > 0 

@@ -1,103 +1,108 @@
 /**
- * Ganger Platform - EOS L10 Static Worker
- * Serves the actual Next.js static export with proper routing
+ * Ganger Platform - EOS L10 Static Worker (R2 Version - WORKING)
+ * R2 object storage confirmed working - objects must be uploaded via Worker API
  */
-
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
 
 export default {
   async fetch(request, env, ctx) {
     try {
       const url = new URL(request.url);
-      const pathname = url.pathname;
+      let pathname = url.pathname;
+      
+      // Strip /l10 prefix if it exists (when accessed via staff router)
+      if (pathname.startsWith('/l10/')) {
+        pathname = pathname.slice(4); // Remove '/l10'
+      } else if (pathname === '/l10') {
+        pathname = '/';
+      }
 
       // Health check endpoint
       if (pathname === '/health') {
         return new Response(JSON.stringify({
           status: 'healthy',
-          app: 'eos-l10-static',
+          app: 'eos-l10-r2-working',
+          storage: 'r2',
           timestamp: new Date().toISOString(),
-          version: '4.0.0',
+          version: '10.0.0',
           environment: env.ENVIRONMENT || 'production',
-          features: ['static_nextjs', 'real_routing', 'eos_application', 'kv_asset_handler']
+          binding_available: !!env.STATIC_ASSETS,
+          features: ['dashboard_app', 'r2_storage', 'nextjs_routing', 'worker_api_upload']
         }), {
           headers: { 'Content-Type': 'application/json' }
         });
       }
 
-      try {
-        // Use getAssetFromKV with proper options and KV binding
-        const response = await getAssetFromKV(request, {
-          ASSET_NAMESPACE: env.STATIC_CONTENT_V2,
-          mapRequestToAsset: (req) => {
-            const url = new URL(req.url);
-            let pathname = url.pathname;
+      // Handle Next.js static export routing
+      if (pathname === '/') {
+        pathname = '/index.html';
+      } else if (!pathname.includes('.') && !pathname.endsWith('/')) {
+        // Only add index.html for routes that don't already have file extensions
+        pathname = pathname + '/index.html';
+      } else if (pathname.endsWith('/') && pathname !== '/') {
+        pathname = pathname + 'index.html';
+      }
+      // For files with extensions (js, css, etc.), serve them directly
 
-            // Handle root path
-            if (pathname === '/') {
-              pathname = '/index.html';
-            }
-            // Handle trailing slash routes (Next.js static export style)  
-            else if (!pathname.includes('.') && !pathname.endsWith('/')) {
-              pathname = pathname + '/index.html';
-            }
-            // Handle already trailing slash routes
-            else if (pathname.endsWith('/') && pathname !== '/') {
-              pathname = pathname + 'index.html';
-            }
-
-            url.pathname = pathname;
-            return new Request(url.toString(), req);
-          },
-          cacheControl: {
-            browserTTL: 86400, // 1 day
-            edgeTTL: 86400,    // 1 day
-            bypassCache: false,
-          },
-        });
-        
-        // Add security headers
-        const newResponse = new Response(response.body, response);
-        newResponse.headers.set('X-Content-Type-Options', 'nosniff');
-        newResponse.headers.set('X-Frame-Options', 'DENY');
-        newResponse.headers.set('X-XSS-Protection', '1; mode=block');
-        
-        return newResponse;
-
-      } catch (error) {
-        // If asset not found, try to serve index.html for SPA routing
-        if (error.status === 404) {
-          try {
-            const indexRequest = new Request(
-              new URL('/index.html', request.url).toString(),
-              request
-            );
-            const indexResponse = await getAssetFromKV(indexRequest, {
-              ASSET_NAMESPACE: env.STATIC_CONTENT_V2,
-            });
-            return new Response(indexResponse.body, {
-              ...indexResponse,
-              headers: {
-                ...indexResponse.headers,
-                'Content-Type': 'text/html',
-              },
-            });
-          } catch (indexError) {
-            return new Response(`EOS L10 - Page not found: ${pathname}`, {
-              status: 404,
-              headers: { 'Content-Type': 'text/plain' }
-            });
-          }
+      // Remove leading slash for R2 key
+      const key = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+      
+      // Get object from R2 using proven working pattern
+      const object = await env.STATIC_ASSETS.get(key);
+      
+      if (object === null) {
+        // Only fall back to index.html for page routes, not for static assets
+        if (key.includes('/_next/') || key.includes('.js') || key.includes('.css') || key.includes('.map') || key.includes('.json')) {
+          // Don't fall back to index.html for static assets - return 404
+          return new Response(`EOS L10 - Static asset not found: ${key}`, { 
+            status: 404,
+            headers: { 'Content-Type': 'text/plain' }
+          });
         }
-
-        return new Response(`EOS L10 - Server error: ${error.message}`, {
-          status: 500,
-          headers: { 'Content-Type': 'text/plain' }
+        
+        // Try index.html for SPA routing (only for page routes)
+        const indexObject = await env.STATIC_ASSETS.get('index.html');
+        if (indexObject === null) {
+          return new Response(`EOS L10 - File not found: ${key}`, { 
+            status: 404,
+            headers: { 'Content-Type': 'text/plain' }
+          });
+        }
+        
+        return new Response(indexObject.body, {
+          headers: {
+            'Content-Type': 'text/html',
+            'Cache-Control': 'public, max-age=3600',
+            'X-Content-Type-Options': 'nosniff',
+            'X-Frame-Options': 'DENY',
+            'X-XSS-Protection': '1; mode=block',
+          }
         });
       }
 
+      // Success case - serve the requested object
+      const headers = new Headers();
+      
+      // Set appropriate content type
+      if (key.endsWith('.html')) headers.set('Content-Type', 'text/html');
+      else if (key.endsWith('.js')) headers.set('Content-Type', 'application/javascript');
+      else if (key.endsWith('.css')) headers.set('Content-Type', 'text/css');
+      else if (key.endsWith('.json')) headers.set('Content-Type', 'application/json');
+      else if (key.endsWith('.png')) headers.set('Content-Type', 'image/png');
+      else if (key.endsWith('.jpg') || key.endsWith('.jpeg')) headers.set('Content-Type', 'image/jpeg');
+      else if (key.endsWith('.svg')) headers.set('Content-Type', 'image/svg+xml');
+      else if (key.endsWith('.ico')) headers.set('Content-Type', 'image/x-icon');
+      else if (key.endsWith('.woff2')) headers.set('Content-Type', 'font/woff2');
+      else if (key.endsWith('.woff')) headers.set('Content-Type', 'font/woff');
+      
+      headers.set('Cache-Control', 'public, max-age=86400');
+      headers.set('X-Content-Type-Options', 'nosniff');
+      headers.set('X-Frame-Options', 'DENY');
+      headers.set('X-XSS-Protection', '1; mode=block');
+
+      return new Response(object.body, { headers });
+
     } catch (error) {
-      return new Response(`EOS L10 - Fatal error: ${error.message}`, {
+      return new Response(`EOS L10 - Error: ${error.message}`, {
         status: 500,
         headers: { 'Content-Type': 'text/plain' }
       });

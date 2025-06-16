@@ -1,8 +1,10 @@
-'use client'
-
 import { BatchProtocolLayout } from '@/components/protocol/BatchProtocolLayout'
-import { CheckCircleIcon, ClockIcon, CreditCardIcon } from 'lucide-react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { 
+  CheckCircleIcon, 
+  ClockIcon, 
+  CreditCardIcon,
+  ExclamationTriangleIcon 
+} from '@heroicons/react/24/outline'
 
 // Mock data for batch processing
 const batchSummary = {

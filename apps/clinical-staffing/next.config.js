@@ -4,7 +4,16 @@
  * Uses standardized configuration from @ganger/config
  */
 
-const { createNextConfig } = require('@ganger/config/next-config-template');
+// Static export configuration for R2 deployment
+const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  eslint: { ignoreDuringBuilds: true },
+  images: { domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'], unoptimized: true },
+};
 
 // App-specific configuration
 const appSpecificConfig = {
@@ -36,21 +45,20 @@ const appSpecificConfig = {
     return config;
   },
 
-  // Redirects specific to clinical staffing
-  async redirects() {
-    return [
-      {
-        source: '/staffing',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/schedule',
-        destination: '/',
-        permanent: true,
-      },
-    ];
-  },
+  // Note: redirects removed for static export compatibility
 };
 
-module.exports = createNextConfig('clinical-staffing', appSpecificConfig);
+// Merge app-specific config with base config
+const finalConfig = {
+  ...nextConfig,
+  ...appSpecificConfig,
+  transpilePackages: [
+    ...nextConfig.transpilePackages,
+    'react-beautiful-dnd',
+    '@dnd-kit/core',
+    '@dnd-kit/sortable',
+    '@dnd-kit/utilities',
+  ],
+};
+
+module.exports = finalConfig;

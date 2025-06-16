@@ -5,8 +5,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { AppLayout, Button, Card, LoadingSpinner } from '@ganger/ui';
 import { User, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
 import { PaymentProcessor } from '@/components/PaymentProcessor';
-import { PaymentResult } from '@ganger/integrations';
 import type { CheckInSession, CheckInStep } from '@/types/kiosk';
+
+// Mock type for static build
+interface PaymentResult {
+  success: boolean;
+  status: string;
+}
 
 export default function CheckInKiosk() {
   const [session, setSession] = useState<CheckInSession | null>(null);

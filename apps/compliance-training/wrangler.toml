@@ -1,0 +1,23 @@
+name = "compliance-training"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "COMPLIANCE_TRAINING_BUCKET"
+bucket_name = "compliance-training"
+preview_bucket_name = "compliance-training-preview"
+
+[env.production]
+name = "compliance-training-production"
+route = { pattern = "compliance.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+
+[[env.production.r2_buckets]]
+binding = "COMPLIANCE_TRAINING_BUCKET"  
+bucket_name = "compliance-training-production"
+
+[env.staging]
+name = "compliance-training-staging"
+
+[[env.staging.r2_buckets]]
+binding = "COMPLIANCE_TRAINING_BUCKET"
+bucket_name = "compliance-training-staging"

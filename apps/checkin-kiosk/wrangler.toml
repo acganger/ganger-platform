@@ -1,0 +1,22 @@
+name = "ganger-checkin-kiosk-v2"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "CHECKIN_KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk"
+preview_bucket_name = "ganger-checkin-kiosk-preview"
+
+[env.production]
+name = "ganger-checkin-kiosk-v2"
+
+[[env.production.r2_buckets]]
+binding = "CHECKIN_KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk-production"
+
+[env.staging]
+name = "ganger-checkin-kiosk-staging"
+
+[[env.staging.r2_buckets]]
+binding = "CHECKIN_KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk-staging"

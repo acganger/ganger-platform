@@ -4,8 +4,54 @@
  */
 
 const WORKER_ROUTES = {
-  '/l10': 'ganger-eos-l10-v2.michiganger.workers.dev',
-  '/eos-l10': 'ganger-eos-l10-v2.michiganger.workers.dev'
+  // Core Applications (Currently Live)
+  '/l10': 'ganger-l10-production.michiganger.workers.dev',
+  '/eos-l10': 'ganger-l10-production.michiganger.workers.dev',
+  '/ai-receptionist': 'ganger-ai-receptionist-prod.michiganger.workers.dev',
+  '/receptionist': 'ganger-ai-receptionist-prod.michiganger.workers.dev',
+  '/batch-closeout': 'ganger-batch-closeout-prod.michiganger.workers.dev',
+  '/batch': 'ganger-batch-closeout-prod.michiganger.workers.dev',
+  '/handouts': 'ganger-handouts-production.michiganger.workers.dev',
+  '/inventory': 'ganger-inventory-production.michiganger.workers.dev',
+  
+  // Medical Applications (Ready for Deployment)
+  '/medication-auth': 'ganger-medication-auth-production.michiganger.workers.dev',
+  '/meds': 'ganger-medication-auth-production.michiganger.workers.dev',
+  '/checkin-kiosk': 'ganger-checkin-kiosk-production.michiganger.workers.dev',
+  '/kiosk': 'ganger-checkin-kiosk-production.michiganger.workers.dev',
+  '/call-center-ops': 'ganger-call-center-ops-production.michiganger.workers.dev',
+  '/call-center': 'ganger-call-center-ops-production.michiganger.workers.dev',
+  
+  // Staff Management Applications  
+  '/clinical-staffing': 'ganger-clinical-staffing-production.michiganger.workers.dev',
+  '/staffing': 'ganger-clinical-staffing-production.michiganger.workers.dev',
+  '/staff-portal': 'ganger-staff-production.michiganger.workers.dev',
+  '/staff-mgmt': 'ganger-staff-production.michiganger.workers.dev',
+  
+  // Training & Compliance
+  '/compliance-training': 'ganger-compliance-training-production.michiganger.workers.dev',
+  '/compliance': 'ganger-compliance-training-production.michiganger.workers.dev',
+  
+  // Pharmaceutical Services
+  '/pharma-scheduling': 'ganger-pharma-scheduling-production.michiganger.workers.dev',
+  '/pharma': 'ganger-pharma-scheduling-production.michiganger.workers.dev',
+  
+  // Platform Management
+  '/platform-dashboard': 'ganger-platform-dashboard-production.michiganger.workers.dev',
+  '/platform': 'ganger-platform-dashboard-production.michiganger.workers.dev',
+  '/config-dashboard': 'ganger-config-dashboard-production.michiganger.workers.dev',
+  '/config': 'ganger-config-dashboard-production.michiganger.workers.dev',
+  '/integration-status': 'ganger-integration-status-production.michiganger.workers.dev',
+  '/integrations': 'ganger-integration-status-production.michiganger.workers.dev',
+  
+  // Social Media & Reviews
+  '/socials-reviews': 'ganger-socials-reviews-production.michiganger.workers.dev',
+  '/socials': 'ganger-socials-reviews-production.michiganger.workers.dev',
+  '/reviews': 'ganger-socials-reviews-production.michiganger.workers.dev',
+  
+  // Development Tools
+  '/component-showcase': 'ganger-component-showcase-production.michiganger.workers.dev',
+  '/showcase': 'ganger-component-showcase-production.michiganger.workers.dev'
 };
 
 export default {
@@ -145,47 +191,214 @@ function getStaffPortalHTML() {
             </div>
 
             <!-- Application Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- EOS L10 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                
+                <!-- Core Medical Applications -->
                 <a href="/l10" class="group block">
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                            <span class="text-purple-600 text-xl">📊</span>
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-purple-600 text-lg">📊</span>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-purple-600">EOS L10</h3>
-                        <p class="text-sm text-gray-600 mt-1">Meeting management, scorecards, and rocks tracking</p>
-                        <div class="mt-3">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                ✅ Live
-                            </span>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-purple-600">EOS L10</h3>
+                        <p class="text-xs text-gray-600 mt-1">Meeting management & scorecards</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">✅ Live</span>
                         </div>
                     </div>
                 </a>
 
-                <!-- Coming Soon Applications -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 opacity-60">
-                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-                        <span class="text-gray-400 text-xl">🚧</span>
+                <a href="/ai-receptionist" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-blue-600 text-lg">🤖</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-blue-600">AI Receptionist</h3>
+                        <p class="text-xs text-gray-600 mt-1">AI call handling</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">✅ Live</span>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-500">More Applications</h3>
-                    <p class="text-sm text-gray-400 mt-1">Additional staff applications coming soon</p>
-                    <div class="mt-3">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                            🔨 In Development
-                        </span>
-                    </div>
-                </div>
+                </a>
 
-                <!-- Platform Status -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                        <span class="text-blue-600 text-xl">📈</span>
+                <a href="/batch-closeout" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-green-600 text-lg">💰</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-green-600">Batch Closeout</h3>
+                        <p class="text-xs text-gray-600 mt-1">Financial processing</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">✅ Live</span>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900">Platform Growth</h3>
-                    <p class="text-sm text-gray-600 mt-1">Applications added incrementally as they're completed</p>
-                    <div class="mt-3">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                            📊 1 of 15 Apps Live
+                </a>
+
+                <a href="/medication-auth" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-purple-600 text-lg">💊</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-purple-600">Medication Auth</h3>
+                        <p class="text-xs text-gray-600 mt-1">Prior authorizations</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/checkin-kiosk" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-cyan-600 text-lg">🏥</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-cyan-600">Check-in Kiosk</h3>
+                        <p class="text-xs text-gray-600 mt-1">Patient self-service</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/call-center-ops" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-indigo-600 text-lg">📞</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-indigo-600">Call Center Ops</h3>
+                        <p class="text-xs text-gray-600 mt-1">Call management</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/clinical-staffing" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-pink-600 text-lg">👩‍⚕️</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-pink-600">Clinical Staffing</h3>
+                        <p class="text-xs text-gray-600 mt-1">Staff scheduling</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/staff-portal" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-gray-600 text-lg">👥</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-gray-600">Staff Portal</h3>
+                        <p class="text-xs text-gray-600 mt-1">Employee management</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/compliance-training" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-orange-600 text-lg">📚</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-orange-600">Compliance Training</h3>
+                        <p class="text-xs text-gray-600 mt-1">HIPAA & training</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/pharma-scheduling" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-teal-600 text-lg">💉</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-teal-600">Pharma Scheduling</h3>
+                        <p class="text-xs text-gray-600 mt-1">Injectable appointments</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/platform-dashboard" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-blue-600 text-lg">📈</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-blue-600">Platform Dashboard</h3>
+                        <p class="text-xs text-gray-600 mt-1">System overview</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/config-dashboard" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-red-600 text-lg">⚙️</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-red-600">Config Dashboard</h3>
+                        <p class="text-xs text-gray-600 mt-1">System configuration</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/integration-status" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-emerald-600 text-lg">🔗</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-emerald-600">Integration Status</h3>
+                        <p class="text-xs text-gray-600 mt-1">System monitoring</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/socials-reviews" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-violet-600 text-lg">⭐</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-violet-600">Social Reviews</h3>
+                        <p class="text-xs text-gray-600 mt-1">Review management</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/component-showcase" class="group block">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                        <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
+                            <span class="text-slate-600 text-lg">🎨</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-gray-900 group-hover:text-slate-600">Component Showcase</h3>
+                        <p class="text-xs text-gray-600 mt-1">UI components</p>
+                        <div class="mt-2">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">🚀 Ready</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Platform Status Summary -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                        <span class="text-blue-600 text-lg">📊</span>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-900">Platform Status</h3>
+                    <p class="text-xs text-gray-600 mt-1">Complete medical platform</p>
+                    <div class="mt-2">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            📈 16 Apps Ready
                         </span>
                     </div>
                 </div>

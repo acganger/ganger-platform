@@ -1,62 +1,32 @@
-// Hooks
-export { useAuth } from './hooks/useAuth';
+// Universal Authentication Package for Ganger Platform
+// Provides unified authentication across all applications
 
-// Providers
-export { AuthProvider, useAuthContext } from './providers/AuthProvider';
-
-// Middleware & HOCs (Client-side React components)
+// Core exports
+export { AuthProvider, useAuth, useAppAuth } from './context';
 export { 
-  withAuth as withAuthComponent, 
-  withRoles, 
-  withPermissions, 
-  withManagerAccess, 
-  withAdminAccess, 
-  withStaffAccess 
-} from './middleware/withAuth';
+  AuthGuard, 
+  withAuthGuard, 
+  useAuthGuard, 
+  ConditionalRender,
+  StaffOnly,
+  AdminOnly,
+  TeamMemberOnly,
+  TeamLeaderOnly
+} from './guards';
+export { getSupabaseClient, createAppSupabaseClient, getTypedSupabaseClient, supabase } from './supabase';
 
-// API Middleware (Server-side Next.js API routes)
-export {
-  withAuth,
-  withStaffAuth,
-  withManagerAuth,
-  withAdminAuth,
-  withHIPAACompliance,
-  withRateLimitedAuth,
-  AuthenticationError,
-  AuthorizationError,
-  HIPAAComplianceError
-} from './middleware/apiAuth';
-export type {
-  AuthenticatedRequest,
-  AuthMiddlewareOptions
-} from './middleware/apiAuth';
+// Re-export types
+export type { AuthConfig, UserProfile, Team, TeamSettings, TeamMember, AppPermission, AuthUser, AuthSession, AuthContextType, AuditLogEvent, AuthGuardLevel, AuthGuardProps } from './types';
+export type { Database, TypedSupabaseClient } from './supabase';
 
-// Utilities
-export { 
-  createSupabaseBrowserClient, 
-  createSupabaseServerClient, 
-  createSupabaseAdminClient 
-} from './utils/supabase';
-export { 
-  hasPermission, 
-  hasRole, 
-  hasLocationAccess, 
-  canAccessRoute, 
-  requirePermission, 
-  requireRole,
-  ROLE_PERMISSIONS 
-} from './utils/permissions';
+// Utility functions
+export * from './utils';
 
-// Types
-export type { 
-  User, 
-  UserRole, 
-  Permission, 
-  AuthSession, 
-  AuthError, 
-  LoginCredentials, 
-  SignUpData, 
-  AuthConfig,
-  RolePermissions 
-} from './types';
-export type { Database } from './types/database';
+// Default configuration
+export const DEFAULT_AUTH_CONFIG = {
+  supabaseUrl: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s',
+  redirectUrl: 'https://staff.gangerdermatology.com/auth/callback',
+  enableAuditLogging: true,
+  sessionTimeout: 86400
+};

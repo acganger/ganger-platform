@@ -1,0 +1,23 @@
+name = "config-dashboard"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "CONFIG_DASHBOARD_BUCKET"
+bucket_name = "config-dashboard"
+preview_bucket_name = "config-dashboard-preview"
+
+[env.production]
+name = "config-dashboard-production"
+route = { pattern = "config.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+
+[[env.production.r2_buckets]]
+binding = "CONFIG_DASHBOARD_BUCKET"  
+bucket_name = "config-dashboard-production"
+
+[env.staging]
+name = "config-dashboard-staging"
+
+[[env.staging.r2_buckets]]
+binding = "CONFIG_DASHBOARD_BUCKET"
+bucket_name = "config-dashboard-staging"

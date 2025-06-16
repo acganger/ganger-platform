@@ -4,9 +4,18 @@
  * Uses standardized configuration from @ganger/config
  */
 
-const { createNextConfig } = require('@ganger/config/next-config-template');
+// Static export configuration for R2 deployment
+const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  eslint: { ignoreDuringBuilds: true },
+  images: { domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'], unoptimized: true },
+};
 
-// App-specific configuration for check-in kiosk
+// App-specific configuration for check-in kiosk  
 const appSpecificConfig = {
   // Environment variables specific to check-in kiosk
   env: {
@@ -23,50 +32,7 @@ const appSpecificConfig = {
     '@stripe/react-stripe-js',
   ],
 
-  // Additional security headers for kiosk mode
-  async headers() {
-    const isProduction = process.env.NODE_ENV === 'production';
-    
-    const headers = [];
-    
-    if (isProduction) {
-      headers.push({
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY', // Extra protection for kiosk
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'no-store, must-revalidate', // Prevent caching for kiosk
-          },
-        ],
-      });
-    }
-    
-    return headers;
-  },
-
-  // Kiosk-specific redirects
-  async redirects() {
-    return [
-      {
-        source: '/admin',
-        destination: '/',
-        permanent: false, // Temporary redirect in kiosk mode
-      },
-      {
-        source: '/settings',
-        destination: '/',
-        permanent: false,
-      },
-    ];
-  },
+  // Note: headers and redirects removed for static export compatibility
 
   // Webpack optimizations for kiosk display
   webpack: (config, { isServer }) => {
@@ -82,4 +48,15 @@ const appSpecificConfig = {
   },
 };
 
-module.exports = createNextConfig('checkin-kiosk', appSpecificConfig);
+// Merge app-specific config with base config
+const finalConfig = {
+  ...nextConfig,
+  ...appSpecificConfig,
+  transpilePackages: [
+    ...nextConfig.transpilePackages,
+    '@stripe/stripe-js',
+    '@stripe/react-stripe-js',
+  ],
+};
+
+module.exports = finalConfig;

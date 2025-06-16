@@ -1,19 +1,16 @@
 // apps/clinical-staffing/src/lib/supabase.ts
 /**
  * Clinical Staffing Supabase Configuration
- * Uses standardized Supabase setup from @ganger/config
+ * Direct Supabase setup for static export
  */
 
-import { createClientSupabase, createServerSupabase } from '@ganger/config';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder_key';
 
 // Create client-side Supabase instance
-export const supabase = createClientSupabase('clinical-staffing');
-
-// Create server-side Supabase instance (for API routes)
-export const supabaseServer = createServerSupabase('clinical-staffing');
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Export default client for compatibility
 export default supabase;
-
-// Re-export types for convenience
-// export type { Database } from '@ganger/db';

@@ -1,7 +1,7 @@
-'use client'
+
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuth } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -104,7 +104,7 @@ function AgentDashboard() {
     },
     {
       key: 'talk_duration_seconds',
-      label: 'Duration',
+      header: 'Duration',
       render: (row: CallRecord) => {
         const minutes = Math.floor((row.talk_duration_seconds || 0) / 60);
         const seconds = (row.talk_duration_seconds || 0) % 60;
@@ -210,11 +210,9 @@ function AgentDashboard() {
             </div>
           </Card>
 
-          {/* Daily Performance Chart */}
           <Card className="p-6">
             <h3 className="text-lg font-medium text-neutral-900 mb-4">Daily Performance</h3>
             <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
-              <p className="text-gray-500">Chart component not yet implemented</p>
             </div>
           </Card>
         </div>
@@ -234,8 +232,6 @@ function AgentDashboard() {
           <DataTable
             data={data.recentCalls}
             columns={callColumns}
-            pagination={{ enabled: false }}
-            searchable={false}
           />
         </Card>
 
@@ -274,6 +270,6 @@ function AgentDashboard() {
   );
 }
 
-export default withAuth(AgentDashboard, {
-  requiredRoles: ['call_center_agent', 'staff', 'supervisor', 'manager', 'superadmin']
+export default withAuthComponent(AgentDashboard, {
+  requiredRoles: ['staff', 'manager', 'superadmin']
 });

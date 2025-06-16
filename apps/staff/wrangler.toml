@@ -1,0 +1,23 @@
+name = "staff-portal"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "STAFF_PORTAL_BUCKET"
+bucket_name = "staff-portal"
+preview_bucket_name = "staff-portal-preview"
+
+[env.production]
+name = "staff-portal-production"
+route = { pattern = "staff.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+
+[[env.production.r2_buckets]]
+binding = "STAFF_PORTAL_BUCKET"
+bucket_name = "staff-portal-production"
+
+[env.staging]
+name = "staff-portal-staging"
+
+[[env.staging.r2_buckets]]
+binding = "STAFF_PORTAL_BUCKET"
+bucket_name = "staff-portal-staging"

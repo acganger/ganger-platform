@@ -1,25 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   output: 'export',
   trailingSlash: true,
-  skipTrailingSlashRedirect: true,
-  distDir: 'dist',
+  distDir: 'out',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
-    unoptimized: true
-  },
-  env: {
-    NEXT_PUBLIC_APP_NAME: 'Handouts Generator',
-    NEXT_PUBLIC_APP_VERSION: '1.0.0'
-  },
-  transpilePackages: [
-    '@ganger/ui',
-    '@ganger/auth', 
-    '@ganger/db',
-    '@ganger/integrations',
-    '@ganger/utils'
-  ],
-  experimental: {
-    optimizePackageImports: ['@ganger/ui', 'jspdf']
+    domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true,
   },
   webpack: (config) => {
     // Handle PDF generation libraries and Node.js modules

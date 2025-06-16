@@ -1,0 +1,22 @@
+name = "ganger-eos-l10-v2"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[r2_buckets]]
+binding = "EOS_L10_BUCKET"
+bucket_name = "ganger-eos-l10"
+preview_bucket_name = "ganger-eos-l10-preview"
+
+[env.production]
+name = "ganger-eos-l10-v2"
+
+[[env.production.r2_buckets]]
+binding = "EOS_L10_BUCKET"
+bucket_name = "ganger-eos-l10-production"
+
+[env.staging]
+name = "ganger-eos-l10-staging"
+
+[[env.staging.r2_buckets]]
+binding = "EOS_L10_BUCKET"
+bucket_name = "ganger-eos-l10-staging"

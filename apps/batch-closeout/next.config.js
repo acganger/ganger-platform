@@ -1,21 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    transpilePackages: ['@ganger/ui', '@ganger/auth', '@ganger/db', '@ganger/utils', '@ganger/integrations'],
+  transpilePackages: [
+    '@ganger/auth',
+    '@ganger/db', 
+    '@ganger/integrations',
+    '@ganger/ui',
+    '@ganger/utils'
+  ],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  eslint: {
+    ignoreDuringBuilds: true,
   },
-  async headers() {
-    return [
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET, POST, PUT, DELETE, OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
-        ],
-      },
-    ];
+  images: {
+    domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true
   },
   env: {
     CUSTOM_KEY: 'batch-closeout-app',

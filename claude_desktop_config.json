@@ -89,18 +89,9 @@
         "TRELLO_BASE_URL": "https://api.trello.com/1"
       }
     },
-    "cloudflare-workers": {
-      "command": "npx",
-      "args": ["mcp-remote", "https://observability.mcp.cloudflare.com/sse"],
-      "env": {
-        "CLOUDFLARE_API_TOKEN": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf",
-        "CLOUDFLARE_ACCOUNT_ID": "68d0160c9915efebbbecfddfd48cddab",
-        "CLOUDFLARE_ZONE_ID": "ba76d3d3f41251c49f0365421bd644a5"
-      }
-    },
-    "cloudflare-builds": {
-      "command": "npx", 
-      "args": ["mcp-remote", "https://builds.mcp.cloudflare.com/sse"],
+    "cloudflare-local": {
+      "command": "node",
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\cloudflare-local\\dist\\index.js"],
       "env": {
         "CLOUDFLARE_API_TOKEN": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf",
         "CLOUDFLARE_ACCOUNT_ID": "68d0160c9915efebbbecfddfd48cddab",
