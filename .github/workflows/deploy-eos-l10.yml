@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
       - name: Deploy EOS L10 (Build + R2 Upload + Worker)
         run: |
           cd apps/eos-l10
