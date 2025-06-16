@@ -35,7 +35,26 @@ find . -type f | while read file; do
     # Remove leading ./ from file path
     key=${file#./}
     echo "Uploading: $key"
-    wrangler r2 object put ganger-eos-l10-staging/"$key" --file="$file" --content-type="$(file -b --mime-type "$file")"
+    
+    # Simple content-type detection based on file extension
+    case "$key" in
+        *.html) content_type="text/html" ;;
+        *.css) content_type="text/css" ;;
+        *.js) content_type="application/javascript" ;;
+        *.json) content_type="application/json" ;;
+        *.png) content_type="image/png" ;;
+        *.jpg|*.jpeg) content_type="image/jpeg" ;;
+        *.gif) content_type="image/gif" ;;
+        *.svg) content_type="image/svg+xml" ;;
+        *.ico) content_type="image/x-icon" ;;
+        *.woff) content_type="font/woff" ;;
+        *.woff2) content_type="font/woff2" ;;
+        *.ttf) content_type="font/ttf" ;;
+        *.eot) content_type="application/vnd.ms-fontobject" ;;
+        *) content_type="application/octet-stream" ;;
+    esac
+    
+    wrangler r2 object put ganger-eos-l10-staging/"$key" --file="$file" --content-type="$content_type"
 done
 
 cd ..
@@ -57,7 +76,26 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
     find . -type f | while read file; do
         key=${file#./}
         echo "Uploading to production: $key"
-        wrangler r2 object put ganger-eos-l10-production/"$key" --file="$file" --content-type="$(file -b --mime-type "$file")"
+        
+        # Simple content-type detection based on file extension
+        case "$key" in
+            *.html) content_type="text/html" ;;
+            *.css) content_type="text/css" ;;
+            *.js) content_type="application/javascript" ;;
+            *.json) content_type="application/json" ;;
+            *.png) content_type="image/png" ;;
+            *.jpg|*.jpeg) content_type="image/jpeg" ;;
+            *.gif) content_type="image/gif" ;;
+            *.svg) content_type="image/svg+xml" ;;
+            *.ico) content_type="image/x-icon" ;;
+            *.woff) content_type="font/woff" ;;
+            *.woff2) content_type="font/woff2" ;;
+            *.ttf) content_type="font/ttf" ;;
+            *.eot) content_type="application/vnd.ms-fontobject" ;;
+            *) content_type="application/octet-stream" ;;
+        esac
+        
+        wrangler r2 object put ganger-eos-l10-production/"$key" --file="$file" --content-type="$content_type"
     done
     
     cd ..
