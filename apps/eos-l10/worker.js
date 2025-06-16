@@ -9,34 +9,43 @@ export default {
     const url = new URL(request.url);
     
     // Health check endpoint
-    if (url.pathname === '/health') {
+    if (url.pathname === '/health' || url.pathname === '/l10/health') {
       return new Response(JSON.stringify({
         status: 'healthy',
         timestamp: new Date().toISOString(),
         service: 'eos-l10-management',
-        deployment: 'r2-cloudflare-workers'
+        deployment: 'r2-cloudflare-workers',
+        path: url.pathname
       }), {
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
+    // Handle L10 prefix - remove it since our static files don't have it
+    let pathname = url.pathname;
+    if (pathname.startsWith('/l10/')) {
+      pathname = pathname.substring(4); // Remove '/l10'
+    } else if (pathname === '/l10') {
+      pathname = '/';
+    }
+
     // Handle root path
-    if (url.pathname === '/') {
-      url.pathname = '/index.html';
+    if (pathname === '/') {
+      pathname = '/index.html';
     }
     
     // Handle directory paths (add index.html)
-    if (url.pathname.endsWith('/')) {
-      url.pathname += 'index.html';
+    if (pathname.endsWith('/')) {
+      pathname += 'index.html';
     }
     
     // Handle paths without extensions (Next.js routing)
-    if (!url.pathname.includes('.') && !url.pathname.endsWith('/')) {
-      url.pathname += '.html';
+    if (!pathname.includes('.') && !pathname.endsWith('/')) {
+      pathname += '.html';
     }
 
     // Remove leading slash for R2 key
-    const key = url.pathname.startsWith('/') ? url.pathname.slice(1) : url.pathname;
+    const key = pathname.startsWith('/') ? pathname.slice(1) : pathname;
     
     try {
       // Attempt to get file from R2
