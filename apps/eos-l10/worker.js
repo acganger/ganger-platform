@@ -26,6 +26,11 @@ export default {
       try {
         // Try to list first 10 objects in bucket
         const list = await env.EOS_L10_BUCKET.list({ limit: 10 });
+        
+        // Also try to get specific files we know should exist
+        const manifestTest = await env.EOS_L10_BUCKET.get('manifest.json');
+        const indexTest = await env.EOS_L10_BUCKET.get('index.html');
+        
         return new Response(JSON.stringify({
           status: 'r2-accessible',
           objectCount: list.objects?.length || 0,
@@ -34,6 +39,10 @@ export default {
             size: obj.size,
             lastModified: obj.uploaded
           })) || [],
+          specificTests: {
+            manifestExists: !!manifestTest,
+            indexExists: !!indexTest
+          },
           timestamp: new Date().toISOString()
         }), {
           headers: { 'Content-Type': 'application/json' }
