@@ -21,44 +21,6 @@ export default {
       });
     }
 
-    // Test R2 bucket access
-    if (url.pathname === '/l10/test-r2' || url.pathname === '/test-r2') {
-      try {
-        // Try to list first 10 objects in bucket
-        const list = await env.EOS_L10_BUCKET.list({ limit: 10 });
-        
-        // Also try to get specific files we know should exist
-        const manifestTest = await env.EOS_L10_BUCKET.get('manifest.json');
-        const indexTest = await env.EOS_L10_BUCKET.get('index.html');
-        
-        return new Response(JSON.stringify({
-          status: 'r2-accessible',
-          objectCount: list.objects?.length || 0,
-          objects: list.objects?.map(obj => ({
-            key: obj.key,
-            size: obj.size,
-            lastModified: obj.uploaded
-          })) || [],
-          specificTests: {
-            manifestExists: !!manifestTest,
-            indexExists: !!indexTest
-          },
-          timestamp: new Date().toISOString()
-        }), {
-          headers: { 'Content-Type': 'application/json' }
-        });
-      } catch (error) {
-        return new Response(JSON.stringify({
-          status: 'r2-error',
-          error: error.message,
-          timestamp: new Date().toISOString()
-        }), {
-          headers: { 'Content-Type': 'application/json' },
-          status: 500
-        });
-      }
-    }
-
     // Handle L10 prefix - remove it since our static files don't have it
     let pathname = url.pathname;
     
@@ -85,18 +47,6 @@ export default {
 
     // Remove leading slash for R2 key
     const key = pathname.startsWith('/') ? pathname.slice(1) : pathname;
-    
-    // Debug: return the key for testing
-    if (url.searchParams.has('debug')) {
-      return new Response(JSON.stringify({
-        originalPath: url.pathname,
-        processedPath: pathname,
-        r2Key: key,
-        timestamp: new Date().toISOString()
-      }), {
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
     
     try {
       // Attempt to get file from R2
