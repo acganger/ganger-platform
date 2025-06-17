@@ -10,7 +10,7 @@ function HandoutsHomePage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: '#eff6ff'}}>
       <div className="text-center space-y-6 max-w-md mx-auto p-8">
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-gray-900">

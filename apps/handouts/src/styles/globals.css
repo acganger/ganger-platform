@@ -1,78 +1,130 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer base {
-  :root {
-    --handouts-primary: 56 189 248;
-    --handouts-secondary: 168 85 247;
-    --handouts-accent: 236 72 153;
-    --handouts-education: 34 197 94;
-    --handouts-treatment: 249 115 22;
-    --handouts-medication: 168 85 247;
-    --handouts-procedure: 239 68 68;
-  }
-  
-  html {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-  
-  body {
-    @apply antialiased;
-  }
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1rem;
+  --text-base--line-height: 2rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2.5rem;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 3rem;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-display: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+  /* Handouts-specific colors */
+  --color-handouts-50: #eff6ff;
+  --color-handouts-100: #dbeafe;
+  --color-handouts-500: #3b82f6;
+  --color-handouts-600: #2563eb;
+  --color-handouts-700: #1d4ed8;
+  --color-handouts-900: #1e3a8a;
+
+  /* Category colors */
+  --color-education-50: #dcfce7;
+  --color-education-500: #22c55e;
+  --color-education-600: #16a34a;
+  --color-education-700: #15803d;
+
+  --color-treatment-50: #fed7aa;
+  --color-treatment-500: #f59e0b;
+  --color-treatment-600: #d97706;
+  --color-treatment-700: #b45309;
+
+  --color-medication-50: #e9d5ff;
+  --color-medication-500: #a855f7;
+  --color-medication-600: #9333ea;
+  --color-medication-700: #7c3aed;
+
+  --color-procedure-50: #fecaca;
+  --color-procedure-500: #ef4444;
+  --color-procedure-600: #dc2626;
+  --color-procedure-700: #b91c1c;
+
+  --container-8xl: 88rem;
 }
 
 @layer components {
   .handouts-gradient {
-    @apply bg-gradient-to-br from-blue-50 to-purple-50;
+    background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
   }
   
   .handouts-card {
-    @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   }
   
   .category-education {
-    @apply bg-green-100 text-green-800 border-green-200;
+    background-color: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
   }
   
   .category-treatment {
-    @apply bg-orange-100 text-orange-800 border-orange-200;
+    background-color: #fed7aa;
+    color: #9a3412;
+    border-color: #fdba74;
   }
   
   .category-medication {
-    @apply bg-purple-100 text-purple-800 border-purple-200;
+    background-color: #e9d5ff;
+    color: #7c2d12;
+    border-color: #ddd6fe;
   }
   
   .category-procedure {
-    @apply bg-red-100 text-red-800 border-red-200;
+    background-color: #fecaca;
+    color: #991b1b;
+    border-color: #fca5a5;
   }
   
   .template-complexity-simple {
-    @apply bg-green-100 text-green-800;
+    background-color: #dcfce7;
+    color: #166534;
   }
   
   .template-complexity-moderate {
-    @apply bg-yellow-100 text-yellow-800;
+    background-color: #fef3c7;
+    color: #92400e;
   }
   
   .template-complexity-complex {
-    @apply bg-red-100 text-red-800;
+    background-color: #fecaca;
+    color: #991b1b;
   }
   
   .delivery-status-pending {
-    @apply bg-yellow-100 text-yellow-800;
+    background-color: #fef3c7;
+    color: #92400e;
   }
   
   .delivery-status-sent {
-    @apply bg-blue-100 text-blue-800;
+    background-color: #dbeafe;
+    color: #1e40af;
   }
   
   .delivery-status-delivered {
-    @apply bg-green-100 text-green-800;
+    background-color: #dcfce7;
+    color: #166534;
   }
   
   .delivery-status-failed {
-    @apply bg-red-100 text-red-800;
+    background-color: #fecaca;
+    color: #991b1b;
   }
   
   .line-clamp-2 {

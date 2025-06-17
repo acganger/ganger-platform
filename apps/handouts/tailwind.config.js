@@ -7,18 +7,17 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
     '../../packages/ui/src/**/*.{js,ts,jsx,tsx}'
   ],
-  presets: [require('@ganger/config/tailwind')],
   theme: {
     extend: {
       colors: {
         handouts: {
-          primary: '#3b82f6',  // Maps to primary-500 from base config
-          secondary: '#a855f7', // Maps to accent-500 from base config  
+          primary: '#3b82f6',
+          secondary: '#a855f7',
           accent: '#ec4899',
-          education: '#22c55e', // Maps to success-500 from base config
-          treatment: '#f59e0b', // Maps to warning-500 from base config
+          education: '#22c55e',
+          treatment: '#f59e0b',
           medication: '#a855f7',
-          procedure: '#ef4444'  // Maps to error-500 from base config
+          procedure: '#ef4444'
         }
       },
       animation: {
@@ -32,5 +31,6 @@ module.exports = {
         }
       }
     }
-  }
+  },
+  plugins: []
 };

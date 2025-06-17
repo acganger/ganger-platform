@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-types/main/wrangler-schema.json",
+  "name": "ganger-handouts",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./out/",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "r2_buckets": [
+    {
+      "binding": "HANDOUTS_BUCKET",
+      "bucket_name": "handouts-generator",
+      "preview_bucket_name": "handouts-generator-preview"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "APP_NAME": "handouts",
+    "APP_VERSION": "1.0.0"
+  },
+  "env": {
+    "production": {
+      "name": "ganger-handouts-production",
+      "route": {
+        "pattern": "handouts.gangerdermatology.com/*",
+        "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
+      },
+      "r2_buckets": [
+        {
+          "binding": "HANDOUTS_BUCKET",
+          "bucket_name": "handouts-generator-production"
+        }
+      ]
+    },
+    "staging": {
+      "name": "ganger-handouts-staging",
+      "r2_buckets": [
+        {
+          "binding": "HANDOUTS_BUCKET",
+          "bucket_name": "handouts-generator-staging"
+        }
+      ]
+    }
+  }
+}

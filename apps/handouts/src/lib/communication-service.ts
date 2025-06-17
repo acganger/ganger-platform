@@ -42,7 +42,7 @@ export class HandoutsCommunicationService {
         throw new Error('Communication service request failed');
       }
 
-      const result = await response.json();
+      const result = await response.json() as { success: boolean; error?: string };
       
       return {
         success: result.success,
@@ -140,7 +140,7 @@ export class HandoutsCommunicationService {
       const response = await fetch(`/api/handouts/communication/consent/${patientId}?type=${type}`);
       if (!response.ok) return false;
       
-      const data = await response.json();
+      const data = await response.json() as { hasConsent: boolean };
       return data.hasConsent || false;
     } catch (error) {
       return false;
