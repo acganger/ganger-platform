@@ -30,11 +30,15 @@ wrangler r2 bucket create ganger-eos-l10-production 2>/dev/null || echo "Product
 echo "🔄 Deploying to staging..."
 cd out
 
-# Upload all files to staging bucket using R2 API
+# Upload all files to staging bucket using R2 API with error handling
+echo "📁 Starting file upload to staging bucket..."
+upload_count=0
+error_count=0
+
 find . -type f | while read file; do
     # Remove leading ./ from file path
     key=${file#./}
-    echo "Uploading: $key"
+    echo "📤 Uploading: $key"
     
     # Simple content-type detection based on file extension
     case "$key" in
@@ -54,8 +58,17 @@ find . -type f | while read file; do
         *) content_type="application/octet-stream" ;;
     esac
     
-    wrangler r2 object put ganger-eos-l10-staging/"$key" --file="$file" --content-type="$content_type"
+    # Upload with error checking
+    if wrangler r2 object put "ganger-eos-l10-staging/$key" --file="$file" --content-type="$content_type" 2>&1; then
+        echo "✅ Successfully uploaded: $key"
+        upload_count=$((upload_count + 1))
+    else
+        echo "❌ Failed to upload: $key"
+        error_count=$((error_count + 1))
+    fi
 done
+
+echo "📊 Staging upload complete: $upload_count successful, $error_count failed"
 
 cd ..
 
@@ -72,10 +85,14 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
     
     cd out
     
-    # Upload all files to production bucket
+    # Upload all files to production bucket with error handling
+    echo "📁 Starting file upload to production bucket..."
+    prod_upload_count=0
+    prod_error_count=0
+    
     find . -type f | while read file; do
         key=${file#./}
-        echo "Uploading to production: $key"
+        echo "📤 Uploading to production: $key"
         
         # Simple content-type detection based on file extension
         case "$key" in
@@ -95,8 +112,17 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
             *) content_type="application/octet-stream" ;;
         esac
         
-        wrangler r2 object put ganger-eos-l10-production/"$key" --file="$file" --content-type="$content_type"
+        # Upload with error checking
+        if wrangler r2 object put "ganger-eos-l10-production/$key" --file="$file" --content-type="$content_type" 2>&1; then
+            echo "✅ Successfully uploaded: $key"
+            prod_upload_count=$((prod_upload_count + 1))
+        else
+            echo "❌ Failed to upload: $key"
+            prod_error_count=$((prod_error_count + 1))
+        fi
     done
+    
+    echo "📊 Production upload complete: $prod_upload_count successful, $prod_error_count failed"
     
     cd ..
     
