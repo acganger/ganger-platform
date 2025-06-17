@@ -6,7 +6,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { ArrowLeft, MapPin, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  MapPin, 
+  Calendar, 
+  CheckCircle, 
+  AlertCircle 
+} from 'lucide-react';
 import PublicLayout from '@/components/layout/PublicLayout';
 import AvailabilityCalendar from '@/components/calendar/AvailabilityCalendar';
 import { LoadingSpinner, Button, Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
