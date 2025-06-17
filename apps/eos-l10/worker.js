@@ -21,6 +21,35 @@ export default {
       });
     }
 
+    // Simple diagnostic for R2 bucket
+    if (url.pathname === '/l10/diag') {
+      try {
+        const indexObj = await env.EOS_L10_BUCKET.get('index.html');
+        const manifestObj = await env.EOS_L10_BUCKET.get('manifest.json');
+        
+        return new Response(JSON.stringify({
+          status: 'r2-test',
+          indexExists: indexObj !== null,
+          manifestExists: manifestObj !== null,
+          indexSize: indexObj?.size || null,
+          manifestSize: manifestObj?.size || null,
+          timestamp: new Date().toISOString()
+        }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({
+          status: 'r2-error',
+          error: error.message,
+          stack: error.stack,
+          timestamp: new Date().toISOString()
+        }), {
+          headers: { 'Content-Type': 'application/json' },
+          status: 500
+        });
+      }
+    }
+
     // Handle L10 prefix - remove it since our static files don't have it
     let pathname = url.pathname;
     
