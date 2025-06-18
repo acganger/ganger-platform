@@ -31,9 +31,7 @@ jobs:
           cache: 'pnpm'
           
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        
-            - name: Build shared packages
+        run: pnpm install --frozen-lockfile      - name: Build shared packages
         run: |
           # Build shared packages that apps depend on
           cd packages/auth && pnpm build || echo "auth build failed"
@@ -42,7 +40,7 @@ jobs:
           cd ../utils && pnpm build || echo "utils build failed"
           cd ../integrations && pnpm build || echo "integrations build failed"
 
-- name: Build medication-auth
+      - name: Build medication-auth
         run: |
           cd apps/medication-auth
           pnpm run build:cloudflare

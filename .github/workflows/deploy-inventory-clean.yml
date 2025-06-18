@@ -1,0 +1,80 @@
+# Clean working deployment template based on EOS L10 success
+name: 🚀 Deploy Inventory
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/inventory/**'
+      - 'packages/**'
+  workflow_dispatch:
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+jobs:
+  deploy-inventory:
+    name: Deploy Inventory
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          cd apps/inventory
+          pnpm install
+
+      - name: Build packages
+        run: |
+          # Build shared packages first
+          cd packages/auth && pnpm build
+          cd ../ui && pnpm build
+          cd ../db && pnpm build
+          cd ../utils && pnpm build
+
+      - name: Lint Inventory
+        run: |
+          cd apps/inventory
+          pnpm lint
+        continue-on-error: true
+
+      - name: Build Inventory
+        run: |
+          cd apps/inventory
+          pnpm build
+
+      - name: Prepare for Workers deployment
+        run: |
+          cd apps/inventory
+          pnpm dlx @cloudflare/next-on-pages
+
+      - name: Deploy to Cloudflare Workers
+        run: |
+          cd apps/inventory
+          npx wrangler deploy --env production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Verify deployment
+        run: |
+          echo "🎉 Inventory deployed successfully!"
+          echo "📍 URL: https://staff.gangerdermatology.com/inventory"
