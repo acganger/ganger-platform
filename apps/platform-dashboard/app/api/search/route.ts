@@ -285,3 +285,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

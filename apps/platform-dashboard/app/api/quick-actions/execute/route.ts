@@ -410,3 +410,6 @@ function getModalFormConfig(formId: string, _user: any): any {
 
   return formConfigs[formId] || null;
 }
+
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

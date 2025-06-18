@@ -45,6 +45,9 @@ function findApiRoutes(appDir) {
   scanDir(path.join(appDir, 'src', 'pages', 'api'));
   scanDir(path.join(appDir, 'src', 'app'));
   
+  // Also scan app/ directory directly (App Router)
+  scanDir(path.join(appDir, 'app'));
+  
   return routes;
 }
 
