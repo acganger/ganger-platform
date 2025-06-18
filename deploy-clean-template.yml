@@ -61,6 +61,9 @@ jobs:
           cd apps/{{APP_DIR}}
           pnpm build
 
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
       - name: Prepare for Workers deployment
         run: |
           cd apps/{{APP_DIR}}
@@ -69,7 +72,7 @@ jobs:
       - name: Deploy to Cloudflare Workers
         run: |
           cd apps/{{APP_DIR}}
-          npx wrangler deploy --env production
+          wrangler deploy --env production
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
