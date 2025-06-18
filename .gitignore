@@ -18,6 +18,11 @@ dist/
 # Production
 .vercel
 
+# Static HTML files - NEVER commit these to prevent static deployments
+*.html
+**/*.html
+**/static/*.html
+
 # Environment variables
 .env
 .env.local
