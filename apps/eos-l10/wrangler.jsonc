@@ -24,16 +24,9 @@
   "env": {
     "production": {
       "name": "ganger-l10-staff-v3",
-      "routes": [
-        {
-          "pattern": "staff.gangerdermatology.com/l10",
-          "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
-        },
-        {
-          "pattern": "staff.gangerdermatology.com/l10/*",
-          "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
-        }
-      ],
+      "vars": {
+        "ENVIRONMENT": "production"
+      },
       "r2_buckets": [
         {
           "binding": "EOS_L10_BUCKET",

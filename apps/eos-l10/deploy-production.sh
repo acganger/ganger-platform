@@ -91,13 +91,21 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Step 5: Deploy to Cloudflare Workers
-print_status "Deploying to Cloudflare Workers..."
-npx wrangler deploy --env production --config wrangler.jsonc
+# Step 5: Deploy to Cloudflare Workers (without routes to avoid conflicts)
+print_status "Deploying to Cloudflare Workers (no routes)..."
+npx wrangler deploy --env production --config wrangler.jsonc --no-routes
 if [ $? -ne 0 ]; then
     print_error "Deployment failed"
     exit 1
 fi
+
+print_success "Worker deployed successfully!"
+print_warning "Route assignment required manually:"
+print_status "1. Visit: https://dash.cloudflare.com/ba76d3d3f41251c49f0365421bd644a5/workers/overview"
+print_status "2. Unassign routes from 'ganger-eos-l10-v2'"
+print_status "3. Assign routes to 'ganger-l10-staff-v3':"
+print_status "   - staff.gangerdermatology.com/l10"
+print_status "   - staff.gangerdermatology.com/l10/*"
 
 print_success "🎉 EOS L10 successfully deployed to production!"
 print_status "Application URL: https://staff.gangerdermatology.com/l10"
