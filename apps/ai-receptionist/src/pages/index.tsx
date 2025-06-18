@@ -6,6 +6,7 @@ import Head from 'next/head';
 
 // Cloudflare Workers Edge Runtime
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 /**
  * AI Receptionist - Root redirect page

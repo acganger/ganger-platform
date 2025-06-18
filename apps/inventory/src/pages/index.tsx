@@ -1,5 +1,6 @@
 // Cloudflare Workers Edge Runtime
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';

@@ -54,7 +54,18 @@ function addEdgeRuntimeToPage(filePath) {
   
   // Check if Edge Runtime is already configured
   if (content.includes("runtime = 'edge'") || content.includes('runtime: "edge"')) {
-    console.log(`  ✅ Already has Edge Runtime: ${path.basename(filePath)}`);
+    // Check if force-dynamic is also present
+    if (!content.includes("dynamic = 'force-dynamic'")) {
+      // Add force-dynamic
+      const updatedContent = content.replace(
+        /export const runtime = 'edge';/,
+        "export const runtime = 'edge';\nexport const dynamic = 'force-dynamic';"
+      );
+      fs.writeFileSync(filePath, updatedContent);
+      console.log(`  ✅ Added force-dynamic: ${path.basename(filePath)}`);
+      return true;
+    }
+    console.log(`  ✅ Already has Edge Runtime + force-dynamic: ${path.basename(filePath)}`);
     return false;
   }
   
@@ -81,12 +92,12 @@ function addEdgeRuntimeToPage(filePath) {
       }
     }
     
-    // Insert Edge Runtime export
-    lines.splice(insertIndex, 0, '', '// Cloudflare Workers Edge Runtime', "export const runtime = 'edge';");
+    // Insert Edge Runtime export with force-dynamic
+    lines.splice(insertIndex, 0, '', '// Cloudflare Workers Edge Runtime', "export const runtime = 'edge';", "export const dynamic = 'force-dynamic';");
     updatedContent = lines.join('\n');
   } else {
     // Add at the beginning for non-client components
-    updatedContent = `// Cloudflare Workers Edge Runtime\nexport const runtime = 'edge';\n\n${content}`;
+    updatedContent = `// Cloudflare Workers Edge Runtime\nexport const runtime = 'edge';\nexport const dynamic = 'force-dynamic';\n\n${content}`;
   }
   
   fs.writeFileSync(filePath, updatedContent);

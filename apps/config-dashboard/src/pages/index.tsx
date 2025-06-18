@@ -12,6 +12,7 @@ import { DashboardLayout } from '../components/DashboardLayout';
 
 // Cloudflare Workers Edge Runtime
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 export default function ConfigDashboardHome() {
   const { user, loading } = useAuth();

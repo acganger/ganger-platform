@@ -1,5 +1,6 @@
 // Cloudflare Workers Edge Runtime
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 import { StaffPortalLayout } from '@ganger/ui';
 import { AuthProvider } from '@ganger/auth';

@@ -5,6 +5,7 @@ import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 
 // Cloudflare Workers Edge Runtime
 export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 export default function ComplianceTrainingPage() {
   const { user, isAuthenticated, isLoading } = useStaffAuth();
