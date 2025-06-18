@@ -378,3 +378,5 @@ export default async function handler(
     errorResponse('METHOD_NOT_ALLOWED', 'Method not allowed')
   );
 }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

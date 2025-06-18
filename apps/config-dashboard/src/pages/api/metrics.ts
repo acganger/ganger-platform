@@ -252,3 +252,5 @@ export { metricsStore };
 
 // Export with auth middleware
 export default withAuth(metricsHandler);
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

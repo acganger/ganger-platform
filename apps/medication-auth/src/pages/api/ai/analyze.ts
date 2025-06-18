@@ -360,3 +360,5 @@ async function storeAIAnalysis(authorizationId: string, analysisResult: any, use
 export default withAuth(
   withRateLimit(handler, RateLimits.AI_PROCESSING)
 );
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

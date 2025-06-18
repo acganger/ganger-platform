@@ -267,3 +267,5 @@ export default async function handler(
     });
   }
 }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

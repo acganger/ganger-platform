@@ -190,3 +190,5 @@ export async function validateSpec(req: NextApiRequest, res: NextApiResponse) {
     });
   }
 }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

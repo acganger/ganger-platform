@@ -323,3 +323,5 @@ function calculateTrendAnalysis(metrics: any[], healthChecks: any[]): {
       confidence: Math.round(confidence)
     };
   }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

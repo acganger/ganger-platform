@@ -9,3 +9,5 @@ export default withAuth(handler, {
   requiredRole: 'manager',
   logPHIAccess: true
 });
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

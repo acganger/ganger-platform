@@ -245,3 +245,5 @@ export default withStandardErrorHandling(
     hipaaCompliant: false // Health monitoring is not PHI
   })
 );
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

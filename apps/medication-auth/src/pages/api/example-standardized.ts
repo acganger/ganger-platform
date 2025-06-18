@@ -141,3 +141,5 @@ export default withStandardErrorHandling(
     withRateLimit(handler, RateLimits.STANDARD)
   )
 );
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

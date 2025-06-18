@@ -464,3 +464,5 @@ async function handleDeletePermission(
     });
   }
 }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

@@ -139,3 +139,5 @@ export const staffAuth = withStandardErrorHandling(
 
 // Default export for the API route
 export default basicAuth;
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

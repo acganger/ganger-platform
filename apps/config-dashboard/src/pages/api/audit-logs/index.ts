@@ -319,3 +319,5 @@ function sanitizeIpAddress(ip: string): string {
   
   return 'Hidden';
 }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';

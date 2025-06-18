@@ -323,3 +323,5 @@ export default async function handler(
     error: 'Method not allowed'
   });
 }
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
