@@ -1,5 +1,5 @@
 {
-  "name": "ganger-l10-staff",
+  "name": "ganger-l10-staff-v3",
   "main": "worker.js",
   "compatibility_date": "2025-01-18",
   "compatibility_flags": ["nodejs_compat"],
@@ -23,7 +23,7 @@
   
   "env": {
     "production": {
-      "name": "ganger-l10-staff",
+      "name": "ganger-l10-staff-v3",
       "routes": [
         {
           "pattern": "staff.gangerdermatology.com/l10",
