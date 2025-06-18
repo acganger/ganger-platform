@@ -1,8 +1,10 @@
 {
   "name": "ganger-checkin-kiosk",
   "compatibility_date": "2025-03-07",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": ".vercel/output/static/_worker.js/index.js",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "main": ".vercel/output/static/_worker.js",
   "observability": {
     "enabled": true
   },

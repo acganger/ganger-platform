@@ -1,10 +1,12 @@
 {
   "name": "ganger-inventory",
-  "main": ".vercel/output/static/_worker.js/index.js", 
+  "main": ".vercel/output/static/_worker.js",
   "compatibility_date": "2025-01-18",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "build": {
-    "command": "npm run build && npx @cloudflare/next-on-pages"
+    "command": "pnpm run build:cloudflare"
   },
   "assets": {
     "directory": ".vercel/output/static",

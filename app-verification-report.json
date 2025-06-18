@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-06-18T22:45:24.446Z",
+  "timestamp": "2025-06-18T22:58:29.396Z",
   "summary": {
     "totalApps": 3,
     "workingApps": 2,
@@ -14,7 +14,7 @@
       "isInteractive": true,
       "hasContent": true,
       "apiWorking": false,
-      "loadTime": 771,
+      "loadTime": 900,
       "errors": [],
       "details": {
         "interactiveElements": 5
@@ -27,7 +27,7 @@
       "isInteractive": false,
       "hasContent": false,
       "apiWorking": false,
-      "loadTime": 1850,
+      "loadTime": 1883,
       "errors": [
         "Failed to load: HTTP 404",
         "Test error: net::ERR_NAME_NOT_RESOLVED at https://ganger-l10-staff-v3.workers.dev"
@@ -41,7 +41,7 @@
       "isInteractive": true,
       "hasContent": true,
       "apiWorking": true,
-      "loadTime": 2054,
+      "loadTime": 2048,
       "errors": [],
       "details": {
         "interactiveElements": 16,

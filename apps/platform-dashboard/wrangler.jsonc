@@ -1,12 +1,12 @@
 {
   "name": "ganger-dashboard-staff",
-  "main": ".vercel/output/static/_worker.js/index.js",
+  "main": ".vercel/output/static/_worker.js",
   "compatibility_date": "2025-01-18",
   "compatibility_flags": ["nodejs_compat"],
   "account_id": "68d0160c9915efebbbecfddfd48cddab",
   
   "build": {
-    "command": "npm run build && pnpm exec next-on-pages"
+    "command": "pnpm run build:cloudflare"
   },
   "observability": {
     "enabled": true,

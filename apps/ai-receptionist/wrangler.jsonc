@@ -1,8 +1,10 @@
 {
   "name": "ganger-ai-receptionist",
-  "main": ".vercel/output/static/_worker.js/index.js",
+  "main": ".vercel/output/static/_worker.js",
   "compatibility_date": "2025-03-07",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "assets": {
     "directory": "./out/",
     "binding": "ASSETS",
