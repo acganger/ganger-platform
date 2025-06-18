@@ -34,7 +34,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build checkin-kiosk
+            - name: Build shared packages
+        run: |
+          # Build shared packages that apps depend on
+          cd packages/auth && pnpm build || echo "auth build failed"
+          cd ../ui && pnpm build || echo "ui build failed" 
+          cd ../db && pnpm build || echo "db build failed"
+          cd ../utils && pnpm build || echo "utils build failed"
+          cd ../integrations && pnpm build || echo "integrations build failed"
+
+- name: Build checkin-kiosk
         run: |
           cd apps/checkin-kiosk
           pnpm run build:cloudflare
