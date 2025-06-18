@@ -7,6 +7,7 @@
     "build": "next build",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages",
     "start": "next start -p 3010",
     "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=socials-reviews-production",
     "lint": "next lint",

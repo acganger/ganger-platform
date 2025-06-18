@@ -37,7 +37,7 @@ jobs:
       - name: Build compliance-training
         run: |
           cd apps/compliance-training
-          pnpm run build
+          pnpm run build:cloudflare
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
