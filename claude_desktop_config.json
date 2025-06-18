@@ -119,6 +119,13 @@
         "UNIFI_SITE": "default",
         "UNIFI_VERIFY_SSL": "false"
       }
+    },
+    "gemini": {
+      "command": "node",
+      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/gemini-mcp/index.js"],
+      "env": {
+        "GEMINI_API_KEY": "AIzaSyB_ABk8esWlemLKjCLYg4Pwzbnej2Db9eE"
+      }
     }
   }
 }
