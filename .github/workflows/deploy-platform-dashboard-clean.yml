@@ -60,14 +60,11 @@ jobs:
         run: |
           cd apps/platform-dashboard
           pnpm build
+          echo "Static build completed. Generated files:"
+          ls -la out/
 
       - name: Install Wrangler
         run: npm install -g wrangler
-
-      - name: Prepare for Workers deployment
-        run: |
-          cd apps/platform-dashboard
-          pnpm dlx @cloudflare/next-on-pages
 
       - name: Deploy to Cloudflare Workers
         run: |
