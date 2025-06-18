@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3010",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
     "start": "next start -p 3010",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=socials-reviews-production",
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=socials-reviews-production",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "test": "jest",
@@ -18,7 +18,8 @@
     "test:hooks": "jest --testPathPattern=hooks",
     "test:utils": "jest --testPathPattern=utils",
     "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:debug": "jest --detectOpenHandles --forceExit"
+    "test:debug": "jest --detectOpenHandles --forceExit",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
@@ -52,7 +53,8 @@
     "node-mocks-http": "^1.13.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^4.1.7",
-    "ts-jest": "^29.1.1"
+    "ts-jest": "^29.1.1",
+    "@cloudflare/next-on-pages": "^1.13.12"
   },
   "description": "Socials & Reviews Management Dashboard - Frontend Application",
   "keywords": [

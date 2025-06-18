@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3002",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
@@ -13,7 +13,8 @@
     "test:coverage": "jest --coverage",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=batch-closeout-production"
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=batch-closeout-production",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
@@ -53,6 +54,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "next-test-api-route-handler": "^4.0.8",
     "typescript": "^5.5.0",
-    "tailwindcss": "^4.1.7"
+    "tailwindcss": "^4.1.7",
+    "@cloudflare/next-on-pages": "^1.13.12"
   }
 }

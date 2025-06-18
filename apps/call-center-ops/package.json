@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3008",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start -p 3008",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=call-center-ops-production"
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=call-center-ops-production",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
@@ -34,6 +35,7 @@
     "eslint": "8.56.0",
     "eslint-config-next": "^14.2.0",
     "postcss": "^8.4.0",
-    "tailwindcss": "^3.4.0"
+    "tailwindcss": "^3.4.0",
+    "@cloudflare/next-on-pages": "^1.13.12"
   }
 }

@@ -5,7 +5,7 @@
   "description": "Ganger Platform - Rapid Custom Handouts Generator",
   "scripts": {
     "dev": "next dev --port 3010",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start --port 3010",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
@@ -14,7 +14,8 @@
     "deploy:dual": "npm run deploy:patient && npm run deploy:staff",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=handouts-production"
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=handouts-production",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",

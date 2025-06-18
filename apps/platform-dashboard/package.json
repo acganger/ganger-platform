@@ -5,7 +5,7 @@
   "description": "Platform Entrypoint Dashboard - Central hub for Ganger Platform applications",
   "scripts": {
     "dev": "next dev -p 3011",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start -p 3011",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
@@ -14,7 +14,8 @@
     "export": "next build && next export",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=platform-dashboard-production"
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=platform-dashboard-production",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
@@ -51,7 +52,8 @@
     "node-mocks-http": "^1.13.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "@cloudflare/next-on-pages": "^1.13.12"
   },
   "keywords": [
     "dashboard",

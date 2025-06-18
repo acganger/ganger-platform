@@ -5,13 +5,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3007",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start -p 3007",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=ai-receptionist-production"
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=ai-receptionist-production",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",

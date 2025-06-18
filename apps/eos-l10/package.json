@@ -5,7 +5,7 @@
   "description": "EOS L10 Management Platform - Mobile-First PWA for Team Management",
   "scripts": {
     "dev": "next dev -p 3004",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "start": "next start -p 3004",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
@@ -14,7 +14,8 @@
     "setup:l10": "npm run migrate:schema && npm run import:data",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=eos-l10-production"
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=eos-l10-production",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
@@ -56,6 +57,7 @@
     "ts-node": "^10.9.0",
     "tsx": "^4.0.0",
     "typescript": "^5.5.0",
-    "wrangler": "^3.91.0"
+    "wrangler": "^3.91.0",
+    "@cloudflare/next-on-pages": "^1.13.12"
   }
 }

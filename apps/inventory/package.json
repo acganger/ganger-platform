@@ -5,13 +5,14 @@
   "description": "Ganger Platform - Inventory Management SPA",
   "scripts": {
     "dev": "next dev --port 3010",
-    "build": "next build && npx @cloudflare/next-on-pages",
+    "build": "next build",
     "build:next": "next build",
     "build:worker": "npx @cloudflare/next-on-pages",
     "start": "next start --port 3010",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=inventory-production",
+    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=inventory-production",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",

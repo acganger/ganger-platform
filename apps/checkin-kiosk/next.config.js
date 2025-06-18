@@ -3,11 +3,6 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
-  // Cloudflare Workers runtime
-  experimental: {
-    runtime: 'edge',
-  },
-  
   // Staff portal integration
   basePath: '/checkin',
   assetPrefix: '/checkin',
