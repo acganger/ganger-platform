@@ -1,3 +1,6 @@
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { 

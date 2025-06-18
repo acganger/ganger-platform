@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 /**
  * AI Receptionist - Root redirect page
  * Redirects to dashboard for static export compatibility

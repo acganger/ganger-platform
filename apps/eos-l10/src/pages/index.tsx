@@ -1,3 +1,6 @@
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';

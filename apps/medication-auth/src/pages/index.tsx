@@ -13,6 +13,9 @@ import { RealtimeStatus } from '@/components/shared/RealtimeStatus';
 import { supabase } from '@/lib/supabase';
 import type { AuthorizationFilters as AuthFilters } from '@/types';
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 export default function DashboardPage() {
   const [filters, setFilters] = useState<AuthFilters>({});
   const [currentPage, setCurrentPage] = useState(1);

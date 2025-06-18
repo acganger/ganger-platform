@@ -1,3 +1,6 @@
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 /**
  * Landing Page
  * Professional pharmaceutical scheduling landing page

@@ -3,6 +3,9 @@
 import { useStaffAuth } from '@ganger/auth';
 import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 export default function PlatformDashboardPage() {
   const { user, isAuthenticated, isLoading } = useStaffAuth();
   

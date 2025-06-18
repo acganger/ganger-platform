@@ -1,3 +1,6 @@
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth, AuthGuard } from '@ganger/auth';

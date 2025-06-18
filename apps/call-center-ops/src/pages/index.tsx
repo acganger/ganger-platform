@@ -4,6 +4,9 @@
 import { useState, useEffect } from 'react';
 import { useAuth, withAuthComponent } from '@ganger/auth';
 import { AppLayout, PageHeader, Card, Button } from '@ganger/ui';
+
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
 // Remove User import as it's not needed - user type comes from auth context
 
 interface DashboardRedirect {

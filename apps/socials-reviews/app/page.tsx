@@ -7,6 +7,9 @@ import { SocialMonitoringPanel } from '@/components/social/SocialMonitoringPanel
 import { ReviewManagementPanel } from '@/components/reviews/ReviewManagementPanel';
 import { ContentLibraryPanel } from '@/components/content/ContentLibraryPanel';
 import { 
+
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
   Star, 
   MessageSquare, 
   Eye, 

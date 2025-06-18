@@ -10,6 +10,9 @@ import { AuditLogViewer } from '../components/AuditLogViewer';
 import { ApprovalWorkflow } from '../components/ApprovalWorkflow';
 import { DashboardLayout } from '../components/DashboardLayout';
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 export default function ConfigDashboardHome() {
   const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<'applications' | 'configurations' | 'permissions' | 'impersonation' | 'approval' | 'audit'>('applications');

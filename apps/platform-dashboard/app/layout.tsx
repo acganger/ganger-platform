@@ -1,3 +1,6 @@
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 import { StaffPortalLayout } from '@ganger/ui';
 import { AuthProvider } from '@ganger/auth';
 import type { Metadata } from 'next';

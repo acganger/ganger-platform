@@ -4,6 +4,9 @@ import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import type { Integration } from '../types/integration'
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 // Production-ready components (simplified for initial deployment)
 // TODO: Replace with @ganger/* packages once workspace dependencies are resolved
 

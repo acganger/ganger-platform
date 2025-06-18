@@ -7,6 +7,12 @@ const nextConfig = {
   basePath: '/dashboard',
   assetPrefix: '/dashboard',
   
+  // Cloudflare Workers configuration
+  output: 'standalone',
+  experimental: {
+    runtime: 'edge',
+  },
+  
   eslint: {
     ignoreDuringBuilds: true,
   },

@@ -1,3 +1,6 @@
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+
 // Check-in Kiosk Main Page
 // Demonstrates immediate business value from Universal Payment Processing Hub
 
