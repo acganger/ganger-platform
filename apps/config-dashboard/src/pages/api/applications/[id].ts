@@ -88,6 +88,13 @@ async function handler(
   res: NextApiResponse
 ): Promise<void> {
   const user = req.user;
+  if (!user) {
+    res.status(401).json(
+      errorResponse('AUTHENTICATION_REQUIRED', 'Authentication required')
+    );
+    return;
+  }
+  
   const supabase = createSupabaseServerClient();
 
   const { id } = req.query;

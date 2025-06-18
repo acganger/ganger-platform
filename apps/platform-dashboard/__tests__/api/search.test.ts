@@ -2,7 +2,7 @@
 // Test suite for global search functionality
 
 import { createMocks } from 'node-mocks-http';
-import searchHandler from '../../src/pages/api/search/index';
+import { GET } from '../../app/api/search/route';
 import { createServerSupabaseClient } from '../../src/lib/supabase-server';
 
 // Mock dependencies
@@ -335,7 +335,9 @@ describe('/api/search', () => {
       });
 
       // Staff user should not be able to update index
-      req.user.role = 'staff';
+      if (req.profile) {
+        req.profile.role = 'staff';
+      }
 
       await searchHandler(req, res);
 
@@ -353,7 +355,9 @@ describe('/api/search', () => {
         body: { force_rebuild: false }
       });
 
-      req.user.role = 'superadmin';
+      if (req.profile) {
+        req.profile.role = 'superadmin';
+      }
 
       await searchHandler(req, res);
 
@@ -372,7 +376,9 @@ describe('/api/search', () => {
         body: { force_rebuild: true }
       });
 
-      req.user.role = 'superadmin';
+      if (req.profile) {
+        req.profile.role = 'superadmin';
+      }
 
       await searchHandler(req, res);
 
@@ -405,7 +411,9 @@ describe('/api/search', () => {
         body: { force_rebuild: false }
       });
 
-      req.user.role = 'superadmin';
+      if (req.profile) {
+        req.profile.role = 'superadmin';
+      }
 
       await searchHandler(req, res);
 
@@ -420,7 +428,9 @@ describe('/api/search', () => {
         body: { force_rebuild: false }
       });
 
-      req.user.role = 'superadmin';
+      if (req.profile) {
+        req.profile.role = 'superadmin';
+      }
 
       await searchHandler(req, res);
 

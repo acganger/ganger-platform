@@ -1,21 +1,26 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { clsx } from 'clsx'
 
 export function FadeIn({
   children,
   className,
   ...props
-}: React.ComponentProps<typeof motion.div>) {
+}: React.ComponentProps<'div'>) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={className}
+    <div
+      className={clsx(
+        'animate-fade-in opacity-0 translate-y-6 animation-fill-forwards',
+        className
+      )}
+      style={{
+        animationDelay: '0.1s',
+        animationDuration: '0.5s',
+        animationTimingFunction: 'ease-out'
+      }}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }

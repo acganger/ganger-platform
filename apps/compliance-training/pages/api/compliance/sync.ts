@@ -6,6 +6,8 @@ import { withAuth, withMethods, withRateLimit, AuthenticatedRequest } from '../.
 import { ZenefitsComplianceSync } from '../../../lib/integrations/zenefits';
 import { GoogleClassroomComplianceSync } from '../../../lib/integrations/google-classroom';
 
+// Runtime: nodejs (default) - uses auth-utils and integration libraries
+
 interface SyncRequest {
   source: 'zenefits' | 'google-classroom' | 'all';
   options?: {
@@ -138,7 +140,7 @@ async function syncHandler(
       await auditLog({
         action: 'compliance_sync_completed',
         userId: user.id,
-        userEmail: user.email,
+        userEmail: user?.email,
         resourceType: 'compliance_sync',
         metadata: {
           syncId,

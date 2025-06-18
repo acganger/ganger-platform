@@ -103,7 +103,7 @@ export function withAuth(
       // Create authenticated user object
       const authenticatedUser = {
         id: user.id,
-        email: user.email!,
+        email: user?.email!,
         name: userProfile.name || user.user_metadata?.name,
         role: userProfile.role,
         locations: userProfile.locations || ['unknown'],

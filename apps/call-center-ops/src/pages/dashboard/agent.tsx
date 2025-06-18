@@ -1,4 +1,4 @@
-
+'use client'
 
 import { useState, useEffect } from 'react';
 import { useAuth, withAuthComponent } from '@ganger/auth';
@@ -117,7 +117,7 @@ function AgentDashboard() {
     <AppLayout>
       <PageHeader 
         title="Agent Dashboard" 
-        subtitle={`Welcome back, ${user?.name || 'Agent'}`}
+        subtitle={`Welcome back, ${user?.user_metadata?.full_name || user?.email || 'Agent'}`}
         actions={
           <div className="flex space-x-3">
             <Button 

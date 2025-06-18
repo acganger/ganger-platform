@@ -1,0 +1,8 @@
+{
+  "url": "https://app.ninety.io/api/v4/Otel/v1/traces",
+  "endpoint": "Otel/v1/traces",
+  "data": {
+    "partialSuccess": {}
+  },
+  "timestamp": "2025-06-18T12:36:58.293Z"
+}

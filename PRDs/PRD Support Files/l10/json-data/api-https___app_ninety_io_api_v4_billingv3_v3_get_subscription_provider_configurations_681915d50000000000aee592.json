@@ -1,0 +1,20 @@
+{
+  "url": "https://app.ninety.io/api/v4/BillingV3/v3/get-subscription-provider-configurations/681915d50000000000aee592",
+  "data": {
+    "id": "681915d50000000000aee592",
+    "provider": "Stripe",
+    "name": "Legacy Monthly",
+    "displayName": "Legacy",
+    "frequency": "month",
+    "trialDays": 0,
+    "billingVersion": "v3",
+    "active": true,
+    "activeStart": "2025-05-01T00:00:00Z",
+    "activeEnd": "2099-12-31T00:00:00Z",
+    "isInternalPlan": true,
+    "pendingInvoiceInterval": "none",
+    "isLegacyPlan": true,
+    "planLevel": "Thrive"
+  },
+  "timestamp": "2025-06-18T11:36:44.781Z"
+}

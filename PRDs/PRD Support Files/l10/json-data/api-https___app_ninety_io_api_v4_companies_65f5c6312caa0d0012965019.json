@@ -1,0 +1,2011 @@
+{
+  "url": "https://app.ninety.io/api/v4/Companies/65f5c6312caa0d0012965019",
+  "data": {
+    "_id": "65f5c6312caa0d0012965019",
+    "bos": "EOS",
+    "createdByPersonId": "65f5c62c7a29d900127987f2",
+    "implementerCode": null,
+    "implementerFree": false,
+    "name": "Ganger Dermatology",
+    "observers": [],
+    "parentAffiliateCode": "",
+    "seniorLeadershipTeamId": "65f5c6322caa0d001296501d",
+    "settings": {
+      "measurableAverageScore": true,
+      "measurableStatusIndicator": true,
+      "measurableTotalScore": true,
+      "_id": "65f5c6312caa0d0012965018",
+      "eosPure": true,
+      "smsEnabled": true,
+      "v4beta": false,
+      "v4alpha": false,
+      "milestones": true,
+      "preventMilestonesTurningIntoTodos": false,
+      "privateAccountabilityChart": false,
+      "defaultConversationQuestions": [
+        {
+          "question": "Strengths & Key Accomplishments",
+          "elementId": "Strengths & Accomplishments",
+          "title": "Strengths & Accomplishments",
+          "sectionTitleSameAsQuestion": false
+        },
+        {
+          "question": "Area(s) that Needs Improvement",
+          "elementId": "Improvement Areas",
+          "title": "Improvement Areas",
+          "sectionTitleSameAsQuestion": false
+        },
+        {
+          "question": "Plan to Get Things on Track",
+          "elementId": "Plan to Get On Track",
+          "title": "Plan to Get On Track",
+          "sectionTitleSameAsQuestion": false
+        }
+      ],
+      "colorBranding": {
+        "primaryAccent": "#7dbfe8",
+        "secondaryAccent": "#262626",
+        "active": true
+      },
+      "measurableWeeklyStartDay": {
+        "offset": 4,
+        "day": "Friday"
+      },
+      "dashboard": false,
+      "survey": false,
+      "crm": false,
+      "hiring": false,
+      "pipeline": false,
+      "issueRating": true,
+      "customVto": false,
+      "issueVoting": false,
+      "toolsHub": false,
+      "scorecardTrailing": true,
+      "mastery": {
+        "enabled": true,
+        "showIcons": true,
+        "showLinks": true
+      },
+      "oneOnOne": {
+        "leadershipCommitments": [
+          {
+            "commitmentType": "leadership",
+            "bos": "EOS",
+            "amk": "direction",
+            "manager": {
+              "title": "I am giving clear direction.",
+              "items": [
+                {
+                  "label": "Creating the opening",
+                  "subItems": []
+                },
+                {
+                  "label": "A compelling vision",
+                  "subItems": []
+                },
+                {
+                  "label": "Eight questions",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "I am given clear direction.",
+              "items": [
+                {
+                  "label": "Opening created",
+                  "subItems": []
+                },
+                {
+                  "label": "A compelling vision communicated",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "leadership",
+            "bos": "EOS",
+            "amk": "tools",
+            "manager": {
+              "title": "I am giving the necessary tools.",
+              "items": [
+                {
+                  "label": "Resources",
+                  "subItems": []
+                },
+                {
+                  "label": "Training",
+                  "subItems": []
+                },
+                {
+                  "label": "Technology",
+                  "subItems": []
+                },
+                {
+                  "label": "People",
+                  "subItems": []
+                },
+                {
+                  "label": "Time and attention",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "I am given the necessary tools.",
+              "items": [
+                {
+                  "label": "Resources",
+                  "subItems": []
+                },
+                {
+                  "label": "Training",
+                  "subItems": []
+                },
+                {
+                  "label": "Technology",
+                  "subItems": []
+                },
+                {
+                  "label": "People",
+                  "subItems": []
+                },
+                {
+                  "label": "Time and attention",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "leadership",
+            "bos": "EOS",
+            "amk": "vine",
+            "manager": {
+              "title": "I am letting go of the vine.",
+              "items": [
+                {
+                  "label": "Delegate and Elevate™",
+                  "subItems": []
+                },
+                {
+                  "label": "Right Person in the Right Seat",
+                  "subItems": []
+                },
+                {
+                  "label": "Not meddling, getting out of their way",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "My manager has let go of the vine.",
+              "items": [
+                {
+                  "label": "Delegated responsibilities to me",
+                  "subItems": []
+                },
+                {
+                  "label": "Elevated me to do more of what I am great at",
+                  "subItems": []
+                },
+                {
+                  "label": "Has not meddled in the small stuff",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "leadership",
+            "bos": "EOS",
+            "amk": "greaterGood",
+            "manager": {
+              "title": "I am acting with the greater good in mind.",
+              "items": [
+                {
+                  "label": "Company vision (V/TO)™",
+                  "subItems": []
+                },
+                {
+                  "label": "My actions",
+                  "subItems": []
+                },
+                {
+                  "label": "My decisions",
+                  "subItems": []
+                },
+                {
+                  "label": "I walk the talk",
+                  "subItems": []
+                },
+                {
+                  "label": "I put the company's needs first",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "My manager acts with the greater good in mind.",
+              "items": [
+                {
+                  "label": "Company vision (V/TO)™",
+                  "subItems": []
+                },
+                {
+                  "label": "Their actions",
+                  "subItems": []
+                },
+                {
+                  "label": "Their decisions",
+                  "subItems": []
+                },
+                {
+                  "label": "They walk the talk",
+                  "subItems": []
+                },
+                {
+                  "label": "They put the company's needs first",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "leadership",
+            "bos": "EOS",
+            "amk": "clarityBreaks",
+            "manager": {
+              "title": "I am taking Clarity Breaks™",
+              "items": [
+                {
+                  "label": "Focused \"on\" the business",
+                  "subItems": []
+                },
+                {
+                  "label": "Creating clarity",
+                  "subItems": []
+                },
+                {
+                  "label": "Protecting my confidence",
+                  "subItems": []
+                },
+                {
+                  "label": "With the right frequency (daily, weekly, or monthly)",
+                  "subItems": []
+                },
+                {
+                  "label": "Using a journal or blank legal pad",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "My manager takes Clarity Breaks™",
+              "items": [
+                {
+                  "label": "To focus \"on\" the business",
+                  "subItems": []
+                },
+                {
+                  "label": "To create clarity",
+                  "subItems": []
+                },
+                {
+                  "label": "Takes time consistently",
+                  "subItems": []
+                }
+              ]
+            }
+          }
+        ],
+        "coachingCommitments": [
+          {
+            "commitmentType": "coaching",
+            "bos": "EOS",
+            "amk": "expectations",
+            "manager": {
+              "title": "I keep expectations clear.",
+              "items": [
+                {
+                  "label": "Mine and theirs",
+                  "subItems": []
+                },
+                {
+                  "label": "On the same page with Roles, Core Values, Rocks, and Measurables",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "My manager keeps expectations clear.",
+              "items": [
+                {
+                  "label": "Theirs and mine",
+                  "subItems": []
+                },
+                {
+                  "label": "I know my Roles, Core Values, Rocks, and Measurables",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "coaching",
+            "bos": "EOS",
+            "amk": "communicating",
+            "manager": {
+              "title": "I am communicating well.",
+              "items": [
+                {
+                  "label": "Me and them",
+                  "subItems": []
+                },
+                {
+                  "label": "We know what's on each other's minds; there are no assumptions",
+                  "subItems": []
+                },
+                {
+                  "label": "I have a good question-to-statement ratio",
+                  "subItems": []
+                },
+                {
+                  "label": "No \"thump, thump\"",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "My manager communicates well.",
+              "items": [
+                {
+                  "label": "We know what's on each other's minds; there are no assumptions",
+                  "subItems": []
+                },
+                {
+                  "label": "There is a good question-to-statement ratio",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "coaching",
+            "bos": "EOS",
+            "amk": "pulse",
+            "manager": {
+              "title": "I have the right Meeting Pulse.",
+              "items": [
+                {
+                  "label": "Even exchange of dialogue",
+                  "subItems": []
+                },
+                {
+                  "label": "Reporting measurables",
+                  "subItems": []
+                },
+                {
+                  "label": "We are keeping the circles connected",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "There is a Meeting Pulse.",
+              "items": [
+                {
+                  "label": "Even exchange of dialogue",
+                  "subItems": []
+                },
+                {
+                  "label": "Reporting measurables",
+                  "subItems": []
+                },
+                {
+                  "label": "We are keeping the circles connected",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "coaching",
+            "bos": "EOS",
+            "amk": "quarterlyConversations",
+            "manager": {
+              "title": "I am having Quarterly Discussions.",
+              "items": [
+                {
+                  "label": "Completing the 5-5-5™",
+                  "subItems": []
+                },
+                {
+                  "label": "Using People Analyzer™",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "We have Quarterly Discussions.",
+              "items": [
+                {
+                  "label": "Completing the 5-5-5™",
+                  "subItems": []
+                },
+                {
+                  "label": "Using People Analyzer™",
+                  "subItems": []
+                }
+              ]
+            }
+          },
+          {
+            "commitmentType": "coaching",
+            "bos": "EOS",
+            "amk": "rewarding",
+            "manager": {
+              "title": "I reward and recognize.",
+              "items": [
+                {
+                  "label": "I give positive and negative feedback quickly, within 24 hours",
+                  "subItems": []
+                },
+                {
+                  "label": "I criticize in private, praise in public",
+                  "subItems": []
+                },
+                {
+                  "label": "I am their boss, not their buddy",
+                  "subItems": []
+                },
+                {
+                  "label": "I use the Three Strike Rule",
+                  "subItems": []
+                }
+              ]
+            },
+            "managee": {
+              "title": "My manager rewards and recognizes.",
+              "items": [
+                {
+                  "label": "I am given positive and negative feedback quickly, within 24 hours",
+                  "subItems": []
+                },
+                {
+                  "label": "I am criticized in private, praised in public",
+                  "subItems": []
+                },
+                {
+                  "label": "My manager is my boss, not my buddy",
+                  "subItems": []
+                },
+                {
+                  "label": "The Three Strike Rule is used",
+                  "subItems": []
+                }
+              ]
+            }
+          }
+        ],
+        "annualQuestions": [
+          {
+            "question": "Strengths & Key Accomplishments",
+            "elementId": "Strengths & Accomplishments",
+            "title": "Strengths & Accomplishments",
+            "sectionTitleSameAsQuestion": false
+          },
+          {
+            "question": "Area(s) that Needs Improvement",
+            "elementId": "Improvement Areas",
+            "title": "Improvement Areas",
+            "sectionTitleSameAsQuestion": false
+          },
+          {
+            "question": "Plan to Get Things on Track",
+            "elementId": "Plan to Get On Track",
+            "title": "Plan to Get On Track",
+            "sectionTitleSameAsQuestion": false
+          }
+        ],
+        "quarterlyQuestions": [],
+        "ratingsSettings": {
+          "bos": "EOS",
+          "language": {
+            "coreValues": [
+              {
+                "text": "+",
+                "value": 1
+              },
+              {
+                "text": "+/-",
+                "value": 2
+              },
+              {
+                "text": "-",
+                "value": 3
+              }
+            ],
+            "ccc": [
+              {
+                "text": "Yes",
+                "value": 1
+              },
+              {
+                "text": "No",
+                "value": 2
+              },
+              {
+                "text": "Maybe",
+                "value": 3
+              }
+            ],
+            "lac": [
+              {
+                "text": "Yes",
+                "value": 1
+              },
+              {
+                "text": "No",
+                "value": 2
+              },
+              {
+                "text": "Maybe",
+                "value": 3
+              }
+            ]
+          }
+        }
+      },
+      "agreementBasedTodos": false,
+      "measurableStatusIcon": true,
+      "measurableShowDefaultGoal": true,
+      "measurableShowOwner": true,
+      "measurableShowCurrentPeriod": true,
+      "masterySettings": {
+        "$mergeObjects": [
+          "$settings.masterySettings",
+          {
+            "showIcons": true,
+            "showLinks": true
+          }
+        ]
+      }
+    },
+    "trial": {
+      "active": false,
+      "expirationDate": null
+    },
+    "__v": 4,
+    "deleted": false,
+    "logo": {
+      "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/companies/65f5c6312caa0d0012965019/3c080e64-4b5f-4cf6-910a-cd47e8f46708"
+    },
+    "statuses": {
+      "active": true,
+      "lastUpdated": "2024-03-16T16:17:53.898Z",
+      "inactiveDate": null
+    },
+    "billingType": "BillingV3",
+    "coupons": [],
+    "industryCode": null,
+    "countryCode": null,
+    "postalCode": null,
+    "phoneNumber": "7343444567",
+    "accountStatus": "active",
+    "trialingUntil": "2024-04-15T16:17:55.000Z",
+    "createdAt": "2024-03-16T16:17:53.898Z",
+    "eosType": "Yes",
+    "eosOtherType": "",
+    "referralType": "Our EOS® Implementer",
+    "referralOtherType": "",
+    "acceptableStandards": {
+      "coreValueBar": null,
+      "gwcBar": null
+    },
+    "userLimit": 1000,
+    "trialingUserLimit": 100,
+    "leadershipCommitments": [
+      {
+        "commitmentType": "leadership",
+        "bos": "EOS",
+        "amk": "direction",
+        "manager": {
+          "title": "I am giving clear direction.",
+          "items": [
+            {
+              "label": "Creating the opening",
+              "subItems": []
+            },
+            {
+              "label": "A compelling vision",
+              "subItems": []
+            },
+            {
+              "label": "Eight questions",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "I am given clear direction.",
+          "items": [
+            {
+              "label": "Opening created",
+              "subItems": []
+            },
+            {
+              "label": "A compelling vision communicated",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "leadership",
+        "bos": "EOS",
+        "amk": "tools",
+        "manager": {
+          "title": "I am giving the necessary tools.",
+          "items": [
+            {
+              "label": "Resources",
+              "subItems": []
+            },
+            {
+              "label": "Training",
+              "subItems": []
+            },
+            {
+              "label": "Technology",
+              "subItems": []
+            },
+            {
+              "label": "People",
+              "subItems": []
+            },
+            {
+              "label": "Time and attention",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "I am given the necessary tools.",
+          "items": [
+            {
+              "label": "Resources",
+              "subItems": []
+            },
+            {
+              "label": "Training",
+              "subItems": []
+            },
+            {
+              "label": "Technology",
+              "subItems": []
+            },
+            {
+              "label": "People",
+              "subItems": []
+            },
+            {
+              "label": "Time and attention",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "leadership",
+        "bos": "EOS",
+        "amk": "vine",
+        "manager": {
+          "title": "I am letting go of the vine.",
+          "items": [
+            {
+              "label": "Delegate and Elevate™",
+              "subItems": []
+            },
+            {
+              "label": "Right Person in the Right Seat",
+              "subItems": []
+            },
+            {
+              "label": "Not meddling, getting out of their way",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "My manager has let go of the vine.",
+          "items": [
+            {
+              "label": "Delegated responsibilities to me",
+              "subItems": []
+            },
+            {
+              "label": "Elevated me to do more of what I am great at",
+              "subItems": []
+            },
+            {
+              "label": "Has not meddled in the small stuff",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "leadership",
+        "bos": "EOS",
+        "amk": "greaterGood",
+        "manager": {
+          "title": "I am acting with the greater good in mind.",
+          "items": [
+            {
+              "label": "Company vision (V/TO)™",
+              "subItems": []
+            },
+            {
+              "label": "My actions",
+              "subItems": []
+            },
+            {
+              "label": "My decisions",
+              "subItems": []
+            },
+            {
+              "label": "I walk the talk",
+              "subItems": []
+            },
+            {
+              "label": "I put the company's needs first",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "My manager acts with the greater good in mind.",
+          "items": [
+            {
+              "label": "Company vision (V/TO)™",
+              "subItems": []
+            },
+            {
+              "label": "Their actions",
+              "subItems": []
+            },
+            {
+              "label": "Their decisions",
+              "subItems": []
+            },
+            {
+              "label": "They walk the talk",
+              "subItems": []
+            },
+            {
+              "label": "They put the company's needs first",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "leadership",
+        "bos": "EOS",
+        "amk": "clarityBreaks",
+        "manager": {
+          "title": "I am taking Clarity Breaks™",
+          "items": [
+            {
+              "label": "Focused \"on\" the business",
+              "subItems": []
+            },
+            {
+              "label": "Creating clarity",
+              "subItems": []
+            },
+            {
+              "label": "Protecting my confidence",
+              "subItems": []
+            },
+            {
+              "label": "With the right frequency (daily, weekly, or monthly)",
+              "subItems": []
+            },
+            {
+              "label": "Using a journal or blank legal pad",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "My manager takes Clarity Breaks™",
+          "items": [
+            {
+              "label": "To focus \"on\" the business",
+              "subItems": []
+            },
+            {
+              "label": "To create clarity",
+              "subItems": []
+            },
+            {
+              "label": "Takes time consistently",
+              "subItems": []
+            }
+          ]
+        }
+      }
+    ],
+    "coachingCommitments": [
+      {
+        "commitmentType": "coaching",
+        "bos": "EOS",
+        "amk": "expectations",
+        "manager": {
+          "title": "I keep expectations clear.",
+          "items": [
+            {
+              "label": "Mine and theirs",
+              "subItems": []
+            },
+            {
+              "label": "On the same page with Roles, Core Values, Rocks, and Measurables",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "My manager keeps expectations clear.",
+          "items": [
+            {
+              "label": "Theirs and mine",
+              "subItems": []
+            },
+            {
+              "label": "I know my Roles, Core Values, Rocks, and Measurables",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "coaching",
+        "bos": "EOS",
+        "amk": "communicating",
+        "manager": {
+          "title": "I am communicating well.",
+          "items": [
+            {
+              "label": "Me and them",
+              "subItems": []
+            },
+            {
+              "label": "We know what's on each other's minds; there are no assumptions",
+              "subItems": []
+            },
+            {
+              "label": "I have a good question-to-statement ratio",
+              "subItems": []
+            },
+            {
+              "label": "No \"thump, thump\"",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "My manager communicates well.",
+          "items": [
+            {
+              "label": "We know what's on each other's minds; there are no assumptions",
+              "subItems": []
+            },
+            {
+              "label": "There is a good question-to-statement ratio",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "coaching",
+        "bos": "EOS",
+        "amk": "pulse",
+        "manager": {
+          "title": "I have the right Meeting Pulse.",
+          "items": [
+            {
+              "label": "Even exchange of dialogue",
+              "subItems": []
+            },
+            {
+              "label": "Reporting measurables",
+              "subItems": []
+            },
+            {
+              "label": "We are keeping the circles connected",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "There is a Meeting Pulse.",
+          "items": [
+            {
+              "label": "Even exchange of dialogue",
+              "subItems": []
+            },
+            {
+              "label": "Reporting measurables",
+              "subItems": []
+            },
+            {
+              "label": "We are keeping the circles connected",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "coaching",
+        "bos": "EOS",
+        "amk": "quarterlyConversations",
+        "manager": {
+          "title": "I am having Quarterly Discussions.",
+          "items": [
+            {
+              "label": "Completing the 5-5-5™",
+              "subItems": []
+            },
+            {
+              "label": "Using People Analyzer™",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "We have Quarterly Discussions.",
+          "items": [
+            {
+              "label": "Completing the 5-5-5™",
+              "subItems": []
+            },
+            {
+              "label": "Using People Analyzer™",
+              "subItems": []
+            }
+          ]
+        }
+      },
+      {
+        "commitmentType": "coaching",
+        "bos": "EOS",
+        "amk": "rewarding",
+        "manager": {
+          "title": "I reward and recognize.",
+          "items": [
+            {
+              "label": "I give positive and negative feedback quickly, within 24 hours",
+              "subItems": []
+            },
+            {
+              "label": "I criticize in private, praise in public",
+              "subItems": []
+            },
+            {
+              "label": "I am their boss, not their buddy",
+              "subItems": []
+            },
+            {
+              "label": "I use the Three Strike Rule",
+              "subItems": []
+            }
+          ]
+        },
+        "managee": {
+          "title": "My manager rewards and recognizes.",
+          "items": [
+            {
+              "label": "I am given positive and negative feedback quickly, within 24 hours",
+              "subItems": []
+            },
+            {
+              "label": "I am criticized in private, praised in public",
+              "subItems": []
+            },
+            {
+              "label": "My manager is my boss, not my buddy",
+              "subItems": []
+            },
+            {
+              "label": "The Three Strike Rule is used",
+              "subItems": []
+            }
+          ]
+        }
+      }
+    ],
+    "companyName": "Ganger Dermatology",
+    "customer": {
+      "email": "ea@ganger.com",
+      "partner_key": "5dc57e79c29ba40011fb9292"
+    },
+    "industry": "Health Care Providers & Services",
+    "employeeRange": "51-250",
+    "templateId": "638660fd5327b700082e2125",
+    "utm_campaign": null,
+    "utm_medium": null,
+    "utm_source": null,
+    "noStripe": true,
+    "testClockId": null,
+    "meetingAgendas": {
+      "weeklyMeetings": {
+        "agenda": [
+          {
+            "name": "SEGUE",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 0,
+            "path": "segue",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "SCORECARD",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 1,
+            "path": "data",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "ROCK REVIEW",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 2,
+            "path": "rocks",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "CUSTOMER / EMPLOYEE HEADLINES",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 3,
+            "path": "headlines",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "TO-DO LIST",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 4,
+            "path": "todos",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "IDS™",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 5,
+            "path": "issues",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 6,
+            "path": "conclude",
+            "isEditable": false,
+            "subtitle": ""
+          }
+        ]
+      },
+      "quarterlyMeetings": {
+        "agenda": [
+          {
+            "name": "OBJECTIVES",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 0,
+            "path": "objectives",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "CHECK-IN",
+            "duration": 900,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 1,
+            "path": "check-in",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "REVIEW PRIOR QUARTER",
+            "duration": 1800,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 2,
+            "path": "review-prior-quarter",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "V/TO®",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 4,
+            "path": "vision",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "EOS® TOOLS",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 5,
+            "path": "mastery",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "ROCKS",
+            "duration": 7200,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 6,
+            "path": "rocks",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "IDS™",
+            "duration": 10800,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 7,
+            "path": "issues",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "NEXT STEPS",
+            "duration": 420,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 8,
+            "path": "next-steps",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 480,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 9,
+            "path": "conclude",
+            "isEditable": true,
+            "subtitle": ""
+          }
+        ]
+      },
+      "annualDayOne": {
+        "agenda": [
+          {
+            "name": "OBJECTIVES",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 0,
+            "path": "objectives",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "CHECK-IN",
+            "duration": 1800,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 1,
+            "path": "check-in",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "REVIEW PRIOR YEAR",
+            "duration": 900,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 2,
+            "path": "review-prior-year",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "REVIEW PRIOR QUARTER",
+            "duration": 900,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 4,
+            "path": "review-prior-quarter",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "TEAM HEALTH",
+            "duration": 9900,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 5,
+            "path": "team-health",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "ORGANIZATIONAL CHECKUP",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 6,
+            "path": "org-checkup",
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "SWOT",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 7,
+            "path": "swot",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "V/TO® REVIEW",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 8,
+            "path": "vision",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "3 YEAR PICTURE™",
+            "duration": 3600,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 9,
+            "path": "3-year-picture",
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 300,
+            "isHidden": false,
+            "isCustom": false,
+            "isDefault": false,
+            "iframeUrl": "",
+            "details": "",
+            "ordinal": 10,
+            "path": "conclude",
+            "isEditable": true,
+            "subtitle": ""
+          }
+        ]
+      },
+      "annualDayTwo": {
+        "agenda": [
+          {
+            "name": "OBJECTIVES",
+            "duration": 300,
+            "ordinal": 0,
+            "path": "objectives",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CHECK-IN",
+            "duration": 900,
+            "ordinal": 1,
+            "path": "check-in",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "REVIEW ISSUES LIST &amp; 3 YEAR PICTURE™",
+            "duration": 900,
+            "ordinal": 2,
+            "path": "issues-and-3-year",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "ONE YEAR PLAN",
+            "duration": 7200,
+            "ordinal": 3,
+            "path": "1-year-plan",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "ROCKS",
+            "duration": 7200,
+            "ordinal": 4,
+            "path": "rocks",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "TACKLING KEY ISSUES",
+            "duration": 11700,
+            "ordinal": 5,
+            "path": "issues",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "NEXT STEPS",
+            "duration": 420,
+            "ordinal": 6,
+            "path": "next-steps",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 480,
+            "ordinal": 7,
+            "path": "conclude",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          }
+        ]
+      },
+      "focusDay": {
+        "agenda": [
+          {
+            "name": "CHECK-IN",
+            "duration": 1800,
+            "ordinal": 1,
+            "path": "check-in",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "HITTING THE CEILING",
+            "duration": 1800,
+            "ordinal": 2,
+            "path": "hitting-the-ceiling",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "ACCOUNTABILITY CHART",
+            "duration": 10800,
+            "ordinal": 3,
+            "path": "chart",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "ROCKS",
+            "duration": 7200,
+            "ordinal": 4,
+            "path": "rocks",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "MEETING PULSE",
+            "duration": 2700,
+            "ordinal": 5,
+            "path": "meeting-pulse",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "DATA",
+            "duration": 3600,
+            "ordinal": 6,
+            "path": "data",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "NEXT STEPS",
+            "duration": 420,
+            "ordinal": 7,
+            "path": "next-steps",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 480,
+            "ordinal": 8,
+            "path": "conclude",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          }
+        ]
+      },
+      "visionBuildingDayOne": {
+        "agenda": [
+          {
+            "name": "CHECK-IN",
+            "duration": 1800,
+            "ordinal": 1,
+            "path": "check-in",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "REVIEWING FOCUS DAY TOOLS",
+            "duration": 12600,
+            "ordinal": 2,
+            "path": "reviewing-focus-day-tools",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "VISION BUILDING SEGUE",
+            "duration": 300,
+            "ordinal": 3,
+            "path": "vision-building-segue",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CORE VALUES",
+            "duration": 7200,
+            "ordinal": 4,
+            "path": "core-values",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CORE FOCUS",
+            "duration": 4200,
+            "ordinal": 5,
+            "path": "core-focus",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "10 YEAR TARGET",
+            "duration": 1800,
+            "ordinal": 6,
+            "path": "10-year-target",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "NEXT STEPS",
+            "duration": 420,
+            "ordinal": 7,
+            "path": "next-steps",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 480,
+            "ordinal": 8,
+            "path": "conclude",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          }
+        ]
+      },
+      "visionBuildingDayTwo": {
+        "agenda": [
+          {
+            "name": "CHECK-IN",
+            "duration": 1800,
+            "ordinal": 1,
+            "path": "check-in",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "REVIEWING FOCUS DAY TOOLS",
+            "duration": 5400,
+            "ordinal": 2,
+            "path": "reviewing-focus-day-tools",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CORE VALUES",
+            "duration": 600,
+            "ordinal": 3,
+            "path": "core-values",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CORE FOCUS",
+            "duration": 600,
+            "ordinal": 4,
+            "path": "core-focus",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "10 YEAR TARGET",
+            "duration": 300,
+            "ordinal": 5,
+            "path": "10-year-target",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "MARKETING STRATEGY",
+            "duration": 4200,
+            "ordinal": 6,
+            "path": "marketing-strategy",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "3 YEAR PICTURE™",
+            "duration": 3600,
+            "ordinal": 7,
+            "path": "3-year-picture",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "1 YEAR PLAN",
+            "duration": 3600,
+            "ordinal": 8,
+            "path": "1-year-plan",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "ROCKS",
+            "duration": 7200,
+            "ordinal": 9,
+            "path": "rocks",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "ISSUES LIST",
+            "duration": 300,
+            "ordinal": 10,
+            "path": "issues",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "NEXT STEPS",
+            "duration": 420,
+            "ordinal": 11,
+            "path": "next-steps",
+            "isHidden": false,
+            "isEditable": false,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          },
+          {
+            "name": "CONCLUDE",
+            "duration": 480,
+            "ordinal": 12,
+            "path": "conclude",
+            "isHidden": false,
+            "isEditable": true,
+            "subtitle": "",
+            "details": "",
+            "iframeUrl": ""
+          }
+        ]
+      },
+      "custom": [
+        {
+          "name": "Same Page Meeting",
+          "_id": "6626b8bd759bc20393ef6992",
+          "isCustom": true,
+          "agenda": [
+            {
+              "name": "Issues",
+              "duration": 3600,
+              "isHidden": false,
+              "isCustom": false,
+              "isDefault": true,
+              "iframeUrl": "",
+              "details": "",
+              "ordinal": 0,
+              "path": "issues",
+              "isEditable": false,
+              "subtitle": ""
+            },
+            {
+              "name": "Review",
+              "duration": 1800,
+              "isHidden": false,
+              "isCustom": false,
+              "isDefault": true,
+              "iframeUrl": "",
+              "details": "",
+              "ordinal": 1,
+              "path": "conclude",
+              "isEditable": true,
+              "subtitle": ""
+            }
+          ]
+        },
+        {
+          "name": "Same Page Meeting",
+          "_id": "6626baa30c965e7b4f821aa6",
+          "isCustom": true,
+          "agenda": [
+            {
+              "name": "Issues",
+              "duration": 3600,
+              "isHidden": false,
+              "isCustom": false,
+              "isDefault": true,
+              "iframeUrl": "",
+              "details": "",
+              "ordinal": 0,
+              "path": "issues",
+              "isEditable": false,
+              "subtitle": ""
+            },
+            {
+              "name": "Conclude",
+              "duration": 300,
+              "isHidden": false,
+              "isCustom": false,
+              "isDefault": true,
+              "iframeUrl": "",
+              "details": "",
+              "ordinal": 1,
+              "path": "conclude",
+              "isEditable": true,
+              "subtitle": ""
+            }
+          ]
+        }
+      ],
+      "weeklyOneOnOne": {
+        "agenda": [
+          {
+            "name": "Segue",
+            "details": "",
+            "iframeUrl": null,
+            "path": "segue",
+            "ordinal": 0,
+            "startTimestamps": [],
+            "pauseTimestamps": [],
+            "duration": 180,
+            "elapsedTime": 0,
+            "isHidden": false,
+            "isCustom": false,
+            "isEditable": true,
+            "subtitle": ""
+          },
+          {
+            "name": "Scorecard",
+            "details": "",
+            "iframeUrl": null,
+            "path": "data",
+            "ordinal": 1,
+            "startTimestamps": [],
+            "pauseTimestamps": [],
+            "duration": 180,
+            "elapsedTime": 0,
+            "isHidden": false,
+            "isCustom": false,
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "Rock Review",
+            "details": "",
+            "iframeUrl": null,
+            "path": "rocks",
+            "ordinal": 2,
+            "startTimestamps": [],
+            "pauseTimestamps": [],
+            "duration": 300,
+            "elapsedTime": 0,
+            "isHidden": false,
+            "isCustom": false,
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "To-Do List",
+            "details": "",
+            "iframeUrl": null,
+            "path": "todos",
+            "ordinal": 3,
+            "startTimestamps": [],
+            "pauseTimestamps": [],
+            "duration": 120,
+            "elapsedTime": 0,
+            "isHidden": false,
+            "isCustom": false,
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "Issues",
+            "details": "",
+            "iframeUrl": null,
+            "path": "issues",
+            "ordinal": 4,
+            "startTimestamps": [],
+            "pauseTimestamps": [],
+            "duration": 900,
+            "elapsedTime": 0,
+            "isHidden": false,
+            "isCustom": false,
+            "isEditable": false,
+            "subtitle": ""
+          },
+          {
+            "name": "Conclude",
+            "details": "",
+            "iframeUrl": null,
+            "path": "conclude",
+            "ordinal": 5,
+            "startTimestamps": [],
+            "pauseTimestamps": [],
+            "duration": 120,
+            "elapsedTime": 0,
+            "isHidden": false,
+            "isCustom": false,
+            "isEditable": true,
+            "subtitle": ""
+          }
+        ]
+      }
+    },
+    "partnerKey": "5dc57e79c29ba40011fb9292",
+    "preventCoachControl": false,
+    "subscription": {
+      "ninetySubscriptionId": "682422573c62acb23f62a892",
+      "cancelledAt": null,
+      "currency": "usd",
+      "currentPeriodEnd": "2025-07-15T16:17:55.000Z",
+      "currentPeriodStart": "2025-06-15T16:17:55.000Z",
+      "customerHasAddress": true,
+      "customerId": "cus_PkUvndoV3PT8nD",
+      "defaultPaymentMethodId": "pm_1QS18eBvulM3DTAZCQjuLepf",
+      "defaultPaymentMethodLast4": "3018",
+      "defaultPaymentMethodType": "card",
+      "hasDefaultPaymentMethod": true,
+      "lastValidatedWithProvider": "2025-06-18T11:36:41.385Z",
+      "manualPlanChangeComments": "",
+      "manualPlanChangeRequestedAt": null,
+      "manualPlanChangeRequestedBy": null,
+      "manualReviewRequired": false,
+      "manualReviewRequiredReason": "",
+      "partnerGroup": "",
+      "pastDueGraceEndDate": null,
+      "planId": "prod_RvKRX0KzHCQYPa",
+      "planPriceId": "price_1R1TmPBvulM3DTAZJsSXf5hp",
+      "provider": "Stripe",
+      "providerStatus": "active",
+      "seatsPaidFor": 17,
+      "subscriptionId": "sub_1OuzvjBvulM3DTAZjPTcYIkB",
+      "subscriptionItemId": "si_PkUva5E9Eygh2G",
+      "subscriptionStartDate": "2024-03-16T16:17:55.000Z",
+      "subType": "Paid",
+      "trialEnd": "2024-04-15T16:17:55.000Z",
+      "trialStart": "2024-03-16T16:17:55.000Z",
+      "type": "Paid",
+      "validateOnLogin": false,
+      "willCancelAt": null,
+      "subscriptionConfigurationId": "681915d50000000000aee592",
+      "selectedFutureConfigurationId": null
+    }
+  },
+  "timestamp": "2025-06-18T11:36:43.967Z"
+}

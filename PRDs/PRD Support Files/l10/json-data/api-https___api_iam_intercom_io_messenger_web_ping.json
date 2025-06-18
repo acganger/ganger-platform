@@ -1,0 +1,259 @@
+{
+  "url": "https://api-iam.intercom.io/messenger/web/ping",
+  "data": {
+    "app": {
+      "name": "Ninety",
+      "audio_enabled": true,
+      "show_powered_by": false,
+      "team_intro": "We are real people providing real-time help.",
+      "team_greeting": "Hi A.C. 👋,",
+      "messenger_background": "background-16",
+      "expected_response_delay_translation_key": "expected_response_delay_300",
+      "launcher_expected_response_delay_translation_key": "the_team_typically_replies_in_300",
+      "sms_notifications_enabled": false,
+      "inbound_conversations_disabled": false,
+      "office_hours_response": null,
+      "help_center_site_url": "https://intercom.help/ninety",
+      "messenger_logo_url": "https://downloads.intercomcdn.com/i/o/376824/5b2ae688250d909dfaa284de/c9d9e6d0d402dfaa829ad2b9dc828f19.png",
+      "user_conversation_gifs_enabled": true,
+      "developer_workspace": false,
+      "upfront_email_collection_setting": "always",
+      "temporary_expectations_message": "Just a heads up that we’ll be doing some maintenance on Tuesday, May 13th, from 10 PM to midnight ET to enhance your experience. You may notice a few disruptions during this time, but we appreciate your patience and understanding!",
+      "localized_expected_response_delay_short_text": "Under 5 minutes",
+      "localized_expected_response_delay_long_text": "We typically reply in under 5 minutes",
+      "help_center_id": null,
+      "article_auto_reaction_enabled": true,
+      "use_cache_for": []
+    },
+    "user": {
+      "id": "683a1e12f9e284298f818b24",
+      "role": "user_role",
+      "locale": "en",
+      "has_conversations": false,
+      "active_company_id": "65f5c6312caa0d0012965019",
+      "country_code": "us",
+      "new_session": false,
+      "help_center_require_search": false,
+      "requires_cookie_consent": false,
+      "prevent_multiple_inbound_conversation": false,
+      "user_assignments": {}
+    },
+    "client_matches": [
+      {
+        "user_id": "683a1e12f9e284298f818b24",
+        "company_id": "65f5c6355c39ae0bd600c75d",
+        "predicates": [
+          {
+            "attribute": "client_attributes.last_visited_url",
+            "type": "string",
+            "comparison": "contains",
+            "value": "app.ninety.io"
+          },
+          {
+            "attribute": "client_attributes.pointer_selector",
+            "type": "css_selector",
+            "comparison": "eq",
+            "value": "#mat-dialog-0 > ninety-user-limit-dialog"
+          }
+        ],
+        "ruleset_id": 25660910,
+        "ruleset_match_behavior": "transient_match",
+        "ruleset_link_id": 25791608,
+        "ruleset_link_object_type": "button_custom_bot",
+        "serialized_object": {
+          "id": "393098",
+          "messenger_pre_action": "open-messenger-loading-view",
+          "event": "click",
+          "selector": "#mat-dialog-0 > ninety-user-limit-dialog"
+        },
+        "checkpoint_id": null,
+        "notification_record_id": null,
+        "matching_locations": [
+          0,
+          25
+        ],
+        "extra_context": {},
+        "contains_lca_predicate": false
+      }
+    ],
+    "launcher_settings": {
+      "alignment": "right",
+      "color": "#262626",
+      "color_dark": "#8e8e8e",
+      "has_required_features": true,
+      "horizontal_padding": 30,
+      "instant_boot_enabled": true,
+      "launcher_logo_url": null,
+      "launcher_logo_dark_url": null,
+      "secondary_color": "#2F8BAA",
+      "secondary_color_dark": "#2F8BAA",
+      "show_launcher": true,
+      "updated_at": 1750222958,
+      "vertical_padding": 48
+    },
+    "modules": {
+      "messages": {
+        "google_analytics_tracking_id": "UA-128495766-1"
+      },
+      "rtm": {
+        "endpoints": [
+          "https://nexus-websocket-a.intercom.io/pubsub/5-DsIIUTOz6uBzt3mCBYNT9lT_mFsimpRPIr98NZnPXttWD5h1Yr4Iw4tTbZGHJxAcphnHE0kRhRzExSwjwWNXrUK9PGMTSfp9i_DA"
+        ]
+      },
+      "metrics": {
+        "enabled": false
+      },
+      "error_reporting": {
+        "disabled": false
+      },
+      "customization": {
+        "brand_name": "Ninety",
+        "messenger_logo_url": "https://downloads.intercomcdn.com/i/o/376824/5b2ae688250d909dfaa284de/c9d9e6d0d402dfaa829ad2b9dc828f19.png",
+        "messenger_wallpaper": "background-16",
+        "action": {
+          "background_color": "#262626",
+          "foreground_color": "#ffffff",
+          "foreground_color_low_contrast": "#ffffff",
+          "background_color_dark": "#8e8e8e",
+          "foreground_color_dark": "#1c1c1c",
+          "foreground_color_low_contrast_dark": "#1c1c1c"
+        },
+        "action_contrast_white": null,
+        "action_contrast_dark": null,
+        "header": {
+          "background_color": "#ffffff",
+          "foreground_color": "#222222",
+          "background_color_dark": "#1c1c1c",
+          "foreground_color_dark": "#f7f7f7"
+        },
+        "theme_mode": "light",
+        "launcher_logo_dark_url": null,
+        "messenger_logo_dark_url": null
+      },
+      "home": {
+        "header": {
+          "background": {
+            "enabled": false,
+            "animated": false,
+            "type": "solid",
+            "type_dark": "solid",
+            "color": "#2F8BAA",
+            "color_dark": "#2F8BAA",
+            "fade_to_white": true,
+            "fade_to_dark": false,
+            "gradient": [
+              "#2f8baa",
+              "#194a5a"
+            ],
+            "gradient_dark": null,
+            "image_url": null,
+            "image_dark_url": null
+          },
+          "content": {
+            "greeting": {
+              "content": "Hi A.C. 👋,",
+              "text_color": "#ffffff",
+              "opacity": 1
+            },
+            "introduction": {
+              "content": "How can we help?",
+              "text_color": "#ffffff",
+              "opacity": 1
+            },
+            "close_button": {
+              "foreground_color": "#ffffff",
+              "background_color": "#000000",
+              "background_opacity": 0.5
+            },
+            "show_avatars": true,
+            "text_color_type": "dark",
+            "text_color_type_dark": "dark",
+            "logo_url": "https://downloads.intercomcdn.com/i/o/376824/5b2ae688250d909dfaa284de/c9d9e6d0d402dfaa829ad2b9dc828f19.png",
+            "logo_dark_url": null
+          },
+          "header_expanded": true,
+          "identity": "ai_agent"
+        },
+        "open_config": null
+      },
+      "features": {
+        "checklists": true,
+        "checklists_reminders": true,
+        "inbound_messages": true,
+        "inbound_lead_messaging": true,
+        "inbound_lead_messaging_docs_site": true,
+        "launcher_discovery_mode": true,
+        "marketo_enrichment_installed": false,
+        "hubspot_installed": false,
+        "google_analytics": true,
+        "single_page_app_rate_limiting": false,
+        "cross_site_cookies": false,
+        "cookie_secure_flag": false,
+        "ticket_creation": false,
+        "google_analytics_4_integration": true,
+        "view_in_help_center_button": true,
+        "customer_privacy_policy": false,
+        "eprivacy_cookie_compliance_required": false,
+        "persist_client_id_for_conversation_parts": true,
+        "composer_is_not_hiding": true,
+        "conversations_are_expandable": true,
+        "unified_reply_expectations": true,
+        "disable_fin_image_reading": false,
+        "end_salesforce_conversation": false,
+        "toggle_survey_visibility": true,
+        "dark_mode_enabled": false,
+        "delay_tour_render": false,
+        "disable_tickets_after_conversation_end": false,
+        "new_mobile_notifications_enabled": false,
+        "remove_borderless_notifications": false,
+        "nexus_ably": false,
+        "fin_human_identity_improvements_enabled": false
+      }
+    },
+    "unread_news_items_count": 0,
+    "anonymous_session": "ZmlPbU9GanJJUUVjUmFrMTg5TGhCMDFoOUF3YUVFYlhMR3ZGY2ZIZ25nR0hGSTNNTlF0OEtoSjF1RkdXWnhnZFlYbjBqOFFmdzU3V205dFo4dDMxTkFGQ3VVb2pQYVRDTElkQ0FRMkU5RDQ9LS1BSStkWVRiUWs3Z2YzYklmWmtXQkpRPT0=--d698161324f7d8d528a144915ffc2b39fce87ae6",
+    "identity_verification_ready": false,
+    "origin_cookie_domain": "ninety.io",
+    "cdas_breaching_limit": [],
+    "checklists": [],
+    "newsfeed_id": 8652,
+    "open_config": {
+      "form": "default",
+      "open_to": "home",
+      "spaces": [
+        {
+          "type": "home",
+          "label": "Home",
+          "navigation_label": "Home",
+          "badge": null
+        },
+        {
+          "type": "messages",
+          "label": "Messages",
+          "navigation_label": "Messages",
+          "badge": null
+        },
+        {
+          "type": "tickets",
+          "label": "Tickets",
+          "navigation_label": "Tickets",
+          "badge": null
+        },
+        {
+          "type": "news",
+          "label": "News",
+          "navigation_label": "News",
+          "badge": null
+        }
+      ],
+      "user_has_tickets": false,
+      "user_has_received_checklists": false,
+      "user_has_live_newsfeed": true,
+      "unified_style": true
+    },
+    "unread_tickets_count": 0,
+    "session_expiry": 1750851405,
+    "jwt_expired": false
+  },
+  "timestamp": "2025-06-18T11:36:45.441Z"
+}

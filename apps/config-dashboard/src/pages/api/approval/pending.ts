@@ -2,6 +2,35 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createSupabaseServerClient } from '@ganger/auth/server';
 import { z } from 'zod';
 
+// Config change interface
+interface ConfigChange {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  app_id: string;
+  requested_by: string;
+  approved_by?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  change_type: string;
+  current_value?: any;
+  proposed_value: any;
+  description?: string;
+  metadata?: Record<string, any>;
+  platform_applications?: {
+    app_name: string;
+    display_name: string;
+  };
+  requested_by_user?: {
+    email: string;
+    name?: string;
+  };
+  approved_by_user?: {
+    email: string;
+    name?: string;
+  };
+}
+
 // Request validation schemas
 const QuerySchema = z.object({
   page: z.string().regex(/^\d+$/).transform(Number).default('1'),
@@ -188,7 +217,7 @@ export default async function handler(
     const totalPages = Math.ceil((count || 0) / limit);
 
     // Calculate urgency scores for sorting
-    const enrichedChanges = pendingChanges?.map(change => {
+    const enrichedChanges = pendingChanges?.map((change: ConfigChange) => {
       const createdAt = new Date(change.created_at);
       const now = new Date();
       const hoursOld = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60);
@@ -214,7 +243,7 @@ export default async function handler(
     }) || [];
 
     // Sort by urgency score (highest first)
-    enrichedChanges.sort((a, b) => b.urgency_score - a.urgency_score);
+    enrichedChanges.sort((a: any, b: any) => b.urgency_score - a.urgency_score);
 
     res.status(200).json({
       success: true,

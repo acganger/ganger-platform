@@ -1,0 +1,27 @@
+{
+  "name": "ganger-[APP_NAME]-staff",
+  "main": "dist/worker.js",
+  "compatibility_date": "2025-01-18",
+  "compatibility_flags": ["nodejs_compat"],
+  
+  "build": {
+    "command": "pnpm build && pnpm dlx @cloudflare/next-on-pages"
+  },
+  
+  "env": {
+    "production": {
+      "name": "ganger-[APP_NAME]-staff",
+      "routes": [
+        {
+          "pattern": "staff.gangerdermatology.com/[APP_PATH]/*",
+          "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
+        }
+      ],
+      "vars": {
+        "APP_NAME": "[APP_NAME]-staff",
+        "APP_PATH": "[APP_PATH]",
+        "STAFF_PORTAL_URL": "https://staff.gangerdermatology.com"
+      }
+    }
+  }
+}

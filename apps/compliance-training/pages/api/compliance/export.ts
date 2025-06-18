@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { auditLog } from '../../../lib/auth-utils';
 import { withAuth, AuthenticatedRequest } from '../../../middleware/auth';
 
+// Runtime: nodejs (default) - uses auth-utils and complex data processing
+
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -101,7 +103,7 @@ async function handler(
     await auditLog({
       action: 'compliance_export_generated',
       userId: user.id,
-      userEmail: user.email,
+      userEmail: user?.email,
       resourceType: 'compliance_export',
       metadata: {
         exportType: type,
@@ -131,7 +133,7 @@ async function handler(
 }
 
 async function _validateExportPermissions(user: User): Promise<boolean> {
-  const userRole = user.role || user.user_role;
+  const userRole = profile?.role || user.user_role;
   return ['superadmin', 'hr_admin', 'manager'].includes(userRole);
 }
 
@@ -148,7 +150,7 @@ function validateExportRequest(params: { format: string; type: string }): { vali
 }
 
 async function applyRoleBasedFiltering(user: User, filters: ExportFilters): Promise<ExportFilters> {
-  const userRole = user.role || user.user_role;
+  const userRole = profile?.role || user.user_role;
   const userDepartment = user.department;
 
   // Superadmin and HR admin can export all data

@@ -77,7 +77,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -243,7 +243,7 @@ async function handleGetTickets(
 
   // Execute main query with pagination
   const { data: tickets, error } = await query
-    .range(offset, offset + limit - 1);
+    .range(offset!, offset! + limit! - 1);
 
   if (error) {
     console.error('Tickets fetch error:', error);
@@ -259,7 +259,7 @@ async function handleGetTickets(
   }
 
   // Format response data
-  const formattedTickets: Ticket[] = tickets.map(ticket => ({
+  const formattedTickets: Ticket[] = (tickets || []).map((ticket: any) => ({
     id: ticket.id,
     ticket_number: ticket.ticket_number,
     title: ticket.title,
@@ -294,9 +294,9 @@ async function handleGetTickets(
       tickets: formattedTickets,
       pagination: {
         total: totalCount || 0,
-        limit,
-        offset,
-        has_more: (offset + limit) < (totalCount || 0)
+        limit: limit!,
+        offset: offset!,
+        has_more: (offset! + limit!) < (totalCount || 0)
       }
     }
   });

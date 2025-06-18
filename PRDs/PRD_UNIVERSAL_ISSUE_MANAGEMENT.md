@@ -1,7 +1,7 @@
 # PRD - Universal Issue Management System
 *Comprehensive bug reporting, feature requests, and issue tracking across all Ganger Platform applications*
 
-**📚 Documentation Reference:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development.
+**📚 REQUIRED READING:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development. This is the single source of truth for all platform development patterns, standards, and quality requirements.
 
 ## 📋 Document Information
 - **Application Name**: Universal Issue Management System
@@ -9,8 +9,9 @@
 - **PRD ID**: PRD-ISSUES-001
 - **Priority**: High
 - **Development Timeline**: 3-4 weeks
-- **Terminal Assignment**: Mixed (Frontend SDK + Backend API integration)
-- **Dependencies**: `@ganger/ui`, `@ganger/auth`, `@ganger/integrations`, `@ganger/types`
+- **Last Updated**: June 17, 2025
+- **Terminal Assignment**: MIXED (Frontend SDK + Backend API integration)
+- **Dependencies**: `@ganger/ui`, `@ganger/auth/client`, `@ganger/auth/server`, `@ganger/integrations/client`, `@ganger/integrations/server`, `@ganger/types`
 - **MCP Integration Requirements**: GitHub API, Screenshot Service, Claude API for triage
 - **Quality Gate Requirements**: Performance budgets for screenshot capture, security compliance for context collection
 
@@ -43,11 +44,63 @@ Provide a universal, intelligent issue reporting system that captures comprehens
 
 ## 🏗️ Technical Architecture
 
-### **Shared Infrastructure (Standard - MANDATORY)**
+### **MANDATORY: Cloudflare Workers Architecture**
+```yaml
+# ✅ REQUIRED: Workers-only deployment (Pages is sunset)
+Framework: Next.js 14+ with Workers runtime (runtime: 'edge')
+Deployment: Cloudflare Workers (NO Pages deployment)
+Build Process: @cloudflare/next-on-pages
+Configuration: Workers-compatible next.config.js (NO static export)
+
+# ❌ FORBIDDEN: These patterns cause 405 errors
+Static_Export: Never use output: 'export'
+Cloudflare_Pages: Sunset for Workers routes
+Custom_Routing: Must use Workers request handling
+```
+
+### **⚠️ CRITICAL: Anti-Pattern Prevention**
+```typescript
+// ❌ NEVER USE: Static export configuration (causes 405 errors)
+const nextConfig = {
+  output: 'export',        // DELETE THIS - breaks Workers
+  trailingSlash: true,     // DELETE THIS - static pattern
+  distDir: 'dist'          // DELETE THIS - Workers incompatible
+}
+
+// ✅ REQUIRED: Workers-compatible configuration
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY for Workers
+  },
+  images: {
+    unoptimized: true,       // Required for Workers
+  },
+  basePath: '/issues',       // Required for staff portal routing
+}
+```
+
+### **Architecture Verification Requirements**
+```bash
+# ✅ MANDATORY: Every app must pass these checks
+pnpm type-check              # 0 errors required
+pnpm build                   # Successful completion required
+curl -I [app-url]/health     # HTTP 200 required (not 405)
+grep -r "StaffPortalLayout"  # Must find implementation
+grep -r "output.*export"     # Must find nothing
+```
+
+### **Shared Infrastructure with Pages Sunset Note**
 ```yaml
 Frontend: Next.js 14+ with TypeScript (100% compilation required)
-Backend: Next.js API routes + Screenshot Service (Node.js + Puppeteer)
+Backend: Next.js API routes + Supabase Edge Functions (Workers runtime) + Screenshot Service (Node.js + Puppeteer)
 Database: Supabase PostgreSQL for issue metadata and analytics
+Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
+Hosting: Cloudflare Workers EXCLUSIVELY (Pages sunset for Workers routes)
+Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)
+Real-time: Supabase subscriptions
+File Storage: Supabase Storage with CDN
+Build System: Turborepo (workspace compliance required)
+Quality Gates: Automated pre-commit hooks (see MASTER_DEVELOPMENT_GUIDE.md)
 Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
 Hosting: API routes on Cloudflare Workers, Screenshot service on VPS
 Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)

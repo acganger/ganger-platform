@@ -1,6 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSupabaseServerClient } from '@ganger/auth/server';
+import { AuditLog } from '@ganger/db';
 import { z } from 'zod';
+
+// Extended audit log interface with config-specific fields
+interface ConfigAuditLog extends AuditLog {
+  before_value?: any;
+  after_value?: any;
+  app_id?: string;
+  user?: {
+    email: string;
+    name?: string;
+  };
+}
 
 // Request validation schemas
 const QuerySchema = z.object({
@@ -214,7 +226,7 @@ export default async function handler(
       perm.role_name === 'superadmin'
     );
 
-    const sanitizedLogs = auditLogs?.map(log => {
+    const sanitizedLogs = auditLogs?.map((log: ConfigAuditLog) => {
       if (!isSuperAdmin) {
         // Hide sensitive values from non-superadmin users
         const sanitizedLog = { ...log };

@@ -1,0 +1,414 @@
+name: Workers Architecture Compliance
+
+on:
+  push:
+    branches: [main, staging, develop]
+  pull_request:
+    branches: [main, staging]
+
+# Prevent builds with forbidden static export patterns
+env:
+  FORCE_COLOR: 1
+  NODE_ENV: test
+
+jobs:
+  # Critical: Detect and block forbidden patterns before they reach production
+  architecture-validation:
+    name: 🏗️ Architecture Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better analysis
+      
+      - name: 🚫 Check for Forbidden Static Export Patterns
+        run: |
+          echo "🔍 Scanning for forbidden static export configurations..."
+          
+          # Find all next.config.js files
+          config_files=$(find apps -name "next.config.js" -type f)
+          
+          if [[ -z "$config_files" ]]; then
+            echo "ℹ️  No Next.js config files found"
+            exit 0
+          fi
+          
+          forbidden_patterns_found=false
+          
+          # Check each config file for forbidden patterns
+          for config_file in $config_files; do
+            app_name=$(dirname "$config_file" | sed 's|apps/||')
+            echo "📋 Checking $app_name ($config_file)..."
+            
+            # Check for forbidden output: 'export'
+            if grep -n "output.*['\"]export['\"]" "$config_file"; then
+              echo "❌ BLOCKED: $app_name uses forbidden 'output: export' (causes 405 Method Not Allowed errors)"
+              echo "   File: $config_file"
+              echo "   Fix: Remove 'output: export' and use Workers runtime instead"
+              forbidden_patterns_found=true
+            fi
+            
+            # Check for trailingSlash with static export context
+            if grep -n "trailingSlash.*true" "$config_file" && ! grep -n "experimental.*runtime.*edge" "$config_file"; then
+              echo "⚠️  WARNING: $app_name uses 'trailingSlash: true' without Workers runtime"
+              echo "   File: $config_file"
+              echo "   Fix: Remove 'trailingSlash: true' or add Workers runtime configuration"
+            fi
+            
+            # Check for distDir with static patterns
+            if grep -n "distDir.*['\"]dist['\"]" "$config_file" || grep -n "distDir.*['\"]out['\"]" "$config_file"; then
+              echo "⚠️  WARNING: $app_name uses custom distDir (potential static export pattern)"
+              echo "   File: $config_file"
+              echo "   Review: Ensure this is compatible with Workers deployment"
+            fi
+            
+            echo "✅ $app_name configuration checked"
+            echo ""
+          done
+          
+          if [[ "$forbidden_patterns_found" == true ]]; then
+            echo ""
+            echo "🚨 DEPLOYMENT BLOCKED: Forbidden static export patterns detected"
+            echo ""
+            echo "📋 Workers Architecture Requirements:"
+            echo "   ✅ Remove 'output: export' from next.config.js"
+            echo "   ✅ Use Workers-compatible configuration"
+            echo "   ✅ Add proper health check endpoints"
+            echo "   ✅ Test with 'wrangler dev' locally"
+            echo ""
+            echo "📚 Documentation: /true-docs/DEPLOYMENT_GUIDE.md"
+            exit 1
+          fi
+          
+          echo "✅ All applications use Workers-compatible architecture"
+
+      - name: 🔧 Verify Workers Runtime Configuration
+        run: |
+          echo "🔍 Checking for proper Workers runtime configuration..."
+          
+          apps_with_runtime=0
+          total_apps=0
+          
+          for config_file in $(find apps -name "next.config.js" -type f); do
+            app_name=$(dirname "$config_file" | sed 's|apps/||')
+            total_apps=$((total_apps + 1))
+            
+            echo "📋 Checking Workers runtime for $app_name..."
+            
+            # Look for any Workers runtime configuration patterns
+            if grep -q "runtime.*edge\|@cloudflare/next-on-pages\|workers\|wrangler" "$config_file"; then
+              echo "✅ $app_name has Workers runtime configuration"
+              apps_with_runtime=$((apps_with_runtime + 1))
+            else
+              echo "ℹ️  $app_name may need Workers runtime configuration"
+            fi
+          done
+          
+          echo ""
+          echo "📊 Workers Runtime Summary:"
+          echo "   Apps with runtime config: $apps_with_runtime/$total_apps"
+          
+          if [[ "$apps_with_runtime" -gt 0 ]]; then
+            echo "✅ Workers runtime configurations detected"
+          else
+            echo "⚠️  Consider adding Workers runtime configurations for better performance"
+          fi
+
+      - name: 🏥 Verify Health Check Endpoints
+        run: |
+          echo "🔍 Checking for health check endpoints..."
+          
+          health_endpoints_found=0
+          
+          for app_dir in apps/*/; do
+            app_name=$(basename "$app_dir")
+            echo "📋 Checking health endpoint for $app_name..."
+            
+            # Check for health endpoints in various locations
+            health_files=(
+              "$app_dir/src/pages/api/health.ts"
+              "$app_dir/src/pages/api/health.js"
+              "$app_dir/pages/api/health.ts"
+              "$app_dir/pages/api/health.js"
+              "$app_dir/app/api/health/route.ts"
+              "$app_dir/app/api/health/route.js"
+            )
+            
+            health_found=false
+            for health_file in "${health_files[@]}"; do
+              if [[ -f "$health_file" ]]; then
+                echo "✅ $app_name has health endpoint: $(basename "$health_file")"
+                health_endpoints_found=$((health_endpoints_found + 1))
+                health_found=true
+                break
+              fi
+            done
+            
+            if [[ "$health_found" == false ]]; then
+              echo "⚠️  $app_name missing health endpoint (recommended for Workers deployment)"
+            fi
+          done
+          
+          echo ""
+          echo "📊 Health Endpoints Summary:"
+          echo "   Apps with health endpoints: $health_endpoints_found"
+          
+          if [[ "$health_endpoints_found" -gt 0 ]]; then
+            echo "✅ Health check endpoints detected"
+          else
+            echo "ℹ️  Consider adding health check endpoints for monitoring"
+          fi
+
+  # TypeScript compilation must pass with zero errors
+  typescript-validation:
+    name: 📝 TypeScript Validation
+    runs-on: ubuntu-latest
+    needs: architecture-validation
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📥 Install Dependencies
+        run: npm ci
+      
+      - name: 📝 TypeScript Compilation Check
+        run: |
+          echo "🔍 Running TypeScript compilation check..."
+          
+          # Run type check and capture output
+          if npm run type-check 2>&1 | tee typecheck.log; then
+            echo ""
+            echo "✅ TypeScript compilation successful"
+            
+            # Check for any errors in the output
+            error_count=$(grep -c "error TS" typecheck.log || echo "0")
+            warning_count=$(grep -c "warning TS" typecheck.log || echo "0")
+            
+            echo "📊 TypeScript Summary:"
+            echo "   Errors: $error_count"
+            echo "   Warnings: $warning_count"
+            
+            if [[ "$error_count" -gt 0 ]]; then
+              echo "❌ TypeScript errors detected - deployment blocked"
+              exit 1
+            fi
+            
+            if [[ "$warning_count" -gt 0 ]]; then
+              echo "⚠️  TypeScript warnings detected - review recommended"
+            fi
+          else
+            echo "❌ TypeScript compilation failed"
+            echo ""
+            echo "📋 Common fixes:"
+            echo "   - Check package.json dependencies"
+            echo "   - Verify @ganger/* package imports"
+            echo "   - Review type definitions"
+            echo "   - Check for missing files"
+            exit 1
+          fi
+
+  # Build validation to ensure Workers compatibility
+  build-validation:
+    name: 🏗️ Build Validation
+    runs-on: ubuntu-latest
+    needs: [architecture-validation, typescript-validation]
+    
+    strategy:
+      matrix:
+        app: [compliance-training, handouts, checkin-kiosk, medication-auth, inventory, staff, eos-l10, pharma-scheduling, call-center-ops, batch-closeout, socials-reviews, clinical-staffing, platform-dashboard, config-dashboard, integration-status, component-showcase, ai-receptionist]
+      fail-fast: false
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📥 Install Dependencies
+        run: npm ci
+      
+      - name: 🏗️ Build Application
+        run: |
+          echo "🏗️ Building ${{ matrix.app }}..."
+          
+          if [[ ! -d "apps/${{ matrix.app }}" ]]; then
+            echo "ℹ️  App ${{ matrix.app }} not found - skipping"
+            exit 0
+          fi
+          
+          cd "apps/${{ matrix.app }}"
+          
+          # Try to build the application
+          if npm run build; then
+            echo "✅ ${{ matrix.app }} build successful"
+            
+            # Check build output for Workers compatibility
+            if [[ -d ".next" ]]; then
+              echo "📊 Build analysis for ${{ matrix.app }}:"
+              echo "   Next.js build detected"
+              
+              # Check for static export
+              if [[ -d "out" || -d "dist" ]]; then
+                echo "   Static export detected (verify Workers compatibility)"
+              fi
+              
+              # Check for server-side features
+              if [[ -d ".next/server" ]]; then
+                echo "   Server-side features detected (ensure Workers compatibility)"
+              fi
+            fi
+          else
+            echo "❌ ${{ matrix.app }} build failed"
+            echo ""
+            echo "📋 Build troubleshooting:"
+            echo "   1. Check package.json dependencies"
+            echo "   2. Verify TypeScript configuration"
+            echo "   3. Review import statements"
+            echo "   4. Check for missing environment variables"
+            exit 1
+          fi
+
+  # Optional: Workers deployment test (requires secrets)
+  workers-deployment-test:
+    name: 🚀 Workers Deployment Test
+    runs-on: ubuntu-latest
+    needs: build-validation
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📥 Install Dependencies
+        run: npm ci
+      
+      - name: 🧪 Test Workers Deployment (Dry Run)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "🧪 Testing Workers deployment capabilities..."
+          
+          # Install wrangler
+          npm install -g wrangler
+          
+          # Test deployment for apps with wrangler configs
+          for wrangler_config in $(find apps -name "wrangler.jsonc" -o -name "wrangler.toml"); do
+            app_dir=$(dirname "$wrangler_config")
+            app_name=$(basename "$app_dir")
+            
+            echo "🧪 Testing deployment config for $app_name..."
+            
+            cd "$app_dir"
+            
+            # Validate wrangler configuration
+            if wrangler deploy --dry-run 2>&1 | tee deploy-test.log; then
+              echo "✅ $app_name deployment config valid"
+            else
+              echo "⚠️  $app_name deployment config issues detected"
+              cat deploy-test.log
+            fi
+            
+            cd - >/dev/null
+          done
+          
+          echo "✅ Workers deployment test completed"
+
+  # Security and compliance check
+  security-compliance:
+    name: 🔒 Security & Compliance
+    runs-on: ubuntu-latest
+    needs: architecture-validation
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 🔍 Security Pattern Check
+        run: |
+          echo "🔒 Checking for security patterns..."
+          
+          # Check for environment variable usage
+          echo "📋 Environment variable usage:"
+          grep -r "process\.env\." apps/ --include="*.ts" --include="*.js" | head -10 || echo "No environment variables found"
+          
+          # Check for hardcoded secrets (basic check)
+          echo ""
+          echo "📋 Security pattern check:"
+          if grep -r -i "api[_-]key\|secret\|token\|password" apps/ --include="*.ts" --include="*.js" | grep -v "process\.env" | head -5; then
+            echo "⚠️  Potential hardcoded secrets detected - review manually"
+          else
+            echo "✅ No obvious hardcoded secrets found"
+          fi
+          
+          # Check for HTTPS usage
+          echo ""
+          echo "📋 HTTPS usage check:"
+          http_urls=$(grep -r "http://" apps/ --include="*.ts" --include="*.js" | grep -v localhost | head -5 || echo "")
+          if [[ -n "$http_urls" ]]; then
+            echo "⚠️  HTTP URLs detected (should use HTTPS in production):"
+            echo "$http_urls"
+          else
+            echo "✅ No HTTP URLs detected"
+          fi
+
+  # Generate deployment summary
+  deployment-summary:
+    name: 📊 Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [architecture-validation, typescript-validation, build-validation]
+    if: always()
+    
+    steps:
+      - name: 📊 Generate Summary
+        run: |
+          echo "📊 WORKERS ARCHITECTURE COMPLIANCE SUMMARY"
+          echo "=========================================="
+          echo ""
+          echo "🏗️ Architecture Validation: ${{ needs.architecture-validation.result }}"
+          echo "📝 TypeScript Validation: ${{ needs.typescript-validation.result }}"
+          echo "🏗️ Build Validation: ${{ needs.build-validation.result }}"
+          echo ""
+          
+          if [[ "${{ needs.architecture-validation.result }}" == "success" && 
+                "${{ needs.typescript-validation.result }}" == "success" && 
+                "${{ needs.build-validation.result }}" == "success" ]]; then
+            echo "✅ ALL CHECKS PASSED - READY FOR WORKERS DEPLOYMENT"
+            echo ""
+            echo "🚀 Next steps:"
+            echo "   1. Deploy to staging environment"
+            echo "   2. Run end-to-end tests"
+            echo "   3. Deploy to production if staging passes"
+          else
+            echo "❌ SOME CHECKS FAILED - DEPLOYMENT BLOCKED"
+            echo ""
+            echo "🔧 Required actions:"
+            echo "   1. Review failed checks above"
+            echo "   2. Fix identified issues"
+            echo "   3. Re-run workflow after fixes"
+          fi
+          
+          echo ""
+          echo "📚 Documentation:"
+          echo "   - Workers Architecture: /true-docs/DEPLOYMENT_GUIDE.md"
+          echo "   - Development Guide: /true-docs/MASTER_DEVELOPMENT_GUIDE.md"
+          echo "   - Troubleshooting: /true-docs/SHARED_INFRASTRUCTURE_GUIDE.md"

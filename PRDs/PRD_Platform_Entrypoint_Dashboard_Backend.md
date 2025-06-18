@@ -1,12 +1,17 @@
 # Platform Entrypoint Dashboard - Backend Development PRD
 *Server-side API and Database Implementation for Ganger Platform*
 
+**📚 REQUIRED READING:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development. This is the single source of truth for all platform development patterns, standards, and quality requirements.
+
 ## 📋 Document Information
 - **Application Name**: Platform Entrypoint Dashboard (Backend)
-- **Terminal Assignment**: TERMINAL 2 - BACKEND
+- **PRD ID**: PRD-PLATFORM-DASHBOARD-001 (Backend)
 - **Priority**: High
 - **Development Timeline**: 3-4 weeks
+- **Last Updated**: June 17, 2025
+- **Terminal Assignment**: TERMINAL 2 - BACKEND
 - **Dependencies**: @ganger/db, @ganger/auth/server, @ganger/integrations/server, @ganger/utils/server
+- **MCP Integration Requirements**: All platform applications, Google Workspace, Analytics processing, Google Sheets MCP
 - **Integration Requirements**: All platform applications, Google Workspace, Analytics processing
 
 ---
@@ -29,6 +34,126 @@
 - Dashboard layout rendering (Terminal 1)
 
 ---
+
+## 🏗️ Technical Architecture
+
+### **MANDATORY: Cloudflare Workers Architecture**
+```yaml
+# ✅ REQUIRED: Workers-only deployment (Pages is sunset)
+Framework: Next.js 14+ with Workers runtime (runtime: 'edge')
+Deployment: Cloudflare Workers (NO Pages deployment)
+Build Process: @cloudflare/next-on-pages
+Configuration: Workers-compatible next.config.js (NO static export)
+
+# ❌ FORBIDDEN: These patterns cause 405 errors
+Static_Export: Never use output: 'export'
+Cloudflare_Pages: Sunset for Workers routes
+Custom_Routing: Must use Workers request handling
+```
+
+### **⚠️ CRITICAL: Anti-Pattern Prevention**
+```typescript
+// ❌ NEVER USE: Static export configuration (causes 405 errors)
+const nextConfig = {
+  output: 'export',        // DELETE THIS - breaks Workers
+  trailingSlash: true,     // DELETE THIS - static pattern
+  distDir: 'dist'          // DELETE THIS - Workers incompatible
+}
+
+// ✅ REQUIRED: Workers-compatible configuration
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY for Workers
+  },
+  images: {
+    unoptimized: true,       // Required for Workers
+  },
+  basePath: '/dashboard',    // Required for staff portal routing
+}
+```
+
+### **Architecture Verification Requirements**
+```bash
+# ✅ MANDATORY: Every app must pass these checks
+pnpm type-check              # 0 errors required
+pnpm build                   # Successful completion required
+curl -I [app-url]/health     # HTTP 200 required (not 405)
+grep -r "StaffPortalLayout"  # Must find implementation
+grep -r "output.*export"     # Must find nothing
+```
+
+### **Shared Infrastructure with Pages Sunset Note**
+```yaml
+Backend: Next.js API routes + Supabase Edge Functions (Workers runtime)
+Database: Supabase PostgreSQL with Row Level Security
+Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
+Hosting: Cloudflare Workers EXCLUSIVELY (Pages sunset for Workers routes)
+Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)
+Real-time: Supabase subscriptions
+File Storage: Supabase Storage with CDN
+Build System: Turborepo (workspace compliance required)
+Quality Gates: Automated pre-commit hooks (see MASTER_DEVELOPMENT_GUIDE.md)
+```
+
+### **Platform Constants & Patterns (REQUIRED KNOWLEDGE)**
+```typescript
+// ✅ MANDATORY: Use platform constants (see @ganger/types)
+import { 
+  USER_ROLES, 
+  LOCATIONS, 
+  PRIORITY_LEVELS,
+  WIDGET_TYPES,
+  ANNOUNCEMENT_TYPES
+} from '@ganger/types/constants';
+
+// ✅ Standard dashboard constants
+const WIDGET_TYPES = [
+  'application',
+  'information',
+  'action',
+  'communication'
+] as const;
+
+const ANNOUNCEMENT_TYPES = [
+  'info',
+  'warning',
+  'urgent',
+  'maintenance'
+] as const;
+```
+
+### **Required Shared Packages (MANDATORY - CLIENT-SERVER AWARE)**
+```typescript
+// ✅ REQUIRED SERVER IMPORTS - Use exclusively in API routes
+import { db, createClient, Repository } from '@ganger/db';
+import { withAuth, verifyPermissions } from '@ganger/auth/server';
+import { 
+  ServerAnalyticsService,
+  ServerGoogleWorkspaceService,
+  ServerNotificationService,
+  ServerCacheService
+} from '@ganger/integrations/server';
+import { analytics, auditLog, healthCheck } from '@ganger/utils/server';
+
+// ✅ SHARED TYPES - Framework-agnostic, safe for both client and server
+import type { 
+  User, Patient, Appointment, Provider,
+  ApiResponse, PaginationMeta, ValidationRule,
+  DashboardWidget, UserPreferences, QuickAction, PlatformAnnouncement
+} from '@ganger/types';
+```
+
+### **Staff Portal Integration (MANDATORY)**
+```typescript
+// ✅ REQUIRED: Platform Dashboard is the ROOT of staff portal
+// This IS the staff portal - all other apps integrate here
+const PLATFORM_DASHBOARD_CONFIG = {
+  isRootDashboard: true,
+  providesNavigation: true,
+  aggregatesAllApps: true,
+  baseUrl: 'https://staff.gangerdermatology.com'
+};
+```
 
 ## 🏗️ Backend Technology Stack
 

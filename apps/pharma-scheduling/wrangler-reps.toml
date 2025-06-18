@@ -1,0 +1,34 @@
+name = "ganger-reps-booking"
+main = ".vercel/output/static/_worker.js/index.js"
+compatibility_date = "2025-01-18"
+compatibility_flags = ["nodejs_compat"]
+
+build.command = "npm run build && pnpm exec next-on-pages"
+
+[assets]
+directory = ".vercel/output/static"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[r2_buckets]]
+binding = "PHARMA_SCHEDULING_BUCKET"
+bucket_name = "pharma-scheduling-reps"
+preview_bucket_name = "pharma-scheduling-reps-preview"
+
+[env.production]
+name = "ganger-reps-booking"
+routes = [
+  { pattern = "reps.gangerdermatology.com", zone_id = "ba76d3d3f41251c49f0365421bd644a5" },
+  { pattern = "reps.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+]
+
+[[env.production.r2_buckets]]
+binding = "PHARMA_SCHEDULING_BUCKET"
+bucket_name = "pharma-scheduling-reps-production"
+
+[env.staging]
+name = "ganger-reps-booking-staging"
+
+[[env.staging.r2_buckets]]
+binding = "PHARMA_SCHEDULING_BUCKET"
+bucket_name = "pharma-scheduling-reps-staging"

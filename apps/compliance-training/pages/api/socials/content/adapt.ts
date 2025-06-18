@@ -9,6 +9,8 @@ import { auditLog } from '../../../../lib/auth-utils';
 import { createClient } from '@supabase/supabase-js';
 import { ApiResponse } from '../../../../middleware/errorHandler';
 
+// Runtime: nodejs (default) - uses auth-utils and business logic processing
+
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!

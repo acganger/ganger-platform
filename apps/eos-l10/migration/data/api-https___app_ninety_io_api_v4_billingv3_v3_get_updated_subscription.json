@@ -1,0 +1,29 @@
+{
+  "url": "https://app.ninety.io/api/v4/BillingV3/v3/get-updated-subscription",
+  "data": {
+    "currency": "usd",
+    "currentPeriodEnd": "2025-07-15T16:17:55Z",
+    "currentPeriodStart": "2025-06-15T16:17:55Z",
+    "customerHasAddress": true,
+    "customerId": "cus_PkUvndoV3PT8nD",
+    "defaultPaymentMethodId": "pm_1QS18eBvulM3DTAZCQjuLepf",
+    "defaultPaymentMethodLast4": "3018",
+    "defaultPaymentMethodType": "card",
+    "hasDefaultPaymentMethod": true,
+    "lastValidatedWithProvider": "2025-06-18T11:36:44.691Z",
+    "planId": "prod_RvKRX0KzHCQYPa",
+    "planPriceId": "price_1R1TmPBvulM3DTAZJsSXf5hp",
+    "provider": "Stripe",
+    "providerStatus": "active",
+    "seatsPaidFor": 17,
+    "subscriptionId": "sub_1OuzvjBvulM3DTAZjPTcYIkB",
+    "subscriptionItemId": "si_PkUva5E9Eygh2G",
+    "subscriptionStartDate": "2024-03-16T16:17:55Z",
+    "subType": "Paid",
+    "trialEnd": "2024-04-15T16:17:55Z",
+    "trialStart": "2024-03-16T16:17:55Z",
+    "type": "Paid",
+    "subscriptionConfigurationId": "681915d50000000000aee592"
+  },
+  "timestamp": "2025-06-18T11:36:44.703Z"
+}

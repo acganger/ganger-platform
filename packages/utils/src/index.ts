@@ -1,8 +1,9 @@
 // Validation utilities
 export * from './validation/schemas';
 
-// Formatting utilities
-export * from './formatting/text';
+// Formatting utilities - temporarily disabled due to date-fns dependency issue
+// TODO: Fix date-fns dependency resolution in monorepo
+// export * from './formatting/text';
 
 // Analytics utilities
 export {

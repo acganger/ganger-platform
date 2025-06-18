@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Issue } from '@/types/eos';
 import IssueCard from './IssueCard';
+import { Button } from '@ganger/ui';
 import { 
   Eye, 
   MessageCircle, 
   CheckCircle, 
   X,
   Plus,
-  MoreHorizontal
+  MoreHorizontal,
+  ChevronRight
 } from 'lucide-react';
 
 interface IDSBoardProps {
@@ -62,41 +63,15 @@ const statusConfig = {
 };
 
 export default function IDSBoard({ issuesByStatus, onUpdateIssue, onSelectIssue }: IDSBoardProps) {
-  const [draggedIssue, setDraggedIssue] = useState<Issue | null>(null);
-
-  const handleDragStart = (start: any) => {
-    const draggedId = start.draggableId;
-    const allIssues = Object.values(issuesByStatus).flat();
-    const issue = allIssues.find(i => i.id === draggedId);
-    setDraggedIssue(issue || null);
-  };
-
-  const handleDragEnd = (result: DropResult) => {
-    setDraggedIssue(null);
-    
-    const { destination, source, draggableId } = result;
-
-    // Drop outside droppable area
-    if (!destination) return;
-
-    // Same position
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    // Update issue status
-    const newStatus = destination.droppableId as Issue['status'];
+  const handleMoveIssue = (issueId: string, newStatus: Issue['status'], currentStatus: Issue['status']) => {
     const updates: Partial<Issue> = { status: newStatus };
 
     // Add solved timestamp if moving to solved
-    if (newStatus === 'solved' && source.droppableId !== 'solved') {
+    if (newStatus === 'solved' && currentStatus !== 'solved') {
       updates.solved_at = new Date().toISOString();
     }
 
-    onUpdateIssue(draggableId, updates);
+    onUpdateIssue(issueId, updates);
   };
 
   const renderColumn = (status: keyof typeof issuesByStatus) => {
@@ -126,45 +101,54 @@ export default function IDSBoard({ issuesByStatus, onUpdateIssue, onSelectIssue 
             <p className="text-xs text-gray-600 mt-1">{config.description}</p>
           </div>
 
-          {/* Droppable Area */}
-          <Droppable droppableId={status}>
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className={`flex-1 p-3 space-y-3 min-h-32 transition-colors ${
-                  snapshot.isDraggingOver 
-                    ? 'bg-white bg-opacity-50' 
-                    : ''
-                }`}
-              >
-                {issues.map((issue, index) => (
-                  <Draggable key={issue.id} draggableId={issue.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`transition-transform ${
-                          snapshot.isDragging ? 'rotate-2 scale-105 shadow-lg' : ''
-                        }`}
-                        style={{
-                          ...provided.draggableProps.style,
-                        }}
-                      >
-                        <IssueCard
-                          issue={issue}
-                          onUpdate={onUpdateIssue}
-                          onClick={() => onSelectIssue(issue)}
-                          compact
-                          dragging={snapshot.isDragging}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+          {/* Issues List */}
+          <div className="flex-1 p-3 space-y-3 min-h-32">
+            {issues.map((issue) => (
+              <div key={issue.id} className="relative group">
+                <IssueCard
+                  issue={issue}
+                  onUpdate={onUpdateIssue}
+                  onClick={() => onSelectIssue(issue)}
+                  compact
+                />
                 
-                {provided.placeholder}
+                {/* Status Change Buttons */}
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex space-x-1">
+                    {status !== 'discussing' && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleMoveIssue(issue.id, 'discussing', status)}
+                        title="Move to Discuss"
+                      >
+                        <ChevronRight className="h-3 w-3" />
+                      </Button>
+                    )}
+                    {status !== 'solved' && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleMoveIssue(issue.id, 'solved', status)}
+                        title="Mark as Solved"
+                      >
+                        <CheckCircle className="h-3 w-3" />
+                      </Button>
+                    )}
+                    {status !== 'dropped' && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleMoveIssue(issue.id, 'dropped', status)}
+                        title="Drop Issue"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
 
                 {/* Empty State */}
                 {issues.length === 0 && (
@@ -184,9 +168,7 @@ export default function IDSBoard({ issuesByStatus, onUpdateIssue, onSelectIssue 
                     )}
                   </div>
                 )}
-              </div>
-            )}
-          </Droppable>
+          </div>
         </div>
       </div>
     );
@@ -194,34 +176,13 @@ export default function IDSBoard({ issuesByStatus, onUpdateIssue, onSelectIssue 
 
   return (
     <div className="h-full overflow-hidden">
-      <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-        <div className="h-full overflow-x-auto">
-          <div className="flex space-x-4 p-4 min-w-max h-full">
-            {Object.keys(statusConfig).map(status => 
-              renderColumn(status as keyof typeof issuesByStatus)
-            )}
-          </div>
+      <div className="h-full overflow-x-auto">
+        <div className="flex space-x-4 p-4 min-w-max h-full">
+          {Object.keys(statusConfig).map(status => 
+            renderColumn(status as keyof typeof issuesByStatus)
+          )}
         </div>
-      </DragDropContext>
-
-      {/* Drag Overlay Info */}
-      {draggedIssue && (
-        <div className="fixed top-4 right-4 bg-white shadow-lg rounded-lg p-3 z-50 max-w-xs">
-          <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${
-              draggedIssue.priority === 'critical' ? 'bg-red-500' :
-              draggedIssue.priority === 'high' ? 'bg-orange-500' :
-              draggedIssue.priority === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
-            }`} />
-            <span className="text-sm font-medium text-gray-900">
-              {draggedIssue.title}
-            </span>
-          </div>
-          <p className="text-xs text-gray-500 mt-1">
-            Drag to update status
-          </p>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

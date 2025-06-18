@@ -1,0 +1,9 @@
+{
+  "url": "https://app.ninety.io/api/v4/Headlines?pageIndex=0&pageSize=10&teamId=65f5c6322caa0d001296501d&archived=false&includeDiscussed=true&isCascadedMessage=true",
+  "data": {
+    "data": [],
+    "totalCount": 0,
+    "ordinals": []
+  },
+  "timestamp": "2025-06-18T11:36:35.035Z"
+}

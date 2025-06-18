@@ -1,5 +1,5 @@
 import { supabase } from '../database/supabase-client';
-import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
+// import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
 
 /**
  * Comprehensive Analytics Service for Authorization Performance
@@ -219,7 +219,7 @@ export class AuthorizationAnalyticsService {
    */
   async generateDashboardAnalytics(dateRange?: { start: Date; end: Date }): Promise<DashboardAnalytics> {
     const range = dateRange || {
-      start: addDays(new Date(), -30),
+      start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
       end: new Date()
     };
 
@@ -470,7 +470,7 @@ export class AuthorizationAnalyticsService {
    */
   async generateProviderInsights(providerId: string, dateRange?: { start: Date; end: Date }): Promise<any> {
     const range = dateRange || {
-      start: addMonths(new Date(), -3),
+      start: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000), // 3 months ago
       end: new Date()
     };
 

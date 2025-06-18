@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
+import { AuthProvider } from '@ganger/auth';
 import '@/styles/globals.css';
 
 // Create a QueryClient instance
@@ -31,10 +32,12 @@ export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => createQueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-gray-50">
-        <Component {...pageProps} />
-      </div>
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <div className="min-h-screen bg-gray-50">
+          <Component {...pageProps} />
+        </div>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }

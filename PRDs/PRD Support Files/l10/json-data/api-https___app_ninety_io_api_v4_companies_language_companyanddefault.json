@@ -1,0 +1,314 @@
+{
+  "url": "https://app.ninety.io/api/v4/Companies/Language/CompanyAndDefault",
+  "data": {
+    "companyLanguage": {
+      "dashboard": {
+        "route": "Dashboard"
+      },
+      "my90": {
+        "route": "My 90",
+        "teamTodos": "Team To-Dos",
+        "personalTodos": "Private To-Dos",
+        "rocksAndMilestones": "Rocks & Milestones",
+        "scorecard": "Scorecard",
+        "todoChart": "To-Dos Created Last 90 Days",
+        "rockChart": "Rock Statuses",
+        "measurableChart": "Measurables"
+      },
+      "scorecard": {
+        "route": "Scorecard",
+        "item": "Scorecard",
+        "items": "Scorecards"
+      },
+      "measurable": {
+        "item": "Measurable",
+        "items": "Measurables",
+        "goal": "Goal",
+        "goals": "Goals"
+      },
+      "rock": {
+        "route": "Rocks",
+        "item": "Rock",
+        "items": "Rocks",
+        "company": "Company",
+        "departmental": "Departmental"
+      },
+      "todo": {
+        "route": "To-Dos",
+        "item": "To-Do",
+        "items": "To-Dos",
+        "personal": "Private",
+        "team": "Team"
+      },
+      "issue": {
+        "route": "Issues",
+        "item": "Issue",
+        "items": "Issues",
+        "shortTerm": "Short-Term",
+        "longTerm": "Long-Term"
+      },
+      "milestone": {
+        "item": "Milestone",
+        "items": "Milestones"
+      },
+      "headline": {
+        "item": "Headline",
+        "items": "Headlines"
+      },
+      "cascadingMessage": {
+        "item": "Cascading Message",
+        "items": "Cascading Messages",
+        "action": "Cascade",
+        "actionPast": "Cascaded"
+      },
+      "meeting": {
+        "route": "Meetings",
+        "item": "Meeting",
+        "items": "Meetings",
+        "levelTen": "Level 10 Meeting™",
+        "levelTens": "Level 10 Meetings™",
+        "quarterly": "Quarterly",
+        "quarterlySession": "Quarterly Session",
+        "quarterlySessions": "Quarterly Sessions",
+        "annual": "Annual",
+        "annualSession": "Annual Session",
+        "annualSessions": "Annual Sessions",
+        "focusDay": "Focus Day®",
+        "visionBuildingDayOne": "Vision Building® Day 1",
+        "visionBuildingDayTwo": "Vision Building® Day 2"
+      },
+      "vto": {
+        "route": "V/TO®",
+        "item": "V/TO®",
+        "items": "V/TOs®",
+        "vision": "Vision",
+        "traction": "Traction®",
+        "swot": "SWOT"
+      },
+      "acChart": {
+        "route": "Accountability Chart",
+        "seat": "Seat",
+        "seats": "Seats",
+        "seatHolder": "Seat Holder",
+        "seatHolders": "Seat Holders",
+        "rolesAndResponsibilities": "Roles and Responsibilities",
+        "visionary": "Visionary",
+        "integrator": "Integrator",
+        "chart": "Chart",
+        "charts": "Charts"
+      },
+      "feedback": {
+        "route": "1-on-1",
+        "item": "Conversation",
+        "items": "Conversations",
+        "quarterlyItem": "Quarterly Conversation",
+        "quarterlyItems": "Quarterly Conversations",
+        "annualItem": "Annual Review",
+        "annualItems": "Annual Reviews",
+        "managee": "Managee",
+        "manager": "Manager",
+        "meeting": "Meeting",
+        "peopleAnalyzer": "People Analyzer®",
+        "leadershipCommitments": "Leadership Assessment",
+        "coachingCommitments": "Management Assessment",
+        "CCC": "GWC™",
+        "capacity": "Capacity to do it",
+        "commitment": "Wants it",
+        "competency": "Gets it",
+        "LAC": "LMA™"
+      },
+      "process": {
+        "route": "Process",
+        "item": "Process",
+        "items": "Processes",
+        "coreProcess": "Core Process",
+        "step": "Step",
+        "steps": "Steps",
+        "subStep": "Sub-Step",
+        "subSteps": "Sub-Steps",
+        "documented": "Documented",
+        "followedByAll": "Followed By All",
+        "effective": "Effective"
+      },
+      "directory": {
+        "route": "Directory",
+        "owner": "Owner",
+        "admin": "Admin",
+        "manager": "Manager",
+        "managee": "Managee",
+        "observer": "Observer",
+        "implementer": "Implementer"
+      },
+      "mastery": {
+        "route": "EOS Toolbox™",
+        "item": "Tool",
+        "items": "Tools"
+      },
+      "survey": {
+        "route": "Assessments",
+        "item": "Assessment",
+        "items": "Assessments",
+        "admin": "Admin",
+        "mySurveys": "My Assessments",
+        "recipient": "recipient",
+        "recipients": "recipients"
+      },
+      "_id": "65f5c631363a86f801d286fa",
+      "companyId": "65f5c6312caa0d0012965019"
+    },
+    "defaultBOSLanguage": {
+      "dashboard": {
+        "route": "Dashboard"
+      },
+      "my90": {
+        "route": "My 90",
+        "teamTodos": "Team To-Dos",
+        "personalTodos": "Private To-Dos",
+        "rocksAndMilestones": "Rocks & Milestones",
+        "scorecard": "Scorecard",
+        "todoChart": "To-Dos Created Last 90 Days",
+        "rockChart": "Rock Statuses",
+        "measurableChart": "Measurables"
+      },
+      "scorecard": {
+        "route": "Scorecard",
+        "item": "Scorecard",
+        "items": "Scorecards"
+      },
+      "measurable": {
+        "item": "Measurable",
+        "items": "Measurables",
+        "goal": "Goal",
+        "goals": "Goals"
+      },
+      "rock": {
+        "route": "Rocks",
+        "item": "Rock",
+        "items": "Rocks",
+        "company": "Company",
+        "departmental": "Departmental"
+      },
+      "todo": {
+        "route": "To-Dos",
+        "item": "To-Do",
+        "items": "To-Dos",
+        "personal": "Private",
+        "team": "Team"
+      },
+      "issue": {
+        "route": "Issues",
+        "item": "Issue",
+        "items": "Issues",
+        "shortTerm": "Short-Term",
+        "longTerm": "Long-Term"
+      },
+      "milestone": {
+        "item": "Milestone",
+        "items": "Milestones"
+      },
+      "headline": {
+        "item": "Headline",
+        "items": "Headlines"
+      },
+      "cascadingMessage": {
+        "item": "Cascading Message",
+        "items": "Cascading Messages",
+        "action": "Cascade",
+        "actionPast": "Cascaded"
+      },
+      "meeting": {
+        "route": "Meetings",
+        "item": "Meeting",
+        "items": "Meetings",
+        "levelTen": "Level 10 Meeting™",
+        "levelTens": "Level 10 Meetings™",
+        "quarterly": "Quarterly",
+        "quarterlySession": "Quarterly Session",
+        "quarterlySessions": "Quarterly Sessions",
+        "annual": "Annual",
+        "annualSession": "Annual Session",
+        "annualSessions": "Annual Sessions",
+        "focusDay": "Focus Day®",
+        "visionBuildingDayOne": "Vision Building® Day 1",
+        "visionBuildingDayTwo": "Vision Building® Day 2"
+      },
+      "vto": {
+        "route": "V/TO®",
+        "item": "V/TO®",
+        "items": "V/TOs®",
+        "vision": "Vision",
+        "traction": "Traction®",
+        "swot": "SWOT"
+      },
+      "acChart": {
+        "route": "Accountability Chart™ ",
+        "seat": "Seat",
+        "seats": "Seats",
+        "seatHolder": "Seat Holder",
+        "seatHolders": "Seat Holders",
+        "rolesAndResponsibilities": "Roles and Responsibilities",
+        "visionary": "Visionary",
+        "integrator": "Integrator",
+        "chart": "Chart",
+        "charts": "Charts"
+      },
+      "feedback": {
+        "route": "1-on-1",
+        "item": "Discussion",
+        "items": "Discussions",
+        "quarterlyItem": "Quarterly Discussion",
+        "quarterlyItems": "Quarterly Discussions",
+        "annualItem": "Annual Review",
+        "annualItems": "Annual Reviews",
+        "managee": "Managee",
+        "manager": "Manager",
+        "meeting": "Meeting",
+        "peopleAnalyzer": "People Analyzer®",
+        "leadershipCommitments": "LMA™ ASSESSMENT",
+        "coachingCommitments": "Management Assessment",
+        "CCC": "GWC™",
+        "capacity": "Capacity to do it",
+        "commitment": "Wants it",
+        "competency": "Gets it",
+        "LAC": "LMA™"
+      },
+      "process": {
+        "route": "Process",
+        "item": "Process",
+        "items": "Processes",
+        "coreProcess": "Core Process",
+        "step": "Step",
+        "steps": "Steps",
+        "subStep": "Sub-Step",
+        "subSteps": "Sub-Steps",
+        "documented": "Documented",
+        "followedByAll": "Followed By All",
+        "effective": "Effective"
+      },
+      "directory": {
+        "route": "Directory",
+        "owner": "Owner",
+        "admin": "Admin",
+        "manager": "Manager",
+        "managee": "Managee",
+        "observer": "Observer",
+        "implementer": "Implementer"
+      },
+      "mastery": {
+        "route": "OS Toolbox",
+        "item": "Tool",
+        "items": "Tools"
+      },
+      "survey": {
+        "route": "Assessments",
+        "item": "Assessment",
+        "items": "Assessments",
+        "admin": "Admin",
+        "mySurveys": "My Assessments",
+        "recipient": "recipient",
+        "recipients": "recipients"
+      }
+    }
+  },
+  "timestamp": "2025-06-18T11:36:43.989Z"
+}

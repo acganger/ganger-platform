@@ -5,36 +5,42 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev -p 3006",
-    "build": "next build",
+    "build": "next build && npx @cloudflare/next-on-pages",
     "start": "next start -p 3006",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "build:next": "next build",
+    "build:worker": "npx @cloudflare/next-on-pages",
+    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=pharma-scheduling-production"
   },
   "dependencies": {
-    "next": "^14.2.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@cloudflare/next-on-pages": "^1.13.12",
+    "@ganger/auth": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@hookform/resolvers": "^3.3.0",
+    "@supabase/supabase-js": "^2.38.0",
+    "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20.0.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
-    "typescript": "^5.5.0",
-    "@tailwindcss/postcss": "^4.1.10",
-    "lucide-react": "^0.294.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
-    "react-hook-form": "^7.48.0",
-    "@hookform/resolvers": "^3.3.0",
-    "zod": "^3.22.0",
     "framer-motion": "^10.16.0",
+    "lucide-react": "^0.516.0",
+    "next": "^14.2.0",
+    "react": "^18.3.1",
     "react-calendar": "^4.7.0",
-    "@supabase/supabase-js": "^2.38.0",
-    "@ganger/ui": "workspace:*"
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.48.0",
+    "typescript": "^5.5.0",
+    "zod": "^3.22.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0"
+    "tailwindcss": "^4.1.7"
   },
   "keywords": [
     "pharmaceutical",

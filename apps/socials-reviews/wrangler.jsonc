@@ -1,0 +1,59 @@
+{
+  "name": "ganger-socials-staff",
+  "main": ".vercel/output/static/_worker.js/index.js",
+  "compatibility_date": "2025-01-18",
+  "compatibility_flags": ["nodejs_compat"],
+  
+  "build": {
+    "command": "npm run build && pnpm exec next-on-pages"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "account_id": "68d0160c9915efebbbecfddfd48cddab",
+  "routes": [
+    {
+      "pattern": "staff.gangerdermatology.com/socials/*",
+      "zone_name": "gangerdermatology.com"
+    }
+  ],
+  "env": {
+    "production": {
+      "name": "ganger-socials-staff-production",
+      "vars": {
+        "ENVIRONMENT": "production",
+        "APP_NAME": "socials-staff",
+        "APP_PATH": "socials",
+        "STAFF_PORTAL_URL": "https://staff.gangerdermatology.com",
+        "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+        "GOOGLE_CLIENT_ID": "745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com",
+        "GOOGLE_DOMAIN": "gangerdermatology.com"
+      },
+      "routes": [
+        {
+          "pattern": "staff.gangerdermatology.com/socials/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ]
+    },
+    "staging": {
+      "name": "ganger-socials-staff-staging",
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "APP_NAME": "socials-staff",
+        "APP_PATH": "socials",
+        "STAFF_PORTAL_URL": "https://staff-staging.gangerdermatology.com",
+        "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+        "GOOGLE_CLIENT_ID": "745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com",
+        "GOOGLE_DOMAIN": "gangerdermatology.com"
+      },
+      "routes": [
+        {
+          "pattern": "staff-staging.gangerdermatology.com/socials/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ]
+    }
+  }
+}

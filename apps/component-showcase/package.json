@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3020",
-    "build": "next build",
+    "build": "next build && npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "build:next": "next build",
+    "build:worker": "npx @cloudflare/next-on-pages",
+    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=component-showcase-production"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/auth": "workspace:*",
     "@ganger/ui": "workspace:*",
     "@ganger/utils": "workspace:*",
@@ -18,6 +22,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",

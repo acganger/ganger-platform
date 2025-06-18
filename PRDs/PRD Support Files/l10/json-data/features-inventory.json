@@ -1,0 +1,1056 @@
+{
+  "features": [
+    {
+      "type": "button",
+      "text": "Ganger Dermatology",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-mdc-menu-trigger",
+        "company-button",
+        "mdc-button",
+        "mat-mdc-button",
+        "mat-unthemed",
+        "mat-mdc-button-base",
+        "ng-star-inserted"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "My 90",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body",
+        "active"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Insights",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Scorecard",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Rocks",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "To-Dos",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Issues",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Meetings",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Headlines",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "V/TO®",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Accountability Chart",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "1-on-1",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Process",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Directory",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "EOS Toolbox™",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Knowledge",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Assessments",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Add Teammates",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Provide Feedback",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Learning and Support",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "A.C. Ganger",
+      "title": null,
+      "action": null,
+      "classes": [
+        "menu-list-item",
+        "terra-body",
+        "tall-item"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Create",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "All  Team: All",
+      "title": null,
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-6"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Edit Layout",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Archive completed",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "+ Create To-Do",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Previous",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Next",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "25",
+      "title": null,
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-38"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Incomplete",
+      "title": null,
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-7"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Create To-Do",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "+ Add To-Do",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "All",
+      "title": null,
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-11"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "On-track",
+      "title": "Open status menu for AC's measurables",
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-21"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Edit AC's measurables",
+      "action": null,
+      "classes": [
+        "mat-mdc-tooltip-trigger",
+        "edit-btn",
+        "ng-star-inserted"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "On-track",
+      "title": "Open status menu for Define The Ganger Experience for Providers & Patients",
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-22"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Edit Define The Ganger Experience for Providers & Patients",
+      "action": null,
+      "classes": [
+        "mat-mdc-tooltip-trigger",
+        "edit-btn",
+        "ng-star-inserted"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "On-track",
+      "title": "Open status menu for Google Classroom Training Content Plan is Documented w/Content Creation Underway",
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-23"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Edit Google Classroom Training Content Plan is Documented w/Content Creation Underway",
+      "action": null,
+      "classes": [
+        "mat-mdc-tooltip-trigger",
+        "edit-btn",
+        "ng-star-inserted"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "",
+      "title": "Open calendar",
+      "action": null,
+      "classes": [
+        "mdc-icon-button",
+        "mat-mdc-icon-button",
+        "mat-unthemed",
+        "mat-mdc-button-base"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "+ Create Rock",
+      "title": null,
+      "action": null,
+      "classes": [],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Weekly",
+      "title": null,
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-9"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "6 (default)",
+      "title": null,
+      "action": null,
+      "classes": [
+        "terra-select",
+        "ng-tns-c649274537-10"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Team To-DosChecklist for daily team tasks",
+      "title": "Add Team To-Do",
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Private To-DosChecklist for daily Private To-Dos",
+      "title": "Add Private To-Dos",
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Rocks & MilestonesQuarterly Goal",
+      "title": "Add Rocks",
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "ScorecardMeasurable tracker",
+      "title": "Add Scorecard",
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "To-Dos Created Last 90 DaysTrack To-Do creation and completion",
+      "title": null,
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "Rock StatusesTrack Rock status across teams",
+      "title": null,
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "button",
+      "text": "MeasurablesTrack Measurable progress",
+      "title": null,
+      "action": null,
+      "classes": [
+        "add-menu-button",
+        "flex"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-27",
+        "red",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-28",
+        "red",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-29",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-30",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-31",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-32",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-33",
+        "red",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-34",
+        "red",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-35",
+        "red",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-36",
+        "red",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-37",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-18",
+        "red",
+        "show-year",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-19",
+        "show-year",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "input",
+      "text": "",
+      "title": "date picker",
+      "action": null,
+      "classes": [
+        "mat-mdc-input-element",
+        "mat-datepicker-input",
+        "ng-tns-c1205077789-20",
+        "show-year",
+        "mat-mdc-form-field-input-control",
+        "mdc-text-field__input",
+        "ng-untouched",
+        "ng-pristine",
+        "cdk-text-field-autofill-monitored",
+        "ng-valid"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "Title",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-sort-header-container",
+        "mat-focus-indicator",
+        "ng-tns-c1267148319-25"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "Due by",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-sort-header-container",
+        "mat-focus-indicator",
+        "ng-tns-c1267148319-26"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "Status",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-sort-header-container",
+        "mat-focus-indicator",
+        "ng-tns-c1267148319-15"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "Title",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-sort-header-container",
+        "mat-focus-indicator",
+        "ng-tns-c1267148319-16"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "Due by",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-sort-header-container",
+        "mat-focus-indicator",
+        "ng-tns-c1267148319-17"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "Title",
+      "title": null,
+      "action": null,
+      "classes": [
+        "mat-sort-header-container",
+        "mat-focus-indicator",
+        "ng-tns-c1267148319-39"
+      ],
+      "href": null
+    },
+    {
+      "type": "div",
+      "text": "",
+      "title": "Open Intercom Messenger",
+      "action": null,
+      "classes": [
+        "intercom-lightweight-app-launcher",
+        "intercom-launcher"
+      ],
+      "href": null
+    }
+  ],
+  "totalCount": 84,
+  "formCount": 0,
+  "timestamp": "2025-06-18T11:36:46.836Z"
+}

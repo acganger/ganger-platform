@@ -11,7 +11,7 @@ interface Notification {
   message: string;
   type: 'info' | 'success' | 'warning' | 'error';
   category: 'ticket' | 'user' | 'system' | 'reminder';
-  is_read: boolean;
+  read: boolean;
   priority: 'low' | 'normal' | 'high' | 'urgent';
   related_entity_type?: string;
   related_entity_id?: string;
@@ -72,7 +72,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -157,7 +157,7 @@ async function handleGetNotifications(
   }
 
   const {
-    is_read,
+    read,
     type,
     category,
     priority,
@@ -183,8 +183,8 @@ async function handleGetNotifications(
     .eq('user_id', userProfile.id);
 
   // Apply filters
-  if (is_read !== undefined) {
-    query = query.eq('is_read', is_read);
+  if (read !== undefined) {
+    query = query.eq('read', read);
   }
 
   if (type) {
@@ -238,7 +238,7 @@ async function handleGetNotifications(
       .from('staff_notifications')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userProfile.id)
-      .eq('is_read', false)
+      .eq('read', false)
       .or('expires_at.is.null,expires_at.gt.' + new Date().toISOString());
     
     unreadCount = count || 0;
@@ -246,7 +246,7 @@ async function handleGetNotifications(
 
   // Execute main query with pagination
   const { data: notifications, error } = await query
-    .range(offset, offset + limit - 1);
+    .range(offset!, offset! + limit! - 1);
 
   if (error) {
     console.error('Notifications fetch error:', error);
@@ -262,14 +262,14 @@ async function handleGetNotifications(
   }
 
   // Format response data
-  const formattedNotifications: Notification[] = notifications.map(notification => ({
+  const formattedNotifications: Notification[] = (notifications || []).map((notification: any) => ({
     id: notification.id,
     user_id: notification.user_id,
     title: notification.title,
     message: notification.message,
     type: notification.type,
     category: notification.category,
-    is_read: notification.is_read,
+    read: notification.read,
     priority: notification.priority,
     related_entity_type: notification.related_entity_type,
     related_entity_id: notification.related_entity_id,
@@ -292,9 +292,9 @@ async function handleGetNotifications(
       unread_count: unreadCount,
       pagination: {
         total: totalCount || 0,
-        limit,
-        offset,
-        has_more: (offset + limit) < (totalCount || 0)
+        limit: limit!,
+        offset: offset!,
+        has_more: (offset! + limit!) < (totalCount || 0)
       }
     }
   });
@@ -392,7 +392,7 @@ async function handleCreateNotification(
       related_entity_id,
       action_url,
       expires_at,
-      is_read: false,
+      read: false,
       metadata: {
         ...metadata,
         created_by: userProfile.id,
@@ -450,7 +450,7 @@ async function handleCreateNotification(
       message: newNotification.message,
       type: newNotification.type,
       category: newNotification.category,
-      is_read: newNotification.is_read,
+      read: newNotification.read,
       priority: newNotification.priority,
       related_entity_type: newNotification.related_entity_type,
       related_entity_id: newNotification.related_entity_id,

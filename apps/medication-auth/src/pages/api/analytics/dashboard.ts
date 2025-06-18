@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { AuthorizationAnalyticsService } from '../../../lib/analytics/analytics-service';
 import { withAuth } from '../../../lib/auth/middleware';
 import { auditLog } from '../../../lib/security/audit-logger';
-import { addDays, addWeeks, addMonths } from 'date-fns';
+// import { addDays, addWeeks, addMonths } from 'date-fns';
 
 const dashboardRequestSchema = z.object({
   timeframe: z.enum(['7d', '30d', '90d', '6m', '1y']).optional().default('30d'),
@@ -77,22 +77,22 @@ async function handleGetDashboard(req: NextApiRequest, res: NextApiResponse, use
       const now = new Date();
       switch (timeframe) {
         case '7d':
-          dateRange = { start: addDays(now, -7), end: now };
+          dateRange = { start: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000), end: now };
           break;
         case '30d':
-          dateRange = { start: addDays(now, -30), end: now };
+          dateRange = { start: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), end: now };
           break;
         case '90d':
-          dateRange = { start: addDays(now, -90), end: now };
+          dateRange = { start: new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000), end: now };
           break;
         case '6m':
-          dateRange = { start: addMonths(now, -6), end: now };
+          dateRange = { start: new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000), end: now };
           break;
         case '1y':
-          dateRange = { start: addMonths(now, -12), end: now };
+          dateRange = { start: new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000), end: now };
           break;
         default:
-          dateRange = { start: addDays(now, -30), end: now };
+          dateRange = { start: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), end: now };
       }
     }
 

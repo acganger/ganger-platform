@@ -5,7 +5,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
-import { format, startOfWeek, addDays, isSameDay, isToday, parseISO } from 'date-fns';
+// import { format, startOfWeek, addDays, isSameDay, isToday, parseISO } from 'date-fns';
 // import { Button } from '@ganger/ui'; // Temporarily disabled due to React type conflicts
 import TimeSlotGrid from './TimeSlotGrid';
 import { clsx } from 'clsx';
@@ -28,7 +28,11 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
 }) => {
   const [currentWeekStart, setCurrentWeekStart] = useState(() => {
     const today = new Date();
-    return startOfWeek(today, { weekStartsOn: 1 }); // Start on Monday
+    const dayOfWeek = today.getDay();
+    const daysToMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - daysToMonday);
+    return monday;
   });
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -54,14 +58,18 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
       const days = [];
       
       for (let day = 0; day < 7; day++) {
-        const currentDate = addDays(weekStart, day);
-        const dateKey = format(currentDate, 'yyyy-MM-dd');
+        const currentDate = new Date(weekStart);
+        currentDate.setDate(weekStart.getDate() + day);
+        const dateKey = currentDate.toISOString().split('T')[0];
         const daySlots = byDate.get(dateKey) || [];
+        
+        const today = new Date();
+        const isToday = currentDate.toDateString() === today.toDateString();
         
         days.push({
           date: dateKey,
-          dayOfWeek: format(currentDate, 'EEEE'),
-          isToday: isToday(currentDate),
+          dayOfWeek: currentDate.toLocaleDateString('en-US', { weekday: 'long' }),
+          isToday,
           isAvailable: daySlots.some(slot => slot.available),
           slots: daySlots,
           totalSlots: daySlots.length,
@@ -70,11 +78,12 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
       }
       
       weeksData.push({
-        weekOf: format(weekStart, 'yyyy-MM-dd'),
+        weekOf: weekStart.toISOString().split('T')[0],
         days
       });
       
-      weekStart = addDays(weekStart, 7);
+      weekStart = new Date(weekStart);
+      weekStart.setDate(weekStart.getDate() + 7);
     }
 
     return {
@@ -84,7 +93,8 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   }, [availability, currentWeekStart]);
 
   const navigateWeek = (direction: 'prev' | 'next') => {
-    const newWeekStart = addDays(currentWeekStart, direction === 'next' ? 7 : -7);
+    const newWeekStart = new Date(currentWeekStart);
+    newWeekStart.setDate(currentWeekStart.getDate() + (direction === 'next' ? 7 : -7));
     setCurrentWeekStart(newWeekStart);
   };
 
@@ -154,7 +164,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
               <div key={week.weekOf}>
                 {/* Week Header */}
                 <div className="text-sm font-medium text-gray-500 mb-2">
-                  Week of {format(parseISO(week.weekOf), 'MMMM d, yyyy')}
+                  Week of {new Date(week.weekOf).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                 </div>
                 
                 {/* Days Grid */}
@@ -187,10 +197,10 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
                       )}
                     >
                       <div className="text-xs font-medium">
-                        {format(parseISO(day.date), 'EEE')}
+                        {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
                       </div>
                       <div className="text-lg font-bold">
-                        {format(parseISO(day.date), 'd')}
+                        {new Date(day.date).getDate()}
                       </div>
                       {day.isAvailable && (
                         <div className="text-xs">
@@ -208,7 +218,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
           {selectedDate && selectedDateSlots.length > 0 && (
             <div className="border-t pt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Available Times for {format(parseISO(selectedDate), 'EEEE, MMMM d, yyyy')}
+                Available Times for {new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
               </h3>
               
               <TimeSlotGrid

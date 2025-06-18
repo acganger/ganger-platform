@@ -1,169 +1,451 @@
 # 🚀 Ganger Platform - Deployment Guide
 
-> **UPDATED**: Streamlined deployment process with direct content serving for maximum reliability.
+> **CLOUDFLARE WORKERS BEST PRACTICES**: Modern deployment using current standards and proven patterns.
 
 ## ⚠️ DEPLOYMENT ARCHITECTURE
 
-**✅ PROVEN APPROACH**: Direct content serving in platform Worker  
-**✅ FALLBACK**: Individual Cloudflare Workers for complex apps  
-**❌ DEPRECATED**: Cloudflare Pages (sunset), External Worker proxying (DNS issues)
+### **⚠️ CRITICAL: Cloudflare Pages Sunset Notice**
+
+**Cloudflare is sunsetting Cloudflare Pages for Workers routes**. All Ganger Platform applications MUST use Cloudflare Workers exclusively. Using Pages will result in deployment failures and architectural inconsistencies.
+
+**✅ MANDATORY**: Cloudflare Workers exclusively (Pages sunset for Workers routes)  
+**✅ PRIMARY**: Hybrid Router + Specialized Workers (current production architecture)  
+**✅ SECONDARY**: TypeScript Workers with ES modules  
+**✅ FALLBACK**: Workers Static Assets for complex Next.js apps  
+**✅ CONFIGURATION**: wrangler.jsonc with observability enabled  
+**❌ FORBIDDEN**: Cloudflare Pages deployment, individual subdomain deployments, static export patterns
+
+## 🌐 **Platform Routing Architecture**
+
+**CRITICAL**: The Ganger Platform uses a **hybrid routing architecture** that replaces individual subdomain deployments with a unified staff portal and external access domains.
+
+### **Current Production Architecture**
+
+```
+STAFF PORTAL (staff.gangerdermatology.com)
+├─ Lightweight Router Worker (routes to 16 specialized workers)
+├─ /inventory → ganger-inventory-staff.workers.dev
+├─ /handouts → ganger-handouts-staff.workers.dev
+├─ /kiosk → ganger-kiosk-admin.workers.dev
+├─ /meds → ganger-meds-staff.workers.dev
+├─ /l10 → ganger-l10-staff.workers.dev
+├─ /reps → ganger-reps-admin.workers.dev
+├─ /phones → ganger-phones-staff.workers.dev
+├─ /batch → ganger-batch-staff.workers.dev
+├─ /socials → ganger-socials-staff.workers.dev
+├─ /staffing → ganger-staffing-staff.workers.dev
+├─ /compliance → ganger-compliance-staff.workers.dev
+├─ /dashboard → ganger-dashboard-staff.workers.dev
+├─ /config → ganger-config-staff.workers.dev
+├─ /showcase → ganger-showcase-staff.workers.dev
+└─ /status → ganger-status-staff.workers.dev
+
+EXTERNAL ACCESS DOMAINS
+├─ handouts.gangerdermatology.com → ganger-handouts-patient.workers.dev
+├─ kiosk.gangerdermatology.com → ganger-kiosk-patient.workers.dev
+├─ meds.gangerdermatology.com → ganger-meds-patient.workers.dev
+└─ reps.gangerdermatology.com → ganger-reps-booking.workers.dev
+```
+
+### **❌ DEPRECATED: Individual Subdomain Deployments**
+
+**DO NOT USE THESE COMMANDS:**
+```bash
+# ❌ WRONG - Creates routing confusion and DNS management overhead
+npm run deploy:inventory           # inventory.gangerdermatology.com
+npm run deploy:handouts           # handouts.gangerdermatology.com
+npm run deploy:checkin            # checkin.gangerdermatology.com
+```
+
+**✅ CORRECT: Platform Routing Deployments**
+```bash
+# ✅ Staff Portal Deployment (preferred method)
+npm run deploy:staff-portal        # Routes all staff applications
+
+# ✅ External Domain Deployment
+npm run deploy:external-domains    # Patient/rep access domains
+
+# ✅ Individual Worker Deployment (when needed)
+npm run deploy:inventory-staff     # Only the inventory worker
+```
+
+## **Cloudflare Workers Deployment (MANDATORY)**
+
+### **⚠️ CRITICAL: Pages Sunset Notice**
+
+**Cloudflare Pages is being sunset for Workers routes**. All Ganger Platform applications must use Cloudflare Workers exclusively.
+
+### **Required Deployment Architecture**
+
+**Staff Applications** → Cloudflare Workers → staff.gangerdermatology.com/[path]  
+**External Applications** → Cloudflare Workers → [app].gangerdermatology.com
+
+### **Deployment Verification Process**
+
+#### **Pre-Deployment Checklist**
+```bash
+# 1. Verify Workers configuration (not static export)
+cat next.config.js | grep -E "(runtime.*edge|output.*export)"
+# MUST find 'runtime: edge', MUST NOT find 'output: export'
+
+# 2. Verify staff portal integration
+find src -name "*.tsx" -exec grep -l "StaffPortalLayout" {} \;
+# MUST find at least one file
+
+# 3. Verify build works
+pnpm build
+# MUST complete successfully
+
+# 4. Verify Workers deployment
+wrangler deploy
+curl -I https://[worker-name].workers.dev/health
+# MUST return HTTP 200, NOT 405
+```
+
+#### **Common Deployment Failures**
+
+**405 Method Not Allowed**:
+- **Cause**: Static export configuration in Workers context
+- **Fix**: Remove `output: 'export'` from next.config.js
+- **Prevention**: Follow Workers configuration templates exactly
+
+**Missing Staff Portal Integration**:
+- **Cause**: Apps not using StaffPortalLayout
+- **Fix**: Implement proper layout structure
+- **Prevention**: Use app creation templates from /true-docs/templates/
+
+**Route Conflicts**:
+- **Cause**: Multiple workers assigned to same domain pattern
+- **Fix**: Update DNS routing with wrangler route commands
+- **Prevention**: Follow hybrid routing architecture documentation
 
 ## 🔧 Quick Deployment Commands
 
-### Deploy Platform Worker (Primary Method)
+### Deploy Complete Platform (Recommended Method)
 ```bash
-cd cloudflare-workers
-npx wrangler deploy --env production
+# Deploy all external domains first (independent)
+npm run deploy:external-domains
+
+# Deploy all staff application workers
+npm run deploy:staff-workers
+
+# Deploy staff portal router last (depends on workers)
+npm run deploy:staff-portal-router
+
+# Verify platform health
+npm run test:platform-health
 ```
 
-### Deploy Individual App Workers (Secondary Method)
+### Deploy Individual Components
 ```bash
-cd apps/[app-name]
-npx wrangler deploy --env production
+# Deploy specific external domain
+npm run deploy:handouts-patient    # handouts.gangerdermatology.com
+npm run deploy:kiosk-patient       # kiosk.gangerdermatology.com
+npm run deploy:meds-patient        # meds.gangerdermatology.com
+npm run deploy:reps-booking        # reps.gangerdermatology.com
+
+# Deploy specific staff worker
+npm run deploy:inventory-staff     # /inventory route
+npm run deploy:handouts-staff      # /handouts route
+npm run deploy:kiosk-admin         # /kiosk route
+
+# Deploy staff portal router
+npm run deploy:staff-portal-router # staff.gangerdermatology.com router
 ```
 
 ### Check Deployment Status
 ```bash
 npx wrangler deployments list
+npx wrangler tail [worker-name] # View real-time logs
+
+# Platform-specific health checks
+curl -I https://staff.gangerdermatology.com/health
+curl -I https://handouts.gangerdermatology.com/health
 ```
 
 ### Trigger GitHub Actions Deployment
 ```bash
-gh workflow run deploy-platform-worker.yml
+# Deploy entire platform via GitHub Actions
+gh workflow run deploy-hybrid-platform.yml
+
+# Deploy individual components
+gh workflow run deploy-staff-portal.yml
+gh workflow run deploy-external-domains.yml
 ```
 
 ## 📁 Deployment Methods
 
-### Method 1: Direct Content in Platform Worker (RECOMMENDED)
-**For simple apps that don't require complex functionality:**
+### Method 1: TypeScript Workers with ES Modules (RECOMMENDED)
+**For production applications using current Cloudflare standards:**
 
-1. **Add content directly to `staff-router.js`**:
-```javascript
-if (pathname === '/your-app') {
-  return new Response(`<!DOCTYPE html>...`, {
-    headers: { 'Content-Type': 'text/html' }
-  });
+1. **Create TypeScript worker (`src/index.ts`)**:
+```typescript
+interface Env {
+  // Environment bindings (KV, R2, D1, etc.)
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    
+    // Implement proper request validation
+    if (request.method !== 'GET' && request.method !== 'POST') {
+      return new Response('Method not allowed', { status: 405 });
+    }
+    
+    // Handle routes
+    if (url.pathname === '/your-app') {
+      return new Response(`<!DOCTYPE html>...`, {
+        headers: { 
+          'Content-Type': 'text/html',
+          'X-Frame-Options': 'DENY',
+          'X-Content-Type-Options': 'nosniff'
+        }
+      });
+    }
+    
+    return new Response('Not found', { status: 404 });
+  }
+} satisfies ExportedHandler<Env>;
+```
+
+2. **Configure with `wrangler.jsonc`**:
+```jsonc
+{
+  "name": "ganger-app-name",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
 }
 ```
 
-2. **Deploy platform Worker**:
-```bash
-cd cloudflare-workers
-npx wrangler deploy --env production
+**Pros**: Modern TypeScript, observability, security headers, proper error handling  
+**Cons**: Requires TypeScript compilation step
+
+### Method 2: Workers Static Assets (FOR FRONTEND APPLICATIONS)
+**✅ PROVEN: Next.js React applications with optimal performance**
+
+**For frontend applications requiring static file hosting:**
+
+1. **Configure `wrangler.jsonc` with Static Assets**:
+```jsonc
+{
+  "name": "ganger-app-name",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist/",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
 ```
 
-**Pros**: Instant deployment, no DNS issues, maximum reliability  
-**Cons**: Limited to static content with embedded JavaScript
+2. **Create TypeScript worker with Static Assets**:
+```typescript
+interface Env {
+  ASSETS: Fetcher;
+}
 
-### Method 2: R2 Static Asset Workers (FOR COMPLEX NEXT.JS APPS)
-**✅ PROVEN: Handouts, Inventory, L10 Apps Successfully Deployed**
-
-**For Next.js applications requiring full static export with R2 asset storage:**
-
-1. **Create `wrangler.toml` with R2 binding**:
-```toml
-name = "ganger-app-name-prod"
-compatibility_date = "2024-12-13"
-main = "worker.js"
-
-[env.production]
-name = "ganger-app-name-production"
-account_id = "68d0160c9915efebbbecfddfd48cddab"
-
-# R2 bucket for static assets
-[[env.production.r2_buckets]]
-binding = "STATIC_ASSETS"
-bucket_name = "ganger-app-name-assets"
-preview_bucket_name = "ganger-app-name-assets"
-
-[env.production.vars]
-ENVIRONMENT = "production"
-APP_NAME = "app-name"
-```
-
-2. **Create R2-compatible worker**:
-```javascript
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    let pathname = url.pathname;
-    
-    // Strip app prefix if routed through staff-router
-    if (pathname.startsWith('/app-name/')) {
-      pathname = pathname.slice(10); // Remove '/app-name'
-    }
 
-    // Handle Next.js routing
-    if (pathname === '/') pathname = '/index.html';
-    
-    const key = pathname.startsWith('/') ? pathname.slice(1) : pathname;
-    const object = await env.STATIC_ASSETS.get(key);
-    
-    if (object === null) {
-      // 404 for static assets, fallback for pages
-      if (key.includes('/_next/') || key.includes('.js') || key.includes('.css')) {
-        return new Response(`Static asset not found: ${key}`, { status: 404 });
-      }
-      // SPA fallback
-      const indexObject = await env.STATIC_ASSETS.get('index.html');
-      return new Response(indexObject.body, {
-        headers: { 'Content-Type': 'text/html' }
+    // Handle API routes first
+    if (url.pathname.startsWith("/api/")) {
+      // Implement API logic here
+      return Response.json({
+        status: "ok",
+        timestamp: new Date().toISOString()
       });
     }
 
-    // Serve file with correct content-type
-    const headers = new Headers();
-    if (key.endsWith('.js')) headers.set('Content-Type', 'application/javascript');
-    else if (key.endsWith('.css')) headers.set('Content-Type', 'text/css');
-    else if (key.endsWith('.html')) headers.set('Content-Type', 'text/html');
-    
-    return new Response(object.body, { headers });
-  }
-};
+    // Serve static assets
+    return env.ASSETS.fetch(request);
+  },
+} satisfies ExportedHandler<Env>;
 ```
 
-3. **Create upload script (`upload-assets.js`)**:
-```javascript
-const cmd = `npx wrangler r2 object put ganger-app-name-assets/${file.key} --file="${tempFile}" --content-type="${contentType}" --remote`;
-execSync(cmd, { 
-  env: { 
-    CLOUDFLARE_API_TOKEN: process.env.CLOUDFLARE_API_TOKEN,
-    CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID 
-  }
-});
-```
-
-4. **Deploy process**:
+3. **Deploy process**:
 ```bash
-# Build app (must have output: 'export' in next.config.js)
-cd apps/your-app && npm run build
+# Build frontend application
+npm run build
 
-# Upload assets to R2
-cd workers/your-app-static
-export CLOUDFLARE_API_TOKEN="TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf"
-export CLOUDFLARE_ACCOUNT_ID="68d0160c9915efebbbecfddfd48cddab"
-node upload-assets.js
-
-# Deploy worker
-npx wrangler deploy --env production
+# Deploy worker with static assets
+npx wrangler deploy --config wrangler.jsonc --env production
 ```
 
-5. **Update staff-router.js**:
-```javascript
-const WORKER_ROUTES = {
-  '/your-app': 'ganger-your-app-production.michiganger.workers.dev'
+**Benefits**:
+- Automatic static asset serving from /dist/ directory
+- SPA routing support for React/Next.js applications  
+- Combined API and static asset hosting in one worker
+- Observability and logging enabled by default
+
+### Method 3: Advanced Integrations (DATA-DRIVEN APPLICATIONS)
+**For applications requiring databases, AI, or external services:**
+
+1. **Worker with multiple bindings**:
+```typescript
+interface Env {
+  DB: D1Database;              // SQL database
+  KV: KVNamespace;             // Key-value storage
+  AI: Ai;                      // Workers AI
+  QUEUE: Queue;                // Async processing
+  ASSETS: Fetcher;             // Static assets
+  HYPERDRIVE: Hyperdrive;      // Postgres connection
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    
+    if (url.pathname === '/api/data') {
+      // Query database with proper error handling
+      try {
+        const results = await env.DB.prepare(
+          "SELECT * FROM users WHERE active = ?"
+        ).bind(1).all();
+        
+        return Response.json(results);
+      } catch (error) {
+        console.error('Database error:', error);
+        return Response.json(
+          { error: 'Database unavailable' }, 
+          { status: 500 }
+        );
+      }
+    }
+    
+    return env.ASSETS.fetch(request);
+  }
+} satisfies ExportedHandler<Env>;
+```
+
+2. **Configuration with all bindings**:
+```jsonc
+{
+  "name": "ganger-advanced-app",
+  "main": "src/index.ts", 
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist/",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "production-db",
+      "database_id": "your-database-id"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "your-kv-namespace-id"
+    }
+  ],
+  "ai": {
+    "binding": "AI"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
+```
+
+## 🔒 Security & Best Practices
+
+### Security Headers (MANDATORY)
+```typescript
+const securityHeaders = {
+  'X-Frame-Options': 'DENY',
+  'X-Content-Type-Options': 'nosniff', 
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+};
+
+// Apply to all responses
+return new Response(content, { headers: securityHeaders });
+```
+
+### Input Validation & Error Handling
+```typescript
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    try {
+      // Validate request method
+      if (!['GET', 'POST', 'PUT', 'DELETE'].includes(request.method)) {
+        return new Response('Method not allowed', { status: 405 });
+      }
+      
+      // Validate content type for POST requests
+      if (request.method === 'POST') {
+        const contentType = request.headers.get('Content-Type');
+        if (!contentType?.includes('application/json')) {
+          return new Response('Invalid content type', { status: 400 });
+        }
+      }
+      
+      // Your application logic here
+      
+    } catch (error) {
+      console.error('Request error:', error);
+      return new Response('Internal server error', { status: 500 });
+    }
+  }
 };
 ```
 
-### Method 3: GitHub Actions (AUTOMATED)
-**For CI/CD pipeline deployments:**
+### Environment Variables (NEVER hardcode secrets)
+```typescript
+interface Env {
+  API_KEY: string;          // Set via wrangler secret
+  DATABASE_URL: string;     // Set via wrangler secret  
+  ENVIRONMENT: string;      // Set via vars in wrangler.jsonc
+}
 
-```yaml
-- name: Deploy Worker
-  run: |
-    cd cloudflare-workers  # For platform Worker
-    # OR cd apps/your-app   # For individual Worker
-    npx wrangler deploy --env production
+// Set secrets securely
+// npx wrangler secret put API_KEY
+// npx wrangler secret put DATABASE_URL
+```
+
+### Performance Optimization
+```typescript
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    // Use ctx.waitUntil for cleanup operations
+    ctx.waitUntil(logAnalytics(request));
+    
+    // Implement caching for static responses
+    const cache = caches.default;
+    const cacheKey = new Request(request.url, request);
+    const cachedResponse = await cache.match(cacheKey);
+    
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
+    const response = new Response(content, {
+      headers: {
+        'Cache-Control': 'public, max-age=300', // 5 minutes
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    // Cache the response
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    return response;
+  }
+};
 ```
 
 ## 🌐 Domain Configuration
@@ -274,17 +556,50 @@ main = "worker-simple.js"
 - **Pros**: Full Next.js app support
 - **Use For**: Complex applications
 
-## 🔍 Debugging Deployments
+## 🔍 Testing & Debugging
 
-### Check Worker Status:
+### Local Development & Testing
 ```bash
-npx wrangler deployments list
-npx wrangler tail [worker-name]
+# Start local development server
+npx wrangler dev --config wrangler.jsonc
+
+# Test with curl
+curl http://localhost:8787/api/health
+curl -X POST http://localhost:8787/api/data \
+  -H "Content-Type: application/json" \
+  -d '{"test": "data"}'
 ```
 
-### Test Endpoints:
+### Deployment Monitoring
 ```bash
-curl https://your-app.workers.dev/api/health
+# View deployment history
+npx wrangler deployments list
+
+# Real-time logging (observability enabled)
+npx wrangler tail [worker-name]
+
+# View specific deployment
+npx wrangler deployments view [deployment-id]
+```
+
+### Health Check Implementation
+```typescript
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    
+    if (url.pathname === '/health') {
+      return Response.json({
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        environment: env.ENVIRONMENT || 'unknown',
+        version: '1.0.0'
+      });
+    }
+    
+    // Your app logic here
+  }
+};
 ```
 
 ### Common Issues:
@@ -341,13 +656,217 @@ curl https://your-app.workers.dev/api/health
 - ✅ **Professional content prepared** - Medical-appropriate branding
 - ✅ **Can be activated instantly** - Add to staff router direct content
 
-## 📋 Quick Start Checklist
+## 📋 Modern Deployment Checklist
 
-1. **For new simple apps**: Add content to `staff-router.js` 
-2. **For complex apps**: Create individual Worker
-3. **Deploy**: `cd cloudflare-workers && npx wrangler deploy --env production`
-4. **Verify**: Check `https://staff.gangerdermatology.com/[your-app]`
-5. **Test**: Use verification checklist in `/deployments`
+### Pre-Deployment
+- [ ] Use TypeScript with proper interface definitions
+- [ ] Configure `wrangler.jsonc` (not .toml) with observability enabled
+- [ ] Set `compatibility_date: "2025-03-07"` and `compatibility_flags: ["nodejs_compat"]`
+- [ ] Implement security headers and input validation
+- [ ] Add health check endpoint (`/health`)
+- [ ] Use `satisfies ExportedHandler<Env>` for type safety
+
+### Deployment Process
+- [ ] Test locally: `npx wrangler dev --config wrangler.jsonc`
+- [ ] Deploy: `npx wrangler deploy --config wrangler.jsonc --env production`
+- [ ] Monitor: `npx wrangler tail [worker-name]`
+- [ ] Verify: Test health endpoint and core functionality
+- [ ] Document: Update configuration and routes
+
+### Post-Deployment
+- [ ] Set up monitoring and alerting
+- [ ] Configure appropriate caching strategies
+- [ ] Implement rate limiting if needed
+- [ ] Review logs for errors or performance issues
+- [ ] Update documentation and team
+
+## 📦 **Batch Deployment Scripts**
+
+### **Platform Deployment Automation**
+
+The Ganger Platform includes automated batch deployment scripts that handle the complex dependencies between router and worker deployments.
+
+**Required Package.json Scripts:**
+```json
+{
+  "scripts": {
+    "deploy:external-domains": "bash scripts/deploy-external-domains.sh",
+    "deploy:staff-workers": "bash scripts/deploy-staff-workers.sh", 
+    "deploy:staff-portal-router": "bash scripts/deploy-staff-router.sh",
+    "deploy:platform": "npm run deploy:external-domains && npm run deploy:staff-workers && npm run deploy:staff-portal-router",
+    
+    "deploy:handouts-patient": "cd apps/handouts/patient-worker && wrangler deploy --config wrangler.jsonc --env production",
+    "deploy:kiosk-patient": "cd apps/kiosk/patient-worker && wrangler deploy --config wrangler.jsonc --env production",
+    "deploy:meds-patient": "cd apps/medication-auth/patient-worker && wrangler deploy --config wrangler.jsonc --env production",
+    "deploy:reps-booking": "cd apps/pharma-scheduling/booking-worker && wrangler deploy --config wrangler.jsonc --env production",
+    
+    "deploy:staff-management": "cd apps/staff && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:inventory-staff": "cd apps/inventory && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:handouts-staff": "cd apps/handouts && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:kiosk-admin": "cd apps/checkin-kiosk && wrangler deploy --config wrangler-admin.jsonc --env production",
+    "deploy:meds-staff": "cd apps/medication-auth && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:l10-staff": "cd apps/eos-l10 && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:reps-admin": "cd apps/pharma-scheduling && wrangler deploy --config wrangler-admin.jsonc --env production",
+    "deploy:phones-staff": "cd apps/call-center-ops && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:batch-staff": "cd apps/batch-closeout && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:socials-staff": "cd apps/socials-reviews && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:staffing-staff": "cd apps/clinical-staffing && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:compliance-staff": "cd apps/compliance-training && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:dashboard-staff": "cd apps/platform-dashboard && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:config-staff": "cd apps/config-dashboard && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:showcase-staff": "cd apps/component-showcase && wrangler deploy --config wrangler-staff.jsonc --env production",
+    "deploy:status-staff": "cd apps/integration-status && wrangler deploy --config wrangler-staff.jsonc --env production",
+    
+    "test:platform-health": "bash scripts/test-platform-health.sh"
+  }
+}
+```
+
+**Deployment Script: `scripts/deploy-external-domains.sh`**
+```bash
+#!/bin/bash
+# Deploy external access domains (independent of staff portal)
+
+echo "🌍 Deploying External Access Domains..."
+
+echo "📋 Deploying Patient Handouts..."
+npm run deploy:handouts-patient
+
+echo "🖥️ Deploying Patient Kiosk..."
+npm run deploy:kiosk-patient
+
+echo "💊 Deploying Patient Medication Portal..."
+npm run deploy:meds-patient
+
+echo "🏢 Deploying Pharma Rep Booking..."
+npm run deploy:reps-booking
+
+echo "✅ External domains deployed successfully!"
+echo "🔗 Testing external domain health..."
+curl -I https://handouts.gangerdermatology.com/health
+curl -I https://kiosk.gangerdermatology.com/health
+curl -I https://meds.gangerdermatology.com/health
+curl -I https://reps.gangerdermatology.com/health
+```
+
+**Deployment Script: `scripts/deploy-staff-workers.sh`**
+```bash
+#!/bin/bash
+# Deploy all 16 staff application workers
+
+echo "👥 Deploying Staff Application Workers..."
+
+# Core Medical Applications
+echo "🏥 Deploying Core Medical Apps..."
+npm run deploy:staff-management
+npm run deploy:inventory-staff
+npm run deploy:handouts-staff
+npm run deploy:kiosk-admin
+npm run deploy:meds-staff
+
+# Business Operations
+echo "💼 Deploying Business Operations..."
+npm run deploy:l10-staff
+npm run deploy:reps-admin
+npm run deploy:phones-staff
+npm run deploy:batch-staff
+
+# Platform Administration
+echo "⚙️ Deploying Platform Administration..."
+npm run deploy:socials-staff
+npm run deploy:staffing-staff
+npm run deploy:compliance-staff
+npm run deploy:dashboard-staff
+npm run deploy:config-staff
+npm run deploy:showcase-staff
+npm run deploy:status-staff
+
+echo "✅ All staff workers deployed successfully!"
+```
+
+**Deployment Script: `scripts/deploy-staff-router.sh`**
+```bash
+#!/bin/bash
+# Deploy staff portal router (depends on all workers being live)
+
+echo "🌐 Deploying Staff Portal Router..."
+
+# Verify all staff workers are responding
+echo "🔍 Verifying staff workers before router deployment..."
+WORKERS=(
+  "ganger-staff-management"
+  "ganger-inventory-staff"
+  "ganger-handouts-staff"
+  "ganger-kiosk-admin"
+  "ganger-meds-staff"
+  "ganger-l10-staff"
+  "ganger-reps-admin"
+  "ganger-phones-staff"
+  "ganger-batch-staff"
+  "ganger-socials-staff"
+  "ganger-staffing-staff"
+  "ganger-compliance-staff"
+  "ganger-dashboard-staff"
+  "ganger-config-staff"
+  "ganger-showcase-staff"
+  "ganger-status-staff"
+)
+
+for worker in "${WORKERS[@]}"; do
+  echo "Testing $worker..."
+  if ! curl -f -s "https://$worker.workers.dev/health" > /dev/null; then
+    echo "❌ Worker $worker is not responding. Aborting router deployment."
+    exit 1
+  fi
+done
+
+echo "✅ All workers verified. Deploying router..."
+cd cloudflare-workers/staff-portal-router
+wrangler deploy --config wrangler.jsonc --env production
+
+echo "🔗 Testing staff portal routing..."
+curl -I https://staff.gangerdermatology.com/health
+curl -I https://staff.gangerdermatology.com/inventory
+curl -I https://staff.gangerdermatology.com/handouts
+
+echo "✅ Staff portal router deployed successfully!"
+```
+
+**Health Check Script: `scripts/test-platform-health.sh`**
+```bash
+#!/bin/bash
+# Comprehensive platform health verification
+
+echo "🔍 Testing Platform Health..."
+
+# Test staff portal routes
+STAFF_ROUTES=("/" "/inventory" "/handouts" "/kiosk" "/meds" "/l10" "/reps" "/phones" "/batch" "/socials" "/staffing" "/compliance" "/dashboard" "/config" "/showcase" "/status")
+
+echo "👥 Testing Staff Portal Routes..."
+for route in "${STAFF_ROUTES[@]}"; do
+  echo "Testing staff.gangerdermatology.com$route"
+  if curl -f -s "https://staff.gangerdermatology.com$route" > /dev/null; then
+    echo "✅ $route - OK"
+  else
+    echo "❌ $route - FAILED"
+  fi
+done
+
+# Test external domains
+EXTERNAL_DOMAINS=("handouts" "kiosk" "meds" "reps")
+
+echo "🌍 Testing External Domains..."
+for domain in "${EXTERNAL_DOMAINS[@]}"; do
+  echo "Testing $domain.gangerdermatology.com"
+  if curl -f -s "https://$domain.gangerdermatology.com" > /dev/null; then
+    echo "✅ $domain - OK"
+  else
+    echo "❌ $domain - FAILED"
+  fi
+done
+
+echo "✅ Platform health check completed!"
+```
 
 ## 🎨 **MAKING CHANGES - EFFICIENT UPDATE SYSTEM**
 
@@ -501,8 +1020,8 @@ node scripts/update-theme.js --all --theme=medical-teal
 
 ---
 
-**Last Updated**: June 16, 2025 at 3:32 PM EST  
-**Status**: ✅ **L10 APPLICATION FIXED** - JavaScript routing issue resolved with proper R2 upload  
-**Achievement**: Proven R2 deployment pattern documented for complex Next.js applications  
-**Working Deployments**: L10, Handouts, Inventory apps successfully deployed using R2 + Worker pattern  
-**Pattern**: R2 static assets + Cloudflare Worker + Staff Router integration verified working
+**Last Updated**: January 17, 2025 at 10:45 PM EST  
+**Status**: ✅ **UPDATED WITH CLOUDFLARE BEST PRACTICES** - Modern TypeScript Workers standards  
+**Achievement**: Comprehensive guide updated with current Cloudflare Workers standards and security practices  
+**Standards Applied**: ES modules, TypeScript, wrangler.jsonc, observability, security headers  
+**Pattern**: Modern Workers deployment with Static Assets and advanced integrations verified

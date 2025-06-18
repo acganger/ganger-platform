@@ -1,0 +1,15 @@
+{
+  "url": "https://app.ninety.io/api/v4/UserCompanies",
+  "data": [
+    {
+      "userId": "65f5d1f5f0607000125edb40",
+      "companyId": "65f5c6312caa0d0012965019",
+      "accountStatus": "active",
+      "bos": "EOS",
+      "companyName": "Ganger Dermatology",
+      "logoUrl": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/companies/65f5c6312caa0d0012965019/3c080e64-4b5f-4cf6-910a-cd47e8f46708",
+      "billingType": "BillingV3"
+    }
+  ],
+  "timestamp": "2025-06-18T12:35:27.359Z"
+}

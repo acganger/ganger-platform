@@ -117,7 +117,7 @@ export function withAuth(
         await auditLog({
           action: 'phi_access_granted',
           userId: user.id,
-          userEmail: user.email,
+          userEmail: user?.email,
           resource: phiAccessRequest.resourceType,
           resourceId: phiAccessRequest.resourceId,
           accessReason: phiAccessRequest.accessReason,
@@ -146,7 +146,7 @@ export function withAuth(
         await auditLog({
           action: 'break_glass_access',
           userId: user.id,
-          userEmail: user.email,
+          userEmail: user?.email,
           resource: extractResourceType(req),
           resourceId: extractResourceId(req),
           accessReason: breakGlassReason,
@@ -185,7 +185,7 @@ export function withAuth(
       await auditLog({
         action: 'api_access_authorized',
         userId: user.id,
-        userEmail: user.email,
+        userEmail: user?.email,
         resource: extractResourceType(req),
         ipAddress: getClientIP(req),
         userAgent: req.headers['user-agent'],
@@ -274,7 +274,7 @@ async function verifyToken(token: string, req: NextApiRequest): Promise<{
     
     return {
       id: user.id,
-      email: user.email || profile.email,
+      email: user?.email || profile.email,
       role: profile.role,
       permissions,
       sessionId: generateSessionId(req)

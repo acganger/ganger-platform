@@ -1,0 +1,96 @@
+{
+  "todos": [
+    {
+      "selector": "[class*=\"todo\"]",
+      "index": 0,
+      "task": "Team To-Dos 10  Sync All  Title  Due By  Owner  Billing team email review  Review and release updated handbook  2 Give Marisa and Jody FirmAdmin account  Wishlist of Automation for the team 5 Name for >3 year patient FSE appt type KK Script for explaining why we do not see NPFSE KK Forward billing emails from office acct to Michelle--how to automate KK Fax document triage (Jill asked Ayesha) KK Work with Erin on prescribing process for Mohs antibiotic KK Give Ayesha, Jessie, Marisa analytics from Henry Schein 1+ Add To-Do Items per page: 25 1 – 10 of 10",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Team To-Dos 10  Sync All  Title  Due By  Owner  Billing team email review  Review and release updated handbook  2 Give Marisa and Jody FirmAdmin account  Wishlist of Automation for the team 5 Name for >3 year patient FSE appt type KK Script for explaining why we do not see NPFSE KK Forward billing emails from office acct to Michelle--how to automate KK Fax document triage (Jill asked Ayesha) KK Work with Erin on prescribing process for Mohs antibiotic KK Give Ayesha, Jessie, Marisa analytics from Henry Schein 1+ Add To-Do Items per page: 25 1 – 10 of 10"
+    },
+    {
+      "selector": ".list-item",
+      "index": 0,
+      "task": "Billing team email review",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Billing team email review"
+    },
+    {
+      "selector": ".list-item",
+      "index": 1,
+      "task": "Review and release updated handbook  2",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Review and release updated handbook  2"
+    },
+    {
+      "selector": ".list-item",
+      "index": 2,
+      "task": "Give Marisa and Jody FirmAdmin account",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Give Marisa and Jody FirmAdmin account"
+    },
+    {
+      "selector": ".list-item",
+      "index": 3,
+      "task": "Wishlist of Automation for the team 5",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Wishlist of Automation for the team 5"
+    },
+    {
+      "selector": ".list-item",
+      "index": 4,
+      "task": "Name for >3 year patient FSE appt type KK",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Name for >3 year patient FSE appt type KK"
+    },
+    {
+      "selector": ".list-item",
+      "index": 5,
+      "task": "Script for explaining why we do not see NPFSE KK",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Script for explaining why we do not see NPFSE KK"
+    },
+    {
+      "selector": ".list-item",
+      "index": 6,
+      "task": "Forward billing emails from office acct to Michelle--how to automate KK",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Forward billing emails from office acct to Michelle--how to automate KK"
+    },
+    {
+      "selector": ".list-item",
+      "index": 7,
+      "task": "Fax document triage (Jill asked Ayesha) KK",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Fax document triage (Jill asked Ayesha) KK"
+    },
+    {
+      "selector": ".list-item",
+      "index": 8,
+      "task": "Work with Erin on prescribing process for Mohs antibiotic KK",
+      "dueDate": "",
+      "completed": false,
+      "fullText": "Work with Erin on prescribing process for Mohs antibiotic KK"
+    },
+    {
+      "selector": ".list-item",
+      "index": 9,
+      "task": "Give Ayesha, Jessie, Marisa analytics from Henry Schein 1",
+      "dueDate": "",
+      "completed": true,
+      "fullText": "Give Ayesha, Jessie, Marisa analytics from Henry Schein 1"
+    }
+  ],
+  "totalCount": 11,
+  "completedCount": 1,
+  "url": "https://app.ninety.io/todos/team",
+  "timestamp": "2025-06-18T11:36:30.568Z"
+}

@@ -1,0 +1,1144 @@
+{
+  "url": "https://app.ninety.io/api/v4/Vto/65f5c6322caa0d001296501d/TeamAndSltVto",
+  "data": {
+    "teamVto": {
+      "_id": "65f5c6322caa0d0012965040",
+      "ninetyDays": {
+        "futureDate": "2025-04-23T04:00:00.000Z"
+      },
+      "oneYear": {
+        "futureDate": "2026-01-29T05:00:00.000Z",
+        "goals": [
+          {
+            "_id": "65f5feb381c87c5b85972cd3",
+            "description": "Provider templates are full (<= 1 empty slot/day/provider)",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 0,
+            "completedDate": null
+          },
+          {
+            "_id": "65f5ff4f81c87c5b85972cd4",
+            "description": "Staff productivity is maximized, managed, and measured",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 1
+          },
+          {
+            "_id": "65f5ff6681c87c5b85972cd5",
+            "description": "The Ganger Experience (patient, provider, employee) is Defined, Managed, and Measured",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 2
+          },
+          {
+            "_id": "65f5ff8281c87c5b85972cd6",
+            "description": "Leadership Team is focused on Big Picture Strategy and Growth",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 3,
+            "completedDate": null
+          },
+          {
+            "_id": "68090808f147c0665847858c",
+            "description": "More than 50% of our clinical support staff is long-term",
+            "longDescription": "<p><br></p>i.e., they are not pre-med, pre-PP, pre-PA",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 4
+          }
+        ]
+      },
+      "threeYear": {
+        "futureDate": "2027-12-31T05:00:00.000Z",
+        "goals": [
+          {
+            "_id": "65f5fbe481c87c5b85972cc8",
+            "description": "15 Rock Star Providers",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 0
+          },
+          {
+            "_id": "6792bce89a8555efdc1060bb",
+            "description": "7+ locations open and providing a consistent \"Four Seasons\" experience to patients",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 1
+          },
+          {
+            "_id": "6793b01d9a8555efdc1060bf",
+            "description": "We are setting a standard for what a private practice can be",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 2
+          },
+          {
+            "_id": "6793ac329a8555efdc1060be",
+            "description": "We are attracting top talent because we pay better than anyone and provide a kick-ass employee experience",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 3
+          },
+          {
+            "_id": "65f5fc2081c87c5b85972ccd",
+            "description": "Ambitious staff are not held back and can grow as fast as they want",
+            "longDescription": "<p>Low performers are not tolerated</p><p>Team Training &amp; Professional Development/Advancement Program In Place</p>",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 4
+          },
+          {
+            "_id": "65f5fd3b81c87c5b85972ccf",
+            "description": "Patients love us, refer their friends and family, and do not want to be dismissed",
+            "longDescription": "<p>Patient follow-ups are available within recommended time frames</p><p><br></p>",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 5
+          },
+          {
+            "_id": "6793aa389a8555efdc1060bc",
+            "description": "We are efficient AF - using AI, automation, and technology",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 6
+          },
+          {
+            "_id": "6793aa4d9a8555efdc1060bd",
+            "description": "The \"machine\" is built and ready to scale",
+            "longDescription": "<p>Location, provider, and room utilization is maximized (minimal wasted space &amp; time)</p><p>Revenue positive in 90 Days; hitting our profit targets; shared services to minimize overhead</p>",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 7
+          }
+        ]
+      },
+      "deleted": false,
+      "visionMeasurables": [
+        {
+          "measurableId": "65f5feaa7b23860012e7014b",
+          "measurable": {
+            "unitCode": "0002",
+            "currency": "USD",
+            "title": "≤ 1 Empty slot/day/provider"
+          },
+          "ordinal": 0,
+          "ninetyDays": null,
+          "oneYear": 1,
+          "threeYear": 1
+        }
+      ],
+      "revenues": [
+        {
+          "description": "Revenue",
+          "ordinal": 0,
+          "values": {
+            "ninetyDays": "$2M",
+            "oneYear": "$9M",
+            "threeYear": "$15M"
+          }
+        }
+      ],
+      "coreValues": [
+        {
+          "name": "Takes Initiative",
+          "description": "help each other; proactive, offer solutions; come with requests/data, not complaints",
+          "_id": "65f5f00281c87c5b85972cc3",
+          "ordinal": 0
+        },
+        {
+          "name": "Positive Attitude",
+          "description": "glass half full; can-do mindset",
+          "_id": "65f5f04b81c87c5b85972cc4",
+          "ordinal": 1
+        },
+        {
+          "name": "Communicates Effectively",
+          "description": "clear, direct, honest, professional; provide information to the right person at the right time",
+          "_id": "65f5f06281c87c5b85972cc5",
+          "ordinal": 2
+        },
+        {
+          "name": "Do the Right Thing",
+          "description": "for the patient + the team; take responsibility; no drama/pot-stirring",
+          "_id": "65f5f09d81c87c5b85972cc6",
+          "ordinal": 3
+        },
+        {
+          "name": "Adaptable + Resilient",
+          "description": "open to change, gracefully navigates difficult situations",
+          "_id": "65f5f0cc81c87c5b85972cc7",
+          "ordinal": 4
+        }
+      ],
+      "coreFocus": {
+        "purpose": "<p>To deliver outstanding outcomes and experiences to as many people as possible, as efficiently as possible.</p>",
+        "niche": "<p>Dermatology</p>"
+      },
+      "profits": [
+        {
+          "description": "Before reinvestment",
+          "ordinal": 0,
+          "values": {
+            "ninetyDays": "$1",
+            "oneYear": "$900K (10%)",
+            "threeYear": "$1.5M"
+          }
+        }
+      ],
+      "tenYear": "<p><strong>Attracting the most passionate people who love providing + receiving consistently kick-ass experiences + outcomes across Michigan by 12/31/2033.</strong></p><p><br></p><p>- Best Places to Work Award(s)</p><p>- 5% 5-Star Reviews</p><p>- 30 Locations across Michigan</p>",
+      "isSharing": false,
+      "archivedVtoIds": [
+        "6808ece04fda57f68089da77",
+        "6792574a6f7bb5ac57d49805",
+        "66fbf7a721c3484a03f2a2fe",
+        "66a3b98a009a6700110afe80"
+      ],
+      "isArchived": false,
+      "marketingStrategies": [
+        {
+          "_id": "638660e75327b700082e20fa",
+          "name": null,
+          "guarantee": "You can leave 15mins after last appointment.",
+          "targetMarket": "<p>Doctors (MDs preferred) with/ 3+ yrs experience, board-certified, who are more than 10 yrs away from retirement, located in SE Michigan or willing to relocate.&nbsp;</p><p><br></p><p>These providers are patient-focused, share our Core Values, have no drama, and are responsive, efficient, and personable team players who treat our staff well. They are not entitled, but they care about the success of Ganger Dermatology. They do not want to run their own business– they want to give excellent care and trust us to handle the rest.</p><p><br></p><p><strong><u>Target Market - Patients</u></strong></p><p>Women aged 30 -60 who are looking for help with healing skin issues or addressing anti-aging concerns, live within 12 miles of any location (purple circle), and have insurance or disposable income. These patients love supporting local businesses and are willing to leave reviews and share their experiences with friends and family.&nbsp;</p><p><br></p><p><strong><u>Target Market - Referring Physicians</u></strong></p><p>Family and Internal Medicine physicians whose patients are in our target market.</p><p><br></p><p><br></p>",
+          "ordinal": null,
+          "provenProcess": {
+            "description": "TBD"
+          },
+          "uniques": {
+            "values": [
+              {
+                "name": "We Support You/Full Support System",
+                "description": "Q15 no Q30+, provide scribes; collaborative provider team",
+                "ordinal": 0
+              },
+              {
+                "name": "Time Extenders",
+                "description": "Visit #1 is the doctor (diagnosis + plan), follow-up from the PA",
+                "ordinal": 1
+              },
+              {
+                "name": "You can be Authentic",
+                "description": "your growth plan, specialty + template are a conversation, not demand",
+                "ordinal": 2
+              },
+              {
+                "name": "No Risk/No Prenups",
+                "description": "malpractice ends w/the appointment, etc., guaranteed pay as you build your practice",
+                "ordinal": 3
+              }
+            ]
+          }
+        }
+      ],
+      "sectionSettings": [
+        {
+          "cols": 2,
+          "rows": 1,
+          "y": 0,
+          "x": 0,
+          "section": "coreValues",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211c"
+        },
+        {
+          "cols": 2,
+          "rows": 1,
+          "y": 1,
+          "x": 0,
+          "section": "coreFocus",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211d"
+        },
+        {
+          "cols": 2,
+          "rows": 1,
+          "y": 2,
+          "x": 0,
+          "section": "tenYear",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211e"
+        },
+        {
+          "cols": 2,
+          "rows": 2,
+          "y": 3,
+          "x": 0,
+          "section": "marketingStrategy",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211f"
+        },
+        {
+          "cols": 1,
+          "rows": 5,
+          "y": 0,
+          "x": 2,
+          "section": "threeYear",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e2120"
+        },
+        {
+          "cols": 1,
+          "rows": 3,
+          "y": 0,
+          "x": 0,
+          "section": "ninetyDays",
+          "visible": true,
+          "tab": "traction",
+          "_id": "638660fd5327b700082e2121"
+        },
+        {
+          "cols": 1,
+          "rows": 3,
+          "y": 0,
+          "x": 1,
+          "section": "issuesList",
+          "visible": true,
+          "tab": "traction",
+          "_id": "638660fd5327b700082e2122"
+        },
+        {
+          "cols": 1,
+          "rows": 3,
+          "y": 0,
+          "x": 2,
+          "section": "oneYear",
+          "visible": true,
+          "tab": "traction",
+          "_id": "638660fd5327b700082e2123"
+        }
+      ],
+      "labels": {
+        "guarantee": "Guarantee",
+        "threeUniques": "Four Uniques",
+        "provenProcess": "Proven Process",
+        "title": "The Vision / Traction Organizer",
+        "issuesList": "Issues List",
+        "targetMarket": "Target Market- Providers",
+        "ninetyDays": "90 Days",
+        "oneYear": "1 Year",
+        "threeYear": "3 Year",
+        "tenYear": "Core Target™",
+        "marketingStrategy": "Marketing Strategy",
+        "niche": "Niche",
+        "purpose": "Purpose",
+        "coreFocus": "Core Focus™",
+        "coreValues": "Core Values"
+      },
+      "cascadedSections": {
+        "coreFocus": true,
+        "coreValues": true,
+        "marketingStrategies": false,
+        "niche": false,
+        "ninetyDays": false,
+        "oneYear": false,
+        "purpose": false,
+        "tenYear": true,
+        "threeYear": false
+      },
+      "customSectionSettings": [],
+      "teamId": "65f5c6322caa0d001296501d",
+      "companyId": "65f5c6312caa0d0012965019",
+      "strengths": [
+        {
+          "text": "Marketing & Online Presence (website)"
+        },
+        {
+          "text": "Collections Process"
+        },
+        {
+          "text": "Ability to Text with Patients"
+        },
+        {
+          "text": "Dedicated Patient/Provider Experience Seat"
+        },
+        {
+          "text": "Leadership Team"
+        },
+        {
+          "text": "In-House MOHS"
+        },
+        {
+          "text": "Dedicated Injectors"
+        },
+        {
+          "text": "Largest Heroic Laser Fleet Worldwide"
+        },
+        {
+          "text": "Diagnosis + treatment"
+        },
+        {
+          "text": "Effective cosmetic services/results"
+        },
+        {
+          "text": "Cutting edge technology/PARM/Cloud based"
+        },
+        {
+          "text": "Desirable work environment"
+        },
+        {
+          "text": "Patient experience/outcomes"
+        },
+        {
+          "text": "Great buildings/facilities"
+        },
+        {
+          "text": "Provider forward/first approach (support staff, flexible schedules, etc.)"
+        },
+        {
+          "text": "Getting new patients"
+        },
+        {
+          "text": "Top-notch providers- trust"
+        },
+        {
+          "text": "Overcoming big challenges/resilient"
+        },
+        {
+          "text": "Accomodating patient needs"
+        },
+        {
+          "text": "Strong reputation"
+        },
+        {
+          "text": "Wide range of services"
+        }
+      ],
+      "weaknesses": [
+        {
+          "text": "Admin Team - Sales Tracking and Accountability"
+        },
+        {
+          "text": "MDs doing full-skin exams (bottleneck)"
+        },
+        {
+          "text": "Aesthetics not templated/skewed to lower cost services"
+        },
+        {
+          "text": "Too many 30-minute appointments/template complexity"
+        },
+        {
+          "text": "Recruiting/filling open positions"
+        },
+        {
+          "text": "Filling open appointment availability"
+        },
+        {
+          "text": "Turnover/lack of experience/always training"
+        },
+        {
+          "text": "Too much flexibility/catering to providers + staff"
+        },
+        {
+          "text": "Culture between offices/depts/providers (silos)"
+        },
+        {
+          "text": "Follow-through/execution/stickiness/finish line"
+        },
+        {
+          "text": "Slow to fire the wrong people"
+        },
+        {
+          "text": "Finance visibility/lack of budget"
+        },
+        {
+          "text": "Losing sight of the vision"
+        },
+        {
+          "text": "Solving root cause/zombie issues"
+        }
+      ],
+      "opportunities": [
+        {
+          "text": "Four Seasons - elevated customer experience"
+        },
+        {
+          "text": "Designing a Patient Journey"
+        },
+        {
+          "text": "AI Scribe"
+        },
+        {
+          "text": "AI PARM"
+        },
+        {
+          "text": "Consolidating our call center"
+        },
+        {
+          "text": "Data analytics/visualization and dashboards"
+        },
+        {
+          "text": "Offering SRT/other cutting edge treatments"
+        },
+        {
+          "text": "Recognizing/celebrating wins"
+        },
+        {
+          "text": "All cosmetic location"
+        },
+        {
+          "text": "New patient welcome kits"
+        },
+        {
+          "text": "New employee onboarding/swag bags"
+        },
+        {
+          "text": "Plastic surgery"
+        },
+        {
+          "text": "Additional medical location in A2 or Brighton"
+        },
+        {
+          "text": "Wixom warehouse utilization"
+        },
+        {
+          "text": "Community involvement + outreach"
+        },
+        {
+          "text": "Employee retention/engagement/feedback"
+        },
+        {
+          "text": "Clinical trials"
+        },
+        {
+          "text": "Specialty clinics (on Saturdays?)"
+        },
+        {
+          "text": "Fill Evenings + Saturdays @ All Location"
+        }
+      ],
+      "threats": [
+        {
+          "text": "High Operating Costs as a percentage of revenue"
+        },
+        {
+          "text": "PE/VC industry roll-up"
+        },
+        {
+          "text": "Expanding in the wrong way/location"
+        },
+        {
+          "text": "Reimbursement contraction"
+        },
+        {
+          "text": "Competition from smaller, more agile practices"
+        },
+        {
+          "text": "Provider apathy/lack of drive + passion"
+        },
+        {
+          "text": "Competition for labor (better benefits, perks)"
+        },
+        {
+          "text": "Staying cutting edge w/tech, equip, etc."
+        },
+        {
+          "text": "Regulations (losing video visits, etc)"
+        },
+        {
+          "text": "Providers referring out to competitors"
+        },
+        {
+          "text": "Loss of key person"
+        }
+      ]
+    },
+    "sltVto": {
+      "_id": "65f5c6322caa0d0012965040",
+      "ninetyDays": {
+        "futureDate": "2025-04-23T04:00:00.000Z"
+      },
+      "oneYear": {
+        "futureDate": "2026-01-29T05:00:00.000Z",
+        "goals": [
+          {
+            "_id": "65f5feb381c87c5b85972cd3",
+            "description": "Provider templates are full (<= 1 empty slot/day/provider)",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 0,
+            "completedDate": null
+          },
+          {
+            "_id": "65f5ff4f81c87c5b85972cd4",
+            "description": "Staff productivity is maximized, managed, and measured",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 1
+          },
+          {
+            "_id": "65f5ff6681c87c5b85972cd5",
+            "description": "The Ganger Experience (patient, provider, employee) is Defined, Managed, and Measured",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 2
+          },
+          {
+            "_id": "65f5ff8281c87c5b85972cd6",
+            "description": "Leadership Team is focused on Big Picture Strategy and Growth",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 3,
+            "completedDate": null
+          },
+          {
+            "_id": "68090808f147c0665847858c",
+            "description": "More than 50% of our clinical support staff is long-term",
+            "longDescription": "<p><br></p>i.e., they are not pre-med, pre-PP, pre-PA",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 4
+          }
+        ]
+      },
+      "threeYear": {
+        "futureDate": "2027-12-31T05:00:00.000Z",
+        "goals": [
+          {
+            "_id": "65f5fbe481c87c5b85972cc8",
+            "description": "15 Rock Star Providers",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 0
+          },
+          {
+            "_id": "6792bce89a8555efdc1060bb",
+            "description": "7+ locations open and providing a consistent \"Four Seasons\" experience to patients",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 1
+          },
+          {
+            "_id": "6793b01d9a8555efdc1060bf",
+            "description": "We are setting a standard for what a private practice can be",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 2
+          },
+          {
+            "_id": "6793ac329a8555efdc1060be",
+            "description": "We are attracting top talent because we pay better than anyone and provide a kick-ass employee experience",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 3
+          },
+          {
+            "_id": "65f5fc2081c87c5b85972ccd",
+            "description": "Ambitious staff are not held back and can grow as fast as they want",
+            "longDescription": "<p>Low performers are not tolerated</p><p>Team Training &amp; Professional Development/Advancement Program In Place</p>",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 4
+          },
+          {
+            "_id": "65f5fd3b81c87c5b85972ccf",
+            "description": "Patients love us, refer their friends and family, and do not want to be dismissed",
+            "longDescription": "<p>Patient follow-ups are available within recommended time frames</p><p><br></p>",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 5
+          },
+          {
+            "_id": "6793aa389a8555efdc1060bc",
+            "description": "We are efficient AF - using AI, automation, and technology",
+            "longDescription": "",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 6
+          },
+          {
+            "_id": "6793aa4d9a8555efdc1060bd",
+            "description": "The \"machine\" is built and ready to scale",
+            "longDescription": "<p>Location, provider, and room utilization is maximized (minimal wasted space &amp; time)</p><p>Revenue positive in 90 Days; hitting our profit targets; shared services to minimize overhead</p>",
+            "completed": false,
+            "attachments": [],
+            "comments": [],
+            "ordinal": 7
+          }
+        ]
+      },
+      "deleted": false,
+      "visionMeasurables": [
+        {
+          "measurableId": "65f5feaa7b23860012e7014b",
+          "measurable": {
+            "unitCode": "0002",
+            "currency": "USD",
+            "title": "≤ 1 Empty slot/day/provider"
+          },
+          "ordinal": 0,
+          "ninetyDays": null,
+          "oneYear": 1,
+          "threeYear": 1
+        }
+      ],
+      "revenues": [
+        {
+          "description": "Revenue",
+          "ordinal": 0,
+          "values": {
+            "ninetyDays": "$2M",
+            "oneYear": "$9M",
+            "threeYear": "$15M"
+          }
+        }
+      ],
+      "coreValues": [
+        {
+          "name": "Takes Initiative",
+          "description": "help each other; proactive, offer solutions; come with requests/data, not complaints",
+          "_id": "65f5f00281c87c5b85972cc3",
+          "ordinal": 0
+        },
+        {
+          "name": "Positive Attitude",
+          "description": "glass half full; can-do mindset",
+          "_id": "65f5f04b81c87c5b85972cc4",
+          "ordinal": 1
+        },
+        {
+          "name": "Communicates Effectively",
+          "description": "clear, direct, honest, professional; provide information to the right person at the right time",
+          "_id": "65f5f06281c87c5b85972cc5",
+          "ordinal": 2
+        },
+        {
+          "name": "Do the Right Thing",
+          "description": "for the patient + the team; take responsibility; no drama/pot-stirring",
+          "_id": "65f5f09d81c87c5b85972cc6",
+          "ordinal": 3
+        },
+        {
+          "name": "Adaptable + Resilient",
+          "description": "open to change, gracefully navigates difficult situations",
+          "_id": "65f5f0cc81c87c5b85972cc7",
+          "ordinal": 4
+        }
+      ],
+      "coreFocus": {
+        "purpose": "<p>To deliver outstanding outcomes and experiences to as many people as possible, as efficiently as possible.</p>",
+        "niche": "<p>Dermatology</p>"
+      },
+      "profits": [
+        {
+          "description": "Before reinvestment",
+          "ordinal": 0,
+          "values": {
+            "ninetyDays": "$1",
+            "oneYear": "$900K (10%)",
+            "threeYear": "$1.5M"
+          }
+        }
+      ],
+      "tenYear": "<p><strong>Attracting the most passionate people who love providing + receiving consistently kick-ass experiences + outcomes across Michigan by 12/31/2033.</strong></p><p><br></p><p>- Best Places to Work Award(s)</p><p>- 5% 5-Star Reviews</p><p>- 30 Locations across Michigan</p>",
+      "isSharing": false,
+      "archivedVtoIds": [
+        "6808ece04fda57f68089da77",
+        "6792574a6f7bb5ac57d49805",
+        "66fbf7a721c3484a03f2a2fe",
+        "66a3b98a009a6700110afe80"
+      ],
+      "isArchived": false,
+      "marketingStrategies": [
+        {
+          "_id": "638660e75327b700082e20fa",
+          "name": null,
+          "guarantee": "You can leave 15mins after last appointment.",
+          "targetMarket": "<p>Doctors (MDs preferred) with/ 3+ yrs experience, board-certified, who are more than 10 yrs away from retirement, located in SE Michigan or willing to relocate.&nbsp;</p><p><br></p><p>These providers are patient-focused, share our Core Values, have no drama, and are responsive, efficient, and personable team players who treat our staff well. They are not entitled, but they care about the success of Ganger Dermatology. They do not want to run their own business– they want to give excellent care and trust us to handle the rest.</p><p><br></p><p><strong><u>Target Market - Patients</u></strong></p><p>Women aged 30 -60 who are looking for help with healing skin issues or addressing anti-aging concerns, live within 12 miles of any location (purple circle), and have insurance or disposable income. These patients love supporting local businesses and are willing to leave reviews and share their experiences with friends and family.&nbsp;</p><p><br></p><p><strong><u>Target Market - Referring Physicians</u></strong></p><p>Family and Internal Medicine physicians whose patients are in our target market.</p><p><br></p><p><br></p>",
+          "ordinal": null,
+          "provenProcess": {
+            "description": "TBD"
+          },
+          "uniques": {
+            "values": [
+              {
+                "name": "We Support You/Full Support System",
+                "description": "Q15 no Q30+, provide scribes; collaborative provider team",
+                "ordinal": 0
+              },
+              {
+                "name": "Time Extenders",
+                "description": "Visit #1 is the doctor (diagnosis + plan), follow-up from the PA",
+                "ordinal": 1
+              },
+              {
+                "name": "You can be Authentic",
+                "description": "your growth plan, specialty + template are a conversation, not demand",
+                "ordinal": 2
+              },
+              {
+                "name": "No Risk/No Prenups",
+                "description": "malpractice ends w/the appointment, etc., guaranteed pay as you build your practice",
+                "ordinal": 3
+              }
+            ]
+          }
+        }
+      ],
+      "sectionSettings": [
+        {
+          "cols": 2,
+          "rows": 1,
+          "y": 0,
+          "x": 0,
+          "section": "coreValues",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211c"
+        },
+        {
+          "cols": 2,
+          "rows": 1,
+          "y": 1,
+          "x": 0,
+          "section": "coreFocus",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211d"
+        },
+        {
+          "cols": 2,
+          "rows": 1,
+          "y": 2,
+          "x": 0,
+          "section": "tenYear",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211e"
+        },
+        {
+          "cols": 2,
+          "rows": 2,
+          "y": 3,
+          "x": 0,
+          "section": "marketingStrategy",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e211f"
+        },
+        {
+          "cols": 1,
+          "rows": 5,
+          "y": 0,
+          "x": 2,
+          "section": "threeYear",
+          "visible": true,
+          "tab": "vision",
+          "_id": "638660fd5327b700082e2120"
+        },
+        {
+          "cols": 1,
+          "rows": 3,
+          "y": 0,
+          "x": 0,
+          "section": "ninetyDays",
+          "visible": true,
+          "tab": "traction",
+          "_id": "638660fd5327b700082e2121"
+        },
+        {
+          "cols": 1,
+          "rows": 3,
+          "y": 0,
+          "x": 1,
+          "section": "issuesList",
+          "visible": true,
+          "tab": "traction",
+          "_id": "638660fd5327b700082e2122"
+        },
+        {
+          "cols": 1,
+          "rows": 3,
+          "y": 0,
+          "x": 2,
+          "section": "oneYear",
+          "visible": true,
+          "tab": "traction",
+          "_id": "638660fd5327b700082e2123"
+        }
+      ],
+      "labels": {
+        "guarantee": "Guarantee",
+        "threeUniques": "Four Uniques",
+        "provenProcess": "Proven Process",
+        "title": "The Vision / Traction Organizer",
+        "issuesList": "Issues List",
+        "targetMarket": "Target Market- Providers",
+        "ninetyDays": "90 Days",
+        "oneYear": "1 Year",
+        "threeYear": "3 Year",
+        "tenYear": "Core Target™",
+        "marketingStrategy": "Marketing Strategy",
+        "niche": "Niche",
+        "purpose": "Purpose",
+        "coreFocus": "Core Focus™",
+        "coreValues": "Core Values"
+      },
+      "cascadedSections": {
+        "coreFocus": true,
+        "coreValues": true,
+        "marketingStrategies": false,
+        "niche": false,
+        "ninetyDays": false,
+        "oneYear": false,
+        "purpose": false,
+        "tenYear": true,
+        "threeYear": false
+      },
+      "customSectionSettings": [],
+      "teamId": "65f5c6322caa0d001296501d",
+      "companyId": "65f5c6312caa0d0012965019",
+      "strengths": [
+        {
+          "text": "Marketing & Online Presence (website)"
+        },
+        {
+          "text": "Collections Process"
+        },
+        {
+          "text": "Ability to Text with Patients"
+        },
+        {
+          "text": "Dedicated Patient/Provider Experience Seat"
+        },
+        {
+          "text": "Leadership Team"
+        },
+        {
+          "text": "In-House MOHS"
+        },
+        {
+          "text": "Dedicated Injectors"
+        },
+        {
+          "text": "Largest Heroic Laser Fleet Worldwide"
+        },
+        {
+          "text": "Diagnosis + treatment"
+        },
+        {
+          "text": "Effective cosmetic services/results"
+        },
+        {
+          "text": "Cutting edge technology/PARM/Cloud based"
+        },
+        {
+          "text": "Desirable work environment"
+        },
+        {
+          "text": "Patient experience/outcomes"
+        },
+        {
+          "text": "Great buildings/facilities"
+        },
+        {
+          "text": "Provider forward/first approach (support staff, flexible schedules, etc.)"
+        },
+        {
+          "text": "Getting new patients"
+        },
+        {
+          "text": "Top-notch providers- trust"
+        },
+        {
+          "text": "Overcoming big challenges/resilient"
+        },
+        {
+          "text": "Accomodating patient needs"
+        },
+        {
+          "text": "Strong reputation"
+        },
+        {
+          "text": "Wide range of services"
+        }
+      ],
+      "weaknesses": [
+        {
+          "text": "Admin Team - Sales Tracking and Accountability"
+        },
+        {
+          "text": "MDs doing full-skin exams (bottleneck)"
+        },
+        {
+          "text": "Aesthetics not templated/skewed to lower cost services"
+        },
+        {
+          "text": "Too many 30-minute appointments/template complexity"
+        },
+        {
+          "text": "Recruiting/filling open positions"
+        },
+        {
+          "text": "Filling open appointment availability"
+        },
+        {
+          "text": "Turnover/lack of experience/always training"
+        },
+        {
+          "text": "Too much flexibility/catering to providers + staff"
+        },
+        {
+          "text": "Culture between offices/depts/providers (silos)"
+        },
+        {
+          "text": "Follow-through/execution/stickiness/finish line"
+        },
+        {
+          "text": "Slow to fire the wrong people"
+        },
+        {
+          "text": "Finance visibility/lack of budget"
+        },
+        {
+          "text": "Losing sight of the vision"
+        },
+        {
+          "text": "Solving root cause/zombie issues"
+        }
+      ],
+      "opportunities": [
+        {
+          "text": "Four Seasons - elevated customer experience"
+        },
+        {
+          "text": "Designing a Patient Journey"
+        },
+        {
+          "text": "AI Scribe"
+        },
+        {
+          "text": "AI PARM"
+        },
+        {
+          "text": "Consolidating our call center"
+        },
+        {
+          "text": "Data analytics/visualization and dashboards"
+        },
+        {
+          "text": "Offering SRT/other cutting edge treatments"
+        },
+        {
+          "text": "Recognizing/celebrating wins"
+        },
+        {
+          "text": "All cosmetic location"
+        },
+        {
+          "text": "New patient welcome kits"
+        },
+        {
+          "text": "New employee onboarding/swag bags"
+        },
+        {
+          "text": "Plastic surgery"
+        },
+        {
+          "text": "Additional medical location in A2 or Brighton"
+        },
+        {
+          "text": "Wixom warehouse utilization"
+        },
+        {
+          "text": "Community involvement + outreach"
+        },
+        {
+          "text": "Employee retention/engagement/feedback"
+        },
+        {
+          "text": "Clinical trials"
+        },
+        {
+          "text": "Specialty clinics (on Saturdays?)"
+        },
+        {
+          "text": "Fill Evenings + Saturdays @ All Location"
+        }
+      ],
+      "threats": [
+        {
+          "text": "High Operating Costs as a percentage of revenue"
+        },
+        {
+          "text": "PE/VC industry roll-up"
+        },
+        {
+          "text": "Expanding in the wrong way/location"
+        },
+        {
+          "text": "Reimbursement contraction"
+        },
+        {
+          "text": "Competition from smaller, more agile practices"
+        },
+        {
+          "text": "Provider apathy/lack of drive + passion"
+        },
+        {
+          "text": "Competition for labor (better benefits, perks)"
+        },
+        {
+          "text": "Staying cutting edge w/tech, equip, etc."
+        },
+        {
+          "text": "Regulations (losing video visits, etc)"
+        },
+        {
+          "text": "Providers referring out to competitors"
+        },
+        {
+          "text": "Loss of key person"
+        }
+      ]
+    }
+  },
+  "timestamp": "2025-06-18T11:36:17.447Z"
+}

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { format, formatDistanceToNow } from 'date-fns';
+// import { format, formatDistanceToNow } from 'date-fns';
 import { EyeIcon, PencilIcon } from '@/components/icons';
 import type { Authorization, AuthorizationStatus, AuthorizationPriority } from '@/types';
 
@@ -89,7 +89,7 @@ export function AuthorizationListView({ authorizations }: AuthorizationListViewP
                       #{authorization.id.slice(-8)}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {formatDistanceToNow(new Date(authorization.created_at), { addSuffix: true })}
+                      {new Date(authorization.created_at).toLocaleDateString()}
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export function AuthorizationListView({ authorizations }: AuthorizationListViewP
 
               {/* Created Date */}
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {format(new Date(authorization.created_at), 'MMM d, yyyy')}
+                {new Date(authorization.created_at).toLocaleDateString()}
               </td>
 
               {/* AI Confidence Score */}

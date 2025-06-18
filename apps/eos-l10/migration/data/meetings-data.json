@@ -1,0 +1,13 @@
+{
+  "meetings": [
+    {
+      "selector": "[class*=\"meeting\"]",
+      "index": 0,
+      "title": "No Meetings in progress",
+      "fullText": "Leadership TeamNo Meetings in progressStart a MeetingSchedule a Meeting"
+    }
+  ],
+  "totalCount": 1,
+  "url": "https://app.ninety.io/meetings",
+  "timestamp": "2025-06-18T11:36:34.030Z"
+}

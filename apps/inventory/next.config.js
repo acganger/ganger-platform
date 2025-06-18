@@ -1,10 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
-  output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils', 'date-fns'],
+  
+  // Cloudflare Workers runtime
+  experimental: {
+    runtime: 'edge',
+  },
+  
+  // Staff portal integration
+  basePath: '/inventory',
+  assetPrefix: '/inventory',
+  
   eslint: {
     ignoreDuringBuilds: true,
   },

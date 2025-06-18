@@ -528,7 +528,7 @@ export class GoogleWorkspaceService {
           results.successful++;
         } else {
           results.failed++;
-          results.errors.push({ email: user.email, error: result.error });
+          results.errors.push({ email: user?.email, error: result.error });
         }
 
         // Add delay to avoid rate limiting
@@ -537,7 +537,7 @@ export class GoogleWorkspaceService {
       } catch (error) {
         results.failed++;
         results.errors.push({ 
-          email: user.email, 
+          email: user?.email, 
           error: error instanceof Error ? error.message : 'Unknown error'
         });
       }

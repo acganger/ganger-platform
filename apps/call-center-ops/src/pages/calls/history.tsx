@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react';
 import { useAuth, withAuthComponent } from '@ganger/auth';
 import { 
@@ -32,7 +34,7 @@ interface CallHistoryData {
 }
 
 function CallHistoryPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [data, setData] = useState<CallHistoryData>({
     calls: [],
     journals: {},
@@ -48,7 +50,7 @@ function CallHistoryPage() {
   const [filters, setFilters] = useState<DashboardFilters>({
     location: '',
     period: '7d',
-    agent: (user?.role === 'staff') ? user.email || '' : '',
+    agent: (profile?.role === 'staff') ? user?.email || '' : '',
     dateRange: {
       start: '',
       end: ''
@@ -345,7 +347,7 @@ function CallHistoryPage() {
               placeholder="Location"
             />
             
-            {(user?.role === 'manager' || user?.role === 'superadmin') && (
+            {(profile?.role === 'admin' || profile?.role === 'staff') && (
               <Select
                 value={filters.agent || ''}
                 onChange={(e) => handleFilterChange('agent', e.target.value)}
@@ -373,7 +375,7 @@ function CallHistoryPage() {
                 setFilters({
                   location: '',
                   period: '7d',
-                  agent: (user?.role === 'staff') ? user.email || '' : '',
+                  agent: (profile?.role === 'staff') ? user?.email || '' : '',
                   dateRange: { start: '', end: '' }
                 });
                 setSearchQuery('');

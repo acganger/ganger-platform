@@ -68,7 +68,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -219,7 +219,7 @@ async function handleGetComments(
 
   // Execute main query with pagination
   const { data: comments, error } = await query
-    .range(offset, offset + limit - 1);
+    .range(offset!, offset! + limit! - 1);
 
   if (error) {
     console.error('Comments fetch error:', error);
@@ -235,7 +235,7 @@ async function handleGetComments(
   }
 
   // Format response data
-  const formattedComments: Comment[] = comments.map(comment => ({
+  const formattedComments: Comment[] = (comments || []).map((comment: any) => ({
     id: comment.id,
     ticket_id: comment.ticket_id,
     content: comment.content,
@@ -261,9 +261,9 @@ async function handleGetComments(
       comments: formattedComments,
       pagination: {
         total: totalCount || 0,
-        limit,
-        offset,
-        has_more: (offset + limit) < (totalCount || 0)
+        limit: limit!,
+        offset: offset!,
+        has_more: (offset! + limit!) < (totalCount || 0)
       }
     }
   });

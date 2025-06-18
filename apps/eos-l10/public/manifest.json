@@ -6,8 +6,8 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "scope": "/",
-  "start_url": "/",
+  "scope": "/l10/",
+  "start_url": "/l10/",
   "categories": ["business", "productivity"],
   "icons": [
     {
@@ -80,26 +80,26 @@
       "name": "Level 10 Meeting",
       "short_name": "L10",
       "description": "Start or join a Level 10 meeting",
-      "url": "/meeting/start",
+      "url": "/l10/meeting/start",
       "icons": [{ "src": "/icons/shortcut-meeting.png", "sizes": "96x96" }]
     },
     {
       "name": "Rocks",
       "short_name": "Rocks",
       "description": "View quarterly rocks",
-      "url": "/rocks",
+      "url": "/l10/rocks",
       "icons": [{ "src": "/icons/shortcut-rocks.png", "sizes": "96x96" }]
     },
     {
       "name": "Scorecard",
       "short_name": "Scorecard",
       "description": "Weekly scorecard",
-      "url": "/scorecard",
+      "url": "/l10/scorecard",
       "icons": [{ "src": "/icons/shortcut-scorecard.png", "sizes": "96x96" }]
     }
   ],
   "share_target": {
-    "action": "/share",
+    "action": "/l10/share",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {

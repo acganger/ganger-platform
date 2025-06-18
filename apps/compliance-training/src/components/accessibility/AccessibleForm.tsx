@@ -449,7 +449,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
       <select
         {...props}
         ref={(element) => {
-          fieldRef.current = element;
+          (fieldRef as React.MutableRefObject<HTMLSelectElement | null>).current = element;
           if (typeof ref === 'function') {
             ref(element);
           } else if (ref) {

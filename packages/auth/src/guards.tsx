@@ -293,3 +293,88 @@ export function TeamLeaderOnly({
     </ConditionalRender>
   );
 }
+
+/**
+ * Higher-order component for auth protection with role-based access
+ * Alternative API to withAuthGuard with simplified role checking
+ */
+interface WithAuthComponentOptions {
+  requiredRoles?: string[];
+  requiredLevel?: AuthGuardLevel;
+  appName?: string;
+  teamId?: string;
+  fallback?: React.ComponentType<any>;
+}
+
+export function withAuthComponent<P extends object>(
+  Component: React.ComponentType<P>,
+  options: WithAuthComponentOptions = {}
+) {
+  return function AuthProtectedComponent(props: P) {
+    const { user, profile, loading, signIn, hasAppAccess, isTeamMember, isTeamLeader, isAdmin } = useAuth();
+    
+    // Show loading while checking authentication
+    if (loading) {
+      return options.fallback ? <options.fallback /> : <DefaultLoadingComponent />;
+    }
+    
+    // Check if user is authenticated
+    if (!user) {
+      return <LoginPromptComponent onSignIn={() => signIn()} />;
+    }
+    
+    // Check role-based access if requiredRoles is specified
+    if (options.requiredRoles && options.requiredRoles.length > 0) {
+      const userRole = profile?.role;
+      const hasRequiredRole = options.requiredRoles.some(role => {
+        switch (role) {
+          case 'admin':
+          case 'superadmin':
+            return isAdmin();
+          case 'staff':
+            return userRole === 'admin' || userRole === 'staff';
+          case 'manager':
+            // Manager role maps to staff or admin in our system
+            return userRole === 'admin' || userRole === 'staff';
+          case 'team-leader':
+            return isAdmin() || (options.teamId && isTeamLeader(options.teamId));
+          case 'team-member':
+            return userRole === 'admin' || userRole === 'staff' || 
+                   (options.teamId && isTeamMember(options.teamId));
+          case 'viewer':
+            return userRole === 'admin' || userRole === 'staff' || userRole === 'viewer';
+          default:
+            // For any other role, check if it exactly matches the user's role
+            return userRole === role;
+        }
+      });
+      
+      if (!hasRequiredRole) {
+        return options.fallback ? <options.fallback /> : <DefaultUnauthorizedComponent />;
+      }
+    }
+    
+    // Check level-based access if requiredLevel is specified
+    if (options.requiredLevel) {
+      const guard = (
+        <AuthGuard 
+          level={options.requiredLevel}
+          appName={options.appName}
+          teamId={options.teamId}
+          fallback={options.fallback}
+        >
+          <Component {...props} />
+        </AuthGuard>
+      );
+      return guard;
+    }
+    
+    // Check app-specific access
+    if (options.appName && !hasAppAccess(options.appName, 'read')) {
+      return options.fallback ? <options.fallback /> : <DefaultUnauthorizedComponent />;
+    }
+    
+    // All checks passed, render the component
+    return <Component {...props} />;
+  };
+}

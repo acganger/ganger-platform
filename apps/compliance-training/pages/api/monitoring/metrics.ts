@@ -3,6 +3,8 @@ import { withAuth } from '../../../middleware/auth';
 import { getUserFromToken } from '../../../lib/auth-utils';
 import { createClient } from '@supabase/supabase-js';
 
+// Runtime: nodejs (default) - uses process APIs for system metrics
+
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -137,7 +139,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function validateMonitoringPermissions(user: any): Promise<boolean> {
-  const userRole = user.role || user.user_role;
+  const userRole = profile?.role || user.user_role;
   return ['superadmin', 'hr_admin'].includes(userRole);
 }
 

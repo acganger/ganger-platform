@@ -1,13 +1,17 @@
 # PRD: AI-Powered Phone Agent & Patient Communication System - Part 1: Core AI Engine & Conversation Management
 *Ganger Platform Standard Application - Backend AI Services & Database*
 
+**📚 REQUIRED READING:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development. This is the single source of truth for all platform development patterns, standards, and quality requirements.
+
 ## 📋 Document Information
 - **Application Component**: Core AI Engine & Conversation Management (Part 1 of 3)
-- **Development Team**: Backend AI/Database Team
-- **Project Location**: `/mnt/q/Projects/ganger-platform/packages/ai/` + Database migrations
+- **PRD ID**: PRD-AI-PHONE-001 (Part 1)
 - **Priority**: High
 - **Development Timeline**: 4-5 weeks
-- **Dependencies**: @ganger/db, @ganger/utils, @ganger/integrations
+- **Last Updated**: June 17, 2025
+- **Terminal Assignment**: BACKEND (Terminal 2)
+- **Dependencies**: @ganger/db, @ganger/auth/server, @ganger/integrations/server, @ganger/utils/server
+- **MCP Integration Requirements**: AWS Bedrock (Claude 3.5 Sonnet), ModMed FHIR, Time MCP, Twilio MCP
 - **Integration Requirements**: AWS Bedrock (Claude 3.5 Sonnet), ModMed FHIR, Time MCP
 - **Compliance Requirements**: HIPAA, SOC 2 Type II
 
@@ -51,6 +55,126 @@ Develop the core AI conversation engine and database infrastructure that powers 
 ---
 
 ## 🏗️ Technical Architecture
+
+### **MANDATORY: Cloudflare Workers Architecture**
+```yaml
+# ✅ REQUIRED: Workers-only deployment (Pages is sunset)
+Framework: Next.js 14+ with Workers runtime (runtime: 'edge')
+Deployment: Cloudflare Workers (NO Pages deployment)
+Build Process: @cloudflare/next-on-pages
+Configuration: Workers-compatible next.config.js (NO static export)
+
+# ❌ FORBIDDEN: These patterns cause 405 errors
+Static_Export: Never use output: 'export'
+Cloudflare_Pages: Sunset for Workers routes
+Custom_Routing: Must use Workers request handling
+```
+
+### **⚠️ CRITICAL: Anti-Pattern Prevention**
+```typescript
+// ❌ NEVER USE: Static export configuration (causes 405 errors)
+const nextConfig = {
+  output: 'export',        // DELETE THIS - breaks Workers
+  trailingSlash: true,     // DELETE THIS - static pattern
+  distDir: 'dist'          // DELETE THIS - Workers incompatible
+}
+
+// ✅ REQUIRED: Workers-compatible configuration
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY for Workers
+  },
+  images: {
+    unoptimized: true,       // Required for Workers
+  },
+  basePath: '/ai-phone',     // Required for staff portal routing
+}
+```
+
+### **Architecture Verification Requirements**
+```bash
+# ✅ MANDATORY: Every app must pass these checks
+pnpm type-check              # 0 errors required
+pnpm build                   # Successful completion required
+curl -I [app-url]/health     # HTTP 200 required (not 405)
+grep -r "StaffPortalLayout"  # Must find implementation
+grep -r "output.*export"     # Must find nothing
+```
+
+### **Shared Infrastructure with Pages Sunset Note**
+```yaml
+Backend: Next.js API routes + Supabase Edge Functions (Workers runtime)
+Database: Supabase PostgreSQL with Row Level Security
+Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
+Hosting: Cloudflare Workers EXCLUSIVELY (Pages sunset for Workers routes)
+Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)
+Real-time: Supabase subscriptions
+File Storage: Supabase Storage with CDN
+Build System: Turborepo (workspace compliance required)
+Quality Gates: Automated pre-commit hooks (see MASTER_DEVELOPMENT_GUIDE.md)
+```
+
+### **Platform Constants & Patterns (REQUIRED KNOWLEDGE)**
+```typescript
+// ✅ MANDATORY: Use platform constants (see @ganger/types)
+import { 
+  USER_ROLES, 
+  LOCATIONS, 
+  PRIORITY_LEVELS,
+  APPOINTMENT_STATUS 
+} from '@ganger/types/constants';
+
+// ✅ Standard role hierarchy (use exactly these values)
+const USER_ROLES = [
+  'superadmin',        // Full system access
+  'manager',           // Location management
+  'provider',          // Clinical operations
+  'nurse',             // Clinical support
+  'medical_assistant', // Admin & clinical assistance
+  'pharmacy_tech',     // Medication management
+  'billing',           // Financial operations
+  'user'               // Basic access
+] as const;
+```
+
+### **Required Shared Packages (MANDATORY - CLIENT-SERVER AWARE)**
+```typescript
+// ✅ REQUIRED SERVER IMPORTS - Use exclusively in API routes
+import { db, createClient, Repository } from '@ganger/db';
+import { withAuth, verifyPermissions } from '@ganger/auth/server';
+import { 
+  ServerCommunicationService,
+  ServerVoiceService, 
+  ServerAIService,
+  ServerCacheService
+} from '@ganger/integrations/server';
+import { analytics, auditLog, healthCheck } from '@ganger/utils/server';
+
+// ✅ SHARED TYPES - Framework-agnostic, safe for both client and server
+import type { 
+  User, Patient, Appointment, Provider,
+  ApiResponse, PaginationMeta, ValidationRule,
+  CallSession, ConversationTurn, AIResponse
+} from '@ganger/types';
+```
+
+### **Staff Portal Integration (MANDATORY)**
+```typescript
+// ✅ REQUIRED: Add AI Phone Agent to staff portal navigation
+// Update packages/ui/src/staff/StaffPortalLayout.tsx
+const STAFF_APPS = [
+  // ... existing apps
+  {
+    name: 'AI Phone Agent',
+    path: '/ai-phone',
+    icon: PhoneIcon,
+    category: 'Medical',
+    description: 'Intelligent patient call handling and conversation management',
+    roles: ['manager', 'superadmin', 'medical_assistant'],
+    permissions: ['manage_phone_system']
+  }
+];
+```
 
 ### **Project Structure**
 ```

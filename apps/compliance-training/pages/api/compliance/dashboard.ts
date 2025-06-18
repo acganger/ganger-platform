@@ -5,6 +5,8 @@ import { ApiResponse } from '../../../middleware/errorHandler';
 import { withAuth, withMethods, withRateLimit, AuthenticatedRequest } from '../../../middleware/auth';
 import { cache } from '../../../lib/cache';
 
+// Runtime: nodejs (default) - uses auth-utils and cache
+
 interface DashboardData {
   summary: {
     totalEmployees: number;
@@ -212,7 +214,7 @@ async function dashboardHandler(
     await auditLog({
       action: 'compliance_dashboard_accessed',
       userId: user.id,
-      userEmail: user.email,
+      userEmail: user?.email,
       resourceType: 'compliance_dashboard',
       metadata: {
         totalEmployees,

@@ -173,10 +173,10 @@ export default async function handler(
       .insert([{
         user_id: user.id,
         action: 'IMPERSONATION_ENDED',
-        description: `Ended impersonation of user ${session.target_user.email} (${session.target_user.name}). Duration: ${durationMinutes} minutes. ${reason ? `Reason: ${reason}` : ''}`,
+        description: `Ended impersonation of user ${session.target_user?.email} (${session.target_user.name}). Duration: ${durationMinutes} minutes. ${reason ? `Reason: ${reason}` : ''}`,
         metadata: {
           target_user_id: session.target_user_id,
-          target_user_email: session.target_user.email,
+          target_user_email: session.target_user?.email,
           target_user_name: session.target_user.name,
           session_id: session.id,
           duration_minutes: durationMinutes,
@@ -192,7 +192,7 @@ export default async function handler(
       success: true,
       data: {
         session: updatedSession,
-        message: `Impersonation session ended for ${session.target_user.email}`,
+        message: `Impersonation session ended for ${session.target_user?.email}`,
         duration_minutes: durationMinutes
       }
     });

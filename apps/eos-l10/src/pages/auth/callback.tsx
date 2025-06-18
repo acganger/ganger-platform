@@ -17,7 +17,7 @@ export default function AuthCallback() {
 
         if (data.session) {
           // Check if user is from allowed domain
-          const email = data.session.user.email;
+          const email = data.session.user?.email;
           if (!email?.endsWith('@gangerdermatology.com')) {
             await supabase.auth.signOut();
             router.push('/auth/error?message=' + encodeURIComponent('Access restricted to Ganger Dermatology domain'));
@@ -52,3 +52,10 @@ export default function AuthCallback() {
     </div>
   );
 }
+
+// Force SSR to prevent auth context issues during build
+export async function getServerSideProps() {
+  return {
+    props: {}
+  };
+}export const runtime = 'experimental-edge';

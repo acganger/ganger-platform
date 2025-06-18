@@ -26,6 +26,10 @@ PLATFORM_NAME = "Ganger Medical Platform"
 SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
 DOMAIN_BASE = "gangerdermatology.com"
 
+[[env.production.r2_buckets]]
+binding = "INVENTORY_BUCKET"
+bucket_name = "inventory-management-production"
+
 [env.staging.vars]
 ENVIRONMENT = "staging"
 PLATFORM_NAME = "Ganger Medical Platform (Staging)"
@@ -38,10 +42,7 @@ DOMAIN_BASE = "gangerdermatology.com"
 # dataset = "ganger_platform_routing"
 
 # 🗄️ R2 Storage for Static Assets (replaces Pages static hosting)
-# [[r2_buckets]]
-# binding = "STATIC_ASSETS"
-# bucket_name = "ganger-platform-assets"
-# preview_bucket_name = "ganger-platform-assets-preview"
+# Moved to environment sections
 
 # 🔐 Secrets (set via wrangler secret put)
 # SUPABASE_SERVICE_ROLE_KEY

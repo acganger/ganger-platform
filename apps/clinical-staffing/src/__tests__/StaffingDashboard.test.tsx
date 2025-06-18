@@ -48,7 +48,7 @@ describe('StaffingDashboard', () => {
     const mockUseAuth = require('@ganger/auth').useAuth
     mockUseAuth.mockReturnValue({
       user: { id: '1', email: 'test@example.com' },
-      isLoading: false,
+      loading: false,
       error: null,
     })
   })
@@ -85,7 +85,7 @@ describe('StaffingDashboard', () => {
     const mockUseAuth = require('@ganger/auth').useAuth
     mockUseAuth.mockReturnValue({
       user: null,
-      isLoading: false,
+      loading: false,
       error: null,
     })
 

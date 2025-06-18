@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Issue } from '@/types/eos';
-import { formatDistanceToNow } from 'date-fns';
+// import { formatDistanceToNow } from 'date-fns';
 import { 
   AlertTriangle,
   User,
@@ -19,7 +19,6 @@ interface IssueCardProps {
   onUpdate: (issueId: string, updates: Partial<Issue>) => void;
   onClick?: () => void;
   compact?: boolean;
-  dragging?: boolean;
 }
 
 const priorityConfig = {
@@ -49,7 +48,7 @@ export default function IssueCard({
   onUpdate, 
   onClick, 
   compact = false, 
-  dragging = false 
+ 
 }: IssueCardProps) {
   const [showActions, setShowActions] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -87,15 +86,15 @@ export default function IssueCard({
 
   const getTimestamp = () => {
     if (issue.solved_at) {
-      return `Solved ${formatDistanceToNow(new Date(issue.solved_at))} ago`;
+      return `Solved ${new Date(issue.solved_at).toLocaleDateString()}`;
     }
-    return `Created ${formatDistanceToNow(new Date(issue.created_at))} ago`;
+    return `Created ${new Date(issue.created_at).toLocaleDateString()}`;
   };
 
   return (
     <div 
       className={`bg-white border border-gray-200 rounded-lg transition-all duration-200 hover:shadow-md ${
-        dragging ? 'shadow-xl ring-2 ring-eos-500 ring-opacity-50' : ''
+        'hover:shadow-lg transition-shadow'
       } ${onClick ? 'cursor-pointer' : ''} ${
         compact ? 'p-3' : 'p-4'
       }`}

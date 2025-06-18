@@ -1,0 +1,40 @@
+name = "ganger-kiosk-patient"
+main = ".vercel/output/static/_worker.js/index.js"
+compatibility_date = "2025-01-18"
+compatibility_flags = ["nodejs_compat"]
+
+# Patient Touch Interface - Kiosk optimized
+# Touch-optimized UI, simplified interface, payment processing
+# Public access for patient self-service
+
+build.command = "npm run build && npx @cloudflare/next-on-pages"
+
+[assets]
+directory = ".vercel/output/static"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[r2_buckets]]
+binding = "CHECKIN_KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk-production"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "checkin-kiosk-patient"
+APP_VERSION = "1.0.0"
+INTERFACE_TYPE = "patient-touch"
+
+[env.production]
+name = "ganger-kiosk-patient"
+
+[[env.production.routes]]
+pattern = "kiosk.gangerdermatology.com/*"
+zone_id = "ba76d3d3f41251c49f0365421bd644a5"
+
+[[env.production.r2_buckets]]
+binding = "CHECKIN_KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk-production"

@@ -5,6 +5,8 @@
 ## Table of Contents
 
 ### **Core Infrastructure**
+- [Platform Constants and Standards](#platform-constants-and-standards)
+- [Navigation Integration Patterns](#navigation-integration-patterns)
 - [Monorepo Dependency Management](#monorepo-dependency-management)
 - [Automated Quality Enforcement](#automated-quality-enforcement)
 - [Architecture Decision Records](#architecture-decision-records)
@@ -29,6 +31,220 @@
 ---
 
 *This shared infrastructure guide serves as the foundation for all Ganger Platform development. Frontend and backend developers should reference this alongside their specialized guides.*
+
+---
+
+# Platform Constants and Standards
+
+## Platform Constants (MANDATORY USAGE)
+
+All applications MUST use these exact constants for consistency across the platform. Import from `@ganger/types/constants`:
+
+```typescript
+// ✅ REQUIRED: Import platform constants
+import { 
+  USER_ROLES, 
+  LOCATIONS, 
+  PRIORITY_LEVELS,
+  APPOINTMENT_STATUS,
+  FORM_TYPES,
+  PLATFORM_URLS
+} from '@ganger/types/constants';
+
+// ✅ Standard location values (use exactly these)
+export const LOCATIONS = [
+  'ann-arbor',     // Ganger Dermatology Ann Arbor
+  'wixom',         // Ganger Dermatology Wixom  
+  'plymouth',      // Ganger Dermatology Plymouth
+  'vinya'          // Vinya Construction office
+] as const;
+
+// ✅ Standard role hierarchy (use exactly these)
+export const USER_ROLES = [
+  'superadmin',        // Full system access
+  'manager',           // Location management and staff oversight
+  'provider',          // Clinical operations and patient care
+  'nurse',             // Clinical support and patient assistance
+  'medical_assistant', // Administrative and clinical assistance
+  'pharmacy_tech',     // Medication management
+  'billing',           // Financial operations
+  'user'               // Basic access
+] as const;
+
+// ✅ Standard form types (extend for new apps)
+export const FORM_TYPES = [
+  'support_ticket',
+  'time_off_request', 
+  'punch_fix',
+  'change_of_availability',
+  'expense_reimbursement',
+  'meeting_request',
+  'appointment_booking',
+  'inventory_request',
+  'pharma_rep_booking',
+  'patient_handout_request'
+] as const;
+
+// ✅ Platform URLs for cross-app navigation
+export const PLATFORM_URLS = {
+  STAFF_PORTAL: 'https://staff.gangerdermatology.com',
+  PATIENT_HANDOUTS: 'https://handouts.gangerdermatology.com',
+  PATIENT_KIOSK: 'https://kiosk.gangerdermatology.com',
+  PATIENT_MEDS: 'https://meds.gangerdermatology.com',
+  REP_BOOKING: 'https://reps.gangerdermatology.com'
+} as const;
+```
+
+## Working Infrastructure Values
+
+**CRITICAL**: These are the exact working infrastructure values. DO NOT sanitize or replace with placeholders:
+
+```bash
+# ✅ Supabase Configuration (WORKING VALUES)
+SUPABASE_URL=https://pfqtzmxxxhhsxmlddrta.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# ✅ Google OAuth & Workspace (WORKING VALUES)
+GOOGLE_CLIENT_ID=745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_DOMAIN=gangerdermatology.com
+
+# ✅ Cloudflare Configuration (WORKING VALUES)
+CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
+```
+
+**Security Policy**: This is an internal medical platform. These working values are intentionally committed and documented for proper deployment functionality.
+
+---
+
+# Navigation Integration Patterns
+
+## Staff Portal Navigation Integration
+
+All staff applications MUST integrate with the staff portal navigation system for seamless user experience.
+
+### Required Navigation Implementation
+
+```typescript
+// ✅ MANDATORY: Add your app to staff portal navigation
+// Location: packages/ui/src/staff/StaffPortalLayout.tsx
+
+interface StaffApp {
+  name: string;
+  path: string;
+  icon: React.ComponentType;
+  category: 'Medical' | 'Business' | 'Administration';
+  description: string;
+  roles: UserRole[];
+  permissions?: string[];
+}
+
+// ✅ Add your app to this array
+const STAFF_APPS: StaffApp[] = [
+  // Existing apps...
+  {
+    name: 'Your App Name',
+    path: '/your-app-path',
+    icon: YourAppIcon,  // Import from @ganger/ui/icons
+    category: 'Medical', // or 'Business' or 'Administration'
+    description: 'Brief description for tooltips and search',
+    roles: ['staff', 'manager', 'provider'], // Who can access
+    permissions: ['specific_permission'] // Optional additional restrictions
+  }
+];
+```
+
+### Navigation Categories
+
+```typescript
+// ✅ Medical Applications
+category: 'Medical'
+// Examples: inventory, handouts, kiosk, medication-auth, clinical-staffing
+
+// ✅ Business Operations  
+category: 'Business'
+// Examples: eos-l10, pharma-scheduling, call-center-ops, batch-closeout
+
+// ✅ Platform Administration
+category: 'Administration'  
+// Examples: socials-reviews, compliance-training, platform-dashboard, config-dashboard
+```
+
+### Cross-App Navigation
+
+```typescript
+// ✅ Implement cross-app navigation for related workflows
+import { StaffPortalNav } from '@ganger/ui/staff';
+
+<StaffPortalNav 
+  currentApp="your-app"
+  relatedApps={['inventory', 'handouts']} // Apps commonly used together
+  quickActions={[
+    { name: 'New Order', path: '/inventory/new' },
+    { name: 'Patient Handouts', path: '/handouts' }
+  ]}
+/>
+```
+
+## External Domain Integration
+
+For applications requiring patient or external access, follow the dual interface pattern:
+
+### Dual Interface Configuration
+
+```typescript
+// ✅ Staff Interface: staff.gangerdermatology.com/your-app
+// Uses StaffPortalLayout with authentication
+export default function StaffInterface() {
+  return (
+    <StaffPortalLayout currentApp="your-app">
+      {/* Full administrative interface */}
+    </StaffPortalLayout>
+  );
+}
+
+// ✅ External Interface: your-app.gangerdermatology.com  
+// Direct access for patients/reps (no authentication required)
+export default function ExternalInterface() {
+  return (
+    <ExternalLayout appName="your-app">
+      {/* Limited public interface */}
+    </ExternalLayout>
+  );
+}
+```
+
+### External Domain Requirements
+
+Applications requiring external access:
+- **Handouts**: Patient access to educational materials
+- **Kiosk**: Patient check-in interface
+- **Meds**: Patient medication portal
+- **Reps**: Pharmaceutical rep booking system
+
+Each requires both staff and external worker configurations.
+
+## URL Structure Standards
+
+```typescript
+// ✅ Staff Portal URLs (authenticated)
+https://staff.gangerdermatology.com/              // Staff portal home
+https://staff.gangerdermatology.com/inventory     // Inventory management
+https://staff.gangerdermatology.com/handouts     // Handouts admin
+https://staff.gangerdermatology.com/dashboard    // Platform dashboard
+
+// ✅ External URLs (no authentication)
+https://handouts.gangerdermatology.com           // Patient handouts
+https://kiosk.gangerdermatology.com             // Patient check-in
+https://meds.gangerdermatology.com              // Patient medications
+https://reps.gangerdermatology.com              // Rep booking
+
+// ❌ FORBIDDEN: Individual app subdomains for staff apps
+https://inventory.gangerdermatology.com          // NOT ALLOWED
+https://dashboard.gangerdermatology.com          // NOT ALLOWED
+```
 
 ---
 

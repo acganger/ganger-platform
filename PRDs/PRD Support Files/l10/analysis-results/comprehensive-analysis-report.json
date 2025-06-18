@@ -1,0 +1,21 @@
+{
+  "analysisMetadata": {
+    "timestamp": "2025-06-18T12:38:40.643Z",
+    "totalEndpoints": 0,
+    "keyDataStructures": 0
+  },
+  "endpointSummary": [],
+  "dataStructures": {},
+  "migrationReadiness": {
+    "dataCompleteness": "0/0 endpoints with data",
+    "structureAnalysis": "0 key data structures analyzed",
+    "migrationConfidence": "Medium",
+    "readyForDevelopment": true,
+    "recommendedNextSteps": [
+      "Create PostgreSQL schema based on data structures",
+      "Build API endpoints matching ninety.io patterns",
+      "Implement data import scripts",
+      "Create UI components for L10 workflows"
+    ]
+  }
+}

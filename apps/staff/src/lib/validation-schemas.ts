@@ -1,6 +1,59 @@
 // lib/validation-schemas.ts
 import { z } from 'zod';
 
+// Validation helper functions
+export function validateRequest<T>(schema: z.ZodSchema<T>, data: unknown) {
+  try {
+    const result = schema.parse(data);
+    return { success: true as const, data: result };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const errors: Record<string, string[]> = {};
+      error.errors.forEach((err) => {
+        const path = err.path.join('.');
+        if (!errors[path]) errors[path] = [];
+        errors[path].push(err.message);
+      });
+      return { success: false as const, errors };
+    }
+    return { success: false as const, errors: { general: ['Validation failed'] } };
+  }
+}
+
+export function validateQuery<T>(schema: z.ZodSchema<T>, query: Partial<{ [key: string]: string | string[] }>) {
+  try {
+    // Convert query parameters to proper types
+    const processedQuery: Record<string, any> = {};
+    Object.entries(query).forEach(([key, value]) => {
+      if (value === undefined) return;
+      
+      if (Array.isArray(value)) {
+        processedQuery[key] = value[0]; // Take first value for simplicity
+      } else {
+        // Try to convert string values to appropriate types
+        if (value === 'true') processedQuery[key] = true;
+        else if (value === 'false') processedQuery[key] = false;
+        else if (!isNaN(Number(value)) && value !== '') processedQuery[key] = Number(value);
+        else processedQuery[key] = value;
+      }
+    });
+    
+    const result = schema.parse(processedQuery);
+    return { success: true as const, data: result };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const errors: Record<string, string[]> = {};
+      error.errors.forEach((err) => {
+        const path = err.path.join('.');
+        if (!errors[path]) errors[path] = [];
+        errors[path].push(err.message);
+      });
+      return { success: false as const, errors };
+    }
+    return { success: false as const, errors: { general: ['Query validation failed'] } };
+  }
+}
+
 // Common validation patterns
 export const emailSchema = z.string().email('Invalid email address');
 export const uuidSchema = z.string().uuid('Invalid UUID format');
@@ -47,6 +100,20 @@ export const updateUserSchema = z.object({
   emergency_contact: emergencyContactSchema.optional()
 });
 
+export const userQuerySchema = z.object({
+  department: z.string().optional(),
+  role: z.string().optional(),
+  location: z.string().optional(),
+  is_active: z.boolean().optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'updated_at', 'full_name', 'email', 'hire_date']).default('created_at'),
+  sort_order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.number().min(1).max(100).default(25),
+  offset: z.number().min(0).default(0),
+  hired_after: z.string().optional(),
+  hired_before: z.string().optional()
+});
+
 // Ticket-related schemas
 export const ticketStatusSchema = z.enum(['pending', 'open', 'in_progress', 'completed', 'cancelled']);
 export const ticketPrioritySchema = z.enum(['low', 'normal', 'high', 'urgent']);
@@ -83,14 +150,14 @@ export const ticketQuerySchema = z.object({
   form_type: z.string().optional(),
   location: z.string().optional(),
   search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'updated_at', 'title', 'priority', 'status', 'due_date']),
-  sort_order: z.enum(['asc', 'desc']),
-  limit: z.number(),
-  offset: z.number(),
-  created_after: z.string().datetime('Invalid date format').optional(),
-  created_before: z.string().datetime('Invalid date format').optional(),
-  due_after: z.string().datetime('Invalid date format').optional(),
-  due_before: z.string().datetime('Invalid date format').optional()
+  sort_by: z.enum(['created_at', 'updated_at', 'title', 'priority', 'status', 'due_date']).default('created_at'),
+  sort_order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.number().min(1).max(100).default(25),
+  offset: z.number().min(0).default(0),
+  created_after: z.string().optional(),
+  created_before: z.string().optional(),
+  due_after: z.string().optional(),
+  due_before: z.string().optional()
 });
 
 // Comment-related schemas
@@ -111,12 +178,12 @@ export const commentQuerySchema = z.object({
   is_internal: z.boolean().optional(),
   author_id: uuidSchema.optional(),
   search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'updated_at']),
-  sort_order: z.enum(['asc', 'desc']),
-  limit: z.number(),
-  offset: z.number(),
-  created_after: z.string().datetime('Invalid date format').optional(),
-  created_before: z.string().datetime('Invalid date format').optional()
+  sort_by: z.enum(['created_at', 'updated_at']).default('created_at'),
+  sort_order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.number().min(1).max(100).default(25),
+  offset: z.number().min(0).default(0),
+  created_after: z.string().optional(),
+  created_before: z.string().optional()
 });
 
 // Notification-related schemas
@@ -142,7 +209,9 @@ export const createNotificationSchema = z.object({
   related_entity_type: entityTypeSchema.optional(),
   related_entity_id: uuidSchema.optional(),
   action_url: z.string().max(500, 'URL too long').optional(),
-  metadata: z.record(z.any()).optional()
+  metadata: z.record(z.any()).optional(),
+  category: z.string().optional(),
+  expires_at: z.string().datetime('Invalid date format').optional()
 });
 
 export const updateNotificationSchema = z.object({
@@ -172,289 +241,76 @@ export const notificationQuerySchema = z.object({
   read: z.boolean().optional(),
   user_id: uuidSchema.optional(),
   search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'updated_at', 'priority']),
-  sort_order: z.enum(['asc', 'desc']),
-  limit: z.number(),
-  offset: z.number(),
-  created_after: z.string().datetime('Invalid date format').optional(),
-  created_before: z.string().datetime('Invalid date format').optional()
+  sort_by: z.enum(['created_at', 'updated_at', 'priority']).default('created_at'),
+  sort_order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.number().min(1).max(100).default(25),
+  offset: z.number().min(0).default(0),
+  created_after: z.string().optional(),
+  created_before: z.string().optional(),
+  category: z.string().optional(),
+  related_entity_type: entityTypeSchema.optional(),
+  related_entity_id: uuidSchema.optional(),
+  include_unread_count: z.boolean().optional()
 });
 
 // Form-related schemas
-export const formCategorySchema = z.enum(['general', 'hr', 'it', 'facilities', 'training', 'other']);
+export const formCategorySchema = z.enum([
+  'general',
+  'hr', 
+  'it_support',
+  'maintenance',
+  'supplies',
+  'time_off'
+]);
 
 export const createFormSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(50, 'Name too long'),
-  title: z.string().min(1, 'Title is required').max(100, 'Title too long'),
-  form_type: z.string()
-    .min(1, 'Form type is required')
-    .max(50, 'Form type too long')
-    .regex(/^[a-z][a-z0-9_]*$/, 'Form type must be lowercase alphanumeric with underscores, starting with a letter'),
-  display_name: z.string().min(1, 'Display name is required').max(100, 'Display name too long'),
-  description: z.string().max(500, 'Description too long').optional(),
-  category: formCategorySchema.default('general'),
-  fields: z.array(z.object({}).passthrough()).optional(),
-  form_schema: z.object({}).passthrough(), // JSON Schema validation
-  ui_schema: z.object({}).passthrough().optional(),
-  workflow_config: z.object({
-    statuses: z.array(z.string()).min(1, 'At least one status required'),
-    transitions: z.record(z.array(z.string()))
-  }).optional(),
-  notification_config: z.object({}).passthrough().optional(),
-  metadata: z.record(z.any()).optional(),
-  requires_manager_approval: z.boolean().default(false),
-  requires_admin_approval: z.boolean().default(false),
+  name: z.string().min(1, 'Name is required').max(100, 'Name too long'),
+  title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
+  display_name: z.string().min(1, 'Display name is required').max(200, 'Display name too long'),
+  description: z.string().max(1000, 'Description too long').optional(),
+  category: formCategorySchema,
+  is_active: z.boolean().default(true),
+  fields: z.record(z.any()),
+  notification_emails: z.array(emailSchema).max(10, 'Too many notification emails').optional(),
+  approval_required: z.boolean().default(false),
   auto_assign_to: emailSchema.optional(),
-  sla_hours: z.number().min(1, 'SLA must be at least 1 hour').max(8760, 'SLA cannot exceed 1 year').optional()
-});
-
-export const updateFormSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(50, 'Name too long').optional(),
-  title: z.string().min(1, 'Title is required').max(100, 'Title too long').optional(),
-  display_name: z.string().min(1, 'Display name is required').max(100, 'Display name too long').optional(),
-  description: z.string().max(500, 'Description too long').optional(),
-  category: formCategorySchema.optional(),
-  fields: z.array(z.object({}).passthrough()).optional(),
-  form_schema: z.object({}).passthrough().optional(),
-  ui_schema: z.object({}).passthrough().optional(),
-  workflow_config: z.object({
-    statuses: z.array(z.string()).min(1, 'At least one status required'),
-    transitions: z.record(z.array(z.string()))
-  }).optional(),
-  notification_config: z.object({}).passthrough().optional(),
-  metadata: z.record(z.any()).optional(),
-  is_active: z.boolean().optional(),
-  requires_manager_approval: z.boolean().optional(),
-  requires_admin_approval: z.boolean().optional(),
-  auto_assign_to: emailSchema.nullable().optional(),
-  sla_hours: z.number().min(1, 'SLA must be at least 1 hour').max(8760, 'SLA cannot exceed 1 year').nullable().optional()
-});
-
-export const formQuerySchema = z.object({
-  is_active: z.boolean().optional(),
-  category: formCategorySchema.optional(),
-  created_by: uuidSchema.optional(),
-  search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'updated_at', 'display_name']),
-  sort_order: z.enum(['asc', 'desc']),
-  limit: z.number(),
-  offset: z.number(),
-  created_after: z.string().datetime('Invalid date format').optional(),
-  created_before: z.string().datetime('Invalid date format').optional()
-});
-
-export const userQuerySchema = z.object({
-  department: z.string().optional(),
-  role: userRoleSchema.optional(),
-  location: locationSchema.optional(),
-  is_active: z.boolean().optional(),
-  search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'updated_at', 'first_name', 'last_name', 'hire_date']),
-  sort_order: z.enum(['asc', 'desc']),
-  limit: z.number(),
-  offset: z.number(),
-  hired_after: z.string().datetime('Invalid date format').optional(),
-  hired_before: z.string().datetime('Invalid date format').optional()
-});
-
-// File attachment schemas
-export const fileUploadSchema = z.object({
-  file_name: z.string().min(1, 'File name is required').max(255, 'File name too long'),
-  file_size: z.number().min(1, 'File must have content').max(50 * 1024 * 1024, 'File too large (max 50MB)'),
-  file_type: z.string().min(1, 'File type is required').max(100, 'File type too long'),
-  description: z.string().max(500, 'Description too long').optional()
-});
-
-export const attachmentQuerySchema = z.object({
-  ticket_id: uuidSchema.optional(),
-  is_internal: z.string().transform(val => val === 'true').optional(),
-  uploaded_by: uuidSchema.optional(),
-  mime_type: z.string().optional(),
-  search: z.string().max(200, 'Search term too long').optional(),
-  sort_by: z.enum(['created_at', 'filename', 'original_filename', 'file_size']).default('created_at'),
-  sort_order: z.enum(['asc', 'desc']).default('desc'),
-  limit: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0 && n <= 100, 'Limit must be between 1 and 100').default('50'),
-  offset: z.string().regex(/^\d+$/).transform(Number).refine(n => n >= 0, 'Offset must be non-negative').default('0'),
-  created_after: z.string().datetime('Invalid date format').optional(),
-  created_before: z.string().datetime('Invalid date format').optional(),
-  min_size: z.string().regex(/^\d+$/).transform(Number).optional(),
-  max_size: z.string().regex(/^\d+$/).transform(Number).optional()
-});
-
-export const createAttachmentSchema = z.object({
-  ticket_id: uuidSchema,
-  original_filename: z.string().min(1, 'Filename is required').max(255, 'Filename too long'),
-  file_size: z.number().min(1, 'File must have content').max(50 * 1024 * 1024, 'File too large (max 50MB)'),
-  mime_type: z.string().min(1, 'File type is required'),
-  is_internal: z.boolean().default(false)
-});
-
-// Authentication schemas
-export const googleOAuthCallbackSchema = z.object({
-  code: z.string().min(1, 'Authorization code is required'),
-  state: z.string().optional()
-});
-
-// Analytics schemas
-export const analyticsEventSchema = z.object({
-  event_type: z.string().min(1, 'Event type is required').max(50, 'Event type too long'),
-  user_id: uuidSchema,
   metadata: z.record(z.any()).optional()
 });
 
-// Pagination schemas
-export const paginationSchema = z.object({
-  limit: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0 && n <= 100, 'Limit must be between 1 and 100').default('50'),
-  offset: z.string().regex(/^\d+$/).transform(Number).refine(n => n >= 0, 'Offset must be non-negative').default('0')
+export const updateFormSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(100, 'Name too long').optional(),
+  title: z.string().min(1, 'Title is required').max(200, 'Title too long').optional(),
+  display_name: z.string().min(1, 'Display name is required').max(200, 'Display name too long').optional(),
+  description: z.string().max(1000, 'Description too long').optional(),
+  category: formCategorySchema.optional(),
+  is_active: z.boolean().optional(),
+  fields: z.record(z.any()).optional(),
+  notification_emails: z.array(emailSchema).max(10, 'Too many notification emails').optional(),
+  approval_required: z.boolean().optional(),
+  auto_assign_to: emailSchema.nullable().optional(),
+  metadata: z.record(z.any()).optional()
 });
 
-// Search schemas
-export const searchSchema = z.object({
-  q: z.string().min(1, 'Search query is required').max(200, 'Search query too long'),
-  type: z.enum(['tickets', 'users', 'comments']).optional(),
-  limit: z.string().regex(/^\d+$/).transform(Number).refine(n => n > 0 && n <= 50, 'Limit must be between 1 and 50').default('20')
+export const formQuerySchema = z.object({
+  category: formCategorySchema.optional(),
+  is_active: z.boolean().optional(),
+  search: z.string().max(200, 'Search term too long').optional(),
+  sort_by: z.enum(['created_at', 'updated_at', 'display_name']).default('created_at'),
+  sort_order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.number().min(1).max(100).default(25),
+  offset: z.number().min(0).default(0),
+  created_after: z.string().optional(),
+  created_before: z.string().optional(),
+  created_by: z.string().optional(),
+  include_inactive: z.boolean().optional()
 });
 
-// Validation helper functions
-export function validateRequest<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; errors: Record<string, string[]> } {
-  try {
-    const result = schema.parse(data);
-    return { success: true, data: result };
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      const errors: Record<string, string[]> = {};
-      
-      error.errors.forEach(err => {
-        const path = err.path.join('.');
-        if (!errors[path]) {
-          errors[path] = [];
-        }
-        errors[path].push(err.message);
-      });
-      
-      return { success: false, errors };
-    }
-    
-    return { 
-      success: false, 
-      errors: { _general: ['Validation failed'] }
-    };
-  }
-}
-
-export function validateQuery<T>(schema: z.ZodSchema<T>, query: Record<string, string | string[]>): { success: true; data: T } | { success: false; errors: Record<string, string[]> } {
-  // Convert query parameters to single values (take first if array)
-  const normalizedQuery: Record<string, string> = {};
-  Object.entries(query).forEach(([key, value]) => {
-    normalizedQuery[key] = Array.isArray(value) ? value[0] : value;
-  });
-  
-  return validateRequest(schema, normalizedQuery);
-}
-
-// Middleware function for API validation
-export function withValidation<T>(
-  schema: z.ZodSchema<T>,
-  handler: (validatedData: T, req: any, res: any) => Promise<void>
-) {
-  return async (req: any, res: any) => {
-    const validation = validateRequest(schema, req.body);
-    
-    if (!validation.success) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Request validation failed',
-          details: validation.errors,
-          timestamp: new Date().toISOString(),
-          request_id: Math.random().toString(36).substring(7)
-        }
-      });
-    }
-    
-    return handler(validation.data, req, res);
-  };
-}
-
-// Query validation middleware
-export function withQueryValidation<T>(
-  schema: z.ZodSchema<T>,
-  handler: (validatedQuery: T, req: any, res: any) => Promise<void>
-) {
-  return async (req: any, res: any) => {
-    const validation = validateQuery(schema, req.query);
-    
-    if (!validation.success) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'QUERY_VALIDATION_ERROR',
-          message: 'Query parameter validation failed',
-          details: validation.errors,
-          timestamp: new Date().toISOString(),
-          request_id: Math.random().toString(36).substring(7)
-        }
-      });
-    }
-    
-    return handler(validation.data, req, res);
-  };
-}
-
-// File validation
-export function validateFile(file: { name: string; size: number; type: string }): { valid: true } | { valid: false; errors: string[] } {
-  const errors: string[] = [];
-  
-  // File size validation (50MB max)
-  if (file.size > 50 * 1024 * 1024) {
-    errors.push('File size cannot exceed 50MB');
-  }
-  
-  // File type validation
-  const allowedTypes = [
-    'image/jpeg', 'image/png', 'image/gif', 'image/webp',
-    'application/pdf',
-    'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'text/plain', 'text/csv',
-    'application/zip', 'application/x-zip-compressed'
-  ];
-  
-  if (!allowedTypes.includes(file.type)) {
-    errors.push('File type not allowed');
-  }
-  
-  // File name validation
-  if (file.name.length > 255) {
-    errors.push('File name too long');
-  }
-  
-  const dangerousExtensions = ['.exe', '.bat', '.cmd', '.scr', '.vbs', '.js', '.jar'];
-  const hasExtension = dangerousExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
-  if (hasExtension) {
-    errors.push('File type not allowed for security reasons');
-  }
-  
-  return errors.length > 0 ? { valid: false, errors } : { valid: true };
-}
-
-// Date validation helpers
-export function validateDateRange(startDate: string, endDate: string): boolean {
-  try {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    return start <= end;
-  } catch {
-    return false;
-  }
-}
-
-export function validateFutureDate(dateString: string): boolean {
-  try {
-    const date = new Date(dateString);
-    return date > new Date();
-  } catch {
-    return false;
-  }
-}
+// Attachment-related schemas
+export const createAttachmentSchema = z.object({
+  ticket_id: uuidSchema,
+  original_filename: z.string().min(1, 'Filename is required').max(255, 'Filename too long'),
+  file_size: z.number().min(1, 'File size must be positive'),
+  mime_type: z.string().min(1, 'MIME type is required').max(100, 'MIME type too long'),
+  is_internal: z.boolean().default(false),
+  description: z.string().max(500, 'Description too long').optional()
+});

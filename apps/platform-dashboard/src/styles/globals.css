@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for platform dashboard */
+body {
+  @apply bg-gray-50;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Medical color scheme */
+:root {
+  --color-medical-primary: #1e40af;
+  --color-medical-secondary: #059669;
+  --color-medical-accent: #7c3aed;
+  --color-medical-warning: #d97706;
+  --color-medical-error: #dc2626;
+}
+
+.medical-gradient {
+  background: linear-gradient(135deg, var(--color-medical-primary), var(--color-medical-secondary));
+}
+
+/* Status indicators */
+.status-active {
+  @apply bg-green-100 text-green-800 border-green-200;
+}
+
+.status-maintenance {
+  @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+}
+
+.status-offline {
+  @apply bg-red-100 text-red-800 border-red-200;
+}

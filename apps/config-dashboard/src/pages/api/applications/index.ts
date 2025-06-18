@@ -115,6 +115,13 @@ async function handler(
   res: NextApiResponse<ApiResponse>
 ) {
   const user = req.user;
+  if (!user) {
+    res.status(401).json(
+      errorResponse('AUTHENTICATION_REQUIRED', 'Authentication required')
+    );
+    return;
+  }
+  
   const supabase = createSupabaseServerClient();
 
   if (req.method === 'GET') {

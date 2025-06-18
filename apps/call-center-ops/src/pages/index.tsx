@@ -1,4 +1,5 @@
 
+'use client'
 
 import { useState, useEffect } from 'react';
 import { useAuth, withAuthComponent } from '@ganger/auth';
@@ -20,16 +21,16 @@ const DASHBOARD_ROUTES: DashboardRedirect = {
 };
 
 function HomePage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
-    if (user?.role) {
+    if (profile?.role) {
       setIsRedirecting(true);
-      const targetRoute = DASHBOARD_ROUTES[user.role as keyof DashboardRedirect] || DASHBOARD_ROUTES.default;
+      const targetRoute = DASHBOARD_ROUTES[profile?.role as keyof DashboardRedirect] || DASHBOARD_ROUTES.default;
       window.location.href = targetRoute;
     }
-  }, [user?.role]);
+  }, [profile?.role]);
 
   if (isRedirecting) {
     return (
@@ -151,4 +152,6 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default withAuthComponent(HomePage, {
+  requiredRoles: ['staff', 'manager', 'superadmin']
+});

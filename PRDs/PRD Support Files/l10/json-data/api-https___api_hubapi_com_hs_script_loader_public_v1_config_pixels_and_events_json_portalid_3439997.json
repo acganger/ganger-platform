@@ -1,0 +1,27 @@
+{
+  "url": "https://api.hubapi.com/hs-script-loader-public/v1/config/pixels-and-events/json?portalId=3439997",
+  "data": {
+    "pixels": {
+      "ADWORDS": [
+        {
+          "pixelId": "878852318",
+          "limitedDataUseEnabled": false
+        }
+      ],
+      "FACEBOOK": [
+        {
+          "pixelId": "471978096822002",
+          "limitedDataUseEnabled": true
+        }
+      ],
+      "LINKEDIN": [
+        {
+          "pixelId": "1417362",
+          "limitedDataUseEnabled": false
+        }
+      ]
+    },
+    "enhancedConversionEventSettings": {}
+  },
+  "timestamp": "2025-06-18T11:36:44.011Z"
+}

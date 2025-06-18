@@ -1,3 +1,94 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    --batch-primary: 0 123 131;
+    --batch-secondary: 0 90 95;
+    --batch-accent: 0 184 204;
+    --batch-light: 230 247 249;
+    --batch-dark: 0 61 66;
+    --batch-success: 5 150 105;
+    --batch-warning: 217 119 6;
+    --batch-danger: 220 38 38;
+  }
+  
+  html {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  }
+  
+  body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .batch-gradient {
+    background: linear-gradient(135deg, #E6F7F9 0%, #f8fafc 100%);
+  }
+  
+  .batch-card {
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+  
+  .protocol-header {
+    background: linear-gradient(90deg, #007B83 0%, #005A5F 100%);
+    color: white;
+  }
+  
+  .batch-status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  .batch-status-processing {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+  
+  .batch-status-completed {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  
+  .batch-status-failed {
+    background-color: #fecaca;
+    color: #991b1b;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}

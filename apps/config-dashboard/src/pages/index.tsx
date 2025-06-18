@@ -11,10 +11,10 @@ import { ApprovalWorkflow } from '../components/ApprovalWorkflow';
 import { DashboardLayout } from '../components/DashboardLayout';
 
 export default function ConfigDashboardHome() {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<'applications' | 'configurations' | 'permissions' | 'impersonation' | 'approval' | 'audit'>('applications');
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Config Dashboard Test</title>
+</head>
+<body>
+    <h1>Config Dashboard Production Test</h1>
+    <p>Deployment successful! Timestamp: <span id="timestamp"></span></p>
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toISOString();
+    </script>
+</body>
+</html>

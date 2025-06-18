@@ -4,6 +4,8 @@ import { auditLog } from '../../../../lib/auth-utils';
 import { ApiResponse, ErrorCodes } from '../../../../middleware/errorHandler';
 import { withAuth, withMethods, withRateLimit, AuthenticatedRequest } from '../../../../middleware/auth';
 
+// Runtime: nodejs (default) - uses auth-utils
+
 interface EmployeeComplianceData {
   employee: {
     id: string;
@@ -103,9 +105,9 @@ async function employeeHandler(
     }
 
     // Check if user has permission to view this employee
-    if (user.role !== 'admin' && !user.permissions?.includes('compliance:view-all')) {
+    if (profile?.role !== 'admin' && !user.permissions?.includes('compliance:view-all')) {
       // Users can only view their own data unless they have special permissions
-      if (user.id !== employee.id && user.email !== employee.email) {
+      if (user.id !== employee.id && user?.email !== employee.email) {
         return res.status(403).json({
           success: false,
           error: {
@@ -309,7 +311,7 @@ async function employeeHandler(
     await auditLog({
       action: 'employee_compliance_viewed',
       userId: user.id,
-      userEmail: user.email,
+      userEmail: user?.email,
       resourceType: 'employee_compliance',
       resourceId: id,
       metadata: {

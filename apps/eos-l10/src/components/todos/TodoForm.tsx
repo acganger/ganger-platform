@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '@/lib/auth-eos';
 import { CreateTodoForm } from '@/types/eos';
-import { format, addDays, addWeeks } from 'date-fns';
+// import { format, addDays, addWeeks } from 'date-fns';
 import { 
   X, 
   Calendar,
@@ -51,7 +51,7 @@ export default function TodoForm({ onSubmit, onClose, initialData }: TodoFormPro
       title: initialData?.title || '',
       description: initialData?.description || '',
       assigned_to: initialData?.assigned_to || '',
-      due_date: initialData?.due_date || format(addWeeks(new Date(), 1), 'yyyy-MM-dd'),
+      due_date: initialData?.due_date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       priority: initialData?.priority || 'medium'
     }
   });
@@ -79,19 +79,19 @@ export default function TodoForm({ onSubmit, onClose, initialData }: TodoFormPro
           date = new Date();
           break;
         case 'tomorrow':
-          date = addDays(new Date(), 1);
+          date = new Date(Date.now() + 24 * 60 * 60 * 1000);
           break;
         case 'this_week':
-          date = addDays(new Date(), 7);
+          date = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
           break;
         case 'next_week':
-          date = addWeeks(new Date(), 1);
+          date = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
           break;
         default:
           date = new Date();
       }
       
-      setValue('due_date', format(date, 'yyyy-MM-dd'));
+      setValue('due_date', date.toISOString().split('T')[0]);
     }
   };
 
@@ -203,7 +203,7 @@ export default function TodoForm({ onSubmit, onClose, initialData }: TodoFormPro
                 <input
                   {...register('due_date', { required: 'Due date is required' })}
                   type="date"
-                  min={format(new Date(), 'yyyy-MM-dd')}
+                  min={new Date().toISOString().split('T')[0]}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-eos-500 focus:border-transparent"
                 />
               </div>

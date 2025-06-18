@@ -5,10 +5,16 @@
   "description": "Ganger Platform - Rapid Custom Handouts Generator",
   "scripts": {
     "dev": "next dev --port 3010",
-    "build": "next build",
+    "build": "next build && npx @cloudflare/next-on-pages",
     "start": "next start --port 3010",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "deploy:patient": "npm run build && wrangler deploy --config wrangler-patient.toml --env production",
+    "deploy:staff": "npm run build && wrangler deploy --config wrangler-staff.toml --env production",
+    "deploy:dual": "npm run deploy:patient && npm run deploy:staff",
+    "build:next": "next build",
+    "build:worker": "npx @cloudflare/next-on-pages",
+    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=handouts-production"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",
@@ -19,6 +25,7 @@
     "@hookform/resolvers": "^3.7.0",
     "@supabase/supabase-js": "^2.45.0",
     "clsx": "^2.0.0",
+    "date-fns": "^4.1.0",
     "framer-motion": "^10.16.0",
     "jspdf": "^2.5.1",
     "next": "^14.2.0",
@@ -29,6 +36,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12",
     "@cloudflare/workers-types": "^4.20241127.0",
     "@ganger/config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.10",
@@ -37,7 +45,8 @@
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "tailwindcss": "^4.1.7"
   },
   "keywords": [
     "ganger-platform",

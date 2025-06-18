@@ -1,0 +1,117 @@
+{
+  "widgets": [
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 0,
+      "text": "Archive completed",
+      "html": "<ninety-button _ngcontent-ng-c1254124815=\"\" stroked=\"\" primary=\"\" data-product=\"team-todos-widget__archive-completed-button\" data-cy=\"team-todos-widget_archive_button_with_text\" class=\"archive-with-text ninety-button--size-standard ninety-button ng-star-inserted\" _nghost-ng-c2305542383=\"\"><button _ngcontent-ng-c2305542383=\"\" type=\"button\"><div _ngcontent-ng-c2305542383=\"\" class=\"button-content\"><terra-icon _ngcontent-ng-c1254124815=\"\" icon=\"archive\" _nghost-ng-c3600136140=\"\" aria-hidden=\"true\"><svg width=\"24px\" height=\"24px\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"terra-icon\"><path d=\"M27.96 8.26877L16.96 2.25002C16.6661 2.08763 16.3358 2.00244 16 2.00244C15.6642 2.00244 15.3339 2.08763 15.04 2.25002L4.04 8.27127C3.72586 8.44315 3.46363 8.69622 3.28069 9.00405C3.09775 9.31188 3.00081 9.66319 3 10.0213V21.9763C3.00081 22.3344 3.09775 22.6857 3.28069 22.9935C3.46363 23.3013 3.72586 23.5544 4.04 23.7263L15.04 29.7475C15.3339 29.9099 15.6642 29.9951 16 29.9951C16.3358 29.9951 16.6661 29.9099 16.96 29.7475L27.96 23.7263C28.2741 23.5544 28.5364 23.3013 28.7193 22.9935C28.9023 22.6857 28.9992 22.3344 29 21.9763V10.0225C28.9999 9.6638 28.9032 9.31172 28.7203 9.00317C28.5373 8.69462 28.2747 8.44096 27.96 8.26877ZM16 4.00002L26.0425 9.50002L22.3213 11.5375L12.2775 6.03752L16 4.00002ZM16 15L5.9575 9.50002L10.195 7.18002L20.2375 12.68L16 15ZM5 11.25L15 16.7225V27.4463L5 21.9775V11.25ZM27 21.9725L17 27.4463V16.7275L21 14.5388V19C21 19.2652 21.1054 19.5196 21.2929 19.7071C21.4804 19.8947 21.7348 20 22 20C22.2652 20 22.5196 19.8947 22.7071 19.7071C22.8946 19.5196 23 19.2652 23 19V13.4438L27 11.25V21.9713V21.9725Z\" fill=\"currentColor\"></path></svg></terra-icon> Archive completed </div></button></ninety-button><ninety-button _ngcontent-ng-c1254124815=\"\" stroked=\"\" primary=\"\" icon=\"\" data-product=\"team-todos-widget__archive-completed-button\" data-cy=\"team-todos-widget_archive_button_with_icon\" class=\"archive-with-icon ninety-button--size-standard ninety-button ng-star-inserted\" _nghost-ng-c2305542383=\"\"><button _ngcontent-ng-c2305542383=\"\" type=\"button\"><div _ngcontent-ng-c2305542383=\"\" class=\"button-content\"><terra-icon _ngcontent-ng-c1254124815=\"\" icon=\"archive\" _nghost-ng-c3600136140=\"\" aria-hidden=\"true\"><svg width=\"24px\" height=\"24px\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"terra-icon\"><path d=\"M27.96 8.26877L16.96 2.25002C16.6661 2.08763 16.3358 2.00244 16 2.00244C15.6642 2.00244 15.3339 2.08763 15.04 2.25002L4.04 8.27127C3.72586 8.44315 3.46363 8.69622 3.28069 9.00405C3.09775 9.31188 3.00081 9.66319 3 10.0213V21.9763C3.00081 22.3344 3.09775 22.6857 3.28069 22.9935C3.46363 23.3013 3.72586 23.5544 4.04 23.7263L15.04 29.7475C15.3339 29.9099 15.6642 29.9951 16 29.9951C16.3358 29.9951 16.6661 29.9099 16.96 29.7475L27.96 23.7263C28.2741 23.5544 28.5364 23.3013 28.7193 22.9935C28.9023 22.6857 28.9992 22.3344 29 21.9763V10.0225C28.9999 9.6638 28.9032 9.31172 28.7203 9.00317C28.5373 8.69462 28.2747 8.44096 27.96 8.26877ZM16 4.00002L26.0425 9.50002L22.3213 11.5375L12.2775 6.03752L16 4.00002ZM16 15L5.9575 9.50002L10.195 7.18002L20.2375 12.68L16 15ZM5 11.25L15 16.7225V27.4463L5 21.9775V11.25ZM27 21.9725L17 27.4463V16.7275L21 14.5388V19C21 19.2652 21.1054 19.5196 21.2929 19.7071C21.4804 19.8947 21.7348 20 22 20C22.2652 20 22.5196 19.8947 22.7071 19.7071C22.8946 19.5196 23 19.2652 23 19V13.4438L27 11.25V21.9713V21.9725Z\" fill=\"currentColor\"></path></svg></terra-icon></div></button></ninety-button><!----><!---->",
+      "classes": [
+        "widget-controls",
+        "ng-star-inserted"
+      ],
+      "attributes": {
+        "_ngcontent-ng-c1254124815": "",
+        "class": "widget-controls ng-star-inserted"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 1,
+      "text": "Incomplete",
+      "html": "<terra-select _ngcontent-ng-c1213792688=\"\" data-cy=\"personal-todos-widget_complete-incomplete-button\" _nghost-ng-c649274537=\"\" class=\"ng-tns-c649274537-7 ng-untouched ng-pristine ng-valid ng-star-inserted\"><button _ngcontent-ng-c649274537=\"\" role=\"combobox\" type=\"button\" aria-haspopup=\"listbox\" class=\"terra-select ng-tns-c649274537-7\" tabindex=\"0\" aria-controls=\"terra-select-2\" aria-expanded=\"false\"><div _ngcontent-ng-c649274537=\"\" class=\"terra-select__trigger ng-tns-c649274537-7\"><!----><div _ngcontent-ng-c649274537=\"\" class=\"terra-select__label ng-tns-c649274537-7 ng-star-inserted\">Incomplete</div><!----><!----><!----><!----><!----><!----><terra-icon _ngcontent-ng-c649274537=\"\" size=\"16\" variant=\"bold\" class=\"terra-select__trigger-caret ng-tns-c649274537-7\" _nghost-ng-c3600136140=\"\" aria-hidden=\"true\"><svg width=\"16px\" height=\"16px\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"terra-icon\"><path d=\"M27.0612 13.0612L17.0612 23.0612C16.9218 23.2011 16.7563 23.312 16.5739 23.3877C16.3916 23.4634 16.1961 23.5024 15.9987 23.5024C15.8013 23.5024 15.6058 23.4634 15.4235 23.3877C15.2411 23.312 15.0756 23.2011 14.9362 23.0612L4.9362 13.0612C4.6544 12.7794 4.49609 12.3972 4.49609 11.9987C4.49609 11.6002 4.6544 11.218 4.9362 10.9362C5.21799 10.6544 5.60018 10.4961 5.9987 10.4961C6.39721 10.4961 6.7794 10.6544 7.0612 10.9362L15.9999 19.875L24.9387 10.935C25.2205 10.6532 25.6027 10.4949 26.0012 10.4949C26.3997 10.4949 26.7819 10.6532 27.0637 10.935C27.3455 11.2168 27.5038 11.599 27.5038 11.9975C27.5038 12.396 27.3455 12.7782 27.0637 13.06L27.0612 13.0612Z\" fill=\"currentColor\"></path></svg></terra-icon></div><div _ngcontent-ng-c649274537=\"\" class=\"terra-select__custom-trigger ng-tns-c649274537-7\"></div></button><!----></terra-select><!---->",
+      "classes": [
+        "widget-controls",
+        "ng-star-inserted"
+      ],
+      "attributes": {
+        "_ngcontent-ng-c1213792688": "",
+        "class": "widget-controls ng-star-inserted"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 2,
+      "text": "You have no Private To-Dos right now.Create and manage tasks that are only visible to you. Create To-Do",
+      "html": "<terra-icon _ngcontent-ng-c1691800794=\"\" size=\"96\" _nghost-ng-c3600136140=\"\" aria-hidden=\"true\" class=\"ng-star-inserted\"><svg width=\"96px\" height=\"96px\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"terra-icon\"><path d=\"M21.7075 12.2925C21.8005 12.3854 21.8742 12.4957 21.9246 12.6171C21.9749 12.7385 22.0008 12.8686 22.0008 13C22.0008 13.1314 21.9749 13.2615 21.9246 13.3829C21.8742 13.5043 21.8005 13.6146 21.7075 13.7075L14.7075 20.7075C14.6146 20.8005 14.5043 20.8742 14.3829 20.9246C14.2615 20.9749 14.1314 21.0008 14 21.0008C13.8686 21.0008 13.7385 20.9749 13.6171 20.9246C13.4957 20.8742 13.3854 20.8005 13.2925 20.7075L10.2925 17.7075C10.1049 17.5199 9.99944 17.2654 9.99944 17C9.99944 16.7346 10.1049 16.4801 10.2925 16.2925C10.4801 16.1049 10.7346 15.9994 11 15.9994C11.2654 15.9994 11.5199 16.1049 11.7075 16.2925L14 18.5863L20.2925 12.2925C20.3854 12.1995 20.4957 12.1258 20.6171 12.0754C20.7385 12.0251 20.8686 11.9992 21 11.9992C21.1314 11.9992 21.2615 12.0251 21.3829 12.0754C21.5043 12.1258 21.6146 12.1995 21.7075 12.2925ZM28 6V26C28 26.5304 27.7893 27.0391 27.4142 27.4142C27.0391 27.7893 26.5304 28 26 28H6C5.46957 28 4.96086 27.7893 4.58579 27.4142C4.21071 27.0391 4 26.5304 4 26V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H26C26.5304 4 27.0391 4.21071 27.4142 4.58579C27.7893 4.96086 28 5.46957 28 6ZM26 26V6H6V26H26Z\" fill=\"currentColor\"></path></svg></terra-icon><!----><!----><!----><div _ngcontent-ng-c1691800794=\"\" class=\"title-box terra-title\" data-cy=\"empty-list-view_You have no Private To-Dos right now.\">You have no Private To-Dos right now.</div><div _ngcontent-ng-c1691800794=\"\" class=\"message-box terra-body ng-star-inserted\">Create and manage tasks that are only visible to you.</div><!----><!----><div _ngcontent-ng-c1691800794=\"\" class=\"button-container-container\"><div _ngcontent-ng-c1691800794=\"\" class=\"button-container\"><ninety-button _ngcontent-ng-c1691800794=\"\" data-cy=\"empty-list-view_button_primary-button\" filled=\"\" primary=\"\" class=\"primary-button full-width center-all ninety-button--size-standard ninety-button ng-star-inserted\" _nghost-ng-c2305542383=\"\" data-product=\"empty-list-view__primary-button\"><button _ngcontent-ng-c2305542383=\"\" type=\"button\"><div _ngcontent-ng-c2305542383=\"\" class=\"button-content\"> Create To-Do </div></button></ninety-button><!----><!----></div></div><!---->",
+      "classes": [
+        "empty-list-view",
+        "widget-error",
+        "ng-star-inserted"
+      ],
+      "attributes": {
+        "_ngcontent-ng-c1691800794": "",
+        "class": "empty-list-view widget-error ng-star-inserted"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 3,
+      "text": "All",
+      "html": "<terra-select _ngcontent-ng-c261999973=\"\" data-cy=\"rocks-widget_status-select\" _nghost-ng-c649274537=\"\" class=\"ng-tns-c649274537-11 ng-untouched ng-pristine ng-valid ng-star-inserted\"><button _ngcontent-ng-c649274537=\"\" role=\"combobox\" type=\"button\" aria-haspopup=\"listbox\" class=\"terra-select ng-tns-c649274537-11\" tabindex=\"0\" aria-controls=\"terra-select-5\" aria-expanded=\"false\"><div _ngcontent-ng-c649274537=\"\" class=\"terra-select__trigger ng-tns-c649274537-11\"><!----><div _ngcontent-ng-c649274537=\"\" class=\"terra-select__label ng-tns-c649274537-11 ng-star-inserted\">All</div><!----><!----><!----><!----><!----><!----><terra-icon _ngcontent-ng-c649274537=\"\" size=\"16\" variant=\"bold\" class=\"terra-select__trigger-caret ng-tns-c649274537-11\" _nghost-ng-c3600136140=\"\" aria-hidden=\"true\"><svg width=\"16px\" height=\"16px\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"terra-icon\"><path d=\"M27.0612 13.0612L17.0612 23.0612C16.9218 23.2011 16.7563 23.312 16.5739 23.3877C16.3916 23.4634 16.1961 23.5024 15.9987 23.5024C15.8013 23.5024 15.6058 23.4634 15.4235 23.3877C15.2411 23.312 15.0756 23.2011 14.9362 23.0612L4.9362 13.0612C4.6544 12.7794 4.49609 12.3972 4.49609 11.9987C4.49609 11.6002 4.6544 11.218 4.9362 10.9362C5.21799 10.6544 5.60018 10.4961 5.9987 10.4961C6.39721 10.4961 6.7794 10.6544 7.0612 10.9362L15.9999 19.875L24.9387 10.935C25.2205 10.6532 25.6027 10.4949 26.0012 10.4949C26.3997 10.4949 26.7819 10.6532 27.0637 10.935C27.3455 11.2168 27.5038 11.599 27.5038 11.9975C27.5038 12.396 27.3455 12.7782 27.0637 13.06L27.0612 13.0612Z\" fill=\"currentColor\"></path></svg></terra-icon></div><div _ngcontent-ng-c649274537=\"\" class=\"terra-select__custom-trigger ng-tns-c649274537-11\"></div></button><!----></terra-select><!---->",
+      "classes": [
+        "widget-controls",
+        "ng-star-inserted"
+      ],
+      "attributes": {
+        "_ngcontent-ng-c261999973": "",
+        "class": "widget-controls ng-star-inserted"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 4,
+      "text": "",
+      "html": "<div class=\"apt-widget\"><span id=\"apt-widget-animation-container\" class=\"apt-widget-animation-container\"></span></div>",
+      "classes": [
+        "apt-widget-top-container"
+      ],
+      "attributes": {
+        "id": "apt-widget",
+        "class": "apt-widget-top-container",
+        "style": "position: absolute; width: 0px; height: 0px; left: 0px; top: 0px; z-index: 10000;"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 5,
+      "text": "",
+      "html": "<span id=\"apt-widget-animation-container\" class=\"apt-widget-animation-container\"></span>",
+      "classes": [
+        "apt-widget"
+      ],
+      "attributes": {
+        "class": "apt-widget"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 6,
+      "text": "",
+      "html": "",
+      "classes": [
+        "apt-widget-animation-container"
+      ],
+      "attributes": {
+        "id": "apt-widget-animation-container",
+        "class": "apt-widget-animation-container"
+      }
+    },
+    {
+      "selector": "[class*=\"widget\"]",
+      "index": 7,
+      "text": "",
+      "html": "",
+      "classes": [
+        "apt-widget-frame"
+      ],
+      "attributes": {
+        "class": "apt-widget-frame",
+        "data-sdkconfig": "{\"apiKey\":\"AP-QEGMDEILIKZJ-2\",\"aptId\":\"7587d7e2-c912-46b0-93e0-72d3cfd76e52\",\"initialConfig\":{\"type\":\"V1\",\"kcId\":\"25520af8-ee65-4791-b5e0-1b1c79d77c18\",\"subscriptionId\":\"70d4296f-4ae2-4dfa-aaa9-f923fa4c19bf\",\"propertyGroupId\":\"QEGMDEILIKZJ\",\"enabled\":true,\"urlPattern\":\"*\",\"injectionType\":\"FLOATING_BTN\",\"progressBarSettings\":{\"enabled\":false,\"countArticle\":false,\"barBackgroundColor\":\"#C3C3C3\",\"barFillColor\":\"#0F87EC\",\"barHeight\":8,\"barWidth\":87,\"categoriesSectionTitle\":\"Additional Modules\",\"textMessage\":\"Getting Started\",\"textMessageColor\":\"#515151\",\"textMessageFontSize\":14,\"progressValueType\":\"COUNTER\"},\"badgeSettings\":{\"enabled\":false,\"backgroundColor\":\"#D8640E\",\"textColor\":\"#FFFFFF\",\"borderColor\":\"#D8640E\",\"fontSize\":12,\"position\":\"TOP_LEFT\"},\"tabsSettings\":{\"id\":null,\"hideSingleTab\":true,\"onboardingIcon\":\"BOT_20\",\"feedbackIcon\":\"BOT_21\",\"knowledgeBaseIcon\":\"BOT_13\",\"onboardingIconColor\":\"#000000\",\"feedbackIconColor\":\"#1818d3\",\"knowledgeBaseIconColor\":\"#000000\",\"onboardingTabIndex\":1,\"feedbackTabIndex\":2,\"knowledgeBaseTabIndex\":3,\"defaultTabIndex\":2},\"windowSettings\":{\"contentBackgroundColor\":\"#fafafa\",\"headerColor\":\"#262626\",\"textColor\":\"#262626\",\"hoverTextColor\":\"#404040\",\"selectedTabHighlightColor\":\"#2f8baa\",\"unselectedTabColor\":\"#f9f8f7\",\"headerText\":\"Onboarding\",\"headerTextColor\":\"#ffffff\",\"headerIcon\":\"\",\"headerFont\":\"\",\"textFont\":\"Nunito Sans\",\"tooltipTextColor\":\"#07f163\",\"tooltipBackgroundColor\":\"#404040\",\"badgeColor\":\"#ff7f00\",\"badgeTextColor\":\"#ffffff\",\"newEngagementIcon\":\"\",\"completedEngagementIcon\":\"success-1\",\"inProgressEngagementIcon\":\"success-3\",\"categoryHoverStripeColor\":\"#0F87EC\",\"categoryHoverBackgroundColor\":\"#000000\",\"categoryHoverBackgroundFill\":10,\"categoryHoverArrowColor\":\"#0F87EC\",\"submitButtonColor\":\"#0F87EC\",\"searchResultsTitleColor\":\"#000000\",\"searchResultsSummeryColor\":\"#000000\",\"botPosition\":\"RIGHT\",\"botPositionOffsetBottom\":20,\"widgetHeight\":456,\"widgetWidth\":400,\"feedbackHeaderText\":\"Feature Requests & Feedback\",\"docsSearchHeaderText\":\"Knowledge Base\",\"showSpeechBobble\":true,\"showEngagementsType\":true,\"showCategoryIcon\":true,\"showEngagementsCompletedIndicator\":true,\"showEngagementsInProgressIndicator\":true,\"showEngagementsNotViewedIndicator\":true,\"engagementsTypeColor\":\"#000000\",\"engagementsNotViewedIndicatorColor\":\"#FF7F00\",\"engagementsInProgressIndicatorColor\":\"#FF7F00\",\"engagementsCompletedIndicatorColor\":\"#0F87EC\",\"categoryColor\":\"#000000\",\"embedKCSettings\":{\"horizontalAlignment\":\"LEFT\",\"verticalAlignment\":\"TOP\",\"positionSettings\":{\"positionVertical\":\"BOTTOM\",\"positionHorizontal\":\"LEFT\",\"positionTopDelta\":24,\"positionLeftDelta\":24},\"elementSelector\":{\"cssSelector\":\"[data-product=\\\"main-sidebar__provide-feedback-button\\\"]\",\"type\":null,\"unique\":false,\"matchCssSelector\":true,\"matchTextRule\":null,\"textRule\":null},\"calculatedPosition\":{\"left\":24,\"top\":997,\"transform\":\"translate(0px, 0px)\"}},\"showReadMore\":true,\"botPositionHorizontalOffset\":20,\"allowDismiss\":false,\"dismissButtonColor\":\"#0F87EC\",\"enableOnboardingSearch\":false,\"knowledgeBaseSearchText\":\"Type something in the search box.\",\"resizable\":false,\"hideArticleSummary\":false,\"linkIconColor\":\"#7596B7\",\"funcIconColor\":\"#7596B7\",\"zindex\":10000},\"floatingButtonSettings\":{\"openStateColor\":\"#0F87EC\",\"closedStateColor\":\"#ffffff\",\"iconCloseColor\":\"#000000\",\"openStateIcon\":\"BOT_13\",\"closedStateIcon\":\"CLOSE_1\",\"rightPadding\":\"20px\",\"bottomPadding\":\"20px\",\"iconOpenColor\":\"#ffffff\",\"iconSize\":40,\"useImage\":false,\"draggable\":false,\"imageUrl\":\"https://storage.googleapis.com/aptrinsic-cloud-public-assets/widget/white-green.png\"},\"onBoardingSettings\":{\"autoSuggestionType\":\"ON_LOGIN\",\"suggestionText\":\"Welcome!\\nI'm your onboarding assistant. Let's get you setup!\",\"completionText\":\"That's it, your onboarding is done!\",\"backgroundColor\":\"#ffffff\",\"textColor\":\"#000000\",\"textFont\":\"\",\"textFontSize\":12},\"includePatterns\":[\"*\"],\"excludePatterns\":[],\"enableFeedback\":true,\"enableOnBoarding\":false,\"articleSearchEnabled\":false,\"articleProvider\":\"ARTICLE_PROVIDER_UNDEFINED\",\"articleProviderDomain\":\"\",\"articleProviderDown\":false,\"environments\":[1,2],\"name\":\"\",\"description\":\"\",\"state\":\"STARTED\",\"contextualSearchSetting\":\"\",\"contextualSearchTerm\":\"\",\"defaultLanguage\":\"en\",\"configLanguages\":[],\"configLocale\":null,\"staticFields\":{\"guideRedirectMessage\":null,\"guideRedirectConfirmButton\":null,\"guideRedirectCancelButton\":null,\"feedbackDropdownIssue\":null,\"feedbackDropdownFeatureRequest\":null,\"feedbackDropdownGeneralFeedback\":null,\"feedbackDropdownOther\":null,\"feedbackSubjectPlaceholder\":null,\"feedbackDescriptionPlaceholder\":null,\"feedbackSubmitButtonLabel\":null,\"feedbackThankYouMessage\":null,\"feedbackLeaveAnotherMessage\":null,\"knowledgeBaseBlankSearchMessage\":null,\"knowledgeBaseNoResultMessage\":null,\"knowledgeBaseInputPlaceholder\":null,\"knowledgeBaseFailureMessage\":null,\"searchShowMore\":null,\"searchShowLess\":null,\"searchNoResults\":null,\"feedbackLabelsDropdownNoOptions\":null,\"feedbackLabelsDropdownPlaceholder\":null,\"multipleFeedbackLabelsText\":null,\"singleFeedbackLabelText\":null},\"kcFeedbackCategories\":[{\"feedbackCategoryId\":\"bbaf782a-4e3a-4e3b-8fc3-e84e19aa896c\",\"name\":\"Request a feature\",\"sequence\":1,\"labels\":[]},{\"feedbackCategoryId\":\"99fd393a-a673-41c3-849e-bce18a236c2c\",\"name\":\"Report a problem\",\"sequence\":2,\"labels\":[]}],\"searchSettings\":{\"enabled\":false,\"searchText\":\"Type something in the search box.\",\"searchTextColor\":\"#1c3b60\",\"showMoreColor\":\"#49627f\",\"searchBar\":{\"backgroundColor\":\"#FFFFFF\",\"textColor\":\"#000000\",\"borderColorEnabled\":\"#49627f\",\"borderColorHover\":\"#1c3b60\",\"borderColorSelected\":\"#1c3b60\",\"searchIconColor\":\"#1c3b60\",\"clearIconColor\":\"#1c3b60\",\"backIconColor\":\"#1c3b60\",\"placeholderText\":\"Search...\",\"placeholderColor\":\"#49627f\"},\"tabs\":{\"allTabText\":\"All\",\"engTabText\":\"Engagements\",\"articleTabText\":\"Articles\",\"communityTabText\":\"Community\",\"knowledgeBaseTabText\":\"Knowledge Base\",\"color\":\"#3d566f\",\"hoverColor\":\"#1c3b60\",\"selectedColor\":\"#1c3b60\",\"linkTabText\":\"Links\"}},\"recommendationSettings\":{\"enabled\":false,\"backgroundColor\":\"#f1f5f8\",\"iconUrl\":\"\",\"title\":\"Recommended content\",\"subtitle\":\"Kickstart your work with these specially curated content for you.\",\"titleColor\":\"#19232f\",\"subtitleColor\":\"#7596b7\"},\"feedbackSettings\":{\"subject\":\"Enter a subject\",\"description\":\"Share your thoughts here\",\"submitButton\":{\"enabled\":true,\"backgroundColor\":\"#262626\",\"backgroundFill\":null,\"showBorder\":false,\"borderColor\":null,\"text\":\"Submit feedback\",\"textColor\":\"#FFFFFF\",\"cornerRadius\":4,\"hoverBackgroundColor\":null,\"hoverBackgroundFill\":null,\"hoverTextColor\":null,\"hoverBorderColor\":null,\"fontSettings\":{\"fontFamily\":null,\"fontSize\":14,\"bold\":false,\"itallic\":false,\"underlined\":false},\"buttonPaddingSettings\":null,\"shouldOverrideGlobalSettings\":false,\"borderWidth\":1.25},\"ackText\":\"Thank you for your feedback!\",\"backButtonText\":\"Share more feedback\"},\"communitySettings\":{\"enableCommunitySearch\":false,\"selectedCommunityCategoryIds\":\"\",\"selectedCommunityProductAreaIds\":\"\",\"backgroundColor\":\"\",\"iconUrl\":\"\",\"textTitle\":\"\",\"textSubtitle\":\"\",\"titleColor\":\"\",\"subtitleColor\":\"\"},\"invalidate\":false,\"p\":\"AP-QEGMDEILIKZJ-2\",\"showIcon\":false,\"isEmbedded\":true,\"kcPositionType\":\"fixed\",\"enableKcSecureArticle\":false},\"enableKcSecureArticle\":false,\"disableLogs\":false}",
+        "style": "opacity: 0; transform: scale(0); visibility: hidden; position: absolute; top: -9999px; left: -9999px;"
+      }
+    }
+  ],
+  "url": "https://app.ninety.io/home",
+  "title": "My 90 | Ninety",
+  "timestamp": "2025-06-18T11:36:16.245Z"
+}

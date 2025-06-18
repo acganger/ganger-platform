@@ -1,0 +1,2021 @@
+{
+  "url": "https://app.ninety.io/api/v4/Issues/SentFrom?workingTeamId=65f5c6322caa0d001296501d&intervalCode=0002",
+  "data": {
+    "items": [
+      {
+        "_id": "67a4d6d0d786c5f5109fe7de",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d4d99a976c00134b6c69",
+            "text": "AC bring back around to follow up.",
+            "createdDate": "2025-03-11T16:23:41.036Z"
+          },
+          {
+            "userId": "65f5d4d99a976c00134b6c69",
+            "text": "Billing sent the issue to Leadership Team",
+            "createdDate": "2025-03-11T16:26:28.099Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "Working to make a better process. AC has created a report to show where some places need work. &nbsp;Would like to not have a scheduled appointment if no referral.",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "66f2049ad364bccd705dac1c",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "BCN referral issues",
+        "ordinal": 6,
+        "intervalCode": "0002",
+        "who": "June Grimmette",
+        "followers": [
+          "65f5d1f95578b300132330d2",
+          "65f5d4d99a976c00134b6c69",
+          "65f5d1f5f0607000125edb40"
+        ],
+        "addCreatorToFollowersList": true,
+        "completedDate": null,
+        "workingTeamId": "65f5c6322caa0d001296501d",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "team": {
+          "_id": "66f2049ad364bccd705dac1c",
+          "name": "Billing",
+          "companyId": "65f5c6312caa0d0012965019",
+          "createdByUserId": "65f5d1f95578b300132330d2",
+          "project": false,
+          "deleted": false,
+          "settings": {
+            "weeklyMeetings": {
+              "agenda": [
+                {
+                  "name": "SEGUE",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 0,
+                  "path": "segue",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "SCORECARD",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 1,
+                  "path": "data",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "ROCK REVIEW",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 2,
+                  "path": "rocks",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CUSTOMER / EMPLOYEE HEADLINES",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 3,
+                  "path": "headlines",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "TO-DO LIST",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 4,
+                  "path": "todos",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "IDS™",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 5,
+                  "path": "issues",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 6,
+                  "path": "conclude",
+                  "isEditable": false,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "quarterlyMeetings": {
+              "agenda": [
+                {
+                  "name": "OBJECTIVES",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 0,
+                  "path": "objectives",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CHECK-IN",
+                  "duration": 900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "REVIEW PRIOR QUARTER",
+                  "duration": 1800,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 2,
+                  "path": "review-prior-quarter",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "V/TO®",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 4,
+                  "path": "vision",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "EOS® TOOLS",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 5,
+                  "path": "mastery",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 6,
+                  "path": "rocks",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "IDS™",
+                  "duration": 10800,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 7,
+                  "path": "issues",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 8,
+                  "path": "next-steps",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 9,
+                  "path": "conclude",
+                  "isEditable": true,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "annualDayOne": {
+              "agenda": [
+                {
+                  "name": "OBJECTIVES",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 0,
+                  "path": "objectives",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "REVIEW PRIOR YEAR",
+                  "duration": 900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 2,
+                  "path": "review-prior-year",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "REVIEW PRIOR QUARTER",
+                  "duration": 900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 4,
+                  "path": "review-prior-quarter",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "TEAM HEALTH",
+                  "duration": 9900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 5,
+                  "path": "team-health",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "ORGANIZATIONAL CHECKUP",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 6,
+                  "path": "org-checkup",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "SWOT",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 7,
+                  "path": "swot",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "V/TO® REVIEW",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 8,
+                  "path": "vision",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "3 YEAR PICTURE™",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 9,
+                  "path": "3-year-picture",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 10,
+                  "path": "conclude",
+                  "isEditable": true,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "annualDayTwo": {
+              "agenda": [
+                {
+                  "name": "OBJECTIVES",
+                  "duration": 300,
+                  "ordinal": 0,
+                  "path": "objectives",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CHECK-IN",
+                  "duration": 900,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "REVIEW ISSUES LIST &amp; 3 YEAR PICTURE™",
+                  "duration": 900,
+                  "ordinal": 2,
+                  "path": "issues-and-3-year",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ONE YEAR PLAN",
+                  "duration": 7200,
+                  "ordinal": 3,
+                  "path": "1-year-plan",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "ordinal": 4,
+                  "path": "rocks",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "TACKLING KEY ISSUES",
+                  "duration": 11700,
+                  "ordinal": 5,
+                  "path": "issues",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 6,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 7,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "focusDay": {
+              "agenda": [
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "HITTING THE CEILING",
+                  "duration": 1800,
+                  "ordinal": 2,
+                  "path": "hitting-the-ceiling",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ACCOUNTABILITY CHART",
+                  "duration": 10800,
+                  "ordinal": 3,
+                  "path": "chart",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "ordinal": 4,
+                  "path": "rocks",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "MEETING PULSE",
+                  "duration": 2700,
+                  "ordinal": 5,
+                  "path": "meeting-pulse",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "DATA",
+                  "duration": 3600,
+                  "ordinal": 6,
+                  "path": "data",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 7,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 8,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "visionBuildingDayOne": {
+              "agenda": [
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "REVIEWING FOCUS DAY TOOLS",
+                  "duration": 12600,
+                  "ordinal": 2,
+                  "path": "reviewing-focus-day-tools",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "VISION BUILDING SEGUE",
+                  "duration": 300,
+                  "ordinal": 3,
+                  "path": "vision-building-segue",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE VALUES",
+                  "duration": 7200,
+                  "ordinal": 4,
+                  "path": "core-values",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE FOCUS",
+                  "duration": 4200,
+                  "ordinal": 5,
+                  "path": "core-focus",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "10 YEAR TARGET",
+                  "duration": 1800,
+                  "ordinal": 6,
+                  "path": "10-year-target",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 7,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 8,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "visionBuildingDayTwo": {
+              "agenda": [
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "REVIEWING FOCUS DAY TOOLS",
+                  "duration": 5400,
+                  "ordinal": 2,
+                  "path": "reviewing-focus-day-tools",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE VALUES",
+                  "duration": 600,
+                  "ordinal": 3,
+                  "path": "core-values",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE FOCUS",
+                  "duration": 600,
+                  "ordinal": 4,
+                  "path": "core-focus",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "10 YEAR TARGET",
+                  "duration": 300,
+                  "ordinal": 5,
+                  "path": "10-year-target",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "MARKETING STRATEGY",
+                  "duration": 4200,
+                  "ordinal": 6,
+                  "path": "marketing-strategy",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "3 YEAR PICTURE™",
+                  "duration": 3600,
+                  "ordinal": 7,
+                  "path": "3-year-picture",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "1 YEAR PLAN",
+                  "duration": 3600,
+                  "ordinal": 8,
+                  "path": "1-year-plan",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "ordinal": 9,
+                  "path": "rocks",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ISSUES LIST",
+                  "duration": 300,
+                  "ordinal": 10,
+                  "path": "issues",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 11,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 12,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "custom": [
+              {
+                "name": "Same Page Meeting",
+                "_id": "6626b8bd759bc20393ef6992",
+                "isCustom": true,
+                "agenda": [
+                  {
+                    "name": "Issues",
+                    "duration": 3600,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 0,
+                    "path": "issues",
+                    "isEditable": false,
+                    "subtitle": ""
+                  },
+                  {
+                    "name": "Review",
+                    "duration": 1800,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 1,
+                    "path": "conclude",
+                    "isEditable": true,
+                    "subtitle": ""
+                  }
+                ]
+              },
+              {
+                "name": "Same Page Meeting",
+                "_id": "6626baa30c965e7b4f821aa6",
+                "isCustom": true,
+                "agenda": [
+                  {
+                    "name": "Issues",
+                    "duration": 3600,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 0,
+                    "path": "issues",
+                    "isEditable": false,
+                    "subtitle": ""
+                  },
+                  {
+                    "name": "Conclude",
+                    "duration": 300,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 1,
+                    "path": "conclude",
+                    "isEditable": true,
+                    "subtitle": ""
+                  }
+                ]
+              }
+            ],
+            "weeklyOneOnOne": {
+              "agenda": [
+                {
+                  "name": "Segue",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "segue",
+                  "ordinal": 0,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 180,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Scorecard",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "data",
+                  "ordinal": 1,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 180,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Rock Review",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "rocks",
+                  "ordinal": 2,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 300,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "To-Do List",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "todos",
+                  "ordinal": 3,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 120,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Issues",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "issues",
+                  "ordinal": 4,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 900,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Conclude",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "conclude",
+                  "ordinal": 5,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 120,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": true,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "defaultWeeklyRange": "rolling13Weeks",
+            "issuesListView": "list",
+            "sendMeetingRecapEmail": false,
+            "autoArchive": true,
+            "showIssueDescOnRecapEmail": false
+          },
+          "autoGenerated": false
+        },
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-02-06T15:35:44.000Z",
+        "attachments": []
+      },
+      {
+        "_id": "68499648a3df3d175b865d00",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66a3e6eca71d580012b1def3",
+            "text": "Admin L10 sent the issue to Leadership Team",
+            "createdDate": "2025-06-11T15:01:06.061Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p dir=\"ltr\" style=\"line-height:1.38;margin-top:0pt;margin-bottom:0pt;\" id=\"isPasted\"><span style=\"font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">As a new patient, there typically isn’t enough time during the first visit to collect all the necessary medical history and also complete a thorough full skin exam. That’s why we schedule the Full Skin Exam as a follow-up visit. Are there any specific concerns—like acne, rosacea, or a spot you're worried about—that we can address during the first visit? I’d be happy to schedule both appointments for you today so we can get everything set up in advance.</span></p><p dir=\"ltr\" style=\"line-height:1.38;margin-top:0pt;margin-bottom:0pt;\"><br></p><p dir=\"ltr\" style=\"line-height:1.38;margin-top:0pt;margin-bottom:0pt;\"><span style=\"font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;\">Also adding: We start by scheduling a focused dermatology visit to establish care. This allows the provider enough time to gather your full medical history and understand your skin concerns before doing a comprehensive full skin exam.</span></p>",
+        "likes": [],
+        "userId": "66df5c0517974a34815ba5c4",
+        "teamId": "66ab9df8fde39d0012724039",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "talk about NP FSE rule ",
+        "intervalCode": "0002",
+        "who": "",
+        "createdBy": "Susan Topic",
+        "isPublic": false,
+        "followers": [
+          "66df5c0517974a34815ba5c4",
+          "66a3e6eca71d580012b1def3"
+        ],
+        "addCreatorToFollowersList": true,
+        "ordinal": 79,
+        "workingTeamId": "65f5c6322caa0d001296501d",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66df5c0517974a34815ba5c4",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66df5c0517974a34815ba5c5",
+          "roleCode": "0003",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "susan@gangerdermatology.com",
+          "guideEnabled": true,
+          "personId": "66e06660eca4481954948b63",
+          "guideViewed": true,
+          "pageViews": {
+            "issues": 1,
+            "rocks": 1,
+            "scorecard": 1,
+            "userSettings": 1
+          },
+          "metadata": {
+            "_id": "66df5c0517974a34815ba5c5",
+            "deleted": false,
+            "name": {
+              "first": "Susan",
+              "last": "Topic"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/66df5c0517974a34815ba5c5/b774ea79-ca50-43f7-8d47-435e5802392b"
+            }
+          }
+        },
+        "team": {
+          "_id": "66ab9df8fde39d0012724039",
+          "project": false,
+          "deleted": false,
+          "name": "Admin L10",
+          "companyId": "65f5c6312caa0d0012965019",
+          "createdByUserId": "65f5d1f9fd8fa700136d1e21",
+          "settings": {
+            "weeklyMeetings": {
+              "agenda": [
+                {
+                  "name": "SEGUE",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 0,
+                  "path": "segue",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "SCORECARD",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 1,
+                  "path": "data",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "ROCK REVIEW",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 2,
+                  "path": "rocks",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CUSTOMER / EMPLOYEE HEADLINES",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 3,
+                  "path": "headlines",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "TO-DO LIST",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 4,
+                  "path": "todos",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "IDS™",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 5,
+                  "path": "issues",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 6,
+                  "path": "conclude",
+                  "isEditable": false,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "quarterlyMeetings": {
+              "agenda": [
+                {
+                  "name": "OBJECTIVES",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 0,
+                  "path": "objectives",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CHECK-IN",
+                  "duration": 900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "REVIEW PRIOR QUARTER",
+                  "duration": 1800,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 2,
+                  "path": "review-prior-quarter",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "V/TO®",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 4,
+                  "path": "vision",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "EOS® TOOLS",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 5,
+                  "path": "mastery",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 6,
+                  "path": "rocks",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "IDS™",
+                  "duration": 10800,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 7,
+                  "path": "issues",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 8,
+                  "path": "next-steps",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 9,
+                  "path": "conclude",
+                  "isEditable": true,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "annualDayOne": {
+              "agenda": [
+                {
+                  "name": "OBJECTIVES",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 0,
+                  "path": "objectives",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "REVIEW PRIOR YEAR",
+                  "duration": 900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 2,
+                  "path": "review-prior-year",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "REVIEW PRIOR QUARTER",
+                  "duration": 900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 4,
+                  "path": "review-prior-quarter",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "TEAM HEALTH",
+                  "duration": 9900,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 5,
+                  "path": "team-health",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "ORGANIZATIONAL CHECKUP",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 6,
+                  "path": "org-checkup",
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "SWOT",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 7,
+                  "path": "swot",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "V/TO® REVIEW",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 8,
+                  "path": "vision",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "3 YEAR PICTURE™",
+                  "duration": 3600,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 9,
+                  "path": "3-year-picture",
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 300,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isDefault": false,
+                  "iframeUrl": "",
+                  "details": "",
+                  "ordinal": 10,
+                  "path": "conclude",
+                  "isEditable": true,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "annualDayTwo": {
+              "agenda": [
+                {
+                  "name": "OBJECTIVES",
+                  "duration": 300,
+                  "ordinal": 0,
+                  "path": "objectives",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CHECK-IN",
+                  "duration": 900,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "REVIEW ISSUES LIST &amp; 3 YEAR PICTURE™",
+                  "duration": 900,
+                  "ordinal": 2,
+                  "path": "issues-and-3-year",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ONE YEAR PLAN",
+                  "duration": 7200,
+                  "ordinal": 3,
+                  "path": "1-year-plan",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "ordinal": 4,
+                  "path": "rocks",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "TACKLING KEY ISSUES",
+                  "duration": 11700,
+                  "ordinal": 5,
+                  "path": "issues",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 6,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 7,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "focusDay": {
+              "agenda": [
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "HITTING THE CEILING",
+                  "duration": 1800,
+                  "ordinal": 2,
+                  "path": "hitting-the-ceiling",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ACCOUNTABILITY CHART",
+                  "duration": 10800,
+                  "ordinal": 3,
+                  "path": "chart",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "ordinal": 4,
+                  "path": "rocks",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "MEETING PULSE",
+                  "duration": 2700,
+                  "ordinal": 5,
+                  "path": "meeting-pulse",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "DATA",
+                  "duration": 3600,
+                  "ordinal": 6,
+                  "path": "data",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 7,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 8,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "visionBuildingDayOne": {
+              "agenda": [
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "REVIEWING FOCUS DAY TOOLS",
+                  "duration": 12600,
+                  "ordinal": 2,
+                  "path": "reviewing-focus-day-tools",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "VISION BUILDING SEGUE",
+                  "duration": 300,
+                  "ordinal": 3,
+                  "path": "vision-building-segue",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE VALUES",
+                  "duration": 7200,
+                  "ordinal": 4,
+                  "path": "core-values",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE FOCUS",
+                  "duration": 4200,
+                  "ordinal": 5,
+                  "path": "core-focus",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "10 YEAR TARGET",
+                  "duration": 1800,
+                  "ordinal": 6,
+                  "path": "10-year-target",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 7,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 8,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "visionBuildingDayTwo": {
+              "agenda": [
+                {
+                  "name": "CHECK-IN",
+                  "duration": 1800,
+                  "ordinal": 1,
+                  "path": "check-in",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "REVIEWING FOCUS DAY TOOLS",
+                  "duration": 5400,
+                  "ordinal": 2,
+                  "path": "reviewing-focus-day-tools",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE VALUES",
+                  "duration": 600,
+                  "ordinal": 3,
+                  "path": "core-values",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CORE FOCUS",
+                  "duration": 600,
+                  "ordinal": 4,
+                  "path": "core-focus",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "10 YEAR TARGET",
+                  "duration": 300,
+                  "ordinal": 5,
+                  "path": "10-year-target",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "MARKETING STRATEGY",
+                  "duration": 4200,
+                  "ordinal": 6,
+                  "path": "marketing-strategy",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "3 YEAR PICTURE™",
+                  "duration": 3600,
+                  "ordinal": 7,
+                  "path": "3-year-picture",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "1 YEAR PLAN",
+                  "duration": 3600,
+                  "ordinal": 8,
+                  "path": "1-year-plan",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ROCKS",
+                  "duration": 7200,
+                  "ordinal": 9,
+                  "path": "rocks",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "ISSUES LIST",
+                  "duration": 300,
+                  "ordinal": 10,
+                  "path": "issues",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "NEXT STEPS",
+                  "duration": 420,
+                  "ordinal": 11,
+                  "path": "next-steps",
+                  "isHidden": false,
+                  "isEditable": false,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                },
+                {
+                  "name": "CONCLUDE",
+                  "duration": 480,
+                  "ordinal": 12,
+                  "path": "conclude",
+                  "isHidden": false,
+                  "isEditable": true,
+                  "subtitle": "",
+                  "details": "",
+                  "iframeUrl": ""
+                }
+              ]
+            },
+            "custom": [
+              {
+                "name": "Same Page Meeting",
+                "_id": "6626b8bd759bc20393ef6992",
+                "isCustom": true,
+                "agenda": [
+                  {
+                    "name": "Issues",
+                    "duration": 3600,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 0,
+                    "path": "issues",
+                    "isEditable": false,
+                    "subtitle": ""
+                  },
+                  {
+                    "name": "Review",
+                    "duration": 1800,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 1,
+                    "path": "conclude",
+                    "isEditable": true,
+                    "subtitle": ""
+                  }
+                ]
+              },
+              {
+                "name": "Same Page Meeting",
+                "_id": "6626baa30c965e7b4f821aa6",
+                "isCustom": true,
+                "agenda": [
+                  {
+                    "name": "Issues",
+                    "duration": 3600,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 0,
+                    "path": "issues",
+                    "isEditable": false,
+                    "subtitle": ""
+                  },
+                  {
+                    "name": "Conclude",
+                    "duration": 300,
+                    "isHidden": false,
+                    "isCustom": false,
+                    "isDefault": true,
+                    "iframeUrl": "",
+                    "details": "",
+                    "ordinal": 1,
+                    "path": "conclude",
+                    "isEditable": true,
+                    "subtitle": ""
+                  }
+                ]
+              }
+            ],
+            "weeklyOneOnOne": {
+              "agenda": [
+                {
+                  "name": "Segue",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "segue",
+                  "ordinal": 0,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 180,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": true,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Scorecard",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "data",
+                  "ordinal": 1,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 180,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Rock Review",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "rocks",
+                  "ordinal": 2,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 300,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "To-Do List",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "todos",
+                  "ordinal": 3,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 120,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Issues",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "issues",
+                  "ordinal": 4,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 900,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": false,
+                  "subtitle": ""
+                },
+                {
+                  "name": "Conclude",
+                  "details": "",
+                  "iframeUrl": null,
+                  "path": "conclude",
+                  "ordinal": 5,
+                  "startTimestamps": [],
+                  "pauseTimestamps": [],
+                  "duration": 120,
+                  "elapsedTime": 0,
+                  "isHidden": false,
+                  "isCustom": false,
+                  "isEditable": true,
+                  "subtitle": ""
+                }
+              ]
+            },
+            "defaultWeeklyRange": "rolling13Weeks",
+            "issuesListView": "list",
+            "sendMeetingRecapEmail": true,
+            "autoArchive": true,
+            "showIssueDescOnRecapEmail": true
+          },
+          "autoGenerated": false
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-06-11T14:44:24.000Z",
+        "attachments": []
+      }
+    ],
+    "totalCount": 2
+  },
+  "timestamp": "2025-06-18T11:36:24.759Z"
+}

@@ -23,7 +23,7 @@ async function basicHandler(req: AuthenticatedRequest, res: NextApiResponse) {
     message: 'Hello authenticated user!',
     user: {
       id: user.id,
-      email: user.email,
+      email: user?.email,
       role: user.role
     }
   });
@@ -85,7 +85,7 @@ async function adminHandler(req: AuthenticatedRequest, res: NextApiResponse) {
       activeUsers: 142,
       totalRequests: 5420
     },
-    requestedBy: user.email
+    requestedBy: user?.email
   };
   
   return respondWithSuccess(res, adminData);

@@ -100,7 +100,7 @@ class AnalyticsService {
         try {
           const user = JSON.parse(userData);
           this.userId = user.id;
-          this.userRole = user.role;
+          this.userRole = user?.role;
           this.location = user.location;
           this.department = user.department;
         } catch (e) {
@@ -398,7 +398,7 @@ class AnalyticsService {
   }
 
   private assessRiskAreas(employees: any[], trainings: any[], completions: any[]): ComplianceAnalytics['riskAreas'] {
-    const riskAreas = [];
+    const riskAreas: Array<{ area: string; riskLevel: 'low' | 'medium' | 'high'; description: string }> = [];
     
     // Check for high overdue rates
     const overdueRate = completions.filter(c => c.status === 'overdue').length / completions.length;
@@ -497,7 +497,7 @@ class AnalyticsService {
       const dueSoonCount = empCompletions.filter(c => c.status === 'due_soon').length;
       
       let riskScore = 0;
-      const factors = [];
+      const factors: string[] = [];
       
       if (overdueCount > 0) {
         riskScore += overdueCount * 30;

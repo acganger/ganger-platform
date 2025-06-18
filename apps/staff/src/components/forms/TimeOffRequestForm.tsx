@@ -5,7 +5,25 @@ import { TimeOffRequestFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { Calendar, Clock, AlertTriangle } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { addDays, differenceInDays, isSameDay, isWeekend } from 'date-fns';
+// TODO: Fix date-fns import issue - temporarily commented
+// import { addDays, differenceInDays, isSameDay, isWeekend } from 'date-fns';
+
+// Temporary implementations until date-fns import is fixed
+const isWeekend = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
+const isSameDay = (date1: Date, date2: Date) => {
+  return date1.getFullYear() === date2.getFullYear() &&
+         date1.getMonth() === date2.getMonth() &&
+         date1.getDate() === date2.getDate();
+};
+const differenceInDays = (date1: Date, date2: Date) => {
+  const timeDiff = date1.getTime() - date2.getTime();
+  return Math.ceil(timeDiff / (1000 * 3600 * 24));
+};
+const addDays = (date: Date, days: number) => {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
 
 const timeOffRequestSchema = z.object({
   dateRange: z.object({

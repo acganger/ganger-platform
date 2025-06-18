@@ -1,0 +1,254 @@
+{
+  "templates": {
+    "standard_workers": {
+      "description": "Standard Cloudflare Workers configuration for Next.js applications",
+      "template": {
+        "$schema": "https://raw.githubusercontent.com/cloudflare/workers-types/main/wrangler-schema.json",
+        "name": "{{APP_NAME}}",
+        "main": ".vercel/output/static/_worker.js/index.js",
+        "compatibility_date": "2025-01-18",
+        "compatibility_flags": ["nodejs_compat"],
+        "account_id": "{{CLOUDFLARE_ACCOUNT_ID}}",
+        "env": {
+          "production": {
+            "name": "{{APP_NAME}}-production",
+            "routes": [
+              {
+                "pattern": "{{PRODUCTION_DOMAIN}}/{{SUBDOMAIN}}*",
+                "zone_id": "{{CLOUDFLARE_ZONE_ID}}"
+              }
+            ]
+          },
+          "staging": {
+            "name": "{{APP_NAME}}-staging",
+            "routes": [
+              {
+                "pattern": "{{STAGING_DOMAIN}}/{{SUBDOMAIN}}*",
+                "zone_id": "{{CLOUDFLARE_ZONE_ID}}"
+              }
+            ]
+          }
+        },
+        "vars": {
+          "ENVIRONMENT": "{{ENVIRONMENT}}",
+          "APP_NAME": "{{APP_NAME}}",
+          "SUBDOMAIN": "{{SUBDOMAIN}}"
+        },
+        "kv_namespaces": [
+          {
+            "binding": "CACHE",
+            "id": "{{KV_NAMESPACE_ID}}",
+            "preview_id": "{{KV_NAMESPACE_PREVIEW_ID}}"
+          }
+        ],
+        "r2_buckets": [
+          {
+            "binding": "FILES",
+            "bucket_name": "ganger-platform-{{ENVIRONMENT}}"
+          }
+        ],
+        "durable_objects": {
+          "bindings": []
+        },
+        "services": [],
+        "analytics_engine_datasets": []
+      }
+    },
+    "main_app": {
+      "description": "Main staff application configuration (root domain)",
+      "template": {
+        "$schema": "https://raw.githubusercontent.com/cloudflare/workers-types/main/wrangler-schema.json",
+        "name": "{{APP_NAME}}",
+        "main": ".vercel/output/static/_worker.js/index.js",
+        "compatibility_date": "2025-01-18",
+        "compatibility_flags": ["nodejs_compat"],
+        "account_id": "{{CLOUDFLARE_ACCOUNT_ID}}",
+        "env": {
+          "production": {
+            "name": "{{APP_NAME}}-production",
+            "routes": [
+              {
+                "pattern": "{{PRODUCTION_DOMAIN}}/*",
+                "zone_id": "{{CLOUDFLARE_ZONE_ID}}"
+              }
+            ]
+          },
+          "staging": {
+            "name": "{{APP_NAME}}-staging",
+            "routes": [
+              {
+                "pattern": "{{STAGING_DOMAIN}}/*",
+                "zone_id": "{{CLOUDFLARE_ZONE_ID}}"
+              }
+            ]
+          }
+        },
+        "vars": {
+          "ENVIRONMENT": "{{ENVIRONMENT}}",
+          "APP_NAME": "{{APP_NAME}}",
+          "IS_MAIN_APP": "true"
+        },
+        "kv_namespaces": [
+          {
+            "binding": "CACHE",
+            "id": "{{KV_NAMESPACE_ID}}",
+            "preview_id": "{{KV_NAMESPACE_PREVIEW_ID}}"
+          }
+        ],
+        "r2_buckets": [
+          {
+            "binding": "FILES",
+            "bucket_name": "ganger-platform-{{ENVIRONMENT}}"
+          }
+        ]
+      }
+    },
+    "critical_app": {
+      "description": "Critical application configuration with enhanced monitoring",
+      "template": {
+        "$schema": "https://raw.githubusercontent.com/cloudflare/workers-types/main/wrangler-schema.json",
+        "name": "{{APP_NAME}}",
+        "main": ".vercel/output/static/_worker.js/index.js",
+        "compatibility_date": "2025-01-18",
+        "compatibility_flags": ["nodejs_compat"],
+        "account_id": "{{CLOUDFLARE_ACCOUNT_ID}}",
+        "env": {
+          "production": {
+            "name": "{{APP_NAME}}-production",
+            "routes": [
+              {
+                "pattern": "{{PRODUCTION_DOMAIN}}/{{SUBDOMAIN}}*",
+                "zone_id": "{{CLOUDFLARE_ZONE_ID}}"
+              }
+            ]
+          },
+          "staging": {
+            "name": "{{APP_NAME}}-staging",
+            "routes": [
+              {
+                "pattern": "{{STAGING_DOMAIN}}/{{SUBDOMAIN}}*",
+                "zone_id": "{{CLOUDFLARE_ZONE_ID}}"
+              }
+            ]
+          }
+        },
+        "vars": {
+          "ENVIRONMENT": "{{ENVIRONMENT}}",
+          "APP_NAME": "{{APP_NAME}}",
+          "SUBDOMAIN": "{{SUBDOMAIN}}",
+          "PRIORITY": "critical",
+          "MONITORING_ENABLED": "true"
+        },
+        "kv_namespaces": [
+          {
+            "binding": "CACHE",
+            "id": "{{KV_NAMESPACE_ID}}",
+            "preview_id": "{{KV_NAMESPACE_PREVIEW_ID}}"
+          },
+          {
+            "binding": "ANALYTICS",
+            "id": "{{ANALYTICS_KV_ID}}",
+            "preview_id": "{{ANALYTICS_KV_PREVIEW_ID}}"
+          }
+        ],
+        "r2_buckets": [
+          {
+            "binding": "FILES",
+            "bucket_name": "ganger-platform-{{ENVIRONMENT}}"
+          },
+          {
+            "binding": "LOGS",
+            "bucket_name": "ganger-platform-logs-{{ENVIRONMENT}}"
+          }
+        ],
+        "analytics_engine_datasets": [
+          {
+            "binding": "METRICS",
+            "dataset": "ganger_platform_metrics"
+          }
+        ]
+      }
+    }
+  },
+  "variables": {
+    "CLOUDFLARE_ACCOUNT_ID": "85f2cf50e95a4a5db52a11adcc2c2c9b",
+    "CLOUDFLARE_ZONE_ID": "ba76d3d3f41251c49f0365421bd644a5",
+    "PRODUCTION_DOMAIN": "staff.gangerdermatology.com",
+    "STAGING_DOMAIN": "staff-staging.gangerdermatology.com",
+    "KV_NAMESPACE_ID": "ganger_platform_cache_prod",
+    "KV_NAMESPACE_PREVIEW_ID": "ganger_platform_cache_staging",
+    "ANALYTICS_KV_ID": "ganger_platform_analytics_prod",
+    "ANALYTICS_KV_PREVIEW_ID": "ganger_platform_analytics_staging"
+  },
+  "application_mappings": {
+    "staff": {
+      "template": "main_app",
+      "subdomain": "main",
+      "is_root": true
+    },
+    "inventory": {
+      "template": "critical_app",
+      "subdomain": "inventory"
+    },
+    "handouts": {
+      "template": "critical_app",
+      "subdomain": "handouts"
+    },
+    "checkin-kiosk": {
+      "template": "critical_app",
+      "subdomain": "checkin"
+    },
+    "medication-auth": {
+      "template": "critical_app",
+      "subdomain": "meds"
+    },
+    "call-center-ops": {
+      "template": "critical_app",
+      "subdomain": "phones"
+    },
+    "config-dashboard": {
+      "template": "critical_app",
+      "subdomain": "config"
+    },
+    "platform-dashboard": {
+      "template": "critical_app",
+      "subdomain": "dashboard"
+    },
+    "batch-closeout": {
+      "template": "standard_workers",
+      "subdomain": "batch"
+    },
+    "clinical-staffing": {
+      "template": "standard_workers",
+      "subdomain": "staffing"
+    },
+    "compliance-training": {
+      "template": "standard_workers",
+      "subdomain": "compliance"
+    },
+    "eos-l10": {
+      "template": "standard_workers",
+      "subdomain": "eos"
+    },
+    "integration-status": {
+      "template": "standard_workers",
+      "subdomain": "status"
+    },
+    "pharma-scheduling": {
+      "template": "standard_workers",
+      "subdomain": "pharma"
+    },
+    "ai-receptionist": {
+      "template": "standard_workers",
+      "subdomain": "ai"
+    },
+    "socials-reviews": {
+      "template": "standard_workers",
+      "subdomain": "socials"
+    },
+    "component-showcase": {
+      "template": "standard_workers",
+      "subdomain": "showcase"
+    }
+  }
+}

@@ -84,7 +84,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -290,7 +290,7 @@ async function handleUpdateForm(
   }
 
   // Validate fields if being updated
-  if (updates.fields) {
+  if (updates.fields && Array.isArray(updates.fields)) {
     for (const field of updates.fields) {
       if (!field.id || !field.type || !field.label) {
         return res.status(400).json({
@@ -334,11 +334,11 @@ async function handleUpdateForm(
   }
 
   // Check if name conflicts with another form
-  if (updates.name && updates.name !== currentForm.name) {
+  if (updates.display_name && updates.display_name !== currentForm.name) {
     const { data: existingForm } = await supabase
       .from('staff_forms')
       .select('id, name')
-      .eq('name', updates.name)
+      .eq('name', updates.display_name)
       .neq('id', formId)
       .single();
 
@@ -361,8 +361,8 @@ async function handleUpdateForm(
 
   // Track and apply changes
   Object.entries(updates).forEach(([key, value]) => {
-    if (value !== undefined && JSON.stringify(value) !== JSON.stringify(currentForm[key])) {
-      changes[key] = { from: currentForm[key], to: value };
+    if (value !== undefined && JSON.stringify(value) !== JSON.stringify((currentForm as any)[key])) {
+      changes[key] = { from: (currentForm as any)[key], to: value };
       updateData[key] = value;
     }
   });

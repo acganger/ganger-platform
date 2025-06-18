@@ -5,6 +5,7 @@
 
 import React from 'react';
 import type { AppProps } from 'next/app';
+import { StaffInterface } from '@/components/StaffInterface';
 // import { ToastProvider } from '@ganger/ui'; // Replaced with basic alert functionality
 import '@/styles/globals.css';
 
@@ -13,9 +14,11 @@ function PharmaSchedulingApp({ Component, pageProps }: AppProps) {
   const SafeComponent = Component as any;
   
   return (
-    // <ToastProvider> // Replaced with basic alert functionality
-      <SafeComponent {...pageProps} />
-    // </ToastProvider>
+    <StaffInterface>
+      {/* <ToastProvider> // Replaced with basic alert functionality */}
+        <SafeComponent {...pageProps} />
+      {/* </ToastProvider> */}
+    </StaffInterface>
   );
 }
 

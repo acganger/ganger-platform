@@ -1,0 +1,12 @@
+{
+  "name": "ninety-io-scraper",
+  "version": "1.0.0",
+  "description": "Comprehensive scraping of ninety.io EOS platform",
+  "main": "ninety-io-scraping-script.js",
+  "scripts": {
+    "start": "node ninety-io-scraping-script.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.4.0"
+  }
+}

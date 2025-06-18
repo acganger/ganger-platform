@@ -322,7 +322,7 @@ export function ApprovalWorkflow() {
                 </div>
                 <p className="text-sm text-gray-600 mb-2">{change.reason}</p>
                 <div className="text-xs text-gray-500">
-                  Requested by {change.requested_by_user.email} • {change.hours_old}h ago • {change.environment}
+                  Requested by {change.requested_by_user?.email} • {change.hours_old}h ago • {change.environment}
                 </div>
               </div>
 
@@ -364,7 +364,7 @@ export function ApprovalWorkflow() {
                   </span>
                   {change.approved_by_user && (
                     <div className="text-xs text-gray-500 mt-1">
-                      by {change.approved_by_user.email}
+                      by {change.approved_by_user?.email}
                     </div>
                   )}
                 </div>
@@ -645,7 +645,7 @@ export function ApprovalWorkflow() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Requested By</label>
                   <div className="mt-1 text-sm text-gray-900">
-                    {selectedChange.requested_by_user.email}
+                    {selectedChange.requested_by_user?.email}
                     {selectedChange.requested_by_user.name && ` (${selectedChange.requested_by_user.name})`}
                   </div>
                 </div>
@@ -664,7 +664,7 @@ export function ApprovalWorkflow() {
                       {selectedChange.status === 'approved' ? 'Approved By' : 'Rejected By'}
                     </label>
                     <div className="mt-1 text-sm text-gray-900">
-                      {selectedChange.approved_by_user.email}
+                      {selectedChange.approved_by_user?.email}
                       {selectedChange.approved_by_user.name && ` (${selectedChange.approved_by_user.name})`}
                     </div>
                   </div>

@@ -126,7 +126,7 @@ export default async function handler(
 
     const response = {
       user_id: user.id,
-      user_email: user.email,
+      user_email: user?.email,
       can_impersonate: canImpersonate,
       is_impersonating: !!activeSession,
       is_being_impersonated: !!beingImpersonated,
@@ -134,7 +134,7 @@ export default async function handler(
         id: activeSession.id,
         target_user: {
           id: activeSession.target_user_id,
-          email: activeSession.target_user.email,
+          email: activeSession.target_user?.email,
           name: activeSession.target_user.name
         },
         started_at: activeSession.created_at,

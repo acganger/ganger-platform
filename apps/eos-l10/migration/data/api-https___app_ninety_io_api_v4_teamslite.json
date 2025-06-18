@@ -1,0 +1,63 @@
+{
+  "url": "https://app.ninety.io/api/v4/TeamsLite",
+  "data": [
+    {
+      "_id": "66ab9df8fde39d0012724039",
+      "project": false,
+      "deleted": false,
+      "name": "Admin L10",
+      "companyId": "65f5c6312caa0d0012965019"
+    },
+    {
+      "_id": "66f20355824b0f4b25cf7347",
+      "name": "Aesthetics",
+      "companyId": "65f5c6312caa0d0012965019",
+      "project": false,
+      "deleted": false
+    },
+    {
+      "_id": "66f2049ad364bccd705dac1c",
+      "name": "Billing",
+      "companyId": "65f5c6312caa0d0012965019",
+      "project": false,
+      "deleted": false
+    },
+    {
+      "_id": "669570c11cfa910012b59ea4",
+      "project": false,
+      "deleted": false,
+      "name": "Clinical L10",
+      "companyId": "65f5c6312caa0d0012965019"
+    },
+    {
+      "_id": "65f5c6322caa0d001296501d",
+      "project": false,
+      "deleted": false,
+      "name": "Leadership Team",
+      "companyId": "65f5c6312caa0d0012965019"
+    },
+    {
+      "_id": "6751ddddb7e07f76f5d5fc31",
+      "name": "Marketing L10",
+      "companyId": "65f5c6312caa0d0012965019",
+      "project": false,
+      "deleted": false
+    },
+    {
+      "_id": "678f9bfb457cd693ea738c85",
+      "name": "Revenue Meeting",
+      "companyId": "65f5c6312caa0d0012965019",
+      "project": false,
+      "deleted": false
+    },
+    {
+      "_id": "661e94739fc14e001208cc30",
+      "project": false,
+      "deleted": false,
+      "name": "Same Page Meeting",
+      "companyId": "65f5c6312caa0d0012965019",
+      "private": true
+    }
+  ],
+  "timestamp": "2025-06-18T11:36:43.976Z"
+}

@@ -308,3 +308,10 @@ export default function IssuesPage({}: IssuesPageProps) {
     </Layout>
   );
 }
+// Force SSR to prevent auth context issues during build
+export async function getServerSideProps() {
+  return {
+    props: {}
+  };
+}
+export const runtime = 'experimental-edge';

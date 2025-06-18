@@ -1,0 +1,336 @@
+{
+  "url": "https://esp.aptrinsic.com/rte/api/v1/feature/client?p=AP-QEGMDEILIKZJ-2&sv=0.54.26&v=AP-QEGMDEILIKZJ-2-1750246315498-19797298&vt=2&ai=7587d7e2-c912-46b0-93e0-72d3cfd76e52&s=AP-QEGMDEILIKZJ-2-1750246315498-12246666&wsv=0.54.26",
+  "data": [
+    {
+      "featureId": "f0ddc954-a010-406b-a084-ea29b5892330",
+      "mappedElements": [
+        {
+          "id": "df18c8a4-18c9-4b4c-a77d-ae7f0155324f",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": "[aria-label='Add custom meeting agenda']",
+              "textOperator": "is",
+              "text": [
+                "add"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/meetings/settings*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "78ca0bff-e5fc-4bc8-9120-43f24fb2d662",
+      "mappedElements": [
+        {
+          "id": "e8d71975-909f-4385-8dbe-f1d0fcdd0175",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": "[data-cy='text-editor_view-only-text']",
+              "textOperator": "isNotEmpty",
+              "text": [
+                ""
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/vision/vision*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "04a9107d-a576-4f26-bd8a-6e59128918c5",
+      "mappedElements": [
+        {
+          "id": "e6692551-a8da-49f4-ac1d-7531a0e44079",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": ".mat-menu-item:nth-child(2) > span",
+              "textOperator": "is",
+              "text": [
+                "Top of List"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/issues/short-term*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "82c9f277-922c-4489-8537-812905cfc89a",
+      "mappedElements": [
+        {
+          "id": "8a7d781c-6a5c-4871-bb28-a2e16d413d46",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": ".uppercase:nth-child(2)",
+              "textOperator": "is",
+              "text": [
+                "Start Meeting"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://*.ninety.io/meetings/quarterly*",
+              "urlCondition": "IS"
+            },
+            {
+              "urlScope": "https://*.ninety.io/meetings/level10",
+              "urlCondition": "IS"
+            },
+            {
+              "urlScope": "https://*.ninety.io/meetings/other*",
+              "urlCondition": "IS"
+            },
+            {
+              "urlScope": "https://*.ninety.io/meetings/annual*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_AND",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "cabc7992-0aa1-4ecf-a544-ee043fbb457f",
+      "mappedElements": [
+        {
+          "id": "ef6cfcd5-b587-49bd-8f8c-7dde28320cf2",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": ".mat-menu-item:nth-child(3) > span",
+              "textOperator": "is",
+              "text": [
+                "Bottom of List"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/todos*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "a321f160-5c4e-4142-a801-15ed1dab285a",
+      "mappedElements": [
+        {
+          "id": "1ed9f973-f4b1-4342-99bd-761574e78b89",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": ".mat-menu-item:nth-child(3)",
+              "textOperator": "is",
+              "text": [
+                "double_arrow Push to All Teams"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/settings/company/meetings*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "8ee797c1-79ff-47df-8cff-a87e257b8bae",
+      "mappedElements": [
+        {
+          "id": "3af2fce1-60ed-4d64-8aed-9cd98fafa10d",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": ".mat-menu-item:nth-child(2) > span",
+              "textOperator": "is",
+              "text": [
+                "Top of List"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/todos*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "190fd74b-4482-433a-8672-3f8184c31bbb",
+      "mappedElements": [
+        {
+          "id": "b573a69e-49f6-46ca-a1d0-40f6ac603c04",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": "#terra-option-17",
+              "textOperator": "is",
+              "text": [
+                "Inactive Does not have access to Ninety but can be applied to the Org ChartFree"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "c2e8e499-a452-4e34-84c5-7617c0078e9a",
+      "mappedElements": [
+        {
+          "id": "99025416-667a-4708-8e3c-540218c6c125",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": "[data-cy='schedule-meeting-btn']",
+              "textOperator": "is",
+              "text": [
+                "Schedule a Meeting"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "/meetings-v2*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "1e59c957-3d72-4e06-b382-a2630a065ac3",
+      "mappedElements": [
+        {
+          "id": "d84a1d12-6fd5-452e-88e0-af05dabe9599",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": ".add-item-button > .mat-button-wrapper > span",
+              "textOperator": "is",
+              "text": [
+                "+ Add Issue"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://app.ninety.io/issues*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    },
+    {
+      "featureId": "2459ec87-467c-47b6-a859-bd6b8931d87d",
+      "mappedElements": [
+        {
+          "id": "7d39c961-14b4-4f09-adcd-4d58c72fa11d",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": "[aria-label='Join Meeting ']",
+              "textOperator": "is",
+              "text": [
+                "Join Meeting"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://*.ninety.io/meetings*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "SELECTOR_TEXT_RULE"
+        },
+        {
+          "id": "b4e103f5-71e0-45b7-bf9c-91fbd8e74aa3",
+          "rulesCondition": "and",
+          "textElementRules": [
+            {
+              "cssSelector": "",
+              "textOperator": "is",
+              "text": [
+                "here"
+              ]
+            }
+          ],
+          "scopeRules": [
+            {
+              "urlScope": "https://*.ninety.io*",
+              "urlCondition": "IS"
+            }
+          ],
+          "urlLogicalOperator": "URL_SCOPES_CONDITION_OR",
+          "type": "TEXT_ONLY_RULE"
+        }
+      ],
+      "apiKey": "AP-QEGMDEILIKZJ-2"
+    }
+  ],
+  "timestamp": "2025-06-18T11:32:11.157Z"
+}

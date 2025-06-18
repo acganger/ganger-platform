@@ -49,6 +49,9 @@ export {
   GangerLogoCompact 
 } from './components/GangerLogo';
 
+// Staff Portal Components
+export * from './staff';
+
 // Utilities
 export { cn } from './utils/cn';
 

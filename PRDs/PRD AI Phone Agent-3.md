@@ -1,13 +1,17 @@
 # PRD: AI-Powered Phone Agent & Patient Communication System - Part 3: VoIP Integration & Call Management
 *Ganger Platform Standard Application - 3CX Integration & Communication Hub*
 
+**📚 REQUIRED READING:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development. This is the single source of truth for all platform development patterns, standards, and quality requirements.
+
 ## 📋 Document Information
 - **Application Component**: VoIP Integration & Call Management (Part 3 of 3)
-- **Development Team**: VoIP/Telephony Integration Team
-- **Project Location**: `/mnt/q/Projects/ganger-platform/packages/integrations/voip/` + `/apps/ai-phone-agent/src/services/`
+- **PRD ID**: PRD-AI-PHONE-003 (Part 3)
 - **Priority**: High
 - **Development Timeline**: 4-5 weeks
-- **Dependencies**: @ganger/integrations, Communication Hub (Twilio MCP), Part 1 (AI Engine)
+- **Last Updated**: June 17, 2025
+- **Terminal Assignment**: BACKEND (Terminal 2) - VoIP Integration Focus
+- **Dependencies**: @ganger/integrations/server, @ganger/auth/server, Communication Hub (Twilio MCP), Part 1 (AI Engine)
+- **MCP Integration Requirements**: 3CX VoIP System, Twilio MCP, SIP Protocol, WebRTC
 - **Integration Requirements**: 3CX VoIP System, Twilio MCP, SIP Protocol, WebRTC
 - **Compliance Requirements**: PCI DSS (call recording), HIPAA (voice data), telecommunications compliance
 
@@ -59,6 +63,117 @@ Develop the complete VoIP integration layer that connects the AI Phone Agent sys
 ---
 
 ## 🏗️ Technical Architecture
+
+### **MANDATORY: Cloudflare Workers Architecture**
+```yaml
+# ✅ REQUIRED: Workers-only deployment (Pages is sunset)
+Framework: Next.js 14+ with Workers runtime (runtime: 'edge')
+Deployment: Cloudflare Workers (NO Pages deployment)
+Build Process: @cloudflare/next-on-pages
+Configuration: Workers-compatible next.config.js (NO static export)
+
+# ❌ FORBIDDEN: These patterns cause 405 errors
+Static_Export: Never use output: 'export'
+Cloudflare_Pages: Sunset for Workers routes
+Custom_Routing: Must use Workers request handling
+```
+
+### **⚠️ CRITICAL: Anti-Pattern Prevention**
+```typescript
+// ❌ NEVER USE: Static export configuration (causes 405 errors)
+const nextConfig = {
+  output: 'export',        // DELETE THIS - breaks Workers
+  trailingSlash: true,     // DELETE THIS - static pattern
+  distDir: 'dist'          // DELETE THIS - Workers incompatible
+}
+
+// ✅ REQUIRED: Workers-compatible configuration
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY for Workers
+  },
+  images: {
+    unoptimized: true,       // Required for Workers
+  },
+  basePath: '/ai-phone',     // Required for staff portal routing
+}
+```
+
+### **Architecture Verification Requirements**
+```bash
+# ✅ MANDATORY: Every app must pass these checks
+pnpm type-check              # 0 errors required
+pnpm build                   # Successful completion required
+curl -I [app-url]/health     # HTTP 200 required (not 405)
+grep -r "StaffPortalLayout"  # Must find implementation
+grep -r "output.*export"     # Must find nothing
+```
+
+### **Shared Infrastructure with Pages Sunset Note**
+```yaml
+Backend: Next.js API routes + Supabase Edge Functions (Workers runtime)
+Database: Supabase PostgreSQL with Row Level Security
+Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
+Hosting: Cloudflare Workers EXCLUSIVELY (Pages sunset for Workers routes)
+Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)
+Real-time: Supabase subscriptions
+File Storage: Supabase Storage with CDN
+Build System: Turborepo (workspace compliance required)
+Quality Gates: Automated pre-commit hooks (see MASTER_DEVELOPMENT_GUIDE.md)
+```
+
+### **Platform Constants & Patterns (REQUIRED KNOWLEDGE)**
+```typescript
+// ✅ MANDATORY: Use platform constants (see @ganger/types)
+import { 
+  USER_ROLES, 
+  LOCATIONS, 
+  PRIORITY_LEVELS,
+  CALL_STATUS,
+  VOIP_PROVIDERS
+} from '@ganger/types/constants';
+
+// ✅ Standard VoIP configuration constants
+const VOIP_PROVIDERS = [
+  '3cx',
+  'twilio',
+  'pstn_backup'
+] as const;
+
+const EMERGENCY_LEVELS = [
+  'critical',
+  'urgent', 
+  'normal'
+] as const;
+```
+
+### **Required Shared Packages (MANDATORY - CLIENT-SERVER AWARE)**
+```typescript
+// ✅ REQUIRED SERVER IMPORTS - Use exclusively in API routes and services
+import { db, createClient, Repository } from '@ganger/db';
+import { withAuth, verifyPermissions } from '@ganger/auth/server';
+import { 
+  ServerCommunicationService,
+  ServerVoiceService,
+  ServerTwilioMCPClient,
+  ServerCacheService
+} from '@ganger/integrations/server';
+import { analytics, auditLog, healthCheck } from '@ganger/utils/server';
+
+// ✅ SHARED TYPES - Framework-agnostic, safe for both client and server
+import type { 
+  User, Patient, Appointment, Provider,
+  ApiResponse, PaginationMeta, ValidationRule,
+  CallSession, VoIPConfiguration, SIPEndpoint, AudioStream
+} from '@ganger/types';
+```
+
+### **Staff Portal Integration (MANDATORY)**
+```typescript
+// ✅ REQUIRED: VoIP management must be accessible through staff portal
+// Integration through AI Phone Agent dashboard navigation
+// No separate UI needed - management through existing dashboard
+```
 
 ### **Project Structure**
 ```

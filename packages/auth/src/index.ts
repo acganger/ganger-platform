@@ -6,6 +6,7 @@ export { AuthProvider, useAuth, useAppAuth } from './context';
 export { 
   AuthGuard, 
   withAuthGuard, 
+  withAuthComponent,
   useAuthGuard, 
   ConditionalRender,
   StaffOnly,
@@ -33,6 +34,9 @@ export type { Database, TypedSupabaseClient } from './supabase';
 
 // Utility functions
 export * from './utils';
+
+// Staff portal authentication
+export * from './staff';
 
 // Default configuration
 export const DEFAULT_AUTH_CONFIG = {

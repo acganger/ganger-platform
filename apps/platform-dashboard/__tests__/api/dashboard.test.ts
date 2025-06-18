@@ -2,7 +2,7 @@
 // Comprehensive test suite for the main dashboard data API
 
 import { createMocks } from 'node-mocks-http';
-import dashboardHandler from '../../src/pages/api/dashboard/index';
+import { GET, POST } from '../../app/api/dashboard/route';
 import { createServerSupabaseClient } from '../../src/lib/supabase-server';
 
 // Mock dependencies

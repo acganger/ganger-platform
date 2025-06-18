@@ -1,0 +1,369 @@
+# Ganger Platform - Hybrid Architecture Deployment Workflow
+#
+# This GitHub Actions workflow deploys the complete hybrid routing architecture
+# Deploys external domains first, then staff workers, then router
+#
+# Triggered on: push to main, manual workflow dispatch
+# Dependencies: All secrets configured in GitHub repository settings
+
+name: Deploy Hybrid Platform Architecture
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'cloudflare-workers/**'
+      - 'packages/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      deployment_type:
+        description: 'Type of deployment'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+        - full
+        - external-only
+        - staff-only
+        - router-only
+
+env:
+  # Working infrastructure values from /CLAUDE.md (NEVER sanitize)
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+
+jobs:
+  # Phase 1: Deploy External Access Domains (Independent)
+  deploy-external-domains:
+    if: github.event.inputs.deployment_type == 'full' || github.event.inputs.deployment_type == 'external-only' || github.event.inputs.deployment_type == null
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        domain: [handouts-patient, kiosk-patient, meds-patient, reps-booking]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build external app - ${{ matrix.domain }}
+        run: |
+          case "${{ matrix.domain }}" in
+            "handouts-patient")
+              cd apps/handouts/patient-worker
+              npm run build
+              ;;
+            "kiosk-patient")
+              cd apps/checkin-kiosk/patient-worker
+              npm run build
+              ;;
+            "meds-patient")
+              cd apps/medication-auth/patient-worker
+              npm run build
+              ;;
+            "reps-booking")
+              cd apps/pharma-scheduling/booking-worker
+              npm run build
+              ;;
+          esac
+          
+      - name: Deploy external domain - ${{ matrix.domain }}
+        run: npm run deploy:${{ matrix.domain }}
+        
+      - name: Health check - ${{ matrix.domain }}
+        run: |
+          case "${{ matrix.domain }}" in
+            "handouts-patient")
+              curl -f https://handouts.gangerdermatology.com/health
+              ;;
+            "kiosk-patient")
+              curl -f https://kiosk.gangerdermatology.com/health
+              ;;
+            "meds-patient")
+              curl -f https://meds.gangerdermatology.com/health
+              ;;
+            "reps-booking")
+              curl -f https://reps.gangerdermatology.com/health
+              ;;
+          esac
+
+  # Phase 2: Deploy Staff Application Workers (Parallel)
+  deploy-staff-workers:
+    if: github.event.inputs.deployment_type == 'full' || github.event.inputs.deployment_type == 'staff-only' || github.event.inputs.deployment_type == null
+    needs: deploy-external-domains
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [
+          staff-management, inventory-staff, handouts-staff, kiosk-admin, 
+          meds-staff, l10-staff, reps-admin, phones-staff, batch-staff,
+          socials-staff, staffing-staff, compliance-staff, dashboard-staff,
+          config-staff, showcase-staff, status-staff
+        ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build staff app - ${{ matrix.app }}
+        run: |
+          case "${{ matrix.app }}" in
+            "staff-management")
+              cd apps/staff
+              npm run build
+              ;;
+            "inventory-staff")
+              cd apps/inventory
+              npm run build
+              ;;
+            "handouts-staff")
+              cd apps/handouts
+              npm run build
+              ;;
+            "kiosk-admin")
+              cd apps/checkin-kiosk
+              npm run build
+              ;;
+            "meds-staff")
+              cd apps/medication-auth
+              npm run build
+              ;;
+            "l10-staff")
+              cd apps/eos-l10
+              npm run build
+              ;;
+            "reps-admin")
+              cd apps/pharma-scheduling
+              npm run build
+              ;;
+            "phones-staff")
+              cd apps/call-center-ops
+              npm run build
+              ;;
+            "batch-staff")
+              cd apps/batch-closeout
+              npm run build
+              ;;
+            "socials-staff")
+              cd apps/socials-reviews
+              npm run build
+              ;;
+            "staffing-staff")
+              cd apps/clinical-staffing
+              npm run build
+              ;;
+            "compliance-staff")
+              cd apps/compliance-training
+              npm run build
+              ;;
+            "dashboard-staff")
+              cd apps/platform-dashboard
+              npm run build
+              ;;
+            "config-staff")
+              cd apps/config-dashboard
+              npm run build
+              ;;
+            "showcase-staff")
+              cd apps/component-showcase
+              npm run build
+              ;;
+            "status-staff")
+              cd apps/integration-status
+              npm run build
+              ;;
+          esac
+          
+      - name: Deploy staff worker - ${{ matrix.app }}
+        run: npm run deploy:${{ matrix.app }}
+        
+      - name: Verify worker deployment - ${{ matrix.app }}
+        run: |
+          WORKER_NAME="ganger-${{ matrix.app }}"
+          curl -f "https://${WORKER_NAME}.workers.dev/health"
+
+  # Phase 3: Deploy Staff Portal Router (Depends on all workers)
+  deploy-staff-portal-router:
+    if: github.event.inputs.deployment_type == 'full' || github.event.inputs.deployment_type == 'router-only' || github.event.inputs.deployment_type == null
+    needs: deploy-staff-workers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Verify all staff workers are responding
+        run: |
+          WORKERS=(
+            "ganger-staff-management"
+            "ganger-inventory-staff"
+            "ganger-handouts-staff"
+            "ganger-kiosk-admin"
+            "ganger-meds-staff"
+            "ganger-l10-staff"
+            "ganger-reps-admin"
+            "ganger-phones-staff"
+            "ganger-batch-staff"
+            "ganger-socials-staff"
+            "ganger-staffing-staff"
+            "ganger-compliance-staff"
+            "ganger-dashboard-staff"
+            "ganger-config-staff"
+            "ganger-showcase-staff"
+            "ganger-status-staff"
+          )
+          
+          echo "🔍 Verifying all staff workers before router deployment..."
+          for worker in "${WORKERS[@]}"; do
+            echo "Testing $worker..."
+            if ! curl -f -s "https://$worker.workers.dev/health" > /dev/null; then
+              echo "❌ Worker $worker is not responding. Aborting router deployment."
+              exit 1
+            fi
+            echo "✅ $worker - OK"
+          done
+          
+      - name: Build staff portal router
+        run: |
+          cd cloudflare-workers/staff-portal-router
+          npm run build
+          
+      - name: Deploy staff portal router
+        run: npm run deploy:staff-portal-router
+        
+      - name: Verify staff portal routing
+        run: |
+          echo "🔗 Testing staff portal routing..."
+          sleep 30  # Allow DNS propagation
+          
+          # Test router health
+          curl -f https://staff.gangerdermatology.com/health
+          
+          # Test key application routes
+          ROUTES=("/inventory" "/handouts" "/kiosk" "/meds" "/l10" "/dashboard")
+          
+          for route in "${ROUTES[@]}"; do
+            echo "Testing staff.gangerdermatology.com$route"
+            if curl -f -s "https://staff.gangerdermatology.com$route" > /dev/null; then
+              echo "✅ $route - OK"
+            else
+              echo "❌ $route - FAILED"
+              # Don't fail deployment for individual route issues
+            fi
+          done
+
+  # Phase 4: Platform Health Verification
+  verify-platform-health:
+    needs: [deploy-external-domains, deploy-staff-workers, deploy-staff-portal-router]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Comprehensive platform health check
+        run: |
+          echo "🔍 Running comprehensive platform health verification..."
+          
+          # Test all staff portal routes
+          STAFF_ROUTES=("/" "/inventory" "/handouts" "/kiosk" "/meds" "/l10" "/reps" "/phones" "/batch" "/socials" "/staffing" "/compliance" "/dashboard" "/config" "/showcase" "/status")
+          
+          echo "👥 Testing Staff Portal Routes..."
+          STAFF_FAILURES=0
+          for route in "${STAFF_ROUTES[@]}"; do
+            if curl -f -s "https://staff.gangerdermatology.com$route" > /dev/null; then
+              echo "✅ staff.gangerdermatology.com$route - OK"
+            else
+              echo "❌ staff.gangerdermatology.com$route - FAILED"
+              STAFF_FAILURES=$((STAFF_FAILURES + 1))
+            fi
+          done
+          
+          # Test external domains
+          EXTERNAL_DOMAINS=("handouts" "kiosk" "meds" "reps")
+          
+          echo "🌍 Testing External Domains..."
+          EXTERNAL_FAILURES=0
+          for domain in "${EXTERNAL_DOMAINS[@]}"; do
+            if curl -f -s "https://$domain.gangerdermatology.com" > /dev/null; then
+              echo "✅ $domain.gangerdermatology.com - OK"
+            else
+              echo "❌ $domain.gangerdermatology.com - FAILED"
+              EXTERNAL_FAILURES=$((EXTERNAL_FAILURES + 1))
+            fi
+          done
+          
+          # Report results
+          echo "📊 Platform Health Summary:"
+          echo "Staff Routes: $((${#STAFF_ROUTES[@]} - $STAFF_FAILURES))/${#STAFF_ROUTES[@]} working"
+          echo "External Domains: $((${#EXTERNAL_DOMAINS[@]} - $EXTERNAL_FAILURES))/${#EXTERNAL_DOMAINS[@]} working"
+          
+          # Set acceptable failure thresholds
+          STAFF_THRESHOLD=2   # Allow 2 staff route failures
+          EXTERNAL_THRESHOLD=0 # No external domain failures allowed
+          
+          if [ $STAFF_FAILURES -le $STAFF_THRESHOLD ] && [ $EXTERNAL_FAILURES -le $EXTERNAL_THRESHOLD ]; then
+            echo "✅ Platform deployment successful!"
+            echo "::notice title=Deployment Success::Platform deployed with $((${#STAFF_ROUTES[@]} - $STAFF_FAILURES))/${#STAFF_ROUTES[@]} staff routes and $((${#EXTERNAL_DOMAINS[@]} - $EXTERNAL_FAILURES))/${#EXTERNAL_DOMAINS[@]} external domains working"
+          else
+            echo "❌ Platform deployment failed health checks"
+            echo "::error title=Deployment Failed::Too many failures - Staff: $STAFF_FAILURES, External: $EXTERNAL_FAILURES"
+            exit 1
+          fi
+          
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Platform Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployment Type:** ${{ github.event.inputs.deployment_type || 'full' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Successfully Deployed Components" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Staff Portal Router:** https://staff.gangerdermatology.com" >> $GITHUB_STEP_SUMMARY
+          echo "- **16 Staff Applications:** All routing through staff portal" >> $GITHUB_STEP_SUMMARY
+          echo "- **4 External Domains:** Patient and rep access" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Platform Access URLs" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Staff Portal (Google OAuth Required):**" >> $GITHUB_STEP_SUMMARY
+          echo "- Main Portal: https://staff.gangerdermatology.com" >> $GITHUB_STEP_SUMMARY
+          echo "- Inventory: https://staff.gangerdermatology.com/inventory" >> $GITHUB_STEP_SUMMARY
+          echo "- Handouts: https://staff.gangerdermatology.com/handouts" >> $GITHUB_STEP_SUMMARY
+          echo "- Dashboard: https://staff.gangerdermatology.com/dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**External Access (No Auth Required):**" >> $GITHUB_STEP_SUMMARY
+          echo "- Patient Handouts: https://handouts.gangerdermatology.com" >> $GITHUB_STEP_SUMMARY
+          echo "- Patient Kiosk: https://kiosk.gangerdermatology.com" >> $GITHUB_STEP_SUMMARY
+          echo "- Patient Meds: https://meds.gangerdermatology.com" >> $GITHUB_STEP_SUMMARY
+          echo "- Rep Booking: https://reps.gangerdermatology.com" >> $GITHUB_STEP_SUMMARY

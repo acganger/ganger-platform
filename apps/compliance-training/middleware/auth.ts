@@ -44,19 +44,19 @@ export function withAuth(handler: AuthenticatedHandler, options: AuthOptions = {
     }
 
     // Check role requirements
-    if (options.requiredRole && user.role !== options.requiredRole && user.role !== 'admin') {
+    if (options.requiredRole && user?.role !== options.requiredRole && user?.role !== 'admin') {
       throw new AuthorizationError(`Required role: ${options.requiredRole}`);
     }
 
     // Get user metadata with defaults
     const userMeta = user as any;
     const userPermissions = userMeta.permissions || [];
-    const userName = userMeta.name || user.email;
+    const userName = userMeta.name || user?.email;
     
     // Check permission requirements
     if (options.requiredPermissions && options.requiredPermissions.length > 0) {
       const hasRequiredPermissions = options.requiredPermissions.every(permission => 
-        userPermissions.includes(permission) || user.role === 'admin'
+        userPermissions.includes(permission) || user?.role === 'admin'
       );
       
       if (!hasRequiredPermissions) {
@@ -67,8 +67,8 @@ export function withAuth(handler: AuthenticatedHandler, options: AuthOptions = {
     // Handle self-access for user-specific resources
     if (options.allowSelf && req.query.id) {
       const resourceId = req.query.id as string;
-      const canAccessSelf = user.id === resourceId || user.email === resourceId;
-      const hasGeneralAccess = user.role === 'admin' || userPermissions.includes('compliance:view-all');
+      const canAccessSelf = user.id === resourceId || user?.email === resourceId;
+      const hasGeneralAccess = user?.role === 'admin' || userPermissions.includes('compliance:view-all');
       
       if (!canAccessSelf && !hasGeneralAccess) {
         throw new AuthorizationError('Can only access your own data');
@@ -79,11 +79,11 @@ export function withAuth(handler: AuthenticatedHandler, options: AuthOptions = {
     await auditLog({
       action: 'api_access',
       userId: user.id,
-      userEmail: user.email,
+      userEmail: user?.email,
       metadata: {
         method: req.method,
         url: req.url,
-        userRole: user.role,
+        userRole: user?.role,
         userPermissions: userPermissions
       }
     });
@@ -91,9 +91,9 @@ export function withAuth(handler: AuthenticatedHandler, options: AuthOptions = {
     // Attach user to request with proper typing
     (req as AuthenticatedRequest).user = {
       id: user.id,
-      email: user.email,
+      email: user?.email,
       name: userName,
-      role: user.role,
+      role: user?.role,
       permissions: userPermissions,
       department: user.department,
       active: user.active

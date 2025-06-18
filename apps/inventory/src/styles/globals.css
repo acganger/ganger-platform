@@ -1,33 +1,131 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.75rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 2rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 3.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 3.5rem;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1;
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 1.1;
+  --text-8xl: 6rem;
+  --text-8xl--line-height: 1;
+  --text-9xl: 8rem;
+  --text-9xl--line-height: 1;
+
+  --radius-4xl: 2rem;
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-lexend);
+
+  --container-2xl: 40rem;
+
+  /* Inventory-specific color scheme */
+  --inventory-primary: 99 102 241;
+  --inventory-secondary: 107 114 128;
+  --inventory-accent: 59 130 246;
+  --inventory-success: 34 197 94;
+  --inventory-warning: 251 191 36;
+  --inventory-danger: 239 68 68;
+}
 
 @layer base {
   html {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
   body {
-    @apply antialiased;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer components {
   .inventory-gradient {
-    @apply bg-gradient-to-br from-secondary-50 to-primary-50;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   }
   
   .inventory-card {
-    @apply bg-white rounded-lg border border-gray-200 shadow-sm;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   }
   
-  .inventory-stat {
-    @apply text-2xl font-bold text-secondary-600;
+  .salient-header {
+    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+  }
+  
+  .inventory-stat-card {
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  
+  .inventory-status-in-stock {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  
+  .inventory-status-low-stock {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  .inventory-status-out-of-stock {
+    background-color: #fecaca;
+    color: #991b1b;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
   }
 }

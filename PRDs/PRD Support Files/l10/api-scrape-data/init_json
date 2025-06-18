@@ -1,0 +1,8 @@
+{
+  "url": "https://app.ninety.io/api/v4/Init",
+  "endpoint": "Init",
+  "data": {
+    "token": "d840b3cdc52cebae3f6384c89bf5491df242f643f0e5a08b18250f5d64965d5e4ccc305528e4dfa9af035efe4efd461c4b57c9120200c265470e9ad8c382da1f"
+  },
+  "timestamp": "2025-06-18T12:36:48.009Z"
+}

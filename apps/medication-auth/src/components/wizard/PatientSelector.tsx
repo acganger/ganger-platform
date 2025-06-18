@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MagnifyingGlassIcon, UserIcon, CalendarIcon, PhoneIcon } from '@/components/icons';
 import { useDebouncedPatientSearch } from '@/hooks/usePatients';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import type { Patient } from '@/types';
 
 interface PatientSelectorProps {
@@ -99,7 +99,7 @@ export function PatientSelector({ data, onDataChange }: PatientSelectorProps) {
                         {patient.first_name} {patient.last_name}
                       </div>
                       <div className="text-sm text-gray-500">
-                        DOB: {format(new Date(patient.date_of_birth), 'MMM d, yyyy')} 
+                        DOB: {new Date(patient.date_of_birth).toLocaleDateString()} 
                         ({calculateAge(patient.date_of_birth)} years old)
                       </div>
                       <div className="text-sm text-gray-500">
@@ -160,7 +160,7 @@ export function PatientSelector({ data, onDataChange }: PatientSelectorProps) {
                   <CalendarIcon className="w-4 h-4 text-gray-400 mr-2" />
                   <span className="text-gray-600">DOB:</span>
                   <span className="ml-2 text-gray-900">
-                    {format(new Date(selectedPatient.date_of_birth), 'MMM d, yyyy')} 
+                    {new Date(selectedPatient.date_of_birth).toLocaleDateString()} 
                     ({calculateAge(selectedPatient.date_of_birth)} years)
                   </span>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Todo } from '@/types/eos';
-import { formatDistanceToNow, format, isAfter, isToday, isTomorrow } from 'date-fns';
+// import { formatDistanceToNow, format, isAfter, isToday, isTomorrow } from 'date-fns';
 import { 
   CheckSquare,
   Square,
@@ -92,24 +92,27 @@ export default function TodoCard({
     const dueDate = new Date(todo.due_date);
     const now = new Date();
     
-    if (isToday(dueDate)) {
+    const isToday = dueDate.toDateString() === now.toDateString();
+    const isTomorrow = dueDate.toDateString() === new Date(now.getTime() + 24 * 60 * 60 * 1000).toDateString();
+    
+    if (isToday) {
       return { text: 'Due today', color: 'text-orange-600', urgent: true };
     }
     
-    if (isTomorrow(dueDate)) {
+    if (isTomorrow) {
       return { text: 'Due tomorrow', color: 'text-yellow-600', urgent: false };
     }
     
-    if (isAfter(now, dueDate) && todo.status !== 'completed') {
+    if (now > dueDate && todo.status !== 'completed') {
       return { 
-        text: `Overdue by ${formatDistanceToNow(dueDate)}`, 
+        text: `Overdue`, 
         color: 'text-red-600', 
         urgent: true 
       };
     }
     
     return { 
-      text: `Due ${format(dueDate, 'MMM d')}`, 
+      text: `Due ${dueDate.toLocaleDateString()}`, 
       color: 'text-gray-600', 
       urgent: false 
     };
@@ -119,9 +122,9 @@ export default function TodoCard({
 
   const getTimestamp = () => {
     if (todo.completed_at) {
-      return `Completed ${formatDistanceToNow(new Date(todo.completed_at))} ago`;
+      return `Completed ${new Date(todo.completed_at).toLocaleDateString()}`;
     }
-    return `Created ${formatDistanceToNow(new Date(todo.created_at))} ago`;
+    return `Created ${new Date(todo.created_at).toLocaleDateString()}`;
   };
 
   return (

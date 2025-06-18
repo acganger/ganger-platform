@@ -20,7 +20,7 @@ export default {
     }
     
     if (pathname === '/inventory') {
-      return getInventoryApp();
+      return getInventoryApp(request, env);
     }
     
     if (pathname === '/l10') {
@@ -1088,246 +1088,129 @@ function getIntegrationStatusApp() {
 </html>`, { headers: { 'Content-Type': 'text/html' } });
 }
 
-function getInventoryApp() {
-  return new Response(`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Management - Ganger Dermatology</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0891b2 0%, #0e7490 50%, #155e75 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 700px;
-            width: 90%;
-        }
-        .logo-icon {
-            width: 80px; 
-            height: 80px; 
-            background: linear-gradient(135deg, #0891b2, #0e7490);
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: white; 
-            font-size: 2rem; 
-            font-weight: bold;
-            margin: 0 auto 2rem;
-            box-shadow: 0 8px 16px rgba(8, 145, 178, 0.3);
-        }
-        h1 { color: #2d3748; font-size: 2rem; margin-bottom: 1rem; }
-        .subtitle { color: #4a5568; font-size: 1.1rem; margin-bottom: 1rem; font-weight: 500; }
-        p { color: #4a5568; line-height: 1.6; margin-bottom: 2rem; }
-        .status { 
-            background: linear-gradient(135deg, #0891b2, #0e7490);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 500;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-        .search-section {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            text-align: left;
-        }
-        .search-section h3 {
-            color: #2d3748;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        .search-bar {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .search-bar input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        .search-bar button {
-            background: linear-gradient(135deg, #0891b2, #0e7490);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .inventory-item {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-        .item-name {
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 0.5rem;
-        }
-        .item-details {
-            color: #6b7280;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        .stock-level {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-top: 0.5rem;
-            display: inline-block;
-        }
-        .stock-high { background: #d1fae5; color: #047857; }
-        .stock-medium { background: #fef3cd; color: #92400e; }
-        .stock-low { background: #fecaca; color: #dc2626; }
-        .btn {
-            background: linear-gradient(135deg, #0891b2, #0e7490);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin: 0.5rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo-icon">📦</div>
-        <h1>Inventory Management</h1>
-        <div class="subtitle">Medical Supply Tracking</div>
-        <div class="status">✅ System Online</div>
-        <p>Professional medical supply tracking system with barcode scanning, real-time stock management, and automated reorder alerts.</p>
-        
-        <div class="search-section">
-            <h3>Search Inventory</h3>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search by item name, SKU, or category...">
-                <button onclick="searchInventory()">🔍 Search</button>
-                <button onclick="scanBarcode()">📱 Scan</button>
-            </div>
-            
-            <div class="inventory-grid">
-                <div class="inventory-item">
-                    <div class="item-name">Dupixent (dupilumab)</div>
-                    <div class="item-details">
-                        SKU: DUP-300-PRE<br>
-                        Location: Refrigerator A2<br>
-                        Exp: 2025-08-15
-                    </div>
-                    <div class="stock-level stock-medium">12 units</div>
-                </div>
-                
-                <div class="inventory-item">
-                    <div class="item-name">Otezla (apremilast)</div>
-                    <div class="item-details">
-                        SKU: OTE-30-TAB<br>
-                        Location: Cabinet B3<br>
-                        Exp: 2025-11-22
-                    </div>
-                    <div class="stock-level stock-high">47 units</div>
-                </div>
-                
-                <div class="inventory-item">
-                    <div class="item-name">Cosentyx Pen</div>
-                    <div class="item-details">
-                        SKU: COS-150-PEN<br>
-                        Location: Refrigerator A1<br>
-                        Exp: 2025-07-30
-                    </div>
-                    <div class="stock-level stock-low">3 units</div>
-                </div>
-                
-                <div class="inventory-item">
-                    <div class="item-name">Clobetasol Cream</div>
-                    <div class="item-details">
-                        SKU: CLO-005-CRM<br>
-                        Location: Pharmacy Shelf 1<br>
-                        Exp: 2026-01-15
-                    </div>
-                    <div class="stock-level stock-high">89 units</div>
-                </div>
-                
-                <div class="inventory-item">
-                    <div class="item-name">Triamcinolone Injection</div>
-                    <div class="item-details">
-                        SKU: TRI-40-INJ<br>
-                        Location: Procedure Room A<br>
-                        Exp: 2025-09-10
-                    </div>
-                    <div class="stock-level stock-medium">24 units</div>
-                </div>
-                
-                <div class="inventory-item">
-                    <div class="item-name">Surgical Gloves (L)</div>
-                    <div class="item-details">
-                        SKU: GLV-LRG-100<br>
-                        Location: Supply Closet<br>
-                        Type: Nitrile, Powder-Free
-                    </div>
-                    <div class="stock-level stock-low">2 boxes</div>
-                </div>
-            </div>
-        </div>
-        
-        <button class="btn" onclick="addNewItem()">➕ Add Item</button>
-        <button class="btn" onclick="generateReport()">📊 Generate Report</button>
-        <button class="btn" onclick="reorderAlerts()">🔔 Reorder Alerts</button>
-        <a href="/" class="btn">← Back to Portal</a>
-    </div>
+async function getInventoryApp(request, env) {
+  const url = new URL(request.url);
+  let pathname = url.pathname;
+  
+  // Remove /inventory prefix for R2 key lookup
+  let r2Key = pathname.replace('/inventory', '');
+  
+  // Handle root inventory path
+  if (r2Key === '' || r2Key === '/') {
+    r2Key = 'index.html';
+  }
+  
+  // Debug logging
+  console.log('Inventory path debug:', { pathname, r2Key });
+  
+  // Handle directory paths (add index.html)
+  if (r2Key.endsWith('/')) {
+    r2Key += 'index.html';
+  }
+  
+  // Handle paths without extensions (Next.js routing)
+  if (!r2Key.includes('.') && !r2Key.endsWith('/')) {
+    r2Key += '.html';
+  }
+  
+  // Remove leading slash for R2 key
+  r2Key = r2Key.startsWith('/') ? r2Key.slice(1) : r2Key;
+  
+  try {
+    // Attempt to get file from R2
+    const object = await env.INVENTORY_BUCKET.get(r2Key);
     
-    <script>
-        function searchInventory() {
-            const query = document.getElementById('searchInput').value;
-            alert('Search Results for: "' + query + '"\\n\\n🔍 Found 12 matching items\\n📦 Filtered by category, SKU, and name\\n\\n📋 Results displayed below');
+    if (!object) {
+      // Try fallback to index.html for client-side routing
+      const indexObject = await env.INVENTORY_BUCKET.get('index.html');
+      if (indexObject) {
+        return new Response(indexObject.body, {
+          headers: {
+            'Content-Type': 'text/html',
+            'Cache-Control': 'public, max-age=86400',
+            'X-Frame-Options': 'DENY',
+            'X-Content-Type-Options': 'nosniff',
+            'X-XSS-Protection': '1; mode=block',
+            'Referrer-Policy': 'strict-origin-when-cross-origin',
+            'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+            'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+          },
+        });
+      }
+      
+      // Return 404 if not found
+      return new Response('Inventory page not found', { 
+        status: 404,
+        headers: {
+          'X-Frame-Options': 'DENY',
+          'X-Content-Type-Options': 'nosniff'
         }
-        
-        function scanBarcode() {
-            alert('Barcode Scanner Active\\n\\n📱 Point camera at barcode\\n🔍 Scanning...\\n\\n✅ Item Found: Dupixent 300mg\\n📦 Current Stock: 12 units\\n📍 Location: Refrigerator A2');
-        }
-        
-        function addNewItem() {
-            alert('Add New Item\\n\\n📝 Item Information:\\n• Name: [Required]\\n• SKU: [Auto-generated]\\n• Category: [Dropdown]\\n• Location: [Required]\\n• Initial Stock: [Required]\\n\\n✅ Item will be added to inventory');
-        }
-        
-        function generateReport() {
-            alert('Inventory Report Generated\\n\\n📊 Current Summary:\\n• Total Items: 247\\n• Low Stock Items: 12\\n• Expired Items: 0\\n• Reorder Needed: 8\\n\\n📁 Full report exported to Excel');
-        }
-        
-        function reorderAlerts() {
-            alert('Reorder Alerts\\n\\n🔔 Items Requiring Reorder:\\n• Cosentyx Pen (3 units)\\n• Surgical Gloves L (2 boxes)\\n• Hydrocortisone Cream (5 units)\\n\\n📧 Alerts sent to purchasing team');
-        }
-    </script>
-</body>
-</html>`, { headers: { 'Content-Type': 'text/html' } });
+      });
+    }
+
+    // Determine content type
+    const contentType = getContentType(r2Key);
+    
+    return new Response(object.body, {
+      headers: {
+        'Content-Type': contentType,
+        'Cache-Control': getCacheControl(r2Key),
+        'ETag': object.etag,
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'X-XSS-Protection': '1; mode=block',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+      },
+    });
+    
+  } catch (error) {
+    console.error('R2 fetch error for inventory:', error);
+    return new Response('Internal Server Error', { 
+      status: 500,
+      headers: {
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff'
+      }
+    });
+  }
+}
+
+function getContentType(key) {
+  const ext = key.split('.').pop()?.toLowerCase();
+  const types = {
+    'html': 'text/html',
+    'css': 'text/css',
+    'js': 'application/javascript',
+    'json': 'application/json',
+    'png': 'image/png',
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'gif': 'image/gif',
+    'svg': 'image/svg+xml',
+    'ico': 'image/x-icon',
+    'woff': 'font/woff',
+    'woff2': 'font/woff2',
+    'ttf': 'font/ttf',
+    'eot': 'application/vnd.ms-fontobject'
+  };
+  return types[ext || ''] || 'application/octet-stream';
+}
+
+function getCacheControl(key) {
+  // Static assets get longer cache
+  if (key.includes('/_next/static/')) {
+    return 'public, max-age=31536000, immutable';
+  }
+  
+  // HTML files get shorter cache for updates
+  if (key.endsWith('.html')) {
+    return 'public, max-age=86400';
+  }
+  
+  // Default cache
+  return 'public, max-age=86400';
 }
 
 function getEOSL10App() {

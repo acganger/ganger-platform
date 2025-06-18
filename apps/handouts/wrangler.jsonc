@@ -1,11 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/cloudflare/workers-types/main/wrangler-schema.json",
   "name": "ganger-handouts",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-03-07",
+  "main": ".vercel/output/static/_worker.js/index.js",
+  "compatibility_date": "2025-01-18",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./out/",
+    "directory": "./.next/static",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },

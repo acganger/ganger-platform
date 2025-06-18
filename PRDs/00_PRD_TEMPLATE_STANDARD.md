@@ -1,7 +1,7 @@
 # PRD Template - Ganger Platform Standard
 *Use this template for all new PRDs to ensure consistency, shared infrastructure, and quality enforcement*
 
-**📚 Documentation Reference:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development.
+**📚 REQUIRED READING:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development. This is the single source of truth for all platform development patterns, standards, and quality requirements.
 
 ## 📋 Document Information
 - **Application Name**: [App Name]
@@ -40,18 +40,107 @@
 
 ## 🏗️ Technical Architecture
 
+### **MANDATORY: Cloudflare Workers Architecture**
+```yaml
+# ✅ REQUIRED: Workers-only deployment (Pages is sunset)
+Framework: Next.js 14+ with Workers runtime (runtime: 'edge')
+Deployment: Cloudflare Workers (NO Pages deployment)
+Build Process: @cloudflare/next-on-pages
+Configuration: Workers-compatible next.config.js (NO static export)
+
+# ❌ FORBIDDEN: These patterns cause 405 errors
+Static_Export: Never use output: 'export'
+Cloudflare_Pages: Sunset for Workers routes
+Custom_Routing: Must use Workers request handling
+```
+
+### **⚠️ CRITICAL: Anti-Pattern Prevention**
+```typescript
+// ❌ NEVER USE: Static export configuration (causes 405 errors)
+const nextConfig = {
+  output: 'export',        // DELETE THIS - breaks Workers
+  trailingSlash: true,     // DELETE THIS - static pattern
+  distDir: 'dist'          // DELETE THIS - Workers incompatible
+}
+
+// ✅ REQUIRED: Workers-compatible configuration
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY for Workers
+  },
+  images: {
+    unoptimized: true,       // Required for Workers
+  },
+  basePath: '/[app-path]',   // Required for staff portal routing
+}
+```
+
+### **Architecture Verification Requirements**
+```bash
+# ✅ MANDATORY: Every app must pass these checks
+pnpm type-check              # 0 errors required
+pnpm build                   # Successful completion required
+curl -I [app-url]/health     # HTTP 200 required (not 405)
+grep -r "StaffPortalLayout"  # Must find implementation
+grep -r "output.*export"     # Must find nothing
+```
+
 ### **Shared Infrastructure (Standard - MANDATORY)**
 ```yaml
 Frontend: Next.js 14+ with TypeScript (100% compilation required)
 Backend: Next.js API routes + Supabase Edge Functions
 Database: Supabase PostgreSQL with Row Level Security
 Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
-Hosting: Cloudflare Workers (with global edge network)
+Hosting: Cloudflare Workers EXCLUSIVELY (Pages sunset for Workers routes)
 Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)
 Real-time: Supabase subscriptions
 File Storage: Supabase Storage with CDN
 Build System: Turborepo (workspace compliance required)
 Quality Gates: Automated pre-commit hooks (see MASTER_DEVELOPMENT_GUIDE.md)
+```
+
+### **Platform Constants & Patterns (REQUIRED KNOWLEDGE)**
+```typescript
+// ✅ MANDATORY: Use platform constants (see @ganger/types)
+import { 
+  USER_ROLES, 
+  LOCATIONS, 
+  PRIORITY_LEVELS,
+  APPOINTMENT_STATUS,
+  FORM_TYPES 
+} from '@ganger/types/constants';
+
+// ✅ Standard location values
+const LOCATIONS = [
+  'ann-arbor',     // Primary location
+  'wixom',         // Secondary location  
+  'plymouth',      // Tertiary location
+  'vinya'          // Vinya Construction office
+] as const;
+
+// ✅ Standard role hierarchy (use exactly these values)
+const USER_ROLES = [
+  'superadmin',        // Full system access
+  'manager',           // Location management
+  'provider',          // Clinical operations
+  'nurse',             // Clinical support
+  'medical_assistant', // Admin & clinical assistance
+  'pharmacy_tech',     // Medication management
+  'billing',           // Financial operations
+  'user'               // Basic access
+] as const;
+
+// ✅ Standard form types (extend as needed)
+const FORM_TYPES = [
+  'support_ticket',
+  'time_off_request', 
+  'punch_fix',
+  'change_of_availability',
+  'expense_reimbursement',
+  'meeting_request',
+  'appointment_booking',  // Add your app's forms here
+  'inventory_request'
+] as const;
 ```
 
 ### **Required Shared Packages (MANDATORY - CLIENT-SERVER AWARE)**
@@ -281,9 +370,34 @@ import {
 } from '@ganger/ui';
 ```
 
+### **Navigation Integration (MANDATORY)**
+```typescript
+// ✅ REQUIRED: Add your app to staff portal navigation
+// Update packages/ui/src/staff/StaffPortalLayout.tsx
+const STAFF_APPS = [
+  // ... existing apps
+  {
+    name: 'Your App Name',
+    path: '/your-app-path',
+    icon: YourAppIcon,  // Import from @ganger/ui/icons
+    category: 'Medical' | 'Business' | 'Administration',
+    description: 'Brief description for tooltips',
+    roles: ['staff', 'manager', 'provider'], // Who can access
+    permissions?: ['specific_permission'] // Optional additional restrictions
+  }
+];
+
+// ✅ Cross-app navigation links (when relevant)
+import { StaffPortalNav } from '@ganger/ui/staff';
+<StaffPortalNav 
+  currentApp="your-app"
+  relatedApps={['inventory', 'handouts']} // Apps commonly used together
+/>
+```
+
 ### **App-Specific UI Requirements**
 - [Unique layouts or interaction patterns]
-- [Special mobile considerations]
+- [Special mobile considerations]  
 - [Accessibility requirements beyond standard]
 - [Custom visualizations or charts]
 
@@ -365,25 +479,73 @@ Auth Tests: Permission system verification
 
 ## 🚀 Deployment & Operations
 
-### **Deployment Strategy (Standard)**
+### **Deployment Strategy (Hybrid Routing Architecture)**
 ```yaml
+# ✅ MANDATORY: Follow hybrid routing patterns
+Primary_Access: staff.gangerdermatology.com/[your-app-path]
+External_Access: [app-name].gangerdermatology.com (if dual interface required)
+
+# Worker Configuration (use templates from /true-docs/templates/)
+Staff_Worker: wrangler-staff.jsonc (for staff portal integration)
+External_Worker: wrangler-external.jsonc (for patient/rep access)
+
+# Deployment Commands (add to package.json)
+deploy:staff: "wrangler deploy --config wrangler-staff.jsonc --env production"
+deploy:external: "wrangler deploy --config wrangler-external.jsonc --env production"
+
+# Standard Infrastructure
 Environment: Cloudflare Workers
-Build: Next.js static export optimized for Workers
-CDN: Cloudflare global edge network
+Build: Next.js optimized for Workers runtime
+CDN: Cloudflare global edge network  
 Database: Supabase with global distribution
 Monitoring: Supabase analytics + Cloudflare analytics
 Logging: Structured logs with audit trail
 ```
 
-### **Environment Configuration**
-```bash
-# Standard environment variables (inherited)
-SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
-GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
-CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID
+### **Required Wrangler Configuration**
+```javascript
+// ✅ Copy from /true-docs/templates/staff-app-wrangler.toml and customize
+{
+  "name": "ganger-[your-app]-staff",
+  "main": "src/[your-app]-staff-worker.js",
+  "compatibility_date": "2025-01-18",
+  "vars": {
+    "APP_NAME": "[your-app]-staff",
+    "APP_PATH": "[your-app-path]",
+    "STAFF_PORTAL_URL": "https://staff.gangerdermatology.com",
+    // Include all working infrastructure values
+  }
+}
+```
 
-# App-specific variables
+### **Environment Configuration (Working Infrastructure Values)**
+```bash
+# ✅ CRITICAL: Use EXACT working values from /CLAUDE.md (NEVER sanitize)
+# Standard environment variables (inherited from platform)
+SUPABASE_URL=https://pfqtzmxxxhhsxmlddrta.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... # (working key)
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... # (working key)
+
+# Google OAuth & Workspace
+GOOGLE_CLIENT_ID=745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+GOOGLE_DOMAIN=gangerdermatology.com
+
+# Cloudflare Configuration  
+CLOUDFLARE_ZONE_ID=ba76d3d3f41251c49f0365421bd644a5
+CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
+
+# Platform URLs (for cross-app navigation)
+NEXT_PUBLIC_STAFF_URL=https://staff.gangerdermatology.com
+NEXT_PUBLIC_HANDOUTS_URL=https://handouts.gangerdermatology.com
+NEXT_PUBLIC_KIOSK_URL=https://kiosk.gangerdermatology.com
+
+# App-specific variables (add as needed)
 [APP_NAME]_SPECIFIC_CONFIG=value
+
+# ⚠️ SECURITY POLICY: These are working production values
+# DO NOT sanitize or replace with placeholders
+# This is internal medical platform infrastructure
 ```
 
 ### **Monitoring & Alerts**
@@ -482,17 +644,25 @@ CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID
 
 ### **Documentation System Integration**
 ```markdown
-# Documentation location and maintenance
+# Documentation location and maintenance (CRITICAL: Follow consolidation protocol)
 - App-specific docs: apps/[app-name]/README.md
-- API docs: Generated from OpenAPI spec
+- API docs: Generated from OpenAPI spec  
 - User guides: Link from main app documentation
 - Troubleshooting: Reference MASTER_DEVELOPMENT_GUIDE.md patterns
 
-# Update procedures: See MASTER_DEVELOPMENT_GUIDE.md > Documentation System
-- Update README.md when features complete
-- Generate API docs automatically from code
-- Keep user guides current with UI changes
-- Archive outdated documentation per consolidation protocol
+# MANDATORY Update procedures (see MASTER_DEVELOPMENT_GUIDE.md):
+1. Update /true-docs/MASTER_DEVELOPMENT_GUIDE.md for any new patterns or standards
+2. Update app README.md when features complete  
+3. Generate API docs automatically from code
+4. Remove duplicate documentation from PRDs/ and other directories
+5. Keep /true-docs as single source of truth
+6. Archive outdated documentation per consolidation protocol
+
+# Documentation Consolidation Requirements:
+- DO NOT duplicate information that exists in /true-docs
+- Reference /true-docs/* instead of creating separate docs
+- Update /true-docs when adding new standards or patterns
+- Remove obsolete files from PRDs/ that are superseded by /true-docs
 ```
 
 ---

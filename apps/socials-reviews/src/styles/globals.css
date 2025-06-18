@@ -1,132 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import './base.css';
+@import './typography.css' layer(components);
 
-/* Custom utility classes for socials & reviews */
-@layer utilities {
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
-  .text-ellipsis-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .text-ellipsis-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+@theme {
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.75rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2.25rem;
+  --text-3xl: 1.75rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 2.5rem;
+  --text-5xl--line-height: 3rem;
+  --text-6xl: 3rem;
+  --text-6xl--line-height: 3.5rem;
+  --text-7xl: 4rem;
+  --text-7xl--line-height: 4.5rem;
 
+  --radius-4xl: 2.5rem;
+
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --font-display: Inter, ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --font-display--font-variation-settings: 'wdth' 125;
+
+  --font-display-length: 2;
+
+  /* Socials & Reviews specific colors */
+  --color-social-facebook: #1877f2;
+  --color-social-instagram: #e4405f;
+  --color-social-twitter: #1da1f2;
+  --color-social-linkedin: #0077b5;
+  --color-social-tiktok: #000000;
+  
   /* Review sentiment colors */
-  .sentiment-positive {
-    @apply bg-green-50 border-green-200 text-green-800;
-  }
+  --color-sentiment-positive: #16a34a;
+  --color-sentiment-neutral: #ca8a04;
+  --color-sentiment-negative: #dc2626;
   
-  .sentiment-neutral {
-    @apply bg-yellow-50 border-yellow-200 text-yellow-800;
-  }
-  
-  .sentiment-negative {
-    @apply bg-red-50 border-red-200 text-red-800;
-  }
-
-  /* Urgency level indicators */
-  .urgency-low {
-    @apply bg-blue-50 border-blue-200;
-  }
-  
-  .urgency-medium {
-    @apply bg-yellow-50 border-yellow-200;
-  }
-  
-  .urgency-high {
-    @apply bg-red-50 border-red-200;
-  }
-  
-  .urgency-critical {
-    @apply bg-red-100 border-red-300 ring-2 ring-red-200;
-  }
-
-  /* Social media platform colors */
-  .platform-facebook {
-    @apply bg-blue-600 text-white;
-  }
-  
-  .platform-instagram {
-    @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white;
-  }
-  
-  .platform-twitter {
-    @apply bg-sky-500 text-white;
-  }
-  
-  .platform-linkedin {
-    @apply bg-blue-700 text-white;
-  }
-  
-  .platform-tiktok {
-    @apply bg-black text-white;
-  }
-
-  /* Performance indicator colors */
-  .performance-high {
-    @apply bg-green-100 border-green-300 text-green-800;
-  }
-  
-  .performance-medium {
-    @apply bg-yellow-100 border-yellow-300 text-yellow-800;
-  }
-  
-  .performance-low {
-    @apply bg-gray-100 border-gray-300 text-gray-600;
-  }
-}
-
-/* Skeleton loading animations */
-@keyframes skeleton-loading {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
-  }
-}
-
-.skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-  animation: skeleton-loading 1.5s infinite;
-}
-
-/* Focus states for accessibility */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .sentiment-positive {
-    @apply border-2 border-green-600;
-  }
-  
-  .sentiment-neutral {
-    @apply border-2 border-yellow-600;
-  }
-  
-  .sentiment-negative {
-    @apply border-2 border-red-600;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .animate-pulse-slow,
-  .skeleton {
-    animation: none;
-  }
+  /* Performance indicators */
+  --color-performance-high: #16a34a;
+  --color-performance-medium: #ca8a04;
+  --color-performance-low: #64748b;
 }

@@ -252,7 +252,7 @@ export function ImpersonationPanel() {
               </h4>
               <div className="space-y-2 text-sm">
                 <div>
-                  <span className="font-medium">Target User:</span> {status.active_session.target_user.email}
+                  <span className="font-medium">Target User:</span> {status.active_session.target_user?.email}
                   {status.active_session.target_user.name && (
                     <span className="text-gray-600"> ({status.active_session.target_user.name})</span>
                   )}

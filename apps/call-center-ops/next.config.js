@@ -1,25 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: [
-    '@ganger/auth',
-    '@ganger/db', 
-    '@ganger/integrations',
-    '@ganger/ui',
-    '@ganger/utils'
-  ],
-  output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
+  
+  // Cloudflare Workers runtime
+  experimental: {
+    runtime: 'edge',
+  },
+  
+  // Staff portal integration
+  basePath: '/phones',
+  assetPrefix: '/phones',
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
+  
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
-    unoptimized: true
-  },
-  env: {
-    CUSTOM_KEY: 'call-center-ops-app',
+    unoptimized: true,
   },
 };
 

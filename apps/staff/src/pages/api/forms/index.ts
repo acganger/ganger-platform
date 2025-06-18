@@ -78,7 +78,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -172,8 +172,7 @@ async function handleGetForms(
     limit,
     offset,
     created_after,
-    created_before,
-    include_inactive
+    created_before
   } = validation.data;
 
   // Build query
@@ -187,7 +186,7 @@ async function handleGetForms(
   // Apply filters
   if (is_active !== undefined) {
     query = query.eq('is_active', is_active);
-  } else if (!include_inactive) {
+  } else if (!validation.data.include_inactive) {
     // Default to showing only active forms unless explicitly requested
     query = query.eq('is_active', true);
   }
@@ -222,7 +221,7 @@ async function handleGetForms(
 
   // Execute main query with pagination
   const { data: forms, error } = await query
-    .range(offset, offset + limit - 1);
+    .range(offset!, offset! + limit! - 1);
 
   if (error) {
     console.error('Forms fetch error:', error);
@@ -238,7 +237,7 @@ async function handleGetForms(
   }
 
   // Format response data
-  const formattedForms: Form[] = forms.map(form => ({
+  const formattedForms: Form[] = (forms || []).map((form: any) => ({
     id: form.id,
     name: form.name,
     title: form.title,
@@ -264,9 +263,9 @@ async function handleGetForms(
       forms: formattedForms,
       pagination: {
         total: totalCount || 0,
-        limit,
-        offset,
-        has_more: (offset + limit) < (totalCount || 0)
+        limit: limit!,
+        offset: offset!,
+        has_more: (offset! + limit!) < (totalCount || 0)
       }
     }
   });
@@ -336,7 +335,8 @@ async function handleCreateForm(
     }
 
     // Validate fields structure
-    for (const field of fields) {
+    if (fields && Array.isArray(fields)) {
+      for (const field of fields) {
       if (!field.id || !field.type || !field.label) {
         return res.status(400).json({
           success: false,
@@ -376,6 +376,7 @@ async function handleCreateForm(
         });
       }
     }
+  }
 
     // Create form
     const formData = {
@@ -426,7 +427,7 @@ async function handleCreateForm(
           form_id: newForm.id,
           form_name: name,
           category,
-          field_count: fields.length,
+          field_count: fields?.length || 0,
           request_id: requestId
         }
       });

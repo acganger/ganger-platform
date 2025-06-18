@@ -1,0 +1,19 @@
+{
+  "url": "https://api-iam.intercom.io/messenger/web/launcher_settings",
+  "data": {
+    "alignment": "right",
+    "color": "#262626",
+    "color_dark": "#8e8e8e",
+    "has_required_features": true,
+    "horizontal_padding": 30,
+    "instant_boot_enabled": false,
+    "launcher_logo_url": null,
+    "launcher_logo_dark_url": null,
+    "secondary_color": "#2F8BAA",
+    "secondary_color_dark": "#2F8BAA",
+    "show_launcher": true,
+    "updated_at": 1750222958,
+    "vertical_padding": 48
+  },
+  "timestamp": "2025-06-18T11:36:13.336Z"
+}

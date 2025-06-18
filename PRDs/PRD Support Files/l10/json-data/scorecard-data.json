@@ -1,0 +1,169 @@
+{
+  "metrics": [
+    {
+      "selector": "tr",
+      "index": 0,
+      "name": "Title",
+      "fullText": "TitleDue byTeam"
+    },
+    {
+      "selector": "tr",
+      "index": 1,
+      "value": "Order shelves for Lobby in PY and WX",
+      "fullText": "Order shelves for Lobby in PY and WX  Aesthetics"
+    },
+    {
+      "selector": "tr",
+      "index": 2,
+      "value": "Financial Budget Rock off track",
+      "fullText": "Financial Budget Rock off track  Same Page Meeting"
+    },
+    {
+      "selector": "tr",
+      "index": 3,
+      "value": "Lobby Slideshow  2",
+      "fullText": "Lobby Slideshow  2  Marketing L10"
+    },
+    {
+      "selector": "tr",
+      "index": 4,
+      "value": "Order desk and computer for the hub--add the fridge to the visia under desk (numbing)",
+      "fullText": "Order desk and computer for the hub--add the fridge to the visia under desk (numbing)  Aesthetics"
+    },
+    {
+      "selector": "tr",
+      "index": 5,
+      "value": "A.C. Create a provider vision document outlining the original vision and values of the company by Monday. (This is too critical to wait)",
+      "fullText": "A.C. Create a provider vision document outlining the original vision and values of the company by Monday. (This is too critical to wait)  Same Page Meeting"
+    },
+    {
+      "selector": "tr",
+      "index": 6,
+      "value": "AC - Share the provider vision via a video recording along with a Doodle poll to find out when most of the providers can meet in person. (versus newsletter)  1",
+      "fullText": "AC - Share the provider vision via a video recording along with a Doodle poll to find out when most of the providers can meet in person. (versus newsletter)  1  Same Page Meeting"
+    },
+    {
+      "selector": "tr",
+      "index": 7,
+      "value": "Billing team email review",
+      "fullText": "Billing team email review  Leadership Team"
+    },
+    {
+      "selector": "tr",
+      "index": 8,
+      "value": "Review and release updated handbook   2",
+      "fullText": "Review and release updated handbook   2  Leadership Team"
+    },
+    {
+      "selector": "tr",
+      "index": 9,
+      "value": "Give Marisa and Jody FirmAdmin account",
+      "fullText": "Give Marisa and Jody FirmAdmin account  Leadership Team"
+    },
+    {
+      "selector": "tr",
+      "index": 10,
+      "value": "Wishlist of Automation for the team  5",
+      "fullText": "Wishlist of Automation for the team  5  Leadership Team"
+    },
+    {
+      "selector": "tr",
+      "index": 11,
+      "value": "Give Ayesha, Jessie, Marisa analytics from Henry Schein  1",
+      "fullText": "Give Ayesha, Jessie, Marisa analytics from Henry Schein  1  Leadership Team"
+    },
+    {
+      "selector": "tr",
+      "index": 12,
+      "name": "",
+      "fullText": "StatusTitle Due by"
+    },
+    {
+      "selector": "tr",
+      "index": 13,
+      "value": "",
+      "fullText": "On-trackOn-track AC's measurables"
+    },
+    {
+      "selector": "tr",
+      "index": 14,
+      "value": "",
+      "fullText": ""
+    },
+    {
+      "selector": "tr",
+      "index": 15,
+      "value": "",
+      "fullText": "On-trackOn-track Define The Ganger Experience for Providers & Patients"
+    },
+    {
+      "selector": "tr",
+      "index": 16,
+      "value": "",
+      "fullText": ""
+    },
+    {
+      "selector": "tr",
+      "index": 17,
+      "value": "",
+      "fullText": "On-trackOn-track Google Classroom Training Content Plan is Documented w/Content Creation Underway"
+    },
+    {
+      "selector": "tr",
+      "index": 18,
+      "value": "",
+      "fullText": ""
+    },
+    {
+      "selector": "tr",
+      "index": 19,
+      "name": "",
+      "fullText": "Title  Goal AverageTotalJun 20 - Jun 26Jun 13 - Jun 19Jun 06 - Jun 12May 30 - Jun 05May 23 - May 29May 16 - May 22"
+    },
+    {
+      "selector": "tr",
+      "index": 20,
+      "value": "",
+      "fullText": "Time spent in Visionary role>= 80 %   0%"
+    },
+    {
+      "selector": "tr",
+      "index": 21,
+      "value": "",
+      "fullText": "BFD Issues This Week= 0  1  4      2  1  0  1"
+    },
+    {
+      "selector": "tr",
+      "index": 22,
+      "value": "",
+      "fullText": "How many \"noise\" items in the last 2 weeks<= 1    0"
+    },
+    {
+      "selector": "tr",
+      "index": 23,
+      "value": "",
+      "fullText": "Number of times that we are not on same page<= 3    0"
+    },
+    {
+      "selector": "tr",
+      "index": 24,
+      "value": "",
+      "fullText": "Time spent as Visionary>= 80 %   0%"
+    },
+    {
+      "selector": "tr",
+      "index": 25,
+      "value": "",
+      "fullText": "Overtime per payroll<= 5 %   0%"
+    },
+    {
+      "selector": "tr",
+      "index": 26,
+      "value": "",
+      "fullText": "% of Potential Slots Filled (AC to correct)>= 80 %   0%"
+    }
+  ],
+  "totalCount": 27,
+  "url": "https://app.ninety.io/home",
+  "timestamp": "2025-06-18T11:36:23.719Z"
+}

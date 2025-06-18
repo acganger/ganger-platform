@@ -1,0 +1,16 @@
+{
+  "url": "https://app.ninety.io/api/v4/Person/65fa019a41ef4a0011034801",
+  "data": {
+    "_id": "65fa019a41ef4a0011034801",
+    "deleted": false,
+    "legals": {
+      "privacyPolicy": "2024-03-19T21:20:26.163Z",
+      "termsAndConditions": "2024-03-19T21:20:26.163Z"
+    },
+    "personMetadataId": "65f5d1f5f0607000125edb41",
+    "primaryEmail": "anand@gangerdermatology.com",
+    "primaryPhoneNumber": "+17346787072",
+    "lastPhoneUpdate": "2024-04-05T05:12:43.645Z"
+  },
+  "timestamp": "2025-06-18T12:35:27.374Z"
+}

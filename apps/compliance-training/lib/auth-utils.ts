@@ -80,9 +80,9 @@ export function generateTestToken(user: Partial<User>): string {
   
   const payload: AuthToken = {
     sub: user.id || 'test-user-id',
-    email: user.email || 'test@gangerdermatology.com',
+    email: user?.email || 'test@gangerdermatology.com',
     name: user.name || 'Test User',
-    role: user.role || 'user',
+    role: user?.role || 'user',
     permissions: user.permissions || ['compliance:view'],
     department: user.department,
     iat: Math.floor(Date.now() / 1000),
@@ -128,7 +128,7 @@ export function hasPermissions(user: User, requiredPermissions: string[]): boole
   }
 
   // Superadmin has all permissions
-  if (user.role === 'superadmin') {
+  if (user?.role === 'superadmin') {
     return true;
   }
 
@@ -142,7 +142,7 @@ export function hasPermissions(user: User, requiredPermissions: string[]): boole
  * Check if user has required role
  */
 export function hasRole(user: User, requiredRole: string): boolean {
-  return user.role === requiredRole || user.role === 'superadmin';
+  return user?.role === requiredRole || user?.role === 'superadmin';
 }
 
 /**

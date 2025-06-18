@@ -73,7 +73,6 @@ import {
   GraduationCap,
   Building,
   Truck,
-  Timer,
   CalendarDays,
   Zap,
   Lightbulb,

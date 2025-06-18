@@ -1,0 +1,502 @@
+{
+  "url": "https://app.ninety.io/api/v4/Issues/SentTo?teamId=65f5c6322caa0d001296501d&intervalCode=0002",
+  "data": {
+    "items": [
+      {
+        "_id": "66fc65d0c43f661461a06d98",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "From Quarterly Issues List",
+            "createdDate": "2024-10-10T11:41:35.912Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Clinical L10",
+            "createdDate": "2024-12-05T02:10:31.599Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>- cannot be over hours to be scheduled on-call</p>- compensation - $20 if released from call by 9am, OR one hour of hourly rate if higher.&nbsp; no call = released<p>- must remain sober, local, and ready to arrive/work within 45min of being called</p>- failure to report if call is accepted is grounds for discipline/dismissal",
+        "likes": [],
+        "userId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "On Call MA policy",
+        "ordinal": 121,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2",
+          "66a3e6eca71d580012b1def3",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "rating": 5,
+        "workingTeamId": "669570c11cfa910012b59ea4",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66a3e6eca71d580012b1def3",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66a3e6eca71d580012b1def4",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "traction@gangerdermatology.com",
+          "guideEnabled": null,
+          "personId": "66a797893b145d0011eb34e2",
+          "metadata": {
+            "_id": "66a3e6eca71d580012b1def4",
+            "deleted": false,
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2024-10-01T21:12:48.000Z"
+      },
+      {
+        "_id": "6751bb7bcdb6b7d79159b74f",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Aesthetics",
+            "createdDate": "2025-02-19T19:16:13.506Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>Look at metrics of others via google, insta</p>",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Aesthetic Expectations for full schedules/sales tracking/training",
+        "ordinal": 192,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "workingTeamId": "66f20355824b0f4b25cf7347",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2024-12-05T14:40:59.000Z"
+      },
+      {
+        "_id": "67b4cd40159f2c3ddb58ac03",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Dear [Patient’s Name],\n\nWe want to inform you of an important change regarding our video visit services. Due to new guidelines with insurance providers, we are no longer able to offer video visits for patients as a covered service. While we do not agree with this limitation on telehealth care, we must comply with the new guidance that will be effective as of April 1, 2025.\n\nAs always, we are happy to see you in person at any of our three clinic locations, but if you prefer the convenience of a video visit, we can still accommodate you. However, please note that any video visit on or after April 1, 2025 will not be submitted to your insurance provider, and payment will be required at the time of service as an out of pocket expense. The cost of the service varies depending on the issues discussed during the video visit and can range from $125-$175 per video visit.\n\nWe understand that this change may be inconvenient, and we remain committed to providing you with the highest level of care. If you have a video visit scheduled between now and April 1st, we will see you soon. But for those that are scheduled after April 1st, 2025, one of our staff will reach out to you to discuss your choice to either continue your care in person or talk through the process of continuing with the video visit option. If you would rather call us directly, we will be ready for you at 734-344-4567.\n\nThank you for trusting us with your care. We appreciate you being a part of our practice and look forward to continuing to serve you.\n\nKind regards,\nGanger Dermatology\n",
+            "createdDate": "2025-02-19T19:55:03.150Z",
+            "editedDate": "2025-02-24T17:43:59.033Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Wording was reviewed by providers on 2/11\n\nKrista responded with this:  the current extension was put through by Congress in the Dec 2024 budget extension for first quarter of 2025. As far as I can see, Congress has not approved a federal budget past 3/31/25, so it is possible that they will extend it in the new budget.\n",
+            "createdDate": "2025-02-19T19:55:35.015Z",
+            "editedDate": "2025-02-19T19:58:48.008Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "ANOTHER OPTION (SINCE WE DO NOT HAVE A FINAL DETERMINATION)\n\n\nDear [Patient’s Name],\n\nWe want to inform you of a POTENTIAL important change regarding our video visit services. We have been made aware that Congress will be meeting with Medicare and other insurance representatives in March to discuss eliminating coverage for telemedicine visits. Should these new guidelines go into effect, we would no longer be able to offer video visits for patients as a covered service. While we do not agree with this limitation on telehealth care, we would have no choice but to comply with the new guidance that could take effect on April 1, 2025.\n\nAs we await final determination on these changes, we wanted to make you aware of what your options would be:\n\n1. You are always welcome to come in person for your visits.\n2. We can continue to see you via video visit, however, it would be an out of pocket expense with payment due at time of service. Cost of appointments varies depending on the issues discussed but would range from $125-175 per visit.\n3. Lastly, if coming in person is not feasible and the out of pocket expense is cost prohibitive, we understand that some patients may need to make the choice to transition care to a provider more geographically convenient. We will be happy to facilitate the transfer of care to the new office and supply any records needed to make the transition as smooth as possible. We certainly do not want to see you go but will fully support what is best for you and your care.\n\nWe understand that this change may be inconvenient and we are also coming to terms with how it will impact our ability to provide service for our patients. Despite this, we remain committed to providing you with the highest level of care. If you have a video visit scheduled between now and April 1st, we will be able to see you as planned. For those that are scheduled AFTER April 1st, 2025, one of our staff will reach out to you to discuss your choice to either transition your care to in person visits, talk through the process of continuing video visits as an out of pocket expense, or consider transferring care to another office. If you would rather call us directly, we will be ready for you at 734-344-4567.\n\nAt this time, we are unsure if the changes will go ahead as proposed but wanted to give you time to consider your options. Unfortunately, we have no control over this impactful decision but we will continue to keep you informed about the status of this issue as information becomes available.\n\nThank you for trusting us with your care. We appreciate you being a part of our practice and look forward to continuing to serve you.\n\nKind regards,\nGanger Dermatology",
+            "createdDate": "2025-02-19T20:00:57.875Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Jessie began calling patients and the note will be sent out to all April patients on 2/25",
+            "createdDate": "2025-02-24T19:50:04.017Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Marketing L10",
+            "createdDate": "2025-02-27T15:35:19.823Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;' id=\"isPasted\">As of 2025, Medicare telehealth services will allow patients to receive audio-only telehealth services from any location in the U.S. until March 31, 2025, due to the American Relief Act, after which most telehealth services will generally require patients to be in a medical facility located in a rural area to be covered; this includes the ability to use audio-only communication for mental health services in the home without geographic restrictions.</span></p><p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Extended flexibility:</span></p><p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Through March 31, 2025, patients can access telehealth services from any location, including their homes, with no geographic restrictions.</span></p><p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Post-March 31 restrictions:</span></p><p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, Helvetica, sans-serif; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>After March 31, most telehealth services will likely require patients to be in a medical facility located in a rural area to be cover</span></p>",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Video Visits  Ending",
+        "ordinal": 276,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66b280e5983d6a0011e78f1d",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "workingTeamId": "6751ddddb7e07f76f5d5fc31",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-02-18T18:11:12.000Z"
+      },
+      {
+        "_id": "67c8a2d565df6e7aacc72fd5",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "https://gangerdermatology.com/site/patient-information/appointment-policy/",
+            "createdDate": "2025-03-05T19:26:26.768Z"
+          },
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "Can we please review and/or revise this and then I will send this to Terri and the admin team\n",
+            "createdDate": "2025-03-05T19:29:35.605Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Marketing L10",
+            "createdDate": "2025-03-06T15:24:31.804Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Appointment Policy Page ",
+        "ordinal": 303,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66b280e5983d6a0011e78f1d",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "rating": 2,
+        "workingTeamId": "6751ddddb7e07f76f5d5fc31",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-03-05T19:15:33.000Z"
+      },
+      {
+        "_id": "67c8c063b559fc5b5c1859a8",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "•\tKevin Thompson\n•\tJamie Taweel\n•\tBrandy Ebherhardt\n•\tJonathon Woloko\n•\tRegina Rysk (sp?)\n•\tCaroline Meldrum/Park Pediatrics\n•\tColleen DeWitt\n•\tDeborah Weener\n",
+            "createdDate": "2025-03-05T21:21:53.443Z"
+          },
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "Letter (from you)\n\nHandout (1-pager, generic about practice/providers/locations/services/etc)\n\nCards 50-100\n\n“Prescription pad” style tear off to give to patients \n",
+            "createdDate": "2025-03-05T23:26:43.897Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Marketing L10",
+            "createdDate": "2025-03-06T15:25:15.594Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "AF Referring Providers ",
+        "ordinal": 304,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66b280e5983d6a0011e78f1d",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "rating": 1,
+        "workingTeamId": "6751ddddb7e07f76f5d5fc31",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-03-05T21:21:39.000Z"
+      },
+      {
+        "_id": "67dc2d0299f904bc2edd14f3",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Spoke to MR re: her new role to review some of this data",
+            "createdDate": "2025-05-20T15:59:39.805Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Admin L10",
+            "createdDate": "2025-05-20T15:59:58.708Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>How many times is this happening? Why? What visit types?</p><p>Remind patients at check out to refer to cx policy if condition improves.&nbsp;</p><p>How to get credit card on file for every appt.</p><p><br></p><p><br></p>",
+        "likes": [],
+        "userId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Confirmed yet no-showed visits",
+        "ordinal": 321,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66a3e6eca71d580012b1def3",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "completedDate": null,
+        "workingTeamId": "66ab9df8fde39d0012724039",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66a3e6eca71d580012b1def3",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66a3e6eca71d580012b1def4",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "traction@gangerdermatology.com",
+          "guideEnabled": null,
+          "personId": "66a797893b145d0011eb34e2",
+          "metadata": {
+            "_id": "66a3e6eca71d580012b1def4",
+            "deleted": false,
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        },
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-03-20T14:58:10.000Z"
+      },
+      {
+        "_id": "67e2b6add04d4a695884a70a",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Leadership Team sent the issue to Admin L10",
+            "createdDate": "2025-04-23T00:12:10.466Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Corrections to be made",
+        "ordinal": 326,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66a3e6eca71d580012b1def3",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "workingTeamId": "66ab9df8fde39d0012724039",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66a3e6eca71d580012b1def3",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66a3e6eca71d580012b1def4",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "traction@gangerdermatology.com",
+          "guideEnabled": null,
+          "personId": "66a797893b145d0011eb34e2",
+          "metadata": {
+            "_id": "66a3e6eca71d580012b1def4",
+            "deleted": false,
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-03-25T13:59:09.000Z"
+      },
+      {
+        "_id": "682c7eace833ff13ed23f447",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "Leadership Team sent the issue to Marketing L10",
+            "createdDate": "2025-05-22T20:54:30.667Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;' id=\"isPasted\">Hydra Facial – get rid of standard – only offer Deluxe. If someone wants standard then we add on the wet diamond.</p><p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;'>Marketing more derm for aesthetics such as ‘are you seeing a provider for acne? Leah can do a Hydra Facial on your back to get rid of that back-ne. medical pts before?&nbsp;</p><p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;'>Each aesthetician has their own special that they can ‘sell’ - off the books - special - \"work on with you\"&nbsp;</p><p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;'>Using our own staff as influencers for example Jordan has acne we should do a patient journey with her under going a few treatments. sponsorships. model call to community &amp; staff. comp visit. need roll out plan.&nbsp;</p><p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;'>Juvéderm/LUMIVIVE Promotional Buy-In</p><p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;'>Dermaplane – only 1 patient in the last 6 months did not have another treatment. fraction number: time - opportunity cost - standard alone - include package - \"baked in price\" bench mark $150 per 15 min.&nbsp;</p><p style='margin-top:0in;margin-right:0in;margin-bottom:8.0pt;margin-left:0in;line-height:115%;font-size:16px;font-family:\"Aptos\",sans-serif;'>Nano-hydra facials&nbsp;</p><p><br></p>",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Aesthetic Game Plan ",
+        "ordinal": 369,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66b280e5983d6a0011e78f1d"
+        ],
+        "addCreatorToFollowersList": true,
+        "workingTeamId": "6751ddddb7e07f76f5d5fc31",
+        "workingTeamSentBack": false,
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-20T13:07:56.000Z"
+      }
+    ],
+    "totalCount": 8
+  },
+  "timestamp": "2025-06-18T11:36:24.712Z"
+}

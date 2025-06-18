@@ -1,12 +1,18 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { AuthProvider } from '@/lib/auth-eos';
+import { useRouter } from 'next/router';
+import { EOSAuthProvider } from '@/lib/auth-eos';
+import { StaffPortalWrapper } from '@/components/StaffPortalWrapper';
 // import { ToastProvider } from '@ganger/ui';
 // import { EnhancedCommunicationHub, EnhancedPaymentHub } from '@ganger/integrations';
 import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  
+  // Skip auth providers for error pages to prevent SSG issues
+  const isErrorPage = router.pathname === '/404' || router.pathname === '/500';
   useEffect(() => {
     // Register service worker for PWA
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
@@ -112,15 +118,21 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
 
-      <AuthProvider>
-        {/* <ToastProvider>
-          <EnhancedCommunicationHub>
-            <EnhancedPaymentHub> */}
-              <Component {...pageProps} />
-            {/* </EnhancedPaymentHub>
-          </EnhancedCommunicationHub>
-        </ToastProvider> */}
-      </AuthProvider>
+      {isErrorPage ? (
+        <Component {...pageProps} />
+      ) : (
+        <EOSAuthProvider>
+          <StaffPortalWrapper>
+            {/* <ToastProvider>
+              <EnhancedCommunicationHub>
+                <EnhancedPaymentHub> */}
+                  <Component {...pageProps} />
+                {/* </EnhancedPaymentHub>
+              </EnhancedCommunicationHub>
+            </ToastProvider> */}
+          </StaffPortalWrapper>
+        </EOSAuthProvider>
+      )}
     </>
   );
 }

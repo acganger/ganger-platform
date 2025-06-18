@@ -2,14 +2,23 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
-  // Removed 'output: export' to fix API routes and dev server startup
-  trailingSlash: true,
-  distDir: 'dist',
+  
+  // Cloudflare Workers runtime
+  experimental: {
+    runtime: 'edge',
+  },
+  
+  // Staff portal integration
+  basePath: '/reps',
+  assetPrefix: '/reps',
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
+  
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true,
   },
 };
 

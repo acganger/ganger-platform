@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { format, formatDistanceToNow } from 'date-fns';
+// import { format, formatDistanceToNow } from 'date-fns';
 import { 
   ClockIcon, 
   UserIcon, 
@@ -65,7 +65,8 @@ export function AuthorizationCard({ authorization }: AuthorizationCardProps) {
     if (authorization.estimated_processing_time && authorization.processing_started_at) {
       const startTime = new Date(authorization.processing_started_at);
       const estimatedEndTime = new Date(startTime.getTime() + authorization.estimated_processing_time * 60 * 60 * 1000);
-      return formatDistanceToNow(estimatedEndTime, { addSuffix: true });
+      // return formatDistanceToNow(estimatedEndTime, { addSuffix: true });
+      return `${Math.round((estimatedEndTime.getTime() - Date.now()) / 60000)} min remaining`;
     }
     return null;
   };
@@ -87,7 +88,7 @@ export function AuthorizationCard({ authorization }: AuthorizationCardProps) {
             Authorization #{authorization.id.slice(-8)}
           </h3>
           <p className="text-sm text-gray-500">
-            Created {formatDistanceToNow(new Date(authorization.created_at), { addSuffix: true })}
+            Created {new Date(authorization.created_at).toLocaleDateString()}
           </p>
         </div>
         <div className="flex-shrink-0">
@@ -155,7 +156,7 @@ export function AuthorizationCard({ authorization }: AuthorizationCardProps) {
 
         {/* Last updated */}
         <span className="text-xs text-gray-400">
-          Updated {formatDistanceToNow(new Date(authorization.updated_at), { addSuffix: true })}
+          Updated {new Date(authorization.updated_at).toLocaleDateString()}
         </span>
       </div>
     </div>

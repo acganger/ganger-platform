@@ -5,17 +5,22 @@
   "description": "Ganger Platform - AI-Powered Medication Authorization Assistant",
   "scripts": {
     "dev": "next dev --port 3005",
-    "build": "next build",
-    "build:worker": "echo 'Skipping R2 upload for now'",
+    "build": "next build && npx @cloudflare/next-on-pages",
+    "build:worker": "npx @cloudflare/next-on-pages",
     "upload:r2": "find dist -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.ico' | while read file; do key=${file#dist/}; wrangler r2 object put ganger-medication-auth-assets/$key --file $file; done",
-    "deploy": "wrangler deploy",
+    "deploy": "npm run build && wrangler pages deploy .vercel/output/static --project-name=medication-auth-production",
     "deploy:staging": "wrangler deploy --env staging",
     "deploy:production": "wrangler deploy --env production",
+    "deploy:patient": "npm run build && wrangler deploy --config wrangler-patient.toml --env production",
+    "deploy:staff": "npm run build && wrangler deploy --config wrangler-staff.toml --env production",
+    "deploy:dual": "npm run deploy:patient && npm run deploy:staff",
     "start": "node server.js",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "build:next": "next build"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/auth": "workspace:*",
     "@ganger/db": "workspace:*",
     "@ganger/integrations": "workspace:*",
@@ -28,17 +33,17 @@
     "@tailwindcss/postcss": "^4.1.10",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query": "^5.0.0",
-    "date-fns": "^3.6.0",
-    "lucide-react": "^0.390.0",
+    "clsx": "^2.0.0",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^10.16.16",
+    "lucide-react": "^0.516.0",
     "next": "^14.2.0",
     "openai": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",
     "recharts": "^2.12.0",
-    "zod": "^3.23.8",
-    "framer-motion": "^10.16.16",
-    "clsx": "^2.0.0"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@ganger/config": "workspace:*",
@@ -47,7 +52,8 @@
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "tailwindcss": "^4.1.7"
   },
   "keywords": [
     "ganger-platform",

@@ -1,0 +1,625 @@
+{
+  "url": "https://app.ninety.io/api/v4/MeasurablesV3/UserScorecard?periodInterval=weekly&numPeriods=6&isInBeta=true",
+  "data": {
+    "headers": [
+      "Jun 20 - Jun 26",
+      "Jun 13 - Jun 19",
+      "Jun 06 - Jun 12",
+      "May 30 - Jun 05",
+      "May 23 - May 29",
+      "May 16 - May 22"
+    ],
+    "measurables": [
+      {
+        "_id": "6658941fc73f1a0012a30f64",
+        "deleted": false,
+        "description": "",
+        "title": "Time spent in Visionary role",
+        "unit": "percentage",
+        "currency": "USD",
+        "isSmart": false,
+        "manualScoreOverride": true,
+        "formulaString": "",
+        "formulaValues": [],
+        "periodInterval": "weekly",
+        "companyId": "65f5c6312caa0d0012965019",
+        "defaultGoal": {
+          "max": 0,
+          "min": 0,
+          "orientation": "gte",
+          "value": 80
+        },
+        "userId": "65f5d1f5f0607000125edb40",
+        "seatId": "65f5c6322caa0d001296504a",
+        "archivedAt": null,
+        "archivedBy": false,
+        "createdAt": null,
+        "createdBy": false,
+        "updatedAt": "2025-02-04T16:19:13.915Z",
+        "updatedBy": "65f5d1f95578b300132330d2",
+        "deletedAt": null,
+        "deletedBy": false,
+        "lastScoreUpdatedAt": "2025-02-04T16:17:30.674Z",
+        "goalCalculation": "total",
+        "hideAverage": false,
+        "hideGoal": false,
+        "hideTotal": false,
+        "teamIds": [],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "6658941fc73f1a0012a30f64",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658941fc73f1a0012a30f64",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658941fc73f1a0012a30f64",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-02T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658941fc73f1a0012a30f64",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-26T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658941fc73f1a0012a30f64",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-19T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658941fc73f1a0012a30f64",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-12T00:00:00.000Z"
+          }
+        ],
+        "total": 0,
+        "average": null,
+        "statusClass": "off-track",
+        "ordinal": 0
+      },
+      {
+        "_id": "67a2435966cb9a216bd5af7b",
+        "archivedAt": null,
+        "archivedBy": null,
+        "companyId": "65f5c6312caa0d0012965019",
+        "createdAt": "2025-02-04T16:42:01.887Z",
+        "createdBy": "65f9a6e1acdc880012cf077c",
+        "currency": "USD",
+        "defaultGoal": {
+          "max": 0,
+          "min": 0,
+          "orientation": "lte",
+          "value": 3
+        },
+        "deleted": false,
+        "deletedAt": null,
+        "deletedBy": null,
+        "description": "",
+        "formulaString": "",
+        "formulaValues": [],
+        "goalCalculation": "total",
+        "hideAverage": false,
+        "hideTotal": false,
+        "hideGoal": false,
+        "isSmart": false,
+        "lastScoreUpdatedAt": null,
+        "manualScoreOverride": false,
+        "periodInterval": "weekly",
+        "private": false,
+        "title": "Number of times that we are not on same page",
+        "seatId": null,
+        "unit": "number",
+        "updatedAt": "2025-02-04T16:44:26.151Z",
+        "updatedBy": "65f5d1f95578b300132330d2",
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamIds": [
+          "661e94739fc14e001208cc30"
+        ],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "67a2435966cb9a216bd5af7b",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a2435966cb9a216bd5af7b",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a2435966cb9a216bd5af7b",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-02T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a2435966cb9a216bd5af7b",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-26T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a2435966cb9a216bd5af7b",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-19T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a2435966cb9a216bd5af7b",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-12T00:00:00.000Z"
+          }
+        ],
+        "total": 0,
+        "average": null,
+        "statusClass": "off-track"
+      },
+      {
+        "_id": "6658a2c9854ef900120356c7",
+        "deleted": false,
+        "description": "If it doesn't aim towards rocks or annual goals, this is considered \"noise\"",
+        "title": "How many \"noise\" items in the last 2 weeks",
+        "unit": "number",
+        "currency": "USD",
+        "isSmart": false,
+        "manualScoreOverride": true,
+        "formulaString": "",
+        "formulaValues": [],
+        "periodInterval": "weekly",
+        "companyId": "65f5c6312caa0d0012965019",
+        "defaultGoal": {
+          "max": 0,
+          "min": 0,
+          "orientation": "lte",
+          "value": 1
+        },
+        "userId": "65f5d1f5f0607000125edb40",
+        "seatId": null,
+        "archivedAt": null,
+        "archivedBy": false,
+        "createdAt": null,
+        "createdBy": false,
+        "updatedAt": "2025-02-04T16:23:51.620Z",
+        "updatedBy": "65f5d1f95578b300132330d2",
+        "deletedAt": null,
+        "deletedBy": false,
+        "goalCalculation": "total",
+        "hideAverage": false,
+        "hideGoal": false,
+        "hideTotal": false,
+        "teamIds": [
+          "661e94739fc14e001208cc30"
+        ],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "6658a2c9854ef900120356c7",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658a2c9854ef900120356c7",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658a2c9854ef900120356c7",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-02T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658a2c9854ef900120356c7",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-26T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658a2c9854ef900120356c7",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-19T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6658a2c9854ef900120356c7",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-12T00:00:00.000Z"
+          }
+        ],
+        "total": 0,
+        "average": null,
+        "statusClass": "off-track"
+      },
+      {
+        "_id": "6793fd506f0d03ec74cb55ea",
+        "archivedAt": null,
+        "archivedBy": null,
+        "companyId": "65f5c6312caa0d0012965019",
+        "createdAt": "2025-01-24T20:51:28.618Z",
+        "createdBy": "5dc57e79c29ba40011fb9292",
+        "currency": "USD",
+        "defaultGoal": {
+          "max": 0,
+          "min": 0,
+          "orientation": "equal",
+          "value": 0
+        },
+        "deleted": false,
+        "deletedAt": null,
+        "deletedBy": null,
+        "description": "",
+        "formulaString": "",
+        "formulaValues": [],
+        "goalCalculation": "total",
+        "hideAverage": false,
+        "hideTotal": false,
+        "hideGoal": false,
+        "isSmart": false,
+        "lastScoreUpdatedAt": "2025-06-12T13:13:56.770Z",
+        "manualScoreOverride": false,
+        "periodInterval": "weekly",
+        "private": false,
+        "title": "BFD Issues This Week",
+        "seatId": "65f5c6322caa0d001296504a",
+        "unit": "number",
+        "updatedAt": "2025-06-12T13:13:56.784Z",
+        "updatedBy": "66a3e6eca71d580012b1def3",
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamIds": [
+          "65f5c6322caa0d001296501d"
+        ],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "6793fd506f0d03ec74cb55ea",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6793fd506f0d03ec74cb55ea",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": "684ad24089a2fd4ab97a70d6",
+            "companyId": "65f5c6312caa0d0012965019",
+            "measurableId": "6793fd506f0d03ec74cb55ea",
+            "periodStartDate": "2025-06-02T00:00:00.000Z",
+            "updatedAt": "2025-06-12T13:13:56.770Z",
+            "updatedBy": "66a3e6eca71d580012b1def3",
+            "value": 2,
+            "note": "Provider freakout about MA training email\nAriel"
+          },
+          {
+            "_id": "68419b9c4e8e5006e1b4a79d",
+            "companyId": "65f5c6312caa0d0012965019",
+            "measurableId": "6793fd506f0d03ec74cb55ea",
+            "periodStartDate": "2025-05-26T00:00:00.000Z",
+            "updatedAt": "2025-06-05T13:29:20.294Z",
+            "updatedBy": "65f5d1f95578b300132330d2",
+            "value": 1,
+            "note": "Staff Page revamp"
+          },
+          {
+            "_id": "6838631b4e8e5006e12aa6bc",
+            "companyId": "65f5c6312caa0d0012965019",
+            "measurableId": "6793fd506f0d03ec74cb55ea",
+            "periodStartDate": "2025-05-19T00:00:00.000Z",
+            "updatedAt": "2025-05-29T13:37:31.503Z",
+            "updatedBy": "65f5d1f95578b300132330d2",
+            "value": 0
+          },
+          {
+            "_id": "682f25f94e8e5006e1c31420",
+            "companyId": "65f5c6312caa0d0012965019",
+            "measurableId": "6793fd506f0d03ec74cb55ea",
+            "periodStartDate": "2025-05-12T00:00:00.000Z",
+            "updatedAt": "2025-05-22T13:26:17.524Z",
+            "updatedBy": "66a3e6eca71d580012b1def3",
+            "value": 1
+          }
+        ],
+        "total": 4,
+        "average": 1,
+        "statusClass": "at-risk"
+      },
+      {
+        "_id": "6793fa1c6f0d03ec74cb4dd5",
+        "archivedAt": null,
+        "archivedBy": null,
+        "companyId": "65f5c6312caa0d0012965019",
+        "createdAt": "2025-01-24T20:37:48.735Z",
+        "createdBy": "5dc57e79c29ba40011fb9292",
+        "currency": "USD",
+        "defaultGoal": {
+          "max": 0,
+          "min": 0,
+          "orientation": "gte",
+          "value": 80
+        },
+        "deleted": false,
+        "deletedAt": null,
+        "deletedBy": null,
+        "description": "",
+        "formulaString": "",
+        "formulaValues": [],
+        "goalCalculation": "total",
+        "hideAverage": false,
+        "hideTotal": false,
+        "hideGoal": false,
+        "isSmart": false,
+        "lastScoreUpdatedAt": null,
+        "manualScoreOverride": false,
+        "periodInterval": "weekly",
+        "private": false,
+        "title": "% of Potential Slots Filled (AC to correct)",
+        "seatId": null,
+        "unit": "percentage",
+        "updatedAt": "2025-01-24T21:13:06.389Z",
+        "updatedBy": "65f5c6322caa0d001296501c",
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamIds": [
+          "65f5c6322caa0d001296501d"
+        ],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "6793fa1c6f0d03ec74cb4dd5",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6793fa1c6f0d03ec74cb4dd5",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6793fa1c6f0d03ec74cb4dd5",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-02T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6793fa1c6f0d03ec74cb4dd5",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-26T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6793fa1c6f0d03ec74cb4dd5",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-19T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "6793fa1c6f0d03ec74cb4dd5",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-12T00:00:00.000Z"
+          }
+        ],
+        "total": 0,
+        "average": null,
+        "statusClass": "off-track"
+      },
+      {
+        "_id": "67a23eaea0e4119775f149dd",
+        "archivedAt": null,
+        "archivedBy": null,
+        "companyId": "65f5c6312caa0d0012965019",
+        "createdAt": "2025-02-04T16:22:06.813Z",
+        "createdBy": "65f9a6e1acdc880012cf077c",
+        "currency": "USD",
+        "defaultGoal": {
+          "max": 0,
+          "min": 0,
+          "orientation": "gte",
+          "value": 80
+        },
+        "deleted": false,
+        "deletedAt": null,
+        "deletedBy": null,
+        "description": "",
+        "formulaString": "",
+        "formulaValues": [],
+        "goalCalculation": "total",
+        "hideAverage": false,
+        "hideTotal": false,
+        "hideGoal": false,
+        "isSmart": false,
+        "lastScoreUpdatedAt": null,
+        "manualScoreOverride": false,
+        "periodInterval": "weekly",
+        "private": false,
+        "title": "Time spent as Visionary",
+        "seatId": null,
+        "unit": "percentage",
+        "updatedAt": null,
+        "updatedBy": null,
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamIds": [
+          "661e94739fc14e001208cc30"
+        ],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "67a23eaea0e4119775f149dd",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a23eaea0e4119775f149dd",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a23eaea0e4119775f149dd",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-02T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a23eaea0e4119775f149dd",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-26T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a23eaea0e4119775f149dd",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-19T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "67a23eaea0e4119775f149dd",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-12T00:00:00.000Z"
+          }
+        ],
+        "total": 0,
+        "average": null,
+        "statusClass": "off-track"
+      },
+      {
+        "_id": "66ab8f0607e73400116388ae",
+        "deleted": false,
+        "description": "",
+        "title": "Overtime per payroll",
+        "unit": "percentage",
+        "currency": "USD",
+        "isSmart": false,
+        "manualScoreOverride": true,
+        "formulaString": "",
+        "formulaValues": [],
+        "periodInterval": "weekly",
+        "companyId": "65f5c6312caa0d0012965019",
+        "defaultGoal": {
+          "value": 5,
+          "min": null,
+          "max": null,
+          "orientation": "lte"
+        },
+        "userId": "65f5d1f5f0607000125edb40",
+        "seatId": "65f5c6322caa0d001296504a",
+        "archivedAt": null,
+        "archivedBy": false,
+        "createdAt": null,
+        "createdBy": false,
+        "updatedAt": null,
+        "updatedBy": false,
+        "deletedAt": null,
+        "deletedBy": false,
+        "lastScoreUpdatedAt": "2024-09-12T13:43:45.000Z",
+        "teamIds": [],
+        "attachments": [],
+        "scores": [
+          {
+            "_id": null,
+            "measurableId": "66ab8f0607e73400116388ae",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-16T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "66ab8f0607e73400116388ae",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-09T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "66ab8f0607e73400116388ae",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-06-02T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "66ab8f0607e73400116388ae",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-26T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "66ab8f0607e73400116388ae",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-19T00:00:00.000Z"
+          },
+          {
+            "_id": null,
+            "measurableId": "66ab8f0607e73400116388ae",
+            "companyId": "65f5c6312caa0d0012965019",
+            "value": null,
+            "periodStartDate": "2025-05-12T00:00:00.000Z"
+          }
+        ],
+        "total": 0,
+        "average": null,
+        "statusClass": "off-track"
+      }
+    ],
+    "totalCount": 7
+  },
+  "timestamp": "2025-06-18T11:36:44.620Z"
+}

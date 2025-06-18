@@ -67,7 +67,7 @@ export default async function handler(
     }
 
     // Check domain restriction
-    const email = session.user.email;
+    const email = session.user?.email;
     if (!email?.endsWith('@gangerdermatology.com')) {
       return res.status(403).json({
         success: false,
@@ -91,19 +91,19 @@ export default async function handler(
       // User doesn't exist, create profile
       const newProfile = {
         id: session.user.id,
-        employee_id: session.user.email?.split('@')[0] || session.user.id.substring(0, 8),
-        full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Unknown User',
-        email: session.user.email!,
+        employee_id: session.user?.email?.split('@')[0] || session.user.id.substring(0, 8),
+        full_name: session.user.user_metadata?.full_name || session.user?.email?.split('@')[0] || 'Unknown User',
+        email: session.user?.email!,
         department: 'General',
         role: 'staff' as const,
         location: 'Multiple' as const,
         is_active: true,
         google_user_data: {
           id: session.user.id,
-          email: session.user.email,
+          email: session.user?.email,
           name: session.user.user_metadata?.full_name,
           picture: session.user.user_metadata?.avatar_url,
-          verified_email: session.user.email_confirmed_at !== null,
+          verified_email: session.user?.email_confirmed_at !== null,
           created_at: new Date().toISOString()
         }
       };

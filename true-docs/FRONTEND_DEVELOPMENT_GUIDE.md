@@ -420,6 +420,76 @@ describe('Button Component', () => {
 
 # Application Development Guidelines
 
+## **Cloudflare Workers Frontend Architecture**
+
+### **Next.js Configuration for Workers**
+
+**MANDATORY Configuration Pattern**:
+```typescript
+// next.config.js - REQUIRED for all apps
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY: Enables Workers compatibility
+  },
+  images: {
+    unoptimized: true,       // REQUIRED: Workers image optimization
+  },
+  basePath: '/[app-path]',   // REQUIRED: App-specific routing
+  
+  // ❌ NEVER INCLUDE THESE (cause 405 errors):
+  // output: 'export',
+  // trailingSlash: true,
+  // distDir: 'dist'
+}
+
+module.exports = nextConfig
+```
+
+### **Staff Portal Integration (MANDATORY)**
+
+**Every staff application MUST use this pattern**:
+```typescript
+// app/layout.tsx - REQUIRED structure
+import { StaffPortalLayout } from '@ganger/ui/staff';
+import { AuthProvider } from '@ganger/auth';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <AuthProvider>
+          <StaffPortalLayout currentApp="[app-name]">
+            {children}
+          </StaffPortalLayout>
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### **Deployment Verification**
+
+**Before marking any app complete, verify**:
+```bash
+# 1. Build verification
+pnpm build                           # Must complete without errors
+
+# 2. Workers compatibility check  
+curl -I https://[app].workers.dev     # Must return 200, not 405
+
+# 3. Staff portal integration check
+grep -r "StaffPortalLayout" src/      # Must find implementation
+
+# 4. Anti-pattern check
+grep -r "output.*export" .            # Must return nothing
+```
+
 ## New Application Development Standards
 
 All new applications in the Ganger Platform MUST follow these comprehensive standards to ensure consistency, maintainability, and architectural compliance.
@@ -438,10 +508,15 @@ import {
 } from '@ganger/integrations/client';
 import { validateForm, formatters } from '@ganger/utils/client';
 
+// ✅ STAFF PORTAL INTEGRATION (MANDATORY for all staff applications)
+import { StaffPortalNav, StaffPortalLayout } from '@ganger/ui/staff';
+import { useStaffAuth, useStaffNavigation } from '@ganger/auth/staff';
+
 // ✅ SHARED TYPES - Framework-agnostic, safe for both client and server
 import type { 
   User, Patient, Appointment, Provider,
-  ApiResponse, PaginationMeta, ValidationRule
+  ApiResponse, PaginationMeta, ValidationRule,
+  StaffUser, StaffRole, StaffPermissions
 } from '@ganger/types';
 
 // ❌ PROHIBITED IN CLIENT COMPONENTS
@@ -449,6 +524,221 @@ import { db, createClient } from '@ganger/db'; // Server-only
 import { ServerCommunicationService } from '@ganger/integrations/server'; // Server-only
 import { googleapis } from 'googleapis'; // Server-only
 import puppeteer from 'puppeteer'; // Server-only
+```
+
+### **Staff Portal Integration Requirements**
+
+**CRITICAL**: All staff applications MUST integrate with the staff portal navigation and authentication system. This ensures seamless navigation across all 16 applications.
+
+**Required Staff Application Structure:**
+```typescript
+'use client'
+
+import { StaffPortalLayout, StaffPortalNav } from '@ganger/ui/staff';
+import { useStaffAuth } from '@ganger/auth/staff';
+import { Button, Card, DataTable } from '@ganger/ui';
+
+export default function StaffInventoryApp() {
+  const { user, isAuthenticated, permissions } = useStaffAuth();
+  
+  // All staff apps require authentication
+  if (!isAuthenticated) {
+    return <StaffLoginRedirect appName="inventory" />;
+  }
+  
+  return (
+    <StaffPortalLayout currentApp="inventory">
+      {/* Staff navigation automatically included */}
+      <StaffPortalNav 
+        currentApp="inventory"
+        userRole={user.role}
+        availableApps={permissions.apps}
+      />
+      
+      {/* App-specific content */}
+      <main className="staff-app-content">
+        <h1>Inventory Management</h1>
+        {/* Your inventory functionality here */}
+      </main>
+    </StaffPortalLayout>
+  );
+}
+```
+
+**External/Patient Application Structure:**
+```typescript
+// NO staff portal integration for external apps
+'use client'
+
+import { Button, Card } from '@ganger/ui';
+
+export default function PatientHandoutsApp() {
+  // NO staff authentication or navigation
+  return (
+    <div className="patient-app">
+      <header className="patient-header">
+        <h1>Ganger Dermatology</h1>
+        <p>Patient Handouts</p>
+      </header>
+      
+      <main className="patient-content">
+        {/* Patient-facing functionality only */}
+      </main>
+    </div>
+  );
+}
+```
+
+### **Dual-Interface Application Patterns**
+
+**Four applications require both staff and external interfaces:**
+
+**1. Handouts Generator - Dual Interface**
+```typescript
+// Staff Interface: apps/handouts/staff-app.tsx
+'use client'
+import { StaffPortalLayout } from '@ganger/ui/staff';
+
+export default function HandoutsStaffApp() {
+  return (
+    <StaffPortalLayout currentApp="handouts">
+      <div className="handouts-staff">
+        <h1>Handout Management</h1>
+        {/* Create, edit, manage handouts */}
+        {/* Analytics and tracking */}
+        {/* QR code generation */}
+      </div>
+    </StaffPortalLayout>
+  );
+}
+
+// Patient Interface: apps/handouts/patient-app.tsx
+'use client'
+export default function HandoutsPatientApp() {
+  return (
+    <div className="handouts-patient">
+      <header className="patient-header">
+        <h1>Patient Handouts</h1>
+      </header>
+      <main>
+        {/* View handouts via QR codes */}
+        {/* Download PDF materials */}
+        {/* NO staff functions */}
+      </main>
+    </div>
+  );
+}
+```
+
+**2. Check-in Kiosk - Dual Interface**
+```typescript
+// Staff Interface: apps/checkin-kiosk/admin-app.tsx
+'use client'
+import { StaffPortalLayout } from '@ganger/ui/staff';
+
+export default function KioskAdminApp() {
+  return (
+    <StaffPortalLayout currentApp="kiosk">
+      <div className="kiosk-admin">
+        <h1>Kiosk Administration</h1>
+        {/* Monitor kiosk usage */}
+        {/* Configure kiosk settings */}
+        {/* View check-in analytics */}
+      </div>
+    </StaffPortalLayout>
+  );
+}
+
+// Patient Interface: apps/checkin-kiosk/patient-app.tsx
+'use client'
+export default function KioskPatientApp() {
+  return (
+    <div className="kiosk-patient">
+      <header className="kiosk-header">
+        <h1>Check-In</h1>
+      </header>
+      <main className="touch-interface">
+        {/* Touch-optimized check-in */}
+        {/* Payment processing */}
+        {/* NO staff functions */}
+      </main>
+    </div>
+  );
+}
+```
+
+**3. Medication Authorization - Dual Interface**
+```typescript
+// Staff Interface: apps/medication-auth/staff-app.tsx
+'use client'
+import { StaffPortalLayout } from '@ganger/ui/staff';
+
+export default function MedsStaffApp() {
+  return (
+    <StaffPortalLayout currentApp="meds">
+      <div className="meds-staff">
+        <h1>Medication Authorization Management</h1>
+        {/* Review authorization requests */}
+        {/* Approve/deny requests */}
+        {/* Manage prior authorizations */}
+      </div>
+    </StaffPortalLayout>
+  );
+}
+
+// Patient Interface: apps/medication-auth/patient-app.tsx
+'use client'
+export default function MedsPatientApp() {
+  return (
+    <div className="meds-patient">
+      <header className="patient-header">
+        <h1>Medication Authorization</h1>
+      </header>
+      <main>
+        {/* Submit authorization requests */}
+        {/* Check request status */}
+        {/* NO staff functions */}
+      </main>
+    </div>
+  );
+}
+```
+
+**4. Pharma Scheduling - Dual Interface**
+```typescript
+// Staff Interface: apps/pharma-scheduling/admin-app.tsx
+'use client'
+import { StaffPortalLayout } from '@ganger/ui/staff';
+
+export default function RepsAdminApp() {
+  return (
+    <StaffPortalLayout currentApp="reps">
+      <div className="reps-admin">
+        <h1>Rep Scheduling Administration</h1>
+        {/* Approve rep appointments */}
+        {/* Manage scheduling rules */}
+        {/* View rep visit analytics */}
+      </div>
+    </StaffPortalLayout>
+  );
+}
+
+// Rep Interface: apps/pharma-scheduling/booking-app.tsx
+'use client'
+export default function RepsBookingApp() {
+  return (
+    <div className="reps-booking">
+      <header className="rep-header">
+        <h1>Rep Appointment Booking</h1>
+      </header>
+      <main>
+        {/* Book appointments */}
+        {/* View availability */}
+        {/* NO staff functions */}
+      </main>
+    </div>
+  );
+}
 ```
 
 ## Client-Server Integration Standards

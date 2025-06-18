@@ -38,51 +38,37 @@ function InventoryDashboard() {
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
-        
-        setStats({
-          totalItems: 1247,
-          lowStock: 23,
-          recentOrders: 8,
-          monthlyUsage: 342
-        });
-
-        setItems([
-          {
-            id: '1',
-            name: 'Surgical Gloves (Medium)',
-            category: 'PPE',
-            currentStock: 150,
-            minStock: 100,
-            lastOrdered: '2024-01-15',
-            status: 'In Stock'
-          },
-          {
-            id: '2',
-            name: 'Bandages 4x4',
-            category: 'Wound Care',
-            currentStock: 25,
-            minStock: 50,
-            lastOrdered: '2024-01-10',
-            status: 'Low Stock'
-          },
-          {
-            id: '3',
-            name: 'Antiseptic Solution',
-            category: 'Disinfectants',
-            currentStock: 0,
-            minStock: 20,
-            lastOrdered: '2024-01-05',
-            status: 'Out of Stock'
-          }
+        // Fetch real inventory data from API
+        const [statsResponse, itemsResponse] = await Promise.all([
+          fetch('/inventory/api/stats'),
+          fetch('/inventory/api/items')
         ]);
+
+        if (statsResponse.ok) {
+          const statsData = await statsResponse.json();
+          setStats(statsData);
+        }
+
+        if (itemsResponse.ok) {
+          const itemsData = await itemsResponse.json();
+          setItems(itemsData.items || []);
+        }
 
         analytics.track('dashboard_loaded', 'navigation', {
           user_role: profile?.role,
-          total_items: 1247
+          total_items: stats?.totalItems || 0
         });
-      } catch {
-        // eslint-disable-next-line no-console
+
+      } catch (error) {
+        console.error('Error loading inventory data:', error);
+        // Set fallback/empty state
+        setStats({
+          totalItems: 0,
+          lowStock: 0,
+          recentOrders: 0,
+          monthlyUsage: 0
+        });
+        setItems([]);
       } finally {
         setLoading(false);
       }

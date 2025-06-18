@@ -1,0 +1,59 @@
+# Ganger Platform - Staff Portal Router Configuration
+# 
+# This configuration deploys the lightweight router worker that routes
+# all staff.gangerdermatology.com traffic to specialized application workers
+#
+# Performance Target: <5ms routing overhead
+# Bundle Size Target: <50KB
+
+name = "ganger-staff-portal-router"
+main = "src/staff-router.js"
+compatibility_date = "2025-01-17"
+compatibility_flags = ["nodejs_compat"]
+
+# Observability for performance monitoring
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+# Development environment configuration
+[env.development]
+name = "ganger-staff-portal-router-dev"
+vars = { 
+  ENVIRONMENT = "development",
+  STAFF_PORTAL_BASE = "localhost:3000",
+  DEBUG_ROUTING = "true"
+}
+
+# Production environment configuration  
+[env.production]
+name = "ganger-staff-portal-router"
+route = "staff.gangerdermatology.com/*"
+vars = { 
+  ENVIRONMENT = "production",
+  STAFF_PORTAL_BASE = "staff.gangerdermatology.com",
+  DEBUG_ROUTING = "false",
+  # Working infrastructure values from /CLAUDE.md
+  SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+  GOOGLE_CLIENT_ID = "745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com",
+  CLOUDFLARE_ZONE_ID = "ba76d3d3f41251c49f0365421bd644a5"
+}
+
+# Security headers for all staff portal routes
+[[env.production.secrets]]
+# Set via: wrangler secret put SUPABASE_ANON_KEY --env production
+# Set via: wrangler secret put GOOGLE_CLIENT_SECRET --env production
+
+# Custom domains and routing
+[[env.production.routes]]
+pattern = "staff.gangerdermatology.com/*"
+zone_id = "ba76d3d3f41251c49f0365421bd644a5"
+
+# Performance monitoring
+[env.production.analytics_engine_datasets]
+name = "staff_portal_analytics"
+
+# Resource limits
+[limits]
+cpu_ms = 50      # Stay under 50ms CPU limit
+memory_mb = 10   # Minimal memory usage for router

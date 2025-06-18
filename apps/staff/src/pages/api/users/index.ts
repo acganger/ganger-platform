@@ -64,7 +64,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -214,7 +214,7 @@ async function handleGetUsers(
 
   // Execute main query with pagination
   const { data: users, error } = await query
-    .range(offset, offset + limit - 1);
+    .range(offset!, offset! + limit! - 1);
 
   if (error) {
     console.error('Users fetch error:', error);
@@ -230,7 +230,7 @@ async function handleGetUsers(
   }
 
   // Format response data (exclude sensitive google_user_data for non-admins)
-  const formattedUsers: UserProfile[] = users.map(user => ({
+  const formattedUsers: UserProfile[] = (users || []).map((user: any) => ({
     id: user.id,
     employee_id: user.employee_id || '',
     full_name: user.full_name,
@@ -252,9 +252,9 @@ async function handleGetUsers(
       users: formattedUsers,
       pagination: {
         total: totalCount || 0,
-        limit,
-        offset,
-        has_more: (offset + limit) < (totalCount || 0)
+        limit: limit!,
+        offset: offset!,
+        has_more: (offset! + limit!) < (totalCount || 0)
       }
     }
   });

@@ -23,8 +23,8 @@ echo "✅ Build completed successfully"
 echo "🪣 Creating R2 buckets..."
 
 # Try to create buckets (will fail silently if they exist)
-wrangler r2 bucket create component-showcase-staging 2>/dev/null || echo "Staging bucket already exists"
-wrangler r2 bucket create component-showcase-production 2>/dev/null || echo "Production bucket already exists"
+wrangler r2 bucket create ganger-component-showcase-staging 2>/dev/null || echo "Staging bucket already exists"
+wrangler r2 bucket create ganger-component-showcase-production 2>/dev/null || echo "Production bucket already exists"
 
 # Deploy to staging
 echo "🔄 Deploying to staging..."
@@ -35,14 +35,14 @@ find . -type f | while read file; do
     # Remove leading ./ from file path
     key=${file#./}
     echo "Uploading: $key"
-    wrangler r2 object put component-showcase-staging/"$key" --file="$file" --content-type="$(file -b --mime-type "$file")"
+    wrangler r2 object put ganger-component-showcase-staging/"$key" --file="$file" --content-type="$(file -b --mime-type "$file")"
 done
 
 cd ..
 
 # Deploy staging worker
 echo "📡 Deploying staging worker..."
-wrangler deploy --env staging
+wrangler deploy --config wrangler.jsonc --env staging
 
 echo "✅ Staging deployment completed!"
 echo "🔗 Staging URL: https://component-showcase-staging.gangerdermatology.workers.dev"
@@ -57,14 +57,14 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
     find . -type f | while read file; do
         key=${file#./}
         echo "Uploading to production: $key"
-        wrangler r2 object put component-showcase-production/"$key" --file="$file" --content-type="$(file -b --mime-type "$file")"
+        wrangler r2 object put ganger-component-showcase-production/"$key" --file="$file" --content-type="$(file -b --mime-type "$file")"
     done
     
     cd ..
     
     # Deploy production worker
     echo "📡 Deploying production worker..."
-    wrangler deploy --env production
+    wrangler deploy --config wrangler.jsonc --env production
     
     echo "✅ Production deployment completed!"
     echo "🔗 Production URL: https://showcase.gangerdermatology.com"

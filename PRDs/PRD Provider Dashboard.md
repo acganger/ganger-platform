@@ -1,11 +1,17 @@
 # PRD: Provider Revenue & Performance Dashboard
 *Ganger Platform Standard Application*
 
+**📚 REQUIRED READING:** Review `/true-docs/MASTER_DEVELOPMENT_GUIDE.md` for complete technical standards before starting development. This is the single source of truth for all platform development patterns, standards, and quality requirements.
+
 ## 📋 Document Information
 - **Application Name**: Provider Revenue & Performance Dashboard
+- **PRD ID**: PRD-PROVIDER-DASHBOARD-001
 - **Priority**: High
 - **Development Timeline**: 6-8 weeks
-- **Dependencies**: @ganger/ui, @ganger/auth, @ganger/db, @ganger/integrations, @ganger/ai, @ganger/utils
+- **Last Updated**: June 17, 2025
+- **Terminal Assignment**: MIXED (Frontend + Backend)
+- **Dependencies**: @ganger/ui, @ganger/auth/client, @ganger/auth/server, @ganger/db, @ganger/integrations/client, @ganger/integrations/server, @ganger/ai, @ganger/utils/client, @ganger/utils/server
+- **MCP Integration Requirements**: Zenefits API v2.0, ModMed FHIR R4, Google Sheets MCP, AWS Bedrock (Claude 3.5 Sonnet), Time MCP, Database MCP
 - **Integration Requirements**: Zenefits API v2.0, ModMed FHIR R4, Google Sheets MCP, AWS Bedrock (Claude 3.5 Sonnet), Time MCP, Database MCP
 - **Compliance Requirements**: HIPAA, SOC 2 Type II, PCI DSS (for financial data), IRS Publication 15 (payroll compliance)
 
@@ -45,9 +51,63 @@ Transform monthly provider reporting from a manual Excel-based process to an int
 
 ## 🏗️ Technical Architecture
 
-### **Shared Infrastructure (Standard)**
+### **MANDATORY: Cloudflare Workers Architecture**
 ```yaml
-Frontend: Next.js 14+ with TypeScript
+# ✅ REQUIRED: Workers-only deployment (Pages is sunset)
+Framework: Next.js 14+ with Workers runtime (runtime: 'edge')
+Deployment: Cloudflare Workers (NO Pages deployment)
+Build Process: @cloudflare/next-on-pages
+Configuration: Workers-compatible next.config.js (NO static export)
+
+# ❌ FORBIDDEN: These patterns cause 405 errors
+Static_Export: Never use output: 'export'
+Cloudflare_Pages: Sunset for Workers routes
+Custom_Routing: Must use Workers request handling
+```
+
+### **⚠️ CRITICAL: Anti-Pattern Prevention**
+```typescript
+// ❌ NEVER USE: Static export configuration (causes 405 errors)
+const nextConfig = {
+  output: 'export',        // DELETE THIS - breaks Workers
+  trailingSlash: true,     // DELETE THIS - static pattern
+  distDir: 'dist'          // DELETE THIS - Workers incompatible
+}
+
+// ✅ REQUIRED: Workers-compatible configuration
+const nextConfig = {
+  experimental: {
+    runtime: 'edge',         // MANDATORY for Workers
+  },
+  images: {
+    unoptimized: true,       // Required for Workers
+  },
+  basePath: '/provider-dashboard', // Required for staff portal routing
+}
+```
+
+### **Architecture Verification Requirements**
+```bash
+# ✅ MANDATORY: Every app must pass these checks
+pnpm type-check              # 0 errors required
+pnpm build                   # Successful completion required
+curl -I [app-url]/health     # HTTP 200 required (not 405)
+grep -r "StaffPortalLayout"  # Must find implementation
+grep -r "output.*export"     # Must find nothing
+```
+
+### **Shared Infrastructure with Pages Sunset Note**
+```yaml
+Frontend: Next.js 14+ with TypeScript (100% compilation required)
+Backend: Next.js API routes + Supabase Edge Functions (Workers runtime)
+Database: Supabase PostgreSQL with Row Level Security
+Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)
+Hosting: Cloudflare Workers EXCLUSIVELY (Pages sunset for Workers routes)
+Styling: Tailwind CSS + Ganger Design System (NO custom CSS allowed)
+Real-time: Supabase subscriptions
+File Storage: Supabase Storage with CDN
+Build System: Turborepo (workspace compliance required)
+Quality Gates: Automated pre-commit hooks (see MASTER_DEVELOPMENT_GUIDE.md)
 Backend: Next.js API routes + Supabase Edge Functions
 Database: Supabase PostgreSQL with Row Level Security
 Authentication: Google OAuth + Supabase Auth (@gangerdermatology.com)

@@ -1,0 +1,583 @@
+{
+  "url": "https://app.ninety.io/api/v4/Issues?teamId=65f5c6322caa0d001296501d&intervalCode=0003&archived=false&searchText=&page=0&pageSize=10&sortField=None&sortDirection=DESC&onlyPublic=false",
+  "data": {
+    "items": [
+      {
+        "_id": "66fc656dc43f661461a06b98",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "From Quarterly Issues List",
+            "createdDate": "2024-10-10T11:41:01.338Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Talent Attraction & Retention Plan (providers/staff)",
+        "ordinal": 116,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "completedDate": null,
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2024-10-01T21:11:09.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 116
+      },
+      {
+        "_id": "6792a90c4fbc17b36e02581a",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Utilizing AI",
+        "intervalCode": "0003",
+        "who": "",
+        "createdBy": "Marisa Smith",
+        "isPublic": false,
+        "followers": [
+          "65f5d1f95578b300132330d2",
+          "65f5c6322caa0d001296501c",
+          "65f5d1f5f0607000125edb40"
+        ],
+        "addCreatorToFollowersList": true,
+        "ordinal": 252,
+        "completedDate": null,
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-01-23T20:39:40.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 252
+      },
+      {
+        "_id": "6792a999c1c6d76c0d2f5534",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Loss of key person",
+        "intervalCode": "0003",
+        "who": "",
+        "createdBy": "Marisa Smith",
+        "isPublic": false,
+        "followers": [
+          "65f5d1f5f0607000125edb40",
+          "65f5c6322caa0d001296501c"
+        ],
+        "addCreatorToFollowersList": true,
+        "ordinal": 255,
+        "completedDate": null,
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-01-23T20:42:01.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 255
+      },
+      {
+        "_id": "6800fee608db5d8de10e9ff2",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "For fall meeting, have newest team member be the table captains",
+            "createdDate": "2025-04-17T13:38:23.346Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "End with \"one more thing\"....Steve Jobs type closing",
+            "createdDate": "2025-04-17T13:44:22.155Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "For Oct--theme--Our why? only MD FSE 1 hour fillers.",
+            "createdDate": "2025-04-17T13:49:48.906Z",
+            "editedDate": "2025-04-17T13:54:41.514Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Do a mock consult with Terri\n",
+            "createdDate": "2025-04-17T13:54:50.920Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "What are provier's issues to address/speak to the group about?",
+            "createdDate": "2025-04-17T14:01:47.190Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Michelle, how a dollar is billed and where it flows until we're paid.",
+            "createdDate": "2025-04-17T14:26:23.380Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>Meeting went well, IT issues with echoing, NR to work with Erin for Google Classroom and then a 1:1 with NR to follow up on 1:1s. &nbsp;Jody did well, needs more checks in with A.C., Bingo was fun, Family Feud, heavy aesthetics and heavy content.&nbsp;</p><p>Allison was great on the credentialing of the practice.&nbsp;</p><p><br></p><p><br></p>",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "All Staff April Meeting recap",
+        "ordinal": 340,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "completedDate": null,
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-04-17T13:15:18.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 340
+      },
+      {
+        "_id": "680102fc2a4cc650ffa7cf3d",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Providers to attend\n",
+            "createdDate": "2025-04-17T13:32:56.769Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Group Photo",
+            "createdDate": "2025-04-17T13:33:03.168Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Immediate rating and survey afterwards",
+            "createdDate": "2025-04-17T13:33:27.467Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Slides in 3 days prior",
+            "createdDate": "2025-04-17T13:33:47.368Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Fall All Staff Meeting",
+        "ordinal": 342,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-04-17T13:32:44.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 342
+      },
+      {
+        "_id": "680957fe6c1796491c1f2111",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "I added the draft link for 3 Uniques/Proven Process/Promise above - please review. Thank you. ",
+            "createdDate": "2025-04-25T15:22:01.077Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p><a target=\"_blank\" rel=\"noopener noreferrer\" data-fr-linked=\"true\" href=\"https://docs.google.com/document/d/11oSE9jep4BEaT0SamWKT55Nuhs-MrxJqmFU01A2DwR0/edit?usp=sharing\" id=\"isPasted\">https://docs.google.com/document/d/11oSE9jep4BEaT0SamWKT55Nuhs-MrxJqmFU01A2DwR0/edit?usp=sharing</a></p>",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Patient Target Market: 3 Uniques/Proven Process/Promise",
+        "ordinal": 347,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5c6322caa0d001296501c",
+          "66b280e5983d6a0011e78f1d"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-04-23T21:13:34.000Z",
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 347
+      },
+      {
+        "_id": "680958226c1796491c1f2144",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Aesthetic Only Location",
+        "ordinal": 348,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5c6322caa0d001296501c",
+          "65f5d1f5f0607000125edb40"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-04-23T21:14:10.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 348
+      },
+      {
+        "_id": "6809627baf398f70e556ca0b",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Missing LT Seat?",
+        "ordinal": 350,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5c6322caa0d001296501c",
+          "65f5d1f5f0607000125edb40"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-04-23T21:58:19.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 350
+      },
+      {
+        "_id": "68137dfb091a36222e685b46",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "How to use different forms of ChatGPT, Oform mini, o3, o4.",
+        "ordinal": 358,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-01T13:58:19.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 358
+      },
+      {
+        "_id": "681caa95b90441605351c097",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "From TTD: \nYes, I do think having the meeting is very important. If you need to list something to discuss, here are some of mine\n- more info on AI\n---- e.g. from a practical standpoint - do I need to specify where the body touches are for the AI to know where to put the location of the specific lesion for biopsy, or benign nevi etc\n----will MA be in the the room? Will they still be taught how to prep/assist with procedures?\n----will MA be able to help counsel patients (I usually do a lot but will trust my experienced MAs to do some of this)\n- Staffing/recruiting/training updates\n- how can we (the providers) help minimize issues with scheduling\n- patient handouts/after visit summary\n-----a uniform approach throughout Ganger would be optimal\nJust some of the things I can think of at this time. But I feel it's good for all of us to meet periodically to hear of updates and opportunity to ask quesitons/raise concerns etc.\nThanks.\nTT\n\n",
+            "createdDate": "2025-06-03T16:19:19.723Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>Agenda items: &nbsp;</p><p>Tandem (Prior Auth Software),&nbsp;</p><p>Staff Scheduling (1 MA following 1 provider MA)--Ayesha's plan C</p><p>MI/AF/Krista issues--training/staffing (perfect storm)</p><p>AI scribe</p><p>Marisa's Role</p><p>Mohs update?&nbsp;</p><p>GA vs Follow Up appointments on Provider templates (consistent scheduling)</p><p>Removing NPFSE (Inactivated in EMA on 06/09/2025)</p><p>Patients arriving late (outward msg: we may not be able to see you/internal msg: bend over backwards to get them in). How to be consistent across clinics.)</p><p><br></p>",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "June 11--Provider meeting / Providers (communication improvements) by me or through me approach",
+        "ordinal": 360,
+        "intervalCode": "0003",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "attachments": [],
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-08T12:59:01.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 360
+      }
+    ],
+    "totalCount": 14
+  },
+  "timestamp": "2025-06-18T11:36:17.435Z"
+}

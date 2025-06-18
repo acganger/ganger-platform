@@ -22,6 +22,9 @@ echo "✅ Build completed successfully"
 # Create R2 buckets if they don't exist (staging and production)
 echo "🪣 Creating R2 buckets..."
 
+# Set API token for bucket operations
+export CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
+
 # Try to create buckets (will fail silently if they exist)
 wrangler r2 bucket create ganger-eos-l10-staging 2>/dev/null || echo "Staging bucket already exists"
 wrangler r2 bucket create ganger-eos-l10-production 2>/dev/null || echo "Production bucket already exists"
@@ -32,10 +35,12 @@ cd out
 
 # Upload all files to staging bucket using R2 API with error handling
 echo "📁 Starting file upload to staging bucket..."
+
+# Use for loop instead of while loop to avoid subshell variable scoping issues
 upload_count=0
 error_count=0
 
-find . -type f | while read file; do
+for file in $(find . -type f); do
     # Remove leading ./ from file path
     key=${file#./}
     echo "📤 Uploading: $key"
@@ -58,7 +63,8 @@ find . -type f | while read file; do
         *) content_type="application/octet-stream" ;;
     esac
     
-    # Upload with error checking
+    # Upload with error checking and set API token
+    export CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
     if wrangler r2 object put "ganger-eos-l10-staging/$key" --file="$file" --content-type="$content_type" 2>&1; then
         echo "✅ Successfully uploaded: $key"
         upload_count=$((upload_count + 1))
@@ -72,9 +78,10 @@ echo "📊 Staging upload complete: $upload_count successful, $error_count faile
 
 cd ..
 
-# Deploy staging worker
+# Deploy staging worker with new configuration  
 echo "📡 Deploying staging worker..."
-wrangler deploy --env staging
+export CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
+wrangler deploy --config wrangler.jsonc --env staging
 
 echo "✅ Staging deployment completed!"
 echo "🔗 Staging URL: https://ganger-eos-l10-staging.michiganger.workers.dev"
@@ -87,10 +94,12 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
     
     # Upload all files to production bucket with error handling
     echo "📁 Starting file upload to production bucket..."
+    
+    # Use for loop instead of while loop to avoid subshell variable scoping issues
     prod_upload_count=0
     prod_error_count=0
     
-    find . -type f | while read file; do
+    for file in $(find . -type f); do
         key=${file#./}
         echo "📤 Uploading to production: $key"
         
@@ -112,7 +121,8 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
             *) content_type="application/octet-stream" ;;
         esac
         
-        # Upload with error checking
+        # Upload with error checking and set API token
+        export CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
         if wrangler r2 object put "ganger-eos-l10-production/$key" --file="$file" --content-type="$content_type" 2>&1; then
             echo "✅ Successfully uploaded: $key"
             prod_upload_count=$((prod_upload_count + 1))
@@ -126,9 +136,10 @@ if [ "${GITHUB_REF}" == "refs/heads/main" ] || [ "${1}" == "production" ]; then
     
     cd ..
     
-    # Deploy production worker
+    # Deploy production worker with new configuration
     echo "📡 Deploying production worker..."
-    wrangler deploy --env production
+    export CLOUDFLARE_API_TOKEN=TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf
+    wrangler deploy --config wrangler.jsonc --env production
     
     echo "✅ Production deployment completed!"
     echo "🔗 Production URL: https://ganger-eos-l10-v2.michiganger.workers.dev"

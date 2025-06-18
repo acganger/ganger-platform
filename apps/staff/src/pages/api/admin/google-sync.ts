@@ -69,7 +69,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user.email;
+  const email = session.user?.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -242,7 +242,7 @@ async function handleSyncUser(
     const syncResult = await googleService.syncUserToWorkspace(
       {
         full_name: user.full_name,
-        email: user.email,
+        email: user?.email,
         department: user.department,
         location: user.location,
         phone_number: user.phone_number,
@@ -284,7 +284,7 @@ async function handleSyncUser(
         user_id: userProfile.id,
         metadata: {
           synced_user_id: user_id,
-          synced_user_email: user.email,
+          synced_user_email: user?.email,
           request_id: requestId
         }
       });
@@ -376,7 +376,7 @@ async function handleBulkSync(
     // Prepare user data for bulk sync
     const usersToSync = users.map((user: any) => ({
       full_name: user.full_name,
-      email: user.email,
+      email: user?.email,
       department: user.department,
       location: user.location,
       phone_number: user.phone_number,
@@ -391,7 +391,7 @@ async function handleBulkSync(
     // Update sync status for successful users
     const successfulEmails = usersToSync
       .filter((_: any, index: number) => !syncResult.errors.some(error => error.email === usersToSync[index].email))
-      .map((user: any) => user.email);
+      .map((user: any) => user?.email);
 
     if (successfulEmails.length > 0) {
       await supabase
@@ -495,7 +495,7 @@ async function handleCreateWorkspaceUser(
     const createResult = await googleService.createUser({
       firstName,
       lastName,
-      email: user.email,
+      email: user?.email,
       department: user.department,
       location: user.location,
       phone: user.phone_number,
@@ -538,7 +538,7 @@ async function handleCreateWorkspaceUser(
         user_id: userProfile.id,
         metadata: {
           created_user_id: user_id,
-          created_user_email: user.email,
+          created_user_email: user?.email,
           welcome_email_sent: send_welcome_email,
           request_id: requestId
         }

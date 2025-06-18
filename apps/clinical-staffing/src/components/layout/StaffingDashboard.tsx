@@ -11,7 +11,7 @@ import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
 import { announceToScreenReader, announceLoadingState } from '@/utils/accessibility';
 
 export default function StaffingDashboard() {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { schedules, setSchedules, isConnected } = useRealtimeStaffing();
   
   const [providers, setProviders] = useState<Provider[]>([]);

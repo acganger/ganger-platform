@@ -1,0 +1,233 @@
+{
+  "url": "https://app.ninety.io/api/v4/meetings-v2/company/65f5c6312caa0d0012965019/team/65f5c6322caa0d001296501d/meetings/past?pageIndex=0&pageSize=10&sortDirection=DESC&sortField=date",
+  "data": {
+    "paginatedResults": [
+      {
+        "_id": "684ad143ee913b40f7bfdcb1",
+        "date": "2025-06-12T13:08:19.618Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 7503,
+        "ratingAverage": 7.3,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      },
+      {
+        "_id": "68498fdffb77ee8ef42a9444",
+        "date": "2025-06-11T14:17:02.964Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 55,
+        "ratingAverage": null,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        }
+      },
+      {
+        "_id": "684198f1d0f391e5c2d4e156",
+        "date": "2025-06-05T13:17:37.003Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 5506,
+        "ratingAverage": 8.5,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      },
+      {
+        "_id": "68385edae1baebb847caa38b",
+        "date": "2025-05-29T13:19:22.607Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 7086,
+        "ratingAverage": 8.3,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      },
+      {
+        "_id": "682f217e7a0fd407abed68ea",
+        "date": "2025-05-22T13:07:10.183Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 6232,
+        "ratingAverage": 7,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        }
+      },
+      {
+        "_id": "6825e77a337717ae142ed5fd",
+        "date": "2025-05-15T13:09:14.299Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 5210,
+        "ratingAverage": 8.33,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      },
+      {
+        "_id": "681370aa77d42f4ae894f362",
+        "date": "2025-05-01T13:01:30.796Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 5188,
+        "ratingAverage": 8.88,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      },
+      {
+        "_id": "6808ece0ba1cf3fbbf522d33",
+        "date": "2025-04-23T13:36:32.683Z",
+        "paused": false,
+        "name": "",
+        "type": "quarterly",
+        "presenterUserId": "65f5c6322caa0d001296501c",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 30141,
+        "ratingAverage": null,
+        "agendaName": "Quarterly",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Marisa",
+              "last": "Smith"
+            },
+            "picture": {
+              "url": "https://s3.amazonaws.com/ninety-avatars-prod/people/5dc475306a2f26001118f201/b4c5e372-7b7c-4c92-bbbc-4ea162d61e46",
+              "count": 1
+            }
+          }
+        }
+      },
+      {
+        "_id": "6800fdc5783c5152d262c4eb",
+        "date": "2025-04-17T13:10:29.560Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 6166,
+        "ratingAverage": 8.25,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      },
+      {
+        "_id": "67ee881ccb5ea1b5d605bfb9",
+        "date": "2025-04-03T13:07:40.634Z",
+        "paused": false,
+        "name": "",
+        "type": "level10",
+        "presenterUserId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "totalDuration": 7973,
+        "ratingAverage": 6.75,
+        "agendaName": "Level 10 Meeting™",
+        "presenterUser": {
+          "active": true,
+          "metadata": {
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        }
+      }
+    ],
+    "totalCount": 51
+  },
+  "timestamp": "2025-06-18T11:36:31.615Z"
+}

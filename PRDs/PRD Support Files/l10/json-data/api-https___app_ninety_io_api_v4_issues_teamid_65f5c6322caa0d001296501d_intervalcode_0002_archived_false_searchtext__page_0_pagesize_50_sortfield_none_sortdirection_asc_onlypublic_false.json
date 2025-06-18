@@ -1,0 +1,620 @@
+{
+  "url": "https://app.ninety.io/api/v4/Issues?teamId=65f5c6322caa0d001296501d&intervalCode=0002&archived=false&searchText=&page=0&pageSize=50&sortField=None&sortDirection=ASC&onlyPublic=false",
+  "data": {
+    "items": [
+      {
+        "_id": "67dc22932c9ef0ab7ccc3a0f",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f5f0607000125edb40",
+            "text": "Plan - \n\n1 - slush for offices will be allocated by headcount proportionally from $200/month, or $2400 per year.  Slush is a courtesy simply for basic employee comfort - gum/candy/snacks, lint rollers, hygiene (mouthwash/floss/deodorant), etc.  Each office can bank their allocation if they want and do something else with it, but this money is meant to be handled by the staff and for the staff.  It should not become a L10 issue, and the above types of items should not make their way into #purchasing.\n\n2 - Jody's employee appreciation program - annual budget will be based on $100 per full time hourly employee (non-probation) as of Jan 1 each year.  If we have 100 fte's on Jan 1 that have been with us 90 days or longer, the budget will be $10K for the year\n\n3 - 2 mandatory staff events per year (April/October) - GD merch for staff that hit 1y since last meeting\n\n4 - 2 fun activities per year (January/July) - 5K, charity event, bar night, escape room, NY party, etc - no more big/expensive holiday parties and more chill/fun things that work for a larger group that has a better impact\n\n5 - onboarding/welcome kit (cards, nametag, handbook, some cool shit etc) and another touchpoint at 90 days\n\n6 - fte headshot on website at 2000hrs (1y)\n\n7 - birthday/workiversary digital cards from GD to employee - administered by Jody\n\n8 - encourage personal wins in newsletter - ran a marathon, first kid, bought a new car, got engaged/married, graduated or got into school \n\n9 - change anonymous feedback to \"open mic\" and make it visible if they want it to be\n\n10 - let staff make spotify playlist (PG) and they get to play it for the day whenever they are mentioned in a 5-star review\n\n",
+            "createdDate": "2025-04-15T19:01:19.987Z"
+          },
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "This will be great and has been lacking in the clinics. We'll need more details ironed out so we're all on the same page. \nA few questions: \n--Who/how will the site slush be managed/ordered/prioritized? Will that be up to each clinic to determine or will the rules of engagement be the same for the clinics? \nIs this to also include the tampons/mouthwash that is currently provided in the staff restrooms?\n--What is the intention of the 100 per employee that Jody will utilize for the appreciation program? Will it be standardized among staff or can it be flexed (ie, she can spend more on some staff and less on others based on what criteria? \n--For the \"fun\" events, can the staff vote on what to do or will the LT decide? What is the estimated budget ...fun things are pricy :)!\n--Would staff want their pic on the website (I'm not sure if that's something that the other generations appreciate/see as a positive)?",
+            "createdDate": "2025-06-05T11:54:23.960Z"
+          },
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "I have asked the staff several times to please send me their personal wins so we can celebrate and champion them in the newsletter, but unfortunately, there has been no response.\n\nI also asked for feedback regarding “fun” events, and the majority have expressed that they are not interested—whether the event is held during work hours or after hours.\n\nI would love to include staff photos on the website and have offered multiple times to coordinate this, but everyone keeps telling me that “I am not ready” ",
+            "createdDate": "2025-06-05T14:37:10.200Z"
+          },
+          {
+            "userId": "66a3e6eca71d580012b1def3",
+            "text": "1. Slush funds - who will we be responsible. How do we track if money is spent appropriately and should we not track they don't go over budget. Maybe admin and MA team leads work together on this, forcing them to work together.  \n2.  We're launching employee appreciation program on top of the rock-star day? \n3. I think we should also have something for staff when they 5 year and may 10 year as well. Nichole has been with us for 8 years now and if she's still with us at 10-year mark, it's definitely worth recognition. \n4. I agree, It would be nice for everyone to meet in addition to all-hand staff meeting. We should hold boardgame evening with Ganger. Just bring the whole team together and people can divide themselves based on the games they like. \n5. Onboarding welcome kit - love this idea. What does 90-day touchpoint mean? Evaluation \n6. I think headshots for the website should be position/role specific. Pre-med after 2000 hours will leave for school. \n  ",
+            "createdDate": "2025-06-12T10:44:02.594Z",
+            "editedDate": "2025-06-12T11:00:52.163Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>A.C. needs rock help</p><p><br></p>",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "2025 Ganger Experience Plan, Budget, and Calendar approved by L.T.",
+        "intervalCode": "0002",
+        "who": "",
+        "createdBy": "Kathy Keeley",
+        "isPublic": false,
+        "followers": [
+          "65f5d1f5f0607000125edb40",
+          "65f5d1f95578b300132330d2",
+          "66b280e5983d6a0011e78f1d",
+          "66a3e6eca71d580012b1def3"
+        ],
+        "addCreatorToFollowersList": true,
+        "ordinal": 319,
+        "completedDate": null,
+        "archivedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-03-20T14:13:39.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [
+          {
+            "_id": "67dc22932c9ef0ab7ccc3a11",
+            "companyId": "65f5c6312caa0d0012965019",
+            "directoryId": "67a416bbf8953d612935f6bb",
+            "parentId": "67dc22932c9ef0ab7ccc3a0f",
+            "fileName": "Building_Your_Rock_Plan__1___1_.pdf",
+            "bucketName": "ninety-attachments-prod",
+            "contentType": "application/pdf",
+            "parentType": "Issue",
+            "uploaded": true,
+            "isDeleted": false,
+            "isV2": true
+          }
+        ],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 319
+      },
+      {
+        "_id": "680116d4e09cb78073a129b5",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66a3e6eca71d580012b1def3",
+            "text": "Ayesha and Michelle to meet next week to check Botox inventory set up. ",
+            "createdDate": "2025-06-05T14:46:16.602Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "Ask Mara how to set this up for Botox trial wtih ME's staff injection",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Set up Inventory for aesthetic packages/Botox/where does LG put her units ",
+        "ordinal": 346,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2",
+          "66a3e6eca71d580012b1def3"
+        ],
+        "addCreatorToFollowersList": true,
+        "rating": 1,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-04-17T14:57:24.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 346
+      },
+      {
+        "_id": "68137c1c091a36222e684529",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>What can we do to separate Ganger Derm practice from what we're trying to do with Ganger Aesthetics?</p>",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "ABN on file for Medicare pts vs memberships card on file for aesthetics",
+        "ordinal": 357,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2",
+          "65f5d1f5f0607000125edb40"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-01T13:50:20.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 357
+      },
+      {
+        "_id": "6825f1c4aeec6a505a84fe4b",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Calendar for providers to stabilize--with unexpected BS factored in",
+        "ordinal": 367,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2",
+          "66a3e6eca71d580012b1def3"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-15T13:53:08.000Z",
+        "user": {
+          "_id": "66a3e6eca71d580012b1def3",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66a3e6eca71d580012b1def4",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "traction@gangerdermatology.com",
+          "guideEnabled": null,
+          "personId": "66a797893b145d0011eb34e2",
+          "metadata": {
+            "_id": "66a3e6eca71d580012b1def4",
+            "deleted": false,
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 367
+      },
+      {
+        "_id": "683865018a4cda3e90d78461",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "65f5d1f95578b300132330d2",
+            "text": "Anyssa's hours:\nMonday = working Ann Arbor 9am - 5pm / in clinic 12:30pm - 5pm (lunch 12pm - 12:30pm), Tuesday = working Ann Arbor 8am - 4pm / in clinic 8am - 12:30pm (lunch 12:30pm - 1pm), Wednesday = working in Ann Arbor 9am - 5pm / no clinic (four Aestheticans open in Ann Arbor) (lunch 12:00pm - 12:30pm), Thursday = working in Ann Arbor 11:30am - 7:30pm / in clinic 11:30am - 4pm (lunch 4pm-4:30pm), Friday = working in Plymouth 9am - 5pm / in clinic 9am - 5pm (lunch 12:30pm - 1pm). Third Saturday of month = working in Plymouth 8am - 4pm / in clinic 8am - 4pm (lunch 12:00pm - 12:30pm). Working hours = 40, in clinic hours = 21.5 + 29.5 on 3rd Saturday. Anyssa is seeing patients for: Cosmetic Consultations, Dermaplane, Hydrafacial, Chemical Peels, Vanquish, EmSculpt, EmSella, she is in training with BareHR and MicroNeedling.",
+            "createdDate": "2025-06-10T18:23:01.880Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "How productive is the team?&nbsp;<p><br></p>",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "TS leader--solving problems/why Anyssa not open",
+        "ordinal": 378,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-29T13:45:37.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 378
+      },
+      {
+        "_id": "6839c8dcb00f52c5ffdaecaf",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>Providers are okay with activating portals.&nbsp;</p><p>Patients ask for portal, admin askes provider's permission and they always approve. Dr. Ferrell has told Susan to not even ask and just activate it if they ask.&nbsp;</p>",
+        "likes": [],
+        "userId": "66a3e6eca71d580012b1def3",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Patient Portal ",
+        "intervalCode": "0002",
+        "who": "",
+        "createdBy": "Ayesha Patel",
+        "isPublic": false,
+        "followers": [
+          "66a3e6eca71d580012b1def3"
+        ],
+        "addCreatorToFollowersList": true,
+        "ordinal": 382,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-05-30T15:03:56.000Z",
+        "user": {
+          "_id": "66a3e6eca71d580012b1def3",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66a3e6eca71d580012b1def4",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "traction@gangerdermatology.com",
+          "guideEnabled": null,
+          "personId": "66a797893b145d0011eb34e2",
+          "metadata": {
+            "_id": "66a3e6eca71d580012b1def4",
+            "deleted": false,
+            "name": {
+              "first": "Ayesha",
+              "last": "Patel"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 382
+      },
+      {
+        "_id": "68419ec060982fbe2722bf82",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>Liz and June not part of GCI, so they need a way to review emails.</p>",
+        "likes": [],
+        "userId": "65f5d1f5f0607000125edb40",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Billing team email review",
+        "intervalCode": "0002",
+        "who": "",
+        "createdBy": "Kathy Keeley",
+        "isPublic": false,
+        "followers": [
+          "65f5d1f5f0607000125edb40",
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "ordinal": 387,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-06-05T13:42:24.000Z",
+        "user": {
+          "_id": "65f5d1f5f0607000125edb40",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f5f0607000125edb41",
+          "roleCode": "0000",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "anand@gangerdermatology.com",
+          "personId": "65fa019a41ef4a0011034801",
+          "metadata": {
+            "_id": "65f5d1f5f0607000125edb41",
+            "deleted": false,
+            "name": {
+              "first": "A.C.",
+              "last": "Ganger"
+            },
+            "picture": {
+              "url": "https://ninety-avatars-prod.s3.us-east-1.amazonaws.com/people/65f5d1f5f0607000125edb41/8d71553d-69b1-420e-a395-d885ebb315c6"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 387
+      },
+      {
+        "_id": "68470c5688a8efd0e019805f",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "<p>How to hold the mid-levels accountable to learn/train the AI to be able to downsize the staffing as appropriate.&nbsp;</p><p>How can we baby step them into using it?&nbsp;</p><p>Ayesha gather feedback and submit to Dr. Chen for additional info on specific visits such as wart and isotret. How to also remember MIPS questions/other repetitive questions that are prompted in the note vs AI.&nbsp;</p><p id=\"isPasted\">Providers feel it takes away from patient experience&nbsp;</p><p>Jill and Ayesha: Testing with 2 ipads and Dr. Do</p><p>I think we launched it wrong. I'm wondering if convincing provider first was a better route. Mid-levels trying match the notes to provider preferences.&nbsp;</p><p>Who should we send to workshop: Dr. Ganger, Dr. Ferrell, Dr. Do, Dr. Iacco, Jen, Krista, Jill, Tony?</p><p><br></p>",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "AI roadmap for mid-level providers to do more with it",
+        "ordinal": 391,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "rating": 1,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-06-09T16:31:18.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 391
+      },
+      {
+        "_id": "684abf91592acfebf2bf965b",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "<p><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\" id=\"isPasted\">MM0000043787 - third time NS- has a note that says do not schedule. He must pay $100 in no show fees AND must pay $150 FEE to schedule medical or cosmetic-LH/TS</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000052155 – No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000033094 - Fee not charged. We do have $150 Cosmetic deposit on file. Note said patient hospitalized.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000030028 – No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000040751 - No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000050422 - No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000020251 - No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000011998 - No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000011998 - No fee charged. Patient had two appointments scheduled on 6/09</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">MM0000052376 - No fee charged.</span><br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\"><span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-style: normal; font-variant-ligatures: common-ligatures; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(248, 248, 248); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">Just to confirm, once we launch the new appointment policy, are we collecting a $50 deposit for consultations for both new and current patients? I told the staff to collect the $50 deposit for all aesthetic consultations. I thought this was decided at one of our aesthetic L10 meetings.</span></p>",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "No shows fees",
+        "ordinal": 395,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66b280e5983d6a0011e78f1d"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-06-12T11:52:49.000Z",
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 395
+      },
+      {
+        "_id": "684d93868ddd5dc6a1d70063",
+        "archived": false,
+        "comments": [],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "65f5d1f95578b300132330d2",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "SRT review ",
+        "ordinal": 399,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "65f5d1f95578b300132330d2"
+        ],
+        "addCreatorToFollowersList": true,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-06-14T15:21:42.000Z",
+        "user": {
+          "_id": "65f5d1f95578b300132330d2",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "65f5d1f95578b300132330d3",
+          "roleCode": "0001",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": "ops@gangerdermatology.com",
+          "personId": "65f9a6e1acdc880012cf077c",
+          "metadata": {
+            "_id": "65f5d1f95578b300132330d3",
+            "deleted": false,
+            "name": {
+              "first": "Kathy",
+              "last": "Keeley"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0,
+        "planningBoardOrdinal": 399
+      },
+      {
+        "_id": "685183efa0f9892974e782be",
+        "archived": false,
+        "comments": [
+          {
+            "userId": "66b280e5983d6a0011e78f1d",
+            "text": "Do we want to send an email to all patients informing them of the updated appointment policy?\n\nMarketing benefit: It might serve as a reminder for patients who have not been in recently to book their next appointment.",
+            "createdDate": "2025-06-17T15:05:54.480Z"
+          }
+        ],
+        "completed": false,
+        "deleted": false,
+        "description": "",
+        "likes": [],
+        "userId": "66b280e5983d6a0011e78f1d",
+        "teamId": "65f5c6322caa0d001296501d",
+        "companyId": "65f5c6312caa0d0012965019",
+        "title": "Email to patients regarding appointment policy",
+        "ordinal": 400,
+        "intervalCode": "0002",
+        "who": "",
+        "followers": [
+          "66b280e5983d6a0011e78f1d"
+        ],
+        "addCreatorToFollowersList": true,
+        "planningBoardOrdinal": 400,
+        "rating": 2,
+        "archivedDate": null,
+        "completedDate": null,
+        "originalDueDate": null,
+        "createdDate": "2025-06-17T15:04:15.000Z",
+        "user": {
+          "_id": "66b280e5983d6a0011e78f1d",
+          "__v": 4,
+          "active": true,
+          "deleted": false,
+          "isHelpful": false,
+          "personMetadataId": "66b280e5983d6a0011e78f1e",
+          "roleCode": "0002",
+          "isImplementer": false,
+          "hasRubiconAccess": null,
+          "primaryEmail": null,
+          "guideEnabled": null,
+          "personId": "66f2c31f2c4521cb0ff8d98e",
+          "metadata": {
+            "_id": "66b280e5983d6a0011e78f1e",
+            "deleted": false,
+            "name": {
+              "first": "Casey",
+              "last": "Czuj"
+            }
+          }
+        },
+        "attachments": [],
+        "numOfLikes": 0
+      }
+    ],
+    "totalCount": 11
+  },
+  "timestamp": "2025-06-18T11:36:24.754Z"
+}

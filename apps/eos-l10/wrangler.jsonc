@@ -1,0 +1,54 @@
+{
+  "name": "ganger-l10-staff",
+  "main": "worker.js",
+  "compatibility_date": "2025-01-18",
+  "compatibility_flags": ["nodejs_compat"],
+  
+  
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  
+  "vars": {
+    "ENVIRONMENT": "production"
+  },
+  
+  "r2_buckets": [
+    {
+      "binding": "EOS_L10_BUCKET",
+      "bucket_name": "ganger-eos-l10"
+    }
+  ],
+  
+  "env": {
+    "production": {
+      "name": "ganger-l10-staff",
+      "routes": [
+        {
+          "pattern": "staff.gangerdermatology.com/l10",
+          "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/l10/*",
+          "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "EOS_L10_BUCKET",
+          "bucket_name": "ganger-eos-l10-production"
+        }
+      ]
+    },
+    "staging": {
+      "name": "ganger-l10-staff-staging",
+      "r2_buckets": [
+        {
+          "binding": "EOS_L10_BUCKET",
+          "bucket_name": "ganger-eos-l10-staging"
+        }
+      ]
+    }
+  }
+}

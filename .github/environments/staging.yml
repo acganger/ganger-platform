@@ -1,0 +1,76 @@
+# =============================================================================
+# GITHUB ENVIRONMENT CONFIGURATION - STAGING
+# =============================================================================
+# Staging environment configuration for Ganger Platform
+# Auto-created via GitHub CLI or GitHub UI
+# =============================================================================
+
+name: staging
+url: https://staff-staging.gangerdermatology.com
+
+# Environment Protection Rules
+protection_rules:
+  # No approval required for staging deployments
+  required_reviewers: []
+  
+  # Allow any branch to deploy to staging
+  deployment_branch_policy:
+    protected_branches: false
+    custom_branches: ["staging", "main", "hotfix/*", "feature/*"]
+
+# Environment Variables (non-sensitive)
+variables:
+  ENVIRONMENT_NAME: "staging"
+  DEPLOYMENT_TYPE: "staging"
+  DEBUG_MODE: "true"
+  HEALTH_CHECK_INTERVAL: "30"
+  
+  # Application URLs
+  NEXT_PUBLIC_STAFF_URL: "https://staff-staging.gangerdermatology.com"
+  NEXT_PUBLIC_INVENTORY_URL: "https://staff-staging.gangerdermatology.com/inventory"
+  NEXT_PUBLIC_HANDOUTS_URL: "https://staff-staging.gangerdermatology.com/handouts"
+  
+  # Cloudflare Configuration
+  CLOUDFLARE_ENVIRONMENT: "staging"
+  CLOUDFLARE_ZONE: "staging"
+
+# Required Secrets (configured in GitHub UI)
+required_secrets:
+  - CLOUDFLARE_API_TOKEN
+  - CLOUDFLARE_ACCOUNT_ID
+  - SUPABASE_URL
+  - SUPABASE_ANON_KEY
+  - SLACK_WEBHOOK_URL
+
+# Deployment Configuration
+deployment_config:
+  timeout_minutes: 30
+  auto_deploy_on_push: true
+  allowed_branches: ["staging", "main", "hotfix/*"]
+  deployment_strategy: "blue_green"
+  
+# Monitoring Configuration
+monitoring:
+  health_check_enabled: true
+  health_check_timeout: 60
+  health_check_retries: 3
+  status_page_enabled: true
+
+# Notification Configuration
+notifications:
+  slack_enabled: true
+  email_enabled: false
+  webhook_enabled: true
+
+---
+# GitHub CLI Commands to Create Environment
+# Run these commands to set up the staging environment:
+
+# gh api repos/acganger/ganger-platform/environments/staging --method PUT --field "deployment_branch_policy[protected_branches]=false"
+
+# Add required secrets:
+# gh secret set CLOUDFLARE_API_TOKEN --env staging --body "$CLOUDFLARE_API_TOKEN"
+# gh secret set CLOUDFLARE_ACCOUNT_ID --env staging --body "$CLOUDFLARE_ACCOUNT_ID"
+# gh secret set SUPABASE_URL --env staging --body "$SUPABASE_URL"
+# gh secret set SUPABASE_ANON_KEY --env staging --body "$SUPABASE_ANON_KEY"
+# gh secret set SLACK_WEBHOOK_URL --env staging --body "$SLACK_WEBHOOK_URL"

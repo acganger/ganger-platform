@@ -225,7 +225,7 @@ export class DashboardAggregator {
     try {
       // Integrate with Google Calendar
       const googleClient = new GoogleWorkspaceClient();
-      const meetings = await googleClient.getUpcomingMeetings(user.email, {
+      const meetings = await googleClient.getUpcomingMeetings(user?.email, {
         maxResults: 5,
         timeMin: new Date().toISOString(),
         timeMax: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // Next 24 hours
@@ -297,7 +297,7 @@ export class DashboardAggregator {
     try {
       // This would integrate with Google Drive
       const googleClient = new GoogleWorkspaceClient();
-      const documents = await googleClient.getRecentDocuments(user.email, {
+      const documents = await googleClient.getRecentDocuments(user?.email, {
         maxResults: 8
       });
 
