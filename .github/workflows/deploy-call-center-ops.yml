@@ -43,7 +43,7 @@ jobs:
           cd ../utils && pnpm build || echo "utils build failed"
           cd ../integrations && pnpm build || echo "integrations build failed"
 
-- name: Build call-center-ops
+      - name: Build call-center-ops
         run: |
           cd apps/call-center-ops
           pnpm run build:cloudflare

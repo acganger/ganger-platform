@@ -43,7 +43,7 @@ jobs:
           cd ../utils && pnpm build || echo "utils build failed"
           cd ../integrations && pnpm build || echo "integrations build failed"
 
-- name: Build batch-closeout
+      - name: Build batch-closeout
         run: |
           cd apps/batch-closeout
           pnpm run build:cloudflare

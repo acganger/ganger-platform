@@ -43,7 +43,7 @@ jobs:
           cd ../utils && pnpm build || echo "utils build failed"
           cd ../integrations && pnpm build || echo "integrations build failed"
 
-- name: Build platform-dashboard
+      - name: Build platform-dashboard
         run: |
           cd apps/platform-dashboard
           pnpm run build:cloudflare
