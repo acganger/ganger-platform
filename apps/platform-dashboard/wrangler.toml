@@ -1,18 +1,14 @@
-name = "ganger-platform-dashboard-fresh"
-main = ".vercel/output/static/_worker.js"
+name = "ganger-platform-dashboard-clean"
+main = "index.js"
 compatibility_date = "2025-01-18"
-compatibility_flags = ["nodejs_compat"]
 account_id = "68d0160c9915efebbbecfddfd48cddab"
-
-[build]
-command = "npm run build && npx @cloudflare/next-on-pages"
 
 [[routes]]
 pattern = "staff.gangerdermatology.com/dashboard/*"
 zone_name = "gangerdermatology.com"
 
 [env.production]
-name = "ganger-platform-dashboard-fresh-prod"
+name = "ganger-platform-dashboard-clean-prod"
 
 [[env.production.routes]]
 pattern = "staff.gangerdermatology.com/dashboard/*"

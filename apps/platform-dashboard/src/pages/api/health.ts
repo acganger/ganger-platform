@@ -1,5 +1,5 @@
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+export const runtime = 'experimental-edge';
 
 import { NextRequest, NextResponse } from 'next/server';
 
