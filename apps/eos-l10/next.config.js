@@ -3,9 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
-  // Staff portal integration
-  basePath: '/l10',
-  assetPrefix: '/l10',
+  // Cloudflare Workers configuration (MANDATORY)
+  experimental: {
+    runtime: 'edge',
+  },
   
   eslint: {
     ignoreDuringBuilds: true,
@@ -13,7 +14,7 @@ const nextConfig = {
   
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
-    unoptimized: true,
+    unoptimized: true, // Required for Workers
   },
 };
 

@@ -2,82 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom animations to replace framer-motion */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
+/* EOS L10 Custom Components */
+@layer components {
+  /* Card styles */
+  .card {
+    @apply bg-white shadow-card border border-gray-200 rounded-card;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .card-hover {
+    @apply card transition-shadow duration-200 hover:shadow-card-hover;
   }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-.animation-fill-forwards {
-  animation-fill-mode: forwards;
-}
-
-@theme {
-  --text-xs: 0.75rem;
-  --text-xs--line-height: calc(1 / 0.75);
-  --text-sm: 0.875rem;
-  --text-sm--line-height: calc(1.25 / 0.875);
-  --text-base: 1rem;
-  --text-base--line-height: calc(1.5 / 1);
-  --text-lg: 1.125rem;
-  --text-lg--line-height: calc(1.75 / 1.125);
-  --text-xl: 1.25rem;
-  --text-xl--line-height: calc(1.75 / 1.25);
-  --text-2xl: 1.5rem;
-  --text-2xl--line-height: calc(2 / 1.5);
-  --text-3xl: 2rem;
-  --text-3xl--line-height: calc(2.5 / 2);
-  --text-4xl: 2.5rem;
-  --text-4xl--line-height: 1;
-  --text-5xl: 3rem;
-  --text-5xl--line-height: 1;
-  --text-6xl: 3.75rem;
-  --text-6xl--line-height: 1;
-  --text-7xl: 4.5rem;
-  --text-7xl--line-height: 1;
-  --text-8xl: 6rem;
-  --text-8xl--line-height: 1;
-  --text-9xl: 8rem;
-  --text-9xl--line-height: 1;
-
-  /* EOS L10 Custom Colors */
-  --color-eos-50: #eff6ff;
-  --color-eos-100: #dbeafe;
-  --color-eos-200: #bfdbfe;
-  --color-eos-300: #93c5fd;
-  --color-eos-400: #60a5fa;
-  --color-eos-500: #3b82f6;
-  --color-eos-600: #2563eb;
-  --color-eos-700: #1d4ed8;
-  --color-eos-800: #1e40af;
-  --color-eos-900: #1e3a8a;
-
-  /* Meeting Timer Colors */
-  --color-meeting-active: #22c55e;
-  --color-meeting-warning: #f59e0b;
-  --color-meeting-danger: #ef4444;
-
-  /* Custom Variables */
-  --header-height: 64px;
-  --sidebar-width: 280px;
-  --mobile-nav-height: 72px;
-
-  --animate-caret-blink: caret-blink 1.1s infinite;
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
-  @keyframes caret-blink {
-    0% { visibility: visible; }
-    50%, 100% { visibility: hidden; }
+  
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-200;
+  }
+  
+  .card-title {
+    @apply text-lg font-semibold text-gray-900;
+  }
+  
+  .card-content {
+    @apply px-6 py-4;
+  }
+  
+  /* Button styles */
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-success {
+    @apply bg-success-600 hover:bg-success-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-warning {
+    @apply bg-warning-600 hover:bg-warning-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-danger {
+    @apply bg-danger-600 hover:bg-danger-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+  
+  /* Status badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-success {
+    @apply badge bg-success-100 text-success-800;
+  }
+  
+  .badge-warning {
+    @apply badge bg-warning-100 text-warning-800;
+  }
+  
+  .badge-danger {
+    @apply badge bg-danger-100 text-danger-800;
+  }
+  
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+  
+  /* Rock status indicators */
+  .rock-status {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .rock-on-track {
+    @apply rock-status bg-green-100 text-green-800;
+  }
+  
+  .rock-at-risk {
+    @apply rock-status bg-yellow-100 text-yellow-800;
+  }
+  
+  .rock-off-track {
+    @apply rock-status bg-red-100 text-red-800;
+  }
+  
+  .rock-complete {
+    @apply rock-status bg-emerald-100 text-emerald-800;
+  }
+  
+  /* Meeting timer styles */
+  .meeting-timer {
+    @apply text-2xl font-mono font-bold;
+  }
+  
+  .meeting-timer.running {
+    @apply text-green-600;
+  }
+  
+  .meeting-timer.warning {
+    @apply text-yellow-600;
+  }
+  
+  .meeting-timer.overtime {
+    @apply text-red-600 animate-pulse;
+  }
+  
+  /* Progress bars */
+  .progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-2;
+  }
+  
+  .progress-bar-fill {
+    @apply h-2 rounded-full transition-all duration-300;
+  }
+  
+  /* Scorecard styles */
+  .scorecard-metric {
+    @apply text-center p-4 border border-gray-200 rounded-lg;
+  }
+  
+  .scorecard-value {
+    @apply text-2xl font-bold;
+  }
+  
+  .scorecard-label {
+    @apply text-sm text-gray-600 mt-1;
+  }
+  
+  /* Navigation styles */
+  .nav-link {
+    @apply flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply nav-link bg-primary-100 text-primary-700;
+  }
+  
+  .nav-link-inactive {
+    @apply nav-link text-gray-600 hover:text-gray-900 hover:bg-gray-50;
   }
 }
 
