@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 // import { createSupabaseServerClient } from '@ganger/auth/utils/supabase';
 import { supabase } from '@/lib/supabase';
 
-export const runtime = 'edge';
+export const runtime = 'experimental-edge';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {

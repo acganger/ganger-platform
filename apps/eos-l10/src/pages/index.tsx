@@ -1,5 +1,5 @@
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+export const runtime = 'experimental-edge';
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
