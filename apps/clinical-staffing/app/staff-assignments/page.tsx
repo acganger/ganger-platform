@@ -5,6 +5,10 @@ import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 import { ArrowLeft, Users, UserPlus, Clock, Award } from 'lucide-react';
 import Link from 'next/link';
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 export default function StaffAssignmentsPage() {
   const { user, isAuthenticated, isLoading } = useStaffAuth();
   
@@ -38,6 +42,7 @@ export default function StaffAssignmentsPage() {
           <p className="mt-2 text-gray-600">
             Assign clinical support staff to providers and shifts
           </p>
+          <p className="text-sm text-gray-500 mt-1">Generated: {new Date().toISOString()}</p>
         </div>
 
         {/* Assignment Actions */}

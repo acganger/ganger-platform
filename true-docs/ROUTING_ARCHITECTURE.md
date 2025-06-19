@@ -1,9 +1,10 @@
 # 🌐 Ganger Platform - Routing Architecture
 
 **Status**: ✅ **PRODUCTION ARCHITECTURE** - Current deployment pattern  
-**Last Updated**: January 17, 2025  
+**Last Updated**: January 19, 2025  
 **Dependencies**: Platform assessment findings from `/apptest/COMPREHENSIVE_PLATFORM_ASSESSMENT.md`  
-**Security Policy**: Follow `/CLAUDE.md` - NEVER sanitize working infrastructure values
+**Security Policy**: Follow `/CLAUDE.md` - NEVER sanitize working infrastructure values  
+**Subrouting**: ✅ IMPLEMENTED - Dynamic subroutes for L10 and other apps
 
 ---
 
@@ -333,6 +334,255 @@ Four applications require **both staff and external access** with different inte
 │ └─ Auth Verification: <25ms                                 │
 └──────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 🔄 **Subrouting Architecture**
+
+### **Dynamic Subroute Handling**
+
+**Implementation Status (January 19, 2025):**
+- ✅ **L10 Application**: Full subrouting implemented (7 subroutes)
+- ✅ **Staff Portal Router**: Handles prefix-based routing for 6 additional apps
+- ✅ **Dynamic Content**: All subroutes serve dynamic content
+- ✅ **Dedicated Workers**: Compliance, Staffing, and Socials have subroute pages
+- ✅ **Total Apps with Subroutes**: 10 applications fully implemented
+
+### **Subroute Patterns**
+
+**1. L10 Application Subroutes** (Dedicated Worker)
+```
+/l10/              → Redirects to /l10/compass
+/l10/compass       → Main L10 dashboard
+/l10/rocks         → Quarterly rocks tracking
+/l10/scorecard     → Weekly scorecard metrics
+/l10/headlines     → Customer/employee headlines
+/l10/todos         → To-do list management
+/l10/issues        → IDS (Identify, Discuss, Solve)
+/l10/meetings      → Meeting management
+```
+
+**2. Compliance Training Subroutes** (Dedicated Worker)
+```
+/compliance/dashboard  → Compliance overview and metrics
+/compliance/courses    → Training course management
+/compliance/reports    → Compliance reporting and analytics
+```
+
+**3. Clinical Staffing Subroutes** (Dedicated Worker)
+```
+/staffing/schedule-builder  → Drag-and-drop schedule creation
+/staffing/staff-assignments → Staff assignment management
+/staffing/analytics        → Coverage and performance analytics
+```
+
+**4. Social Reviews Subroutes** (Dedicated Worker)
+```
+/socials/dashboard  → Review metrics and platform overview
+/socials/respond    → Response management interface
+/socials/analytics  → Sentiment and performance analytics
+```
+
+**5. Check-in Kiosk Subroutes** (Staff Portal Router)
+```
+/kiosk/dashboard  → Kiosk performance monitoring
+/kiosk/settings   → Configuration and display options
+/kiosk/analytics  → Usage patterns and metrics
+```
+
+**6. Configuration Dashboard Subroutes** (Staff Portal Router)
+```
+/config/apps         → Application settings management
+/config/integrations → External service configurations
+/config/security     → Security and permission settings
+```
+
+**7. AI Receptionist Subroutes** (Staff Portal Router)
+```
+/ai-receptionist/dashboard  → Call handling overview
+/ai-receptionist/settings   → AI configuration and rules
+/ai-receptionist/analytics  → Performance metrics and insights
+```
+
+**8. Call Center Operations Subroutes** (Staff Portal Router)
+```
+/call-center/dashboard  → Real-time operations view
+/call-center/agents     → Agent management and status
+/call-center/history    → Call logs and recordings
+```
+
+**9. Pharma Scheduling Subroutes** (Staff Portal Router)
+```
+/reps/schedule      → Representative appointment calendar
+/reps/availability  → Provider availability management
+/reps/analytics     → Visit patterns and outcomes
+```
+
+**10. Component Showcase Subroutes** (Staff Portal Router)
+```
+/showcase/components  → UI component library
+/showcase/patterns    → Design pattern examples
+/showcase/examples    → Interactive demos and playgrounds
+```
+
+**11. Inventory Management Subroutes** (Staff Portal Router - R2 Bucket)
+```
+/inventory/dashboard  → Inventory overview and metrics
+/inventory/scan       → Barcode scanning interface
+/inventory/reports    → Analytics and reporting
+```
+
+**12. Patient Handouts Subroutes** (Staff Portal Router)
+```
+/handouts/templates  → Template management
+/handouts/generate   → Create new handouts
+/handouts/history    → Generated handout history
+```
+
+### **Implementation Patterns**
+
+**Pattern 1: Dedicated Worker with Next.js Pages**
+Used for: L10, Compliance, Staffing, Socials
+
+```javascript
+// In the Next.js app directory (e.g., apps/compliance-training/app/dashboard/page.tsx)
+'use client'
+
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
+export default function DashboardPage() {
+  const timestamp = new Date().toISOString();
+  // Dynamic content generation
+}
+```
+
+**Pattern 2: Staff Portal Router with Subroute Handlers**
+Used for: Kiosk, Config, AI Receptionist, Call Center, Reps, Showcase
+
+```javascript
+// In staff-router.js
+if (pathname.startsWith('/kiosk/')) {
+  return getKioskSubroute(pathname);
+}
+
+// Subroute handler function
+function getKioskSubroute(pathname) {
+  const subroute = pathname.split('/')[2] || 'dashboard';
+  const timestamp = new Date().toISOString();
+  
+  return new Response(generateDynamicHTML(subroute, timestamp), {
+    headers: { 'Content-Type': 'text/html', 'Cache-Control': 'no-cache' }
+  });
+}
+```
+
+### **Route Precedence Rules**
+
+Cloudflare Workers routes follow a **most specific match** precedence:
+
+1. **Exact Match Routes** (highest precedence)
+   - Example: `staff.gangerdermatology.com/l10`
+   
+2. **Prefix Routes with Wildcards**
+   - Example: `staff.gangerdermatology.com/l10/*`
+   
+3. **Catch-All Routes** (lowest precedence)
+   - Example: `staff.gangerdermatology.com/*`
+
+**Current Configuration:**
+```
+# Dedicated Workers (bypass staff-portal-router)
+staff.gangerdermatology.com/l10        → ganger-eos-l10-v2
+staff.gangerdermatology.com/l10/*      → ganger-eos-l10-v2
+staff.gangerdermatology.com/staffing/* → ganger-staffing-staff-production
+staff.gangerdermatology.com/compliance/* → ganger-compliance-staff-production
+staff.gangerdermatology.com/socials/*  → ganger-socials-staff-production
+
+# Catch-all (handles all other routes including subroutes)
+staff.gangerdermatology.com/*          → staff-portal-router-production
+```
+
+### **Implementing Subroutes in Your App**
+
+**Step 1: Update Worker to Handle Subroutes**
+```javascript
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    let pathname = url.pathname;
+    
+    // Extract app prefix and subroute
+    if (pathname.startsWith('/yourapp/')) {
+      const subroute = pathname.slice(8); // Remove '/yourapp/'
+      return handleSubroute(subroute);
+    }
+  }
+}
+```
+
+**Step 2: Dynamic Content Generation**
+```javascript
+function handleSubroute(subroute) {
+  switch(subroute) {
+    case 'dashboard':
+      return generateDashboard();
+    case 'settings':
+      return generateSettings();
+    case 'reports':
+      return generateReports();
+    default:
+      return generateMainPage();
+  }
+}
+```
+
+**Step 3: Navigation Links**
+Always use full paths in navigation:
+```html
+<!-- Correct: Full path from root -->
+<a href="/yourapp/dashboard">Dashboard</a>
+<a href="/yourapp/settings">Settings</a>
+
+<!-- Wrong: Relative paths can break -->
+<a href="dashboard">Dashboard</a>
+<a href="./settings">Settings</a>
+```
+
+### **Testing Subroutes**
+
+Use the route testing script:
+```bash
+# Test all subroutes for an app
+for route in dashboard settings reports; do
+  echo "Testing /yourapp/$route:"
+  curl -s -o /dev/null -w "%{http_code}" https://staff.gangerdermatology.com/yourapp/$route
+  echo
+done
+```
+
+### **Subrouting Summary**
+
+**Total Implementation Status:**
+- **12 Applications** with full subroute support
+- **49 Total Subroutes** implemented across the platform
+- **2 Implementation Patterns** (Dedicated Workers vs Staff Router)
+- **100% Dynamic Content** on all subroutes
+
+**By the Numbers:**
+- L10: 7 subroutes (dedicated worker)
+- Compliance: 3 subroutes (dedicated worker)
+- Staffing: 3 subroutes (dedicated worker)
+- Socials: 3 subroutes (dedicated worker)
+- Inventory: 3 subroutes (R2 bucket via router)
+- Handouts: 3 subroutes (router function)
+- Kiosk: 3 subroutes (router function)
+- Config: 3 subroutes (router function)
+- AI Receptionist: 3 subroutes (router function)
+- Call Center: 3 subroutes (router function)
+- Reps: 3 subroutes (router function)
+- Showcase: 3 subroutes (router function)
 
 ---
 

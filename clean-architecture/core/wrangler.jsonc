@@ -1,0 +1,102 @@
+{
+  // Core Worker - Platform dashboard and administrative functions
+  "name": "ganger-core",
+  "main": "index.js",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "env": {
+    "production": {
+      "name": "ganger-core-production",
+      "routes": [
+        {
+          "pattern": "staff.gangerdermatology.com",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/dashboard",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/dashboard/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/config",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/config/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/status",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/status/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/admin",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/admin/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/ai-receptionist",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/ai-receptionist/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/call-center",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/call-center/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/reps",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/reps/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/showcase",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/showcase/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/batch",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/batch/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ],
+      // Environment variables
+      "vars": {
+        "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+        "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU5NDg5OTcsImV4cCI6MjA1MTUyNDk5N30.pBR5KPwxJpczSCEso89JJNR8SJFjb1rVPuMoxWVKKmQ"
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@
   "r2_buckets": [
     {
       "binding": "EOS_L10_BUCKET",
-      "bucket_name": "ganger-eos-l10"
+      "bucket_name": "ganger-eos-l10-production"
     }
   ],
   

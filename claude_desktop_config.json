@@ -26,14 +26,14 @@
     },
     "ganger-platform": {
       "command": "node",
-      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/ganger-platform-mcp/dist/index.js"],
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\ganger-platform-mcp\\dist\\index.js"],
       "env": {
         "TEST_DATABASE_URL": "postgresql://postgres:password@localhost:54322/postgres",
         "TEST_JWT_SECRET": "test-jwt-secret-ganger-platform-2025",
         "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
         "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s"
         }
-      },
+    },
     "slack": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-slack"],
@@ -122,7 +122,7 @@
     },
     "gemini": {
       "command": "node",
-      "args": ["/mnt/q/Projects/ganger-platform/mcp-servers/gemini-mcp/index.js"],
+      "args": ["Q:\\Projects\\ganger-platform\\mcp-servers\\gemini-mcp\\index.js"],
       "env": {
         "GEMINI_API_KEY": "AIzaSyB_ABk8esWlemLKjCLYg4Pwzbnej2Db9eE"
       }

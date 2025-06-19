@@ -5,6 +5,10 @@ import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 import { ArrowLeft, TrendingUp, BarChart3, PieChart, Users, Clock, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 
+// Cloudflare Workers Edge Runtime
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 export default function AnalyticsPage() {
   const { user, isAuthenticated, isLoading } = useStaffAuth();
   
@@ -38,6 +42,7 @@ export default function AnalyticsPage() {
           <p className="mt-2 text-gray-600">
             View staffing coverage reports and optimization insights
           </p>
+          <p className="text-sm text-gray-500 mt-1">Report Generated: {new Date().toISOString()}</p>
         </div>
 
         {/* Key Metrics */}
