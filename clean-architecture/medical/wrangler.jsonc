@@ -44,13 +44,6 @@
           "zone_name": "gangerdermatology.com"
         }
       ],
-      // R2 bucket for medical assets
-      "r2_buckets": [
-        {
-          "binding": "ASSETS",
-          "bucket_name": "ganger-medical-assets"
-        }
-      ],
       // Environment variables - never hardcode secrets
       "vars": {
         "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
