@@ -1,24 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
-  
-  // Staff portal integration
+  // Force dynamic runtime - NO static generation
+  experimental: {
+    runtime: 'edge'
+  },
+  // Ensure no static export
+  trailingSlash: false,
   basePath: '/dashboard',
-  assetPrefix: '/dashboard',
-  
-  // Cloudflare Workers configuration - static export
-  output: 'export',
-  trailingSlash: true,
-  
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  
-  images: {
-    domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
-    unoptimized: true,
-  },
-};
+  assetPrefix: '/dashboard'
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

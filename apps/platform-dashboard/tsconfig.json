@@ -1,9 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["dom", "dom.iterable", "es2017"],
-    "downlevelIteration": true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,27 +18,8 @@
       {
         "name": "next"
       }
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"]
-    }
+    ]
   },
-  "include": [
-    "next-env.d.ts", 
-    "**/*.ts", 
-    "**/*.tsx", 
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "dist",
-    "build"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
