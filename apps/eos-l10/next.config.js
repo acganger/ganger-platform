@@ -5,7 +5,7 @@ const nextConfig = {
   
   // Cloudflare Workers configuration (MANDATORY)
   experimental: {
-    runtime: 'edge',
+    serverComponentsExternalPackages: [],
   },
   
   eslint: {
