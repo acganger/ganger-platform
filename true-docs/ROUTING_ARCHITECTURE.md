@@ -1,6 +1,16 @@
 # 🌐 Ganger Platform - Routing Architecture
 
-**Status**: ✅ **PRODUCTION ARCHITECTURE** - Current deployment pattern  
+## 🚀 **IMPORTANT: Clean Architecture Now Available!**
+
+**We have implemented a simplified 5-worker architecture that replaces the complex 21+ worker system described below.**
+- 📘 See [CLEAN_ARCHITECTURE.md](./CLEAN_ARCHITECTURE.md) for the new simplified approach
+- 🔄 Migration guide available at [/MIGRATION_TO_CLEAN_ARCHITECTURE.md](../MIGRATION_TO_CLEAN_ARCHITECTURE.md)
+
+---
+
+## Legacy Architecture Documentation (21+ Workers)
+
+**Status**: ⚠️ **LEGACY ARCHITECTURE** - Being replaced by clean architecture  
 **Last Updated**: January 19, 2025  
 **Dependencies**: Platform assessment findings from `/apptest/COMPREHENSIVE_PLATFORM_ASSESSMENT.md`  
 **Security Policy**: Follow `/CLAUDE.md` - NEVER sanitize working infrastructure values  
