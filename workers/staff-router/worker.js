@@ -5,13 +5,13 @@
 
 const WORKER_ROUTES = {
   // Core Applications (Currently Live)
-  '/l10': 'ganger-l10-production.michiganger.workers.dev',
-  '/eos-l10': 'ganger-l10-production.michiganger.workers.dev',
+  '/l10': 'ganger-eos-l10-prod.michiganger.workers.dev',
+  '/eos-l10': 'ganger-eos-l10-prod.michiganger.workers.dev',
   '/ai-receptionist': 'ganger-ai-receptionist-prod.michiganger.workers.dev',
   '/receptionist': 'ganger-ai-receptionist-prod.michiganger.workers.dev',
   '/batch-closeout': 'ganger-batch-closeout-prod.michiganger.workers.dev',
   '/batch': 'ganger-batch-closeout-prod.michiganger.workers.dev',
-  '/handouts': 'ganger-handouts-production.michiganger.workers.dev',
+  '/handouts': 'ganger-eos-l10-prod.michiganger.workers.dev',
   '/inventory': 'ganger-inventory-production.michiganger.workers.dev',
   
   // Medical Applications (Ready for Deployment)
