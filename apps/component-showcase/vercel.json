@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm --filter @ganger/component-showcase build",
-  "framework": "nextjs",
-  "outputDirectory": ".next"
-}

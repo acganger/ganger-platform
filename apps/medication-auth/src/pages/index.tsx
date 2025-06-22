@@ -14,7 +14,6 @@ import { supabase } from '@/lib/supabase';
 import type { AuthorizationFilters as AuthFilters } from '@/types';
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 export default function DashboardPage() {

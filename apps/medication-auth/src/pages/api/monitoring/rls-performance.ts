@@ -57,4 +57,3 @@ export default withAuth(handler, {
   logPHIAccess: true
 });
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

@@ -267,6 +267,43 @@ class CloudflareLocalMCP {
             },
           },
 
+          // Worker Routes Management
+          {
+            name: 'list_worker_routes',
+            description: 'List all worker routes for a zone',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                zoneId: { type: 'string', description: 'Zone ID (optional, uses default)' },
+              },
+            },
+          },
+          {
+            name: 'create_worker_route',
+            description: 'Create a new worker route',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                pattern: { type: 'string', description: 'Route pattern (e.g., example.com/api/*)', required: true },
+                scriptName: { type: 'string', description: 'Worker script name to handle the route', required: true },
+                zoneId: { type: 'string', description: 'Zone ID (optional, uses default)' },
+              },
+              required: ['pattern', 'scriptName'],
+            },
+          },
+          {
+            name: 'delete_worker_route',
+            description: 'Delete a worker route',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                routeId: { type: 'string', description: 'Route ID to delete', required: true },
+                zoneId: { type: 'string', description: 'Zone ID (optional, uses default)' },
+              },
+              required: ['routeId'],
+            },
+          },
+
           // Security & Rules (Read permissions)
           {
             name: 'get_firewall',
@@ -326,6 +363,12 @@ class CloudflareLocalMCP {
             return this.purgeCache(args?.urls as string[]);
           case 'get_firewall':
             return this.getFirewallRules();
+          case 'list_worker_routes':
+            return this.listWorkerRoutes(args?.zoneId as string);
+          case 'create_worker_route':
+            return this.createWorkerRoute(args?.pattern as string, args?.scriptName as string, args?.zoneId as string);
+          case 'delete_worker_route':
+            return this.deleteWorkerRoute(args?.routeId as string, args?.zoneId as string);
           default:
             throw new Error(`Unknown tool: ${name}`);
         }
@@ -669,6 +712,84 @@ class CloudflareLocalMCP {
         {
           type: 'text',
           text: JSON.stringify(rules, null, 2),
+        },
+      ],
+    };
+  }
+
+  // Worker Routes Methods
+  private async listWorkerRoutes(zoneId?: string) {
+    const targetZoneId = zoneId || this.config.zoneId;
+    if (!targetZoneId) {
+      throw new Error('Zone ID required for listing worker routes');
+    }
+    
+    const routes = await this.cf.workersForPlatforms.dispatch.namespaces.scripts.routes.list(
+      this.config.accountId,
+      'default',
+      'routes',
+      {
+        zone_id: targetZoneId,
+      }
+    );
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: JSON.stringify(routes, null, 2),
+        },
+      ],
+    };
+  }
+
+  private async createWorkerRoute(pattern: string, scriptName: string, zoneId?: string) {
+    const targetZoneId = zoneId || this.config.zoneId;
+    if (!targetZoneId) {
+      throw new Error('Zone ID required for creating worker route');
+    }
+    
+    const route = await this.cf.workersForPlatforms.dispatch.namespaces.scripts.routes.create(
+      this.config.accountId,
+      'default',
+      scriptName,
+      {
+        pattern: pattern,
+        zone_id: targetZoneId,
+      }
+    );
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `Worker route created: ${pattern} -> ${scriptName}\nRoute ID: ${route.id}`,
+        },
+      ],
+    };
+  }
+
+  private async deleteWorkerRoute(routeId: string, zoneId?: string) {
+    const targetZoneId = zoneId || this.config.zoneId;
+    if (!targetZoneId) {
+      throw new Error('Zone ID required for deleting worker route');
+    }
+    
+    await this.cf.workersForPlatforms.dispatch.namespaces.scripts.routes.delete(
+      this.config.accountId,
+      'default',
+      'routes',
+      routeId,
+      {
+        zone_id: targetZoneId,
+      }
+    );
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `Worker route ${routeId} deleted successfully`,
         },
       ],
     };

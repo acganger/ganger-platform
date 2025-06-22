@@ -361,4 +361,3 @@ export default withAuth(
   withRateLimit(handler, RateLimits.AI_PROCESSING)
 );
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

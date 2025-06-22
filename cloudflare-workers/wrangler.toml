@@ -1,7 +1,7 @@
 # 🚀 Ganger Platform - Modern Workers Configuration
 # Using Workers instead of deprecated Pages
 
-name = "ganger-platform-production"
+name = "staff-portal-router-production"
 main = "staff-router.js"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
@@ -11,13 +11,12 @@ compatibility_flags = ["nodejs_compat"]
 pattern = "staff.gangerdermatology.com/*"
 zone_name = "gangerdermatology.com"
 
-[[routes]]
-pattern = "reps.gangerdermatology.com/*"
-zone_name = "gangerdermatology.com"
-
-[[routes]]
-pattern = "kiosk.gangerdermatology.com/*"
-zone_name = "gangerdermatology.com"
+# Default Environment Variables
+[vars]
+ENVIRONMENT = "production"
+PLATFORM_NAME = "Ganger Medical Platform"
+SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+DOMAIN_BASE = "gangerdermatology.com"
 
 # 🔒 Environment Variables
 [env.production.vars]
@@ -26,9 +25,22 @@ PLATFORM_NAME = "Ganger Medical Platform"
 SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
 DOMAIN_BASE = "gangerdermatology.com"
 
+# 🗄️ R2 Storage Buckets for Production
 [[env.production.r2_buckets]]
 binding = "INVENTORY_BUCKET"
-bucket_name = "inventory-management-production"
+bucket_name = "ganger-inventory-assets"
+
+[[env.production.r2_buckets]]
+binding = "HANDOUTS_BUCKET"
+bucket_name = "ganger-handouts-assets"
+
+[[env.production.r2_buckets]]
+binding = "MEDICATION_BUCKET"
+bucket_name = "medication-auth-production"
+
+[[env.production.r2_buckets]]
+binding = "KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk-production"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"

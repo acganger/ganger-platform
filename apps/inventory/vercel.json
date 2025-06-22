@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm --filter @ganger/inventory build",
-  "framework": "nextjs",
-  "outputDirectory": ".next"
-}

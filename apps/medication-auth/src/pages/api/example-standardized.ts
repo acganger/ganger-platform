@@ -142,4 +142,3 @@ export default withStandardErrorHandling(
   )
 );
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

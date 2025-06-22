@@ -16,9 +16,30 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const pathname = url.pathname;
+    const hostname = url.hostname;
+    
+    // Handle subdomain routing
+    if (hostname === 'inventory.gangerdermatology.com') {
+      return getInventoryApp(request, env);
+    }
+    
+    if (hostname === 'handouts.gangerdermatology.com') {
+      return getHandoutsApp(request, env);
+    }
+    
+    if (hostname === 'medication-auth.gangerdermatology.com') {
+      return getDynamicMedicationAuth();
+    }
+    
+    if (hostname === 'eos-l10.gangerdermatology.com') {
+      if (pathname === '/' || pathname === '') {
+        return Response.redirect(new URL('/compass', request.url).toString(), 302);
+      }
+      return getEOSL10CompassTemplate(pathname);
+    }
     
     // 🚀 Working Applications - Direct content serving
-    if (pathname === '/meds') {
+    if (pathname === '/meds' || pathname.startsWith('/meds/')) {
       return getDynamicMedicationAuth();
     }
     
@@ -30,26 +51,67 @@ export default {
       return getDynamicIntegrationStatus();
     }
     
-    if (pathname === '/inventory') {
-      return getInventoryApp(request, env);
+    if (pathname === '/inventory' || pathname.startsWith('/inventory/')) {
+      const response = await serveFromR2(request, env, 'INVENTORY_BUCKET', '/inventory');
+      
+      // If it's an HTML response, rewrite the paths
+      if (response.headers.get('content-type')?.includes('text/html')) {
+        let body = await response.text();
+        body = body
+          .replace(/href="\/_next\//g, 'href="/inventory/_next/')
+          .replace(/src="\/_next\//g, 'src="/inventory/_next/')
+          .replace(/\/_buildManifest\.js/g, '/inventory/_buildManifest.js')
+          .replace(/\/_ssgManifest\.js/g, '/inventory/_ssgManifest.js');
+        
+        return new Response(body, {
+          status: response.status,
+          headers: response.headers
+        });
+      }
+      
+      return response;
     }
     
-    // Handle all L10 routes
-    if (pathname === '/l10') {
-      return Response.redirect(new URL('/l10/compass', request.url).toString(), 302);
-    }
-    
-    if (pathname.startsWith('/l10/')) {
-      return getEOSL10CompassTemplate(pathname);
+    // Handle all L10 routes - Proxy through Cloudflare Tunnel
+    if (pathname === '/l10' || pathname.startsWith('/l10')) {
+      // Proxy through Cloudflare Tunnel
+      const TUNNEL_URL = 'https://vm.gangerdermatology.com';
+      
+      // Keep the full path including /l10
+      const tunnelUrl = new URL(pathname, TUNNEL_URL);
+      
+      // Copy query parameters
+      tunnelUrl.search = url.search;
+      
+      // Forward the request through the tunnel
+      try {
+        const response = await fetch(tunnelUrl.toString(), {
+          method: request.method,
+          headers: request.headers,
+          body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : undefined,
+        });
+        
+        // Clone the response to modify headers if needed
+        const modifiedResponse = new Response(response.body, response);
+        
+        // Add CORS headers if needed
+        modifiedResponse.headers.set('Access-Control-Allow-Origin', '*');
+        
+        return modifiedResponse;
+      } catch (error) {
+        console.error('Error proxying L10 through tunnel:', error);
+        // Fallback to static template if tunnel is unavailable
+        return getEOSL10CompassTemplate(pathname);
+      }
     }
     
     // 🚀 Enhanced Applications
-    if (pathname === '/handouts') {
-      return getDynamicPatientHandouts();
+    if (pathname === '/handouts' || pathname.startsWith('/handouts/')) {
+      return getHandoutsApp(request, env);
     }
     
-    if (pathname === '/kiosk') {
-      return getDynamicCheckinKiosk();
+    if (pathname === '/kiosk' || pathname.startsWith('/kiosk/')) {
+      return getKioskApp(request, env);
     }
     
     if (pathname === '/staffing') {
@@ -161,45 +223,76 @@ export default {
   }
 };
 async function getInventoryApp(request, env) {
-  const url = new URL(request.url);
-  let pathname = url.pathname;
-  
-  // Remove /inventory prefix for R2 key lookup
-  let r2Key = pathname.replace('/inventory', '');
-  
-  // Handle root inventory path
-  if (r2Key === '' || r2Key === '/') {
-    r2Key = 'index.html';
-  }
-  
-  // Debug logging
-  console.log('Inventory path debug:', { pathname, r2Key });
-  
-  // Handle directory paths (add index.html)
-  if (r2Key.endsWith('/')) {
-    r2Key += 'index.html';
-  }
-  
-  // Handle paths without extensions (Next.js routing)
-  if (!r2Key.includes('.') && !r2Key.endsWith('/')) {
-    r2Key += '.html';
-  }
-  
-  // Remove leading slash for R2 key
-  r2Key = r2Key.startsWith('/') ? r2Key.slice(1) : r2Key;
-  
   try {
-    // Attempt to get file from R2
-    const object = await env.INVENTORY_BUCKET.get(r2Key);
+    const url = new URL(request.url);
+    let pathname = url.pathname;
+    const hostname = url.hostname;
     
-    if (!object) {
-      // Try fallback to index.html for client-side routing
-      const indexObject = await env.INVENTORY_BUCKET.get('index.html');
-      if (indexObject) {
-        return new Response(indexObject.body, {
+    // Check if accessed via subdomain
+    const isSubdomain = hostname === 'inventory.gangerdermatology.com';
+    
+    // Check if bucket binding exists
+    if (!env.INVENTORY_BUCKET) {
+      console.error('INVENTORY_BUCKET binding not found');
+      return new Response('Inventory bucket not configured', { 
+        status: 500,
+        headers: { 'Content-Type': 'text/plain' }
+      });
+    }
+    
+    let r2Key;
+    
+    if (pathname.includes('/_next/') || pathname.includes('/manifest.json')) {
+      // For subdomain access, assets are stored with /inventory/ prefix
+      if (isSubdomain) {
+        r2Key = 'inventory' + pathname;
+      } else {
+        // For path-based access, keep the full path
+        r2Key = pathname.substring(1); // Remove leading slash
+      }
+    } else {
+      // Remove /inventory prefix for page lookups (only for path-based access)
+      if (!isSubdomain) {
+        r2Key = pathname.replace('/inventory', '');
+      } else {
+        r2Key = pathname;
+      }
+      
+      // Handle root path
+      if (r2Key === '' || r2Key === '/') {
+        r2Key = 'index.html';
+      } else {
+        // Handle directory paths (add index.html)
+        if (r2Key.endsWith('/')) {
+          r2Key += 'index.html';
+        }
+        
+        // Handle paths without extensions (Next.js routing)
+        if (!r2Key.includes('.') && !r2Key.endsWith('/')) {
+          r2Key += '.html';
+        }
+        
+        // Remove leading slash for R2 key
+        r2Key = r2Key.startsWith('/') ? r2Key.slice(1) : r2Key;
+      }
+    }
+    
+    // Debug logging
+    console.log('Inventory path debug:', { pathname, r2Key, isSubdomain, hostname });
+    
+    // For debugging, let's try without the inventory prefix for assets
+    if (pathname.includes('/_next/') && !isSubdomain) {
+      // Try the key without the inventory prefix first
+      const assetKey = pathname.replace('/inventory/', '').substring(1);
+      console.log('Trying asset key:', assetKey);
+      const assetObject = await env.INVENTORY_BUCKET.get(assetKey);
+      if (assetObject) {
+        console.log('Found asset at:', assetKey);
+        return new Response(assetObject.body, {
           headers: {
-            'Content-Type': 'text/html',
-            'Cache-Control': 'public, max-age=86400',
+            'Content-Type': getContentType(assetKey),
+            'Cache-Control': getCacheControl(assetKey),
+            'ETag': assetObject.etag,
             'X-Frame-Options': 'DENY',
             'X-Content-Type-Options': 'nosniff',
             'X-XSS-Protection': '1; mode=block',
@@ -208,6 +301,50 @@ async function getInventoryApp(request, env) {
             'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
           },
         });
+      }
+    }
+    
+    // Attempt to get file from R2
+    const object = await env.INVENTORY_BUCKET.get(r2Key);
+    
+    if (!object) {
+      // Only fallback to index.html for non-asset paths
+      const isAssetPath = pathname.includes('/_next/') || 
+                         pathname.includes('.css') || 
+                         pathname.includes('.js') || 
+                         pathname.includes('.json') ||
+                         pathname.includes('.png') ||
+                         pathname.includes('.jpg') ||
+                         pathname.includes('.ico');
+      
+      if (!isAssetPath) {
+        // Try fallback to index.html for client-side routing
+        const indexObject = await env.INVENTORY_BUCKET.get('index.html');
+        if (indexObject) {
+          let body = await indexObject.text();
+          
+          // If not accessed via subdomain, rewrite asset paths
+          if (!isSubdomain) {
+            body = body
+              .replace(/href="\/_next\//g, 'href="/inventory/_next/')
+              .replace(/src="\/_next\//g, 'src="/inventory/_next/')
+              .replace(/\/_buildManifest\.js/g, '/inventory/_buildManifest.js')
+              .replace(/\/_ssgManifest\.js/g, '/inventory/_ssgManifest.js');
+          }
+          
+          return new Response(body, {
+            headers: {
+              'Content-Type': 'text/html',
+              'Cache-Control': 'public, max-age=86400',
+              'X-Frame-Options': 'DENY',
+              'X-Content-Type-Options': 'nosniff',
+              'X-XSS-Protection': '1; mode=block',
+              'Referrer-Policy': 'strict-origin-when-cross-origin',
+              'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+              'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+            },
+          });
+        }
       }
       
       // Return 404 if not found
@@ -222,6 +359,30 @@ async function getInventoryApp(request, env) {
 
     // Determine content type
     const contentType = getContentType(r2Key);
+    
+    // If HTML and not subdomain, rewrite paths
+    if (contentType === 'text/html' && !isSubdomain) {
+      let body = await object.text();
+      body = body
+        .replace(/href="\/_next\//g, 'href="/inventory/_next/')
+        .replace(/src="\/_next\//g, 'src="/inventory/_next/')
+        .replace(/\/_buildManifest\.js/g, '/inventory/_buildManifest.js')
+        .replace(/\/_ssgManifest\.js/g, '/inventory/_ssgManifest.js');
+      
+      return new Response(body, {
+        headers: {
+          'Content-Type': contentType,
+          'Cache-Control': getCacheControl(r2Key),
+          'ETag': object.etag,
+          'X-Frame-Options': 'DENY',
+          'X-Content-Type-Options': 'nosniff',
+          'X-XSS-Protection': '1; mode=block',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+        },
+      });
+    }
     
     return new Response(object.body, {
       headers: {
@@ -4479,4 +4640,84 @@ function getShowcaseSubroute(pathname) {
 </html>`, {
     headers: { 'Content-Type': 'text/html', 'Cache-Control': 'no-cache' }
   });
+}
+
+// Handouts app handler
+async function getHandoutsApp(request, env) {
+  return serveFromR2(request, env, 'HANDOUTS_BUCKET', '/handouts');
+}
+
+// Kiosk app handler  
+async function getKioskApp(request, env) {
+  return serveFromR2(request, env, 'KIOSK_BUCKET', '/kiosk');
+}
+
+// Generic R2 serving function
+async function serveFromR2(request, env, bucketBinding, basePath) {
+  const url = new URL(request.url);
+  let pathname = url.pathname;
+  
+  // Remove base path
+  let r2Key = pathname.replace(basePath, '');
+  
+  // Handle root path
+  if (r2Key === '' || r2Key === '/') {
+    r2Key = 'index.html';
+  } else {
+    // Remove leading slash
+    r2Key = r2Key.startsWith('/') ? r2Key.slice(1) : r2Key;
+    
+    // Handle directory paths
+    if (r2Key.endsWith('/')) {
+      r2Key += 'index.html';
+    }
+    
+    // Handle paths without extensions (Next.js routing)
+    if (!r2Key.includes('.') && !r2Key.endsWith('/')) {
+      r2Key += '.html';
+    }
+  }
+  
+  try {
+    const bucket = env[bucketBinding];
+    if (!bucket) {
+      return new Response(`R2 bucket ${bucketBinding} not configured`, { status: 500 });
+    }
+    
+    console.log(`Serving from R2: ${bucketBinding}, r2Key: ${r2Key}, pathname: ${pathname}`);
+    const object = await bucket.get(r2Key);
+    
+    if (!object) {
+      console.log(`Object not found: ${r2Key}, trying index.html fallback`);
+      // Try fallback to index.html for client-side routing
+      const indexObject = await bucket.get('index.html');
+      if (indexObject) {
+        return new Response(indexObject.body, {
+          headers: {
+            'Content-Type': 'text/html',
+            'Cache-Control': 'public, max-age=3600',
+          },
+        });
+      }
+      
+      return new Response(`Not found: ${r2Key} in ${bucketBinding}`, { status: 404 });
+    }
+    
+    // Determine content type
+    let contentType = 'text/plain';
+    if (r2Key.endsWith('.html')) contentType = 'text/html';
+    else if (r2Key.endsWith('.js')) contentType = 'application/javascript';
+    else if (r2Key.endsWith('.css')) contentType = 'text/css';
+    else if (r2Key.endsWith('.json')) contentType = 'application/json';
+    
+    return new Response(object.body, {
+      headers: {
+        'Content-Type': contentType,
+        'Cache-Control': 'public, max-age=3600',
+      },
+    });
+  } catch (error) {
+    console.error(`Error serving from ${bucketBinding}:`, error);
+    return new Response('Error loading application', { status: 500 });
+  }
 }

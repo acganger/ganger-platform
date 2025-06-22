@@ -159,4 +159,3 @@ export default withStandardErrorHandling(
   }, { roles: ['staff', 'manager', 'superadmin'], auditLog: true })
 );
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

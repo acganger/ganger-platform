@@ -155,8 +155,3 @@ function getStockStatus(currentStock: number, minStock: number): string {
   }
 }
 
-export const config = {
-  runtime: 'edge',
-};
-// Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

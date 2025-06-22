@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm --filter @ganger/checkin-kiosk build",
-  "framework": "nextjs",
-  "outputDirectory": ".next"
-}

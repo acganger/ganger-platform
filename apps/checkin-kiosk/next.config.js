@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   reactStrictMode: true,
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
   // Staff portal integration
-  basePath: '/checkin',
-  assetPrefix: '/checkin',
+  basePath: '/kiosk',
+  assetPrefix: '/kiosk',
   
   eslint: {
     ignoreDuringBuilds: true,

@@ -332,4 +332,3 @@ function isChronicCondition(icdCode: string): boolean {
 
 export default withAuth(handler);
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

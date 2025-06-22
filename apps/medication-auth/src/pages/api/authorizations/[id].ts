@@ -480,4 +480,3 @@ async function calculateAuthorizationMetrics(authorization: any) {
 
 export default withAuth(handler);
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

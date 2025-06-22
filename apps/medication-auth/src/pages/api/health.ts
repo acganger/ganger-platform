@@ -1,6 +1,5 @@
 import { createHealthCheckEndpoint, withRateLimit, RateLimits } from '../../lib/utils/mock-health-check';
 
-export const runtime = 'edge';
 
 // Health check endpoint for Medication Authorization Service
 // Monitors database, AI services, and external integrations

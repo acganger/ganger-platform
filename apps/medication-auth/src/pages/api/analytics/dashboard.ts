@@ -363,4 +363,3 @@ function generateActionableRecommendations(dashboardData: any): Array<{
 
 export default withAuth(handler);
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

@@ -79,8 +79,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
-export const config = {
-  runtime: 'edge',
-};
-// Cloudflare Workers Edge Runtime
-export const runtime = 'edge';

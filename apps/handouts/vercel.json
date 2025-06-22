@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm --filter @ganger/handouts build",
-  "framework": "nextjs",
-  "outputDirectory": ".next"
-}
