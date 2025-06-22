@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm --filter @ganger/batch-closeout build",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
+}

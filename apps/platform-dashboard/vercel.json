@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm --filter @ganger/platform-dashboard build",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
+}

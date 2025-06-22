@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm --filter @ganger/socials-reviews build",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
+}
