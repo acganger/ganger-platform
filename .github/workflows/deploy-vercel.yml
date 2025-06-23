@@ -1,0 +1,51 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  VERCEL_ORG_ID: team_wpY7PcIsYQNnslNN39o7fWvS
+  VERCEL_PROJECT_ID: prj_9PlXR5HftwXI4u4hAxVhyOjwk6y5
+  VERCEL_TOKEN: RdwA23mHSvPcm9ptReM6zxjF
+
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Build project
+        run: pnpm build:staff
+        env:
+          SKIP_ENV_VALIDATION: true
+        
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+        
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
+        working-directory: ./apps/staff
+        
+      - name: Build for Vercel
+        run: vercel build --prod --token=${{ env.VERCEL_TOKEN }}
+        working-directory: ./apps/staff
+        env:
+          SKIP_ENV_VALIDATION: true
+        
+      - name: Deploy to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ env.VERCEL_TOKEN }}
+        working-directory: ./apps/staff

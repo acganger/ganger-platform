@@ -8,7 +8,21 @@ import {
   Settings,
   PlusCircle,
   Building2,
-  BarChart3
+  BarChart3,
+  Package,
+  Clipboard,
+  Pill,
+  Monitor,
+  Calendar,
+  GraduationCap,
+  Stethoscope,
+  MessageSquare,
+  Cog,
+  Activity,
+  Phone,
+  UserCheck,
+  Calculator,
+  Palette
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
@@ -21,15 +35,40 @@ const navigation = [
   { name: 'Punch Corrections', href: '/punch-fix', icon: FileText },
 ];
 
+const appNavigation = [
+  // Medical apps
+  { name: 'Inventory Management', href: '/inventory', icon: Package, external: true },
+  { name: 'Patient Handouts', href: '/handouts', icon: Clipboard, external: true },
+  { name: 'Medication Auth', href: '/meds', icon: Pill, external: true },
+  { name: 'Check-in Kiosk', href: '/kiosk', icon: Monitor, external: true },
+  
+  // Business apps
+  { name: 'EOS L10', href: '/l10', icon: Calendar, external: true },
+  { name: 'Compliance Training', href: '/compliance', icon: GraduationCap, external: true },
+  { name: 'Clinical Staffing', href: '/staffing', icon: Stethoscope, external: true },
+  { name: 'Social Reviews', href: '/socials', icon: MessageSquare, external: true },
+];
+
 const managerNavigation = [
   { name: 'Team Overview', href: '/team', icon: Users },
   { name: 'Reports', href: '/reports', icon: BarChart3 },
   { name: 'User Management', href: '/users', icon: Users },
+  
+  // Management apps
+  { name: 'Configuration', href: '/config', icon: Cog, external: true },
+  { name: 'Integration Status', href: '/status', icon: Activity, external: true },
 ];
 
 const adminNavigation = [
   { name: 'System Settings', href: '/admin/settings', icon: Settings },
   { name: 'All Locations', href: '/admin/locations', icon: Building2 },
+  
+  // Admin apps
+  { name: 'AI Receptionist', href: '/ai-receptionist', icon: Phone, external: true },
+  { name: 'Call Center Ops', href: '/call-center', icon: UserCheck, external: true },
+  { name: 'Pharma Scheduling', href: '/reps', icon: Calendar, external: true },
+  { name: 'Batch Closeout', href: '/batch', icon: Calculator, external: true },
+  { name: 'Component Showcase', href: '/showcase', icon: Palette, external: true },
 ];
 
 interface NavigationItemProps {
@@ -37,6 +76,7 @@ interface NavigationItemProps {
     name: string;
     href: string;
     icon: any;
+    external?: boolean;
   };
   isActive: boolean;
 }
@@ -44,9 +84,18 @@ interface NavigationItemProps {
 const NavigationItem = ({ item, isActive }: NavigationItemProps) => {
   const router = useRouter();
   
+  const handleClick = () => {
+    if (item.external) {
+      // For external apps, navigate using window.location to trigger proper routing
+      window.location.href = item.href;
+    } else {
+      router.push(item.href);
+    }
+  };
+  
   return (
     <button
-      onClick={() => router.push(item.href)}
+      onClick={handleClick}
       className={cn(
         'group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
         isActive
@@ -148,6 +197,22 @@ export const Sidebar = () => {
             </div>
           </div>
         )}
+
+        {/* Platform Apps */}
+        <div>
+          <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+            Platform Apps
+          </h3>
+          <div className="space-y-1">
+            {appNavigation.map((item) => (
+              <NavigationItem
+                key={item.name}
+                item={item}
+                isActive={isActive(item.href)}
+              />
+            ))}
+          </div>
+        </div>
       </nav>
 
       {/* User Info */}

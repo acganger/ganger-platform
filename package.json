@@ -9,7 +9,9 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "build:staff": "turbo run build --filter=@ganger/staff",
     "dev": "turbo run dev",
+    "dev:staff": "turbo run dev --filter=@ganger/staff",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "type-check": "turbo run type-check",

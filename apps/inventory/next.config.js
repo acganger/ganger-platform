@@ -6,10 +6,6 @@ const nextConfig = {
   // Static export for R2 deployment
   // output: 'export', // Commented out for dynamic rendering
   
-  // Staff portal integration
-  basePath: '/inventory',
-  assetPrefix: '/inventory',
-  
   eslint: {
     ignoreDuringBuilds: true,
   },

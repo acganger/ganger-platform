@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm build:staff",
+  "installCommand": "npm install -g pnpm && pnpm install",
+  "outputDirectory": "apps/staff/.next",
+  "framework": null,
+  "rootDirectory": ".",
+  "ignoreCommand": "exit 1"
+}

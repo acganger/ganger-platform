@@ -40,8 +40,8 @@ function InventoryDashboard() {
       try {
         // Fetch real inventory data from API
         const [statsResponse, itemsResponse] = await Promise.all([
-          fetch('/inventory/api/stats'),
-          fetch('/inventory/api/items')
+          fetch('/api/stats'),
+          fetch('/api/items')
         ]);
 
         if (statsResponse.ok) {
