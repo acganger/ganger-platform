@@ -19,6 +19,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
+  // Force dynamic rendering for all pages
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
+  
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
     unoptimized: true,
