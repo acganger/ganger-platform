@@ -45,23 +45,27 @@ export default function InventoryDemoPage() {
           value={demoStats.totalItems}
           icon="package"
           trend={{ value: 5, direction: 'up' }}
+          color="primary"
         />
         <StatCard
           title="Low Stock Alert"
           value={demoStats.lowStock}
           icon="alert-triangle"
+          color="danger"
         />
         <StatCard
           title="Recent Orders"
           value={demoStats.recentOrders}
           icon="shopping-cart"
           trend={{ value: 12, direction: 'up' }}
+          color="success"
         />
         <StatCard
           title="Monthly Usage"
           value={`${demoStats.monthlyUsage}`}
           icon="trending-up"
           trend={{ value: 8.5, direction: 'up' }}
+          color="info"
         />
       </div>
 
