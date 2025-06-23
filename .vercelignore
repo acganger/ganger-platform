@@ -1,0 +1,18 @@
+# Ignore MCP servers and related packages
+mcp-servers/
+**/sqlite-mcp-server
+**/mcp-server-*
+**/@modelcontextprotocol/*
+
+# Ignore development tools
+.ai-workspace/
+scripts/
+docs/
+*.md
+*.sh
+
+# Ignore other non-essential files
+.wrangler/
+legacy-a2hosting-apps/
+cloudflare-workers/
+clean-architecture/
