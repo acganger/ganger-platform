@@ -32,6 +32,9 @@ jobs:
         run: pnpm build:staff
         env:
           SKIP_ENV_VALIDATION: true
+          NEXT_PUBLIC_SUPABASE_URL: https://pfqtzmxxxhhsxmlddrta.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjI4NTY4MzQsImV4cCI6MjAzODQzMjgzNH0.XBGQrHPRrsf1NcaRT8kJXcqBBTFqv1_SqC3nIqtmedo
+          NEXT_PUBLIC_STAFF_URL: https://staff.gangerdermatology.com
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -45,6 +48,9 @@ jobs:
         working-directory: ./apps/staff
         env:
           SKIP_ENV_VALIDATION: true
+          NEXT_PUBLIC_SUPABASE_URL: https://pfqtzmxxxhhsxmlddrta.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjI4NTY4MzQsImV4cCI6MjAzODQzMjgzNH0.XBGQrHPRrsf1NcaRT8kJXcqBBTFqv1_SqC3nIqtmedo
+          NEXT_PUBLIC_STAFF_URL: https://staff.gangerdermatology.com
         
       - name: Deploy to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ env.VERCEL_TOKEN }}
