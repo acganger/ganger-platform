@@ -1,0 +1,6 @@
+{
+  "name": "ai-receptionist-static",
+  "version": "1.0.0",
+  "main": "worker.js",
+  "dependencies": {}
+}

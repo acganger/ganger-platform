@@ -1,0 +1,262 @@
+{
+  "version": "1.0.0",
+  "staging_environment": {
+    "name": "staging",
+    "domain": "staff-staging.gangerdermatology.com",
+    "zone_id": "ba76d3d3f41251c49f0365421bd644a5",
+    "cloudflare_account_id": "85f2cf50e95a4a5db52a11adcc2c2c9b",
+    "environment_type": "staging",
+    "auto_deploy": true,
+    "deployment_source": "staging_branch"
+  },
+  "deployment_pipeline": {
+    "phases": {
+      "validation": {
+        "enabled": true,
+        "timeout": 300,
+        "required_checks": [
+          "prerequisites",
+          "wrangler_config",
+          "environment_variables",
+          "build_artifacts"
+        ]
+      },
+      "build_verification": {
+        "enabled": true,
+        "timeout": 180,
+        "artifact_checks": [
+          "worker_bundle_exists",
+          "artifact_size_validation",
+          "artifact_age_validation"
+        ]
+      },
+      "deployment": {
+        "enabled": true,
+        "timeout": 600,
+        "strategy": "rolling",
+        "parallel_deployments": 3,
+        "deployment_delay": 10
+      },
+      "smoke_testing": {
+        "enabled": true,
+        "timeout": 300,
+        "test_types": [
+          "health_endpoint",
+          "static_assets",
+          "functionality",
+          "performance"
+        ]
+      },
+      "validation": {
+        "enabled": true,
+        "timeout": 240,
+        "validation_types": [
+          "accessibility",
+          "performance",
+          "security_headers",
+          "compliance"
+        ]
+      }
+    },
+    "rollback": {
+      "enabled": true,
+      "automatic": true,
+      "rollback_threshold": 0.5,
+      "rollback_timeout": 300
+    }
+  },
+  "testing_configuration": {
+    "smoke_tests": {
+      "enabled": true,
+      "test_suites": {
+        "basic": {
+          "health_endpoint": true,
+          "static_assets": true,
+          "response_time": true
+        },
+        "functional": {
+          "api_endpoints": true,
+          "user_flows": false,
+          "integration_tests": false
+        },
+        "performance": {
+          "response_time_threshold": 2000,
+          "throughput_test": false,
+          "load_test": false
+        }
+      }
+    },
+    "application_specific_tests": {
+      "inventory": {
+        "api_endpoints": ["/api/inventory/status", "/api/inventory/items"],
+        "barcode_scanning": false,
+        "database_connectivity": true
+      },
+      "handouts": {
+        "api_endpoints": ["/api/handouts/templates", "/api/handouts/generate"],
+        "pdf_generation": false,
+        "template_validation": true
+      },
+      "medication-auth": {
+        "api_endpoints": ["/api/auth/status", "/api/auth/validate"],
+        "ai_processing": false,
+        "compliance_logging": true
+      },
+      "call-center-ops": {
+        "api_endpoints": ["/api/calls/status", "/api/calls/queue"],
+        "telephony_integration": false,
+        "queue_management": true
+      }
+    }
+  },
+  "promotion_criteria": {
+    "automatic_promotion": false,
+    "required_validations": [
+      "all_smoke_tests_passed",
+      "performance_requirements_met",
+      "security_headers_present",
+      "stability_period_completed"
+    ],
+    "stability_period": {
+      "duration_minutes": 30,
+      "health_check_interval": 60,
+      "error_threshold": 0.01
+    },
+    "performance_requirements": {
+      "max_response_time": 3000,
+      "min_availability": 99.9,
+      "max_error_rate": 0.005
+    },
+    "approval_process": {
+      "required": true,
+      "approvers": ["admin@gangerdermatology.com"],
+      "approval_timeout": 3600
+    }
+  },
+  "monitoring": {
+    "health_checks": {
+      "enabled": true,
+      "interval": 60,
+      "timeout": 30,
+      "endpoints": {
+        "health": "/api/health",
+        "status": "/api/status",
+        "metrics": "/api/metrics"
+      }
+    },
+    "performance_monitoring": {
+      "enabled": true,
+      "metrics_collection_interval": 300,
+      "performance_thresholds": {
+        "response_time_warning": 1000,
+        "response_time_critical": 2000,
+        "error_rate_warning": 0.01,
+        "error_rate_critical": 0.05
+      }
+    },
+    "alerting": {
+      "enabled": false,
+      "channels": {
+        "slack": {
+          "enabled": false,
+          "webhook_url": "${SLACK_WEBHOOK_URL}",
+          "channel": "#staging-alerts"
+        }
+      }
+    }
+  },
+  "security": {
+    "required_headers": [
+      "X-Frame-Options",
+      "X-Content-Type-Options",
+      "X-XSS-Protection",
+      "Strict-Transport-Security"
+    ],
+    "ssl_enforcement": true,
+    "cors_validation": true,
+    "security_scanning": {
+      "enabled": true,
+      "scan_types": ["headers", "vulnerabilities", "compliance"]
+    }
+  },
+  "data_management": {
+    "database": {
+      "type": "staging",
+      "isolation": true,
+      "data_refresh": {
+        "enabled": false,
+        "schedule": "weekly",
+        "anonymization": true
+      }
+    },
+    "file_storage": {
+      "r2_bucket": "ganger-platform-staging",
+      "retention_days": 30,
+      "cleanup_schedule": "daily"
+    },
+    "logs": {
+      "retention_days": 7,
+      "log_level": "debug",
+      "centralized_logging": true
+    }
+  },
+  "integrations": {
+    "cloudflare": {
+      "workers": true,
+      "analytics": true,
+      "r2_storage": true,
+      "kv_storage": true
+    },
+    "supabase": {
+      "database": true,
+      "auth": true,
+      "storage": true,
+      "edge_functions": false
+    },
+    "external_services": {
+      "stripe": {
+        "enabled": true,
+        "test_mode": true
+      },
+      "twilio": {
+        "enabled": true,
+        "test_credentials": true
+      }
+    }
+  },
+  "compliance": {
+    "hipaa": {
+      "enabled": false,
+      "audit_logging": false,
+      "data_encryption": true,
+      "access_controls": false
+    },
+    "data_protection": {
+      "anonymization": true,
+      "data_masking": true,
+      "pii_handling": "test_data_only"
+    }
+  },
+  "resource_limits": {
+    "workers": {
+      "cpu_time_limit": 50,
+      "memory_limit": 128,
+      "request_timeout": 30
+    },
+    "storage": {
+      "kv_operations_per_day": 100000,
+      "r2_storage_limit_gb": 10,
+      "database_connections": 25
+    }
+  },
+  "cleanup_policies": {
+    "automatic_cleanup": true,
+    "cleanup_schedule": "nightly",
+    "retention_policies": {
+      "deployment_logs": "7_days",
+      "test_results": "30_days",
+      "performance_metrics": "14_days",
+      "temporary_files": "1_day"
+    }
+  }
+}

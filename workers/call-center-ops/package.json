@@ -1,0 +1,14 @@
+{
+  "name": "call-center-ops-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy --env production",
+    "dev": "wrangler dev",
+    "tail": "wrangler tail --env production"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240919.0",
+    "wrangler": "^3.78.8"
+  }
+}

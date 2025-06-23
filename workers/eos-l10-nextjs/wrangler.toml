@@ -1,0 +1,23 @@
+name = "ganger-eos-l10-prod"
+compatibility_date = "2024-12-13"
+main = "worker.js"
+
+# Static assets from Next.js build
+[site]
+bucket = "../../apps/eos-l10/out"
+
+[env.production]
+name = "ganger-eos-l10-prod"
+
+[env.staging]
+name = "ganger-eos-l10-staging"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+APP_NAME = "eos-l10"
+SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0Mjk3MDksImV4cCI6MjA1MDAwNTcwOX0.Kz1zLwgw9gPyORKZJ6VNOhqjSvxgvmjNFIDO6qRgpw8"
+GOOGLE_CLIENT_ID = "745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
+NEXT_PUBLIC_SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0Mjk3MDksImV4cCI6MjA1MDAwNTcwOX0.Kz1zLwgw9gPyORKZJ6VNOhqjSvxgvmjNFIDO6qRgpw8"

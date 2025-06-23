@@ -1,0 +1,287 @@
+🏥 Building and Deploying Medical Apps
+=====================================
+
+📦 Processing inventory...
+------------------------
+🔧 Removing edge runtime declarations...
+🔨 Building inventory...
+
+> @ganger/inventory@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.29
+  - Environments: .env.local
+
+   Skipping linting
+   Checking validity of types ...
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Collecting page data ...
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+   Generating static pages (0/6) ...
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+   Generating static pages (1/6) 
+   Generating static pages (2/6) 
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+   Generating static pages (4/6) 
+ ✓ Generating static pages (6/6)
+   Finalizing page optimization ...
+   Collecting build traces ...
+ ⚠ Statically exporting a Next.js application via `next export` disables API routes and middleware.
+This command is meant for static-only hosts, and is not necessary to make your application static.
+Pages in your application without server-side data dependencies will be automatically statically exported by `next build`, including pages powered by `getStaticProps`.
+Learn more: https://nextjs.org/docs/messages/api-routes-static-export
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+🔍 Database connection monitoring started
+
+Route (pages)                              Size     First Load JS
+┌ ○ / (1794 ms)                            766 B           302 kB
+├   /_app                                  0 B             301 kB
+├ ○ /404                                   180 B           301 kB
+├ ƒ /api/health                            0 B             301 kB
+├ ƒ /api/items                             0 B             301 kB
+├ ƒ /api/stats                             0 B             301 kB
+├ ○ /auth/login (2644 ms)                  915 B           302 kB
+├ ○ /dashboard (2876 ms)                   1.38 kB         302 kB
+└ ○ /salient (3997 ms)                     67.2 kB         368 kB
++ First Load JS shared by all              308 kB
+  ├ chunks/framework-e0f347a11a70369e.js   44.8 kB
+  ├ chunks/main-49366e87ab8b2cf6.js        34.1 kB
+  ├ chunks/pages/_app-3b7aa4964da29b20.js  221 kB
+  └ other shared chunks (total)            8.28 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+☁️ Creating R2 bucket inventory-management-production if needed...
+
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Creating bucket 'inventory-management-production'...
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mA request to the Cloudflare API (/accounts/68d0160c9915efebbbecfddfd48cddab/r2/buckets) failed.[0m
+
+  The bucket you tried to create already exists, and you own it. [code: 10004]
+  
+  If you think this is a bug, please open an issue at: [4mhttps://github.com/cloudflare/workers-sdk/issues/new/choose[0m
+
+
+📤 Uploading files to R2 bucket inventory-management-production...
+  Uploading inventory/404.html... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/404.html" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/auth/login.html... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/auth/login.html" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/dashboard.html... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/dashboard.html" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/index.html... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/index.html" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/manifest.json... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/manifest.json" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/salient.html... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/salient.html" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/617-9fae87cb78e57a52.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/617-9fae87cb78e57a52.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/ab6f0b53-61b40f5cbe19a4d0.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/ab6f0b53-61b40f5cbe19a4d0.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/framework-e0f347a11a70369e.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/framework-e0f347a11a70369e.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/main-49366e87ab8b2cf6.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/main-49366e87ab8b2cf6.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/pages/auth/login-c9c19268181ef887.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/pages/auth/login-c9c19268181ef887.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/pages/dashboard-4c1a4ae857940540.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/pages/dashboard-4c1a4ae857940540.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/pages/index-55d31bfc5209e8e0.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/pages/index-55d31bfc5209e8e0.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/pages/salient-66c806c637444675.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/pages/salient-66c806c637444675.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/pages/_app-3b7aa4964da29b20.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/pages/_app-3b7aa4964da29b20.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/pages/_error-c00057bbae1268e0.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/pages/_error-c00057bbae1268e0.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/polyfills-42372ed130431b0a.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/polyfills-42372ed130431b0a.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/chunks/webpack-62adfc06f90c740f.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/chunks/webpack-62adfc06f90c740f.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/css/84741f21f38e3394.css... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/css/84741f21f38e3394.css" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/lDcDgAs_sntNIgbSe76OA/_buildManifest.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/lDcDgAs_sntNIgbSe76OA/_buildManifest.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+  Uploading inventory/_next/static/lDcDgAs_sntNIgbSe76OA/_ssgManifest.js... 
+ ⛅️ wrangler 4.19.2 (update available 4.20.3)
+─────────────────────────────────────────────
+Resource location: local
+Use --remote if you want to access the remote instance.
+
+Creating object "inventory/_next/static/lDcDgAs_sntNIgbSe76OA/_ssgManifest.js" in bucket "inventory-management-production".
+Upload complete.
+✓
+✅ inventory deployed to R2 bucket inventory-management-production
+
+📦 Processing handouts...
+------------------------
+🔧 Removing edge runtime declarations...
+🔨 Building handouts...
+
+> @ganger/handouts@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.29
+  - Environments: .env.local, .env
+
+   Skipping linting
+   Checking validity of types ...
+   Creating an optimized production build ...

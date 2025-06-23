@@ -1,0 +1,62 @@
+# 🚀 Ganger Platform - Modern Workers Configuration
+# Using Workers instead of deprecated Pages
+
+name = "staff-portal-router-production"
+main = "staff-router.js"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# 🌐 Custom Domain Routes (replaces Pages)
+[[routes]]
+pattern = "staff.gangerdermatology.com/*"
+zone_name = "gangerdermatology.com"
+
+# Default Environment Variables
+[vars]
+ENVIRONMENT = "production"
+PLATFORM_NAME = "Ganger Medical Platform"
+SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+DOMAIN_BASE = "gangerdermatology.com"
+
+# 🔒 Environment Variables
+[env.production.vars]
+ENVIRONMENT = "production"
+PLATFORM_NAME = "Ganger Medical Platform"
+SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+DOMAIN_BASE = "gangerdermatology.com"
+
+# 🗄️ R2 Storage Buckets for Production
+[[env.production.r2_buckets]]
+binding = "INVENTORY_BUCKET"
+bucket_name = "ganger-inventory-assets"
+
+[[env.production.r2_buckets]]
+binding = "HANDOUTS_BUCKET"
+bucket_name = "ganger-handouts-assets"
+
+[[env.production.r2_buckets]]
+binding = "MEDICATION_BUCKET"
+bucket_name = "medication-auth-production"
+
+[[env.production.r2_buckets]]
+binding = "KIOSK_BUCKET"
+bucket_name = "ganger-checkin-kiosk-production"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+PLATFORM_NAME = "Ganger Medical Platform (Staging)"
+SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+DOMAIN_BASE = "gangerdermatology.com"
+
+# 📊 Analytics Engine
+# [[analytics_engine_datasets]]
+# binding = "GANGER_ANALYTICS"
+# dataset = "ganger_platform_routing"
+
+# 🗄️ R2 Storage for Static Assets (replaces Pages static hosting)
+# Moved to environment sections
+
+# 🔐 Secrets (set via wrangler secret put)
+# SUPABASE_SERVICE_ROLE_KEY
+# GOOGLE_CLIENT_SECRET  
+# STRIPE_SECRET_KEY

@@ -1,0 +1,8 @@
+{
+  "name": "eos-l10-static-kv",
+  "version": "1.0.0",
+  "main": "worker-kv.js",
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.4.0"
+  }
+}

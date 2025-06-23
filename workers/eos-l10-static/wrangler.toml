@@ -1,0 +1,24 @@
+name = "ganger-eos-l10-prod"
+compatibility_date = "2024-12-13"
+main = "worker.js"
+
+[env.production]
+name = "ganger-eos-l10-v2"
+account_id = "68d0160c9915efebbbecfddfd48cddab"
+
+# R2 bucket for static assets - CORRECTED BINDING
+[[env.production.r2_buckets]]
+binding = "STATIC_ASSETS"
+bucket_name = "ganger-eos-l10-assets"
+preview_bucket_name = "ganger-eos-l10-assets"
+
+[env.staging]  
+name = "ganger-eos-l10-staging"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+APP_NAME = "eos-l10"
+SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0Mjk3MDksImV4cCI6MjA1MDAwNTcwOX0.Kz1zLwgw9gPyORKZJ6VNOhqjSvxgvmjNFIDO6qRgpw8"
+NEXT_PUBLIC_SUPABASE_URL = "https://pfqtzmxxxhhsxmlddrta.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0Mjk3MDksImV4cCI6MjA1MDAwNTcwOX0.Kz1zLwgw9gPyORKZJ6VNOhqjSvxgvmjNFIDO6qRgpw8"

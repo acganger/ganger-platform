@@ -1,0 +1,54 @@
+{
+  // Medical Apps Worker - Handles all medical-related applications
+  "name": "ganger-medical",
+  "main": "index.js",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "env": {
+    "production": {
+      "name": "ganger-medical-production",
+      "routes": [
+        {
+          "pattern": "staff.gangerdermatology.com/inventory",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/inventory/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/handouts",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/handouts/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/meds",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/meds/*",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/kiosk",
+          "zone_name": "gangerdermatology.com"
+        },
+        {
+          "pattern": "staff.gangerdermatology.com/kiosk/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ],
+      // Environment variables - never hardcode secrets
+      "vars": {
+        "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+        "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU5NDg5OTcsImV4cCI6MjA1MTUyNDk5N30.pBR5KPwxJpczSCEso89JJNR8SJFjb1rVPuMoxWVKKmQ"
+      }
+    }
+  }
+}

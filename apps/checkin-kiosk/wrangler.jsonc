@@ -1,0 +1,46 @@
+{
+  "name": "ganger-checkin-kiosk",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "main": ".vercel/output/static/_worker.js",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "APP_NAME": "checkin-kiosk",
+    "APP_VERSION": "1.0.0"
+  },
+  "r2_buckets": [
+    {
+      "binding": "CHECKIN_KIOSK_BUCKET",
+      "bucket_name": "ganger-checkin-kiosk-production"
+    }
+  ],
+  "env": {
+    "staging": {
+      "name": "ganger-checkin-kiosk-staging",
+      "vars": {
+        "ENVIRONMENT": "staging"
+      },
+      "r2_buckets": [
+        {
+          "binding": "CHECKIN_KIOSK_BUCKET",
+          "bucket_name": "ganger-checkin-kiosk-staging"
+        }
+      ]
+    }
+  },
+  "routes": [
+    {
+      "pattern": "kiosk.gangerdermatology.com/*",
+      "zone_id": "ba76d3d3f41251c49f0365421bd644a5"
+    }
+  ]
+}

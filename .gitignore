@@ -169,25 +169,3 @@ mcp-servers/mcp-server-synology/=*
 **/config/database.php
 **/.env*
 !.env.example
-# Deployment mess prevention
-deploy-*.sh
-*-deploy.sh
-deployment-*.md
-*_deployment*.md
-worker*.js
-wrangler*
-*.backup
-Screenshot*.png
-*.tar.gz
-cloudflare-workers/
-clean-architecture/
-deployment/
-deployments/
-testing/
-apptest/
-VM_*.md
-DEPLOY*.md
-*_DEPLOY*.md
-fix-*.sh
-test-*.sh
-verify-*.sh

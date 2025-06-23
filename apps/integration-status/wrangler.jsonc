@@ -1,0 +1,88 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-types/main/wrangler-schema.json",
+  "name": "ganger-integration-status",
+  "main": ".vercel/output/static/_worker.js/index.js",
+  "compatibility_date": "2025-01-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "account_id": "68d0160c9915efebbbecfddfd48cddab",
+  
+  "build": {
+    "command": "npm run build && pnpm exec next-on-pages"
+  },
+  
+  "assets": {
+    "directory": ".vercel/output/static",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  
+  "r2_buckets": [
+    {
+      "binding": "INTEGRATION_STATUS_BUCKET",
+      "bucket_name": "ganger-integration-status"
+    }
+  ],
+  
+  "routes": [
+    {
+      "pattern": "staff.gangerdermatology.com/status/*",
+      "zone_name": "gangerdermatology.com"
+    }
+  ],
+  
+  "env": {
+    "production": {
+      "name": "ganger-integration-status-production",
+      "vars": {
+        "ENVIRONMENT": "production",
+        "APP_NAME": "integration-status",
+        "APP_PATH": "status",
+        "STAFF_PORTAL_URL": "https://staff.gangerdermatology.com",
+        "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+        "GOOGLE_CLIENT_ID": "745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com",
+        "GOOGLE_DOMAIN": "gangerdermatology.com"
+      },
+      "routes": [
+        {
+          "pattern": "staff.gangerdermatology.com/status/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "INTEGRATION_STATUS_BUCKET",
+          "bucket_name": "ganger-integration-status-production"
+        }
+      ]
+    },
+    "staging": {
+      "name": "ganger-integration-status-staging",
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "APP_NAME": "integration-status",
+        "APP_PATH": "status",
+        "STAFF_PORTAL_URL": "https://staff-staging.gangerdermatology.com",
+        "SUPABASE_URL": "https://pfqtzmxxxhhsxmlddrta.supabase.co",
+        "GOOGLE_CLIENT_ID": "745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com",
+        "GOOGLE_DOMAIN": "gangerdermatology.com"
+      },
+      "routes": [
+        {
+          "pattern": "staff-staging.gangerdermatology.com/status/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "INTEGRATION_STATUS_BUCKET",
+          "bucket_name": "ganger-integration-status-staging"
+        }
+      ]
+    }
+  }
+}

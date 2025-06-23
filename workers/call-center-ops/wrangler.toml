@@ -1,0 +1,17 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "call-center-ops-production"
+main = "src/index.ts"
+compatibility_date = "2024-10-31"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "call-center-ops-production"
+route = { pattern = "call-center-ops.gangerdermatology.com/*", zone_id = "ba76d3d3f41251c49f0365421bd644a5" }
+
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "ganger-eos-l10-assets"
+preview_bucket_name = "ganger-eos-l10-assets"
+
+[vars]
+ENVIRONMENT = "production"

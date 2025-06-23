@@ -1,0 +1,35 @@
+{
+  "name": "ganger-inventory",
+  "main": ".vercel/output/static/_worker.js",
+  "compatibility_date": "2025-01-18",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "build": {
+    "command": "pnpm run build:cloudflare"
+  },
+  "assets": {
+    "directory": ".vercel/output/static",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "env": {
+    "production": {
+      "name": "ganger-inventory-production",
+      "routes": [
+        {
+          "pattern": "inventory.gangerdermatology.com/*",
+          "zone_name": "gangerdermatology.com"
+        }
+      ],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "APP_NAME": "inventory-management"
+      }
+    }
+  }
+}

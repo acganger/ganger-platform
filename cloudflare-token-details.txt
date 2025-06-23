@@ -1,0 +1,25 @@
+token:
+      "cloudflare-workers": {
+        "command": "npx",
+        "args": ["mcp-remote", "https://observability.mcp.cloudflare.com/sse"],
+        "env": {
+          "CLOUDFLARE_API_TOKEN": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf",
+          "CLOUDFLARE_ACCOUNT_ID": "68d0160c9915efebbbecfddfd48cddab",
+          "CLOUDFLARE_ZONE_ID": "ba76d3d3f41251c49f0365421bd644a5"
+        }
+      },
+      "cloudflare-builds": {
+        "command": "npx",
+        "args": ["mcp-remote", "https://builds.mcp.cloudflare.com/sse"],
+        "env": {
+          "CLOUDFLARE_API_TOKEN": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf",
+          "CLOUDFLARE_ACCOUNT_ID": "68d0160c9915efebbbecfddfd48cddab",
+          "CLOUDFLARE_ZONE_ID": "ba76d3d3f41251c49f0365421bd644a5"
+        }
+
+ganger-platform-DEPLOY API token summary
+This API token will affect the below accounts and zones, along with their respective permissions
+
+
+MichiGanger - Agents Gateway:Read, Containers:Read, Workers Observability:Read, Workers R2 Data Catalog:Read, Zero Trust Resilience:Read, Secrets Store:Read, Account Waiting Room:Read, Magic WAN:Read, AutoRAG:Read, Trust and Safety:Read, Browser Rendering:Read, DNS Views:Read, Radar:Read, Load Balancing: Account Load Balancers:Read, Cloudflare CDS Compute Account:Read, DNS Settings:Read, Workers Builds Configuration:Edit, Workers Pipelines:Edit, Cloudforce One:Read, Zero Trust: PII:Read, Email Security:Read, AI Gateway:Read, DDoS Botnet Feed:Read, Queues:Read, Cloudflare Calls:Read, Address Maps:Read, Workers AI:Read, Vectorize:Read, Cloudflare One Networks:Read, Cloudflare One Connectors:Read, Cloudflare One Connector: WARP:Read, Cloudflare One Connector: cloudflared:Read, Hyperdrive:Read, Cloudchamber:Read, API Gateway:Read, Notifications:Read, URL Scanner:Read, Access: SSH Auditing:Read, Access: Custom Pages:Read, Constellation:Read, Cloudflare DEX:Read, IOT:Read, Page Shield:Read, Account: SSL and Certificates:Edit, Allow Request Tracer:Read, Disable ESC:Read, Account Custom Pages:Read, Magic Network Monitoring:Read, HTTP Applications:Read, China Network Steering:Read, D1:Read, Pub/Sub:Read, Turnstile:Read, Intel:Read, Email Routing Addresses:Read, Cloudflare Pages:Edit, Bulk URL Redirects:Read, Magic Firewall:Read, L3/4 DDoS Managed Ruleset:Read, Transform Rules:Read, Select Configuration:Read, Account WAF:Read, Magic Firewall Packet Captures:Read, Workers R2 Storage:Edit, Magic Transit:Read, Cloudflare Images:Read, DDoS Protection:Read, Account Rulesets:Read, IP Prefixes:Read, Workers Tail:Read, Account Analytics:Read, Cloudflare Tunnel:Read, Access: Mutual TLS Certificates:Read, Access: Device Posture:Read, Access: Service Tokens:Read, Access: Audit Logs:Read, Logs:Read, Rule Policies:Read, Account Filter Lists:Read, IP Prefixes: BGP On Demand:Read, Zero Trust:Read, Access: Organizations, Identity Providers, and Groups:Read, Workers KV Storage:Edit, Workers Scripts:Edit, Load Balancing: Monitors And Pools:Read, Account Firewall Access Rules:Read, DNS Firewall:Read, Stream:Read, Billing:Read, Account Settings:Read, Access: Apps and Policies:Read
+All zones - Firewall for AI:Read, AI Audit:Read, DNS Settings:Read, Cloud Connector:Read, Fraud Detection:Read, Response Compression:Read, Bot Management Feedback:Read, Snippets:Read, Dmarc Management:Read, Zone Versioning:Read, Disable ESC:Read, Custom Pages:Read, Config Rules:Read, Single Redirect:Read, API Gateway:Read, Cache Rules:Read, Custom Error Rules:Read, Zaraz:Read, Email Routing Rules:Read, Origin Rules:Read, Managed Headers:Read, Web3 Hostnames:Read, Transform Rules:Read, HTTP DDoS Managed Ruleset:Read, Sanitize:Read, Bot Management:Read, Zone WAF:Read, Health Checks:Read, Waiting Room:Read, Access: Apps and Policies:Read, Zone Settings:Edit, Zone:Edit, Workers Routes:Edit, SSL and Certificates:Read, Logs:Read, Page Rules:Read, Load Balancers:Read, Firewall Services:Read, DNS:Edit, Analytics:Read, Cache Purge:Purge, Cache Rules:Edit

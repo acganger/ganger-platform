@@ -1,0 +1,38 @@
+{
+  "name": "ganger-call-center-ops",
+  "main": ".vercel/output/static/_worker.js",
+  "compatibility_date": "2025-03-07",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "r2_buckets": [
+    {
+      "binding": "CALL_CENTER_OPS_BUCKET",
+      "bucket_name": "ganger-call-center-ops"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "env": {
+    "production": {
+      "name": "ganger-call-center-ops",
+      "r2_buckets": [
+        {
+          "binding": "CALL_CENTER_OPS_BUCKET",
+          "bucket_name": "ganger-call-center-ops-production"
+        }
+      ]
+    },
+    "staging": {
+      "name": "ganger-call-center-ops-staging",
+      "r2_buckets": [
+        {
+          "binding": "CALL_CENTER_OPS_BUCKET",
+          "bucket_name": "ganger-call-center-ops-staging"
+        }
+      ]
+    }
+  }
+}

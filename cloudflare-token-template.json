@@ -1,0 +1,51 @@
+{
+  "recommended_cloudflare_tokens": {
+    "deployment_token": {
+      "purpose": "CI/CD Workers deployment via wrangler",
+      "permissions": [
+        "Account: Cloudflare Workers:Edit",
+        "Account: Workers KV Storage:Edit", 
+        "Account: Workers R2 Storage:Edit",
+        "Account: Cloudflare Pages:Edit",
+        "Zone: Zone:Edit (all zones or gangerdermatology.com)",
+        "Zone: Zone Settings:Edit",
+        "Zone: DNS:Edit (if using custom domains)"
+      ],
+      "usage": "wrangler deploy, CI/CD pipelines",
+      "environment_variable": "CLOUDFLARE_DEPLOY_TOKEN"
+    },
+    "monitoring_token": {
+      "purpose": "MCP server observability and read operations",
+      "permissions": [
+        "Account: Workers Observability:Edit",
+        "Account: Workers Builds Configuration:Edit",
+        "Account: Workers Tail:Read",
+        "Account: Account Settings:Read",
+        "User: Memberships:Read"
+      ],
+      "usage": "Claude MCP servers for monitoring",
+      "environment_variable": "CLOUDFLARE_MONITORING_TOKEN",
+      "current_token": "TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf"
+    }
+  },
+  "mcp_configuration_with_deployment_token": {
+    "cloudflare-workers": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://observability.mcp.cloudflare.com/sse"],
+      "env": {
+        "CLOUDFLARE_API_TOKEN": "CLOUDFLARE_MONITORING_TOKEN_HERE",
+        "CLOUDFLARE_ACCOUNT_ID": "68d0160c9915efebbbecfddfd48cddab",
+        "CLOUDFLARE_ZONE_ID": "ba76d3d3f41251c49f0365421bd644a5"
+      }
+    },
+    "cloudflare-deployment": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://builds.mcp.cloudflare.com/sse"],
+      "env": {
+        "CLOUDFLARE_API_TOKEN": "CLOUDFLARE_DEPLOY_TOKEN_HERE",
+        "CLOUDFLARE_ACCOUNT_ID": "68d0160c9915efebbbecfddfd48cddab",
+        "CLOUDFLARE_ZONE_ID": "ba76d3d3f41251c49f0365421bd644a5"
+      }
+    }
+  }
+}
