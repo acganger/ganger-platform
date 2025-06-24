@@ -61,13 +61,20 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SKIP_ENV_VALIDATION: true
 
+      - name: Set project ID secret name
+        id: project_id
+        run: |
+          # Convert hyphens to underscores and uppercase for secret name
+          APP_NAME_UPPER=$(echo "${{ github.event.inputs.app }}" | tr '-' '_' | tr '[:lower:]' '[:upper:]')
+          echo "secret_name=VERCEL_PROJECT_ID_${APP_NAME_UPPER}" >> $GITHUB_OUTPUT
+
       - name: Deploy to Vercel
         id: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets[format('VERCEL_PROJECT_ID_{0}', github.event.inputs.app)] }}
+          vercel-project-id: ${{ secrets[steps.project_id.outputs.secret_name] }}
           vercel-args: ${{ github.event.inputs.environment == 'production' && '--prod' || '' }}
           working-directory: apps/${{ github.event.inputs.app }}
           scope: ${{ secrets.VERCEL_TEAM_ID }}
