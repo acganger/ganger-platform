@@ -198,10 +198,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
-      '@cloudflare/workers-types':
-        specifier: ^4.20241022.0
-        version: 4.20250617.0
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.10(tailwindcss@3.4.17)
@@ -228,7 +225,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -281,9 +278,6 @@ importers:
         specifier: ^3.22.4
         version: 3.25.62
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241127.0
-        version: 4.20250617.0
       '@tailwindcss/forms':
         specifier: ^0.5.10
         version: 0.5.10(tailwindcss@4.1.10)
@@ -337,7 +331,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -441,7 +435,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@tailwindcss/postcss':
         specifier: ^4.1.7
         version: 4.1.10
@@ -471,7 +465,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -521,9 +515,6 @@ importers:
         specifier: ^3.22.4
         version: 3.25.62
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241022.0
-        version: 4.20250617.0
       '@testing-library/jest-dom':
         specifier: ^6.1.5
         version: 6.6.3
@@ -617,10 +608,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
-      '@cloudflare/workers-types':
-        specifier: ^4.20241022.0
-        version: 4.20250617.0
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.10(tailwindcss@3.4.17)
@@ -677,7 +665,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -697,9 +685,6 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241022.0
-        version: 4.20250617.0
       '@types/node':
         specifier: ^20.14.0
         version: 20.19.0
@@ -769,7 +754,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@types/node':
         specifier: ^20.10.4
         version: 20.19.0
@@ -802,7 +787,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -876,9 +861,6 @@ importers:
         specifier: ^3.22.0
         version: 3.25.62
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241127.0
-        version: 4.20250617.0
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.0
@@ -914,7 +896,7 @@ importers:
         version: 5.8.3
       wrangler:
         specifier: ^3.91.0
-        version: 3.114.9(@cloudflare/workers-types@4.20250617.0)
+        version: 3.114.9
 
   apps/handouts:
     dependencies:
@@ -972,10 +954,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
-      '@cloudflare/workers-types':
-        specifier: ^4.20241127.0
-        version: 4.20250617.0
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -1045,7 +1024,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.10(tailwindcss@3.4.17)
@@ -1112,10 +1091,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
-      '@cloudflare/workers-types':
-        specifier: ^4.20241218.0
-        version: 4.20250617.0
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -1148,7 +1124,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -1248,7 +1224,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -1337,10 +1313,7 @@ importers:
     devDependencies:
       '@cloudflare/next-on-pages':
         specifier: 1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
-      '@cloudflare/workers-types':
-        specifier: 4.20250617.0
-        version: 4.20250617.0
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@types/node':
         specifier: 20.19.0
         version: 20.19.0
@@ -1358,7 +1331,7 @@ importers:
     dependencies:
       '@cloudflare/next-on-pages':
         specifier: ^1.13.12
-        version: 1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9)
+        version: 1.13.12(vercel@43.2.0)(wrangler@3.114.9)
       '@ganger/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -1396,9 +1369,6 @@ importers:
         specifier: ^5.5.4
         version: 5.8.3
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241022.0
-        version: 4.20250617.0
       '@tailwindcss/postcss':
         specifier: ^4.1.7
         version: 4.1.10
@@ -1529,9 +1499,6 @@ importers:
         specifier: ^4.5.0
         version: 4.5.7(@types/react@18.3.0)(react@18.3.1)
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241127.0
-        version: 4.20250617.0
       '@ganger/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -2219,7 +2186,7 @@ packages:
     dependencies:
       mime: 3.0.0
 
-  /@cloudflare/next-on-pages@1.13.12(@cloudflare/workers-types@4.20250617.0)(vercel@43.2.0)(wrangler@3.114.9):
+  /@cloudflare/next-on-pages@1.13.12(vercel@43.2.0)(wrangler@3.114.9):
     resolution: {integrity: sha512-rPy7x9c2+0RDDdJ5o0TeRUwXJ1b7N1epnqF6qKSp5Wz1r9KHOyvaZh1ACoOC6Vu5k9su5WZOgy+8fPLIyrldMQ==}
     hasBin: true
     peerDependencies:
@@ -2230,7 +2197,6 @@ packages:
       '@cloudflare/workers-types':
         optional: true
     dependencies:
-      '@cloudflare/workers-types': 4.20250617.0
       acorn: 8.15.0
       ast-types: 0.14.2
       chalk: 5.4.1
@@ -2244,7 +2210,7 @@ packages:
       pcre-to-regexp: 1.1.0
       semver: 7.7.2
       vercel: 43.2.0
-      wrangler: 3.114.9(@cloudflare/workers-types@4.20250617.0)
+      wrangler: 3.114.9
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -2300,9 +2266,6 @@ packages:
     os: [win32]
     requiresBuild: true
     optional: true
-
-  /@cloudflare/workers-types@4.20250617.0:
-    resolution: {integrity: sha512-oUJWWKCR9bLgb7ymvM1V3Q//OpMR7jG4etCJs45bRdidmAgCog+y8w8fpuvh27JS4B8KzFNWB0YUD9xBPIf5Qg==}
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -8329,7 +8292,7 @@ packages:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
       eslint: 8.56.0
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.56.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.34.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.56.0)
       get-tsconfig: 4.10.1
       is-bun-module: 2.0.0
       stable-hash: 0.0.5
@@ -15041,7 +15004,7 @@ packages:
       '@cloudflare/workerd-linux-arm64': 1.20250408.0
       '@cloudflare/workerd-windows-64': 1.20250408.0
 
-  /wrangler@3.114.9(@cloudflare/workers-types@4.20250617.0):
+  /wrangler@3.114.9:
     resolution: {integrity: sha512-1e0gL+rxLF04kM9bW4sxoDGLXpJ1x53Rx1t18JuUm6F67qadKKPISyUAXuBeIQudWrCWEBXaTVnSdLHz0yBXbA==}
     engines: {node: '>=16.17.0'}
     hasBin: true
@@ -15053,7 +15016,6 @@ packages:
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@cloudflare/unenv-preset': 2.0.2(unenv@2.0.0-rc.14)(workerd@1.20250408.0)
-      '@cloudflare/workers-types': 4.20250617.0
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
       '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
       blake3-wasm: 2.1.5

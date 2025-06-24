@@ -169,3 +169,8 @@ mcp-servers/mcp-server-synology/=*
 **/config/database.php
 **/.env*
 !.env.exampleclaude_desktop_config.json
+
+# Claude Desktop config files (contain tokens)
+claude_desktop_config.json
+claude_desktop_config.json.backup
+mcp-servers/claude_desktop_config.json
