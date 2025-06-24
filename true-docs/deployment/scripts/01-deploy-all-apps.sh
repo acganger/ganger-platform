@@ -3,6 +3,10 @@
 # ============================================================================
 # 01-deploy-all-apps.sh - Main Deployment Automation
 # ============================================================================
+# IMPORTANT: This script is INCOMPATIBLE with our current GitHub Actions setup
+#           We already have Vercel projects created and use GitHub Actions
+#           This is kept for reference but should NOT be used
+# ============================================================================
 # Purpose: Deploy all apps in the monorepo to individual Vercel projects
 # Dependencies: Vercel CLI, jq
 # Related Docs: ../02-deployment-plan.md
@@ -12,9 +16,23 @@
 set -e
 
 # Configuration
-VERCEL_TOKEN="RdwA23mHSvPcm9ptReM6zxjF"
-VERCEL_SCOPE="team_wpY7PcIsYQNnslNN39o7fWvS"
+# These should be set as environment variables (GitHub Secrets in Actions)
+VERCEL_TOKEN="${VERCEL_TOKEN:-}"
+VERCEL_SCOPE="${VERCEL_TEAM_ID:-}"
 GITHUB_REPO="https://github.com/acganger/ganger-platform"
+
+# Validate required environment variables
+if [ -z "$VERCEL_TOKEN" ]; then
+  echo "❌ Error: VERCEL_TOKEN environment variable is not set"
+  echo "Please set it as a GitHub Secret or export it before running this script"
+  exit 1
+fi
+
+if [ -z "$VERCEL_SCOPE" ]; then
+  echo "❌ Error: VERCEL_TEAM_ID environment variable is not set"
+  echo "Please set it as a GitHub Secret or export it before running this script"
+  exit 1
+fi
 
 # Environment variables configuration
 # NOTE: For production, these should be stored in a secret manager
@@ -32,16 +50,24 @@ fi
 
 # Common environment variables for all apps
 # These will be set for both production and preview environments
+# All values should come from GitHub Secrets or environment variables
 COMMON_ENV_VARS=(
-  "NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:-https://pfqtzmxxxhhsxmlddrta.supabase.co}"
-  "NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...}"
-  "SUPABASE_URL=${SUPABASE_URL:-https://pfqtzmxxxhhsxmlddrta.supabase.co}"
-  "SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...}"
-  "SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...}"
+  "NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}"
+  "NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+  "SUPABASE_URL=${SUPABASE_URL}"
+  "SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}"
+  "SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}"
   "NEXT_PUBLIC_STAFF_URL=${NEXT_PUBLIC_STAFF_URL:-https://staff.gangerdermatology.com}"
-  "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-745912643942...}"
-  "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-GOCSPX...}"
+  "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}"
+  "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}"
 )
+
+# Validate critical environment variables
+if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ] || [ -z "$NEXT_PUBLIC_SUPABASE_ANON_KEY" ]; then
+  echo "❌ Error: Required Supabase environment variables are not set"
+  echo "Please set them as GitHub Secrets or export them before running this script"
+  exit 1
+fi
 
 # List of apps to deploy (excluding staff portal which is deployed last)
 APPS=(
@@ -92,9 +118,8 @@ deploy_app() {
   
   echo "🚀 Deploying $app_name..."
   
-  # Create a temporary directory for Vercel CLI operations
-  TEMP_DIR=$(mktemp -d)
-  cd $TEMP_DIR
+  # Navigate to app directory
+  cd "$app_path"
   
   # Create Vercel project using API
   PROJECT_NAME="ganger-$app_name"
@@ -132,12 +157,9 @@ deploy_app() {
   
   echo "✅ Deployed $app_name to: $DEPLOYMENT_URL"
   
-  # Save to JSON file
-  echo "  \"$app_name\": \"$DEPLOYMENT_URL\"," >> ../$DEPLOYMENT_URLS_FILE
-  
-  # Clean up
-  cd ..
-  rm -rf $TEMP_DIR
+  # Save to JSON file (navigate back to root first)
+  cd ../..
+  echo "  \"$app_name\": \"$DEPLOYMENT_URL\"," >> $DEPLOYMENT_URLS_FILE
   
   return 0
 }

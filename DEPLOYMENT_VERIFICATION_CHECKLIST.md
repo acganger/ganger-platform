@@ -48,22 +48,31 @@ gh secret list
 ## 🔄 Current Status
 
 ### What's Happening Now:
-1. **GitHub Actions** deployment FAILED - Fixed issues:
+1. **GitHub Actions** deployment in progress - Fixed issues:
    - ✅ Removed git submodule error (legacy-a2hosting-apps/staff)
    - ✅ Fixed pnpm lockfile mismatch in compliance-training
-2. **Next Action**: Commit fixes and retry deployment
-3. **Documentation Updates Needed**:
-   - Remove hardcoded tokens from scripts
-   - Remove temp directory usage
-   - Update scripts to use GitHub secrets
+   - ✅ Fixed GitHub push protection (removed claude_desktop_config files)
+   - ✅ Fixed build commands to use turbo filter
+   - ⏳ Testing compliance-training deployment
+2. **Documentation Updates Completed**:
+   - ✅ Removed hardcoded tokens from 01-deploy-all-apps.sh
+   - ✅ Removed temp directory usage
+   - ✅ Updated script to use GitHub secrets
+   - ✅ Added warning that script is INCOMPATIBLE with our setup
+3. **Current Issue**: Build compilation error in compliance-training
+   - Error: `TypeError: n.createContext is not a function`
+   - Likely edge runtime compatibility issue
 
 ### How to Verify Current Deployment:
 ```bash
 # Check GitHub Actions status
 # URL: https://github.com/acganger/ganger-platform/actions
 
-# Check Vercel dashboard for deployment
-# URL: https://vercel.com/ganger/ganger-component-showcase
+# Check latest run
+gh run list --limit=5
+
+# View specific run details
+gh run view [run-id] --log-failed
 ```
 
 ## 📋 Next Steps Verification Checklist
@@ -229,6 +238,7 @@ Based on our setup:
 
 ---
 
-**Current Status**: Awaiting test deployment completion
-**Next Action**: Verify component-showcase deployment succeeded
+**Current Step**: Fix edge runtime build error in compliance-training
+**Next Action**: Deploy a simpler app (like component-showcase) to test deployment
+**Documentation Status**: ✅ Scripts updated to remove hardcoded tokens and temp directories
 **Risk Level**: Low (we have rollback procedures)
