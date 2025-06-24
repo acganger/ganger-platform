@@ -55,7 +55,7 @@ for app in "${APPS[@]}"; do
   # Check if project already exists
   if [ -f ".vercel/project.json" ]; then
     echo "⚠️  Project already linked, skipping..."
-    PROJECT_ID=$(cat .vercel/project.json | jq -r .projectId)
+    PROJECT_ID=$(cat .vercel/project.json | grep -o '"projectId":"[^"]*"' | sed 's/"projectId":"//g' | sed 's/"//g')
   else
     # Link project (creates it if it doesn't exist)
     vercel link --yes \
@@ -65,7 +65,7 @@ for app in "${APPS[@]}"; do
     
     # Extract project ID from .vercel/project.json
     if [ -f ".vercel/project.json" ]; then
-      PROJECT_ID=$(cat .vercel/project.json | jq -r .projectId)
+      PROJECT_ID=$(cat .vercel/project.json | grep -o '"projectId":"[^"]*"' | sed 's/"projectId":"//g' | sed 's/"//g')
       echo "✅ Created project with ID: $PROJECT_ID"
     else
       echo "❌ Failed to create project"

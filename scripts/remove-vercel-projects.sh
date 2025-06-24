@@ -19,9 +19,19 @@ VERCEL_TEAM_ID="team_wpY7PcIsYQNnslNN39o7fWvS"
 
 # List existing projects
 echo "📋 Fetching existing Vercel projects..."
-PROJECTS=$(curl -s "https://api.vercel.com/v9/projects?teamId=$VERCEL_TEAM_ID" \
-  -H "Authorization: Bearer $VERCEL_TOKEN" | \
-  jq -r '.projects[].name')
+
+# Get projects and extract names using grep and sed
+RESPONSE=$(curl -s "https://api.vercel.com/v9/projects?teamId=$VERCEL_TEAM_ID" \
+  -H "Authorization: Bearer $VERCEL_TOKEN")
+
+# Extract project names using grep and sed
+PROJECTS=$(echo "$RESPONSE" | grep -o '"name":"[^"]*"' | sed 's/"name":"//g' | sed 's/"//g')
+
+if [ -z "$PROJECTS" ]; then
+  echo "No projects found or unable to fetch projects."
+  echo "Response: $RESPONSE"
+  exit 1
+fi
 
 echo "Found projects:"
 echo "$PROJECTS"
@@ -31,8 +41,9 @@ echo ""
 for project in $PROJECTS; do
   echo "🗑️  Removing project: $project"
   curl -X DELETE "https://api.vercel.com/v9/projects/$project?teamId=$VERCEL_TEAM_ID" \
-    -H "Authorization: Bearer $VERCEL_TOKEN"
-  echo "✅ Removed $project"
+    -H "Authorization: Bearer $VERCEL_TOKEN" \
+    -s -w "\nHTTP Status: %{http_code}\n"
+  echo "✅ Processed $project"
   echo ""
 done
 
