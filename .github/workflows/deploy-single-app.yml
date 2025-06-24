@@ -1,0 +1,90 @@
+name: 🎯 Deploy Single App
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App to deploy'
+        required: true
+        type: choice
+        options:
+          - inventory
+          - handouts
+          - eos-l10
+          - batch-closeout
+          - compliance-training
+          - clinical-staffing
+          - config-dashboard
+          - integration-status
+          - ai-receptionist
+          - call-center-ops
+          - medication-auth
+          - pharma-scheduling
+          - checkin-kiosk
+          - socials-reviews
+          - component-showcase
+          - platform-dashboard
+          - staff
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
+
+jobs:
+  deploy:
+    name: 🚀 Deploy ${{ github.event.inputs.app }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: |
+          cd apps/${{ github.event.inputs.app }}
+          pnpm build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SKIP_ENV_VALIDATION: true
+
+      - name: Deploy to Vercel
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets[format('VERCEL_PROJECT_ID_{0}', github.event.inputs.app)] }}
+          vercel-args: ${{ github.event.inputs.environment == 'production' && '--prod' || '' }}
+          working-directory: apps/${{ github.event.inputs.app }}
+          scope: ${{ secrets.VERCEL_TEAM_ID }}
+
+      - name: Deployment Summary
+        run: |
+          echo "✅ Deployment Complete!"
+          echo "App: ${{ github.event.inputs.app }}"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "URL: ${{ steps.deploy.outputs.url }}"
+          echo ""
+          echo "🔗 Deployment URL: ${{ steps.deploy.outputs.url }}"
+
+      - name: Update Staff Portal (if not deploying staff itself)
+        if: github.event.inputs.app != 'staff' && github.event.inputs.environment == 'production'
+        run: |
+          echo "📝 Note: You may need to update the staff portal rewrites if this is a new deployment URL"
+          echo "Run the 'Update Staff Portal Rewrites' workflow if needed"

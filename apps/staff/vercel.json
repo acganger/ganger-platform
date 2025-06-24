@@ -1,5 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "framework": "nextjs"
+  "installCommand": "cd ../.. && npm install -g pnpm && pnpm install",
+  "buildCommand": "cd ../.. && pnpm build:staff",
+  "outputDirectory": "apps/staff/.next",
+  "framework": null
 }

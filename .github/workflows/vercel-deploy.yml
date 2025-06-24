@@ -1,0 +1,199 @@
+name: 🚀 Vercel Deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - '.github/workflows/vercel-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'Specific app to deploy (leave empty for all changed apps)'
+        required: false
+        type: string
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+
+jobs:
+  detect-changes:
+    name: 🔍 Detect Changed Apps
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.changes.outputs.apps }}
+      matrix: ${{ steps.changes.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect changed applications
+        id: changes
+        run: |
+          if [ "${{ github.event.inputs.app }}" ]; then
+            # Manual deployment of specific app
+            echo "apps=${{ github.event.inputs.app }}" >> $GITHUB_OUTPUT
+            echo "matrix=[\"${{ github.event.inputs.app }}\"]" >> $GITHUB_OUTPUT
+          else
+            # Detect changed apps
+            if [ "${{ github.event_name }}" = "push" ]; then
+              # Get changed files between commits
+              changed_files=$(git diff --name-only HEAD^ HEAD)
+            else
+              # For manual trigger without app specified, deploy all
+              changed_files=$(find apps -name "package.json" | sed 's|/package.json||')
+            fi
+            
+            # Extract app names from changed paths
+            apps=$(echo "$changed_files" | grep '^apps/' | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+            
+            if [ -z "$apps" ]; then
+              echo "No app changes detected"
+              echo "apps=" >> $GITHUB_OUTPUT
+              echo "matrix=[]" >> $GITHUB_OUTPUT
+            else
+              echo "Changed apps: $apps"
+              echo "apps=$apps" >> $GITHUB_OUTPUT
+              
+              # Create JSON array for matrix
+              matrix=$(echo "$apps" | tr ' ' '\n' | jq -R . | jq -s . | tr -d '\n')
+              echo "matrix=$matrix" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+  deploy-apps:
+    name: 🚀 Deploy ${{ matrix.app }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.apps != ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: |
+          cd apps/${{ matrix.app }}
+          pnpm build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SKIP_ENV_VALIDATION: true
+
+      - name: Deploy to Vercel
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets[format('VERCEL_PROJECT_ID_{0}', matrix.app)] }}
+          vercel-args: '--prod'
+          working-directory: apps/${{ matrix.app }}
+          scope: ${{ secrets.VERCEL_TEAM_ID }}
+
+      - name: Save deployment URL
+        run: |
+          echo "${{ matrix.app }}=${{ steps.deploy.outputs.url }}" >> $GITHUB_WORKSPACE/deployment-urls.txt
+
+      - name: Upload deployment URLs
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-url-${{ matrix.app }}
+          path: deployment-urls.txt
+
+  update-staff-portal:
+    name: 🔄 Update Staff Portal Router
+    needs: deploy-apps
+    if: always() && needs.deploy-apps.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: deployment-url-*
+          merge-multiple: true
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Update staff portal rewrites
+        run: |
+          # Read all deployment URLs
+          if [ -f deployment-urls.txt ]; then
+            echo "📋 Deployment URLs:"
+            cat deployment-urls.txt
+            
+            # Update staff portal vercel.json with new URLs
+            node scripts/update-vercel-rewrites.js deployment-urls.txt
+          fi
+
+      - name: Build staff portal
+        run: |
+          cd apps/staff
+          pnpm build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SKIP_ENV_VALIDATION: true
+
+      - name: Deploy staff portal
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_staff }}
+          vercel-args: '--prod'
+          working-directory: apps/staff
+          scope: ${{ secrets.VERCEL_TEAM_ID }}
+
+  notification:
+    name: 📬 Deployment Notification
+    needs: [deploy-apps, update-staff-portal]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment Success
+        if: needs.deploy-apps.result == 'success'
+        run: |
+          echo "✅ Deployment successful!"
+          echo "Deployed apps: ${{ needs.detect-changes.outputs.apps }}"
+
+      - name: Deployment Failure
+        if: needs.deploy-apps.result == 'failure'
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Check the logs for details"
+
+      # Optional: Add Slack notification here
+      # - name: Slack Notification
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_MESSAGE: 'Deployment ${{ needs.deploy-apps.result }}'

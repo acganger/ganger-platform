@@ -480,15 +480,17 @@ export default function RootLayout({
 # 1. Build verification
 pnpm build                           # Must complete without errors
 
-# 2. Workers compatibility check  
-curl -I https://[app].workers.dev     # Must return 200, not 405
+# 2. Vercel compatibility check  
+vercel build                         # Must complete without errors
 
 # 3. Staff portal integration check
 grep -r "StaffPortalLayout" src/      # Must find implementation
 
 # 4. Anti-pattern check
-grep -r "output.*export" .            # Must return nothing
+grep -r "output.*export" .            # Must return nothing (use default Next.js build)
 ```
+
+**For deployment guidance**, see **[/true-docs/deployment/](./deployment/)** - Complete Vercel deployment documentation.
 
 ## New Application Development Standards
 
@@ -1312,9 +1314,10 @@ export default function DataComponent() {
 
 ---
 
-*This frontend development guide provides complete guidance for building React/Next.js applications on the Ganger Platform. For backend development and platform infrastructure, see:*
+*This frontend development guide provides complete guidance for building React/Next.js applications on the Ganger Platform. For backend development, platform infrastructure, and deployment, see:*
 
 - 🔧 **[Backend Development Guide](./BACKEND_DEVELOPMENT_GUIDE.md)** - APIs, database, server-side development
-- 🏗️ **[Shared Infrastructure Guide](./SHARED_INFRASTRUCTURE_GUIDE.md)** - Platform setup, quality gates, deployment
+- 🏗️ **[Shared Infrastructure Guide](./SHARED_INFRASTRUCTURE_GUIDE.md)** - Platform setup, quality gates, standards
+- 🚀 **[Deployment Documentation](./deployment/)** - Complete Vercel deployment strategy and automation
 
 ---

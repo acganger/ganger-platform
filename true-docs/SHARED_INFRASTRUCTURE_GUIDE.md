@@ -824,7 +824,7 @@ const BUILD_TIME_BUDGETS = {
 ### **Infrastructure Foundation**
 - **Frontend Framework**: Next.js 14 with TypeScript
 - **Backend Services**: Supabase (PostgreSQL + Auth + Storage + Edge Functions)
-- **Hosting Platform**: Cloudflare Workers with global edge network
+- **Hosting Platform**: Vercel distributed architecture (20+ individual projects)
 - **Build System**: Turborepo for monorepo management
 - **Quality Enforcement**: Automated pre-commit hooks with zero-tolerance policies
 
@@ -845,7 +845,7 @@ const BUILD_TIME_BUDGETS = {
 
 **Core Infrastructure MCP Servers:**
 - **Supabase MCP**: Database operations, migrations, edge functions
-- **Cloudflare MCP**: Workers deployment, DNS management, analytics
+- **Cloudflare MCP**: DNS management only (hosting via Vercel)
 - **Google Cloud Run MCP**: Containerized microservices, auto-scaling
 - **Filesystem MCP**: Advanced file operations and build automation
 
@@ -992,26 +992,29 @@ pnpm supabase:status
 
 ## Deployment and Infrastructure
 
-### **Production Deployment Strategy**
-- **Environment**: Cloudflare Workers
-- **Build**: Next.js static export optimized for Workers
-- **CDN**: Cloudflare global edge network
-- **Database**: Supabase with global distribution
-- **Monitoring**: Supabase analytics + Cloudflare analytics
+> **📋 For complete deployment procedures and strategy, see [/true-docs/deployment/](./deployment/) - Vercel Distributed Deployment Documentation**
 
-### **Domain Configuration**
-- **Production URLs**: 
-  - Inventory: https://inventory.gangerdermatology.com
-  - Handouts: https://handouts.gangerdermatology.com
-  - Check-in: https://checkin.gangerdermatology.com
-  - EOS L10: https://eos.gangerdermatology.com
-  - Medication Auth: https://medication.gangerdermatology.com
-  - Pharma Scheduling: https://pharma.gangerdermatology.com
+### **Production Architecture Overview**
+- **Deployment Platform**: Vercel (distributed architecture)
+- **Router**: Staff Portal acts as central router under staff.gangerdermatology.com
+- **CDN**: Vercel global edge network
+- **Database**: Supabase with global distribution
+- **Monitoring**: Vercel analytics + Supabase analytics
+
+### **Domain Architecture**
+- **Central Portal**: staff.gangerdermatology.com (Staff Portal router)
+  - All applications accessible via /app-name paths
+  - Single domain for unified user experience
+  - URL rewrites to individual Vercel deployments
+- **Individual Deployments**: Each app as independent Vercel project
+  - Enables independent scaling and deployment
+  - Solves monorepo deployment challenges
+  - Standard Vercel project patterns
 
 ### **Monitoring & Health Checks**
-- **Application Monitoring**: Cloudflare Analytics for performance metrics
+- **Application Monitoring**: Vercel Analytics for performance metrics
 - **Database Monitoring**: Supabase built-in monitoring for database health
-- **Deployment Monitoring**: GitHub Actions for deployment status
+- **Deployment Monitoring**: Vercel deployment status + GitHub Actions
 - **Error Tracking**: Real-time error reporting with Slack integration
 
 ## Troubleshooting Guide

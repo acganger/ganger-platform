@@ -168,4 +168,4 @@ mcp-servers/mcp-server-synology/=*
 **/config/oauth.php
 **/config/database.php
 **/.env*
-!.env.example
+!.env.exampleclaude_desktop_config.json

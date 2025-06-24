@@ -38,7 +38,6 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
-    "@cloudflare/workers-types": "^4.20241127.0",
     "@ganger/config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20.14.0",

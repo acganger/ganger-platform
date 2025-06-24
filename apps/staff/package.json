@@ -42,7 +42,6 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241127.0",
     "@ganger/config": "workspace:*",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.0",
@@ -58,5 +57,9 @@
     "legacy-migration",
     "ticket-system",
     "hr-management"
-  ]
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
 }

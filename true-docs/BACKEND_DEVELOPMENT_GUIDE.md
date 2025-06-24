@@ -1102,7 +1102,9 @@ describe('Universal Payment Hub', () => {
 
 ### **Deployment and Monitoring**
 
-**Production Deployment Checklist:**
+**For complete deployment procedures**, see **[/true-docs/deployment/](./deployment/)** - Vercel distributed deployment strategy.
+
+**Backend-Specific Pre-Deployment Checklist:**
 ```bash
 # ✅ Pre-deployment validation
 npm run type-check              # TypeScript compilation
@@ -1161,9 +1163,10 @@ export async function GET() {
 
 ---
 
-*This backend development guide provides complete guidance for building APIs, database operations, and server-side functionality on the Ganger Platform. For frontend development and platform infrastructure, see:*
+*This backend development guide provides complete guidance for building APIs, database operations, and server-side functionality on the Ganger Platform. For frontend development, platform infrastructure, and deployment, see:*
 
 - 📱 **[Frontend Development Guide](./FRONTEND_DEVELOPMENT_GUIDE.md)** - React components, UI patterns, client-side development
-- 🏗️ **[Shared Infrastructure Guide](./SHARED_INFRASTRUCTURE_GUIDE.md)** - Platform setup, quality gates, deployment
+- 🏗️ **[Shared Infrastructure Guide](./SHARED_INFRASTRUCTURE_GUIDE.md)** - Platform setup, quality gates, standards
+- 🚀 **[Deployment Documentation](./deployment/)** - Complete Vercel deployment strategy and automation
 
 ---

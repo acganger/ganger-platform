@@ -35,10 +35,9 @@
 - **Contains**: Technology stack, quality gates, shared packages, authentication, database standards, API patterns, UI/UX standards, performance requirements
 - **Usage**: Start here for ALL new development
 
-#### **🏗️ Architecture Documentation**
-- **`ROUTING_ARCHITECTURE.md`**: Hybrid routing implementation patterns
-- **`HYBRID_WORKER_ARCHITECTURE.md`**: Cloudflare Workers deployment patterns  
+#### **🏗️ Infrastructure Documentation**
 - **`SHARED_INFRASTRUCTURE_GUIDE.md`**: Platform setup and standards
+- **`deployment/`**: Complete Vercel distributed deployment documentation
 
 #### **🎨 Development Guides**
 - **`FRONTEND_DEVELOPMENT_GUIDE.md`**: UI/UX development with @ganger/ui
@@ -46,7 +45,7 @@
 - **`DEVELOPER_WORKFLOW.md`**: Step-by-step development process
 
 #### **🚀 Operations Documentation**
-- **`DEPLOYMENT_GUIDE.md`**: Production deployment procedures
+- **`deployment/`**: Production deployment procedures (Vercel distributed architecture)
 - **`AI_WORKFLOW_GUIDE.md`**: AI-assisted development patterns
 - **`PROJECT_TRACKER.md`**: Active development tracking
 

@@ -3,7 +3,7 @@
 **Status**: ✅ **PRODUCTION WORKFLOW** - Step-by-step implementation guide  
 **Last Updated**: January 17, 2025  
 **Dependencies**: Platform assessment findings from `/apptest/COMPREHENSIVE_PLATFORM_ASSESSMENT.md`  
-**Prerequisites**: Architecture documentation in `/true-docs/ROUTING_ARCHITECTURE.md`
+**Prerequisites**: Deployment documentation in `/true-docs/deployment/`
 
 ---
 
@@ -518,11 +518,11 @@ npm run rollback:platform
 
 ## 📚 **Reference Documentation**
 
-### **Architecture References**
-- **Routing Architecture**: `/true-docs/ROUTING_ARCHITECTURE.md`
-- **Worker Implementation**: `/true-docs/HYBRID_WORKER_ARCHITECTURE.md`
-- **Deployment Procedures**: `/true-docs/DEPLOYMENT_GUIDE.md`
+### **Development References**
+- **Deployment Procedures**: `/true-docs/deployment/` (Vercel distributed architecture)
 - **Frontend Integration**: `/true-docs/FRONTEND_DEVELOPMENT_GUIDE.md`
+- **Backend Development**: `/true-docs/BACKEND_DEVELOPMENT_GUIDE.md`
+- **Master Guide**: `/true-docs/MASTER_DEVELOPMENT_GUIDE.md`
 
 ### **Platform Assessment References**
 - **Current App Status**: `/apptest/COMPREHENSIVE_PLATFORM_ASSESSMENT.md`
