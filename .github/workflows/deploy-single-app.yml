@@ -67,26 +67,7 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ 
-            github.event.inputs.app == 'inventory' && secrets.VERCEL_PROJECT_ID_INVENTORY ||
-            github.event.inputs.app == 'handouts' && secrets.VERCEL_PROJECT_ID_HANDOUTS ||
-            github.event.inputs.app == 'eos-l10' && secrets.VERCEL_PROJECT_ID_EOS_L10 ||
-            github.event.inputs.app == 'batch-closeout' && secrets.VERCEL_PROJECT_ID_BATCH_CLOSEOUT ||
-            github.event.inputs.app == 'compliance-training' && secrets.VERCEL_PROJECT_ID_COMPLIANCE_TRAINING ||
-            github.event.inputs.app == 'clinical-staffing' && secrets.VERCEL_PROJECT_ID_CLINICAL_STAFFING ||
-            github.event.inputs.app == 'config-dashboard' && secrets.VERCEL_PROJECT_ID_CONFIG_DASHBOARD ||
-            github.event.inputs.app == 'integration-status' && secrets.VERCEL_PROJECT_ID_INTEGRATION_STATUS ||
-            github.event.inputs.app == 'ai-receptionist' && secrets.VERCEL_PROJECT_ID_AI_RECEPTIONIST ||
-            github.event.inputs.app == 'call-center-ops' && secrets.VERCEL_PROJECT_ID_CALL_CENTER_OPS ||
-            github.event.inputs.app == 'medication-auth' && secrets.VERCEL_PROJECT_ID_MEDICATION_AUTH ||
-            github.event.inputs.app == 'pharma-scheduling' && secrets.VERCEL_PROJECT_ID_PHARMA_SCHEDULING ||
-            github.event.inputs.app == 'checkin-kiosk' && secrets.VERCEL_PROJECT_ID_CHECKIN_KIOSK ||
-            github.event.inputs.app == 'socials-reviews' && secrets.VERCEL_PROJECT_ID_SOCIALS_REVIEWS ||
-            github.event.inputs.app == 'component-showcase' && secrets.VERCEL_PROJECT_ID_COMPONENT_SHOWCASE ||
-            github.event.inputs.app == 'platform-dashboard' && secrets.VERCEL_PROJECT_ID_PLATFORM_DASHBOARD ||
-            github.event.inputs.app == 'staff' && secrets.VERCEL_PROJECT_ID_STAFF ||
-            '' 
-          }}
+          vercel-project-id: ${{ github.event.inputs.app == 'inventory' && secrets.VERCEL_PROJECT_ID_INVENTORY || github.event.inputs.app == 'handouts' && secrets.VERCEL_PROJECT_ID_HANDOUTS || github.event.inputs.app == 'eos-l10' && secrets.VERCEL_PROJECT_ID_EOS_L10 || github.event.inputs.app == 'batch-closeout' && secrets.VERCEL_PROJECT_ID_BATCH_CLOSEOUT || github.event.inputs.app == 'compliance-training' && secrets.VERCEL_PROJECT_ID_COMPLIANCE_TRAINING || github.event.inputs.app == 'clinical-staffing' && secrets.VERCEL_PROJECT_ID_CLINICAL_STAFFING || github.event.inputs.app == 'config-dashboard' && secrets.VERCEL_PROJECT_ID_CONFIG_DASHBOARD || github.event.inputs.app == 'integration-status' && secrets.VERCEL_PROJECT_ID_INTEGRATION_STATUS || github.event.inputs.app == 'ai-receptionist' && secrets.VERCEL_PROJECT_ID_AI_RECEPTIONIST || github.event.inputs.app == 'call-center-ops' && secrets.VERCEL_PROJECT_ID_CALL_CENTER_OPS || github.event.inputs.app == 'medication-auth' && secrets.VERCEL_PROJECT_ID_MEDICATION_AUTH || github.event.inputs.app == 'pharma-scheduling' && secrets.VERCEL_PROJECT_ID_PHARMA_SCHEDULING || github.event.inputs.app == 'checkin-kiosk' && secrets.VERCEL_PROJECT_ID_CHECKIN_KIOSK || github.event.inputs.app == 'socials-reviews' && secrets.VERCEL_PROJECT_ID_SOCIALS_REVIEWS || github.event.inputs.app == 'component-showcase' && secrets.VERCEL_PROJECT_ID_COMPONENT_SHOWCASE || github.event.inputs.app == 'platform-dashboard' && secrets.VERCEL_PROJECT_ID_PLATFORM_DASHBOARD || github.event.inputs.app == 'staff' && secrets.VERCEL_PROJECT_ID_STAFF || '' }}
           vercel-args: ${{ github.event.inputs.environment == 'production' && '--prod' || '' }}
           working-directory: apps/${{ github.event.inputs.app }}
           scope: ${{ secrets.VERCEL_TEAM_ID }}

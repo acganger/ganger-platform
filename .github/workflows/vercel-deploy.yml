@@ -101,26 +101,7 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ 
-            matrix.app == 'inventory' && secrets.VERCEL_PROJECT_ID_INVENTORY ||
-            matrix.app == 'handouts' && secrets.VERCEL_PROJECT_ID_HANDOUTS ||
-            matrix.app == 'eos-l10' && secrets.VERCEL_PROJECT_ID_EOS_L10 ||
-            matrix.app == 'batch-closeout' && secrets.VERCEL_PROJECT_ID_BATCH_CLOSEOUT ||
-            matrix.app == 'compliance-training' && secrets.VERCEL_PROJECT_ID_COMPLIANCE_TRAINING ||
-            matrix.app == 'clinical-staffing' && secrets.VERCEL_PROJECT_ID_CLINICAL_STAFFING ||
-            matrix.app == 'config-dashboard' && secrets.VERCEL_PROJECT_ID_CONFIG_DASHBOARD ||
-            matrix.app == 'integration-status' && secrets.VERCEL_PROJECT_ID_INTEGRATION_STATUS ||
-            matrix.app == 'ai-receptionist' && secrets.VERCEL_PROJECT_ID_AI_RECEPTIONIST ||
-            matrix.app == 'call-center-ops' && secrets.VERCEL_PROJECT_ID_CALL_CENTER_OPS ||
-            matrix.app == 'medication-auth' && secrets.VERCEL_PROJECT_ID_MEDICATION_AUTH ||
-            matrix.app == 'pharma-scheduling' && secrets.VERCEL_PROJECT_ID_PHARMA_SCHEDULING ||
-            matrix.app == 'checkin-kiosk' && secrets.VERCEL_PROJECT_ID_CHECKIN_KIOSK ||
-            matrix.app == 'socials-reviews' && secrets.VERCEL_PROJECT_ID_SOCIALS_REVIEWS ||
-            matrix.app == 'component-showcase' && secrets.VERCEL_PROJECT_ID_COMPONENT_SHOWCASE ||
-            matrix.app == 'platform-dashboard' && secrets.VERCEL_PROJECT_ID_PLATFORM_DASHBOARD ||
-            matrix.app == 'staff' && secrets.VERCEL_PROJECT_ID_STAFF ||
-            '' 
-          }}
+          vercel-project-id: ${{ matrix.app == 'inventory' && secrets.VERCEL_PROJECT_ID_INVENTORY || matrix.app == 'handouts' && secrets.VERCEL_PROJECT_ID_HANDOUTS || matrix.app == 'eos-l10' && secrets.VERCEL_PROJECT_ID_EOS_L10 || matrix.app == 'batch-closeout' && secrets.VERCEL_PROJECT_ID_BATCH_CLOSEOUT || matrix.app == 'compliance-training' && secrets.VERCEL_PROJECT_ID_COMPLIANCE_TRAINING || matrix.app == 'clinical-staffing' && secrets.VERCEL_PROJECT_ID_CLINICAL_STAFFING || matrix.app == 'config-dashboard' && secrets.VERCEL_PROJECT_ID_CONFIG_DASHBOARD || matrix.app == 'integration-status' && secrets.VERCEL_PROJECT_ID_INTEGRATION_STATUS || matrix.app == 'ai-receptionist' && secrets.VERCEL_PROJECT_ID_AI_RECEPTIONIST || matrix.app == 'call-center-ops' && secrets.VERCEL_PROJECT_ID_CALL_CENTER_OPS || matrix.app == 'medication-auth' && secrets.VERCEL_PROJECT_ID_MEDICATION_AUTH || matrix.app == 'pharma-scheduling' && secrets.VERCEL_PROJECT_ID_PHARMA_SCHEDULING || matrix.app == 'checkin-kiosk' && secrets.VERCEL_PROJECT_ID_CHECKIN_KIOSK || matrix.app == 'socials-reviews' && secrets.VERCEL_PROJECT_ID_SOCIALS_REVIEWS || matrix.app == 'component-showcase' && secrets.VERCEL_PROJECT_ID_COMPONENT_SHOWCASE || matrix.app == 'platform-dashboard' && secrets.VERCEL_PROJECT_ID_PLATFORM_DASHBOARD || matrix.app == 'staff' && secrets.VERCEL_PROJECT_ID_STAFF || '' }}
           vercel-args: '--prod'
           working-directory: apps/${{ matrix.app }}
           scope: ${{ secrets.VERCEL_TEAM_ID }}
