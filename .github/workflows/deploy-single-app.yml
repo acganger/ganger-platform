@@ -54,13 +54,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: pnpm run build:packages
-
       - name: Build application
-        run: |
-          cd apps/${{ github.event.inputs.app }}
-          pnpm build
+        run: pnpm run build --filter=@ganger/${{ github.event.inputs.app }}...
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}

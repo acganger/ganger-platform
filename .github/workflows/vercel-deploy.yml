@@ -88,13 +88,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: pnpm run build:packages
-
       - name: Build application
-        run: |
-          cd apps/${{ matrix.app }}
-          pnpm build
+        run: pnpm run build --filter=@ganger/${{ matrix.app }}...
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
@@ -146,9 +141,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: pnpm run build:packages
-
       - name: Update staff portal rewrites
         run: |
           # Read all deployment URLs
@@ -161,9 +153,7 @@ jobs:
           fi
 
       - name: Build staff portal
-        run: |
-          cd apps/staff
-          pnpm build
+        run: pnpm run build --filter=@ganger/staff...
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
