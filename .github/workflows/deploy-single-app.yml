@@ -61,13 +61,37 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SKIP_ENV_VALIDATION: true
 
+      - name: Set project ID
+        id: project_id
+        run: |
+          case "${{ github.event.inputs.app }}" in
+            "inventory") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_INVENTORY }}" >> $GITHUB_OUTPUT ;;
+            "handouts") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_HANDOUTS }}" >> $GITHUB_OUTPUT ;;
+            "eos-l10") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_EOS_L10 }}" >> $GITHUB_OUTPUT ;;
+            "batch-closeout") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_BATCH_CLOSEOUT }}" >> $GITHUB_OUTPUT ;;
+            "compliance-training") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_COMPLIANCE_TRAINING }}" >> $GITHUB_OUTPUT ;;
+            "clinical-staffing") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_CLINICAL_STAFFING }}" >> $GITHUB_OUTPUT ;;
+            "config-dashboard") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_CONFIG_DASHBOARD }}" >> $GITHUB_OUTPUT ;;
+            "integration-status") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_INTEGRATION_STATUS }}" >> $GITHUB_OUTPUT ;;
+            "ai-receptionist") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_AI_RECEPTIONIST }}" >> $GITHUB_OUTPUT ;;
+            "call-center-ops") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_CALL_CENTER_OPS }}" >> $GITHUB_OUTPUT ;;
+            "medication-auth") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_MEDICATION_AUTH }}" >> $GITHUB_OUTPUT ;;
+            "pharma-scheduling") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_PHARMA_SCHEDULING }}" >> $GITHUB_OUTPUT ;;
+            "checkin-kiosk") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_CHECKIN_KIOSK }}" >> $GITHUB_OUTPUT ;;
+            "socials-reviews") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_SOCIALS_REVIEWS }}" >> $GITHUB_OUTPUT ;;
+            "component-showcase") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_COMPONENT_SHOWCASE }}" >> $GITHUB_OUTPUT ;;
+            "platform-dashboard") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_PLATFORM_DASHBOARD }}" >> $GITHUB_OUTPUT ;;
+            "staff") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_STAFF }}" >> $GITHUB_OUTPUT ;;
+            *) echo "Error: Unknown app ${{ github.event.inputs.app }}"; exit 1 ;;
+          esac
+
       - name: Deploy to Vercel
         id: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ github.event.inputs.app == 'inventory' && secrets.VERCEL_PROJECT_ID_INVENTORY || github.event.inputs.app == 'handouts' && secrets.VERCEL_PROJECT_ID_HANDOUTS || github.event.inputs.app == 'eos-l10' && secrets.VERCEL_PROJECT_ID_EOS_L10 || github.event.inputs.app == 'batch-closeout' && secrets.VERCEL_PROJECT_ID_BATCH_CLOSEOUT || github.event.inputs.app == 'compliance-training' && secrets.VERCEL_PROJECT_ID_COMPLIANCE_TRAINING || github.event.inputs.app == 'clinical-staffing' && secrets.VERCEL_PROJECT_ID_CLINICAL_STAFFING || github.event.inputs.app == 'config-dashboard' && secrets.VERCEL_PROJECT_ID_CONFIG_DASHBOARD || github.event.inputs.app == 'integration-status' && secrets.VERCEL_PROJECT_ID_INTEGRATION_STATUS || github.event.inputs.app == 'ai-receptionist' && secrets.VERCEL_PROJECT_ID_AI_RECEPTIONIST || github.event.inputs.app == 'call-center-ops' && secrets.VERCEL_PROJECT_ID_CALL_CENTER_OPS || github.event.inputs.app == 'medication-auth' && secrets.VERCEL_PROJECT_ID_MEDICATION_AUTH || github.event.inputs.app == 'pharma-scheduling' && secrets.VERCEL_PROJECT_ID_PHARMA_SCHEDULING || github.event.inputs.app == 'checkin-kiosk' && secrets.VERCEL_PROJECT_ID_CHECKIN_KIOSK || github.event.inputs.app == 'socials-reviews' && secrets.VERCEL_PROJECT_ID_SOCIALS_REVIEWS || github.event.inputs.app == 'component-showcase' && secrets.VERCEL_PROJECT_ID_COMPONENT_SHOWCASE || github.event.inputs.app == 'platform-dashboard' && secrets.VERCEL_PROJECT_ID_PLATFORM_DASHBOARD || github.event.inputs.app == 'staff' && secrets.VERCEL_PROJECT_ID_STAFF || '' }}
+          vercel-project-id: ${{ steps.project_id.outputs.project_id }}
           vercel-args: ${{ github.event.inputs.environment == 'production' && '--prod' || '' }}
           working-directory: apps/${{ github.event.inputs.app }}
           scope: ${{ secrets.VERCEL_TEAM_ID }}
