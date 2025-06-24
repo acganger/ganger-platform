@@ -6,7 +6,7 @@ import { ArrowLeft, TrendingUp, BarChart3, PieChart, Users, Clock, AlertTriangle
 import Link from 'next/link';
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 
 export default function AnalyticsPage() {

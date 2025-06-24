@@ -6,7 +6,7 @@ import { useAuth, withAuthComponent } from '@ganger/auth';
 import { AppLayout, PageHeader, Card, Button } from '@ganger/ui';
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 // Remove User import as it's not needed - user type comes from auth context
 

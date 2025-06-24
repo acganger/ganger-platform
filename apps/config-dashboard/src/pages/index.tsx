@@ -11,7 +11,7 @@ import { ApprovalWorkflow } from '../components/ApprovalWorkflow';
 import { DashboardLayout } from '../components/DashboardLayout';
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 
 export default function ConfigDashboardHome() {

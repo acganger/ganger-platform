@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 
 /**

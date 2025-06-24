@@ -1,5 +1,5 @@
-// Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// Remove edge runtime for Vercel deployment compatibility
+// export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 // Deployment test Mon Jun 24 12:48:22 EDT 2025
 

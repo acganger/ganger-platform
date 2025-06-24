@@ -9,7 +9,7 @@ import { ContentLibraryPanel } from '@/components/content/ContentLibraryPanel';
 import { 
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
   Star, 
   MessageSquare, 

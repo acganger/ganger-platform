@@ -5,7 +5,7 @@ import Head from 'next/head'
 import type { Integration } from '../types/integration'
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 
 // Production-ready components (simplified for initial deployment)

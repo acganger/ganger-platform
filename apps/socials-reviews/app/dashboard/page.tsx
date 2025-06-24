@@ -5,7 +5,7 @@ import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 import { TrendingUp, MessageSquare, Star, AlertCircle } from 'lucide-react';
 
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 
 export default function SocialsDashboardPage() {

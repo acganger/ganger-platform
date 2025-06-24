@@ -281,4 +281,4 @@ async function handler(
 
 export default withAuth(handler);
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility

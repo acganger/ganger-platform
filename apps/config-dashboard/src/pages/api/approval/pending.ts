@@ -268,4 +268,4 @@ export default async function handler(
   }
 }
 // Cloudflare Workers Edge Runtime
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Removed for Vercel compatibility
