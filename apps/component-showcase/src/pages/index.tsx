@@ -2,6 +2,7 @@
 // export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 // Deployment test Mon Jun 24 12:48:22 EDT 2025
+// Vercel monorepo deployment test - June 24, 2025 17:59
 
 import React, { useState } from 'react';
 import Head from 'next/head';
