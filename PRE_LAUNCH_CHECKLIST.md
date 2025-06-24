@@ -61,9 +61,15 @@ git push origin main
 ### Step 3: Create All Vercel Projects
 ```bash
 # Creates 17 new projects with correct naming
-./scripts/setup-vercel-projects.sh
+./scripts/setup-vercel-projects-monorepo.sh
 
 # This generates: vercel-project-ids.env
+```
+
+### Step 3.5: Link GitHub Repository ⚠️ NEW STEP
+```bash
+# Link GitHub repo to all Vercel projects (required for deployment)
+./scripts/link-github-repo.sh
 ```
 
 ### Step 4: Configure GitHub Secrets
