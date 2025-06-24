@@ -13,9 +13,18 @@ echo "⚠️  This will remove all existing Vercel projects from your account"
 echo "Press Ctrl+C to cancel, or Enter to continue"
 read
 
-# Vercel token from environment or prompt
-VERCEL_TOKEN="${VERCEL_TOKEN:-RdwA23mHSvPcm9ptReM6zxjF}"
-VERCEL_TEAM_ID="team_wpY7PcIsYQNnslNN39o7fWvS"
+# Vercel token from environment
+if [ -z "$VERCEL_TOKEN" ]; then
+  echo "❌ Error: VERCEL_TOKEN not set"
+  echo "Get your token from: https://vercel.com/account/tokens"
+  exit 1
+fi
+
+if [ -z "$VERCEL_TEAM_ID" ]; then
+  echo "❌ Error: VERCEL_TEAM_ID not set"
+  echo "Find your team ID in Vercel dashboard settings"
+  exit 1
+fi
 
 # List existing projects
 echo "📋 Fetching existing Vercel projects..."
