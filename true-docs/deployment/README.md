@@ -135,6 +135,44 @@ If something goes wrong:
 ./scripts/04-verify-deployment.sh
 ```
 
+## 🔧 Common Deployment Issues & Fixes
+
+### 1. **Module Not Found Errors** (e.g., date-fns)
+```bash
+# Add .npmrc to root directory
+echo "node-linker=hoisted
+public-hoist-pattern[]=*
+shamefully-hoist=true
+strict-peer-dependencies=false
+auto-install-peers=true" > .npmrc
+
+# Update lockfile
+pnpm install
+```
+
+### 2. **Syntax Errors in Build**
+- Check for malformed imports (exports inside import statements)
+- Look for missing closing brackets in import statements
+- Ensure all exports are outside of import blocks
+
+### 3. **404 Errors After Deployment**
+- Verify basePath in next.config.js matches staff portal navigation
+- Check that environment variables are set in Vercel dashboard
+- Ensure authentication is configured (401 is better than 404)
+
+### 4. **Inconsistent Package Versions**
+- Standardize Next.js versions: `"next": "^14.2.0"`
+- Remove exact versions like `"next": "14.2.5"`
+- Check for duplicate dependencies in package.json
+
+### 5. **Leftover Cloudflare Dependencies**
+```bash
+# Find apps with Cloudflare deps
+grep -l "@cloudflare/next-on-pages" apps/*/package.json
+
+# Remove from each affected app's package.json
+```
+
 ## 📝 Maintenance
 
 - Update `deployment-urls.json` after each deployment

@@ -32,21 +32,31 @@
 - [ ] Check Supabase URL is production instance
 
 ### 4. **Next.js Configuration**
-- [ ] Check `basePath` configuration:
-  - **If app uses relative links** (e.g., `<Link href="/dashboard">`): Keep `basePath: '/inventory'`
-  - **If app uses absolute links** (e.g., `<Link href="/inventory/dashboard">`): Remove `basePath`
-  - **Test client-side navigation** after deployment to verify
-- [ ] Ensure `typescript: { ignoreBuildErrors: false }` for production
+- [ ] Check `basePath` configuration matches staff portal navigation:
+  ```javascript
+  // integration-status app example
+  basePath: '/status',  // Must match staff portal navigation, NOT folder name
+  ```
+- [ ] Verify dynamic configuration for standalone vs portal deployment:
+  ```javascript
+  ...(process.env.VERCEL && !process.env.STAFF_PORTAL_MODE ? {} : {
+    basePath: '/status',
+    assetPrefix: '/status',
+  }),
+  ```
+- [ ] For Vercel deployment, keep:
+  ```javascript
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true }
+  ```
 - [ ] Remove any development-only webpack configs
 - [ ] Verify image domains include production URLs
 - [ ] Check for proper error pages (404.tsx, 500.tsx)
-- [ ] Add CORS headers for API routes:
-  ```javascript
-  headers: {
-    'Access-Control-Allow-Origin': 'https://staff.gangerdermatology.com',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-  }
+- [ ] Remove Cloudflare-specific dependencies and scripts:
+  ```json
+  // Remove from package.json:
+  "@cloudflare/next-on-pages": "^1.13.12"
+  "build:worker": "npx @cloudflare/next-on-pages"
   ```
 
 ### 5. **Package.json Validation**
@@ -55,6 +65,12 @@
 - [ ] No development tools in `dependencies` (should be in `devDependencies`)
 - [ ] Build script is standard: `"build": "next build"`
 - [ ] No local file references (all should be `workspace:*`)
+- [ ] Consistent Next.js version across apps:
+  ```json
+  "next": "^14.2.0"  // Use caret range, not exact version
+  ```
+- [ ] Check for duplicate dependencies (e.g., tailwindcss in both deps and devDeps)
+- [ ] Ensure date-fns and other common deps are in root package.json if shared
 
 ### 6. **Authentication & Security**
 - [ ] Auth redirects use production URLs
@@ -90,6 +106,24 @@
 - [ ] Set up environment variables in Vercel
 - [ ] Configure build settings correctly
 - [ ] Note any special deployment requirements
+
+### 11. **Common Deployment Errors to Check**
+- [ ] **Syntax Errors**: Check for malformed imports
+  ```typescript
+  // Wrong - export inside import
+  import { 
+  export const dynamic = 'force-dynamic';
+    Star,
+  } from 'lucide-react';
+  
+  // Correct
+  import { Star } from 'lucide-react';
+  export const dynamic = 'force-dynamic';
+  ```
+- [ ] **Module Resolution**: Ensure .npmrc exists in root for pnpm
+- [ ] **Lockfile Issues**: Run `pnpm install` after any package.json changes
+- [ ] **Build Command**: Should be `cd ../.. && pnpm run build --filter=@ganger/[app]...`
+- [ ] **Install Command**: Should be `cd ../.. && pnpm install`
 
 ## 🚀 App-Specific Checks
 

@@ -137,6 +137,31 @@ vercel --prod                      # Deploy to production
 # - Scaling configuration
 ```
 
+### **Common Deployment Failures & Fixes**
+```bash
+# 1. Module Resolution Issues (pnpm on Vercel)
+# Add .npmrc to root directory:
+node-linker=hoisted
+public-hoist-pattern[]=*
+shamefully-hoist=true
+strict-peer-dependencies=false
+auto-install-peers=true
+
+# 2. Syntax Errors - Check for malformed imports
+# Wrong: export inside import statement
+# Right: Move exports outside import blocks
+
+# 3. Routing Mismatches
+# Ensure basePath in next.config.js matches staff portal navigation
+# Example: basePath: '/status' NOT '/integration-status'
+
+# 4. Package Version Consistency
+# Standardize Next.js: "next": "^14.2.0" (not exact versions)
+
+# 5. Cloudflare Dependencies
+# Remove "@cloudflare/next-on-pages" from all package.json files
+```
+
 ### **Why This Matters**
 - **Independent Deployments**: Deploy only what changes
 - **Platform Integration**: Staff Portal routes to individual apps

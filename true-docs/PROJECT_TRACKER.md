@@ -190,16 +190,53 @@ typescript: { ignoreBuildErrors: true }
 eslint: { ignoreDuringBuilds: true }
 ```
 
+### Module Resolution (pnpm on Vercel)
+```bash
+# Add .npmrc to root directory
+node-linker=hoisted
+public-hoist-pattern[]=*
+shamefully-hoist=true
+strict-peer-dependencies=false
+auto-install-peers=true
+```
+
+### Syntax Errors
+```typescript
+// Wrong - export inside import
+import { 
+export const dynamic = 'force-dynamic';
+  Star,
+} from 'lucide-react';
+
+// Correct
+import { Star } from 'lucide-react';
+export const dynamic = 'force-dynamic';
+```
+
+### Routing Configuration
+```javascript
+// Ensure basePath matches staff portal navigation
+// integration-status app example:
+basePath: '/status',  // NOT '/integration-status'
+```
+
 ### Workspace Dependencies
 ```javascript
 // Ensure transpilePackages includes all @ganger/* packages
 transpilePackages: ['@ganger/ui', '@ganger/auth', '@ganger/db', '@ganger/utils']
 ```
 
+### Package Version Consistency
+```json
+// Use consistent Next.js versions
+"next": "^14.2.0"  // Not "14.2.5" or "^14.2.29"
+```
+
 ### Environment Variables
 - Use same variable names across all apps
 - Copy from CLAUDE.md exactly
 - Set in Vercel dashboard, not in code
+- Ensure all 40+ variables are set in each project
 
 ---
 

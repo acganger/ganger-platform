@@ -34,11 +34,24 @@ Based on deployment engineer's risk assessment, here's how to address each categ
 - [ ] Test each rewrite rule individually
 - [ ] Check for overlapping patterns
 - [ ] Verify no route conflicts
+- [ ] Ensure consistent basePath in next.config.js:
+  ```javascript
+  // Example: integration-status app
+  // Wrong: basePath: '/integration-status'
+  // Right: basePath: '/status'
+  // Must match staff portal navigation
+  ```
 - [ ] Test basePath settings per app:
   ```bash
   # Quick test for each app
   curl -I https://staff.gangerdermatology.com/inventory
-  curl -I https://staff.gangerdermatology.com/inventory/dashboard
+  curl -I https://staff.gangerdermatology.com/status  # Not /integration-status
+  ```
+- [ ] Remove Cloudflare-specific dependencies:
+  ```bash
+  # Check for leftover Cloudflare deps
+  grep -l "@cloudflare/next-on-pages" apps/*/package.json
+  # Remove from dependencies and devDependencies
   ```
 
 ## 2. Build & Deployment Risk Mitigation
@@ -48,10 +61,35 @@ Based on deployment engineer's risk assessment, here's how to address each categ
 // In each app's package.json
 {
   "engines": {
-    "node": ">=18.0.0 <19.0.0",  // Pin to specific range
-    "pnpm": "9.0.0"               // Exact version
+    "node": ">=18.0.0",  // Vercel uses Node 22.x
+    "pnpm": "8.15.0"     // Match monorepo version
   }
 }
+```
+
+### Common Build Failure Fixes
+```bash
+# 1. Syntax errors in app files
+# Check for malformed imports like:
+# import { 
+# export const dynamic = 'force-dynamic';
+#   Star,
+# Fix: Move exports outside of import statements
+
+# 2. Module resolution issues
+# Add .npmrc to root for pnpm on Vercel:
+echo "node-linker=hoisted
+public-hoist-pattern[]=*
+shamefully-hoist=true
+strict-peer-dependencies=false
+auto-install-peers=true" > .npmrc
+
+# 3. Inconsistent Next.js versions
+# Standardize all apps to use same version:
+"next": "^14.2.0"  # Not exact versions like "14.2.5"
+
+# 4. Outdated pnpm lockfile
+pnpm install  # Update lockfile after package.json changes
 ```
 
 ### Deployment Rollback Plan
