@@ -9,7 +9,8 @@
     "dev": "tsc --watch",
     "type-check": "tsc --noEmit"
   },
-  "devDependencies": {
+  "dependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "devDependencies": {}
 }

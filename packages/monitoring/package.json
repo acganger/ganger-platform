@@ -13,11 +13,11 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
     "@ganger/db": "workspace:*",
-    "@ganger/cache": "workspace:*"
+    "@ganger/cache": "workspace:*",
+    "typescript": "^5.5.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "^5.5.0",
     "eslint": "^8.0.0"
   },
   "keywords": [
