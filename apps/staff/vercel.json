@@ -2,5 +2,39 @@
   "installCommand": "cd ../.. && npm install -g pnpm && pnpm install",
   "buildCommand": "cd ../.. && pnpm build:staff",
   "outputDirectory": "apps/staff/.next",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/compliance/:path*",
+      "destination": "https://ganger-compliance-training-jrakae5td-ganger.vercel.app/compliance/:path*"
+    },
+    {
+      "source": "/staffing/:path*",
+      "destination": "https://ganger-clinical-staffing-bzucmsdwd-ganger.vercel.app/staffing/:path*"
+    },
+    {
+      "source": "/config/:path*",
+      "destination": "https://ganger-config-dashboard-294e5ofi1-ganger.vercel.app/config/:path*"
+    },
+    {
+      "source": "/showcase/:path*",
+      "destination": "https://ganger-component-showcase-nt2v01lr2-ganger.vercel.app/showcase/:path*"
+    },
+    {
+      "source": "/platform/:path*",
+      "destination": "https://ganger-platform-dashboard-3v6r3iq94-ganger.vercel.app/platform/:path*"
+    },
+    {
+      "source": "/call-center/:path*",
+      "destination": "https://ganger-call-center-nrlxxf9ir-ganger.vercel.app/call-center/:path*"
+    },
+    {
+      "source": "/meds/:path*",
+      "destination": "https://ganger-medication-auth-ibofem8tt-ganger.vercel.app/meds/:path*"
+    },
+    {
+      "source": "/kiosk/:path*",
+      "destination": "https://ganger-checkin-kiosk-ue8d4da0v-ganger.vercel.app/kiosk/:path*"
+    }
+  ]
 }

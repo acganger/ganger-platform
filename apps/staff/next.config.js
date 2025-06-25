@@ -1,56 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
+  
+  // Dynamic path configuration
+  ...(process.env.VERCEL && !process.env.STAFF_PORTAL_MODE ? {} : {
+    basePath: '',
+    assetPrefix: '',
+  }),
+  
   eslint: {
-    // Allow production builds to complete even with ESLint warnings
     ignoreDuringBuilds: true,
   },
+  
   typescript: {
-    // Skip TypeScript errors during production builds
     ignoreBuildErrors: true,
   },
-  transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils', '@ganger/types'],
   
-  // Middleware will handle routing to other apps
-  
-  webpack: (config, { isServer }) => {
-    // Prevent server-only packages from being bundled in client
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        dns: false,
-        crypto: false,
-        stream: false,
-        url: false,
-        zlib: false,
-        http: false,
-        https: false,
-        child_process: false,
-      };
-      
-      config.externals = [
-        ...config.externals,
-        'puppeteer',
-        'puppeteer-core', 
-        'googleapis',
-        'mysql2'
-      ];
-    }
-    
-    return config;
-  },
-  experimental: {
-    esmExternals: true,
-    serverComponentsExternalPackages: [
-      'puppeteer',
-      'googleapis',
-      'mysql2'
-    ]
-  },
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
+    unoptimized: true,
   },
 };
 
