@@ -53,7 +53,7 @@ cd apps/staff && vercel --prod
 | **Compliance Training** | `apps/compliance-training` | `/compliance` | Staff training |
 | **Clinical Staffing** | `apps/clinical-staffing` | `/clinical-staffing` | Provider scheduling |
 | **Config Dashboard** | `apps/config-dashboard` | `/config` | Platform configuration |
-| **Integration Status** | `apps/integration-status` | `/integration-status` | Monitoring |
+| **Integration Status** | `apps/integration-status` | `/status` | Monitoring |
 | **AI Receptionist** | `apps/ai-receptionist` | `/ai-receptionist` | Phone agent management |
 | **Call Center Ops** | `apps/call-center-ops` | `/call-center` | Call management |
 | **Medication Auth** | `apps/medication-auth` | `/medication-auth` | Prior auth (staff) |
