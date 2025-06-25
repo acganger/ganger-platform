@@ -5,11 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3010",
     "build": "next build",
-    "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages",
     "start": "next start -p 3010",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=socials-reviews-production",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "test": "jest",
@@ -19,11 +15,9 @@
     "test:hooks": "jest --testPathPattern=hooks",
     "test:utils": "jest --testPathPattern=utils",
     "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:debug": "jest --detectOpenHandles --forceExit",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "test:debug": "jest --detectOpenHandles --forceExit"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/auth": "workspace:*",
     "@ganger/ui": "workspace:*",
     "@ganger/utils": "workspace:*",
@@ -38,7 +32,6 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.7",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.8",
@@ -52,9 +45,8 @@
     "jest-environment-jsdom": "^29.7.0",
     "node-mocks-http": "^1.13.0",
     "postcss": "^8.4.39",
-    "tailwindcss": "^4.1.7",
-    "ts-jest": "^29.1.1",
-    "@cloudflare/next-on-pages": "^1.13.12"
+    "tailwindcss": "^3.4.0",
+    "ts-jest": "^29.1.1"
   },
   "description": "Socials & Reviews Management Dashboard - Frontend Application",
   "keywords": [

@@ -15,11 +15,7 @@
     "test:hooks": "jest --testPathPattern=hooks",
     "test:utils": "jest --testPathPattern=utils",
     "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:debug": "jest --detectOpenHandles --forceExit",
-    "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=integration-status-production",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "test:debug": "jest --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",
@@ -42,9 +38,7 @@
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.29",
-    "typescript": "^5.3.0",
-    "@cloudflare/next-on-pages": "^1.13.12",
-    "tailwindcss": "^4.1.7"
+    "typescript": "^5.3.0"
   },
   "description": "Third-Party Integration Status Dashboard - Frontend Application",
   "keywords": [
