@@ -7,10 +7,6 @@ import { SocialMonitoringPanel } from '@/components/social/SocialMonitoringPanel
 import { ReviewManagementPanel } from '@/components/reviews/ReviewManagementPanel';
 import { ContentLibraryPanel } from '@/components/content/ContentLibraryPanel';
 import { 
-
-// Cloudflare Workers Edge Runtime
-// export const runtime = 'edge'; // Removed for Vercel compatibility
-export const dynamic = 'force-dynamic';
   Star, 
   MessageSquare, 
   Eye, 
@@ -20,6 +16,10 @@ export const dynamic = 'force-dynamic';
   Share,
   AlertTriangle
 } from 'lucide-react';
+
+// Cloudflare Workers Edge Runtime
+// export const runtime = 'edge'; // Removed for Vercel compatibility
+export const dynamic = 'force-dynamic';
 
 interface DashboardStats {
   totalReviews: number;

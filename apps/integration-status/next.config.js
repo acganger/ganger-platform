@@ -5,8 +5,8 @@ const nextConfig = {
   
   // Dynamic path configuration
   ...(process.env.VERCEL && !process.env.STAFF_PORTAL_MODE ? {} : {
-    basePath: '/integration-status',
-    assetPrefix: '/integration-status',
+    basePath: '/status',
+    assetPrefix: '/status',
   }),
   
   eslint: {
