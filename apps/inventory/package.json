@@ -7,12 +7,9 @@
     "dev": "next dev --port 3010",
     "build": "next build",
     "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
     "start": "next start --port 3010",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=inventory-production",
     "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",
@@ -30,7 +27,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/config": "workspace:*",
     "tailwindcss": "^4.1.7",
     "@types/node": "^20.14.0",

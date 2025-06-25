@@ -16,10 +16,7 @@
     "test:utils": "jest --testPathPattern=utils",
     "test:ci": "jest --ci --coverage --watchAll=false",
     "test:debug": "jest --detectOpenHandles --forceExit",
-    "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=compliance-training-production",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "build:next": "next build"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",
@@ -39,7 +36,6 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@tailwindcss/forms": "^0.5.7",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",

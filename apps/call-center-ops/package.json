@@ -8,13 +8,9 @@
     "start": "next start -p 3008",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=call-center-ops-production",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "build:next": "next build"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/auth": "workspace:*",
     "@ganger/db": "workspace:*",
     "@ganger/integrations": "workspace:*",
@@ -35,7 +31,6 @@
     "eslint": "8.56.0",
     "eslint-config-next": "^14.2.0",
     "postcss": "^8.4.0",
-    "tailwindcss": "^3.4.0",
-    "@cloudflare/next-on-pages": "^1.13.12"
+    "tailwindcss": "^3.4.0"
   }
 }

@@ -11,13 +11,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=batch-closeout-production",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "build:next": "next build"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/auth": "workspace:*",
     "@ganger/db": "workspace:*",
     "@ganger/integrations": "workspace:*",
@@ -53,7 +49,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "next-test-api-route-handler": "^4.0.8",
     "typescript": "^5.5.0",
-    "tailwindcss": "^4.1.7",
-    "@cloudflare/next-on-pages": "^1.13.12"
+    "tailwindcss": "^4.1.7"
   }
 }

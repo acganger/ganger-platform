@@ -9,13 +9,7 @@
     "start": "next start --port 3010",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "deploy:patient": "npm run build && wrangler deploy --config wrangler-patient.toml --env production",
-    "deploy:staff": "npm run build && wrangler deploy --config wrangler-staff.toml --env production",
-    "deploy:dual": "npm run deploy:patient && npm run deploy:staff",
-    "build:next": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=handouts-production",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "build:next": "next build"
   },
   "dependencies": {
     "@ganger/auth": "workspace:*",
@@ -37,7 +31,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20.14.0",

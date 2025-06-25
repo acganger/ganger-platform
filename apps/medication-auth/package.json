@@ -6,22 +6,12 @@
   "scripts": {
     "dev": "next dev --port 3005",
     "build": "next build",
-    "build:worker": "npx @cloudflare/next-on-pages",
-    "upload:r2": "find dist -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.png' -o -name '*.jpg' -o -name '*.ico' | while read file; do key=${file#dist/}; wrangler r2 object put ganger-medication-auth-assets/$key --file $file; done",
-    "deploy": "pnpm run build:cloudflare && wrangler pages deploy .vercel/output/static --project-name=medication-auth-production",
-    "deploy:staging": "wrangler deploy --env staging",
-    "deploy:production": "wrangler deploy --env production",
-    "deploy:patient": "npm run build && wrangler deploy --config wrangler-patient.toml --env production",
-    "deploy:staff": "npm run build && wrangler deploy --config wrangler-staff.toml --env production",
-    "deploy:dual": "npm run deploy:patient && npm run deploy:staff",
     "start": "node server.js",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "build:next": "next build",
-    "build:cloudflare": "next build && npx @cloudflare/next-on-pages"
+    "build:next": "next build"
   },
   "dependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@ganger/auth": "workspace:*",
     "@ganger/db": "workspace:*",
     "@ganger/integrations": "workspace:*",
@@ -54,8 +44,7 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
     "typescript": "^5.5.0",
-    "tailwindcss": "^4.1.7",
-    "@cloudflare/next-on-pages": "^1.13.12"
+    "tailwindcss": "^4.1.7"
   },
   "keywords": [
     "ganger-platform",
