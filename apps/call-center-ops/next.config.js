@@ -4,8 +4,6 @@ const nextConfig = {
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
   // Staff portal integration
-  basePath: '/phones',
-  assetPrefix: '/phones',
   
   eslint: {
   

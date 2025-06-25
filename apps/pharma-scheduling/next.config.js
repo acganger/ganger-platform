@@ -3,11 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
-  // Dynamic path configuration
-  ...(process.env.VERCEL && !process.env.STAFF_PORTAL_MODE ? {} : {
-    basePath: '/reps',
-    assetPrefix: '/reps',
-  }),
+  // No basePath needed - Vercel will handle routing via rewrites
   
   eslint: {
     ignoreDuringBuilds: true,
