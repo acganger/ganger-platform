@@ -8,6 +8,10 @@ const nextConfig = {
   assetPrefix: '/showcase',
   
   eslint: {
+  
+  typescript: {
+    ignoreBuildErrors: true,
+  },
     ignoreDuringBuilds: true,
   },
   

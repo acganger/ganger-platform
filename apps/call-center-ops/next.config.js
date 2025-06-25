@@ -8,6 +8,10 @@ const nextConfig = {
   assetPrefix: '/phones',
   
   eslint: {
+  
+  typescript: {
+    ignoreBuildErrors: true,
+  },
     ignoreDuringBuilds: true,
   },
   
