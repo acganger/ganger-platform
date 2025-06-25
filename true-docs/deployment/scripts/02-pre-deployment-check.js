@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const APPS_DIR = path.join(__dirname, '..', 'apps');
+const APPS_DIR = path.join(__dirname, '..', '..', '..', 'apps');
 const ISSUES = [];
 
 // List of apps to check

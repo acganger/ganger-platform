@@ -1,5 +1,5 @@
 {
   "buildCommand": false,
-  "installCommand": "pnpm install",
+  "installCommand": false,
   "ignoreCommand": "exit 1"
 }
