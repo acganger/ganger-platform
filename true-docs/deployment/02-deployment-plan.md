@@ -52,6 +52,38 @@ Deploy 20+ apps from the Ganger Platform monorepo as individual Vercel projects,
 4. Document any exceptions
 
 ### Phase 2: Deploy Individual Apps
+
+#### Option A: GitHub Integration (Recommended - June 2025)
+**Time: 30 minutes setup + automatic deployments**
+**Automated: Yes**
+
+1. **Clean slate (if needed)**:
+   ```bash
+   ./scripts/cleanup-all-vercel-projects.sh
+   ```
+
+2. **Create projects with GitHub integration**:
+   ```bash
+   ./scripts/setup-vercel-github-integration.sh
+   ```
+
+3. **Configure environment variables**:
+   - Go to each project in Vercel dashboard
+   - Add environment variables from `.env` file
+   - Or use Vercel API to set them programmatically
+
+4. **Trigger deployments**:
+   ```bash
+   git push origin main
+   ```
+
+5. **Benefits**:
+   - Automatic deployments on every push
+   - Better integration with GitHub
+   - Simplified deployment process
+   - No CLI tokens needed for deployment
+
+#### Option B: Legacy CLI Deployment
 **Time: 2-3 hours**
 **Automated: Yes**
 
@@ -99,24 +131,44 @@ Deploy 20+ apps from the Ganger Platform monorepo as individual Vercel projects,
 
 ## 🤖 Automation Scripts
 
-### 1. **pre-deployment-check.js**
+### GitHub Integration Approach (Recommended - June 2025)
+
+#### 1. **cleanup-all-vercel-projects.sh**
+- Removes ALL existing Vercel projects for clean slate
+- Uses Python for proper JSON parsing
+- Ensures no duplicate projects
+
+#### 2. **setup-vercel-github-integration.sh**
+- Creates projects with GitHub integration enabled
+- Configures monorepo settings for each app
+- Sets up automatic deployments on push
+- Outputs project IDs to `vercel-project-ids.env`
+
+#### 3. **check-vercel-status.sh**
+- Monitors deployment status
+- Shows project health
+- Provides helpful troubleshooting info
+
+### Legacy CLI Approach (Reference Only)
+
+#### 1. **pre-deployment-check.js**
 - Validates all apps against checklist
 - Finds demo files, console.logs, localhost refs
 - Checks TypeScript compilation
 - Outputs actionable report
 
-### 2. **vercel-deploy-all-apps.sh**
+#### 2. **vercel-deploy-all-apps.sh**
 - Deploys 15+ apps automatically
 - Configures all environment variables
 - Handles errors without stopping
 - Outputs deployment URLs
 
-### 3. **update-staff-rewrites.js**
+#### 3. **update-staff-rewrites.js**
 - Reads deployment URLs
 - Generates vercel.json rewrites
 - Updates staff portal configuration
 
-### 4. **test-deployments.js** (to be created)
+#### 4. **test-deployments.js** (to be created)
 - Tests each deployment URL
 - Verifies API endpoints
 - Checks authentication flow

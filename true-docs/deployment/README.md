@@ -1,6 +1,8 @@
 # Vercel Distributed Deployment Documentation
 
-> **🚀 CURRENT DEPLOYMENT STRATEGY**: This documentation describes the production deployment approach using Vercel's distributed architecture with 20+ individual projects.
+> **🚀 CURRENT DEPLOYMENT STRATEGY**: This documentation describes the production deployment approach using Vercel's distributed architecture with 17 individual projects, using GitHub integration for automatic deployments.
+> 
+> **✅ STATUS (June 2025)**: All 17 apps have been created with GitHub integration. Push to main branch triggers automatic deployments.
 
 ## 🚀 Quick Start
 See **[Quick Reference Guide](./QUICK_REFERENCE.md)** for rapid deployment commands.
@@ -27,7 +29,31 @@ See **[Quick Reference Guide](./QUICK_REFERENCE.md)** for rapid deployment comma
 ### Configuration
 - **[Environment Template](./deployment-env.secret.example)** - Secure environment variables template
 
-## 🚀 Quick Start
+## 🚀 Quick Start (GitHub Integration - Recommended)
+
+### 1. Clean & Setup Projects
+```bash
+# Clean slate (if needed)
+./scripts/cleanup-all-vercel-projects.sh
+
+# Create projects with GitHub integration
+./scripts/setup-vercel-github-integration.sh
+```
+
+### 2. Configure Environment Variables
+Visit https://vercel.com/ganger and add environment variables to each project from your `.env` file.
+
+### 3. Deploy via Git Push
+```bash
+git push origin main
+```
+
+### 4. Monitor Deployment
+```bash
+./scripts/check-vercel-status.sh
+```
+
+## 🚀 Legacy CLI Deployment
 
 ### 1. Prepare Environment
 ```bash
@@ -118,6 +144,6 @@ If something goes wrong:
 
 ---
 
-**Last Updated**: January 2025  
+**Last Updated**: June 2025  
 **Platform Version**: 1.6.0  
-**Deployment Method**: Vercel Distributed Architecture (20+ Individual Projects)
+**Deployment Method**: Vercel Distributed Architecture with GitHub Integration (17 Individual Projects)

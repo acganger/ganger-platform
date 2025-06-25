@@ -2,7 +2,28 @@
 
 ## 🚀 Quick Deployment Commands
 
-### Full Deployment (Not Recommended)
+### GitHub Integration Deployment (Recommended - June 2025)
+```bash
+# From project root
+cd true-docs/deployment
+
+# 1. Clean slate (if needed)
+./scripts/cleanup-all-vercel-projects.sh
+
+# 2. Setup projects with GitHub integration
+./scripts/setup-vercel-github-integration.sh
+
+# 3. Configure environment variables in Vercel dashboard
+# Visit https://vercel.com/ganger and add env vars to each project
+
+# 4. Push to deploy
+git push origin main
+
+# 5. Monitor status
+./scripts/check-vercel-status.sh
+```
+
+### Legacy CLI Deployment
 ```bash
 # From project root
 cd true-docs/deployment
@@ -43,7 +64,16 @@ cd ../../apps/staff && vercel --prod
 
 ## 🔍 Quick Checks
 
-### Check Deployment Status
+### Check Deployment Status (GitHub Integration)
+```bash
+# Check project and deployment status
+./scripts/check-vercel-status.sh
+
+# View project IDs
+cat vercel-project-ids.env
+```
+
+### Check Deployment Status (Legacy)
 ```bash
 # List all deployments
 cat deployment-urls.json | jq '.'

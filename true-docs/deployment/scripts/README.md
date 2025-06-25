@@ -4,7 +4,20 @@
 
 These scripts automate the Vercel distributed deployment process for the Ganger Platform.
 
-### Execution Order
+### GitHub Integration Approach (Recommended - June 2025)
+
+```mermaid
+graph LR
+    A[cleanup-all-vercel-projects.sh] --> B[setup-vercel-github-integration.sh]
+    B --> C[Configure Env Vars in Dashboard]
+    C --> D[git push origin main]
+    D --> E[check-vercel-status.sh]
+    E --> F{All Deployed?}
+    F -->|Yes| G[✅ Deployment Complete]
+    F -->|No| H[Check Logs & Retry]
+```
+
+### Legacy CLI Approach
 
 ```mermaid
 graph LR
@@ -19,7 +32,29 @@ graph LR
 
 ## 📝 Script Descriptions
 
-### 1. **[02-pre-deployment-check.js](./02-pre-deployment-check.js)**
+### GitHub Integration Scripts
+
+#### **[cleanup-all-vercel-projects.sh](./cleanup-all-vercel-projects.sh)**
+- **Purpose**: Removes ALL existing Vercel projects for clean slate
+- **When**: Before setting up new GitHub integration
+- **Output**: List of deleted projects
+- **Usage**: `./cleanup-all-vercel-projects.sh`
+
+#### **[setup-vercel-github-integration.sh](./setup-vercel-github-integration.sh)**
+- **Purpose**: Creates projects with GitHub integration enabled
+- **When**: Initial setup or after cleanup
+- **Output**: `vercel-project-ids.env` with project IDs
+- **Usage**: `./setup-vercel-github-integration.sh`
+
+#### **[check-vercel-status.sh](./check-vercel-status.sh)**
+- **Purpose**: Monitors deployment status and health
+- **When**: After pushing changes or to check status
+- **Output**: Project status and recent deployments
+- **Usage**: `./check-vercel-status.sh`
+
+### Legacy CLI Scripts
+
+#### 1. **[02-pre-deployment-check.js](./02-pre-deployment-check.js)**
 - **Purpose**: Validates all apps against deployment checklist
 - **When**: Before any deployment
 - **Output**: List of issues categorized as ❌ Critical, ⚠️ Warning, 💡 Suggestion
