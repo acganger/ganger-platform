@@ -48,6 +48,14 @@ yarn-error.log*
 ._*
 .Spotlight-V100
 .Trashes
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
 ehthumbs.db
 Thumbs.db
 

@@ -5,6 +5,7 @@
 A comprehensive medical supply inventory tracking and management system built with Next.js and the Ganger Platform shared infrastructure.
 
 <!-- Vercel deployment test: June 24, 2025 -->
+<!-- GitHub integration test: June 24, 2025 22:55 -->
 
 ## 🎯 Purpose
 
