@@ -1,7 +1,7 @@
 'use client';
 
-import { useAuth } from '@ganger/auth';
-import { useState, useEffect } from 'react';
+import { AuthGuard } from '@ganger/auth/staff';
+import { useState } from 'react';
 import { ApplicationsList } from '../components/ApplicationsList';
 import { ConfigurationsList } from '../components/ConfigurationsList';
 import { PermissionsPanel } from '../components/PermissionsPanel';
@@ -15,37 +15,12 @@ import { DashboardLayout } from '../components/DashboardLayout';
 export const dynamic = 'force-dynamic';
 
 export default function ConfigDashboardHome() {
-  const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState<'applications' | 'configurations' | 'permissions' | 'impersonation' | 'approval' | 'audit'>('applications');
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
-          <h1 className="text-2xl font-bold text-center mb-4">Configuration Dashboard</h1>
-          <p className="text-gray-600 text-center mb-6">Please sign in to access the configuration dashboard.</p>
-          <button
-            onClick={() => window.location.href = '/auth/signin'}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Sign In
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <DashboardLayout>
-      <div className="max-w-7xl mx-auto">
+    <AuthGuard>
+      <DashboardLayout>
+        <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Configuration Dashboard</h1>
           <p className="text-gray-600 mt-2">Manage application configurations across the Ganger Platform</p>
@@ -128,5 +103,6 @@ export default function ConfigDashboardHome() {
         </div>
       </div>
     </DashboardLayout>
+    </AuthGuard>
   );
 }

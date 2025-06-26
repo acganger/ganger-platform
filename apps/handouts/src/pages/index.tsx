@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { AuthGuard } from '@ganger/auth';
 
 function HandoutsHomePage() {
   const router = useRouter();
@@ -32,4 +33,11 @@ function HandoutsHomePage() {
   );
 }
 
-export default HandoutsHomePage;
+// Wrap with authentication guard for staff-level access
+export default function AuthenticatedHandoutsHomePage() {
+  return (
+    <AuthGuard level="staff" appName="handouts">
+      <HandoutsHomePage />
+    </AuthGuard>
+  );
+}
