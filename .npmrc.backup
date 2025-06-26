@@ -1,6 +1,0 @@
-# pnpm configuration for Vercel
-node-linker=hoisted
-public-hoist-pattern[]=*
-shamefully-hoist=true
-strict-peer-dependencies=false
-auto-install-peers=true

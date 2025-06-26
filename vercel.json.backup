@@ -1,5 +1,0 @@
-{
-  "buildCommand": false,
-  "installCommand": false,
-  "ignoreCommand": "exit 1"
-}
