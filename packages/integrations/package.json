@@ -14,7 +14,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@ganger/db": "workspace:*",
+    "@ganger/db": "file:../db",
     "googleapis": "^131.0.0",
     "twilio": "^5.3.4",
     "stripe": "^17.4.0",

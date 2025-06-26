@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
+    "@ganger/auth": "file:../auth",
     "clsx": "^2.0.0",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.516.0",

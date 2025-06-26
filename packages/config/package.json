@@ -35,7 +35,7 @@
     "typescript": "^5.5.0"
   },
   "devDependencies": {
-    "@ganger/db": "workspace:*",
+    "@ganger/db": "file:../db",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.57.0",
@@ -45,7 +45,7 @@
     "webpack-bundle-analyzer": "^4.10.0"
   },
   "peerDependencies": {
-    "@ganger/db": "workspace:*",
+    "@ganger/db": "file:../db",
     "next": ">=14.0.0"
   }
 }
