@@ -11,11 +11,11 @@
     "build:next": "next build"
   },
   "dependencies": {
-    "@ganger/auth": "file:../../packages/auth",
-    "@ganger/db": "file:../../packages/db",
-    "@ganger/integrations": "file:../../packages/integrations",
-    "@ganger/ui": "file:../../packages/ui",
-    "@ganger/utils": "file:../../packages/utils",
+    "@ganger/auth": "workspace:*",
+    "@ganger/db": "workspace:*",
+    "@ganger/integrations": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*",
     "@supabase/supabase-js": "^2.39.1",
     "next": "^14.2.0",
     "react": "^18.3.1",
