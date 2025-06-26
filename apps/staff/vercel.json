@@ -13,14 +13,6 @@
       "destination": "https://ganger-handouts-ganger.vercel.app/handouts/:path*"
     },
     {
-      "source": "/l10/:path*",
-      "destination": "https://ganger-eos-l10-ganger.vercel.app/l10/:path*"
-    },
-    {
-      "source": "/batch/:path*",
-      "destination": "https://ganger-batch-closeout-ganger.vercel.app/batch/:path*"
-    },
-    {
       "source": "/compliance/:path*",
       "destination": "https://ganger-compliance-training-ganger.vercel.app/compliance/:path*"
     },
@@ -33,44 +25,52 @@
       "destination": "https://ganger-config-dashboard-ganger.vercel.app/config/:path*"
     },
     {
-      "source": "/status/:path*",
-      "destination": "https://ganger-integration-status-ganger.vercel.app/status/:path*"
-    },
-    {
-      "source": "/ai-receptionist/:path*",
-      "destination": "https://ganger-ai-receptionist-ganger.vercel.app/ai-receptionist/:path*"
-    },
-    {
-      "source": "/call-center/:path*",
-      "destination": "https://ganger-call-center-ops-ganger.vercel.app/call-center/:path*"
-    },
-    {
-      "source": "/medication-auth/:path*",
-      "destination": "https://ganger-medication-auth-ganger.vercel.app/medication-auth/:path*"
-    },
-    {
-      "source": "/pharma/:path*",
-      "destination": "https://ganger-pharma-scheduling-ganger.vercel.app/pharma/:path*"
-    },
-    {
-      "source": "/lunch/:path*",
-      "destination": "https://ganger-pharma-scheduling-ganger.vercel.app/lunch/:path*"
-    },
-    {
       "source": "/kiosk/:path*",
       "destination": "https://ganger-checkin-kiosk-ganger.vercel.app/kiosk/:path*"
     },
     {
+      "source": "/platform-dashboard/:path*",
+      "destination": "https://ganger-platform-dashboard-ganger.vercel.app/platform-dashboard/:path*"
+    },
+    {
+      "source": "/l10/:path*",
+      "destination": "/coming-soon?app=eos-l10"
+    },
+    {
+      "source": "/batch/:path*",
+      "destination": "/coming-soon?app=batch-closeout"
+    },
+    {
+      "source": "/status/:path*",
+      "destination": "/coming-soon?app=integration-status"
+    },
+    {
+      "source": "/pharma/:path*",
+      "destination": "/coming-soon?app=pharma-scheduling"
+    },
+    {
+      "source": "/lunch/:path*",
+      "destination": "/coming-soon?app=pharma-scheduling"
+    },
+    {
       "source": "/socials/:path*",
-      "destination": "https://ganger-socials-reviews-ganger.vercel.app/socials/:path*"
+      "destination": "/coming-soon?app=socials-reviews"
+    },
+    {
+      "source": "/ai-receptionist/:path*",
+      "destination": "/coming-soon?app=ai-receptionist"
+    },
+    {
+      "source": "/call-center/:path*",
+      "destination": "/coming-soon?app=call-center-ops"
+    },
+    {
+      "source": "/medication-auth/:path*",
+      "destination": "/coming-soon?app=medication-auth"
     },
     {
       "source": "/components/:path*",
-      "destination": "https://ganger-component-showcase-ganger.vercel.app/components/:path*"
-    },
-    {
-      "source": "/platform-dashboard/:path*",
-      "destination": "https://ganger-platform-dashboard-ganger.vercel.app/platform-dashboard/:path*"
+      "destination": "/coming-soon?app=component-showcase"
     }
   ]
 }

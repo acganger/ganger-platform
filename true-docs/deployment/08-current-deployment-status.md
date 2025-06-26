@@ -1,39 +1,42 @@
 # Current Deployment Status - Ganger Platform
 
-**Last Updated**: June 25, 2025  
+**Last Updated**: June 26, 2025  
 **Deployment Method**: Vercel Distributed Architecture  
-**Status**: 10/17 Apps Successfully Deployed
+**Status**: 7/17 Apps Successfully Deployed and Accessible
 
 ## Overview
 
 The Ganger Platform is deployed using Vercel's distributed deployment architecture, where each application is deployed as an independent Vercel project. This approach provides better isolation, scaling, and deployment management.
 
-## ✅ Successfully Deployed Applications (10)
+## ✅ Successfully Deployed Applications (7)
 
 | Application | Purpose | Vercel URL |
 |------------|---------|------------|
-| **AI Receptionist** | AI phone agent demo | https://ganger-ai-receptionist-cheag0ga1-ganger.vercel.app |
-| **Call Center Operations** | Call management dashboard | https://ganger-call-center-olgbh677h-ganger.vercel.app |
-| **Check-in Kiosk** | Patient self-service terminal | https://ganger-checkin-kiosk-lsmcfyelg-ganger.vercel.app |
-| **Clinical Staffing** | Provider scheduling | https://ganger-clinical-staffing-cl7e392cx-ganger.vercel.app |
-| **Compliance Training** | Staff training platform | https://ganger-compliance-training-jjpttdd05-ganger.vercel.app |
-| **Component Showcase** | UI component library | https://ganger-component-showcase-5lugccthc-ganger.vercel.app |
-| **Config Dashboard** | Configuration management | https://ganger-config-dashboard-4wqhn57w1-ganger.vercel.app |
-| **Inventory Management** | Medical supply tracking | https://ganger-inventory-6egbllx1m-ganger.vercel.app |
-| **Medication Authorization** | Prior auth management | https://ganger-medication-auth-ibofem8tt-ganger.vercel.app |
-| **Platform Dashboard** | System overview | https://ganger-platform-dashboard-54d5b53qe-ganger.vercel.app |
+| **Inventory Management** | Medical supply tracking | https://ganger-inventory-ganger.vercel.app |
+| **Handouts** | Patient education materials | https://ganger-handouts-ganger.vercel.app |
+| **Compliance Training** | Staff training platform | https://ganger-compliance-training-ganger.vercel.app |
+| **Clinical Staffing** | Provider scheduling | https://ganger-clinical-staffing-ganger.vercel.app |
+| **Config Dashboard** | Configuration management | https://ganger-config-dashboard-ganger.vercel.app |
+| **Check-in Kiosk** | Patient self-service terminal | https://ganger-checkin-kiosk-ganger.vercel.app |
+| **Platform Dashboard** | System overview | https://ganger-platform-dashboard-ganger.vercel.app |
 
-## ❌ Pending Deployment (7)
+## 🚧 Apps Requiring Deployment (10)
 
-The following applications require additional configuration to deploy successfully:
+### Projects with DEPLOYMENT_NOT_FOUND (6)
+These have Vercel projects created but no successful deployments yet:
+1. **EOS L10** - Team management (ganger-eos-l10)
+2. **Batch Closeout** - Financial processing (ganger-batch-closeout)
+3. **Integration Status** - Monitoring (ganger-integration-status)
+4. **Pharma Scheduling** - Rep visits (ganger-pharma-scheduling)
+5. **Socials & Reviews** - Review management (ganger-socials-reviews)
+6. **Staff Portal** - Central hub router (ganger-staff) ⚠️ **CRITICAL**
 
-1. **Batch Closeout** - Financial batch processing
-2. **EOS L10** - Team management and EOS implementation
-3. **Handouts** - Patient education materials
-4. **Integration Status** - Integration monitoring
-5. **Pharma Scheduling** - Rep visit coordination
-6. **Socials & Reviews** - Review management
-7. **Staff Portal** - Central hub and router
+### Projects NOT_FOUND (4)
+These need Vercel projects created:
+1. **AI Receptionist** - AI phone agent (ganger-ai-receptionist)
+2. **Call Center Operations** - Call management (ganger-call-center-ops)
+3. **Medication Authorization** - Prior auth (ganger-medication-auth)
+4. **Component Showcase** - UI library (ganger-component-showcase)
 
 ## Key Configuration Changes Made
 
@@ -63,13 +66,29 @@ Each project is configured with:
 ### 4. Environment Variables
 All projects have been configured with required environment variables from the `.env` file.
 
-## Next Steps
+## 🚨 Critical Next Steps
 
-1. **Fix Remaining Deployments**: Debug and resolve build errors for the 7 pending apps
-2. **Configure Staff Portal Router**: Update `apps/staff/vercel.json` with rewrites to deployed apps
-3. **Set Up Custom Domains**: Configure production URLs (e.g., `staff.gangerdermatology.com`)
-4. **Run Integration Tests**: Verify all apps work together with proper authentication
-5. **Monitor Performance**: Set up Vercel Analytics and monitoring
+### 1. Deploy Staff Portal (HIGHEST PRIORITY)
+The staff.gangerdermatology.com domain is configured but returns 404 because the staff app isn't deployed:
+- Create Vercel project for `ganger-staff`
+- Configure environment variables
+- Connect domain in Vercel dashboard
+- Deploy the app
+
+### 2. Fix Projects with DEPLOYMENT_NOT_FOUND
+These 6 apps have Vercel projects but failed to deploy:
+- Check build logs in Vercel dashboard
+- The workspace:* dependencies have been fixed (commit b9733b35)
+- Trigger new deployments or redeploy from dashboard
+
+### 3. Create Missing Vercel Projects
+4 apps need Vercel projects created:
+- Import from GitHub: acganger/ganger-platform
+- Set root directory to apps/[app-name]
+- Configure build commands as per vercel.json
+
+### 4. Update Staff Portal Rewrites
+Once other apps are deployed, update the destination URLs in staff/vercel.json to use the actual deployment URLs instead of placeholder URLs
 
 ## Deployment Architecture
 
