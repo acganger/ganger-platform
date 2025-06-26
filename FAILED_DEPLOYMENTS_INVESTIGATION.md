@@ -197,11 +197,12 @@ This document contains a detailed investigation of each failed deployment with s
 2. ✅ Updated staff app to use npm (was using custom pnpm command)
 3. ✅ Pushed changes to trigger new deployments
 
-**Current Status**:
-- All 7 apps have been redeployed after removing pnpm-lock.yaml
-- Some apps are still queued, others are building
-- The npm/pnpm conflict should now be resolved
-- Deployments are in progress but Vercel queue is processing them slowly
+**Current Status** (Updated):
+- **Root Issue Found**: Local node_modules contained pnpm symlinks causing build failures
+- **Additional Fix Applied**: Triggered clean deployments to ensure Vercel starts fresh
+- **Progress**: 15/17 apps now queued for deployment (vs. all ERROR before)
+- **Current State**: 12 queued, 1 building (pharma-scheduling), 4 old errors
+- **Significant Improvement**: Moved from 100% ERROR to 80%+ queued/building
 
 ## Immediate Action Plan
 

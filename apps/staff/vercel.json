@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && npm install -g pnpm && pnpm install",
-  "buildCommand": "cd ../.. && pnpm build:staff",
+  "installCommand": "cd ../.. && npm install",
+  "buildCommand": "cd ../.. && npm run build:staff",
   "outputDirectory": "apps/staff/.next",
   "framework": null,
   "rewrites": [
