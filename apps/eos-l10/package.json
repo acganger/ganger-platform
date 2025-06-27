@@ -12,7 +12,8 @@
     "migrate:schema": "psql $DATABASE_URL -f migration/scripts/001-create-l10-schema.sql",
     "import:data": "tsx migration/scripts/import-data.ts",
     "setup:l10": "npm run migrate:schema && npm run import:data",
-    "build:next": "next build"
+    "build:next": "next build",
+    "prebuild": "cd ../.. && npm run build --workspace=@ganger/auth --workspace=@ganger/ui --workspace=@ganger/utils"
   },
   "dependencies": {
     "@ganger/auth": "file:../../packages/auth",
@@ -31,6 +32,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.19.1",
     "lucide-react": "^0.516.0",
     "next": "^14.2.0",
     "react": "^18.3.1",

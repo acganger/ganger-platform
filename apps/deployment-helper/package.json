@@ -1,0 +1,38 @@
+{
+  "name": "@ganger/deployment-helper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Helper app to ensure all packages are built and cached on Vercel",
+  "scripts": {
+    "dev": "next dev --port 3099",
+    "build": "npm run build:all-packages && next build",
+    "build:all-packages": "cd ../.. && npm run build --workspaces --if-present",
+    "start": "next start --port 3099"
+  },
+  "dependencies": {
+    "@ganger/auth": "file:../../packages/auth",
+    "@ganger/cache": "file:../../packages/cache",
+    "@ganger/config": "file:../../packages/config",
+    "@ganger/db": "file:../../packages/db",
+    "@ganger/docs": "file:../../packages/docs",
+    "@ganger/integrations": "file:../../packages/integrations",
+    "@ganger/monitoring": "file:../../packages/monitoring",
+    "@ganger/types": "file:../../packages/types",
+    "@ganger/ui": "file:../../packages/ui",
+    "@ganger/utils": "file:../../packages/utils",
+    "next": "^14.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "framer-motion": "^11.0.0",
+    "react-chartjs-2": "^5.3.0",
+    "chart.js": "^4.5.0",
+    "@supabase/ssr": "^0.6.0",
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.0"
+  }
+}

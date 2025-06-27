@@ -1,17 +1,32 @@
-# Deployment Status Summary - June 26, 2025
+# Deployment Status Summary - June 26, 2025 (3:50 PM EST)
+
+## Recent Progress
+
+### ✅ Authentication Fixed
+- Added AuthGuard to 4 apps that were missing sign-in functionality
+- All staff apps now require Google authentication when accessed directly
+- Pushed changes to GitHub, triggering automatic Vercel deployments
+
+### 🚀 Staff Portal Deployment
+- Successfully built staff portal locally
+- Initiated Vercel deployment (currently in queue)
+- Domain staff.gangerdermatology.com is configured and waiting for deployment
 
 ## Current State
 
 ### ✅ Successfully Deployed (7/17 apps)
-1. **Inventory Management** - `https://ganger-inventory-ganger.vercel.app`
-2. **Patient Handouts** - `https://ganger-handouts-ganger.vercel.app`
-3. **Compliance Training** - `https://ganger-compliance-training-ganger.vercel.app`
-4. **Clinical Staffing** - `https://ganger-clinical-staffing-ganger.vercel.app`
-5. **Config Dashboard** - `https://ganger-config-dashboard-ganger.vercel.app`
-6. **Check-in Kiosk** - `https://ganger-checkin-kiosk-ganger.vercel.app`
-7. **Platform Dashboard** - `https://ganger-platform-dashboard-ganger.vercel.app`
+1. **Inventory Management** - `https://ganger-inventory-ganger.vercel.app` ✅ Auth
+2. **Patient Handouts** - `https://ganger-handouts-ganger.vercel.app` ✅ Auth (just fixed)
+3. **Compliance Training** - `https://ganger-compliance-training-ganger.vercel.app` ✅ Auth
+4. **Clinical Staffing** - `https://ganger-clinical-staffing-ganger.vercel.app` ✅ Auth
+5. **Config Dashboard** - `https://ganger-config-dashboard-ganger.vercel.app` ✅ Auth (just fixed)
+6. **Check-in Kiosk** - `https://ganger-checkin-kiosk-ganger.vercel.app` ❌ No Auth (public)
+7. **Platform Dashboard** - `https://ganger-platform-dashboard-ganger.vercel.app` ✅ Auth (just fixed)
 
-### ❌ Deployment Issues (10/17 apps)
+### 🔄 In Progress (1/17 apps)
+8. **Staff Portal** - Deployment queued, will be at `https://staff.gangerdermatology.com`
+
+### ❌ Pending Deployment (9/17 apps)
 
 #### Staff Portal (CRITICAL)
 - **Status**: Project exists but deployments fail

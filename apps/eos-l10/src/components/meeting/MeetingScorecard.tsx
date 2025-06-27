@@ -58,7 +58,7 @@ export default function MeetingScorecard({ teamId, onComplete, duration }: Meeti
         .from('scorecard_entries')
         .select('*')
         .eq('week_ending', weekEndingStr as any)
-        .in('metric_id', (metricsData || []).map(m => (m as any).id));
+        .in('metric_id', (metricsData || []).map((m: any) => (m as any).id));
 
       if (entriesError) throw entriesError;
 

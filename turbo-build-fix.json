@@ -1,0 +1,14 @@
+{
+  "pipeline": {
+    "build:packages": {
+      "outputs": ["dist/**", "build/**"],
+      "dependsOn": [],
+      "env": ["NODE_ENV"]
+    },
+    "build": {
+      "dependsOn": ["^build", "build:packages"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["NODE_ENV"]
+    }
+  }
+}
