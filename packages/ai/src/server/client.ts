@@ -5,7 +5,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import type { User } from '@ganger/types';
+import type { AuthUser } from '@ganger/auth';
 import { db } from '@ganger/db';
 import { auditLog } from '@ganger/utils/server';
 
@@ -22,12 +22,15 @@ import type {
   ModelConfig,
   RateLimitConfig,
   EmergencyState,
+  HIPAAComplianceLevel
+} from '../shared/types';
+
+import {
   AIError,
   RateLimitError,
   BudgetExceededError,
   SafetyViolationError,
-  ModelUnavailableError,
-  HIPAAComplianceLevel
+  ModelUnavailableError
 } from '../shared/types';
 
 import {

@@ -6,7 +6,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { useStaffAuth } from '@ganger/auth/staff';
+import { useAuth } from '@ganger/auth';
 import type {
   AIChatRequest,
   AIResponse,
@@ -24,7 +24,7 @@ import type {
  * Provides AI capabilities with built-in error handling, rate limiting, and usage tracking
  */
 export function useAI(options: UseAIOptions = {}): UseAIReturn {
-  const { user, isAuthenticated } = useStaffAuth();
+  const { user, isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AIError | null>(null);
   const [lastResponse, setLastResponse] = useState<AIResponse | null>(null);

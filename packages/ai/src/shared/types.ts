@@ -3,7 +3,7 @@
  * Provides comprehensive type safety for all AI operations across the platform
  */
 
-import type { User } from '@ganger/types';
+import type { AuthUser } from '@ganger/auth';
 
 /**
  * Supported AI Models Configuration
@@ -74,7 +74,7 @@ export interface AIRequestConfig {
   app: ApplicationContext;
   context?: UseCase;
   hipaaCompliant?: boolean;
-  user?: User;
+  user?: AuthUser;
   model?: AIModel;
   maxTokens?: number;
   temperature?: number;
