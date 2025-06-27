@@ -1,7 +1,0 @@
-{
-  "framework": "nextjs",
-  "buildCommand": "npm run build --workspace=@ganger/deployment-helper",
-  "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": "apps/deployment-helper/.next",
-  "rootDirectory": "./"
-}

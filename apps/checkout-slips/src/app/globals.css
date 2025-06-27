@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for checkout slip printing */
+.slip-preview {
+  @apply bg-white border border-gray-300 p-4 rounded-lg shadow-sm;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.slip-section {
+  @apply mb-4 pb-2 border-b border-gray-200;
+}
+
+.slip-header {
+  @apply font-bold text-lg mb-2;
+}
+
+.slip-field {
+  @apply mb-1;
+}
+
+.slip-field-label {
+  @apply font-semibold inline-block w-32;
+}
+
+.slip-checkbox {
+  @apply inline-block w-4 h-4 border border-gray-400 mr-2;
+}
+
+.print-status-pending {
+  @apply text-yellow-600;
+}
+
+.print-status-printing {
+  @apply text-blue-600;
+}
+
+.print-status-completed {
+  @apply text-green-600;
+}
+
+.print-status-failed {
+  @apply text-red-600;
+}
