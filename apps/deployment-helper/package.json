@@ -5,8 +5,7 @@
   "description": "Helper app to ensure all packages are built and cached on Vercel",
   "scripts": {
     "dev": "next dev --port 3099",
-    "build": "npm run build:all-packages && next build",
-    "build:all-packages": "cd ../.. && npm run build --workspaces --if-present",
+    "build": "next build",
     "start": "next start --port 3099"
   },
   "dependencies": {
