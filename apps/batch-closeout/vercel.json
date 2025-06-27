@@ -1,6 +1,0 @@
-{
-  "installCommand": "cd ../.. && npm install --legacy-peer-deps",
-  "buildCommand": "cd ../.. && npm run build --workspace=@ganger/batch-closeout",
-  "outputDirectory": "apps/batch-closeout/.next",
-  "framework": "nextjs"
-}
