@@ -12,16 +12,15 @@
     "migrate:schema": "psql $DATABASE_URL -f migration/scripts/001-create-l10-schema.sql",
     "import:data": "tsx migration/scripts/import-data.ts",
     "setup:l10": "npm run migrate:schema && npm run import:data",
-    "build:next": "next build",
-    "prebuild": "cd ../.. && npm run build --workspace=@ganger/auth --workspace=@ganger/ui --workspace=@ganger/utils"
+    "build:next": "next build"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
-    "@ganger/db": "workspace:*",
-    "@ganger/integrations": "workspace:*",
-    "@ganger/types": "workspace:*",
-    "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
+    "@ganger/auth": "file:../../packages/auth",
+    "@ganger/db": "file:../../packages/db",
+    "@ganger/integrations": "file:../../packages/integrations",
+    "@ganger/types": "file:../../packages/types",
+    "@ganger/ui": "file:../../packages/ui",
+    "@ganger/utils": "file:../../packages/utils",
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^3.3.0",
     "@supabase/ssr": "^0.6.1",

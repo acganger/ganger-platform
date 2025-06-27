@@ -12,11 +12,11 @@
     "build:next": "next build"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
-    "@ganger/db": "workspace:*",
-    "@ganger/integrations": "workspace:*",
-    "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
+    "@ganger/auth": "file:../../packages/auth",
+    "@ganger/db": "file:../../packages/db",
+    "@ganger/integrations": "file:../../packages/integrations",
+    "@ganger/ui": "file:../../packages/ui",
+    "@ganger/utils": "file:../../packages/utils",
     "@hookform/resolvers": "^3.7.0",
     "@supabase/supabase-js": "^2.45.0",
     "clsx": "^2.0.0",
@@ -31,7 +31,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@ganger/config": "workspace:*",
+    "@ganger/config": "file:../../packages/config",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.0",

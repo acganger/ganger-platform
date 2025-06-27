@@ -11,15 +11,14 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "build:next": "next build",
-    "prebuild": "cd ../.. && npm run build --workspace=@ganger/auth --workspace=@ganger/ui --workspace=@ganger/utils"
+    "build:next": "next build"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
-    "@ganger/db": "workspace:*",
-    "@ganger/integrations": "workspace:*",
-    "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
+    "@ganger/auth": "file:../../packages/auth",
+    "@ganger/db": "file:../../packages/db",
+    "@ganger/integrations": "file:../../packages/integrations",
+    "@ganger/ui": "file:../../packages/ui",
+    "@ganger/utils": "file:../../packages/utils",
     "autoprefixer": "^10.4.16",
     "clsx": "^2.0.0",
     "formidable": "^3.5.1",

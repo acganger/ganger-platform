@@ -18,11 +18,11 @@
     "test:debug": "jest --detectOpenHandles --forceExit"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
-    "@ganger/db": "workspace:*",
-    "@ganger/integrations": "workspace:*",
-    "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
+    "@ganger/auth": "file:../../packages/auth",
+    "@ganger/db": "file:../../packages/db",
+    "@ganger/integrations": "file:../../packages/integrations",
+    "@ganger/ui": "file:../../packages/ui",
+    "@ganger/utils": "file:../../packages/utils",
     "next": "^14.2.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
