@@ -1,1 +1,0 @@
-./true-docs/deployment/scripts/01-deploy-all-apps.sh: line 142: vercel: command not found

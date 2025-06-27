@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && npm install --legacy-peer-deps",
+  "buildCommand": "cd ../.. && npm run build --workspace=@ganger/eos-l10",
+  "outputDirectory": "apps/eos-l10/.next",
+  "framework": "nextjs"
+}
