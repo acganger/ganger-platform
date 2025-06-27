@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Helper app to ensure all packages are built and cached on Vercel",
+  "CRITICAL": "DO NOT REMOVE PACKAGES - This helper MUST include all @ganger/* packages for other apps to deploy successfully",
   "scripts": {
     "dev": "next dev --port 3099",
     "build": "next build",

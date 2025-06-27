@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-  // Transpile ALL workspace packages
+  // CRITICAL: DO NOT REMOVE - Transpile ALL workspace packages
+  // This deployment-helper MUST build all packages so other apps can use the cache
   transpilePackages: [
     '@ganger/auth',
     '@ganger/cache',
