@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && npm install --legacy-peer-deps",
-  "buildCommand": "cd ../.. && npm run build:staff",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/staff build",
   "outputDirectory": "apps/staff/.next",
   "framework": null,
   "rewrites": [
