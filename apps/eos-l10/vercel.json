@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/eos-l10 build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
+}
