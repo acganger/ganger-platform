@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/call-center-ops build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
+}

@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/clinical-staffing build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
+}
