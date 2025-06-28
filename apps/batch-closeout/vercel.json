@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd ../.. && pnpm install",
+  "installCommand": "cd ../.. && pnpm install --no-frozen-lockfile",
   "buildCommand": "cd ../.. && pnpm -F @ganger/batch-closeout build",
   "outputDirectory": ".next",
   "framework": "nextjs"
