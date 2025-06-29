@@ -1,0 +1,9 @@
+To enable Vercel Remote Caching, run these commands manually:
+
+1. npx turbo login
+   (This will open a browser for authentication)
+
+2. npx turbo link
+   (This will link your repo to Vercel's remote cache)
+
+This will dramatically speed up builds even if all apps rebuild.

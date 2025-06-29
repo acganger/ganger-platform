@@ -1,0 +1,235 @@
+name: Smart Sequential Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_mode:
+        description: 'Deployment mode'
+        required: true
+        type: choice
+        options:
+          - 'changed-only'
+          - 'sequential-all'
+          - 'specific-apps'
+      apps_to_deploy:
+        description: 'Apps to deploy (comma-separated, for specific-apps mode)'
+        required: false
+        default: ''
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
+      skip_tests:
+        description: 'Skip tests before deployment'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_SCOPE: team_wpY7PcIsYQNnslNN39o7fWvS
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_apps: ${{ steps.changes.outputs.apps }}
+      deploy_list: ${{ steps.determine.outputs.list }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for accurate change detection
+
+      - name: Detect changed apps
+        id: changes
+        run: |
+          # Get the base commit for comparison
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="$(git rev-parse HEAD~1)"
+          fi
+          
+          # Detect changed apps
+          CHANGED_APPS=$(git diff --name-only $BASE_SHA...HEAD | 
+            grep -E '^apps/[^/]+/' | 
+            cut -d'/' -f2 | 
+            sort -u | 
+            jq -R . | jq -s -c .)
+          
+          echo "Changed apps: $CHANGED_APPS"
+          echo "apps=$CHANGED_APPS" >> $GITHUB_OUTPUT
+
+      - name: Determine deployment list
+        id: determine
+        run: |
+          case "${{ github.event.inputs.deploy_mode }}" in
+            "changed-only")
+              DEPLOY_LIST='${{ steps.changes.outputs.apps }}'
+              ;;
+            "sequential-all")
+              # Define deployment order
+              DEPLOY_LIST='["platform-dashboard","staff","inventory","handouts","eos-l10","call-center-ops","checkin-kiosk","medication-auth","batch-closeout","clinical-staffing","compliance-training","component-showcase","config-dashboard","integration-status","pharma-scheduling","socials-reviews","ai-receptionist","llm-demo","deployment-helper"]'
+              ;;
+            "specific-apps")
+              # Convert comma-separated to JSON array
+              APPS="${{ github.event.inputs.apps_to_deploy }}"
+              DEPLOY_LIST=$(echo $APPS | tr ',' '\n' | jq -R . | jq -s -c .)
+              ;;
+          esac
+          
+          echo "Deployment list: $DEPLOY_LIST"
+          echo "list=$DEPLOY_LIST" >> $GITHUB_OUTPUT
+
+  test-apps:
+    needs: detect-changes
+    if: github.event.inputs.skip_tests != 'true' && needs.detect-changes.outputs.deploy_list != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.deploy_list) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests for ${{ matrix.app }}
+        run: |
+          cd apps/${{ matrix.app }}
+          if [ -f "package.json" ] && grep -q '"test"' package.json; then
+            pnpm test
+          else
+            echo "No tests found for ${{ matrix.app }}"
+          fi
+
+  deploy-apps:
+    needs: [detect-changes, test-apps]
+    if: always() && needs.detect-changes.outputs.deploy_list != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.deploy_list) }}
+      max-parallel: 1  # Sequential deployment
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Get project name
+        id: project
+        run: |
+          PROJECT_NAME="ganger-${{ matrix.app }}"
+          echo "name=$PROJECT_NAME" >> $GITHUB_OUTPUT
+
+      - name: Deploy ${{ matrix.app }}
+        id: deploy
+        run: |
+          echo "🚀 Deploying ${{ matrix.app }}..."
+          
+          # Set deployment flags based on environment
+          if [ "${{ github.event.inputs.environment }}" == "production" ]; then
+            FLAGS="--prod"
+          else
+            FLAGS=""
+          fi
+          
+          # Deploy the app
+          cd apps/${{ matrix.app }}
+          DEPLOY_URL=$(vercel deploy $FLAGS \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_SCOPE \
+            --yes \
+            --no-wait \
+            2>&1 | grep -o 'https://[^ ]*' | tail -1)
+          
+          echo "deployment_url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          echo "✅ Deployment started: $DEPLOY_URL"
+
+      - name: Wait for deployment ready
+        run: |
+          echo "⏳ Waiting for deployment to be ready..."
+          max_attempts=30
+          attempt=1
+          
+          while [ $attempt -le $max_attempts ]; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment_url }}")
+            
+            if [[ "$STATUS" =~ ^(200|304)$ ]]; then
+              echo "✅ Deployment is ready!"
+              break
+            else
+              echo "Attempt $attempt/$max_attempts: Status $STATUS, waiting..."
+              sleep 10
+              ((attempt++))
+            fi
+          done
+          
+          if [ $attempt -gt $max_attempts ]; then
+            echo "❌ Deployment failed to become ready after $max_attempts attempts"
+            exit 1
+          fi
+
+      - name: Run smoke tests
+        run: |
+          echo "🔍 Running smoke tests for ${{ matrix.app }}..."
+          
+          # Basic health check
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment_url }}")
+          if [[ ! "$STATUS" =~ ^(200|304)$ ]]; then
+            echo "❌ Health check failed with status $STATUS"
+            exit 1
+          fi
+          
+          echo "✅ Smoke tests passed!"
+
+  deployment-summary:
+    needs: [detect-changes, deploy-apps]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate deployment summary
+        run: |
+          echo "# 📊 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** ${{ github.event.inputs.deploy_mode }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.deploy-apps.result }}" == "success" ]; then
+            echo "## ✅ All deployments completed successfully!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ⚠️ Some deployments may have failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployed Apps" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          echo '${{ needs.detect-changes.outputs.deploy_list }}' | jq . >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
