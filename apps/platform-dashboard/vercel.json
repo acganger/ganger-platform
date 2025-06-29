@@ -1,6 +1,9 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm -F @ganger/platform-dashboard build",
+  "installCommand": "cd ../.. && npm install",
+  "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "env": {
+    "NODE_ENV": "development"
+  }
 }
