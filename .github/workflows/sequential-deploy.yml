@@ -1,0 +1,133 @@
+name: Sequential Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_order:
+        description: 'Deployment order (comma-separated app names)'
+        required: false
+        default: 'platform-dashboard,staff,inventory,handouts,eos-l10,call-center-ops'
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
+
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_SCOPE: team_wpY7PcIsYQNnslNN39o7fWvS
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Set deployment matrix
+        id: set-matrix
+        run: |
+          # Convert comma-separated list to JSON array
+          IFS=',' read -ra APPS <<< "${{ github.event.inputs.deploy_order }}"
+          JSON_ARRAY=$(printf '%s\n' "${APPS[@]}" | jq -R . | jq -s -c .)
+          echo "matrix={\"app\":$JSON_ARRAY}" >> $GITHUB_OUTPUT
+          echo "Deployment order: ${APPS[@]}"
+
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.prepare.outputs.matrix)}}
+      max-parallel: 1  # Sequential deployment
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install Vercel CLI
+        run: pnpm add -g vercel@latest
+
+      - name: Deploy ${{ matrix.app }}
+        id: deploy
+        run: |
+          echo "🚀 Deploying ${{ matrix.app }}..."
+          cd apps/${{ matrix.app }}
+          
+          if [ "${{ github.event.inputs.environment }}" == "production" ]; then
+            DEPLOY_URL=$(vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE --yes 2>&1 | grep -o 'https://[^ ]*' | tail -1)
+          else
+            DEPLOY_URL=$(vercel deploy --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE --yes 2>&1 | grep -o 'https://[^ ]*' | tail -1)
+          fi
+          
+          echo "deployment_url=$DEPLOY_URL" >> $GITHUB_OUTPUT
+          echo "✅ Deployed to: $DEPLOY_URL"
+
+      - name: Wait for deployment
+        run: |
+          echo "⏳ Waiting for deployment to be ready..."
+          sleep 30  # Give Vercel time to propagate
+          
+          # Check if deployment is accessible
+          max_attempts=10
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            if curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.deployment_url }}" | grep -q "200\|304"; then
+              echo "✅ Deployment is ready!"
+              break
+            else
+              echo "Attempt $attempt/$max_attempts: Deployment not ready yet..."
+              sleep 10
+              ((attempt++))
+            fi
+          done
+
+      - name: Post deployment status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const app = '${{ matrix.app }}';
+            const status = '${{ job.status }}';
+            const url = '${{ steps.deploy.outputs.deployment_url }}';
+            const environment = '${{ github.event.inputs.environment }}';
+            
+            const emoji = status === 'success' ? '✅' : '❌';
+            const message = `${emoji} **${app}** deployment to ${environment}: ${status}`;
+            const details = url ? `\nURL: ${url}` : '';
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number || context.payload.pull_request?.number || 1,
+              body: message + details
+            }).catch(err => {
+              console.log('Could not post comment:', err.message);
+            });
+
+  summary:
+    needs: deploy
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment Summary
+        run: |
+          echo "# 📊 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Deployment Order" >> $GITHUB_STEP_SUMMARY
+          echo "${{ github.event.inputs.deploy_order }}" | tr ',' '\n' | nl -w2 -s'. ' >> $GITHUB_STEP_SUMMARY
