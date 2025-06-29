@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm -F @ganger/socials-reviews... build",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -r --filter='./packages/*' build",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/socials-reviews build",
   "outputDirectory": ".next",
   "framework": "nextjs"
 }
