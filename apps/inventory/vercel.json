@@ -1,4 +1,5 @@
 {
+  "ignoreCommand": "cd ../.. && npx turbo-ignore @ganger/inventory",
   "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
   "buildCommand": "cd ../.. && pnpm -F @ganger/inventory build",
   "outputDirectory": ".next",
