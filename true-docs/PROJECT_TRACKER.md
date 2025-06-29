@@ -139,6 +139,20 @@ Copy all variables from CLAUDE.md to each Vercel project:
 
 ## 📋 Deployment Checklist
 
+### Phase 0: Critical MCP Submodule Check
+1. [ ] **MUST RUN FIRST**: Check for git submodules
+   ```bash
+   git ls-files --stage | grep ^160000
+   ```
+2. [ ] If any output appears, remove immediately:
+   ```bash
+   git rm -r --cached mcp-servers/*
+   git rm -r --cached servers
+   git commit -m "fix: remove MCP submodules for deployment"
+   git push
+   ```
+3. [ ] Verify `.gitignore` includes `mcp-servers/` and `servers/`
+
 ### Phase 1: Pre-Deployment Validation
 1. [ ] Run `node true-docs/deployment/scripts/02-pre-deployment-check.js`
 2. [ ] Fix any critical issues
@@ -182,6 +196,16 @@ Copy all variables from CLAUDE.md to each Vercel project:
 ---
 
 ## 🚨 Common Issues & Solutions
+
+### MCP Submodules Blocking Deployment
+```bash
+# Error: "Failed to fetch one or more git submodules"
+# Fix: Remove submodule references
+git rm -r --cached mcp-servers/*
+git rm -r --cached servers
+git commit -m "fix: remove MCP submodules"
+git push
+```
 
 ### Build Errors
 ```javascript

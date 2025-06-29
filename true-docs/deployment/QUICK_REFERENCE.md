@@ -1,5 +1,19 @@
 # Deployment Quick Reference
 
+## 🚨 Pre-Deployment: Check for MCP Submodules
+
+```bash
+# CRITICAL: Check for git submodules that will block deployment
+git ls-files --stage | grep ^160000
+
+# If any output appears, fix immediately:
+git rm -r --cached mcp-servers/*
+git rm -r --cached servers
+git add .gitignore  # Ensure mcp-servers/ is in .gitignore
+git commit -m "fix: remove MCP submodules for deployment"
+git push
+```
+
 ## 🚀 Quick Deployment Commands
 
 ### GitHub Integration Deployment (Recommended - June 2025)

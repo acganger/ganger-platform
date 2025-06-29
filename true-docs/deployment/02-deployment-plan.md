@@ -46,10 +46,22 @@ Deploy 20+ apps from the Ganger Platform monorepo as individual Vercel projects,
 **Time: 30 minutes**
 **Automated: Yes**
 
-1. Run `node scripts/pre-deployment-check.js`
-2. Fix any critical issues (❌)
-3. Review warnings (⚠️)
-4. Document any exceptions
+1. **Check for MCP submodules** (CRITICAL):
+   ```bash
+   # Must run this first - MCP submodules will block all deployments
+   git ls-files --stage | grep ^160000
+   
+   # If any output appears, fix immediately:
+   git rm -r --cached mcp-servers/*
+   git rm -r --cached servers
+   git commit -m "fix: remove MCP submodules for deployment"
+   git push
+   ```
+
+2. Run `node scripts/pre-deployment-check.js`
+3. Fix any critical issues (❌)
+4. Review warnings (⚠️)
+5. Document any exceptions
 
 ### Phase 2: Deploy Individual Apps
 

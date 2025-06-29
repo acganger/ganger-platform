@@ -15,6 +15,18 @@ Based on deployment engineer's risk assessment, here's how to address each categ
 
 ## 1. Configuration & Setup Risk Mitigation
 
+### MCP Submodule Risk (CRITICAL)
+- **Issue**: Git submodules for MCP tools block Vercel deployments
+- **Detection**: Run `git ls-files --stage | grep ^160000`
+- **Prevention**: Ensure `.gitignore` includes `mcp-servers/` and `servers/`
+- **Fix**: 
+  ```bash
+  git rm -r --cached mcp-servers/*
+  git rm -r --cached servers
+  git commit -m "fix: remove MCP submodules for deployment"
+  git push
+  ```
+
 ### Managing 20+ Projects
 - **Use deployment-urls.json** as single source of truth
 - **Script all operations** - never manually configure
@@ -235,6 +247,7 @@ node scripts/test-auth-flow.js
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
+| MCP submodules blocking deployment | High | Critical | Pre-deployment check + .gitignore |
 | Environment variable mismatch | Medium | High | Automated script + verification |
 | Route configuration error | Medium | High | Pre-deployment testing |
 | Authentication break | Low | Critical | Extensive testing + monitoring |
@@ -245,6 +258,7 @@ node scripts/test-auth-flow.js
 
 Before proceeding with production deployment:
 
+- [ ] **MCP submodules removed** (git ls-files --stage | grep ^160000 returns nothing)
 - [ ] All 20+ apps pass pre-deployment checks
 - [ ] Environment variables verified (no hardcoded secrets)
 - [ ] Authentication tested across apps

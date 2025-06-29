@@ -6,6 +6,7 @@
 
 ### **🚀 DEPLOYMENT** (Complete Vercel Strategy)
 **📁 [deployment/](./deployment/)** - **PRIMARY deployment documentation**
+- **⚠️ [MCP WARNING](./deployment/MCP_DEPLOYMENT_WARNING.md)** - Critical MCP submodule fix
 - **[Quick Start](./deployment/README.md)** - Immediate deployment guide
 - **[Quick Reference](./deployment/QUICK_REFERENCE.md)** - Rapid deployment commands  
 - **[Deployment History](./deployment/01-deployment-history.md)** - What failed and why

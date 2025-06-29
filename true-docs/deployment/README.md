@@ -135,6 +135,39 @@ If something goes wrong:
 ./scripts/04-verify-deployment.sh
 ```
 
+## 🚨 Critical: MCP Submodules Must Be Excluded
+
+### IMPORTANT: Local MCP Development Tools
+The `mcp-servers/` directory contains git submodules for local Claude development tools. These MUST be excluded from deployments:
+
+1. **Ensure .gitignore includes:**
+   ```
+   # MCP Servers (local Claude tools only - not needed for deployments)
+   mcp-servers/
+   servers/
+   ```
+
+2. **Ensure .vercelignore includes:**
+   ```
+   # Ignore MCP servers and related packages
+   mcp-servers/
+   ```
+
+3. **If you see "Failed to fetch git submodules" errors:**
+   ```bash
+   # Remove submodule references
+   git rm -r --cached mcp-servers/*
+   git rm -r --cached servers
+   
+   # Add to .gitignore
+   echo "mcp-servers/" >> .gitignore
+   echo "servers/" >> .gitignore
+   
+   # Commit and push
+   git commit -m "fix: remove MCP submodules for deployment"
+   git push
+   ```
+
 ## 🔧 Common Deployment Issues & Fixes
 
 ### 1. **Module Not Found Errors** (e.g., date-fns)

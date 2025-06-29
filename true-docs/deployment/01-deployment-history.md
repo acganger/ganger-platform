@@ -41,6 +41,13 @@
 - **Root Cause**: `workspace:*` is pnpm-specific syntax
 - **Error**: "Command npm install exited with 1"
 
+### 6. **Git Submodules for MCP Tools**
+- **Attempted**: Deploy with MCP server directories as git submodules
+- **Result**: Failed - 13 out of 20 apps blocked
+- **Root Cause**: Vercel runs `git clone --recurse-submodules` and can't access private/local submodules
+- **Error**: "Warning: Failed to fetch one or more git submodules"
+- **Solution**: Remove submodule references with `git rm --cached` and add to `.gitignore`
+
 ## ✅ Why Distributed Architecture Works
 
 ### The Solution: Independent App Deployments + Central Router

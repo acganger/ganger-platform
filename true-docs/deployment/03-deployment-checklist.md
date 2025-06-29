@@ -8,6 +8,25 @@
 - [Final Router Configuration](#-final-router-configuration)
 - [Related Documentation](#related-documentation)
 
+## 🚨 Critical Pre-Check: MCP Submodules
+
+### 0. **Ensure MCP Submodules Are Excluded**
+- [ ] Verify `.gitignore` includes:
+  ```
+  mcp-servers/
+  servers/
+  ```
+- [ ] Verify `.vercelignore` includes:
+  ```
+  mcp-servers/
+  ```
+- [ ] Check for submodules: `git ls-files --stage | grep ^160000`
+- [ ] If submodules exist, remove them:
+  ```bash
+  git rm -r --cached mcp-servers/*
+  git rm -r --cached servers
+  ```
+
 ## 🔍 Pre-Deployment Checklist for Each App
 
 ### 1. **Remove Demo/Development Code**
