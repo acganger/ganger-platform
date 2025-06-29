@@ -37,7 +37,7 @@ function InventoryHomePage() {
       <div className="text-center space-y-6 max-w-md mx-auto p-8">
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-gray-900">
-            Inventory Management
+            Inventory Management - Turbo Test
           </h1>
           <p className="text-lg text-gray-600">
             Ganger Platform Medical Supply Tracking
