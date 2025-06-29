@@ -1,9 +1,6 @@
 {
-  "installCommand": "cd ../.. && npm install && npm run build:auth && npm run build:cache && npm run build:config && npm run build:db && npm run build:integrations && npm run build:monitoring && npm run build:types && npm run build:ui && npm run build:utils",
-  "buildCommand": "npm run build",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/cache build && pnpm -F @ganger/config build && pnpm -F @ganger/db build && pnpm -F @ganger/integrations build && pnpm -F @ganger/monitoring build && pnpm -F @ganger/types build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/deployment-helper build",
   "outputDirectory": ".next",
-  "framework": "nextjs",
-  "env": {
-    "NODE_ENV": "development"
-  }
+  "framework": "nextjs"
 }
