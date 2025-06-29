@@ -1,9 +1,6 @@
 {
-  "installCommand": "cd ../.. && npm install && npm run build:auth && npm run build:ui && npm run build:utils",
-  "buildCommand": "npm run build",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/socials-reviews build",
   "outputDirectory": ".next",
-  "framework": "nextjs",
-  "env": {
-    "NODE_ENV": "development"
-  }
+  "framework": "nextjs"
 }
