@@ -11,22 +11,25 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# All apps to deploy (inventory already deployed)
+# Apps already successfully deployed:
+# - inventory
+# - call-center-ops  
+# - eos-l10
+# - handouts
+# - integration-status
+# - llm-demo
+# - medication-auth
+
+# Remaining apps to deploy
 ALL_APPS=(
     "ai-receptionist"
     "batch-closeout"
-    "call-center-ops"
     "checkin-kiosk"
     "clinical-staffing"
     "compliance-training"
     "component-showcase"
     "config-dashboard"
     "deployment-helper"
-    "eos-l10"
-    "handouts"
-    "integration-status"
-    "llm-demo"
-    "medication-auth"
     "pharma-scheduling"
     "platform-dashboard"
     "socials-reviews"
@@ -61,7 +64,6 @@ create_project_if_needed() {
                 \"name\": \"$project_name\",
                 \"framework\": \"nextjs\",
                 \"publicSource\": false,
-                \"rootDirectory\": \"apps/$app_name\",
                 \"installCommand\": \"cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile\",
                 \"buildCommand\": \"cd ../.. && pnpm -F @ganger/$app_name build\",
                 \"outputDirectory\": \".next\",
@@ -109,12 +111,26 @@ deploy_app() {
     
     # Deploy
     echo "Starting deployment..."
-    if npx vercel@latest --prod --yes --token=$VERCEL_TOKEN; then
+    local deployment_url=""
+    local deployment_output=$(npx vercel@latest --prod --yes --token=$VERCEL_TOKEN 2>&1)
+    local exit_code=$?
+    
+    # Extract deployment URL
+    deployment_url=$(echo "$deployment_output" | grep -o "https://ganger-$app-[a-z0-9]*-ganger.vercel.app" | head -1)
+    
+    if [ $exit_code -eq 0 ] && [ ! -z "$deployment_url" ]; then
         echo -e "${GREEN}✅ $app deployed successfully!${NC}"
+        echo -e "${GREEN}   URL: $deployment_url${NC}"
+        
+        # Wait for deployment to be ready
+        echo "Waiting for deployment to be ready..."
+        sleep 45
+        
         cd ../..
         return 0
     else
         echo -e "${RED}❌ $app deployment failed!${NC}"
+        echo "$deployment_output" | tail -20
         cd ../..
         return 1
     fi
@@ -131,10 +147,10 @@ for app in "${ALL_APPS[@]}"; do
         FAILED_APPS+=("$app")
     fi
     
-    # Small delay between deployments
+    # Wait between deployments to ensure sequential processing
     if [ "$app" != "${ALL_APPS[-1]}" ]; then
-        echo -e "${YELLOW}Waiting 30 seconds before next deployment...${NC}"
-        sleep 30
+        echo -e "${YELLOW}Waiting 60 seconds before next deployment to ensure sequential processing...${NC}"
+        sleep 60
     fi
 done
 
@@ -145,7 +161,14 @@ echo -e "${BLUE}Final Deployment Summary${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════════════${NC}"
 echo ""
 
-echo -e "${GREEN}✅ Already deployed: inventory${NC}"
+echo -e "${GREEN}✅ Already deployed (8 apps):${NC}"
+echo "   - inventory"
+echo "   - call-center-ops"
+echo "   - eos-l10"
+echo "   - handouts"
+echo "   - integration-status"
+echo "   - llm-demo"
+echo "   - medication-auth"
 
 if [ ${#SUCCESSFUL_APPS[@]} -gt 0 ]; then
     echo -e "\n${GREEN}✅ Successfully deployed (${#SUCCESSFUL_APPS[@]}):${NC}"
@@ -161,8 +184,8 @@ if [ ${#FAILED_APPS[@]} -gt 0 ]; then
     done
 fi
 
-TOTAL_SUCCESS=$((${#SUCCESSFUL_APPS[@]} + 1))  # +1 for inventory
-echo -e "\n${BLUE}Total: $TOTAL_SUCCESS / 19 apps deployed successfully${NC}"
+TOTAL_SUCCESS=$((${#SUCCESSFUL_APPS[@]} + 8))  # +8 for already deployed
+echo -e "\n${BLUE}Total: $TOTAL_SUCCESS / 20 apps deployed successfully${NC}"
 
 echo ""
 echo "Done!"

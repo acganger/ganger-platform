@@ -18,9 +18,9 @@
     "test:debug": "jest --detectOpenHandles --forceExit"
   },
   "dependencies": {
-    "@ganger/auth": "file:../../packages/auth",
-    "@ganger/ui": "file:../../packages/ui",
-    "@ganger/utils": "file:../../packages/utils",
+    "@ganger/auth": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*",
     "@supabase/supabase-js": "^2.39.7",
     "clsx": "^2.0.0",
     "date-fns": "^4.1.0",

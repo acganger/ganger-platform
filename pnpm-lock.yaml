@@ -163,20 +163,20 @@ importers:
   apps/ai-receptionist:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.21(postcss@8.5.6)
@@ -221,20 +221,20 @@ importers:
   apps/batch-closeout:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.21(postcss@8.5.6)
@@ -324,20 +324,20 @@ importers:
   apps/call-center-ops:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/supabase-js':
         specifier: ^2.39.1
         version: 2.50.2
@@ -385,23 +385,23 @@ importers:
   apps/checkin-kiosk:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.50.2
@@ -452,20 +452,20 @@ importers:
   apps/clinical-staffing:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@ganger/types':
-        specifier: file:../../packages/types
-        version: file:packages/types
+        specifier: workspace:*
+        version: link:../../packages/types
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.50.2
@@ -546,11 +546,11 @@ importers:
   apps/compliance-training:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@supabase/supabase-js':
         specifier: ^2.39.7
         version: 2.50.2
@@ -646,14 +646,14 @@ importers:
   apps/component-showcase:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       next:
         specifier: ^14.2.0
         version: 14.2.29(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
@@ -695,17 +695,17 @@ importers:
   apps/config-dashboard:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/auth-helpers-nextjs':
         specifier: ^0.8.7
         version: 0.8.7(@supabase/supabase-js@2.50.2)
@@ -829,23 +829,23 @@ importers:
   apps/eos-l10:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/types':
-        specifier: file:../../packages/types
-        version: file:packages/types
+        specifier: workspace:*
+        version: link:../../packages/types
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@hello-pangea/dnd':
         specifier: ^18.0.1
         version: 18.0.1(@types/react@18.3.0)(react-dom@18.3.1)(react@18.3.1)
@@ -941,20 +941,20 @@ importers:
   apps/handouts:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@hookform/resolvers':
         specifier: ^3.7.0
         version: 3.10.0(react-hook-form@7.59.0)
@@ -993,8 +993,8 @@ importers:
         version: 3.25.67
     devDependencies:
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@tailwindcss/postcss':
         specifier: ^4.1.10
         version: 4.1.11
@@ -1023,20 +1023,20 @@ importers:
   apps/integration-status:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.21(postcss@8.5.6)
@@ -1154,14 +1154,14 @@ importers:
   apps/llm-demo:
     dependencies:
       '@ganger/ai':
-        specifier: file:../../packages/ai
-        version: file:packages/ai(@babel/core@7.27.7)(next@14.2.29)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.21(postcss@8.5.6)
@@ -1209,20 +1209,20 @@ importers:
   apps/medication-auth:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@heroicons/react':
         specifier: ^2.0.0
         version: 2.2.0(react@18.3.1)
@@ -1279,8 +1279,8 @@ importers:
         version: 3.25.67
     devDependencies:
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@types/node':
         specifier: ^20.14.0
         version: 20.19.0
@@ -1306,11 +1306,11 @@ importers:
   apps/pharma-scheduling:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@hookform/resolvers':
         specifier: ^3.3.0
         version: 3.10.0(react-hook-form@7.59.0)
@@ -1407,14 +1407,14 @@ importers:
   apps/socials-reviews:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/supabase-js':
         specifier: ^2.39.7
         version: 2.50.2
@@ -1492,23 +1492,23 @@ importers:
   apps/staff:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/types':
-        specifier: file:../../packages/types
-        version: file:packages/types
+        specifier: workspace:*
+        version: link:../../packages/types
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@heroicons/react':
         specifier: ^2.0.0
         version: 2.2.0(react@18.3.1)
@@ -1580,8 +1580,8 @@ importers:
         version: 4.5.7(@types/react@18.3.0)(react@18.3.1)
     devDependencies:
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@types/node':
         specifier: ^20.14.0
         version: 20.19.0
@@ -7033,7 +7033,7 @@ packages:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
       eslint: 8.56.0
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.35.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.56.0)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.56.0)
       get-tsconfig: 4.10.1
       is-bun-module: 2.0.0
       stable-hash: 0.0.5
@@ -13895,37 +13895,6 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
 
-  file:packages/ai(@babel/core@7.27.7)(next@14.2.29)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {directory: packages/ai, type: directory}
-    id: file:packages/ai
-    name: '@ganger/ai'
-    peerDependencies:
-      next: ^14.0.0
-      react: 18.3.1
-    dependencies:
-      '@ganger/auth': file:packages/auth(next@14.2.29)(react@18.3.1)
-      '@ganger/db': file:packages/db
-      '@ganger/types': file:packages/types
-      '@ganger/utils': file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      '@supabase/supabase-js': 2.50.2
-      date-fns: 4.1.0
-      next: 14.2.29(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      typescript: 5.8.3
-      uuid: 11.1.0
-      zod: 3.25.67
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@opentelemetry/api'
-      - '@playwright/test'
-      - babel-plugin-macros
-      - bufferutil
-      - react-dom
-      - sass
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:packages/auth(next@14.2.29)(react@18.3.1):
     resolution: {directory: packages/auth, type: directory}
     id: file:packages/auth
@@ -13960,22 +13929,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:packages/config(@ganger/db@1.0.0)(next@14.2.29):
-    resolution: {directory: packages/config, type: directory}
-    id: file:packages/config
-    name: '@ganger/config'
-    peerDependencies:
-      '@ganger/db': file:../db
-      next: '>=14.0.0'
-    dependencies:
-      '@ganger/db': file:packages/db
-      '@supabase/supabase-js': 2.50.2
-      next: 14.2.29(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   file:packages/db:
     resolution: {directory: packages/db, type: directory}
     name: '@ganger/db'
@@ -13991,67 +13944,11 @@ packages:
       - supports-color
       - utf-8-validate
 
-  file:packages/integrations:
-    resolution: {directory: packages/integrations, type: directory}
-    name: '@ganger/integrations'
-    dependencies:
-      '@ganger/db': file:packages/db
-      '@google-cloud/storage': 7.16.0
-      '@supabase/supabase-js': 2.50.2
-      axios: 1.10.0
-      cron: 3.5.0
-      express: 4.21.2
-      googleapis: 131.0.0
-      jspdf: 2.5.2
-      nodemailer: 6.10.1
-      pdfjs-dist: 4.10.38
-      puppeteer: 23.11.1(typescript@5.8.3)
-      qrcode: 1.5.4
-      stripe: 17.7.0
-      twilio: 5.7.1
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - bare-buffer
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:packages/types:
     resolution: {directory: packages/types, type: directory}
     name: '@ganger/types'
     dependencies:
       typescript: 5.8.3
-    dev: false
-
-  file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {directory: packages/ui, type: directory}
-    id: file:packages/ui
-    name: '@ganger/ui'
-    peerDependencies:
-      react: 18.3.1
-      react-dom: 18.3.1
-    dependencies:
-      '@ganger/auth': file:packages/auth(next@14.2.29)(react@18.3.1)
-      clsx: 2.1.1
-      framer-motion: 12.19.2(react-dom@18.3.1)(react@18.3.1)
-      lucide-react: 0.516.0(react@18.3.1)
-      next: 14.2.29(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      tailwindcss: 4.1.11
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@emotion/is-prop-valid'
-      - '@opentelemetry/api'
-      - '@playwright/test'
-      - babel-plugin-macros
-      - bufferutil
-      - sass
-      - utf-8-validate
     dev: false
 
   file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1):
