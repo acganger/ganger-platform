@@ -1,5 +1,5 @@
 {
-  "name": "@modelcontextprotocol/server-puppeteer",
+  "name": "@ganger-platform/mcp-puppeteer",
   "version": "0.6.2",
   "description": "MCP server for browser automation using Puppeteer",
   "license": "MIT",
