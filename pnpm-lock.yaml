@@ -773,9 +773,6 @@ importers:
       '@ganger/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@ganger/docs':
-        specifier: workspace:*
-        version: link:../../packages/docs
       '@ganger/integrations':
         specifier: workspace:*
         version: link:../../packages/integrations
