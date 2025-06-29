@@ -762,35 +762,35 @@ importers:
   apps/deployment-helper:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/cache':
-        specifier: file:../../packages/cache
-        version: file:packages/cache(@ganger/db@1.0.0)
+        specifier: workspace:*
+        version: link:../../packages/cache
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/docs':
-        specifier: file:../../packages/docs
-        version: file:packages/docs
+        specifier: workspace:*
+        version: link:../../packages/docs
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/monitoring':
-        specifier: file:../../packages/monitoring
-        version: file:packages/monitoring
+        specifier: workspace:*
+        version: link:../../packages/monitoring
       '@ganger/types':
-        specifier: file:../../packages/types
-        version: file:packages/types
+        specifier: workspace:*
+        version: link:../../packages/types
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/ssr':
         specifier: ^0.6.0
         version: 0.6.1(@supabase/supabase-js@2.50.2)
@@ -1087,20 +1087,20 @@ importers:
   apps/inventory:
     dependencies:
       '@ganger/auth':
-        specifier: file:../../packages/auth
-        version: file:packages/auth(next@14.2.29)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@ganger/db':
-        specifier: file:../../packages/db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../../packages/db
       '@ganger/integrations':
-        specifier: file:../../packages/integrations
-        version: file:packages/integrations
+        specifier: workspace:*
+        version: link:../../packages/integrations
       '@ganger/ui':
-        specifier: file:../../packages/ui
-        version: file:packages/ui(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ganger/utils':
-        specifier: file:../../packages/utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@supabase/supabase-js':
         specifier: ^2.45.0
         version: 2.50.2
@@ -1127,8 +1127,8 @@ importers:
         version: 3.25.67
     devDependencies:
       '@ganger/config':
-        specifier: file:../../packages/config
-        version: file:packages/config(@ganger/db@1.0.0)(next@14.2.29)
+        specifier: workspace:*
+        version: link:../../packages/config
       '@types/node':
         specifier: ^20.14.0
         version: 20.19.0
@@ -13994,15 +13994,6 @@ packages:
       - supports-color
       - utf-8-validate
 
-  file:packages/docs:
-    resolution: {directory: packages/docs, type: directory}
-    name: '@ganger/docs'
-    dependencies:
-      openapi-types: 12.1.3
-      swagger-ui-dist: 5.25.3
-      typescript: 5.8.3
-    dev: false
-
   file:packages/integrations:
     resolution: {directory: packages/integrations, type: directory}
     name: '@ganger/integrations'
@@ -14027,20 +14018,6 @@ packages:
       - bufferutil
       - debug
       - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:packages/monitoring:
-    resolution: {directory: packages/monitoring, type: directory}
-    name: '@ganger/monitoring'
-    dependencies:
-      '@ganger/cache': file:packages/cache(@ganger/db@1.0.0)
-      '@ganger/db': file:packages/db
-      '@supabase/supabase-js': 2.50.2
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - bufferutil
       - supports-color
       - utf-8-validate
     dev: false
