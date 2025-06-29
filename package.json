@@ -35,7 +35,8 @@
     "docs:update": "node scripts/docs/update-docs.js",
     "docs:check": "bash scripts/docs/updatedocs.sh",
     "docs:sprint": "node scripts/docs/sprint.js",
-    "dev:showcase": "cd apps/component-showcase && npm run dev"
+    "dev:showcase": "cd apps/component-showcase && npm run dev",
+    "build:packages": "turbo run build --filter=@ganger/auth --filter=@ganger/cache --filter=@ganger/config --filter=@ganger/db --filter=@ganger/integrations --filter=@ganger/monitoring --filter=@ganger/types --filter=@ganger/ui --filter=@ganger/utils"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
