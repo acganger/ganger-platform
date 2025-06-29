@@ -24,7 +24,7 @@ import type {
  * Provides AI capabilities with built-in error handling, rate limiting, and usage tracking
  */
 export function useAI(options: UseAIOptions = {}): UseAIReturn {
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AIError | null>(null);
   const [lastResponse, setLastResponse] = useState<AIResponse | null>(null);
@@ -44,14 +44,14 @@ export function useAI(options: UseAIOptions = {}): UseAIReturn {
     autoRetry: true,
     retryAttempts: 3,
     ...options,
-    user: isAuthenticated ? user : undefined
+    user: user || undefined
   };
 
   /**
    * Main chat function
    */
   const chat = useCallback(async (request: AIChatRequest): Promise<AIResponse> => {
-    if (!isAuthenticated) {
+    if (!user) {
       const authError = new Error('Authentication required for AI features') as AIError;
       authError.code = 'AUTHENTICATION_REQUIRED';
       setError(authError);
@@ -125,7 +125,7 @@ export function useAI(options: UseAIOptions = {}): UseAIReturn {
     } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, user, config]);
+  }, [user, config]);
 
   /**
    * Update usage statistics
@@ -169,10 +169,10 @@ export function useAI(options: UseAIOptions = {}): UseAIReturn {
 
   // Load initial usage stats
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       updateUsageStats();
     }
-  }, [isAuthenticated, updateUsageStats]);
+  }, [user, updateUsageStats]);
 
   // Cleanup timeouts
   useEffect(() => {

@@ -17,6 +17,8 @@ export type AIModel =
   // Tier 2 - Feature Enhancement
   | 'qwq-32b'                          // Complex business reasoning
   | 'llama-3.2-11b-vision-instruct'    // Document & image processing
+  | 'llama-3.2-3b-instruct'            // Small fast model
+  | 'llama-3.2-1b-instruct'            // Micro fast model
   | 'whisper-large-v3-turbo'           // Speech-to-text
   | 'melotts'                          // Text-to-speech
   | 'bge-m3'                           // Embeddings
@@ -53,10 +55,13 @@ export type UseCase =
   | 'clinical_documentation'
   | 'business_intelligence'
   | 'document_processing'
+  | 'document_generation'
   | 'voice_processing'
   | 'safety_filtering'
   | 'real_time_chat'
-  | 'complex_reasoning';
+  | 'complex_reasoning'
+  | 'embeddings'
+  | 'reranking';
 
 /**
  * HIPAA Compliance Levels
@@ -121,6 +126,7 @@ export interface AIResponse<T = string> {
     cost?: number;
     responseTime?: number;
     safetyScore?: number;
+    cached?: boolean;
   };
 }
 
@@ -265,6 +271,7 @@ export interface AIAuditLog {
 export interface GangerAIConfig extends AIRequestConfig {
   // Environment configuration
   cloudflareToken?: string;
+  cloudflareAccountId?: string;
   supabaseUrl?: string;
   supabaseKey?: string;
   

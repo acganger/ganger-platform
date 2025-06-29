@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import type { AuthUser } from '@ganger/auth';
 import { db } from '@ganger/db';
-import { auditLog } from '@ganger/utils/server';
+import { auditLogQueries } from '@ganger/db';
 
 import type {
   AIModel,
@@ -32,6 +32,12 @@ import {
   SafetyViolationError,
   ModelUnavailableError
 } from '../shared/types';
+
+import { SafetyFilter } from './safety';
+import { ReliabilityManager } from './reliability';
+import { AIResponseCache } from './cache';
+import { CostMonitor } from './monitoring';
+import { AIErrorHandler, AIErrorFactory, withErrorHandling } from './error-handling';
 
 import {
   AI_MODELS,
@@ -73,6 +79,13 @@ export class GangerAI {
   private emergencyState: EmergencyState = 'normal';
   private usageCache = new Map<string, number>();
   private lastRequestTime = 0;
+  
+  // Enhanced feature modules
+  private safetyFilter!: SafetyFilter;
+  private reliabilityManager!: ReliabilityManager;
+  private responseCache!: AIResponseCache;
+  private costMonitor!: CostMonitor;
+  private errorHandler!: AIErrorHandler;
 
   constructor(config: GangerAIConfig) {
     this.config = {
@@ -87,6 +100,54 @@ export class GangerAI {
     };
 
     this.validateConfig();
+    this.initializeFeatureModules();
+  }
+
+  /**
+   * Initialize feature modules with configuration
+   */
+  private initializeFeatureModules(): void {
+    // Initialize safety filter with HIPAA compliance level
+    const complianceLevel = this.config.hipaaCompliant ? 'strict' : 'standard';
+    this.safetyFilter = new SafetyFilter(complianceLevel);
+
+    // Initialize reliability manager with custom config
+    this.reliabilityManager = new ReliabilityManager();
+
+    // Initialize response cache with app-specific TTL
+    this.responseCache = new AIResponseCache({
+      defaultTtlMs: 5 * 60 * 1000, // 5 minutes
+      maxEntries: 1000,
+      evictionPolicy: 'lru',
+      enableCompression: false,
+      enableMetrics: true
+    });
+
+    // Initialize cost monitor with budget controls
+    this.costMonitor = new CostMonitor({
+      dailyBudgetUSD: this.config.emergencyControls?.dailyLimit || 50,
+      monthlyBudgetUSD: this.config.emergencyControls?.monthlyLimit || 1000,
+      alertThresholds: {
+        daily: 0.8,
+        monthly: 0.9
+      },
+      costPerToken: {
+        'llama-4-scout-17b-16e-instruct': { input: 0.0001, output: 0.0002 },
+        'llama-3.3-70b-instruct-fp8-fast': { input: 0.00008, output: 0.00015 },
+        'qwq-32b': { input: 0.00012, output: 0.00025 },
+        'llama-3.2-11b-vision-instruct': { input: 0.00015, output: 0.0003 },
+        'llama-3.2-1b-instruct': { input: 0.00005, output: 0.0001 },
+        'llama-3.2-3b-instruct': { input: 0.00006, output: 0.00012 },
+        'llama-guard-3-8b': { input: 0.00007, output: 0.00014 },
+        'whisper-large-v3-turbo': { input: 0.00006, output: 0.00006 },
+        'melotts': { input: 0.00005, output: 0.00005 },
+        'bge-m3': { input: 0.00002, output: 0.00002 },
+        'bge-reranker-base': { input: 0.00003, output: 0.00003 }
+      }
+    });
+
+    // Initialize error handler
+    this.errorHandler = new AIErrorHandler();
   }
 
   /**
@@ -96,9 +157,20 @@ export class GangerAI {
     const requestId = uuidv4();
     const startTime = Date.now();
 
-    try {
+    return withErrorHandling(async () => {
       // Validate request
       const validatedRequest = this.validateRequest(request);
+      
+      // Check cache first
+      const cachedResponse = this.responseCache.getCachedResponse(
+        validatedRequest.messages,
+        validatedRequest.config?.model || this.config.defaultModel || 'llama-4-scout-17b-16e-instruct',
+        validatedRequest.config
+      );
+      
+      if (cachedResponse) {
+        return this.createCachedResponse(cachedResponse, requestId, startTime);
+      }
       
       // Select optimal model
       const selectedModel = this.selectModel(validatedRequest);
@@ -106,22 +178,72 @@ export class GangerAI {
       // Pre-flight checks
       await this.performPreflightChecks(validatedRequest, selectedModel, requestId);
       
-      // Safety filtering (if enabled and HIPAA required)
-      if (this.config.enableSafetyFiltering && this.config.hipaaCompliant) {
+      // Safety filtering (if enabled)
+      if (this.config.enableSafetyFiltering) {
         await this.performSafetyCheck(validatedRequest.messages, requestId);
       }
       
-      // Execute AI request
-      const response = await this.executeAIRequest(validatedRequest, selectedModel, requestId);
+      // Execute AI request with reliability features
+      const response = await this.executeAIRequestWithReliability(
+        validatedRequest, 
+        selectedModel, 
+        requestId
+      );
       
       // Post-processing
       await this.postProcessResponse(response, requestId, startTime);
       
       return response;
 
-    } catch (error) {
-      return this.handleError(error, requestId, startTime);
-    }
+    }, {
+      app: request.config?.app || 'platform-dashboard',
+      requestId,
+      timestamp: Date.now()
+    });
+  }
+
+  /**
+   * Create cached response
+   */
+  private createCachedResponse(content: string, requestId: string, startTime: number): AIResponse {
+    const responseTime = Date.now() - startTime;
+    
+    return {
+      success: true,
+      data: content,
+      meta: {
+        requestId,
+        timestamp: new Date().toISOString(),
+        model: 'cached' as AIModel,
+        responseTime,
+        cached: true
+      }
+    };
+  }
+
+  /**
+   * Execute AI request with reliability features
+   */
+  private async executeAIRequestWithReliability(
+    request: AIChatRequest,
+    model: AIModel,
+    requestId: string
+  ): Promise<AIResponse> {
+    const result = await this.reliabilityManager.executeReliably(
+      model,
+      async (selectedModel) => {
+        return this.executeAIRequest(request, selectedModel, requestId);
+      },
+      {
+        timeoutMs: request.config?.timeoutMs || this.config.defaultTimeout,
+        retryConfig: {
+          maxRetries: 3,
+          baseDelayMs: 1000
+        }
+      }
+    );
+
+    return result.result;
   }
 
   /**
@@ -141,7 +263,7 @@ export class GangerAI {
       const safetyScore = this.parseSafetyScore(response);
       const containsPHI = this.detectPHI(content.content);
       
-      const isSafe = safetyScore >= HIPAA_SAFETY_CONFIG.minimumSafetyScore && !containsPHI;
+      const isSafe = safetyScore >= HIPAA_SAFETY_CONFIG.requiredSafetyScore && !containsPHI;
 
       return {
         success: true,
@@ -202,13 +324,13 @@ export class GangerAI {
         ORDER BY model_requests DESC
       `, [this.config.app, startTime.toISOString()]);
 
-      const totalRequests = usage.reduce((sum, row) => sum + parseInt(row.requests), 0);
-      const totalCost = usage.reduce((sum, row) => sum + parseFloat(row.total_cost || '0'), 0);
+      const totalRequests = usage.reduce((sum: number, row: any) => sum + parseInt(row.requests), 0);
+      const totalCost = usage.reduce((sum: number, row: any) => sum + parseFloat(row.total_cost || '0'), 0);
       
       const appLimits = APP_RATE_LIMITS[this.config.app!];
       const remainingBudget = appLimits.dailyBudget - totalCost;
 
-      const topModels = usage.map(row => ({
+      const topModels = usage.map((row: any) => ({
         model: row.model as AIModel,
         requests: parseInt(row.model_requests)
       }));
@@ -247,7 +369,8 @@ export class GangerAI {
 
   private validateRequest(request: AIChatRequest): AIChatRequest {
     try {
-      return chatRequestSchema.parse(request);
+      chatRequestSchema.parse(request);
+      return request; // Return original request after validation
     } catch (error) {
       throw new AIError('Invalid request format', 'INVALID_REQUEST', error);
     }
@@ -381,15 +504,93 @@ export class GangerAI {
     messages: ChatMessage[],
     config?: any
   ): Promise<string> {
-    // This would integrate with Cloudflare Workers AI
-    // For now, return a mock response for development
-    if (process.env.NODE_ENV === 'development') {
-      await new Promise(resolve => setTimeout(resolve, 100)); // Simulate API delay
-      return `AI response from ${model}: Processed ${messages.length} messages`;
+    // Map our model names to Cloudflare's model identifiers
+    const modelMapping: Record<AIModel, string> = {
+      'llama-4-scout-17b-16e-instruct': '@cf/meta/llama-3.1-8b-instruct', // Using available model as substitute
+      'llama-3.3-70b-instruct-fp8-fast': '@cf/meta/llama-3.1-8b-instruct-fast',
+      'llama-guard-3-8b': '@cf/meta/llama-guard-3-11b-vision-preview',
+      'qwq-32b': '@cf/qwen/qwen1.5-14b-chat-awq',
+      'llama-3.2-11b-vision-instruct': '@cf/meta/llama-3.2-11b-vision-instruct',
+      'llama-3.2-3b-instruct': '@cf/meta/llama-3.2-3b-instruct',
+      'llama-3.2-1b-instruct': '@cf/meta/llama-3.2-1b-instruct',
+      'whisper-large-v3-turbo': '@cf/openai/whisper',
+      'melotts': '@cf/bytedance/stable-diffusion-xl-lightning', // No TTS model available, using placeholder
+      'bge-m3': '@cf/baai/bge-base-en-v1.5',
+      'bge-reranker-base': '@cf/baai/bge-reranker-base'
+    };
+
+    const cfModel = modelMapping[model];
+    if (!cfModel) {
+      throw new ModelUnavailableError(`No Cloudflare mapping for model ${model}`, model);
     }
 
-    // Production implementation would call Cloudflare Workers AI API
-    throw new Error('Cloudflare Workers AI integration not yet implemented');
+    // Use environment variables or config
+    const accountId = this.config.cloudflareAccountId || process.env.CLOUDFLARE_ACCOUNT_ID || '68d0160c9915efebbbecfddfd48cddab';
+    const apiToken = this.config.cloudflareToken || process.env.CLOUDFLARE_API_TOKEN || 'TjWbCx-K7trqYmJrU8lYNlJnzD2sIVAVjvvDD8Yf';
+
+    const apiUrl = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${cfModel}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          messages: messages.map(msg => ({
+            role: msg.role,
+            content: msg.content
+          }))
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new AIError(
+          `Cloudflare AI API error: ${response.status} - ${JSON.stringify(errorData)}`,
+          'MODEL_API_ERROR'
+        );
+      }
+
+      const result = await response.json();
+      
+      // Handle different response formats from Cloudflare
+      if (result.success === false) {
+        throw new AIError(
+          `AI model error: ${result.errors?.[0]?.message || 'Unknown error'}`,
+          'MODEL_ERROR'
+        );
+      }
+
+      // Extract the response text based on the model type
+      if (result.result?.response) {
+        return result.result.response;
+      } else if (result.result?.text) {
+        return result.result.text;
+      } else if (typeof result.result === 'string') {
+        return result.result;
+      } else if (Array.isArray(result.result) && result.result[0]?.response) {
+        // Some models return array of responses
+        return result.result[0].response;
+      } else {
+        // Log the unexpected format for debugging
+        console.error('Unexpected AI response format:', JSON.stringify(result));
+        throw new AIError(
+          'Unexpected response format from AI model',
+          'MODEL_RESPONSE_ERROR'
+        );
+      }
+    } catch (error) {
+      if (error instanceof AIError) {
+        throw error;
+      }
+      
+      throw new AIError(
+        `Failed to call AI model: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        'MODEL_CALL_FAILED'
+      );
+    }
   }
 
   private addSystemPrompt(messages: ChatMessage[]): ChatMessage[] {
@@ -621,11 +822,12 @@ Respond with a safety score (0-1) and explanation.`;
     containsPHI?: boolean;
   }): Promise<void> {
     try {
-      await auditLog({
-        action: `ai_${event.action}`,
-        resourceId: event.requestId,
-        userId: this.config.user?.id,
-        details: {
+      await auditLogQueries.logAction(
+        this.config.user?.id,
+        `ai_${event.action}`,
+        'ai_request',
+        event.requestId,
+        {
           app: this.config.app,
           model: event.model,
           result: event.result,
@@ -634,7 +836,7 @@ Respond with a safety score (0-1) and explanation.`;
           safetyScore: event.safetyScore,
           containsPHI: event.containsPHI
         }
-      });
+      );
     } catch (error) {
       console.error('Failed to log audit event:', error);
     }
@@ -648,7 +850,8 @@ Respond with a safety score (0-1) and explanation.`;
 export function createGangerAI(env: any, config: Partial<GangerAIConfig>): GangerAI {
   const fullConfig: GangerAIConfig = {
     // Extract from environment
-    cloudflareToken: env.CLOUDFLARE_AI_TOKEN || env.AI_TOKEN,
+    cloudflareToken: env.CLOUDFLARE_API_TOKEN || env.CLOUDFLARE_AI_TOKEN || env.AI_TOKEN,
+    cloudflareAccountId: env.CLOUDFLARE_ACCOUNT_ID,
     supabaseUrl: env.NEXT_PUBLIC_SUPABASE_URL,
     supabaseKey: env.SUPABASE_SERVICE_ROLE_KEY,
     
