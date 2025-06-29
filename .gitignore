@@ -1,3 +1,7 @@
+# MCP Servers (local Claude tools only - not needed for deployments)
+mcp-servers/
+servers/
+
 # Dependencies
 node_modules/
 .pnp
