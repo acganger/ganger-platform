@@ -1,5 +1,4 @@
 {
-  "ignoreCommand": "cd ../.. && npx turbo-ignore @ganger/integration-status",
   "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/db build && pnpm -F @ganger/integrations build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build",
   "buildCommand": "cd ../.. && pnpm -F @ganger/integration-status build",
   "outputDirectory": ".next",

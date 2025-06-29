@@ -1,5 +1,4 @@
 {
-  "ignoreCommand": "cd ../.. && npx turbo-ignore @ganger/deployment-helper",
   "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm run build:packages",
   "buildCommand": "cd ../.. && pnpm -F @ganger/deployment-helper build",
   "outputDirectory": ".next",
