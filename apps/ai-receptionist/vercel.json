@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -r --filter='./packages/*' build",
   "buildCommand": "cd ../.. && pnpm -F @ganger/ai-receptionist build",
   "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": null
 }
