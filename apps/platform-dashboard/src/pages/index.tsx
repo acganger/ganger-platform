@@ -66,7 +66,7 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-600">API Calls Today</p>
-                        <p className="text-2xl font-semibold text-gray-900">8,492</p>
+                        <p className="text-2xl font-semibold text-gray-900">8,493</p>
                       </div>
                       <BarChart2 className="w-8 h-8 text-purple-500" />
                     </div>
