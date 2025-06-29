@@ -1,5 +1,7 @@
-// Cloudflare Workers Edge Runtime
-export const dynamic = 'force-dynamic';
+// Force dynamic rendering for Pages Router
+export const getServerSideProps = async () => {
+  return { props: {} };
+};
 
 // Check-in Kiosk Main Page
 // Demonstrates immediate business value from Universal Payment Processing Hub
