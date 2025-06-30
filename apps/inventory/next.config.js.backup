@@ -1,17 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  basePath: '/components',
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
-  // Staff portal integration
+  // Static export for R2 deployment
+  // output: 'export', // Commented out for dynamic rendering
   
   eslint: {
+    ignoreDuringBuilds: true,
+  },
   
   typescript: {
+    // Skip TypeScript errors during production builds
     ignoreBuildErrors: true,
   },
-    ignoreDuringBuilds: true,
+  
+  // Force dynamic rendering for all pages
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
   },
   
   images: {

@@ -1,17 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  basePath: '/components',
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
   
-  // Staff portal integration
+  // No basePath needed - Vercel will handle routing via rewrites
   
   eslint: {
+    ignoreDuringBuilds: true,
+  },
   
   typescript: {
     ignoreBuildErrors: true,
-  },
-    ignoreDuringBuilds: true,
   },
   
   images: {

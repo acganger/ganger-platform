@@ -38,6 +38,14 @@ export * from './utils';
 // Staff portal authentication
 export * from './staff';
 
+// SSR-compatible Supabase clients with cross-domain cookies
+export {
+  createBrowserSupabaseClient,
+  createServerSupabaseClient,
+  createApiRouteSupabaseClient,
+  getCookiesToSet
+} from './utils/supabase-ssr';
+
 // Default configuration
 export const DEFAULT_AUTH_CONFIG = {
   supabaseUrl: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
