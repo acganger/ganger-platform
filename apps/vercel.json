@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install",
   "buildCommand": "cd ../.. && pnpm -F @ganger/ build",
   "outputDirectory": ".next",
   "framework": "nextjs"
