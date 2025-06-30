@@ -7,30 +7,24 @@
     "build": "next build",
     "start": "next start -p 3008",
     "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "build:next": "next build"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
-    "@ganger/db": "workspace:*",
-    "@ganger/integrations": "workspace:*",
-    "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
-    "@supabase/supabase-js": "^2.39.1",
-    "next": "^14.2.0",
+    "next": "^14.2.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "typescript": "^5.5.0",
-    "zod": "^3.22.4"
+    "@ganger/deps": "workspace:*",
+    "@ganger/auth": "workspace:*",
+    "@ganger/cache": "workspace:*",
+    "@ganger/config": "workspace:*",
+    "@ganger/db": "workspace:*",
+    "@ganger/integrations": "workspace:*",
+    "@ganger/monitoring": "workspace:*",
+    "@ganger/types": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "20.10.5",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
-    "autoprefixer": "^10.4.0",
-    "eslint": "8.56.0",
-    "eslint-config-next": "^14.2.0",
-    "postcss": "^8.4.0",
-    "tailwindcss": "^3.4.0"
+    "@ganger/config": "workspace:*"
   }
 }

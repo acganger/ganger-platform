@@ -1,15 +1,20 @@
 {
   "name": "@ganger/deployment-helper",
   "version": "1.0.0",
-  "private": true,
   "description": "Helper app to ensure all packages are built and cached on Vercel",
-  "CRITICAL": "DO NOT REMOVE PACKAGES - This helper MUST include all @ganger/* packages for other apps to deploy successfully",
+  "private": true,
   "scripts": {
-    "dev": "next dev --port 3099",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start --port 3099"
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "next": "^14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@ganger/deps": "workspace:*",
     "@ganger/auth": "workspace:*",
     "@ganger/cache": "workspace:*",
     "@ganger/config": "workspace:*",
@@ -19,19 +24,9 @@
     "@ganger/types": "workspace:*",
     "@ganger/ui": "workspace:*",
     "@ganger/utils": "workspace:*",
-    "next": "^14.2.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "framer-motion": "^11.0.0",
-    "react-chartjs-2": "^5.3.0",
-    "chart.js": "^4.5.0",
-    "@supabase/ssr": "^0.6.0",
-    "@supabase/supabase-js": "^2.45.0"
+    "@supabase/ssr": "^0.6.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
-    "typescript": "^5.5.0"
+    "@ganger/config": "workspace:*"
   }
 }
