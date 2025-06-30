@@ -1,46 +1,18 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { get } from '@vercel/edge-config';
 
 // Type for the app URL mappings
 type AppUrls = {
   [key: string]: string;
 };
 
-// Fetch from Edge Config using the connection string
-async function getFromEdgeConfig(key: string): Promise<any> {
-  const edgeConfigUrl = process.env.EDGE_CONFIG || process.env.EDGE_CONFI;
-  if (!edgeConfigUrl) {
-    console.error('Edge Config URL not found');
-    return null;
-  }
-  
-  try {
-    // Extract the config ID and token from the URL
-    const url = new URL(edgeConfigUrl);
-    const configId = url.pathname.slice(1); // Remove leading /
-    const token = url.searchParams.get('token');
-    
-    // Fetch from Edge Config API
-    const response = await fetch(`https://edge-config.vercel.com/api/v1/item/${key}?configId=${configId}&token=${token}`);
-    if (!response.ok) {
-      console.error('Edge Config fetch failed:', response.status);
-      return null;
-    }
-    
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Edge Config error:', error);
-    return null;
-  }
-}
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   try {
     // Get app mappings from Edge Config
-    const appUrls = await getFromEdgeConfig('appUrls') || {};
+    const { appUrls } = await get('appUrls') as { appUrls: AppUrls } || { appUrls: {} };
     
     // Check if the pathname matches any app route
     for (const [appPath, appUrl] of Object.entries(appUrls)) {
