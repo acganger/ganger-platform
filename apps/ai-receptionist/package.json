@@ -8,30 +8,26 @@
     "build": "next build",
     "start": "next start -p 3007",
     "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "build:next": "next build"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ganger/auth": "workspace:*",
-    "@ganger/db": "workspace:*",
-    "@ganger/integrations": "workspace:*",
-    "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
     "next": "^14.2.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.0",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.35"
+    "@ganger/deps": "workspace:*",
+    "@ganger/auth": "workspace:*",
+    "@ganger/cache": "workspace:*",
+    "@ganger/config": "workspace:*",
+    "@ganger/db": "workspace:*",
+    "@ganger/integrations": "workspace:*",
+    "@ganger/monitoring": "workspace:*",
+    "@ganger/types": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*",
+    "openai": "^4.0.0",
+    "twilio": "^5.3.4"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.7",
-    "@types/node": "^18.19.0",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.29",
-    "typescript": "^5.3.0",
-    "tailwindcss": "^4.1.7"
+    "@ganger/config": "workspace:*"
   }
 }
