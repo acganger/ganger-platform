@@ -117,8 +117,8 @@ const nextConfig = {
 // ✅ REQUIRED: Vercel project settings
 // Project Name: ganger-[app-name]
 // Root Directory: apps/[app-name]
-// Build Command: cd ../.. && npm run build:[app-name]
-// Install Command: cd ../.. && npm install
+// Build Command: cd ../.. && pnpm -F @ganger/[app-name] build
+// Install Command: cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile
 // Output Directory: .next
 // Framework Preset: Next.js
 ```
@@ -126,8 +126,8 @@ const nextConfig = {
 ### **Vercel Deployment Verification**
 ```bash
 # ✅ MANDATORY: These commands must pass for every app
-npm run build:[app-name]           # Must complete successfully
-npm run type-check                 # Errors acceptable with ignore flag
+pnpm -F @ganger/[app-name] build   # Must complete successfully
+pnpm type-check                    # Errors acceptable with ignore flag
 vercel --prod                      # Deploy to production
 
 # ✅ DISTRIBUTED ARCHITECTURE: Each app has its own

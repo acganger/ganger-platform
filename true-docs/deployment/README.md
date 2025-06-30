@@ -1,22 +1,21 @@
 # Vercel Distributed Deployment Documentation
 
-> **🚀 CURRENT DEPLOYMENT STRATEGY**: This documentation describes the production deployment approach using Vercel's distributed architecture with 17 individual projects, using GitHub integration for automatic deployments.
+> **🚀 CURRENT DEPLOYMENT STRATEGY**: This documentation describes the production deployment approach using Vercel's distributed architecture where each app is deployed as an individual Vercel project.
 > 
-> **✅ STATUS (June 2025)**: All 17 apps have been created with GitHub integration. Push to main branch triggers automatic deployments.
+> **✅ PACKAGE MANAGER**: This monorepo uses **pnpm** with workspace support.
+> 
+> **📅 Last Updated**: December 30, 2024 8:30 PM EST
 
 ## 🚀 Quick Start
 See **[Quick Reference Guide](./QUICK_REFERENCE.md)** for rapid deployment commands.
 
 ## 📚 Table of Contents
 
-### Documentation
-1. **[Deployment History](./01-deployment-history.md)** - What we tried and why it failed
-2. **[Deployment Plan](./02-deployment-plan.md)** - The complete distributed deployment strategy
-3. **[Deployment Checklist](./03-deployment-checklist.md)** - Pre-deployment validation for each app
-4. **[Risk Mitigation](./04-risk-mitigation.md)** - Addressing all identified deployment risks
-5. **[Improvements Summary](./05-improvements-summary.md)** - Security and process improvements
-6. **[Deployment Readiness](./06-deployment-readiness.md)** - Final readiness assessment
-7. **[Legacy Guide](./07-legacy-deployment-guide.md)** - Original single-deployment approach (deprecated)
+### Core Documentation
+- **[PNPM Migration Summary](./PNPM_MIGRATION_SUMMARY.md)** - How we use pnpm for deployments
+- **[Monorepo Deployment Strategy](./monorepo-deployment-strategy.md)** - Understanding the architecture
+- **[GitHub Integration Findings](./github-integration-findings.md)** - How GitHub integration works
+- **[MCP Deployment Warning](./MCP_DEPLOYMENT_WARNING.md)** - Important submodule exclusions
 
 ### Scripts
 1. **[Deploy All Apps](./scripts/01-deploy-all-apps.sh)** - Main deployment automation
@@ -53,7 +52,7 @@ git push origin main
 ./scripts/check-vercel-status.sh
 ```
 
-## 🚀 Legacy CLI Deployment
+## 🚀 Manual Deployment Process
 
 ### 1. Prepare Environment
 ```bash
@@ -94,7 +93,7 @@ We use a **distributed deployment architecture** where:
 - All apps remain accessible under `staff.gangerdermatology.com`
 
 ### Why This Approach?
-- ✅ Solves pnpm workspace issues with Vercel
+- ✅ Works perfectly with pnpm workspaces 
 - ✅ Each app scales independently
 - ✅ Faster deployments (only deploy what changes)
 - ✅ Better error isolation
@@ -116,13 +115,6 @@ staff.gangerdermatology.com (Router)
 3. **Monitor First 24 Hours** - Most issues surface early
 4. **Keep Secrets Secure** - Never commit deployment-env.secret
 
-## 📚 Document Cross-References
-
-- Start with **[Deployment History](./01-deployment-history.md)** to understand what doesn't work
-- Follow the **[Deployment Plan](./02-deployment-plan.md)** for step-by-step instructions
-- Use **[Deployment Checklist](./03-deployment-checklist.md)** to validate each app
-- Review **[Risk Mitigation](./04-risk-mitigation.md)** for handling potential issues
-- Check **[Deployment Readiness](./06-deployment-readiness.md)** before going live
 
 ## 🆘 Emergency Procedures
 
@@ -215,6 +207,6 @@ grep -l "@cloudflare/next-on-pages" apps/*/package.json
 
 ---
 
-**Last Updated**: June 2025  
-**Platform Version**: 1.6.0  
-**Deployment Method**: Vercel Distributed Architecture with GitHub Integration (17 Individual Projects)
+**Last Updated**: December 30, 2024 8:30 PM EST  
+**Package Manager**: pnpm with workspaces  
+**Deployment Method**: Vercel Distributed Architecture (Individual projects for all apps)

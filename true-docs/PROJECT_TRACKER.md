@@ -1,7 +1,7 @@
 # Ganger Platform - Deployment Tracker
 
-*Essential deployment information for 17 Next.js applications*  
-*Last Updated: January 2025*
+*Essential deployment information for all platform applications*  
+*Last Updated: December 30, 2024 8:30 PM EST*
 
 ---
 
@@ -22,19 +22,17 @@ staff.gangerdermatology.com (Router)
 └── ... (15+ more apps)
 ```
 
-### Deployment Process
+### Deployment Process (Auto-deploy DISABLED)
 ```bash
-# Use automated scripts
-cd true-docs/deployment/scripts
+# Option 1: Use GitHub Actions workflow
+# Go to GitHub Actions → Smart Sequential Deployment → Run workflow
 
-# 1. Deploy all apps individually
-./01-deploy-all-apps.sh
+# Option 2: Deploy via CLI
+cd apps/[app-name]
+npx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
 
-# 2. Update staff portal rewrites
-node 03-update-staff-rewrites.js
-
-# 3. Deploy staff portal router
-cd apps/staff && vercel --prod
+# Option 3: Use deployment script
+./scripts/trigger-github-deployment.sh changed-only production
 ```
 
 ---
@@ -84,8 +82,8 @@ cd apps/staff && vercel --prod
 Project Name: ganger-[app-name]
 Domain: [app-name]-[hash].vercel.app
 Root Directory: apps/[app-name]
-Build Command: cd ../.. && npm run build:[app-name]
-Install Command: cd ../.. && npm install
+Build Command: cd ../.. && pnpm -F @ganger/[app-name] build
+Install Command: cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile
 Output Directory: .next
 Framework Preset: Next.js
 ```
