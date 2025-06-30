@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit",
     "migrate:schema": "psql $DATABASE_URL -f migration/scripts/001-create-l10-schema.sql",
     "import:data": "tsx migration/scripts/import-data.ts",
-    "setup:l10": "npm run migrate:schema && npm run import:data",
+    "setup:l10": "pnpm run migrate:schema && pnpm run import:data",
     "build:next": "next build"
   },
   "dependencies": {
