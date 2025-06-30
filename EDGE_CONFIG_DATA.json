@@ -1,0 +1,30 @@
+{
+  "appUrls": {
+    "inventory": "https://ganger-inventory-anand-gangers-projects.vercel.app",
+    "handouts": "https://ganger-handouts-anand-gangers-projects.vercel.app",
+    "l10": "https://ganger-eos-l10-anand-gangers-projects.vercel.app",
+    "eos-l10": "https://ganger-eos-l10-anand-gangers-projects.vercel.app",
+    "batch": "https://ganger-batch-closeout-anand-gangers-projects.vercel.app",
+    "batch-closeout": "https://ganger-batch-closeout-anand-gangers-projects.vercel.app",
+    "compliance": "https://ganger-compliance-training-anand-gangers-projects.vercel.app",
+    "compliance-training": "https://ganger-compliance-training-anand-gangers-projects.vercel.app",
+    "clinical-staffing": "https://ganger-clinical-staffing-anand-gangers-projects.vercel.app",
+    "config": "https://ganger-config-dashboard-anand-gangers-projects.vercel.app",
+    "config-dashboard": "https://ganger-config-dashboard-anand-gangers-projects.vercel.app",
+    "status": "https://ganger-integration-status-anand-gangers-projects.vercel.app",
+    "integration-status": "https://ganger-integration-status-anand-gangers-projects.vercel.app",
+    "ai-receptionist": "https://ganger-ai-receptionist-anand-gangers-projects.vercel.app",
+    "call-center": "https://ganger-call-center-ops-anand-gangers-projects.vercel.app",
+    "call-center-ops": "https://ganger-call-center-ops-anand-gangers-projects.vercel.app",
+    "medication-auth": "https://ganger-medication-auth-anand-gangers-projects.vercel.app",
+    "pharma": "https://ganger-pharma-scheduling-anand-gangers-projects.vercel.app",
+    "pharma-scheduling": "https://ganger-pharma-scheduling-anand-gangers-projects.vercel.app",
+    "lunch": "https://ganger-pharma-scheduling-anand-gangers-projects.vercel.app",
+    "kiosk": "https://ganger-checkin-kiosk-anand-gangers-projects.vercel.app",
+    "checkin-kiosk": "https://ganger-checkin-kiosk-anand-gangers-projects.vercel.app",
+    "socials": "https://ganger-socials-reviews-anand-gangers-projects.vercel.app",
+    "socials-reviews": "https://ganger-socials-reviews-anand-gangers-projects.vercel.app",
+    "component-showcase": "https://ganger-component-showcase-anand-gangers-projects.vercel.app",
+    "platform-dashboard": "https://ganger-platform-dashboard-anand-gangers-projects.vercel.app"
+  }
+}
