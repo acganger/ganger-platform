@@ -39,12 +39,14 @@ export * from './utils';
 export * from './staff';
 
 // SSR-compatible Supabase clients with cross-domain cookies
-export {
-  createBrowserSupabaseClient,
-  createServerSupabaseClient,
-  createApiRouteSupabaseClient,
-  getCookiesToSet
-} from './utils/supabase-ssr';
+// These are only available in App Router environments
+// For Pages Router, use @supabase/auth-helpers-nextjs instead
+// export {
+//   createBrowserSupabaseClient,
+//   createServerSupabaseClient,
+//   createApiRouteSupabaseClient,
+//   getCookiesToSet
+// } from './utils/supabase-ssr';
 
 // Default configuration
 export const DEFAULT_AUTH_CONFIG = {
