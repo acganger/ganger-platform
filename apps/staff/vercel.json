@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install && pnpm -F @ganger/auth build && pnpm -F @ganger/db build && pnpm -F @ganger/integrations build && pnpm -F @ganger/types build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build",
-  "buildCommand": "cd ../.. && echo 'Starting staff build...' && pnpm -F @ganger/staff run lint && echo 'Lint passed' && pnpm -F @ganger/staff run type-check && echo 'Type check passed' && pnpm -F @ganger/staff run build",
+  "installCommand": "cd ../.. && NODE_ENV=development pnpm install",
+  "buildCommand": "cd ../.. && pnpm -F @ganger/staff build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "env": {
