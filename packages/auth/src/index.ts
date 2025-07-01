@@ -14,7 +14,9 @@ export {
   TeamMemberOnly,
   TeamLeaderOnly
 } from './guards';
-export { AuthCallback, withAuthCallback } from './callback';
+// AuthCallback component is for Pages Router only
+// App Router apps should implement their own auth/callback/page.tsx
+// export { AuthCallback, withAuthCallback } from './callback';
 export { getSupabaseClient, createAppSupabaseClient, getTypedSupabaseClient, supabase } from './supabase';
 export { 
   navigateToApp, 

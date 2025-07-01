@@ -1,5 +1,6 @@
 // Universal Auth Callback Component for Ganger Platform
 // Handles OAuth redirects consistently across all applications
+// Note: This component is for Pages Router apps only. App Router apps should implement their own callback page.
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
