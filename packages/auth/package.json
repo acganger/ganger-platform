@@ -14,6 +14,11 @@
       "types": "./server.ts",
       "import": "./server.ts",
       "require": "./server.ts"
+    },
+    "./staff": {
+      "types": "./src/staff/index.ts",
+      "import": "./src/staff/index.ts",
+      "require": "./src/staff/index.ts"
     }
   },
   "files": [
