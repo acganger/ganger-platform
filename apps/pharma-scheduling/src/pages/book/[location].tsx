@@ -3,6 +3,8 @@
  * Main pharmaceutical presentation booking interface with calendar
  */
 
+export const dynamic = 'force-dynamic';
+
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
