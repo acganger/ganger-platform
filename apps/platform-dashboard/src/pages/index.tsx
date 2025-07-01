@@ -1,15 +1,15 @@
-'use client';
-
 import { AuthGuard } from '@ganger/auth/staff';
 import { Button, Card } from '@ganger/ui';
 import { useEffect, useState } from 'react';
 import { Activity, Users, BarChart2, Shield, Calendar, Settings } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-// Cloudflare Workers Edge Runtime
-// export const runtime = 'edge'; // Removed for Vercel compatibility
-export const dynamic = 'force-dynamic';
+// Force dynamic rendering to prevent static generation errors
+export const getServerSideProps = async () => {
+  return { props: {} };
+};
 
-export default function Dashboard() {
+function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
@@ -153,3 +153,5 @@ export default function Dashboard() {
     </AuthGuard>
   );
 }
+
+export default Dashboard;
