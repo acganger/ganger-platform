@@ -1,7 +1,7 @@
 'use client'
 
 import React, { memo } from 'react';
-import { StatCard } from '@/components/ui/MockComponents';
+import { StatCard } from '@ganger/ui';
 import { Star, MessageSquare, TrendingUp, CheckCircle, AlertTriangle, Calendar } from 'lucide-react';
 import type { DashboardStats } from '@/types';
 

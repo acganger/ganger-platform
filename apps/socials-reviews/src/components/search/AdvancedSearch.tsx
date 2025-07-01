@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Input, Button, Badge, Select } from '@/components/ui/MockComponents';
+import { Button, Badge, Select } from '@ganger/ui';
+import { Input } from '@/components/ui/placeholders';
 import { Search, X, Filter, Save, History, Zap } from 'lucide-react';
 import { useDebounce } from '@/hooks/usePerformanceOptimization';
 import { validateSearchQuery } from '@/utils/validation';

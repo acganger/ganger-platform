@@ -5,10 +5,9 @@ import {
   Card, 
   Badge, 
   Button, 
-  Avatar,
-  DropdownMenu,
-  Tooltip
-} from '@/components/ui/MockComponents';
+  Avatar
+} from '@ganger/ui';
+import { DropdownMenu, Tooltip } from '@/components/ui/placeholders';
 import { 
   Heart, 
   MessageCircle, 

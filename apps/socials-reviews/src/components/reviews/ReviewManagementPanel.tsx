@@ -4,10 +4,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { 
   LoadingSpinner, 
   Button, 
-  Select,
-  Alert,
-  Pagination
-} from '@/components/ui/MockComponents';
+  Select
+} from '@ganger/ui';
+import { Alert, Pagination } from '@/components/ui/placeholders';
 import { RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 
 import ReviewCard from './ReviewCard';

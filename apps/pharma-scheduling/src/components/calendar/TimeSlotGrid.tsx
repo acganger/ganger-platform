@@ -6,6 +6,7 @@
 import React from 'react';
 import { Clock, Users, AlertCircle } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button } from '@ganger/ui';
 import type { TimeSlot } from '@/types';
 
 interface TimeSlotGridProps {
@@ -86,18 +87,17 @@ const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({
           const isAvailable = representativeSlot.available;
 
           return (
-            <button
+            <Button
               key={timeKey}
               onClick={() => isAvailable && onSlotSelect(representativeSlot)}
               disabled={!isAvailable}
+              variant={isSelected ? "default" : "outline"}
               className={clsx(
-                'time-slot p-4 rounded-lg border-2 transition-all duration-200',
+                'h-auto min-h-[80px] p-4',
                 'flex flex-col items-center justify-center space-y-2',
-                'min-h-[80px] text-center',
                 {
-                  'time-slot--available': isAvailable && !isSelected,
-                  'time-slot--selected': isSelected,
-                  'time-slot--unavailable': !isAvailable
+                  'border-primary': isSelected,
+                  'opacity-50 cursor-not-allowed': !isAvailable
                 }
               )}
             >
@@ -132,7 +132,7 @@ const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({
                   </span>
                 </div>
               )}
-            </button>
+            </Button>
           );
         })}
       </div>

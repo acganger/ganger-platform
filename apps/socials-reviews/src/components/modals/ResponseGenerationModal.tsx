@@ -4,16 +4,18 @@ import React, { useState, useEffect } from 'react';
 import { 
   Modal, 
   Button, 
-  TextArea, 
-  Alert, 
   LoadingSpinner,
   Badge,
+  Card
+} from '@ganger/ui';
+import { 
+  Alert,
   Tabs,
   TabsList,
   TabsTrigger,
-  TabsContent,
-  Card
-} from '@/components/ui/MockComponents';
+  TabsContent
+} from '@/components/ui/placeholders';
+import { TextArea } from '@/components/ui/placeholders';
 import { 
   Bot, 
   Edit3, 

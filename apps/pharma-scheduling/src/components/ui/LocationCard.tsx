@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { MapPin, Calendar, Clock, Users, ChevronRight } from 'lucide-react';
-// import { Card, CardHeader, CardTitle, CardContent, Button } from '@ganger/ui'; // Replaced with native HTML elements
+import { Card, CardHeader, CardTitle, CardContent, Button } from '@ganger/ui';
 import type { Location } from '@/types';
 
 interface LocationCardProps {
@@ -20,17 +20,17 @@ const LocationCard: React.FC<LocationCardProps> = ({
   className
 }) => {
   return (
-    <div 
-      className={`bg-white shadow-sm rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-200 group cursor-pointer ${className}`}
+    <Card 
+      className={`hover:shadow-lg transition-all duration-200 group cursor-pointer ${className}`}
       onClick={() => onSelect(location)}
     >
-      <div className="flex flex-col space-y-1.5 pb-4 mb-4">
-        <h3 className="text-xl font-semibold leading-none tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
+      <CardHeader>
+        <CardTitle className="text-gray-900 group-hover:text-blue-600 transition-colors">
           {location.name}
-        </h3>
-      </div>
+        </CardTitle>
+      </CardHeader>
       
-      <div className="pt-0">
+      <CardContent>
         <div className="space-y-3">
           {/* Address */}
           <div className="flex items-start space-x-3">
@@ -80,15 +80,16 @@ const LocationCard: React.FC<LocationCardProps> = ({
 
         {/* Action Button */}
         <div className="mt-6">
-          <button
-            className="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 group-hover:border-blue-300 group-hover:text-blue-600"
+          <Button
+            variant="outline"
+            className="w-full group-hover:border-blue-300 group-hover:text-blue-600"
           >
             Select Location
             <ChevronRight className="w-4 h-4 ml-2" />
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

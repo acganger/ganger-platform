@@ -23,11 +23,7 @@
     "@ganger/monitoring": "workspace:*",
     "@ganger/types": "workspace:*",
     "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*",
-    "@tailwindcss/postcss": "^4.1.10",
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0"
+    "@ganger/utils": "workspace:*"
   },
   "devDependencies": {
     "@ganger/config": "workspace:*"

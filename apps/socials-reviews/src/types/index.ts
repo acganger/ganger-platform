@@ -1,10 +1,38 @@
-// Re-export common types from mock types
-export type {
-  User,
-  ApiResponse,
-  PaginationMeta,
-  ValidationRule,
-} from '@/lib/types-mock';
+// Common types
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar_url?: string;
+  role: 'staff' | 'manager' | 'superadmin' | 'clinical_staff';
+  permissions: string[];
+}
+
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  error?: {
+    code: string;
+    message: string;
+  };
+  meta?: {
+    timestamp: string;
+    requestId: string;
+  };
+}
+
+export interface PaginationMeta {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface ValidationRule {
+  field: string;
+  rules: string[];
+  message?: string;
+}
 
 // ==========================================
 // GOOGLE BUSINESS REVIEW TYPES

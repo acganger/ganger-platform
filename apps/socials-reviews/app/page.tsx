@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useStaffAuth } from '@ganger/auth';
+import { useStaffAuth } from '@ganger/auth/staff';
 import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 import { SocialMonitoringPanel } from '@/components/social/SocialMonitoringPanel';
 import { ReviewManagementPanel } from '@/components/reviews/ReviewManagementPanel';

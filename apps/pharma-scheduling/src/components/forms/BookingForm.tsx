@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Building2, Phone, Mail, FileText, Users, MessageSquare, Check } from 'lucide-react';
-// import { Button, Card, CardHeader, CardTitle, CardContent, CardFooter, FormField, useToast } from '@ganger/ui'; // Replaced with native HTML elements
+import { Button, Card, CardHeader, CardTitle, CardContent, CardFooter, Input, Checkbox, Badge, useToast, Textarea } from '@ganger/ui';
 import { useBookingSubmission } from '@/hooks';
 import type { TimeSlot, Location, BookingRequest } from '@/types';
 
@@ -55,7 +55,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const { submitBooking, loading, error } = useBookingSubmission();
-  // const { addToast } = useToast(); // Toast functionality replaced with basic alerts
+  const { toast } = useToast();
 
   const {
     register,
@@ -110,20 +110,18 @@ const BookingForm: React.FC<BookingFormProps> = ({
       };
 
       const response = await submitBooking(bookingRequest);
-      // addToast({
-      //   type: 'success',
-      //   message: 'Booking submitted successfully!',
-      //   duration: 4000
-      // }); // Toast replaced with basic alert
-      alert('Booking submitted successfully!');
+      toast({
+        title: 'Success',
+        description: 'Booking submitted successfully!',
+        variant: 'default'
+      });
       onSubmit(bookingRequest);
     } catch (err) {
-      // addToast({
-      //   type: 'error',
-      //   message: error || 'Failed to submit booking. Please try again.',
-      //   duration: 4000
-      // }); // Toast replaced with basic alert
-      alert(error || 'Failed to submit booking. Please try again.');
+      toast({
+        title: 'Error',
+        description: error || 'Failed to submit booking. Please try again.',
+        variant: 'destructive'
+      });
     }
   };
 
@@ -161,15 +159,15 @@ const BookingForm: React.FC<BookingFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className={className}>
-      <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-        <div className="flex flex-col space-y-1.5 pb-4 mb-4">
-          <h3 className="text-xl font-semibold leading-none tracking-tight text-gray-900">Complete Your Booking</h3>
+      <Card>
+        <CardHeader>
+          <CardTitle>Complete Your Booking</CardTitle>
           <div className="text-sm text-gray-600">
             Step {currentStep} of 3
           </div>
-        </div>
+        </CardHeader>
 
-        <div className="pt-0 space-y-6">
+        <CardContent className="space-y-6">
           {/* Appointment Summary */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-semibold text-blue-900 mb-2">
@@ -210,10 +208,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                   <label className="text-sm font-medium text-gray-700">
                     First Name <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <Input
                     {...register('repFirstName')}
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="John"
                   />
                   {errors.repFirstName?.message && (
@@ -225,10 +222,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                   <label className="text-sm font-medium text-gray-700">
                     Last Name <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <Input
                     {...register('repLastName')}
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Smith"
                   />
                   {errors.repLastName?.message && (
@@ -241,10 +237,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Email Address <span className="text-red-500">*</span>
                 </label>
-                <input
+                <Input
                   {...register('repEmail')}
                   type="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="john.smith@pharmaceutical.com"
                 />
                 {errors.repEmail?.message && (
@@ -256,10 +251,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Phone Number
                 </label>
-                <input
+                <Input
                   {...register('repPhone')}
                   type="tel"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="(555) 123-4567"
                 />
                 {errors.repPhone?.message && (
@@ -271,10 +265,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Company Name <span className="text-red-500">*</span>
                 </label>
-                <input
+                <Input
                   {...register('companyName')}
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Pharmaceutical Company Inc."
                 />
                 {errors.companyName?.message && (
@@ -296,12 +289,11 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Expected Participant Count <span className="text-red-500">*</span>
                 </label>
-                <input
+                <Input
                   {...register('participantCount', { valueAsNumber: true })}
                   type="number"
                   min="1"
                   max="20"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="8"
                 />
                 <p className="text-sm text-gray-500">How many staff members do you expect to attend?</p>
@@ -314,10 +306,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Presentation Topic <span className="text-red-500">*</span>
                 </label>
-                <input
+                <Input
                   {...register('presentationTopic')}
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="New Dermatological Treatment Options"
                 />
                 <p className="text-sm text-gray-500">Brief description of your educational presentation topic</p>
@@ -330,10 +321,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Special Requests
                 </label>
-                <textarea
+                <Textarea
                   {...register('specialRequests')}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Projector setup, dietary restrictions, etc."
                 />
                 <p className="text-sm text-gray-500">Any special requirements for your presentation?</p>
@@ -346,10 +336,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Catering Preferences
                 </label>
-                <textarea
+                <Textarea
                   {...register('cateringPreferences')}
                   rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Vegetarian options, allergies, etc."
                 />
                 <p className="text-sm text-gray-500">Any specific lunch preferences or dietary requirements?</p>
@@ -376,10 +365,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                   
                   <div className="space-y-3">
                     <label className="flex items-start space-x-3 cursor-pointer">
-                      <input
+                      <Checkbox
                         {...register('emailConsent')}
-                        type="checkbox"
-                        className="w-5 h-5 mt-0.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                        className="mt-0.5"
                         aria-describedby="email-consent-description"
                       />
                       <div>
@@ -391,10 +379,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                     </label>
 
                     <label className="flex items-start space-x-3 cursor-pointer">
-                      <input
+                      <Checkbox
                         {...register('smsConsent')}
-                        type="checkbox"
-                        className="w-5 h-5 mt-0.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                        className="mt-0.5"
                         aria-describedby="sms-consent-description"
                       />
                       <div>
@@ -406,10 +393,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
                     </label>
 
                     <label className="flex items-start space-x-3 cursor-pointer">
-                      <input
+                      <Checkbox
                         {...register('phoneConsent')}
-                        type="checkbox"
-                        className="w-5 h-5 mt-0.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                        className="mt-0.5"
                         aria-describedby="phone-consent-description"
                       />
                       <div>
@@ -424,10 +410,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <label className="flex items-start space-x-3 cursor-pointer">
-                    <input
+                    <Checkbox
                       {...register('marketingConsent')}
-                      type="checkbox"
-                      className="w-5 h-5 text-blue-600 border-blue-300 rounded focus:ring-blue-500 focus:ring-2 mt-0.5"
+                      className="mt-0.5"
                       aria-describedby="marketing-consent-description"
                     />
                     <div>
@@ -485,53 +470,51 @@ const BookingForm: React.FC<BookingFormProps> = ({
               <div className="text-red-800">{error}</div>
             </div>
           )}
-        </div>
+        </CardContent>
 
-        <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+        <CardFooter className="flex items-center justify-between">
           <div className="flex space-x-3">
             {currentStep > 1 && (
-              <button
+              <Button
                 type="button"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="outline"
                 onClick={prevStep}
                 disabled={loading}
               >
                 Previous
-              </button>
+              </Button>
             )}
-            <button
+            <Button
               type="button"
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="outline"
               onClick={onCancel}
               disabled={loading}
             >
               Cancel
-            </button>
+            </Button>
           </div>
 
           <div>
             {currentStep < 3 ? (
-              <button
+              <Button
                 type="button"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={nextStep}
                 disabled={loading}
               >
                 Next Step
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 type="submit"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!isValid || loading}
               >
                 <Check className="w-4 h-4 mr-2" />
                 {loading ? 'Submitting...' : 'Submit Booking'}
-              </button>
+              </Button>
             )}
           </div>
-        </div>
-      </div>
+        </CardFooter>
+      </Card>
     </form>
   );
 };

@@ -4,19 +4,21 @@ import React, { useState, useEffect } from 'react';
 import { 
   Modal, 
   Button, 
-  TextArea, 
-  Alert, 
   LoadingSpinner,
   Badge,
+  Card,
+  Select
+} from '@ganger/ui';
+import { 
+  Alert,
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
-  Card,
-  Select,
   Checkbox,
-  Input
-} from '@/components/ui/MockComponents';
+  Input,
+  TextArea
+} from '@/components/ui/placeholders';
 import { 
   Wand2, 
   Eye,

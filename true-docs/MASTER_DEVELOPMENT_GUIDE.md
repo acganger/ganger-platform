@@ -2,9 +2,10 @@
 
 **THE SINGLE SOURCE OF TRUTH FOR ALL PLATFORM DEVELOPMENT**
 
-**Last Updated**: January 18, 2025  
-**Version**: 2.0  
+**Last Updated**: June 30, 2025  
+**Version**: 2.1  
 **Status**: ✅ PRODUCTION - Active Reference  
+**Recent Updates**: Added 4 new deployment readiness patterns from production deployment failures  
 
 ---
 
@@ -92,27 +93,28 @@ Transform Ganger Dermatology through a unified, scalable, medical-grade platform
    import { withAuth } from '@ganger/auth/server';  // In API routes
    ```
 
-4. **Missing PostCSS Configuration for Tailwind v4**
+4. **PostCSS Configuration for Tailwind**
    ```javascript
-   // ❌ FORBIDDEN: Old Tailwind PostCSS config
+   // ❌ FORBIDDEN: Incorrect PostCSS configs
    module.exports = {
      plugins: {
-       tailwindcss: {},  // This won't work with Tailwind v4
+       tailwindcss: {},  // Missing quotes, incomplete
      }
    }
    
-   // ✅ REQUIRED: Tailwind v4 compatible config
-   module.exports = {
-     plugins: {
-       '@tailwindcss/postcss': {},  // For Tailwind v4 beta
-     }
-   }
-   // OR for stable Tailwind v3
+   // ❌ FORBIDDEN: Tailwind v3 syntax (causes deployment failures)
    module.exports = {
      plugins: {
        tailwindcss: {},
        autoprefixer: {},
      }
+   }
+   
+   // ✅ REQUIRED: Tailwind v4 PostCSS config (all apps must use this)
+   module.exports = {
+     plugins: {
+       '@tailwindcss/postcss': {},
+     },
    }
    ```
 
@@ -131,14 +133,202 @@ Transform Ganger Dermatology through a unified, scalable, medical-grade platform
    }
    ```
 
+6. **Missing Component Exports**
+   ```typescript
+   // ❌ FORBIDDEN: Component without export
+   function MyComponent() {
+     return <div>...</div>;
+   }
+   // Build error: Component not exported
+   
+   // ✅ REQUIRED: Export all components
+   export default function MyComponent() {
+     return <div>...</div>;
+   }
+   ```
+
+7. **Duplicate Default Exports**
+   ```typescript
+   // ❌ FORBIDDEN: Multiple default exports
+   export default function Component() { }
+   // ... later in file
+   export default Component;  // Error: duplicate export
+   
+   // ✅ REQUIRED: Single export pattern
+   export default function Component() { }
+   ```
+
+8. **Using Components Not in @ganger/ui**
+   ```typescript
+   // ❌ FORBIDDEN: Importing non-existent components
+   import { Pagination, Tabs, Alert } from '@ganger/ui';
+   // These don't exist in @ganger/ui!
+   
+   // ✅ REQUIRED: Check exports or create placeholders
+   import { Button, Card } from '@ganger/ui';
+   import { Pagination, Tabs } from './placeholders';
+   ```
+
+9. **Wrong Environment Variable Names in API Routes**
+   ```typescript
+   // ❌ FORBIDDEN: Using wrong env var names
+   const url = process.env.SUPABASE_URL;  // Undefined!
+   
+   // ✅ REQUIRED: Use correct Next.js env vars
+   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+   ```
+
+10. **Custom Auth Implementations**
+    ```typescript
+    // ❌ FORBIDDEN: Creating custom auth
+    const AuthContext = createContext();
+    export function useAuth() { /* custom */ }
+    
+    // ✅ REQUIRED: Use @ganger/auth exclusively
+    import { useAuth } from '@ganger/auth/client';
+    import { useStaffAuth } from '@ganger/auth/staff';
+    ```
+
+11. **Legacy/Unused Code**
+    ```typescript
+    // ❌ FORBIDDEN: Keeping unused code
+    - Cloudflare Worker files (src/index.ts)
+    - Custom auth implementations
+    - Mock components and types
+    - Unused hooks referencing deleted code
+    
+    // ✅ REQUIRED: Remove all unused code
+    ```
+
+12. **API Routes Creating Clients at Module Level**
+    ```typescript
+    // ❌ FORBIDDEN: Creates Supabase client during build
+    import { createClient } from '@supabase/supabase-js';
+    
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    
+    export async function GET() {
+      // Fails with "supabaseUrl is required" during build
+    }
+    
+    // ✅ REQUIRED: Create client inside function
+    export async function GET() {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      
+      if (!supabaseUrl || !supabaseKey) {
+        return NextResponse.json({ error: 'Missing config' }, { status: 500 });
+      }
+      
+      const supabase = createClient(supabaseUrl, supabaseKey);
+    }
+    ```
+
+13. **Public Apps Using Staff Auth Globally**
+    ```typescript
+    // ❌ FORBIDDEN: Wrapping all pages with StaffInterface
+    function App({ Component, pageProps }) {
+      return (
+        <StaffInterface>  // Uses useStaffAuth internally
+          <Component {...pageProps} />
+        </StaffInterface>
+      );
+    }
+    
+    // ✅ REQUIRED: Conditional auth based on route
+    function App({ Component, pageProps }) {
+      const router = useRouter();
+      const isStaffRoute = router.pathname.startsWith('/staff');
+      
+      if (!isStaffRoute) {
+        return <Component {...pageProps} />;
+      }
+      
+      return (
+        <AuthProvider appName="app-name">
+          <StaffInterface>
+            <Component {...pageProps} />
+          </StaffInterface>
+        </AuthProvider>
+      );
+    }
+    ```
+
+14. **Missing AuthProvider Wrapper**
+    ```typescript
+    // ❌ FORBIDDEN: Using auth hooks without provider
+    function App({ Component }) {
+      return <Component />; // useAuth will fail
+    }
+    
+    // ✅ REQUIRED: Wrap with AuthProvider
+    import { AuthProvider } from '@ganger/auth';
+    
+    function App({ Component }) {
+      return (
+        <AuthProvider appName="app-name">
+          <Component />
+        </AuthProvider>
+      );
+    }
+    ```
+
+15. **Static Generation with Auth Dependencies**
+    ```typescript
+    // ❌ FORBIDDEN: Auth in static pages without dynamic
+    export default function PublicPage() {
+      const { user } = useAuth(); // Error: useAuth must be used within AuthProvider
+    }
+    
+    // ✅ REQUIRED: Use dynamic imports or force-dynamic
+    export const dynamic = 'force-dynamic';
+    
+    // OR use dynamic import for auth components
+    const AuthSection = dynamic(
+      () => import('./AuthSection'),
+      { ssr: false }
+    );
+    ```
+
 ### **Pre-Deployment Checklist:**
 - [ ] No placeholder values in code
 - [ ] No duplicate dependencies from @ganger/deps
 - [ ] Correct auth import paths with subpaths
 - [ ] Proper PostCSS configuration for Tailwind
 - [ ] Dynamic rendering for auth-dependent pages
+- [ ] All components properly exported
+- [ ] No duplicate default exports
+- [ ] All imported UI components exist in @ganger/ui
+- [ ] Correct environment variable names (NEXT_PUBLIC_*)
+- [ ] No custom auth implementations
+- [ ] No legacy/unused code (Cloudflare Workers, etc.)
+- [ ] No API routes creating clients at module level
+- [ ] Public apps don't wrap all pages with staff auth
+- [ ] Apps using auth have AuthProvider wrapper
+- [ ] Static pages with auth use force-dynamic or dynamic imports
 - [ ] Environment variables exist in Vercel project
 - [ ] No .env.local files overriding Vercel vars
+
+### **Deployment Verification Commands:**
+```bash
+# Check for module-level client creation in API routes
+grep -r "createClient(" --include="*.ts" app/api src/pages/api | grep -B2 "export"
+
+# Check for missing exports
+find src -name "*.tsx" -exec grep -L "export" {} \;
+
+# Check for auth usage without dynamic
+grep -r "useAuth\|useStaffAuth" --include="*.tsx" src | grep -L "force-dynamic"
+
+# Check for incorrect env vars
+grep -r "process.env\." --include="*.ts" --include="*.tsx" | grep -v "NEXT_PUBLIC_"
+
+# Check PostCSS config (must have @tailwindcss/postcss)
+grep "@tailwindcss/postcss" postcss.config.js || echo "❌ ERROR: Missing required @tailwindcss/postcss"
+```
 
 ## 🏗️ **Technology Stack (MANDATORY)**
 

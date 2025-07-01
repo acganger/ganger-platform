@@ -1,7 +1,8 @@
 'use client'
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Alert, Button } from '@/components/ui/MockComponents';
+import { Button } from '@ganger/ui';
+import { Alert } from '@/components/ui/placeholders';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 interface ErrorBoundaryState {

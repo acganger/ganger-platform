@@ -5,16 +5,18 @@ import {
   LoadingSpinner, 
   Button, 
   Select,
+  Badge,
+  Card
+} from '@ganger/ui';
+import { 
   Alert,
   Pagination,
-  Badge,
-  Card,
   DropdownMenu,
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent
-} from '@/components/ui/MockComponents';
+} from '@/components/ui/placeholders';
 import { 
   RefreshCw, 
   AlertCircle, 

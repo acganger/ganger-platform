@@ -179,11 +179,6 @@ function InventoryDashboard() {
 
 // Wrap with authentication guard for staff-level access
 export default function AuthenticatedInventoryDashboard() {
-  // For static export, bypass authentication
-  if (process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true') {
-    return <InventoryDashboard />;
-  }
-  
   return (
     <AuthGuard level="staff" appName="inventory">
       <InventoryDashboard />

@@ -1,40 +1,12 @@
-'use client'
-
 import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import type { Integration } from '../types/integration'
+import { useAuth } from '@ganger/auth/client'
+import { useToast } from '@ganger/ui'
+import { AuthGuard } from '@ganger/auth/staff'
+import { createClient } from '@supabase/supabase-js'
 
-// Cloudflare Workers Edge Runtime
-// export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
-
-// Production-ready components (simplified for initial deployment)
-// TODO: Replace with @ganger/* packages once workspace dependencies are resolved
-
-// Environment configuration
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pfqtzmxxxhhsxmlddrta.supabase.co'
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-// Production auth hook with real Google OAuth
-const useAuth = () => {
-  // TODO: Replace with real @ganger/auth once workspace is resolved
-  return {
-    user: { email: 'staff@gangerdermatology.com' },
-    isLoading: false
-  }
-}
-
-// Production toast system
-const useToast = () => ({
-  toast: (options: any) => {
-    // TODO: Replace with real toast system
-    if (options.variant === 'destructive') {
-      console.error(`${options.title}: ${options.description}`)
-    } else {
-      console.log(`${options.title}: ${options.description}`)
-    }
-  }
-})
 
 // Production date formatter
 const formatDate = (date: string) => {
@@ -47,22 +19,17 @@ const formatDate = (date: string) => {
   })
 }
 
-// Simplified Supabase client for production
+// Create Supabase client
 const createSupabaseClient = () => {
-  // TODO: Replace with real @ganger/db client
-  return {
-    from: (table: string) => ({
-      select: (columns: string) => ({
-        eq: (column: string, value: any) => ({
-          order: (column: string, options: any) => 
-            Promise.resolve({ 
-              data: [], 
-              error: null 
-            })
-        })
-      })
-    })
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase credentials')
+    return null
   }
+  
+  return createClient(supabaseUrl, supabaseKey)
 }
 
 const supabase = createSupabaseClient()
@@ -593,13 +560,10 @@ function IntegrationStatusDashboard() {
   )
 }
 
-// Production auth wrapper (simplified for initial deployment) 
-// TODO: Replace with real @ganger/auth once workspace is resolved
-const withAuthComponent = (Component: React.ComponentType) => {
-  return function AuthenticatedComponent(props: any) {
-    // TODO: Add real authentication logic
-    return <Component {...props} />
-  }
+export default function IntegrationStatusPage() {
+  return (
+    <AuthGuard requiredPermission="view_platform_status">
+      <IntegrationStatusDashboard />
+    </AuthGuard>
+  )
 }
-
-export default withAuthComponent(IntegrationStatusDashboard)

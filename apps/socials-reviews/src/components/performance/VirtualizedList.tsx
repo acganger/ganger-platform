@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { LoadingSpinner } from '@/components/ui/MockComponents';
+import { LoadingSpinner } from '@ganger/ui';
 
 interface VirtualizedListProps<T> {
   items: T[];

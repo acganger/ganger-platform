@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@ganger/auth';
+import { useAuth } from '@ganger/auth/client';
 import { ReactNode } from 'react';
 
 interface DashboardLayoutProps {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useStaffAuth } from '@ganger/auth';
+import { useStaffAuth } from '@ganger/auth/staff';
 import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
 import { TrendingUp, TrendingDown, BarChart3, Star, Calendar } from 'lucide-react';
 

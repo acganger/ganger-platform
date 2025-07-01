@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { Alert, Button } from '@/components/ui/MockComponents';
+import { Alert, Button } from '@ganger/ui';
 import { Bell, X, MessageSquare, TrendingUp, AlertTriangle } from 'lucide-react';
 import type { NotificationEvent } from '@/types';
 

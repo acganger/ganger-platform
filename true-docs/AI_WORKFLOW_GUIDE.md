@@ -432,11 +432,12 @@ npm run build      # Production build must succeed
 
 ```bash
 # 1. Check for placeholder values
-grep -r "placeholder" apps/[app-name] --include="*.ts" --include="*.tsx" --include="*.js"
+grep -r "placeholder\|PLACEHOLDER" apps/[app-name] --include="*.ts" --include="*.tsx" --include="*.js"
+grep -r "\|\|.*['\"](https://\|http://)" apps/[app-name]/src --include="*.ts" --include="*.tsx"
 # MUST return: No matches
 
 # 2. Verify no duplicate dependencies from @ganger/deps
-grep -E "(@heroicons/react|clsx|date-fns|zod)" apps/[app-name]/package.json
+grep -E "(@heroicons/react|clsx|date-fns|framer-motion|lucide-react|recharts|zod)" apps/[app-name]/package.json
 # MUST return: No matches (these are in @ganger/deps)
 
 # 3. Verify correct auth imports
@@ -445,13 +446,47 @@ grep -r "from '@ganger/auth'" apps/[app-name] --include="*.ts" --include="*.tsx"
 
 # 4. Check PostCSS configuration
 cat apps/[app-name]/postcss.config.js
-# MUST show: Either @tailwindcss/postcss OR tailwindcss + autoprefixer
+# MUST show: tailwindcss: {}, autoprefixer: {} (NOT @tailwindcss/postcss)
 
 # 5. Verify dynamic rendering for auth pages
-grep -r "useAuth\|useStaffAuth" apps/[app-name]/src/pages --include="*.tsx" -A 5 -B 5
+grep -r "useAuth\|useStaffAuth" apps/[app-name] --include="*.tsx" -A 5 -B 5
 # MUST show: export const dynamic = 'force-dynamic' for those pages
 
-# 6. Check Vercel environment variables
+# 6. Check for missing component exports
+find apps/[app-name]/src/components -name "*.tsx" -exec grep -L "export" {} \; | grep -v ".test.tsx"
+# MUST return: No files (all components must be exported)
+
+# 7. Check for duplicate default exports
+grep -h "export default" apps/[app-name]/src/**/*.tsx 2>/dev/null | sort | uniq -c | grep -v "1 "
+# MUST return: No duplicates
+
+# 8. Verify UI component imports exist in @ganger/ui
+grep -h "from '@ganger/ui'" apps/[app-name]/src/**/*.tsx 2>/dev/null | \
+  grep -oE "([A-Z][a-zA-Z]+)" | sort | uniq | \
+  while read comp; do grep -q "export.*$comp" packages/ui/src/index.ts || echo "Missing: $comp"; done
+# MUST return: No missing components
+
+# 9. Check environment variable names in API routes
+grep -r "process\.env\." apps/[app-name]/app/api --include="*.ts" 2>/dev/null | \
+  grep -v "NEXT_PUBLIC_" | grep -v "NODE_ENV" | grep -v "SERVICE_ROLE"
+# MUST return: No incorrect env var names
+
+# 10. Check for custom auth implementations
+grep -r "createContext.*[Aa]uth\|AuthContext\|AuthProvider" apps/[app-name]/src --include="*.tsx" | \
+  grep -v "@ganger/auth"
+# MUST return: No custom auth implementations
+
+# 11. Check for legacy/unused code
+find apps/[app-name]/src -name "index.ts" -path "*/src/index.ts" 2>/dev/null # No Cloudflare Worker
+find apps/[app-name]/src -name "*mock*" -o -name "*Mock*" 2>/dev/null # No mock files
+ls -la apps/[app-name]/src/lib/auth* apps/[app-name]/src/lib/supabase* 2>/dev/null # No custom auth
+# MUST return: No legacy files
+
+# 12. Run build test
+cd apps/[app-name] && npx next build
+# MUST: Build successfully
+
+# 13. Check Vercel environment variables (if credentials available)
 curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
   "https://api.vercel.com/v9/projects/ganger-[app-name]/env?teamId=$VERCEL_TEAM_ID" | \
   python3 -c "import json,sys; data=json.load(sys.stdin); \

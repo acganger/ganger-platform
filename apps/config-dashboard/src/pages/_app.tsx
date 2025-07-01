@@ -1,5 +1,3 @@
-'use client';
-
 import type { AppProps } from 'next/app';
 import { AuthProvider } from '@ganger/auth';
 import { Toaster } from 'react-hot-toast';
@@ -7,7 +5,7 @@ import '../styles/globals.css';
 
 export default function ConfigDashboardApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
+    <AuthProvider appName="config-dashboard">
       <div className="min-h-screen bg-gray-50">
         <Component {...pageProps} />
         <Toaster 

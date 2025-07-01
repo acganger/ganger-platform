@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@ganger/auth';
+import { useAuth } from '@ganger/auth/client';
 import toast from 'react-hot-toast';
 
 interface Configuration {

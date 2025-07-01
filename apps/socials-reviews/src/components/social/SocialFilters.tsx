@@ -2,14 +2,16 @@
 
 import React from 'react';
 import { 
-  Input, 
   Button, 
+  Badge
+} from '@ganger/ui';
+import { 
+  Input,
   DatePicker,
   Checkbox,
-  Badge,
-  DropdownMenu,
-  Slider
-} from '@/components/ui/MockComponents';
+  DropdownMenu
+} from '@/components/ui/placeholders';
+import { Slider } from '@/components/ui/placeholders';
 import { Filter, X, Search, Calendar, Hash, TrendingUp } from 'lucide-react';
 import type { FilterOptions } from '@/types';
 

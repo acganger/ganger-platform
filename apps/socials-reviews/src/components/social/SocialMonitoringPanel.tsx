@@ -4,10 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { 
   LoadingSpinner, 
   Button, 
-  Select,
-  Alert,
-  Pagination
-} from '@/components/ui/MockComponents';
+  Select
+} from '@ganger/ui';
+import { Alert, Pagination } from '@/components/ui/placeholders';
 import { RefreshCw, AlertCircle, TrendingUp, Grid, List, Search, Wand2 } from 'lucide-react';
 
 import SocialPostCard from './SocialPostCard';

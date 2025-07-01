@@ -54,11 +54,6 @@ function InventoryHomePage() {
 
 // Wrap with authentication guard for staff-level access
 export default function AuthenticatedInventoryHomePage() {
-  // For static export, bypass authentication
-  if (process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true') {
-    return <InventoryHomePage />;
-  }
-  
   return (
     <AuthGuard level="staff" appName="inventory">
       <InventoryHomePage />

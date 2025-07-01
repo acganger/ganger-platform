@@ -861,18 +861,6 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@tailwindcss/postcss':
-        specifier: ^4.1.10
-        version: 4.1.11
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.0
-      '@types/react':
-        specifier: 18.3.0
-        version: 18.3.0
-      '@types/react-dom':
-        specifier: 18.3.0
-        version: 18.3.0
       next:
         specifier: ^14.2.29
         version: 14.2.29(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
