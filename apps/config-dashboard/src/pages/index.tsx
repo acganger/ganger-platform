@@ -12,7 +12,6 @@ import { DashboardLayout } from '../components/DashboardLayout';
 
 // Cloudflare Workers Edge Runtime
 // export const runtime = 'edge'; // Removed for Vercel compatibility
-export const dynamic = 'force-dynamic';
 
 export default function ConfigDashboardHome() {
   const [activeTab, setActiveTab] = useState<'applications' | 'configurations' | 'permissions' | 'impersonation' | 'approval' | 'audit'>('applications');
