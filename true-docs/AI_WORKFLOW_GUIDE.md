@@ -426,6 +426,41 @@ npm run lint       # ESLint must pass
 npm run build      # Production build must succeed
 ```
 
+### Deployment Readiness Verification
+
+**CRITICAL: Never Mark as "Deployment Ready" Without These Checks:**
+
+```bash
+# 1. Check for placeholder values
+grep -r "placeholder" apps/[app-name] --include="*.ts" --include="*.tsx" --include="*.js"
+# MUST return: No matches
+
+# 2. Verify no duplicate dependencies from @ganger/deps
+grep -E "(@heroicons/react|clsx|date-fns|zod)" apps/[app-name]/package.json
+# MUST return: No matches (these are in @ganger/deps)
+
+# 3. Verify correct auth imports
+grep -r "from '@ganger/auth'" apps/[app-name] --include="*.ts" --include="*.tsx"
+# MUST show: Subpath imports like /staff, /client, /server
+
+# 4. Check PostCSS configuration
+cat apps/[app-name]/postcss.config.js
+# MUST show: Either @tailwindcss/postcss OR tailwindcss + autoprefixer
+
+# 5. Verify dynamic rendering for auth pages
+grep -r "useAuth\|useStaffAuth" apps/[app-name]/src/pages --include="*.tsx" -A 5 -B 5
+# MUST show: export const dynamic = 'force-dynamic' for those pages
+
+# 6. Check Vercel environment variables
+curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+  "https://api.vercel.com/v9/projects/ganger-[app-name]/env?teamId=$VERCEL_TEAM_ID" | \
+  python3 -c "import json,sys; data=json.load(sys.stdin); \
+  required=['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY']; \
+  present=[e['key'] for e in data.get('envs',[])]; \
+  missing=[r for r in required if r not in present]; \
+  print('✅ All required env vars present' if not missing else f'❌ Missing: {missing}')"
+```
+
 ### Quality Gate Implementation
 
 **Verification Gate Checklist:**

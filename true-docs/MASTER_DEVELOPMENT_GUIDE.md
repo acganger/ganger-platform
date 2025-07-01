@@ -42,6 +42,104 @@ Transform Ganger Dermatology through a unified, scalable, medical-grade platform
 
 ---
 
+## 🚨 **Deployment Readiness Criteria (MANDATORY)**
+
+### **NEVER Mark an App as "Deployment Ready" If:**
+
+1. **Using Placeholder Values**
+   ```typescript
+   // ❌ FORBIDDEN: Placeholder URLs or fallbacks
+   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+   const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder_key';
+   
+   // ✅ REQUIRED: Fail fast if env vars are missing
+   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+   const apiKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+   ```
+
+2. **Duplicating Shared Dependencies**
+   ```json
+   // ❌ FORBIDDEN: Dependencies already in @ganger/deps
+   {
+     "dependencies": {
+       "@heroicons/react": "^2.0.0",  // Already in @ganger/deps!
+       "clsx": "^2.0.0",              // Already in @ganger/deps!
+       "@ganger/deps": "workspace:*"
+     }
+   }
+   
+   // ✅ REQUIRED: Only app-specific dependencies
+   {
+     "dependencies": {
+       "next": "^14.2.29",
+       "react": "^18.3.1",
+       "react-dom": "^18.3.1",
+       "@ganger/deps": "workspace:*",
+       "puppeteer": "^23.0.0"  // Only if this specific app needs it
+     }
+   }
+   ```
+
+3. **Using Incorrect Auth Imports**
+   ```typescript
+   // ❌ FORBIDDEN: Wrong auth imports
+   import { AuthGuard } from '@ganger/auth';  // Missing subpath
+   import { useAuth } from '@ganger/auth';    // Client component in server
+   
+   // ✅ REQUIRED: Correct auth imports
+   import { AuthGuard } from '@ganger/auth/staff';  // For staff apps
+   import { useAuth } from '@ganger/auth/client';   // In client components
+   import { withAuth } from '@ganger/auth/server';  // In API routes
+   ```
+
+4. **Missing PostCSS Configuration for Tailwind v4**
+   ```javascript
+   // ❌ FORBIDDEN: Old Tailwind PostCSS config
+   module.exports = {
+     plugins: {
+       tailwindcss: {},  // This won't work with Tailwind v4
+     }
+   }
+   
+   // ✅ REQUIRED: Tailwind v4 compatible config
+   module.exports = {
+     plugins: {
+       '@tailwindcss/postcss': {},  // For Tailwind v4 beta
+     }
+   }
+   // OR for stable Tailwind v3
+   module.exports = {
+     plugins: {
+       tailwindcss: {},
+       autoprefixer: {},
+     }
+   }
+   ```
+
+5. **Missing Force-Dynamic for Auth Pages**
+   ```typescript
+   // ❌ FORBIDDEN: Static generation with auth hooks
+   export default function Page() {
+     const { user } = useAuth();  // Fails during build
+   }
+   
+   // ✅ REQUIRED: Force dynamic rendering
+   export const dynamic = 'force-dynamic';
+   
+   export default function Page() {
+     const { user } = useAuth();  // Works correctly
+   }
+   ```
+
+### **Pre-Deployment Checklist:**
+- [ ] No placeholder values in code
+- [ ] No duplicate dependencies from @ganger/deps
+- [ ] Correct auth import paths with subpaths
+- [ ] Proper PostCSS configuration for Tailwind
+- [ ] Dynamic rendering for auth-dependent pages
+- [ ] Environment variables exist in Vercel project
+- [ ] No .env.local files overriding Vercel vars
+
 ## 🏗️ **Technology Stack (MANDATORY)**
 
 ### **Frontend Stack**
