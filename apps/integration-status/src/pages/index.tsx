@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import type { Integration } from '../types/integration'
-import { useAuth } from '@ganger/auth/client'
+import { useAuth } from '@ganger/auth'
 import { useToast } from '@ganger/ui'
 import { AuthGuard } from '@ganger/auth/staff'
 import { createClient } from '@supabase/supabase-js'
