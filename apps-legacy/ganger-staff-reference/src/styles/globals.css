@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #111827; /* gray-900 */
+  background-color: #f9fafb; /* gray-50 */
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px #3b82f650; /* ring-2 ring-primary-500 ring-offset-2 */
+}
+
+/* 
+TODO: Temporarily commented out until Tailwind v4 compatibility is resolved
+All custom component styles will be restored after deployment verification
+
+@layer components { ... }
+@layer utilities { ... }
+*/

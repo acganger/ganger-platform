@@ -6,7 +6,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // No basePath - nginx handles /l10 routing
   typescript: {
     ignoreBuildErrors: true,
   },

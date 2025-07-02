@@ -3,9 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   basePath: '/medication-auth',
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
-  
-  // No basePath needed - Vercel will handle routing via rewrites
-  
+
   eslint: {
     ignoreDuringBuilds: true,
   },

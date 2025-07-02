@@ -3,15 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   basePath: '/call-center',
   transpilePackages: ['@ganger/auth', '@ganger/db', '@ganger/integrations', '@ganger/ui', '@ganger/utils'],
-  
-  // Staff portal integration
-  
+
   eslint: {
-  
+    ignoreDuringBuilds: true,
+  },
+
   typescript: {
     ignoreBuildErrors: true,
-  },
-    ignoreDuringBuilds: true,
   },
   
   images: {
