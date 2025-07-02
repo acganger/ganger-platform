@@ -6,7 +6,9 @@ import {
   Clock, 
   Users, 
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  Calendar,
+  Target
 } from 'lucide-react';
 
 const StatCard = ({ 
@@ -132,20 +134,20 @@ export default function DashboardPage() {
     {
       title: 'Request Time Off',
       description: 'Submit vacation, sick leave, or other time off requests.',
-      icon: Clock,
+      icon: Calendar,
       onClick: () => router.push('/forms/time-off'),
     },
     {
       title: 'Fix Punch Time',
       description: 'Correct clock in/out times and attendance records.',
-      icon: AlertCircle,
+      icon: Clock,
       onClick: () => router.push('/forms/punch-fix'),
     },
     {
-      title: 'Update Availability',
-      description: 'Change your work schedule or availability preferences.',
-      icon: Users,
-      onClick: () => router.push('/forms/availability'),
+      title: 'Impact Filter',
+      description: 'Evaluate strategic decisions using impact analysis.',
+      icon: Target,
+      onClick: () => router.push('/forms/impact'),
     },
   ];
 
