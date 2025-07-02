@@ -1,584 +1,193 @@
-// pages/api/tickets/[id].ts
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '../../../types/database';
-import { validateRequest, updateTicketSchema } from '../../../lib/validation-schemas';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { createClient } from '@supabase/supabase-js';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
 
-interface Ticket {
-  id: string;
-  ticket_number: string;
-  title: string;
-  description: string;
-  status: 'pending' | 'open' | 'in_progress' | 'completed' | 'cancelled';
-  priority: 'low' | 'normal' | 'high' | 'urgent';
-  form_type: string;
-  form_data: Record<string, unknown>;
-  submitter_id: string;
-  assigned_to?: string;
-  location?: string;
-  due_date?: string;
-  completed_at?: string;
-  metadata?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
-  submitter?: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  assignee?: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  comments?: Array<{
-    id: string;
-    content: string;
-    author: {
-      id: string;
-      name: string;
-      email: string;
-    };
-    is_internal: boolean;
-    created_at: string;
-  }>;
-}
-
-interface ApiResponse {
-  success: boolean;
-  data?: {
-    ticket?: Ticket;
-  };
-  error?: {
-    code: string;
-    message: string;
-    details?: Record<string, string[]>;
-    timestamp: string;
-    request_id: string;
-  };
-}
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>
+  res: NextApiResponse
 ) {
-  const requestId = Math.random().toString(36).substring(7);
-  const { id: ticketId } = req.query;
-
-  if (!ticketId || typeof ticketId !== 'string') {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'INVALID_TICKET_ID',
-        message: 'Valid ticket ID is required',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+  const session = await getServerSession(req, res, authOptions);
+  
+  if (!session?.user?.email) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  // Authentication check
-  const supabase = createServerSupabaseClient<Database>({ req, res });
-  const { data: { session }, error: authError } = await supabase.auth.getSession();
+  const userEmail = session.user.email;
+  const ticketId = req.query.id as string;
 
-  if (authError || !session) {
-    return res.status(401).json({
-      success: false,
-      error: {
-        code: 'UNAUTHORIZED',
-        message: 'Authentication required',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+  switch (req.method) {
+    case 'GET':
+      return handleGet(req, res, ticketId, userEmail);
+    case 'PUT':
+      return handlePut(req, res, ticketId, userEmail);
+    case 'DELETE':
+      return handleDelete(req, res, ticketId, userEmail);
+    default:
+      return res.status(405).json({ error: 'Method not allowed' });
   }
+}
 
-  // Check domain restriction
-  const email = session.user?.email;
-  if (!email?.endsWith('@gangerdermatology.com')) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'DOMAIN_RESTRICTED',
-        message: 'Access restricted to Ganger Dermatology domain',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Get user profile for permissions
-  const { data: userProfile } = await supabase
-    .from('staff_user_profiles')
-    .select('id, role, email, full_name')
-    .eq('id', session.user.id)
-    .single();
-
-  if (!userProfile) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'PROFILE_NOT_FOUND',
-        message: 'User profile not found',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
+async function handleGet(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  ticketId: string,
+  userEmail: string
+) {
   try {
-    if (req.method === 'GET') {
-      return await handleGetTicket(req, res, supabase, userProfile, ticketId, requestId);
-    } else if (req.method === 'PUT') {
-      return await handleUpdateTicket(req, res, supabase, userProfile, ticketId, requestId);
-    } else if (req.method === 'DELETE') {
-      return await handleDeleteTicket(req, res, supabase, userProfile, ticketId, requestId);
-    } else {
-      res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
-      return res.status(405).json({
-        success: false,
-        error: {
-          code: 'METHOD_NOT_ALLOWED',
-          message: 'Method not allowed',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
+    const { data: ticket, error } = await supabase
+      .from('tickets')
+      .select(`
+        *,
+        comments:ticket_comments(
+          *,
+          author:auth.users!ticket_comments_author_id_fkey(
+            id,
+            raw_user_meta_data
+          )
+        ),
+        files:ticket_file_uploads(
+          *,
+          uploader:auth.users!ticket_file_uploads_uploaded_by_id_fkey(
+            id,
+            raw_user_meta_data
+          )
+        ),
+        approvals:ticket_approvals(
+          *,
+          approver:auth.users!ticket_approvals_approver_id_fkey(
+            id,
+            raw_user_meta_data
+          )
+        )
+      `)
+      .eq('id', ticketId)
+      .or(`submitter_email.eq.${userEmail},assigned_to_email.eq.${userEmail}`)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return res.status(404).json({ error: 'Ticket not found' });
+      }
+      console.error('Error fetching ticket:', error);
+      return res.status(500).json({ error: 'Failed to fetch ticket' });
     }
+
+    return res.status(200).json({ ticket });
   } catch (error) {
-    console.error('Ticket API error:', error);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'INTERNAL_ERROR',
-        message: error instanceof Error ? error.message : 'Ticket service unavailable',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    console.error('Error in GET /api/tickets/[id]:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
-async function handleGetTicket(
+async function handlePut(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>,
-  supabase: any,
-  userProfile: any,
+  res: NextApiResponse,
   ticketId: string,
-  requestId: string
+  userEmail: string
 ) {
-  // Get ticket with related data (RLS will handle permissions)
-  const { data: ticket, error } = await supabase
-    .from('staff_tickets')
-    .select(`
-      *,
-      submitter:staff_user_profiles!staff_tickets_submitter_id_fkey(id, full_name, email),
-      assignee:staff_user_profiles!staff_tickets_assigned_to_fkey(id, full_name, email),
-      comments:staff_ticket_comments(
-        id,
-        content,
-        is_internal,
-        created_at,
-        author:staff_user_profiles!staff_ticket_comments_author_id_fkey(id, full_name, email)
-      )
-    `)
-    .eq('id', ticketId)
-    .single();
+  try {
+    const updates = req.body;
 
-  if (error) {
-    if (error.code === 'PGRST116') {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'TICKET_NOT_FOUND',
-          message: 'Ticket not found or access denied',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
+    // First check if user has permission to update
+    const { data: existingTicket, error: fetchError } = await supabase
+      .from('tickets')
+      .select('submitter_email, assigned_to_email, status')
+      .eq('id', ticketId)
+      .single();
+
+    if (fetchError || !existingTicket) {
+      return res.status(404).json({ error: 'Ticket not found' });
+    }
+
+    // Check permissions
+    const canUpdate = 
+      existingTicket.submitter_email === userEmail ||
+      existingTicket.assigned_to_email === userEmail;
+
+    if (!canUpdate) {
+      return res.status(403).json({ error: 'Permission denied' });
+    }
+
+    // Perform the update
+    const { data: updatedTicket, error: updateError } = await supabase
+      .from('tickets')
+      .update(updates)
+      .eq('id', ticketId)
+      .select()
+      .single();
+
+    if (updateError) {
+      console.error('Error updating ticket:', updateError);
+      return res.status(500).json({ error: 'Failed to update ticket' });
+    }
+
+    // Add to job queue for notifications if status changed
+    if (updates.status && updates.status !== existingTicket.status) {
+      await supabase.from('job_queue').insert({
+        handler: 'NotifyTicketUpdate',
+        payload: {
+          ticket_id: ticketId,
+          old_status: existingTicket.status,
+          new_status: updates.status,
+          updated_by: userEmail
         }
       });
     }
 
-    console.error('Ticket fetch error:', error);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'FETCH_ERROR',
-        message: 'Failed to fetch ticket',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    return res.status(200).json({ ticket: updatedTicket });
+  } catch (error) {
+    console.error('Error in PUT /api/tickets/[id]:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-
-  // Format response
-  const formattedTicket: Ticket = {
-    id: ticket.id,
-    ticket_number: ticket.ticket_number,
-    title: ticket.title,
-    description: ticket.description,
-    status: ticket.status,
-    priority: ticket.priority,
-    form_type: ticket.form_type,
-    form_data: ticket.form_data || {},
-    submitter_id: ticket.submitter_id,
-    assigned_to: ticket.assigned_to,
-    location: ticket.location,
-    due_date: ticket.due_date,
-    completed_at: ticket.completed_at,
-    metadata: ticket.metadata || {},
-    created_at: ticket.created_at,
-    updated_at: ticket.updated_at,
-    submitter: ticket.submitter ? {
-      id: ticket.submitter.id,
-      name: ticket.submitter.full_name,
-      email: ticket.submitter.email
-    } : undefined,
-    assignee: ticket.assignee ? {
-      id: ticket.assignee.id,
-      name: ticket.assignee.full_name,
-      email: ticket.assignee.email
-    } : undefined,
-    comments: (ticket.comments || []).map((comment: any) => ({
-      id: comment.id,
-      content: comment.content,
-      is_internal: comment.is_internal,
-      created_at: comment.created_at,
-      author: {
-        id: comment.author.id,
-        name: comment.author.full_name,
-        email: comment.author.email
-      }
-    }))
-  };
-
-  return res.status(200).json({
-    success: true,
-    data: {
-      ticket: formattedTicket
-    }
-  });
 }
 
-async function handleUpdateTicket(
+async function handleDelete(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>,
-  supabase: any,
-  userProfile: any,
+  res: NextApiResponse,
   ticketId: string,
-  requestId: string
+  userEmail: string
 ) {
-  const validation = validateRequest(updateTicketSchema, req.body);
-  if (!validation.success) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Request validation failed',
-        details: validation.errors,
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
+  try {
+    // Check if user owns the ticket
+    const { data: ticket, error: fetchError } = await supabase
+      .from('tickets')
+      .select('submitter_email, status')
+      .eq('id', ticketId)
+      .single();
 
-  const updates = validation.data;
-
-  // Get current ticket to check permissions and track changes
-  const { data: currentTicket, error: fetchError } = await supabase
-    .from('staff_tickets')
-    .select('*')
-    .eq('id', ticketId)
-    .single();
-
-  if (fetchError) {
-    if (fetchError.code === 'PGRST116') {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'TICKET_NOT_FOUND',
-          message: 'Ticket not found or access denied',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
+    if (fetchError || !ticket) {
+      return res.status(404).json({ error: 'Ticket not found' });
     }
 
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'FETCH_ERROR',
-        message: 'Failed to fetch ticket for update',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Check permissions
-  const isSubmitter = currentTicket.submitter_id === userProfile.id;
-  const isAssignee = currentTicket.assigned_to === userProfile.id;
-  const isAdmin = userProfile.role === 'admin';
-  const isManager = userProfile.role === 'manager';
-
-  if (!isSubmitter && !isAssignee && !isAdmin && !isManager) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'INSUFFICIENT_PERMISSIONS',
-        message: 'You do not have permission to update this ticket',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Handle assigned_to email resolution
-  if (updates.assigned_to !== undefined) {
-    if (updates.assigned_to) {
-      const { data: assignee } = await supabase
-        .from('staff_user_profiles')
-        .select('id')
-        .eq('email', updates.assigned_to)
-        .eq('is_active', true)
-        .single();
-
-      if (!assignee) {
-        return res.status(400).json({
-          success: false,
-          error: {
-            code: 'INVALID_ASSIGNEE',
-            message: 'Assigned user not found or inactive',
-            timestamp: new Date().toISOString(),
-            request_id: requestId
-          }
-        });
-      }
-
-      updates.assigned_to = assignee.id;
-    } else {
-      updates.assigned_to = null;
-    }
-  }
-
-  // Handle status transitions
-  if (updates.status && updates.status !== currentTicket.status) {
-    if (updates.status === 'completed' && !currentTicket.completed_at) {
-      updates.completed_at = new Date().toISOString();
-    } else if (updates.status !== 'completed' && currentTicket.completed_at) {
-      updates.completed_at = null;
-    }
-  }
-
-  // Prepare update data
-  const updateData: any = {};
-  const changes: Record<string, { from: any; to: any }> = {};
-
-  // Track and apply changes
-  Object.entries(updates).forEach(([key, value]) => {
-    if (value !== undefined && value !== currentTicket[key]) {
-      changes[key] = { from: currentTicket[key], to: value };
-      updateData[key] = value;
-    }
-  });
-
-  if (Object.keys(updateData).length === 0) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'NO_CHANGES',
-        message: 'No changes detected',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Update the ticket
-  const { data: updatedTicket, error: updateError } = await supabase
-    .from('staff_tickets')
-    .update(updateData)
-    .eq('id', ticketId)
-    .select(`
-      *,
-      submitter:staff_user_profiles!staff_tickets_submitter_id_fkey(id, full_name, email),
-      assignee:staff_user_profiles!staff_tickets_assigned_to_fkey(id, full_name, email)
-    `)
-    .single();
-
-  if (updateError) {
-    console.error('Ticket update error:', updateError);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'UPDATE_ERROR',
-        message: 'Failed to update ticket',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Log analytics event
-  await supabase
-    .from('staff_analytics')
-    .insert({
-      event_type: 'ticket_updated',
-      user_id: userProfile.id,
-      metadata: {
-        ticket_id: ticketId,
-        ticket_number: currentTicket.ticket_number,
-        changes,
-        request_id: requestId
-      }
-    });
-
-  // Format response
-  const formattedTicket: Ticket = {
-    id: updatedTicket.id,
-    ticket_number: updatedTicket.ticket_number,
-    title: updatedTicket.title,
-    description: updatedTicket.description,
-    status: updatedTicket.status,
-    priority: updatedTicket.priority,
-    form_type: updatedTicket.form_type,
-    form_data: updatedTicket.form_data || {},
-    submitter_id: updatedTicket.submitter_id,
-    assigned_to: updatedTicket.assigned_to,
-    location: updatedTicket.location,
-    due_date: updatedTicket.due_date,
-    completed_at: updatedTicket.completed_at,
-    metadata: updatedTicket.metadata || {},
-    created_at: updatedTicket.created_at,
-    updated_at: updatedTicket.updated_at,
-    submitter: updatedTicket.submitter ? {
-      id: updatedTicket.submitter.id,
-      name: updatedTicket.submitter.full_name,
-      email: updatedTicket.submitter.email
-    } : undefined,
-    assignee: updatedTicket.assignee ? {
-      id: updatedTicket.assignee.id,
-      name: updatedTicket.assignee.full_name,
-      email: updatedTicket.assignee.email
-    } : undefined
-  };
-
-  return res.status(200).json({
-    success: true,
-    data: {
-      ticket: formattedTicket
-    }
-  });
-}
-
-async function handleDeleteTicket(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>,
-  supabase: any,
-  userProfile: any,
-  ticketId: string,
-  requestId: string
-) {
-  // Get current ticket to check permissions
-  const { data: currentTicket, error: fetchError } = await supabase
-    .from('staff_tickets')
-    .select('submitter_id, ticket_number, status')
-    .eq('id', ticketId)
-    .single();
-
-  if (fetchError) {
-    if (fetchError.code === 'PGRST116') {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'TICKET_NOT_FOUND',
-          message: 'Ticket not found or access denied',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
+    // Only allow deletion by submitter and only if ticket is still pending
+    if (ticket.submitter_email !== userEmail) {
+      return res.status(403).json({ error: 'Permission denied' });
     }
 
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'FETCH_ERROR',
-        message: 'Failed to fetch ticket for deletion',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    if (!['pending', 'open'].includes(ticket.status)) {
+      return res.status(400).json({ error: 'Cannot delete ticket in current status' });
+    }
+
+    // Soft delete by updating status
+    const { error: deleteError } = await supabase
+      .from('tickets')
+      .update({ status: 'cancelled' })
+      .eq('id', ticketId);
+
+    if (deleteError) {
+      console.error('Error deleting ticket:', deleteError);
+      return res.status(500).json({ error: 'Failed to delete ticket' });
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error in DELETE /api/tickets/[id]:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-
-  // Only allow admins or submitters to delete tickets
-  const isSubmitter = currentTicket.submitter_id === userProfile.id;
-  const isAdmin = userProfile.role === 'admin';
-
-  if (!isSubmitter && !isAdmin) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'INSUFFICIENT_PERMISSIONS',
-        message: 'Only ticket submitters and administrators can delete tickets',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Prevent deletion of completed tickets (soft delete instead)
-  if (currentTicket.status === 'completed') {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'CANNOT_DELETE_COMPLETED',
-        message: 'Completed tickets cannot be deleted',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Soft delete by setting status to cancelled
-  const { error: deleteError } = await supabase
-    .from('staff_tickets')
-    .update({
-      status: 'cancelled',
-      metadata: {
-        deleted_by: userProfile.id,
-        deleted_at: new Date().toISOString(),
-        deleted_reason: 'User deletion'
-      }
-    })
-    .eq('id', ticketId);
-
-  if (deleteError) {
-    console.error('Ticket deletion error:', deleteError);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'DELETION_ERROR',
-        message: 'Failed to delete ticket',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Log analytics event
-  await supabase
-    .from('staff_analytics')
-    .insert({
-      event_type: 'ticket_deleted',
-      user_id: userProfile.id,
-      metadata: {
-        ticket_id: ticketId,
-        ticket_number: currentTicket.ticket_number,
-        request_id: requestId
-      }
-    });
-
-  return res.status(200).json({
-    success: true,
-    data: {}
-  });
 }

@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
-import { AuthProvider } from '@ganger/auth';
+import { SessionProvider } from 'next-auth/react';
 import { ToastProvider } from '@ganger/ui';
 import '@/styles/globals.css';
 
@@ -28,12 +28,15 @@ function createQueryClient() {
   });
 }
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ 
+  Component, 
+  pageProps: { session, ...pageProps } 
+}: AppProps) {
   // Create QueryClient instance with useState to ensure it's stable
   const [queryClient] = useState(() => createQueryClient());
 
   return (
-    <AuthProvider>
+    <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <ToastProvider>
           <div className="min-h-screen bg-gray-50">
@@ -41,6 +44,6 @@ export default function App({ Component, pageProps }: AppProps) {
           </div>
         </ToastProvider>
       </QueryClientProvider>
-    </AuthProvider>
+    </SessionProvider>
   );
 }
