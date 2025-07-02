@@ -1128,7 +1128,7 @@ import Image from 'next/image';
 <Image src="/image.jpg" alt="Description" width={500} height={300} />
 
 // ✅ Bundle analysis
-npm run analyze  // Check bundle composition
+pnpm analyze  // Check bundle composition
 ```
 
 ---

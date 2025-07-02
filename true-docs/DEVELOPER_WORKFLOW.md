@@ -281,7 +281,7 @@ pnpm dev
 pnpm build
 
 # Check bundle size (target: <500KB)
-npx bundlesize
+pnpm dlx bundlesize
 
 # Verify TypeScript compilation
 pnpm type-check
@@ -290,7 +290,7 @@ pnpm type-check
 **Integration Testing:**
 ```bash
 # Test with staff portal router (if available)
-npm run dev:staff-portal
+pnpm dev:staff-portal
 
 # Test cross-app navigation
 # Verify authentication flows
@@ -367,10 +367,10 @@ pnpm dev
 **Step 2: Deploy to Cloudflare Workers**
 ```bash
 # Deploy staff worker
-npm run deploy:your-app-staff
+pnpm deploy:your-app-staff
 
 # Deploy external worker (if dual interface)
-npm run deploy:your-app-external
+pnpm deploy:your-app-external
 
 # Verify deployment
 curl -I https://ganger-your-app-staff.workers.dev/health
@@ -392,7 +392,7 @@ curl -I https://staff.gangerdermatology.com/your-app
 
 ```bash
 # Test complete platform health
-npm run test:platform-health
+pnpm test:platform-health
 
 # Verify all 16 staff routes work
 STAFF_ROUTES=("/" "/inventory" "/handouts" "/kiosk" "/meds" "/l10" "/reps" "/phones" "/batch" "/socials" "/staffing" "/compliance" "/dashboard" "/config" "/showcase" "/status")
@@ -435,7 +435,7 @@ curl -I https://ganger-your-app-staff.workers.dev/health
 **If platform routing fails:**
 ```bash
 # Emergency rollback procedure
-npm run rollback:platform
+pnpm rollback:platform
 
 # This will:
 # 1. Rollback staff portal router

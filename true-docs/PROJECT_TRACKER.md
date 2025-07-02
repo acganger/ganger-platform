@@ -1,25 +1,26 @@
 # Ganger Platform - Deployment Tracker
 
 *Essential deployment information for all platform applications*  
-*Last Updated: December 30, 2024 8:30 PM EST*
+*Last Updated: January 7, 2025 2:30 PM EST*
 
 ---
 
 ## 🚀 Deployment Architecture
 
 ### Platform: Vercel Distributed Architecture
-- **20+ Individual Vercel Projects**: Each app deploys independently
-- **Staff Portal Router**: Uses vercel.json rewrites to proxy requests
+- **19 Individual Vercel Projects**: Each app deploys independently (official count from Vercel API)
+- **Staff Portal Router**: Uses Edge Config and middleware for dynamic routing
 - **Unified Domain**: All staff apps accessible via `staff.gangerdermatology.com/[appname]`
 - **Public Apps**: Separate domains for external access
 
 ### How It Works
 ```
-staff.gangerdermatology.com (Router)
-├── /inventory → inventory-xyz.vercel.app
-├── /handouts → handouts-xyz.vercel.app
-├── /l10 → eos-l10-xyz.vercel.app
-└── ... (15+ more apps)
+staff.gangerdermatology.com (Router with Edge Config)
+├── /inventory → ganger-inventory-project.vercel.app
+├── /handouts → ganger-handouts-project.vercel.app
+├── /l10 → ganger-eos-l10-project.vercel.app
+├── /batch → ganger-batch-closeout-project.vercel.app
+└── ... (all apps follow pattern: ganger-[app-name]-project.vercel.app)
 ```
 
 ### Deployment Process (Auto-deploy DISABLED)
@@ -29,7 +30,7 @@ staff.gangerdermatology.com (Router)
 
 # Option 2: Deploy via CLI
 cd apps/[app-name]
-npx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
+pnpm dlx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
 
 # Option 3: Use deployment script
 ./scripts/trigger-github-deployment.sh changed-only production
@@ -39,11 +40,11 @@ npx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
 
 ## 📱 Application Routing & Status
 
-### 🏢 Staff Portal Apps (15 apps at staff.gangerdermatology.com)
+### 🏢 Staff Portal Apps (All apps accessible at staff.gangerdermatology.com)
 
 | App | Folder | Route | Description |
 |-----|--------|-------|-------------|
-| **Staff Dashboard** | `apps/staff` | `/` | Main portal & app launcher |
+| **Ganger Actions** | `apps/ganger-actions` | `/` | Main portal & app launcher |
 | **Inventory** | `apps/inventory` | `/inventory` | Medical supply tracking |
 | **Handouts** | `apps/handouts` | `/handouts` | Patient education (staff view) |
 | **EOS L10** | `apps/eos-l10` | `/l10` | Team management |

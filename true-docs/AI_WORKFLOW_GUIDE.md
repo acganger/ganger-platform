@@ -176,13 +176,13 @@ The cornerstone of preventing AI hallucination is implementing mandatory verific
 ```bash
 # BEFORE claiming ANY work is complete, run these verification commands:
 cd /mnt/q/Projects/ganger-platform/apps/[app]
-npm run type-check
+pnpm type-check
 # Must show actual command output, not assumptions
 
-npm run lint
+pnpm lint
 # Must pass without errors
 
-npm run build  
+pnpm build  
 # Must build successfully
 
 # Record exact command output for tracking
@@ -401,14 +401,14 @@ mcp__memory__add_observations [
 **Mandatory Compilation Verification:**
 ```bash
 # Frontend apps verification
-cd apps/inventory && npm run type-check    # Must show 0 errors
-cd apps/handouts && npm run type-check     # Must show 0 errors  
-cd apps/checkin-kiosk && npm run type-check # Must show 0 errors
+cd apps/inventory && pnpm type-check    # Must show 0 errors
+cd apps/handouts && pnpm type-check     # Must show 0 errors  
+cd apps/checkin-kiosk && pnpm type-check # Must show 0 errors
 
 # Backend packages verification
-cd packages/db && npm run type-check       # Must show 0 errors
-cd packages/auth && npm run type-check     # Must show 0 errors
-cd packages/utils && npm run type-check    # Must show 0 errors
+cd packages/db && pnpm type-check       # Must show 0 errors
+cd packages/auth && pnpm type-check     # Must show 0 errors
+cd packages/utils && pnpm type-check    # Must show 0 errors
 ```
 
 ### Build System Verification
@@ -416,14 +416,14 @@ cd packages/utils && npm run type-check    # Must show 0 errors
 **Complete Build Pipeline:**
 ```bash
 # Individual app builds
-npm run build --workspace=apps/inventory
-npm run build --workspace=apps/handouts
-npm run build --workspace=apps/checkin-kiosk
+pnpm build --workspace=apps/inventory
+pnpm build --workspace=apps/handouts
+pnpm build --workspace=apps/checkin-kiosk
 
 # Workspace-wide verification
-npm run type-check  # All packages must pass
-npm run lint       # ESLint must pass
-npm run build      # Production build must succeed
+pnpm type-check  # All packages must pass
+pnpm lint       # ESLint must pass
+pnpm build      # Production build must succeed
 ```
 
 ### Deployment Readiness Verification
@@ -537,7 +537,7 @@ You are working on Ganger Platform frontend. IMPORTANT CONTEXT:
 1. Apps claimed "production ready" but have TypeScript compilation errors
 2. Only EOS-L10 actually works - Inventory and Handouts apps fail compilation
 3. Use Google Sheets (ID: 1AVWbNZg6ozBIVk0D-0EWaHk7xn3LxovGqzBKjgYGq8k) for task tracking
-4. Before claiming anything is "complete" - run: npm run type-check && npm run build
+4. Before claiming anything is "complete" - run: pnpm type-check && pnpm build
 5. Save progress to Memory MCP and Google Sheets as you work
 
 Current reality: Fix compilation errors first, then build features.
@@ -551,7 +551,7 @@ You are working on Ganger Platform backend. IMPORTANT CONTEXT:
 1. Package structure exists but has dependency issues (missing ioredis for Redis)
 2. Apps have TypeScript errors preventing compilation
 3. Use Google Sheets (ID: 1AVWbNZg6ozBIVk0D-0EWaHk7xn3LxovGqzBKjgYGq8k) for task tracking
-4. Before claiming anything is "complete" - run: npm run type-check && npm run build
+4. Before claiming anything is "complete" - run: pnpm type-check && pnpm build
 5. Save progress to Memory MCP and Google Sheets as you work
 
 Current reality: Fix missing dependencies and compilation errors first.
@@ -646,9 +646,9 @@ edit_cell [SHEET_ID] "Master Project Tracker" [ROW] 7 "IN_PROGRESS"
 memory-save-checkpoint --terminal-id=[ID] --checkpoint="[15min progress update]"
 
 # D. VERIFY TASK COMPLETION (ALL GATES MUST PASS)
-npm run type-check          # → sheets-update-verification --gate=TYPE_CHECK
-npm run lint               # → sheets-update-verification --gate=LINT_CHECK  
-npm run build              # → sheets-update-verification --gate=BUILD_CHECK
+pnpm type-check          # → sheets-update-verification --gate=TYPE_CHECK
+pnpm lint               # → sheets-update-verification --gate=LINT_CHECK  
+pnpm build              # → sheets-update-verification --gate=BUILD_CHECK
 npm run test               # → sheets-update-verification --gate=FUNC_TEST
 
 # E. UPDATE TRACKING WITH VERIFICATION RESULTS (ONLY IF ALL PASS)
@@ -745,8 +745,8 @@ memory-load-latest-context --terminal-id=[Terminal-1/Terminal-2]
 ```bash
 # Check what actually works right now
 git status                 # What files changed?
-npm run type-check        # What compiles?
-npm run build             # What builds?
+pnpm type-check        # What compiles?
+pnpm build             # What builds?
 ```
 
 **Step 3: Resume Protocol**
@@ -766,7 +766,7 @@ sheets-update-status --feature-id=[ID] --status=IN_PROGRESS --notes="Context rec
 **TypeScript Error Resolution Pattern:**
 ```bash
 # 1. Identify the error
-npm run type-check 2>&1 | tee compilation-errors.log
+pnpm type-check 2>&1 | tee compilation-errors.log
 
 # 2. Analyze error types
 # - Missing dependencies: Install via npm
@@ -779,7 +779,7 @@ npm run type-check 2>&1 | tee compilation-errors.log
 # Finally resolve import/export issues
 
 # 4. Verify fix
-npm run type-check
+pnpm type-check
 # Must show 0 errors before proceeding
 
 # 5. Record resolution
@@ -799,7 +799,7 @@ git status
 git diff
 
 # 3. Verify last known good state
-npm run type-check
+pnpm type-check
 
 # 4. Resume from last verified checkpoint
 # Use Memory MCP observations to identify next actions
@@ -820,9 +820,9 @@ read_all_from_sheet [SHEET_ID] "Master Project Tracker"
 cat .ai-workspace/context-bridges/current-session-context.md
 
 # If quality gates fail
-npm run type-check
-npm run lint  
-npm run build
+pnpm type-check
+pnpm lint  
+pnpm build
 ```
 
 ---

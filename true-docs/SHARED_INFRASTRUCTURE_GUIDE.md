@@ -360,11 +360,11 @@ The Ganger Platform enforces architectural integrity through automated pre-commi
 **Installation:**
 ```bash
 # Install pre-commit framework
-npm install --save-dev pre-commit husky lint-staged
+pnpm add -D pre-commit husky lint-staged
 
 # Initialize pre-commit hooks
-npx husky install
-npx husky add .husky/pre-commit "npm run pre-commit"
+pnpm dlx husky install
+pnpm dlx husky add .husky/pre-commit "pnpm pre-commit"
 ```
 
 **Mandatory Quality Gates (.husky/pre-commit):**
@@ -376,63 +376,63 @@ echo "🔍 Running quality enforcement checks..."
 
 # 1. TypeScript Compilation - ZERO TOLERANCE
 echo "📝 TypeScript compilation check..."
-npm run type-check || {
+pnpm type-check || {
   echo "❌ TypeScript compilation failed. Commit blocked."
   exit 1
 }
 
 # 2. Package Boundary Enforcement
 echo "📦 Package boundary validation..."
-npm run audit:package-boundaries || {
+pnpm audit:package-boundaries || {
   echo "❌ Package boundary violations detected. Commit blocked."
   exit 1
 }
 
 # 3. Component Library Compliance
 echo "🎨 UI component compliance check..."
-npm run audit:ui-compliance || {
+pnpm audit:ui-compliance || {
   echo "❌ Custom UI components detected. Use @ganger/ui only. Commit blocked."
   exit 1
 }
 
 # 4. Authentication Standard Compliance
 echo "🔐 Authentication compliance check..."
-npm run audit:auth-compliance || {
+pnpm audit:auth-compliance || {
   echo "❌ Custom authentication detected. Use @ganger/auth only. Commit blocked."
   exit 1
 }
 
 # 5. Performance Budget Verification
 echo "⚡ Performance budget check..."
-npm run audit:performance-budget || {
+pnpm audit:performance-budget || {
   echo "❌ Performance budget exceeded. Optimize before commit."
   exit 1
 }
 
 # 6. Security Compliance Verification
 echo "🔒 Security compliance check..."
-npm run audit:security-compliance || {
+pnpm audit:security-compliance || {
   echo "❌ Security compliance violations. Commit blocked."
   exit 1
 }
 
 # 7. Client-Server Boundary Verification
 echo "🔄 Client-server boundary check..."
-npm run audit:client-server-boundaries || {
+pnpm audit:client-server-boundaries || {
   echo "❌ Client-server boundary violations detected. Commit blocked."
   exit 1
 }
 
 # 8. 'use client' Directive Validation
 echo "⚛️ 'use client' directive validation..."
-npm run audit:use-client-directive || {
+pnpm audit:use-client-directive || {
   echo "❌ Missing or incorrect 'use client' directive usage. Commit blocked."
   exit 1
 }
 
 # 9. Server Import Prevention in Client Code
 echo "🚫 Server import prevention check..."
-npm run audit:server-imports || {
+pnpm audit:server-imports || {
   echo "❌ Server imports detected in client code. Commit blocked."
   exit 1
 }
@@ -554,7 +554,7 @@ auditPackageBoundaries();
 ```json
 {
   "scripts": {
-    "pre-commit": "npm run type-check && npm run audit:package-boundaries && npm run audit:ui-compliance && npm run audit:auth-compliance && npm run audit:performance-budget && npm run audit:security-compliance && npm run audit:client-server-boundaries && npm run audit:use-client-directive && npm run audit:server-imports",
+    "pre-commit": "pnpm type-check && pnpm audit:package-boundaries && pnpm audit:ui-compliance && pnpm audit:auth-compliance && pnpm audit:performance-budget && pnpm audit:security-compliance && pnpm audit:client-server-boundaries && pnpm audit:use-client-directive && pnpm audit:server-imports",
     "audit:package-boundaries": "node scripts/audit-package-boundaries.js",
     "audit:ui-compliance": "node scripts/audit-ui-compliance.js", 
     "audit:auth-compliance": "node scripts/audit-auth-compliance.js",
@@ -1027,7 +1027,7 @@ pnpm supabase:status
 pnpm ls react @types/react typescript
 
 # Clear TypeScript cache
-npx tsc --build --clean
+pnpm dlx tsc --build --clean
 
 # Remove any app-specific node_modules
 rm -rf apps/*/node_modules packages/*/node_modules

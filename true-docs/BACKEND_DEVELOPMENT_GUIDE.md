@@ -822,25 +822,25 @@ ganger-platform/
 
 ```bash
 # Start backend services
-npm run supabase:start    # Start local database
-npm run redis:start       # Start local Redis cache
+pnpm supabase:start    # Start local database
+pnpm redis:start       # Start local Redis cache
 
 # Database operations
-npm run db:generate       # Generate Prisma client
-npm run db:push           # Push schema changes
-npm run db:migrate        # Run database migrations
-npm run db:seed           # Seed development data
-npm run db:studio         # Open database browser
+pnpm db:generate       # Generate Prisma client
+pnpm db:push           # Push schema changes
+pnpm db:migrate        # Run database migrations
+pnpm db:seed           # Seed development data
+pnpm db:studio         # Open database browser
 
 # API development
-npm run api:dev           # Start API server with hot reload
-npm run api:test          # Run API endpoint tests
-npm run api:docs          # Generate API documentation
+pnpm api:dev           # Start API server with hot reload
+pnpm api:test          # Run API endpoint tests
+pnpm api:docs          # Generate API documentation
 
 # Integration testing
-npm run test:integrations # Test external service integrations
-npm run test:auth         # Test authentication flows
-npm run test:permissions  # Test role-based access control
+pnpm test:integrations # Test external service integrations
+pnpm test:auth         # Test authentication flows
+pnpm test:permissions  # Test role-based access control
 ```
 
 ### **Essential Backend Environment Variables**
@@ -880,27 +880,27 @@ ENCRYPTION_KEY=your_encryption_key
 
 ```bash
 # 1. TypeScript Compilation - Zero Errors Tolerance
-npm run type-check
+pnpm type-check
 # Expected output: "Found 0 errors"
 
 # 2. Authentication Compliance - No Custom Auth
-npm run audit:auth-compliance
+pnpm audit:auth-compliance
 # Expected output: "✅ Authentication compliance verified"
 
 # 3. Security Compliance - HIPAA and General Security
-npm run audit:security-compliance
+pnpm audit:security-compliance
 # Expected output: "✅ Security compliance verified"
 
 # 4. API Standards Compliance - Consistent Response Formats
-npm run audit:api-standards
+pnpm audit:api-standards
 # Expected output: "✅ API standards compliance verified"
 
 # 5. Database Schema Validation - Proper RLS and Constraints
-npm run audit:database-schema
+pnpm audit:database-schema
 # Expected output: "✅ Database schema validation passed"
 
 # 6. Integration Testing - External Services Working
-npm run test:integrations
+pnpm test:integrations
 # Expected output: "All integration tests passed"
 ```
 
@@ -1107,23 +1107,23 @@ describe('Universal Payment Hub', () => {
 **Backend-Specific Pre-Deployment Checklist:**
 ```bash
 # ✅ Pre-deployment validation
-npm run type-check              # TypeScript compilation
-npm run test                    # All tests pass
-npm run test:integrations       # External services working
-npm run audit:security-compliance # Security standards met
-npm run build                   # Production build succeeds
+pnpm type-check              # TypeScript compilation
+pnpm test                    # All tests pass
+pnpm test:integrations       # External services working
+pnpm audit:security-compliance # Security standards met
+pnpm build                   # Production build succeeds
 
 # ✅ Database migration
-npm run db:migrate:production   # Apply database changes
-npm run db:validate:production  # Verify schema integrity
+pnpm db:migrate:production   # Apply database changes
+pnpm db:validate:production  # Verify schema integrity
 
 # ✅ Environment validation
-npm run validate:env:production # Verify all required env vars
-npm run test:health:production  # Health check endpoints
+pnpm validate:env:production # Verify all required env vars
+pnpm test:health:production  # Health check endpoints
 
 # ✅ Performance validation
-npm run test:load              # Load testing
-npm run audit:performance      # Performance benchmarks
+pnpm test:load              # Load testing
+pnpm audit:performance      # Performance benchmarks
 ```
 
 **Production Monitoring Setup:**

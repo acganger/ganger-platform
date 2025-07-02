@@ -922,25 +922,25 @@ module.exports = nextConfig;
 **Required Validation Steps:**
 ```bash
 # 1. Verify shared package access
-npm run audit:package-boundaries
+pnpm audit:package-boundaries
 
 # 2. Validate component library compliance  
-npm run audit:ui-compliance
+pnpm audit:ui-compliance
 
 # 3. Check authentication integration
-npm run audit:auth-compliance
+pnpm audit:auth-compliance
 
 # 4. Verify performance budgets
-npm run audit:performance-budget
+pnpm audit:performance-budget
 
 # 5. Test client-server boundaries
-npm run audit:client-server-boundaries
+pnpm audit:client-server-boundaries
 
 # 6. Validate 'use client' directive usage
-npm run audit:use-client-directive
+pnpm audit:use-client-directive
 
 # 7. Check for server imports in client code
-npm run audit:server-imports
+pnpm audit:server-imports
 ```
 
 ### **New Application Checklist**
@@ -962,7 +962,7 @@ npm run audit:server-imports
 - [ ] TypeScript compilation passes with 0 errors
 
 **✅ Quality Verification:**
-- [ ] All quality gates pass (`npm run pre-commit`)
+- [ ] All quality gates pass (`pnpm pre-commit`)
 - [ ] Performance budgets met
 - [ ] Bundle size within limits
 - [ ] Accessibility compliance verified
@@ -1027,22 +1027,22 @@ ganger-platform/
 
 ```bash
 # Start all frontend applications
-npm run dev
+pnpm dev
 
 # Start specific applications  
-npm run dev:inventory
-npm run dev:handouts
-npm run dev:checkin-kiosk
-npm run dev:eos-l10
-npm run dev:medication-auth
-npm run dev:pharma-scheduling
+pnpm dev:inventory
+pnpm dev:handouts
+pnpm dev:checkin-kiosk
+pnpm dev:eos-l10
+pnpm dev:medication-auth
+pnpm dev:pharma-scheduling
 
 # Frontend-specific type checking
-npm run type-check:apps
+pnpm type-check:apps
 
 # UI component development
-npm run storybook:ui  # Component library development
-npm run test:ui       # UI component testing
+pnpm storybook:ui  # Component library development
+pnpm test:ui       # UI component testing
 ```
 
 ### **Essential Frontend Environment Variables**
@@ -1071,27 +1071,27 @@ NEXT_PUBLIC_ERROR_REPORTING=true
 
 ```bash
 # 1. TypeScript Compilation - Zero Errors Tolerance
-npm run type-check
+pnpm type-check
 # Expected output: "Found 0 errors"
 
 # 2. Component Library Compliance - No Custom Components
-npm run audit:ui-compliance  
+pnpm audit:ui-compliance  
 # Expected output: "✅ UI component compliance verified"
 
 # 3. Client Directive Validation - Proper 'use client' Usage
-npm run audit:use-client-directive
+pnpm audit:use-client-directive
 # Expected output: "✅ All interactive components properly use 'use client' directive"
 
 # 4. Server Import Prevention - No Server Code in Client
-npm run audit:server-imports
+pnpm audit:server-imports
 # Expected output: "✅ No server imports found in client code"
 
 # 5. Performance Budget Compliance - Bundle Size Limits
-npm run audit:performance-budget
+pnpm audit:performance-budget
 # Expected output: "✅ Performance budget compliance verified"
 
 # 6. Build Verification - Production Build Success
-npm run build
+pnpm build
 # Expected output: Build completed successfully
 ```
 
@@ -1258,13 +1258,13 @@ export function withPerformanceMonitoring(Component) {
 **Bundle Analysis:**
 ```bash
 # Analyze bundle size and dependencies
-npm run analyze:bundle
+pnpm analyze:bundle
 
 # Check for duplicate dependencies  
-npm run analyze:duplicates
+pnpm analyze:duplicates
 
 # Verify tree-shaking effectiveness
-npm run analyze:tree-shaking
+pnpm analyze:tree-shaking
 ```
 
 ### **Common Frontend Issues and Solutions**

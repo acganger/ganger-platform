@@ -17,7 +17,7 @@ const path = require('path');
 
 // Read deployment URLs
 const deploymentUrlsPath = path.join(__dirname, '..', 'deployment-urls.json');
-const staffVercelJsonPath = path.join(__dirname, '..', 'apps', 'staff', 'vercel.json');
+const staffVercelJsonPath = path.join(__dirname, '..', 'apps', 'ganger-actions', 'vercel.json');
 
 if (!fs.existsSync(deploymentUrlsPath)) {
   console.error('❌ deployment-urls.json not found. Run vercel-deploy-all-apps.sh first.');
