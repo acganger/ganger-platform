@@ -9,6 +9,13 @@ import { Calendar, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
 
+const timeSlotSchema = z.object({
+  day: z.string(),
+  start_time: z.string(),
+  end_time: z.string(),
+  available: z.boolean()
+});
+
 const availabilitySchema = z.object({
   employee_name: z.string().optional(),
   employee_email: z.string().optional(),
@@ -36,6 +43,7 @@ export default function AvailabilityChangeForm() {
   const isManager = hasRole(['admin', 'manager']);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   
   const {
     register,
@@ -55,7 +63,7 @@ export default function AvailabilityChangeForm() {
     }
   });
 
-  const changeType = watch('change_type');
+  const changeType = watch('availability_change');
 
   const addTimeSlot = () => {
     const newSlot: TimeSlot = {
@@ -76,7 +84,7 @@ export default function AvailabilityChangeForm() {
   };
 
   const removeTimeSlot = (index: number) => {
-    const updatedSlots = timeSlots.filter((_, i) => i !== index);
+    const updatedSlots = timeSlots.filter((_slot, i) => i !== index);
     setTimeSlots(updatedSlots);
     setValue('availability', updatedSlots);
   };

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { getInitials, getAvatarColor } from '@/lib/utils';
+import { Button } from '@ganger/ui';
 
 interface HeaderProps {
   title: string;
@@ -44,14 +45,15 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
         <div className="flex h-16 justify-between items-center">
           {/* Left side - Mobile menu button and title */}
           <div className="flex items-center">
-            <button
-              type="button"
-              className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 lg:hidden"
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onMenuClick}
+              className="lg:hidden p-2 text-gray-400 hover:text-gray-500"
             >
               <span className="sr-only">Open sidebar</span>
               <Menu className="h-6 w-6" />
-            </button>
+            </Button>
             
             <h1 className="ml-4 lg:ml-0 text-2xl font-semibold text-gray-900">
               {title}
@@ -77,20 +79,22 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
           {/* Right side - Notifications and user menu */}
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <button
-              type="button"
-              className="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            <Button
+              variant="ghost"
+              size="sm"
+              className="p-2 text-gray-400 hover:text-gray-500"
             >
               <span className="sr-only">View notifications</span>
               <Bell className="h-6 w-6" />
-            </button>
+            </Button>
 
             {/* User menu */}
             <div className="relative">
-              <button
-                type="button"
-                className="flex items-center space-x-3 p-2 text-sm bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center space-x-3 p-2 text-sm bg-white hover:bg-gray-50 h-auto"
               >
                 {/* User avatar */}
                 <div className={`flex items-center justify-center h-8 w-8 rounded-full text-white text-sm font-medium ${getAvatarColor(authUser?.name || 'User')}`}>
@@ -107,7 +111,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
                 </div>
                 
                 <ChevronDown className="h-4 w-4 text-gray-400" />
-              </button>
+              </Button>
 
               {/* Dropdown menu */}
               {userMenuOpen && (
@@ -127,36 +131,42 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
                         </p>
                       </div>
                       
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => {
                           setUserMenuOpen(false);
                           router.push('/profile');
                         }}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 justify-start h-auto"
                       >
                         <User className="h-4 w-4 mr-3" />
                         Your Profile
-                      </button>
+                      </Button>
                       
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => {
                           setUserMenuOpen(false);
                           router.push('/settings');
                         }}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 justify-start h-auto"
                       >
                         <Settings className="h-4 w-4 mr-3" />
                         Settings
-                      </button>
+                      </Button>
                       
                       <div className="border-t border-gray-100">
-                        <button
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={handleSignOut}
-                          className="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50 justify-start h-auto"
                         >
                           <LogOut className="h-4 w-4 mr-3" />
                           Sign out
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>

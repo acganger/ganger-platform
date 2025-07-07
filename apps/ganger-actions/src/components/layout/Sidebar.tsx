@@ -30,7 +30,7 @@ import { cn } from '@/lib/utils';
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
   { name: 'Submit Request', href: '/forms', icon: PlusCircle },
-  { name: 'My Tickets', href: '/tickets', icon: Ticket },
+  { name: 'Tickets', href: '/tickets', icon: Ticket },
 ];
 
 const appNavigation = [

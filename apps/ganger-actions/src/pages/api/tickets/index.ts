@@ -2,34 +2,57 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { 
+  ApiErrors, 
+  sendError, 
+  sendSuccess, 
+  withErrorHandler,
+  validateRequiredFields 
+} from '@/lib/api/errors';
+import { logger } from '@/lib/api/logger';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Factory function to create Supabase client
+const getSupabaseClient = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw ApiErrors.internal('Missing Supabase environment variables');
+  }
+  
+  return createClient(supabaseUrl, supabaseServiceKey);
+};
 
-export default async function handler(
+export default withErrorHandler(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const startTime = Date.now();
   const session = await getServerSession(req, res, authOptions);
   
   if (!session?.user?.email) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    throw ApiErrors.unauthorized('Authentication required');
   }
 
   const userEmail = session.user.email;
   const userName = session.user.name || userEmail.split('@')[0];
+  
+  logger.logRequest(req, userEmail);
 
   switch (req.method) {
     case 'GET':
-      return handleGet(req, res, userEmail);
+      await handleGet(req, res, userEmail);
+      break;
     case 'POST':
-      return handlePost(req, res, userEmail, userName);
+      await handlePost(req, res, userEmail, userName);
+      break;
     default:
-      return res.status(405).json({ error: 'Method not allowed' });
+      throw ApiErrors.validation(`Method ${req.method} not allowed`);
   }
-}
+  
+  const duration = Date.now() - startTime;
+  logger.logResponse(req, res.statusCode, duration);
+});
 
 async function handleGet(
   req: NextApiRequest,
@@ -37,7 +60,34 @@ async function handleGet(
   userEmail: string
 ) {
   try {
-    const { status, form_type, limit = 20, offset = 0 } = req.query;
+    const { 
+      status, 
+      form_type, 
+      priority,
+      location,
+      search,
+      submitter,
+      assigned_to,
+      date_from,
+      date_to,
+      sort_by = 'created_at',
+      sort_order = 'desc',
+      view_all,
+      limit = 20, 
+      offset = 0 
+    } = req.query;
+    
+    const supabase = getSupabaseClient();
+
+    // First, check if user has manager or admin role
+    const { data: userData } = await supabase
+      .from('staff_user_profiles')
+      .select('role')
+      .eq('email', userEmail)
+      .single();
+
+    const isManagerOrAdmin = userData?.role === 'manager' || userData?.role === 'admin';
+    const showAllTickets = view_all === 'true' && isManagerOrAdmin;
 
     let query = supabase
       .from('tickets')
@@ -45,36 +95,80 @@ async function handleGet(
         *,
         comments:ticket_comments(count),
         files:ticket_file_uploads(count)
-      `)
-      .or(`submitter_email.eq.${userEmail},assigned_to_email.eq.${userEmail}`)
-      .order('created_at', { ascending: false })
-      .limit(Number(limit))
-      .range(Number(offset), Number(offset) + Number(limit) - 1);
+      `, { count: 'exact' });
 
+    // Apply user filter - managers/admins can see all, others see only their tickets
+    if (!showAllTickets) {
+      query = query.or(`submitter_email.eq.${userEmail},assigned_to_email.eq.${userEmail}`);
+    }
+
+    // Apply filters
     if (status) {
-      query = query.eq('status', status);
+      const statusArray = Array.isArray(status) ? status : [status];
+      query = query.in('status', statusArray);
     }
 
     if (form_type) {
-      query = query.eq('form_type', form_type);
+      const formTypeArray = Array.isArray(form_type) ? form_type : [form_type];
+      query = query.in('form_type', formTypeArray);
     }
+
+    if (priority) {
+      const priorityArray = Array.isArray(priority) ? priority : [priority];
+      query = query.in('priority', priorityArray);
+    }
+
+    if (location) {
+      const locationArray = Array.isArray(location) ? location : [location];
+      query = query.in('location', locationArray);
+    }
+
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,ticket_number.ilike.%${search}%`);
+    }
+
+    if (submitter && isManagerOrAdmin) {
+      query = query.eq('submitter_email', submitter);
+    }
+
+    if (assigned_to) {
+      query = query.eq('assigned_to_email', assigned_to);
+    }
+
+    if (date_from) {
+      query = query.gte('created_at', date_from);
+    }
+
+    if (date_to) {
+      query = query.lte('created_at', date_to);
+    }
+
+    // Apply sorting
+    const validSortFields = ['created_at', 'updated_at', 'priority', 'status', 'ticket_number'];
+    const sortField = validSortFields.includes(sort_by as string) ? sort_by as string : 'created_at';
+    const sortAscending = sort_order === 'asc';
+    
+    query = query.order(sortField, { ascending: sortAscending });
+
+    // Apply pagination
+    query = query.range(Number(offset), Number(offset) + Number(limit) - 1);
 
     const { data, error, count } = await query;
 
     if (error) {
-      console.error('Error fetching tickets:', error);
-      return res.status(500).json({ error: 'Failed to fetch tickets' });
+      logger.error('Error fetching tickets', error);
+      throw ApiErrors.database('Failed to fetch tickets');
     }
 
-    return res.status(200).json({
+    sendSuccess(res, {
       tickets: data || [],
       total: count || 0,
       limit: Number(limit),
-      offset: Number(offset)
+      offset: Number(offset),
+      isManagerOrAdmin
     });
   } catch (error) {
-    console.error('Error in GET /api/tickets:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    throw error; // Re-throw to be handled by withErrorHandler
   }
 }
 
@@ -86,11 +180,10 @@ async function handlePost(
 ) {
   try {
     const { title, description, form_type, form_data, priority, location } = req.body;
+    const supabase = getSupabaseClient();
 
     // Validate required fields
-    if (!form_type || !form_data) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    validateRequiredFields(req.body, ['form_type', 'form_data']);
 
     // Determine if this form type requires approval
     const requiresApproval = ['time_off_request', 'expense_reimbursement'].includes(form_type);
@@ -115,8 +208,8 @@ async function handlePost(
       .single();
 
     if (ticketError) {
-      console.error('Error creating ticket:', ticketError);
-      return res.status(500).json({ error: 'Failed to create ticket' });
+      logger.error('Error creating ticket', ticketError);
+      throw ApiErrors.database('Failed to create ticket');
     }
 
     // Add notification job to queue
@@ -136,21 +229,19 @@ async function handlePost(
       });
 
     if (jobError) {
-      console.error('Error creating notification job:', jobError);
+      logger.warn('Error creating notification job', jobError);
       // Don't fail the request if notification fails
     }
 
-    return res.status(201).json({
-      success: true,
+    sendSuccess(res, {
       ticket: {
         id: ticket.id,
         ticket_number: ticket.ticket_number,
         status: ticket.status,
         created_at: ticket.created_at
       }
-    });
+    }, 201);
   } catch (error) {
-    console.error('Error in POST /api/tickets:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    throw error; // Re-throw to be handled by withErrorHandler
   }
 }

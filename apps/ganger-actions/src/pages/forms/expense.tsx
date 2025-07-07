@@ -8,6 +8,14 @@ import { useMutation } from '@tanstack/react-query';
 import { DollarSign, Plus, X, Upload, Receipt } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@ganger/ui';
+
+const expenseItemSchema = z.object({
+  date: z.string(),
+  category: z.string(),
+  description: z.string(),
+  amount: z.number()
+});
 
 const expenseSchema = z.object({
   expense_date: z.string().min(1, 'Expense date is required'),
@@ -16,7 +24,9 @@ const expenseSchema = z.object({
     .regex(/^\d+(\.\d{1,2})?$/, 'Invalid amount format'),
   category: z.enum(['Travel', 'Supplies', 'Meals', 'Other']),
   description: z.string().min(10, 'Please provide at least 10 characters describing the expense'),
-  receipt: z.instanceof(File, { message: 'Receipt is required' })
+  receipt: z.instanceof(File, { message: 'Receipt is required' }),
+  expense_type: z.string(),
+  expense_items: z.array(expenseItemSchema).optional()
 });
 
 type ExpenseFormData = z.infer<typeof expenseSchema>;
@@ -44,6 +54,7 @@ export default function ExpenseReimbursementForm() {
   const { toast } = useToast();
   const { user } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
   
   const {
     register,
@@ -76,7 +87,7 @@ export default function ExpenseReimbursementForm() {
   };
 
   const removeExpenseItem = (index: number) => {
-    const updatedItems = expenseItems.filter((_, i) => i !== index);
+    const updatedItems = expenseItems.filter((_item, i) => i !== index);
     setExpenseItems(updatedItems);
     setValue('expense_items', updatedItems);
   };
@@ -91,7 +102,7 @@ export default function ExpenseReimbursementForm() {
   };
 
   const removeFile = (index: number) => {
-    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    setUploadedFiles(prev => prev.filter((_file, i) => i !== index));
   };
 
   const submitRequest = useMutation({
@@ -208,14 +219,14 @@ export default function ExpenseReimbursementForm() {
                   <label className="block text-sm font-medium text-gray-700">
                     Expense Items *
                   </label>
-                  <button
-                    type="button"
+                  <Button
+                    variant="primary"
+                    size="sm"
                     onClick={addExpenseItem}
-                    className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
+                    leftIcon={<Plus className="h-4 w-4" />}
                   >
-                    <Plus className="h-4 w-4 mr-1" />
                     Add Item
-                  </button>
+                  </Button>
                 </div>
 
                 {expenseItems.length === 0 ? (
@@ -230,13 +241,14 @@ export default function ExpenseReimbursementForm() {
                       <div key={index} className="bg-gray-50 p-4 rounded-md">
                         <div className="flex justify-between items-start mb-3">
                           <h4 className="text-sm font-medium text-gray-700">Item {index + 1}</h4>
-                          <button
-                            type="button"
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => removeExpenseItem(index)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 h-auto p-1"
                           >
                             <X className="h-4 w-4" />
-                          </button>
+                          </Button>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -360,13 +372,14 @@ export default function ExpenseReimbursementForm() {
                       {uploadedFiles.map((file, index) => (
                         <li key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
                           <span className="text-sm text-gray-600">{file.name}</span>
-                          <button
-                            type="button"
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => removeFile(index)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 h-auto p-1"
                           >
                             <X className="h-4 w-4" />
-                          </button>
+                          </Button>
                         </li>
                       ))}
                     </ul>
@@ -391,20 +404,21 @@ export default function ExpenseReimbursementForm() {
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                size="md"
                 onClick={() => router.push('/forms')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="primary"
+                size="md"
+                loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

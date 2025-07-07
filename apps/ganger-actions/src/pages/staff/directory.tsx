@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { LoadingSpinner } from '@ganger/ui';
 import { 
   ArrowLeft, 
   Folder, 
@@ -192,8 +192,7 @@ export default function StaffDirectoryPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <LoadingSpinner size="lg" text="Loading directory..." center />
         </div>
       </div>
     );

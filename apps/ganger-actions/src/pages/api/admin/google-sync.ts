@@ -1,7 +1,8 @@
 // pages/api/admin/google-sync.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '../../../types/database';
+import { createClient } from '@supabase/supabase-js';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../auth/[...nextauth]';
 import { getGoogleWorkspaceService, validateGoogleWorkspaceConfig } from '../../../lib/google-workspace-service';
 import { validateRequest } from '../../../lib/validation-schemas';
 import { z } from 'zod';
@@ -53,10 +54,9 @@ export default async function handler(
   const requestId = Math.random().toString(36).substring(7);
 
   // Authentication check
-  const supabase = createServerSupabaseClient<Database>({ req, res });
-  const { data: { session }, error: authError } = await supabase.auth.getSession();
+  const session = await getServerSession(req, res, authOptions);
 
-  if (authError || !session) {
+  if (!session?.user?.email) {
     return res.status(401).json({
       success: false,
       error: {
@@ -69,7 +69,7 @@ export default async function handler(
   }
 
   // Check domain restriction
-  const email = session.user?.email;
+  const email = session.user.email;
   if (!email?.endsWith('@gangerdermatology.com')) {
     return res.status(403).json({
       success: false,
@@ -82,11 +82,17 @@ export default async function handler(
     });
   }
 
+  // Create Supabase client
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   // Get user profile for permissions
   const { data: userProfile } = await supabase
     .from('staff_user_profiles')
     .select('id, role, email, full_name')
-    .eq('id', session.user.id)
+    .eq('email', session.user.email)
     .single();
 
   if (!userProfile) {

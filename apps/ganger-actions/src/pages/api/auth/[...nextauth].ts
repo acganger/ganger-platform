@@ -4,10 +4,13 @@ import { createClient } from '@supabase/supabase-js';
 import type { Session, User } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Factory function to create Supabase client
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -28,6 +31,8 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }: any) {
       // Only allow users with @gangerdermatology.com email
       if (user.email?.endsWith('@gangerdermatology.com')) {
+        // Create Supabase client inside callback
+        const supabase = getSupabaseClient();
         // Upsert user in Supabase
         const { error } = await supabase
           .from('auth.users')
@@ -50,7 +55,25 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (session?.user) {
+        // Add user ID to session
         (session.user as any).id = token.sub!;
+        
+        // Create Supabase client inside callback
+        const supabase = getSupabaseClient();
+        // Fetch additional user data from staff_user_profiles
+        const { data: profile } = await supabase
+          .from('staff_user_profiles')
+          .select('id, role, location, department, manager_id')
+          .eq('email', session.user.email!)
+          .single();
+        
+        if (profile) {
+          (session.user as any).id = profile.id;
+          (session.user as any).role = profile.role;
+          (session.user as any).location = profile.location;
+          (session.user as any).department = profile.department;
+          (session.user as any).manager_id = profile.manager_id;
+        }
       }
       return session;
     },

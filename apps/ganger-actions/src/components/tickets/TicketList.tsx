@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Ticket, TicketFilters } from '@/types';
 import { TicketCard } from './TicketCard';
 import { TicketFilters as TicketFiltersComponent } from './TicketFilters';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { LoadingSpinner } from '@ganger/ui';
 import { Search, Filter, SortAsc, SortDesc } from 'lucide-react';
 
 interface TicketListProps {
@@ -201,7 +201,7 @@ export const TicketList = ({
       {/* Tickets */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <LoadingSpinner size="lg" />
+          <LoadingSpinner size="lg" text="Loading tickets..." center />
         </div>
       ) : (
         <div className="space-y-4">

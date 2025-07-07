@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { LoadingSpinner } from '@ganger/ui';
 import { AuthUser } from '@/types';
 
 interface ProtectedRouteProps {
@@ -40,8 +40,7 @@ export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <LoadingSpinner size="lg" text="Loading..." center />
         </div>
       </div>
     );
@@ -52,8 +51,7 @@ export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Redirecting to login...</p>
+          <LoadingSpinner size="lg" text="Redirecting to login..." center />
         </div>
       </div>
     );
@@ -64,8 +62,7 @@ export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Loading user profile...</p>
+          <LoadingSpinner size="lg" text="Loading user profile..." center />
         </div>
       </div>
     );

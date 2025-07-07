@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Calendar, Clock, Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@ganger/ui';
 
 const timeOffSchema = z.object({
   start_date: z.string().min(1, 'Start date is required'),
@@ -290,13 +291,14 @@ export default function TimeOffRequestForm() {
                       {uploadedFiles.map((file, index) => (
                         <li key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
                           <span className="text-sm text-gray-600">{file.name}</span>
-                          <button
-                            type="button"
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => removeFile(index)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 h-auto p-1"
                           >
                             <X className="h-4 w-4" />
-                          </button>
+                          </Button>
                         </li>
                       ))}
                     </ul>
@@ -307,20 +309,21 @@ export default function TimeOffRequestForm() {
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                size="md"
                 onClick={() => router.push('/forms')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="primary"
+                size="md"
+                loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

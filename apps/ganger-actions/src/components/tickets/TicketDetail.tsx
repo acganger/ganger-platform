@@ -15,6 +15,7 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react';
+import { Button } from '@ganger/ui';
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -94,13 +95,15 @@ const CommentItem = ({
           </div>
           
           {canDelete && (
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onDelete}
-              className="text-gray-400 hover:text-red-500 p-1"
+              className="text-gray-400 hover:text-red-500 h-auto p-1"
               title="Delete comment"
             >
               <Trash2 className="h-4 w-4" />
-            </button>
+            </Button>
           )}
         </div>
         
@@ -179,9 +182,13 @@ export const TicketDetail = ({
           </div>
           
           {canEditTicket && (
-            <button className="text-gray-400 hover:text-gray-500 p-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-400 hover:text-gray-500 h-auto p-2"
+            >
               <Edit className="h-5 w-5" />
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -239,9 +246,13 @@ export const TicketDetail = ({
                           </p>
                         </div>
                       </div>
-                      <button className="text-primary-600 hover:text-primary-500 p-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-primary-600 hover:text-primary-500 h-auto p-2"
+                      >
                         <Download className="h-4 w-4" />
-                      </button>
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -292,14 +303,15 @@ export const TicketDetail = ({
                       </label>
                     )}
                     <div className="flex space-x-2">
-                      <button
+                      <Button
                         type="submit"
+                        variant="primary"
+                        size="sm"
                         disabled={!newComment.trim()}
-                        className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        leftIcon={<Send className="h-4 w-4" />}
                       >
-                        <Send className="h-4 w-4 mr-1" />
                         Send
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -363,13 +375,15 @@ export const TicketDetail = ({
                 <h4 className="font-medium text-gray-900 mb-3">Actions</h4>
                 <div className="space-y-2">
                   {statusActions.map((action) => (
-                    <button
+                    <Button
                       key={action.status}
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onStatusChange?.(ticket.id, action.status)}
-                      className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${action.className}`}
+                      className={`w-full text-left justify-start ${action.className}`}
                     >
                       {action.label}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>

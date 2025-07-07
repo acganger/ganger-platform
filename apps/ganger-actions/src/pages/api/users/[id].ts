@@ -1,148 +1,87 @@
-// pages/api/users/[id].ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '../../../types/database';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../auth/[...nextauth]';
+import { createClient } from '@supabase/supabase-js';
 import { validateRequest, updateUserSchema } from '../../../lib/validation-schemas';
+import { 
+  ApiErrors, 
+  sendSuccess, 
+  withErrorHandler,
+  validateRequiredFields,
+  requireRole
+} from '@/lib/api/errors';
+import { logger } from '@/lib/api/logger';
 
-interface UserProfile {
-  id: string;
-  employee_id: string;
-  full_name: string;
-  email: string;
-  department: string;
-  role: 'staff' | 'manager' | 'admin';
-  location: string;
-  hire_date?: string;
-  phone_number?: string;
-  is_active: boolean;
-  google_user_data?: Record<string, unknown>;
-  created_at: string;
-  updated_at: string;
-}
+// Factory function to create Supabase client
+const getSupabaseClient = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw ApiErrors.internal('Missing Supabase environment variables');
+  }
+  
+  return createClient(supabaseUrl, supabaseServiceKey);
+};
 
-interface ApiResponse {
-  success: boolean;
-  data?: {
-    user?: UserProfile;
-  };
-  error?: {
-    code: string;
-    message: string;
-    details?: Record<string, string[]>;
-    timestamp: string;
-    request_id: string;
-  };
-}
-
-export default async function handler(
+export default withErrorHandler(async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>
+  res: NextApiResponse
 ) {
-  const requestId = Math.random().toString(36).substring(7);
+  const session = await getServerSession(req, res, authOptions);
   const { id: userId } = req.query;
 
+  if (!session?.user?.email) {
+    throw ApiErrors.unauthorized('Authentication required');
+  }
+
   if (!userId || typeof userId !== 'string') {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'INVALID_USER_ID',
-        message: 'Valid user ID is required',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    throw ApiErrors.validation('Valid user ID is required');
   }
 
-  // Authentication check
-  const supabase = createServerSupabaseClient<Database>({ req, res });
-  const { data: { session }, error: authError } = await supabase.auth.getSession();
+  const userEmail = session.user.email;
+  logger.logRequest(req, userEmail);
 
-  if (authError || !session) {
-    return res.status(401).json({
-      success: false,
-      error: {
-        code: 'UNAUTHORIZED',
-        message: 'Authentication required',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
+  // Create Supabase client
+  const supabase = getSupabaseClient();
 
-  // Check domain restriction
-  const email = session.user?.email;
-  if (!email?.endsWith('@gangerdermatology.com')) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'DOMAIN_RESTRICTED',
-        message: 'Access restricted to Ganger Dermatology domain',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
-
-  // Get user profile for permissions
-  const { data: userProfile } = await supabase
+  // Get current user's profile to check permissions
+  const { data: userProfile, error: profileError } = await supabase
     .from('staff_user_profiles')
     .select('id, role, email, full_name')
-    .eq('id', session.user.id)
+    .eq('email', userEmail)
     .single();
 
-  if (!userProfile) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'PROFILE_NOT_FOUND',
-        message: 'User profile not found',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+  if (profileError || !userProfile) {
+    logger.error('Failed to fetch user profile', profileError, { userEmail });
+    throw ApiErrors.database('Failed to fetch user profile');
   }
 
-  try {
-    if (req.method === 'GET') {
-      return await handleGetUser(req, res, supabase, userProfile, userId, requestId);
-    } else if (req.method === 'PUT') {
-      return await handleUpdateUser(req, res, supabase, userProfile, userId, requestId);
-    } else if (req.method === 'DELETE') {
-      return await handleDeleteUser(req, res, supabase, userProfile, userId, requestId);
-    } else {
+  switch (req.method) {
+    case 'GET':
+      await handleGetUser(req, res, supabase, userProfile, userId);
+      break;
+    case 'PUT':
+      await handleUpdateUser(req, res, supabase, userProfile, userId);
+      break;
+    case 'DELETE':
+      await handleDeleteUser(req, res, supabase, userProfile, userId);
+      break;
+    default:
       res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
-      return res.status(405).json({
-        success: false,
-        error: {
-          code: 'METHOD_NOT_ALLOWED',
-          message: 'Method not allowed',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
-    }
-  } catch (error) {
-    console.error('User API error:', error);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'INTERNAL_ERROR',
-        message: error instanceof Error ? error.message : 'User service unavailable',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+      throw ApiErrors.validation(`Method ${req.method} not allowed`);
   }
-}
+});
 
 async function handleGetUser(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>,
+  res: NextApiResponse,
   supabase: any,
   userProfile: any,
-  userId: string,
-  requestId: string
+  userId: string
 ) {
+  const startTime = Date.now();
+
   // Get user with permission checks
   const { data: targetUser, error } = await supabase
     .from('staff_user_profiles')
@@ -152,28 +91,14 @@ async function handleGetUser(
 
   if (error) {
     if (error.code === 'PGRST116') {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'USER_NOT_FOUND',
-          message: 'User not found',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
+      throw ApiErrors.notFound('User');
     }
 
-    console.error('User fetch error:', error);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'FETCH_ERROR',
-        message: 'Failed to fetch user',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    logger.error('Failed to fetch user', error, { userId });
+    throw ApiErrors.database('Failed to fetch user');
   }
+
+  logger.logDatabase('SELECT', 'staff_user_profiles', Date.now() - startTime);
 
   // Check permissions (users can view themselves, managers can view staff/managers, admins can view all)
   const isSelf = targetUser.id === userProfile.id;
@@ -182,19 +107,11 @@ async function handleGetUser(
     userProfile.role === 'admin';
 
   if (!canView) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'INSUFFICIENT_PERMISSIONS',
-        message: 'You do not have permission to view this user',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    throw ApiErrors.forbidden('You do not have permission to view this user');
   }
 
   // Format response (exclude sensitive data for non-admins)
-  const formattedUser: UserProfile = {
+  const formattedUser = {
     id: targetUser.id,
     employee_id: targetUser.employee_id || '',
     full_name: targetUser.full_name,
@@ -210,37 +127,26 @@ async function handleGetUser(
     updated_at: targetUser.updated_at
   };
 
-  return res.status(200).json({
-    success: true,
-    data: {
-      user: formattedUser
-    }
-  });
+  sendSuccess(res, { user: formattedUser });
 }
 
 async function handleUpdateUser(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>,
+  res: NextApiResponse,
   supabase: any,
   userProfile: any,
-  userId: string,
-  requestId: string
+  userId: string
 ) {
+  const startTime = Date.now();
+
   const validation = validateRequest(updateUserSchema, req.body);
   if (!validation.success) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Request validation failed',
-        details: validation.errors,
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    throw ApiErrors.validation('Request validation failed', validation.errors);
   }
 
   const updates = validation.data;
+
+  logger.info('Updating user', { userEmail: userProfile.email, targetUserId: userId });
 
   // Get current user to check permissions and track changes
   const { data: currentUser, error: fetchError } = await supabase
@@ -251,26 +157,11 @@ async function handleUpdateUser(
 
   if (fetchError) {
     if (fetchError.code === 'PGRST116') {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'USER_NOT_FOUND',
-          message: 'User not found',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
+      throw ApiErrors.notFound('User');
     }
 
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'FETCH_ERROR',
-        message: 'Failed to fetch user for update',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    logger.error('Failed to fetch user for update', fetchError, { userId });
+    throw ApiErrors.database('Failed to fetch user for update');
   }
 
   // Check permissions
@@ -284,15 +175,7 @@ async function handleUpdateUser(
     isAdmin;
 
   if (!canEdit) {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'INSUFFICIENT_PERMISSIONS',
-        message: 'You do not have permission to update this user',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    throw ApiErrors.forbidden('You do not have permission to update this user');
   }
 
   // Restrict certain fields based on permissions
@@ -321,15 +204,7 @@ async function handleUpdateUser(
   });
 
   if (Object.keys(updateData).length === 0) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'NO_CHANGES',
-        message: 'No changes detected',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    throw ApiErrors.validation('No changes detected');
   }
 
   // Update the user
@@ -341,20 +216,14 @@ async function handleUpdateUser(
     .single();
 
   if (updateError) {
-    console.error('User update error:', updateError);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'UPDATE_ERROR',
-        message: 'Failed to update user',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    logger.error('Failed to update user', updateError, { userId });
+    throw ApiErrors.database('Failed to update user');
   }
 
+  logger.logDatabase('UPDATE', 'staff_user_profiles', Date.now() - startTime);
+
   // Log analytics event
-  await supabase
+  const { error: analyticsError } = await supabase
     .from('staff_analytics')
     .insert({
       event_type: 'user_updated',
@@ -362,13 +231,17 @@ async function handleUpdateUser(
       metadata: {
         updated_user_id: userId,
         updated_user_email: currentUser.email,
-        changes,
-        request_id: requestId
+        changes
       }
     });
 
+  if (analyticsError) {
+    logger.warn('Failed to log analytics', { error: analyticsError });
+    // Non-critical error, continue
+  }
+
   // Format response
-  const formattedUser: UserProfile = {
+  const formattedUser = {
     id: updatedUser.id,
     employee_id: updatedUser.employee_id || '',
     full_name: updatedUser.full_name,
@@ -384,77 +257,42 @@ async function handleUpdateUser(
     updated_at: updatedUser.updated_at
   };
 
-  return res.status(200).json({
-    success: true,
-    data: {
-      user: formattedUser
-    }
-  });
+  sendSuccess(res, { user: formattedUser });
 }
 
 async function handleDeleteUser(
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponse>,
+  res: NextApiResponse,
   supabase: any,
   userProfile: any,
-  userId: string,
-  requestId: string
+  userId: string
 ) {
+  const startTime = Date.now();
+
   // Only admins can delete users
-  if (userProfile.role !== 'admin') {
-    return res.status(403).json({
-      success: false,
-      error: {
-        code: 'INSUFFICIENT_PERMISSIONS',
-        message: 'Only administrators can delete users',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
-  }
+  requireRole(userProfile.role, ['admin']);
+
+  logger.info('Deleting user', { userEmail: userProfile.email, targetUserId: userId });
 
   // Get current user to check constraints
   const { data: currentUser, error: fetchError } = await supabase
     .from('staff_user_profiles')
-    .select('id, email, role, is_active')
+    .select('id, email, role, is_active, google_user_data')
     .eq('id', userId)
     .single();
 
   if (fetchError) {
     if (fetchError.code === 'PGRST116') {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'USER_NOT_FOUND',
-          message: 'User not found',
-          timestamp: new Date().toISOString(),
-          request_id: requestId
-        }
-      });
+      throw ApiErrors.notFound('User');
     }
 
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'FETCH_ERROR',
-        message: 'Failed to fetch user for deletion',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    logger.error('Failed to fetch user for deletion', fetchError, { userId });
+    throw ApiErrors.database('Failed to fetch user for deletion');
   }
 
   // Prevent self-deletion
   if (currentUser.id === userProfile.id) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 'CANNOT_DELETE_SELF',
-        message: 'Cannot delete your own account',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    throw ApiErrors.validation('Cannot delete your own account');
   }
 
   // Soft delete by setting is_active to false
@@ -472,33 +310,28 @@ async function handleDeleteUser(
     .eq('id', userId);
 
   if (deleteError) {
-    console.error('User deletion error:', deleteError);
-    return res.status(500).json({
-      success: false,
-      error: {
-        code: 'DELETION_ERROR',
-        message: 'Failed to delete user',
-        timestamp: new Date().toISOString(),
-        request_id: requestId
-      }
-    });
+    logger.error('Failed to delete user', deleteError, { userId });
+    throw ApiErrors.database('Failed to delete user');
   }
 
+  logger.logDatabase('UPDATE', 'staff_user_profiles', Date.now() - startTime);
+
   // Log analytics event
-  await supabase
+  const { error: analyticsError } = await supabase
     .from('staff_analytics')
     .insert({
       event_type: 'user_deleted',
       user_id: userProfile.id,
       metadata: {
         deleted_user_id: userId,
-        deleted_user_email: currentUser.email,
-        request_id: requestId
+        deleted_user_email: currentUser.email
       }
     });
 
-  return res.status(200).json({
-    success: true,
-    data: {}
-  });
+  if (analyticsError) {
+    logger.warn('Failed to log analytics', { error: analyticsError });
+    // Non-critical error, continue
+  }
+
+  sendSuccess(res, { message: 'User deleted successfully' });
 }

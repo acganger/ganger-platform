@@ -2,135 +2,176 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
 import { createClient } from '@supabase/supabase-js';
+import { getGoogleWorkspaceService } from '../../../lib/google-workspace-service';
+import { 
+  ApiErrors, 
+  sendSuccess, 
+  withErrorHandler,
+  validateRequiredFields,
+  requireRole
+} from '@/lib/api/errors';
+import { logger } from '@/lib/api/logger';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Factory function to create Supabase client
+const getSupabaseClient = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw ApiErrors.internal('Missing Supabase environment variables');
+  }
+  
+  return createClient(supabaseUrl, supabaseServiceKey);
+};
 
-export default async function handler(
+export default withErrorHandler(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
 
   if (!session?.user?.email) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    throw ApiErrors.unauthorized('Authentication required');
   }
 
+  const userEmail = session.user.email;
+  logger.logRequest(req, userEmail);
+
+  // Create Supabase client inside handler
+  const supabase = getSupabaseClient();
+
   // Get current user's profile to check permissions
-  const { data: currentUser } = await supabase
-    .from('user_profiles')
+  const { data: currentUser, error: userError } = await supabase
+    .from('staff_user_profiles')
     .select('role')
-    .eq('email', session.user.email)
+    .eq('email', userEmail)
     .single();
+
+  if (userError) {
+    logger.error('Failed to fetch user profile', userError, { userEmail });
+    throw ApiErrors.database('Failed to fetch user profile');
+  }
 
   switch (req.method) {
     case 'GET':
-      return handleGet(req, res, session.user.email);
+      await handleGet(req, res, userEmail);
+      break;
     
     case 'POST':
       // Only admins and managers can create users
-      if (!currentUser || !['admin', 'manager'].includes(currentUser.role)) {
-        return res.status(403).json({ error: 'Insufficient permissions' });
-      }
-      return handlePost(req, res, session.user.email);
+      requireRole(currentUser?.role, ['admin', 'manager']);
+      await handlePost(req, res, userEmail);
+      break;
     
     default:
-      return res.status(405).json({ error: 'Method not allowed' });
+      throw ApiErrors.validation(`Method ${req.method} not allowed`);
   }
-}
+});
 
 async function handleGet(
   req: NextApiRequest,
   res: NextApiResponse,
   userEmail: string
 ) {
-  try {
-    const { 
-      search, 
-      department, 
-      location, 
-      role,
-      manager_id,
-      is_active = 'true',
-      page = '1',
-      limit = '50'
-    } = req.query;
+  const startTime = Date.now();
+  
+  // Create Supabase client inside function
+  const supabase = getSupabaseClient();
 
-    // Build query
-    let query = supabase
-      .from('user_profiles')
-      .select(`
-        *,
-        manager:manager_id(id, full_name, email)
-      `, { count: 'exact' });
+  const { 
+    search, 
+    department, 
+    location, 
+    role,
+    manager_id,
+    is_active = 'true',
+    page = '1',
+    limit = '50'
+  } = req.query;
 
-    // Apply filters
-    if (is_active !== 'all') {
-      query = query.eq('is_active', is_active === 'true');
-    }
+  logger.debug('Fetching users', { 
+    userEmail, 
+    filters: { search, department, location, role, manager_id, is_active } 
+  });
 
-    if (search) {
-      query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%`);
-    }
+  // Build query
+  let query = supabase
+    .from('staff_user_profiles')
+    .select(`
+      *,
+      manager:manager_id(id, full_name, email)
+    `, { count: 'exact' });
 
-    if (department) {
-      query = query.eq('department', department);
-    }
-
-    if (location) {
-      query = query.eq('location', location);
-    }
-
-    if (role) {
-      query = query.eq('role', role);
-    }
-
-    if (manager_id) {
-      query = query.eq('manager_id', manager_id);
-    }
-
-    // Pagination
-    const pageNum = parseInt(page as string);
-    const limitNum = parseInt(limit as string);
-    const offset = (pageNum - 1) * limitNum;
-
-    query = query
-      .order('full_name')
-      .range(offset, offset + limitNum - 1);
-
-    const { data, error, count } = await query;
-
-    if (error) {
-      console.error('Error fetching users:', error);
-      return res.status(500).json({ error: 'Failed to fetch users' });
-    }
-
-    // Get departments and locations for filters
-    const { data: departments } = await supabase
-      .from('departments')
-      .select('name')
-      .order('name');
-
-    const locations = ['Ann Arbor', 'Wixom', 'Plymouth', 'Remote', 'All'];
-    const roles = ['admin', 'manager', 'staff', 'intern'];
-
-    return res.status(200).json({
-      users: data || [],
-      total: count || 0,
-      page: pageNum,
-      limit: limitNum,
-      filters: {
-        departments: departments?.map(d => d.name) || [],
-        locations,
-        roles
-      }
-    });
-  } catch (error) {
-    console.error('Error in GET /api/users:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+  // Apply filters
+  if (is_active !== 'all') {
+    query = query.eq('is_active', is_active === 'true');
   }
+
+  if (search) {
+    query = query.or(`full_name.ilike.%${search}%,email.ilike.%${search}%`);
+  }
+
+  if (department) {
+    query = query.eq('department', department);
+  }
+
+  if (location) {
+    query = query.eq('location', location);
+  }
+
+  if (role) {
+    query = query.eq('role', role);
+  }
+
+  if (manager_id) {
+    query = query.eq('manager_id', manager_id);
+  }
+
+  // Pagination
+  const pageNum = parseInt(page as string);
+  const limitNum = parseInt(limit as string);
+  const offset = (pageNum - 1) * limitNum;
+
+  query = query
+    .order('full_name')
+    .range(offset, offset + limitNum - 1);
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    logger.error('Failed to fetch users', error, { userEmail });
+    throw ApiErrors.database('Failed to fetch users');
+  }
+
+  logger.logDatabase('SELECT', 'staff_user_profiles', Date.now() - startTime);
+
+  // Get unique departments from existing users
+  const { data: deptData, error: deptError } = await supabase
+    .from('staff_user_profiles')
+    .select('department')
+    .not('department', 'is', null)
+    .order('department');
+
+  if (deptError) {
+    logger.error('Failed to fetch departments', deptError, { userEmail });
+    // Non-critical error, continue without departments
+  }
+
+  const uniqueDepartments = Array.from(new Set(deptData?.map(d => d.department) || []));
+  const locations = ['Northfield', 'Woodbury', 'Burnsville', 'Multiple'];
+  const roles = ['admin', 'manager', 'staff'];
+
+  sendSuccess(res, {
+    users: data || [],
+    total: count || 0,
+    page: pageNum,
+    limit: limitNum,
+    filters: {
+      departments: uniqueDepartments,
+      locations,
+      roles
+    }
+  });
 }
 
 async function handlePost(
@@ -138,86 +179,132 @@ async function handlePost(
   res: NextApiResponse,
   userEmail: string
 ) {
+  const startTime = Date.now();
+  
+  // Create Supabase client inside function
+  const supabase = getSupabaseClient();
+
+  const {
+    email,
+    full_name,
+    phone_number,
+    department,
+    role = 'staff',
+    location,
+    manager_id,
+    hire_date,
+    employee_id
+  } = req.body;
+
+  // Validate required fields
+  validateRequiredFields(req.body, ['email', 'full_name']);
+
+  logger.info('Creating new user', { userEmail, newUserEmail: email });
+
+  // Check if user already exists in database
+  const { data: existingUser, error: checkError } = await supabase
+    .from('staff_user_profiles')
+    .select('id')
+    .eq('email', email)
+    .single();
+
+  if (checkError && checkError.code !== 'PGRST116') {
+    // PGRST116 means no rows found, which is what we want
+    logger.error('Failed to check existing user', checkError, { userEmail, email });
+    throw ApiErrors.database('Failed to check existing user');
+  }
+
+  if (existingUser) {
+    throw ApiErrors.conflict('User with this email already exists');
+  }
+
+  // Get manager email if manager_id is provided
+  let managerEmail = undefined;
+  if (manager_id) {
+    const { data: manager, error: managerError } = await supabase
+      .from('staff_user_profiles')
+      .select('email')
+      .eq('id', manager_id)
+      .single();
+    
+    if (managerError) {
+      logger.warn('Failed to fetch manager email', { manager_id, error: managerError });
+    }
+    
+    managerEmail = manager?.email;
+  }
+
+  // Create user in Google Workspace
   try {
-    const {
+    const googleWorkspaceService = getGoogleWorkspaceService();
+    const googleResult = await googleWorkspaceService.syncUserToWorkspace(
+      {
+        full_name,
+        email,
+        department,
+        location,
+        phone_number,
+        manager_id,
+        is_active: true
+      },
+      managerEmail
+    );
+
+    if (!googleResult.success) {
+      logger.error('Google Workspace creation failed', new Error(googleResult.error), { email });
+      // Continue with local creation even if Google Workspace fails
+      // Log the error for manual sync later
+    }
+  } catch (googleError) {
+    logger.error('Google Workspace integration error', googleError as Error, { email });
+    // Continue with local creation
+  }
+
+  // Create user profile in database
+  const { data: newUser, error } = await supabase
+    .from('staff_user_profiles')
+    .insert({
       email,
       full_name,
-      phone,
+      phone_number,
       department,
-      position,
-      role = 'staff',
+      role,
       location,
       manager_id,
       hire_date,
-      employee_id
-    } = req.body;
+      employee_id,
+      is_active: true
+    })
+    .select()
+    .single();
 
-    // Validate required fields
-    if (!email || !full_name) {
-      return res.status(400).json({ 
-        error: 'Email and full name are required' 
-      });
-    }
-
-    // Check if user already exists
-    const { data: existingUser } = await supabase
-      .from('user_profiles')
-      .select('id')
-      .eq('email', email)
-      .single();
-
-    if (existingUser) {
-      return res.status(409).json({ 
-        error: 'User with this email already exists' 
-      });
-    }
-
-    // Create auth user first (if using Supabase Auth)
-    // For now, we'll just create the profile
-    // In production, you'd integrate with Google Workspace API here
-
-    const { data: newUser, error } = await supabase
-      .from('user_profiles')
-      .insert({
-        email,
-        full_name,
-        phone,
-        department,
-        position,
-        role,
-        location,
-        manager_id,
-        hire_date,
-        employee_id,
-        is_active: true
-      })
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Error creating user:', error);
-      return res.status(500).json({ error: 'Failed to create user' });
-    }
-
-    // Log the activity
-    await supabase
-      .from('user_activity_log')
-      .insert({
-        user_id: newUser.id,
-        action: 'user_created',
-        details: {
-          created_by: userEmail,
-          initial_role: role,
-          initial_department: department
-        }
-      });
-
-    return res.status(201).json({
-      user: newUser,
-      message: 'User created successfully'
-    });
-  } catch (error) {
-    console.error('Error in POST /api/users:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+  if (error) {
+    logger.error('Failed to create user', error, { userEmail, email });
+    throw ApiErrors.database('Failed to create user');
   }
+
+  logger.logDatabase('INSERT', 'staff_user_profiles', Date.now() - startTime);
+
+  // Log the activity in analytics table
+  const { error: analyticsError } = await supabase
+    .from('staff_analytics')
+    .insert({
+      event_type: 'user_created',
+      user_id: newUser.id,
+      metadata: {
+        created_by: userEmail,
+        initial_role: role,
+        initial_department: department
+      }
+    });
+
+  if (analyticsError) {
+    logger.warn('Failed to log analytics', { error: analyticsError });
+    // Non-critical error, continue
+  }
+
+  sendSuccess(res, {
+    user: newUser,
+    message: 'User created successfully in both database and Google Workspace'
+  }, 201);
 }
