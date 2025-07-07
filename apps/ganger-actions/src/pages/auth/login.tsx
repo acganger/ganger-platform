@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { LoadingSpinner, Button } from '@ganger/ui';
 import { Building2, Users, Headphones } from 'lucide-react';
 
 export default function LoginPage() {
@@ -28,7 +28,7 @@ export default function LoginPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <LoadingSpinner size="lg" />
+        <LoadingSpinner size="lg" text="Loading..." center />
       </div>
     );
   }
@@ -37,8 +37,7 @@ export default function LoginPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Redirecting to dashboard...</p>
+          <LoadingSpinner size="lg" text="Redirecting to dashboard..." center />
         </div>
       </div>
     );
@@ -78,19 +77,15 @@ export default function LoginPage() {
           </div>
 
           {/* Sign In Button */}
-          <button
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
             onClick={handleSignIn}
-            disabled={isSigningIn}
-            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isSigningIn ? (
-              <>
-                <LoadingSpinner size="sm" className="mr-2" />
-                Signing in...
-              </>
-            ) : (
-              <>
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+            loading={isSigningIn}
+            leftIcon={
+              !isSigningIn ? (
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -108,10 +103,11 @@ export default function LoginPage() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                Sign in with Google
-              </>
-            )}
-          </button>
+              ) : undefined
+            }
+          >
+            {isSigningIn ? 'Signing in...' : 'Sign in with Google'}
+          </Button>
 
           {/* Footer */}
           <div className="mt-6">

@@ -5,6 +5,7 @@ import { TimeOffRequestFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { Calendar, Clock, AlertTriangle } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Button } from '@ganger/ui';
 // TODO: Fix date-fns import issue - temporarily commented
 // import { addDays, differenceInDays, isSameDay, isWeekend } from 'date-fns';
 
@@ -337,14 +338,15 @@ export const TimeOffRequestForm = ({ onSubmit, loading = false }: TimeOffRequest
 
         {/* Submit Button */}
         <div className="flex justify-end">
-          <button
+          <Button
             type="submit"
-            disabled={loading}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="primary"
+            size="md"
+            loading={loading}
+            leftIcon={<Calendar className="h-4 w-4" />}
           >
-            <Calendar className="h-4 w-4 mr-2" />
             {loading ? 'Submitting...' : 'Submit Time Off Request'}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

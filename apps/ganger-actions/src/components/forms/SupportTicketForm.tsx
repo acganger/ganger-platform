@@ -5,6 +5,7 @@ import { SupportTicketFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { AlertCircle, Paperclip, X } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@ganger/ui';
 
 const supportTicketSchema = z.object({
   location: z.enum(['Northfield', 'Woodbury', 'Burnsville'], {
@@ -279,13 +280,15 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
                     ({(file.size / 1024 / 1024).toFixed(1)} MB)
                   </span>
                 </div>
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => removeFile(index)}
-                  className="text-red-400 hover:text-red-600"
+                  className="text-red-400 hover:text-red-600 h-auto p-1"
                 >
                   <X className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
             ))}
             <div className="text-xs text-gray-500">
@@ -302,13 +305,15 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
 
       {/* Submit Button */}
       <div className="flex justify-end">
-        <button
+        <Button
           type="submit"
-          disabled={loading || totalFileSize > maxFileSize}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          variant="primary"
+          size="md"
+          loading={loading}
+          disabled={totalFileSize > maxFileSize}
         >
           {loading ? 'Submitting...' : 'Submit Support Ticket'}
-        </button>
+        </Button>
       </div>
     </form>
   );

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { LoadingSpinner, Button } from '@ganger/ui';
 import { 
   ArrowLeft, 
   Users, 
@@ -13,138 +13,155 @@ import {
   Phone,
   Calendar,
   Shield,
-  AlertTriangle
+  AlertTriangle,
+  MapPin,
+  Building
 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface StaffUser {
   id: string;
-  name: string;
+  full_name: string;
   email: string;
-  phone?: string;
-  role: 'admin' | 'manager' | 'staff' | 'intern';
-  department: string;
-  status: 'active' | 'inactive' | 'pending';
-  startDate: string;
-  lastLogin?: string;
-  permissions: string[];
+  phone_number?: string;
+  role: 'admin' | 'manager' | 'staff';
+  department?: string;
+  location?: string;
+  is_active: boolean;
+  hire_date?: string;
+  manager?: {
+    id: string;
+    full_name: string;
+    email: string;
+  };
+  employee_id?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-// Mock data - replace with API calls
-const MOCK_USERS: StaffUser[] = [
-  {
-    id: '1',
-    name: 'Dr. Anand Ganger',
-    email: 'anand@gangerdermatology.com',
-    phone: '+1 (248) 555-0123',
-    role: 'admin',
-    department: 'Administration',
-    status: 'active',
-    startDate: '2020-01-15',
-    lastLogin: '2025-06-18T10:30:00Z',
-    permissions: ['admin', 'user_management', 'billing', 'reports']
-  },
-  {
-    id: '2',
-    name: 'Sarah Johnson',
-    email: 'sarah@gangerdermatology.com',
-    phone: '+1 (248) 555-0124',
-    role: 'manager',
-    department: 'Clinical',
-    status: 'active',
-    startDate: '2021-03-10',
-    lastLogin: '2025-06-18T09:15:00Z',
-    permissions: ['staff_management', 'scheduling', 'reports']
-  },
-  {
-    id: '3',
-    name: 'Mike Chen',
-    email: 'mike@gangerdermatology.com',
-    role: 'staff',
-    department: 'IT',
-    status: 'active',
-    startDate: '2022-07-20',
-    lastLogin: '2025-06-17T16:45:00Z',
-    permissions: ['inventory', 'support_tickets']
-  },
-  {
-    id: '4',
-    name: 'Emily Rodriguez',
-    email: 'emily@gangerdermatology.com',
-    role: 'staff',
-    department: 'Reception',
-    status: 'pending',
-    startDate: '2025-06-15',
-    permissions: ['checkin_kiosk', 'appointments']
-  }
-];
+interface UserFilters {
+  departments: string[];
+  locations: string[];
+  roles: string[];
+}
 
-const DEPARTMENTS = ['Administration', 'Clinical', 'IT', 'Reception', 'Billing', 'Other'];
 const ROLES = [
   { value: 'admin', label: 'Administrator', color: 'bg-red-100 text-red-800' },
   { value: 'manager', label: 'Manager', color: 'bg-blue-100 text-blue-800' },
-  { value: 'staff', label: 'Staff', color: 'bg-green-100 text-green-800' },
-  { value: 'intern', label: 'Intern', color: 'bg-gray-100 text-gray-800' }
+  { value: 'staff', label: 'Staff', color: 'bg-green-100 text-green-800' }
 ];
 
 export default function UserManagementPage() {
-  const { authUser, isAuthenticated, loading } = useAuth();
-  const [users, setUsers] = useState<StaffUser[]>(MOCK_USERS);
+  const router = useRouter();
+  const { user, hasRole, isAuthenticated, loading } = useAuth();
+  const [users, setUsers] = useState<StaffUser[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('');
   const [filterRole, setFilterRole] = useState('');
+  const [filterLocation, setFilterLocation] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [filters, setFilters] = useState<UserFilters>({
+    departments: [],
+    locations: [],
+    roles: []
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [newUser, setNewUser] = useState({
-    name: '',
+    full_name: '',
     email: '',
-    phone: '',
+    phone_number: '',
     role: 'staff' as StaffUser['role'],
     department: '',
-    permissions: [] as string[]
+    location: '',
+    hire_date: new Date().toISOString().split('T')[0],
+    manager_id: '',
+    employee_id: ''
   });
 
-  // Filter users based on search and filters
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDepartment = filterDepartment === '' || user.department === filterDepartment;
-    const matchesRole = filterRole === '' || user.role === filterRole;
-    
-    return matchesSearch && matchesDepartment && matchesRole;
-  });
+  // Check permissions
+  const canManageUsers = hasRole(['admin', 'manager']);
+
+  // Fetch users and filters on component mount and when filters change
+  useEffect(() => {
+    if (isAuthenticated && canManageUsers) {
+      fetchUsers();
+    }
+  }, [searchTerm, filterDepartment, filterRole, filterLocation, currentPage, isAuthenticated]);
+
+  const fetchUsers = async () => {
+    try {
+      setIsLoading(true);
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: '50',
+        ...(searchTerm && { search: searchTerm }),
+        ...(filterDepartment && { department: filterDepartment }),
+        ...(filterRole && { role: filterRole }),
+        ...(filterLocation && { location: filterLocation })
+      });
+
+      const response = await fetch(`/api/users?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch users');
+      
+      const data = await response.json();
+      setUsers(data.users || []);
+      setTotalUsers(data.total || 0);
+      if (data.filters) {
+        setFilters(data.filters);
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsSaving(true);
 
     try {
-      // TODO: Implement API call to create user
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      const user: StaffUser = {
-        id: Date.now().toString(),
-        ...newUser,
-        status: 'pending',
-        startDate: new Date().toISOString().split('T')[0]
-      };
-
-      setUsers(prev => [...prev, user]);
-      setShowCreateForm(false);
-      setNewUser({
-        name: '',
-        email: '',
-        phone: '',
-        role: 'staff',
-        department: '',
-        permissions: []
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
       });
 
-      console.log('User created:', user);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create user');
+      }
+
+      const data = await response.json();
+      
+      // Refresh the user list
+      await fetchUsers();
+      
+      // Reset form
+      setShowCreateForm(false);
+      setNewUser({
+        full_name: '',
+        email: '',
+        phone_number: '',
+        role: 'staff',
+        department: '',
+        location: '',
+            hire_date: new Date().toISOString().split('T')[0],
+        manager_id: '',
+        employee_id: ''
+      });
       
     } catch (error) {
       console.error('Error creating user:', error);
+      alert(error instanceof Error ? error.message : 'Failed to create user');
     } finally {
-      setIsLoading(false);
+      setIsSaving(false);
     }
   };
 
@@ -152,70 +169,44 @@ export default function UserManagementPage() {
     return ROLES.find(r => r.value === role)?.color || 'bg-gray-100 text-gray-800';
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'inactive': return 'bg-red-100 text-red-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
+  const getStatusColor = (isActive: boolean) => {
+    return isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
   };
 
-  const formatLastLogin = (lastLogin?: string) => {
-    if (!lastLogin) return 'Never';
-    const date = new Date(lastLogin);
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    
-    if (days === 0) return 'Today';
-    if (days === 1) return 'Yesterday';
-    if (days < 7) return `${days} days ago`;
-    return date.toLocaleDateString();
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString();
   };
 
   // Authentication loading state
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" text="Loading..." center />
       </div>
     );
   }
 
-  // Not authenticated - redirect to login
+  // Not authenticated
   if (!isAuthenticated) {
-    window.location.href = '/auth/login';
+    router.push('/auth/signin');
     return null;
   }
 
-  // Check if user has admin permissions
-  const isAdmin = authUser?.role === 'admin' || authUser?.email === 'anand@gangerdermatology.com';
-  
-  if (!isAdmin) {
+  // No permission
+  if (!canManageUsers) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white shadow rounded-lg p-8 max-w-md">
-          <div className="flex items-center">
-            <AlertTriangle className="h-6 w-6 text-yellow-400 mr-3" />
-            <div>
-              <h3 className="text-lg font-medium text-gray-900">Access Denied</h3>
-              <p className="mt-2 text-sm text-gray-600">
-                You need administrator privileges to access user management.
-              </p>
-            </div>
-          </div>
+        <div className="text-center">
+          <AlertTriangle className="mx-auto h-12 w-12 text-yellow-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">Access Denied</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            You don't have permission to view this page.
+          </p>
           <div className="mt-6">
-            <button
-              onClick={() => window.history.back()}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Go Back
-            </button>
+            <Link href="/" className="text-primary-600 hover:text-primary-500">
+              Go back home
+            </Link>
           </div>
         </div>
       </div>
@@ -225,309 +216,422 @@ export default function UserManagementPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-6">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => window.history.back()}
-                className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <Link href="/" className="text-gray-400 hover:text-gray-500 mr-4">
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+              <Users className="h-6 w-6 text-primary-600 mr-2" />
+              <h1 className="text-xl font-semibold text-gray-900">User Management</h1>
+            </div>
+            {canManageUsers && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setShowCreateForm(true)}
+                leftIcon={<UserPlus className="h-4 w-4" />}
               >
-                <ArrowLeft className="h-4 w-4 mr-1" />
-                Back to Staff Portal
-              </button>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">
-                {authUser?.name || 'Administrator'}
-              </span>
-              <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-            </div>
+                Add User
+              </Button>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Users className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  User Management
-                </h1>
-                <p className="text-lg text-gray-600 mt-1">
-                  Create and manage staff user accounts
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowCreateForm(true)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-            >
-              <UserPlus className="h-4 w-4 mr-2" />
-              Create User
-            </button>
-          </div>
-        </div>
-
         {/* Filters */}
-        <div className="mb-6 bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-lg shadow mb-6 p-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Search */}
             <div className="relative">
-              <Search className="h-5 w-5 absolute left-3 top-3 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="pl-10 pr-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-primary-500"
               />
             </div>
-            
+
+            {/* Department Filter */}
             <select
               value={filterDepartment}
               onChange={(e) => setFilterDepartment(e.target.value)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
               <option value="">All Departments</option>
-              {DEPARTMENTS.map(dept => (
+              {filters.departments.map(dept => (
                 <option key={dept} value={dept}>{dept}</option>
               ))}
             </select>
-            
+
+            {/* Location Filter */}
+            <select
+              value={filterLocation}
+              onChange={(e) => setFilterLocation(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+              <option value="">All Locations</option>
+              {filters.locations.map(loc => (
+                <option key={loc} value={loc}>{loc}</option>
+              ))}
+            </select>
+
+            {/* Role Filter */}
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500"
             >
               <option value="">All Roles</option>
               {ROLES.map(role => (
                 <option key={role.value} value={role.value}>{role.label}</option>
               ))}
             </select>
-            
-            <div className="text-sm text-gray-500 flex items-center">
-              <span className="font-medium">{filteredUsers.length}</span>&nbsp;of&nbsp;
-              <span className="font-medium">{users.length}</span>&nbsp;users
-            </div>
           </div>
         </div>
 
         {/* Users Table */}
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    User
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Role & Department
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Last Login
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
-                            <span className="text-sm font-medium text-gray-700">
-                              {user.name.split(' ').map(n => n[0]).join('')}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                          <div className="text-sm text-gray-500 flex items-center">
-                            <Mail className="h-3 w-3 mr-1" />
-                            {user.email}
-                          </div>
-                          {user.phone && (
-                            <div className="text-sm text-gray-500 flex items-center">
-                              <Phone className="h-3 w-3 mr-1" />
-                              {user.phone}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-col space-y-1">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}>
-                          {ROLES.find(r => r.value === user.role)?.label}
-                        </span>
-                        <span className="text-sm text-gray-500">{user.department}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.status)}`}>
-                        {user.status}
-                      </span>
-                      <div className="text-xs text-gray-500 mt-1 flex items-center">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        Started {new Date(user.startDate).toLocaleDateString()}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatLastLogin(user.lastLogin)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-gray-400 hover:text-gray-600">
-                        <MoreVertical className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {filteredUsers.length === 0 && (
-            <div className="text-center py-12">
+          {isLoading ? (
+            <div className="p-8 text-center">
+              <LoadingSpinner size="md" text="Loading users..." center />
+            </div>
+          ) : users.length === 0 ? (
+            <div className="p-8 text-center">
               <Users className="mx-auto h-12 w-12 text-gray-400" />
               <h3 className="mt-2 text-sm font-medium text-gray-900">No users found</h3>
               <p className="mt-1 text-sm text-gray-500">
-                {searchTerm || filterDepartment || filterRole 
-                  ? 'Try adjusting your search or filters'
-                  : 'Get started by creating your first user'
-                }
+                Try adjusting your search or filter criteria.
               </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      User
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Role
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Department
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Location
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Manager
+                    </th>
+                    <th className="relative px-6 py-3">
+                      <span className="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {users.map((user) => (
+                    <tr key={user.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Link href={`/staff/users/${user.id}`}>
+                          <div className="flex items-center cursor-pointer">
+                            <div className="flex-shrink-0 h-10 w-10">
+                              <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                <span className="text-primary-700 font-medium">
+                                  {user.full_name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900 hover:text-primary-600">{user.full_name}</div>
+                              <div className="text-sm text-gray-500 flex items-center">
+                                <Mail className="h-3 w-3 mr-1" />
+                                {user.email}
+                              </div>
+                              {user.phone_number && (
+                                <div className="text-sm text-gray-500 flex items-center">
+                                  <Phone className="h-3 w-3 mr-1" />
+                                  {user.phone_number}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}>
+                          {ROLES.find(r => r.value === user.role)?.label || user.role}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center text-sm text-gray-900">
+                          <Building className="h-4 w-4 mr-1 text-gray-400" />
+                          {user.department || 'N/A'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center text-sm text-gray-900">
+                          <MapPin className="h-4 w-4 mr-1 text-gray-400" />
+                          {user.location || 'N/A'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.is_active)}`}>
+                          {user.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {user.manager ? user.manager.full_name : 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div className="relative inline-block text-left">
+                          <Link href={`/staff/users/${user.id}`} className="text-primary-600 hover:text-primary-900">
+                            View Profile
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {totalUsers > 50 && (
+            <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+              <div className="flex-1 flex justify-between sm:hidden">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage * 50 >= totalUsers}
+                  className="ml-3"
+                >
+                  Next
+                </Button>
+              </div>
+              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-gray-700">
+                    Showing{' '}
+                    <span className="font-medium">{(currentPage - 1) * 50 + 1}</span>{' '}
+                    to{' '}
+                    <span className="font-medium">{Math.min(currentPage * 50, totalUsers)}</span>{' '}
+                    of{' '}
+                    <span className="font-medium">{totalUsers}</span>{' '}
+                    results
+                  </p>
+                </div>
+                <div>
+                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                      disabled={currentPage === 1}
+                      className="rounded-r-none"
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                      disabled={currentPage * 50 >= totalUsers}
+                      className="rounded-l-none"
+                    >
+                      Next
+                    </Button>
+                  </nav>
+                </div>
+              </div>
             </div>
           )}
         </div>
-
-        {/* Create User Modal */}
-        {showCreateForm && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div className="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
-              <div className="mt-3">
-                <h3 className="text-lg font-medium text-gray-900 mb-6">Create New User</h3>
-                
-                <form onSubmit={handleCreateUser} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={newUser.name}
-                        onChange={(e) => setNewUser(prev => ({ ...prev, name: e.target.value }))}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter full name"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={newUser.email}
-                        onChange={(e) => setNewUser(prev => ({ ...prev, email: e.target.value }))}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="user@gangerdermatology.com"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        value={newUser.phone}
-                        onChange={(e) => setNewUser(prev => ({ ...prev, phone: e.target.value }))}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="+1 (248) 555-0123"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Role *
-                      </label>
-                      <select
-                        required
-                        value={newUser.role}
-                        onChange={(e) => setNewUser(prev => ({ ...prev, role: e.target.value as StaffUser['role'] }))}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      >
-                        {ROLES.map(role => (
-                          <option key={role.value} value={role.value}>{role.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Department *
-                      </label>
-                      <select
-                        required
-                        value={newUser.department}
-                        onChange={(e) => setNewUser(prev => ({ ...prev, department: e.target.value }))}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      >
-                        <option value="">Select Department</option>
-                        {DEPARTMENTS.map(dept => (
-                          <option key={dept} value={dept}>{dept}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
-                    <button
-                      type="button"
-                      onClick={() => setShowCreateForm(false)}
-                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 disabled:opacity-50"
-                    >
-                      {isLoading ? (
-                        <>
-                          <LoadingSpinner size="sm" className="mr-2" />
-                          Creating...
-                        </>
-                      ) : (
-                        <>
-                          <UserPlus className="h-4 w-4 mr-2" />
-                          Create User
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Create User Modal */}
+      {showCreateForm && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-lg w-full p-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Create New User</h2>
+            <form onSubmit={handleCreateUser} className="space-y-4">
+              <div>
+                <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  id="full_name"
+                  required
+                  value={newUser.full_name}
+                  onChange={(e) => setNewUser({ ...newUser, full_name: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  pattern=".*@gangerdermatology\.com$"
+                  title="Email must be @gangerdermatology.com"
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">
+                  Employee ID
+                </label>
+                <input
+                  type="text"
+                  id="employee_id"
+                  value={newUser.employee_id}
+                  onChange={(e) => setNewUser({ ...newUser, employee_id: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={newUser.phone_number}
+                  onChange={(e) => setNewUser({ ...newUser, phone_number: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+                  Role *
+                </label>
+                <select
+                  id="role"
+                  required
+                  value={newUser.role}
+                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value as StaffUser['role'] })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                >
+                  {ROLES.map(role => (
+                    <option key={role.value} value={role.value}>{role.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="department" className="block text-sm font-medium text-gray-700">
+                  Department
+                </label>
+                <select
+                  id="department"
+                  value={newUser.department}
+                  onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                >
+                  <option value="">Select Department</option>
+                  {filters.departments.map(dept => (
+                    <option key={dept} value={dept}>{dept}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                  Location
+                </label>
+                <select
+                  id="location"
+                  value={newUser.location}
+                  onChange={(e) => setNewUser({ ...newUser, location: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                >
+                  <option value="">Select Location</option>
+                  {filters.locations.map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+
+
+              <div>
+                <label htmlFor="hire_date" className="block text-sm font-medium text-gray-700">
+                  Hire Date
+                </label>
+                <input
+                  type="date"
+                  id="hire_date"
+                  value={newUser.hire_date}
+                  onChange={(e) => setNewUser({ ...newUser, hire_date: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="manager_id" className="block text-sm font-medium text-gray-700">
+                  Manager
+                </label>
+                <select
+                  id="manager_id"
+                  value={newUser.manager_id}
+                  onChange={(e) => setNewUser({ ...newUser, manager_id: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                >
+                  <option value="">No Manager</option>
+                  {users.filter(u => u.role === 'manager' || u.role === 'admin').map(manager => (
+                    <option key={manager.id} value={manager.id}>{manager.full_name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4">
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={() => setShowCreateForm(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  loading={isSaving}
+                >
+                  {isSaving ? 'Creating...' : 'Create User'}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
