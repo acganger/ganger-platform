@@ -7,23 +7,14 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Users, Calendar, MapPin, Video, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
+import { useAuth } from '@/hooks/useAuth';
 
 const meetingSchema = z.object({
-  meeting_type: z.enum(['one_on_one', 'team', 'department', 'all_hands', 'training', 'other']),
-  title: z.string().min(5, 'Title must be at least 5 characters'),
-  purpose: z.string().min(20, 'Please provide at least 20 characters explaining the meeting purpose'),
-  preferred_dates: z.array(z.object({
-    date: z.string(),
-    start_time: z.string(),
-    end_time: z.string()
-  })).min(1, 'Please provide at least one preferred date/time'),
-  duration: z.string(),
-  format: z.enum(['in_person', 'virtual', 'hybrid']),
-  location: z.string().optional(),
-  attendees: z.string().min(1, 'Please specify who should attend'),
-  agenda: z.string().min(10, 'Please provide an agenda'),
-  materials_needed: z.string().optional(),
-  special_requirements: z.string().optional()
+  meeting_date: z.string().min(1, 'Meeting date is required'),
+  meeting_time: z.string().min(1, 'Meeting time is required'),
+  subject: z.string().min(5, 'Subject must be at least 5 characters'),
+  participants: z.string().min(1, 'Please specify participants'),
+  details: z.string().min(10, 'Please provide meeting details')
 });
 
 type MeetingFormData = z.infer<typeof meetingSchema>;
@@ -54,7 +45,7 @@ const durationOptions = [
 export default function MeetingRequestForm() {
   const router = useRouter();
   const { toast } = useToast();
-  const [preferredDates, setPreferredDates] = useState<PreferredDate[]>([]);
+  const { user } = useAuth();
   
   const {
     register,
@@ -65,10 +56,11 @@ export default function MeetingRequestForm() {
   } = useForm<MeetingFormData>({
     resolver: zodResolver(meetingSchema),
     defaultValues: {
-      meeting_type: 'one_on_one',
-      format: 'in_person',
-      duration: '1 hour',
-      preferred_dates: []
+      meeting_date: '',
+      meeting_time: '09:00',
+      subject: '',
+      participants: '',
+      details: ''
     }
   });
 
@@ -103,21 +95,17 @@ export default function MeetingRequestForm() {
   const submitRequest = useMutation({
     mutationFn: async (data: MeetingFormData) => {
       const formData = {
-        title: `Meeting Request - ${data.title}`,
-        description: data.purpose,
+        title: `Meeting Request - ${data.subject}`,
+        description: data.details,
         form_type: 'meeting_request',
         form_data: {
-          meeting_type: data.meeting_type,
-          title: data.title,
-          purpose: data.purpose,
-          preferred_dates: data.preferred_dates,
-          duration: data.duration,
-          format: data.format,
-          location: data.location || null,
-          attendees: data.attendees,
-          agenda: data.agenda,
-          materials_needed: data.materials_needed || null,
-          special_requirements: data.special_requirements || null
+          submitter_name: user?.name || '',
+          submitter_email: user?.email || '',
+          meeting_date: data.meeting_date,
+          meeting_time: data.meeting_time,
+          subject: data.subject,
+          participants: data.participants,
+          details: data.details
         }
       };
 

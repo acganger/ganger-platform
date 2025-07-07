@@ -7,29 +7,21 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Calendar, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
-
-const timeSlotSchema = z.object({
-  day: z.enum(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
-  start_time: z.string(),
-  end_time: z.string(),
-  available: z.boolean()
-});
+import { useAuth } from '@/hooks/useAuth';
 
 const availabilitySchema = z.object({
-  change_type: z.enum(['permanent', 'temporary']),
+  employee_name: z.string().optional(),
+  employee_email: z.string().optional(),
+  availability_change: z.enum(['Increasing', 'Decreasing']),
+  employment_type: z.enum(['Full-time', 'Part-time']),
   effective_date: z.string().min(1, 'Effective date is required'),
-  end_date: z.string().optional(),
-  availability: z.array(timeSlotSchema).min(1, 'Please specify at least one availability change'),
+  probation_completed: z.enum(['Yes', 'No']),
+  days_affected: z.array(z.string()).min(1, 'Please select at least one day'),
+  limited_availability_details: z.string().optional(),
+  return_date: z.string().optional(),
   reason: z.string().min(10, 'Please provide at least 10 characters explaining the change'),
-  additional_notes: z.string().optional()
-}).refine((data) => {
-  if (data.change_type === 'temporary' && !data.end_date) {
-    return false;
-  }
-  return true;
-}, {
-  message: "End date is required for temporary changes",
-  path: ["end_date"]
+  supporting_documentation: z.instanceof(File).optional(),
+  additional_comments: z.string().optional()
 });
 
 type AvailabilityFormData = z.infer<typeof availabilitySchema>;
@@ -40,7 +32,10 @@ const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sat
 export default function AvailabilityChangeForm() {
   const router = useRouter();
   const { toast } = useToast();
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
+  const { user, hasRole } = useAuth();
+  const isManager = hasRole(['admin', 'manager']);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   
   const {
     register,
@@ -51,8 +46,12 @@ export default function AvailabilityChangeForm() {
   } = useForm<AvailabilityFormData>({
     resolver: zodResolver(availabilitySchema),
     defaultValues: {
-      change_type: 'permanent',
-      availability: []
+      employee_name: user?.name || '',
+      employee_email: user?.email || '',
+      availability_change: 'Increasing',
+      employment_type: 'Full-time',
+      probation_completed: 'Yes',
+      days_affected: []
     }
   });
 
@@ -85,17 +84,24 @@ export default function AvailabilityChangeForm() {
   const submitRequest = useMutation({
     mutationFn: async (data: AvailabilityFormData) => {
       const formData = {
-        title: `Availability Change - ${data.change_type === 'permanent' ? 'Permanent' : 'Temporary'}`,
+        title: `Change of Availability - ${data.availability_change}`,
         description: data.reason,
         form_type: 'change_of_availability',
         form_data: {
-          change_type: data.change_type,
+          employee_name: data.employee_name || user?.name || '',
+          employee_email: data.employee_email || user?.email || '',
+          availability_change: data.availability_change,
+          employment_type: data.employment_type,
           effective_date: data.effective_date,
-          end_date: data.end_date || null,
-          availability: data.availability,
+          probation_completed: data.probation_completed,
+          days_affected: data.days_affected.join(', '),
+          limited_availability_details: data.limited_availability_details || '',
+          return_date: data.return_date || '',
           reason: data.reason,
-          additional_notes: data.additional_notes || null
-        }
+          supporting_documentation: '', // File handled separately
+          additional_comments: data.additional_comments || ''
+        },
+        completed_by: data.employee_name || user?.name || ''
       };
 
       const response = await fetch('/api/tickets', {

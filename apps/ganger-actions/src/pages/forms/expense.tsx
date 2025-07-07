@@ -7,21 +7,16 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { DollarSign, Plus, X, Upload, Receipt } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
-
-const expenseItemSchema = z.object({
-  date: z.string(),
-  category: z.enum(['travel', 'meals', 'supplies', 'training', 'parking', 'other']),
-  description: z.string(),
-  amount: z.number().positive()
-});
+import { useAuth } from '@/hooks/useAuth';
 
 const expenseSchema = z.object({
-  expense_type: z.enum(['business_trip', 'training', 'supplies', 'patient_care', 'other']),
-  payment_method: z.enum(['personal_card', 'personal_cash', 'company_card']),
-  expense_items: z.array(expenseItemSchema).min(1, 'Please add at least one expense item'),
-  business_purpose: z.string().min(10, 'Please provide at least 10 characters explaining the business purpose'),
-  receipts: z.array(z.instanceof(File)).optional(),
-  additional_notes: z.string().optional()
+  expense_date: z.string().min(1, 'Expense date is required'),
+  amount: z.string()
+    .min(1, 'Amount is required')
+    .regex(/^\d+(\.\d{1,2})?$/, 'Invalid amount format'),
+  category: z.enum(['Travel', 'Supplies', 'Meals', 'Other']),
+  description: z.string().min(10, 'Please provide at least 10 characters describing the expense'),
+  receipt: z.instanceof(File, { message: 'Receipt is required' })
 });
 
 type ExpenseFormData = z.infer<typeof expenseSchema>;
@@ -47,7 +42,7 @@ const categoryLabels = {
 export default function ExpenseReimbursementForm() {
   const router = useRouter();
   const { toast } = useToast();
-  const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
+  const { user } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   
   const {
@@ -58,9 +53,7 @@ export default function ExpenseReimbursementForm() {
   } = useForm<ExpenseFormData>({
     resolver: zodResolver(expenseSchema),
     defaultValues: {
-      expense_type: 'business_trip',
-      payment_method: 'personal_card',
-      expense_items: []
+      category: 'Travel'
     }
   });
 

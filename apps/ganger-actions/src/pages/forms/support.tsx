@@ -7,18 +7,19 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Ticket, Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
+import { useAuth } from '@/hooks/useAuth';
 
 const supportTicketSchema = z.object({
   location: z.enum(['Ann Arbor', 'Wixom', 'Plymouth', 'Any/All']),
   request_type: z.enum([
-    'property_maintenance',
-    'building_maintenance', 
-    'it_support',
-    'clinic_issue',
-    'admin_issue',
-    'information_request',
-    'general_support',
-    'meeting_request'
+    'Property Maintenance (Outdoor)',
+    'Building Maintenance (Indoor)', 
+    'IT (Network/Computer/Software)',
+    'Clinic Issue',
+    'Admin Issue',
+    'Information Request',
+    'General Support',
+    'Meeting Request'
   ]),
   priority: z.enum([
     'Urgent + Important',
@@ -33,14 +34,14 @@ const supportTicketSchema = z.object({
 type SupportTicketFormData = z.infer<typeof supportTicketSchema>;
 
 const requestTypeLabels = {
-  property_maintenance: 'Property Maintenance (Outdoor)',
-  building_maintenance: 'Building Maintenance (Indoor)',
-  it_support: 'IT (Network/Computer/Software)',
-  clinic_issue: 'Clinic Issue',
-  admin_issue: 'Admin Issue',
-  information_request: 'Information Request',
-  general_support: 'General Support',
-  meeting_request: 'Meeting Request'
+  'Property Maintenance (Outdoor)': 'Property Maintenance (Outdoor)',
+  'Building Maintenance (Indoor)': 'Building Maintenance (Indoor)',
+  'IT (Network/Computer/Software)': 'IT (Network/Computer/Software)',
+  'Clinic Issue': 'Clinic Issue',
+  'Admin Issue': 'Admin Issue',
+  'Information Request': 'Information Request',
+  'General Support': 'General Support',
+  'Meeting Request': 'Meeting Request'
 };
 
 const priorityLabels = {
@@ -53,6 +54,7 @@ const priorityLabels = {
 export default function SupportTicketForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   
   const {
@@ -65,7 +67,7 @@ export default function SupportTicketForm() {
     resolver: zodResolver(supportTicketSchema),
     defaultValues: {
       location: 'Ann Arbor',
-      request_type: 'general_support',
+      request_type: 'General Support',
       priority: 'Not Urgent + Not Important'
     }
   });
@@ -74,14 +76,17 @@ export default function SupportTicketForm() {
     mutationFn: async (data: SupportTicketFormData) => {
       // Prepare ticket data for API
       const ticketData = {
-        title: `${requestTypeLabels[data.request_type]} - ${data.location}`,
+        title: `${data.request_type} - ${data.location}`,
         description: data.details,
         form_type: 'support_ticket',
         form_data: {
+          submitter_name: user?.name || '',
+          submitter_email: user?.email || '',
           location: data.location,
           request_type: data.request_type,
           priority: data.priority,
-          details: data.details
+          details: data.details,
+          photos: '' // File upload handled separately
         },
         priority: data.priority.includes('Urgent') ? 'urgent' : data.priority.includes('Important') ? 'high' : 'normal',
         location: data.location

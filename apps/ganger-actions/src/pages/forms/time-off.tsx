@@ -7,17 +7,14 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Calendar, Clock, Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
+import { useAuth } from '@/hooks/useAuth';
 
 const timeOffSchema = z.object({
-  request_type: z.enum(['vacation', 'sick', 'personal', 'bereavement', 'other']),
   start_date: z.string().min(1, 'Start date is required'),
   end_date: z.string().min(1, 'End date is required'),
-  start_time: z.string().optional(),
-  end_time: z.string().optional(),
-  full_day: z.boolean().default(true),
+  requesting_pto: z.enum(['Yes', 'No']),
   reason: z.string().min(10, 'Please provide at least 10 characters explaining your request'),
-  coverage_notes: z.string().optional(),
-  attachments: z.array(z.instanceof(File)).optional()
+  comments: z.string().optional()
 }).refine((data) => {
   const start = new Date(data.start_date);
   const end = new Date(data.end_date);
@@ -29,17 +26,10 @@ const timeOffSchema = z.object({
 
 type TimeOffFormData = z.infer<typeof timeOffSchema>;
 
-const requestTypeLabels = {
-  vacation: 'Vacation',
-  sick: 'Sick Leave',
-  personal: 'Personal Day',
-  bereavement: 'Bereavement',
-  other: 'Other'
-};
-
 export default function TimeOffRequestForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   
   const {
@@ -51,28 +41,26 @@ export default function TimeOffRequestForm() {
   } = useForm<TimeOffFormData>({
     resolver: zodResolver(timeOffSchema),
     defaultValues: {
-      request_type: 'vacation',
-      full_day: true
+      requesting_pto: 'Yes'
     }
   });
 
-  const fullDay = watch('full_day');
+  const requestingPto = watch('requesting_pto');
 
   const submitRequest = useMutation({
     mutationFn: async (data: TimeOffFormData) => {
       const formData = {
-        title: `Time Off Request - ${requestTypeLabels[data.request_type]}`,
+        title: `Time Off Request`,
         description: data.reason,
         form_type: 'time_off_request',
         form_data: {
-          request_type: data.request_type,
+          submitter_name: user?.name || '',
+          submitter_email: user?.email || '',
           start_date: data.start_date,
           end_date: data.end_date,
-          start_time: data.full_day ? null : data.start_time,
-          end_time: data.full_day ? null : data.end_time,
-          full_day: data.full_day,
+          requesting_pto: data.requesting_pto,
           reason: data.reason,
-          coverage_notes: data.coverage_notes || null
+          comments: data.comments || ''
         }
       };
 
