@@ -51,7 +51,7 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
   } = useForm<SupportTicketFormData>({
     resolver: zodResolver(supportTicketSchema),
     defaultValues: {
-      location: authUser?.location,
+      location: (authUser?.location as 'Northfield' | 'Woodbury' | 'Burnsville' | undefined) || undefined,
       attachments: [],
     },
   });
@@ -90,7 +90,7 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
   const maxFileSize = 50 * 1024 * 1024; // 50MB
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit((data) => onSubmit(data as SupportTicketFormData))} className="space-y-6">
       {/* Location */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">

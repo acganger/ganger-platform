@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Ticket, Upload, X } from 'lucide-react';
-import { useToast } from '@ganger/ui';
+import { useToast } from '@/hooks/useToast';
 
 const supportTicketSchema = z.object({
   location: z.enum(['Ann Arbor', 'Wixom', 'Plymouth', 'Any/All']),

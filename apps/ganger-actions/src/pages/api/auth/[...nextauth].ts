@@ -1,13 +1,15 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { createClient } from '@supabase/supabase-js';
+import type { Session, User } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -23,7 +25,7 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account, profile }: any) {
       // Only allow users with @gangerdermatology.com email
       if (user.email?.endsWith('@gangerdermatology.com')) {
         // Upsert user in Supabase
@@ -46,13 +48,13 @@ export const authOptions = {
       }
       return false;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session?.user) {
-        session.user.id = token.sub!;
+        (session.user as any).id = token.sub!;
       }
       return session;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
       }

@@ -6,8 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Filter, Target, AlertTriangle } from 'lucide-react';
-import { useToast } from '@ganger/ui';
-import { useAuth } from '@ganger/auth';
+import { useToast } from '@/hooks/useToast';
+import { useAuth } from '@/hooks/useAuth';
 
 const impactFilterSchema = z.object({
   submitter_name: z.string().min(1, 'Name is required'),

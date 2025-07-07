@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Calendar, Plus, X } from 'lucide-react';
-import { useToast } from '@ganger/ui';
+import { useToast } from '@/hooks/useToast';
 
 const timeSlotSchema = z.object({
   day: z.enum(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),

@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Clock, AlertCircle } from 'lucide-react';
-import { useToast } from '@ganger/ui';
+import { useToast } from '@/hooks/useToast';
 
 const punchFixSchema = z.object({
   punch_type: z.enum(['missed_in', 'missed_out', 'missed_both', 'incorrect_time', 'other']),

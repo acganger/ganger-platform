@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { DollarSign, Plus, X, Upload, Receipt } from 'lucide-react';
-import { useToast } from '@ganger/ui';
+import { useToast } from '@/hooks/useToast';
 
 const expenseItemSchema = z.object({
   date: z.string(),

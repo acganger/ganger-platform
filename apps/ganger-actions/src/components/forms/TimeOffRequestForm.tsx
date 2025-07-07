@@ -330,7 +330,7 @@ export const TimeOffRequestForm = ({ onSubmit, loading = false }: TimeOffRequest
             <p>• You will receive email notification when a decision is made</p>
             <p>• Approved time off will automatically update your schedule</p>
             {authUser?.manager && (
-              <p>• Manager: <span className="font-medium">{authUser.manager.name}</span></p>
+              <p>• Manager: <span className="font-medium">{authUser.manager}</span></p>
             )}
           </div>
         </div>

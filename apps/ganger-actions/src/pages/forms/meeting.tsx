@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { Users, Calendar, MapPin, Video, Plus, X } from 'lucide-react';
-import { useToast } from '@ganger/ui';
+import { useToast } from '@/hooks/useToast';
 
 const meetingSchema = z.object({
   meeting_type: z.enum(['one_on_one', 'team', 'department', 'all_hands', 'training', 'other']),
