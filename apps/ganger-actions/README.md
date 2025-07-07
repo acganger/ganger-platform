@@ -1,169 +1,181 @@
-# Ganger Actions - Staff Portal & App Launcher
+# Ganger Actions - Employee Hub
 
-The central hub for all Ganger Dermatology staff applications, providing unified access to the entire platform ecosystem.
+Comprehensive employee portal with all staff functionality for Ganger Dermatology.
+
+## 🚀 Deployment Status
+
+**Live URL**: https://ganger-actions-7zveihttb-ganger.vercel.app  
+**Status**: ✅ DEPLOYED  
+**Last Updated**: January 7, 2025
 
 ## Overview
 
-Ganger Actions serves as the main portal and router for the Ganger Platform's distributed architecture. It provides:
-- Centralized authentication for all staff applications
-- Dynamic routing to individual app deployments
-- Platform-wide navigation and app discovery
-- Real-time status monitoring
-- Unified user experience across all tools
+Ganger Actions is the primary employee portal providing access to all staff forms, user management, and internal tools. It replaces the legacy PHP application with a modern, secure, and scalable solution.
+
+## ✅ Completed Features
+
+### Authentication
+- NextAuth.js with Google OAuth
+- Domain restriction to @gangerdermatology.com
+- Secure session management
+- Role-based access control
+
+### Form System (All 7 Types)
+All forms have been updated to match the legacy PHP field names exactly:
+
+1. **Support Tickets** - IT/facility/admin issues
+2. **Time-Off Requests** - PTO and leave management
+3. **Punch Fix Requests** - Time clock corrections
+4. **Availability Changes** - Schedule modifications
+5. **Expense Reimbursements** - Business expense claims
+6. **Meeting Requests** - Schedule meetings with staff
+7. **Impact Filters** - Strategic decision evaluation
+
+### Database
+- Fully migrated to Supabase PostgreSQL
+- Comprehensive schema with tickets, comments, approvals
+- Row Level Security (RLS) on all tables
+- Full-text search capabilities
+
+### User Management (Phase 4)
+- ✅ Database schema with roles and permissions
+- ✅ API endpoints for user listing and creation
+- ✅ Manager-employee relationships
+- ✅ Department structure
+- ✅ Activity logging for audit trails
+- 🔄 UI connection to real data (in progress)
+
+## 🔄 In Progress
+
+### Phase 4: User Management
+- Connecting existing UI to API endpoints
+- Individual user profile pages
+- User editing functionality
+- Google Workspace integration
+
+### Phase 3: Dashboard & Tickets
+- Ticket listing and management
+- Dashboard analytics
+- Ticket filtering and search
 
 ## Architecture
 
-### Distributed Deployment Model
-```
-staff.gangerdermatology.com (Ganger Actions)
-├── /inventory → inventory-[hash].vercel.app
-├── /handouts → handouts-[hash].vercel.app
-├── /l10 → eos-l10-[hash].vercel.app
-├── /batch → batch-closeout-[hash].vercel.app
-└── ... (15+ more apps with individual deployments)
-```
+### Technology Stack
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS v4
+- **Authentication**: NextAuth.js
+- **Database**: Supabase (PostgreSQL)
+- **Forms**: React Hook Form + Zod validation
+- **API**: Next.js API routes
 
-### Key Components
+### Database Schema
 
-1. **Edge Middleware Router** (`middleware.ts`)
-   - Routes requests to appropriate app deployments
-   - Manages authentication cookie passing
-   - Handles SSO between applications
-   - Uses Vercel Edge Config for dynamic URL management
+#### Main Tables
+- `tickets` - All form submissions
+- `user_profiles` - Employee information
+- `user_permissions` - Role-based access
+- `manager_assignments` - Reporting structure
+- `departments` - Organizational units
+- `user_activity_log` - Audit trail
 
-2. **App Dashboard** (`src/pages/index.tsx`)
-   - Visual launcher for all platform applications
-   - Real-time status indicators
-   - Search and filtering capabilities
-   - Usage statistics and analytics
+See [User Management Schema Documentation](/true-docs/database/user-management-schema.md) for details.
 
-3. **Authentication Layer**
-   - Google OAuth with domain restrictions
-   - Session management across apps
-   - Role-based access control
+### API Endpoints
 
-## Available Applications
+#### Authentication
+- `GET /api/auth/session` - Get current session
+- `POST /api/auth/signin` - Google OAuth signin
+- `POST /api/auth/signout` - Sign out
 
-### Staff Management
-- Time Off Requests
-- Support Tickets
-- User Management (Admin)
-- Employee Directory
+#### Tickets
+- `GET /api/tickets` - List tickets (with filters)
+- `POST /api/tickets` - Create new ticket
+- `GET /api/tickets/[id]` - Get ticket details
+- `PUT /api/tickets/[id]` - Update ticket
+- `POST /api/tickets/[id]/comments` - Add comment
 
-### Core Medical Applications
-- Inventory Management
-- Patient Handouts
-- Check-in Kiosk Admin
-- Medication Authorization
+#### Users
+- `GET /api/users` - List users (admin/manager only)
+- `POST /api/users` - Create user (admin/manager only)
+- `GET /api/users/[id]` - Get user profile
+- `PUT /api/users/[id]` - Update user
 
-### Business Operations
-- EOS L10 Management
-- Rep Scheduling Admin
-- Call Center Operations
-- Batch Closeout
+## Development
 
-### Platform Administration
-- Social Media & Reviews
-- Clinical Staffing
-- Compliance Training
-- Platform Dashboard
-- Configuration
-- Component Showcase
-- Integration Status
-
-## Technology Stack
-
-- **Framework**: Next.js 14 with TypeScript
-- **Routing**: Vercel Edge Middleware
-- **Authentication**: Supabase Auth with Google OAuth
-- **UI**: Tailwind CSS with custom components
-- **State Management**: React hooks
-- **Icons**: Lucide React
-- **Deployment**: Vercel with Edge Config
-
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- pnpm 8+
-- Access to Vercel and Supabase projects
-
-### Installation
-
-1. Install dependencies:
+### Setup
 ```bash
+# Install dependencies
 pnpm install
-```
 
-2. Set up environment variables:
-```bash
-cp .env.example .env.local
-```
+# Set up environment variables
+cp .env .env.local
 
-Update `.env.local` with:
-- Supabase credentials
-- Google OAuth settings
-- Vercel Edge Config URL
-- Other platform services
-
-3. Run the development server:
-```bash
+# Run development server
 pnpm dev
 ```
 
-4. Open [http://localhost:3011](http://localhost:3011)
+### Environment Variables
+Required variables in `.env.local`:
+```
+# NextAuth
+NEXTAUTH_URL=http://localhost:3010
+NEXTAUTH_SECRET=your-secret-here
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-key
+
+# Database
+DATABASE_URL=your-database-url
+```
+
+### Commands
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+pnpm type-check   # Run TypeScript checks
+```
 
 ## Deployment
 
-### Vercel Configuration
-```json
-{
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm -F @ganger/ganger-actions build",
-  "outputDirectory": ".next",
-  "framework": "nextjs"
-}
-```
+The app is configured for Vercel deployment:
 
-### Environment Variables Required
-- `EDGE_CONFIG_202507_1` - Vercel Edge Config connection string
-- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
-- All other standard platform environment variables
+1. Push to GitHub
+2. Vercel automatically builds and deploys
+3. Environment variables are configured in Vercel dashboard
 
-## Middleware Configuration
-
-The middleware is critical for the distributed architecture. It:
-1. Reads app URLs from Vercel Edge Config
-2. Routes incoming requests to appropriate deployments
-3. Passes authentication cookies for SSO
-4. Falls back to "coming soon" pages for undeployed apps
+### Build Configuration
+- Framework: Next.js
+- Build Command: `pnpm build`
+- Output Directory: `.next`
+- Install Command: `pnpm install`
 
 ## Security
 
-- All routes require authentication
-- Google OAuth restricted to @gangerdermatology.com domain
-- CSRF protection enabled
-- Secure session management
-- HTTPS only in production
+- Authentication required for all pages
+- Google OAuth with domain restriction
+- Row Level Security on database
+- CSRF protection on forms
+- Secure session cookies
+- Input validation with Zod
 
 ## Contributing
 
-1. Never remove or disable the middleware.ts file
-2. Update Edge Config when deploying new apps
-3. Maintain consistent authentication patterns
-4. Follow the established UI/UX patterns
-5. Test routing changes thoroughly
+1. Create feature branch
+2. Make changes
+3. Run tests and type checks
+4. Submit pull request
 
 ## Support
 
 For issues or questions:
-- Check the main platform documentation
-- Review deployment logs in Vercel
-- Contact the platform team
-
----
-
-**Version**: 1.6.0  
-**Last Updated**: January 2025  
-**Maintained By**: Ganger Platform Team
+- Create GitHub issue
+- Contact IT team
+- Check documentation in `/true-docs`
