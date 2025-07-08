@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@ganger/ui';
 
 const timeOffSchema = z.object({
+  request_type: z.enum(['vacation', 'sick', 'personal', 'bereavement', 'other']),
   start_date: z.string().min(1, 'Start date is required'),
   end_date: z.string().min(1, 'End date is required'),
   requesting_pto: z.enum(['Yes', 'No']),
@@ -26,6 +27,14 @@ const timeOffSchema = z.object({
 });
 
 type TimeOffFormData = z.infer<typeof timeOffSchema>;
+
+const requestTypeLabels = {
+  vacation: 'Vacation',
+  sick: 'Sick Leave',
+  personal: 'Personal Day',
+  bereavement: 'Bereavement',
+  other: 'Other'
+};
 
 export default function TimeOffRequestForm() {
   const router = useRouter();
@@ -57,6 +66,7 @@ export default function TimeOffRequestForm() {
         form_data: {
           submitter_name: user?.name || '',
           submitter_email: user?.email || '',
+          request_type: data.request_type,
           start_date: data.start_date,
           end_date: data.end_date,
           requesting_pto: data.requesting_pto,
