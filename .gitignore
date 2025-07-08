@@ -133,6 +133,12 @@ schema.prisma.bak
 *.tmp
 *.temp
 
+# Documentation - Internal use only, not needed in git
+/true-docs/
+*.md
+**/*.md
+!README.md  # Keep only the main README
+
 # Claude Code - Contains sensitive project information
 CLAUDE.md
 .claude/
