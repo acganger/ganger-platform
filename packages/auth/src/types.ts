@@ -8,6 +8,7 @@ export interface UserProfile {
   role: 'admin' | 'staff' | 'viewer';
   department?: string;
   position?: string;
+  location?: string;
   phone?: string;
   is_active: boolean;
   last_login?: string;

@@ -20,6 +20,7 @@ const timeSlotSchema = z.object({
 const availabilitySchema = z.object({
   employee_name: z.string().optional(),
   employee_email: z.string().optional(),
+  location: z.enum(['Ann Arbor', 'Wixom', 'Plymouth', 'Any/All']).optional(),
   availability_change: z.enum(['Increasing', 'Decreasing']),
   employment_type: z.enum(['Full-time', 'Part-time']),
   effective_date: z.string().min(1, 'Effective date is required'),
@@ -57,6 +58,7 @@ export default function AvailabilityChangeForm() {
     defaultValues: {
       employee_name: user?.name || '',
       employee_email: user?.email || '',
+      location: user?.location === 'Multiple' ? 'Ann Arbor' : undefined,
       availability_change: 'Increasing',
       employment_type: 'Full-time',
       probation_completed: 'Yes',
@@ -99,6 +101,7 @@ export default function AvailabilityChangeForm() {
         form_data: {
           employee_name: data.employee_name || user?.name || '',
           employee_email: data.employee_email || user?.email || '',
+          location: data.location || user?.location || 'Multiple',
           availability_change: data.availability_change,
           employment_type: data.employment_type,
           effective_date: data.effective_date,
@@ -171,6 +174,28 @@ export default function AvailabilityChangeForm() {
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="bg-white shadow rounded-lg p-6">
+              {/* Conditional Location Dropdown */}
+              {user?.location === 'Multiple' && (
+                <div className="mb-6">
+                  <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+                    Location *
+                  </label>
+                  <select
+                    id="location"
+                    {...register('location')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  >
+                    <option value="Ann Arbor">Ann Arbor</option>
+                    <option value="Wixom">Wixom</option>
+                    <option value="Plymouth">Plymouth</option>
+                    <option value="Any/All">Any/All</option>
+                  </select>
+                  {errors.location && (
+                    <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
+                  )}
+                </div>
+              )}
+
               {/* Change Type */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">

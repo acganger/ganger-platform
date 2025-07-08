@@ -1,0 +1,25 @@
+// AI Purchasing Agent Repositories
+export { StandardizedProductsRepository } from './standardized-products';
+export { PurchaseRequestsRepository } from './purchase-requests';
+export { VendorManagementRepository } from './vendor-management';
+export { ConsolidatedOrdersRepository } from './consolidated-orders';
+
+// Re-export validation schemas
+export { 
+  standardizedProductSchema,
+  type CreateStandardizedProductInput 
+} from './standardized-products';
+
+export { 
+  purchaseRequestItemSchema,
+  createPurchaseRequestSchema 
+} from './purchase-requests';
+
+export { 
+  vendorConfigurationSchema 
+} from './vendor-management';
+
+export { 
+  consolidatedOrderItemSchema,
+  createConsolidatedOrderSchema 
+} from './consolidated-orders';

@@ -57,7 +57,10 @@ export default function ImpactFilterForm() {
         title: `Impact Filter - ${data.goal.substring(0, 50)}...`,
         description: data.goal,
         form_type: 'impact_filter',
-        form_data: data,
+        form_data: {
+          ...data,
+          location: authUser?.location || 'Multiple'
+        },
         priority: 'high' // Impact filters are strategic decisions
       };
 

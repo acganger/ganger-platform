@@ -13,15 +13,16 @@ import { Button, Input, Select } from '@ganger/ui';
 const punchFixSchema = z.object({
   employee_name: z.string().optional(), // For managers submitting on behalf of others
   employee_email: z.string().optional(),
+  punch_type: z.enum(['missed_in', 'missed_out', 'missed_both', 'incorrect_time', 'other']).optional(),
   date: z.string().min(1, 'Date is required'),
-  in_time: z.string().optional(),
-  out_time: z.string().optional(),
-  comments: z.string().min(10, 'Please provide at least 10 characters explaining the issue')
-}).refine((data) => {
-  return data.in_time || data.out_time;
-}, {
-  message: "At least one of In Time or Out Time must be provided",
-  path: ["in_time"]
+  scheduled_in: z.string().optional(),
+  scheduled_out: z.string().optional(),
+  actual_in: z.string().optional(),
+  actual_out: z.string().optional(),
+  reason: z.string().min(10, 'Please provide at least 10 characters explaining the issue'),
+  supervisor_aware: z.boolean().optional(),
+  // Legacy field for compatibility
+  comments: z.string().optional()
 });
 
 type PunchFixFormData = z.infer<typeof punchFixSchema>;
@@ -64,10 +65,16 @@ export default function PunchFixRequestForm() {
         form_data: {
           employee_name: data.employee_name || user?.name || '',
           employee_email: data.employee_email || user?.email || '',
+          location: user?.location || 'Multiple',
+          punch_type: data.punch_type || 'other',
           date: data.date,
-          in_time: data.in_time || '',
-          out_time: data.out_time || '',
-          comments: data.comments
+          scheduled_in: data.scheduled_in || '',
+          scheduled_out: data.scheduled_out || '',
+          actual_in: data.actual_in || '',
+          actual_out: data.actual_out || '',
+          reason: data.reason,
+          supervisor_aware: data.supervisor_aware || false,
+          comments: data.comments || ''
         },
         priority: 'high', // Payroll-related issues are high priority
         completed_by: data.employee_name || user?.name || '' // Person the form is about

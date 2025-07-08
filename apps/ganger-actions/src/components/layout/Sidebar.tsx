@@ -28,7 +28,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@ganger/ui';
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: Home },
+  { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Submit Request', href: '/forms', icon: PlusCircle },
   { name: 'Tickets', href: '/tickets', icon: Ticket },
 ];
@@ -37,20 +37,20 @@ const appNavigation = [
   // Medical apps
   { name: 'Inventory Management', href: '/inventory', icon: Package, external: true },
   { name: 'Patient Handouts', href: '/handouts', icon: Clipboard, external: true },
-  { name: 'Medication Auth', href: '/meds', icon: Pill, external: true },
+  { name: 'Medication Auth', href: '/medication-auth', icon: Pill, external: true },
   { name: 'Check-in Kiosk', href: '/kiosk', icon: Monitor, external: true },
   
   // Business apps
   { name: 'EOS L10', href: '/l10', icon: Calendar, external: true },
   { name: 'Compliance Training', href: '/compliance', icon: GraduationCap, external: true },
-  { name: 'Clinical Staffing', href: '/staffing', icon: Stethoscope, external: true },
+  { name: 'Clinical Staffing', href: '/clinical-staffing', icon: Stethoscope, external: true },
   { name: 'Social Reviews', href: '/socials', icon: MessageSquare, external: true },
 ];
 
 const managerNavigation = [
-  { name: 'Team Overview', href: '/team', icon: Users },
-  { name: 'Reports', href: '/reports', icon: BarChart3 },
-  { name: 'User Management', href: '/users', icon: Users },
+  { name: 'User Management', href: '/staff/users', icon: Users },
+  { name: 'Staff Directory', href: '/staff/directory', icon: Users },
+  { name: 'Time Off Management', href: '/staff/timeoff', icon: Clock },
   
   // Management apps
   { name: 'Configuration', href: '/config', icon: Cog, external: true },
@@ -58,15 +58,13 @@ const managerNavigation = [
 ];
 
 const adminNavigation = [
-  { name: 'System Settings', href: '/admin/settings', icon: Settings },
-  { name: 'All Locations', href: '/admin/locations', icon: Building2 },
-  
   // Admin apps
   { name: 'AI Receptionist', href: '/ai-receptionist', icon: Phone, external: true },
   { name: 'Call Center Ops', href: '/call-center', icon: UserCheck, external: true },
-  { name: 'Pharma Scheduling', href: '/reps', icon: Calendar, external: true },
+  { name: 'Pharma Scheduling', href: '/pharma', icon: Calendar, external: true },
   { name: 'Batch Closeout', href: '/batch', icon: Calculator, external: true },
-  { name: 'Component Showcase', href: '/showcase', icon: Palette, external: true },
+  { name: 'Component Showcase', href: '/components', icon: Palette, external: true },
+  { name: 'Platform Dashboard', href: '/platform', icon: BarChart3, external: true },
 ];
 
 interface NavigationItemProps {
@@ -119,8 +117,8 @@ export const Sidebar = () => {
   const router = useRouter();
   
   const isActive = (href: string) => {
-    if (href === '/dashboard') {
-      return router.pathname === '/dashboard';
+    if (href === '/') {
+      return router.pathname === '/';
     }
     return router.pathname.startsWith(href);
   };

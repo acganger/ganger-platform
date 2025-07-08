@@ -1,0 +1,31 @@
+{
+  "name": "@ganger/consolidated-order-form",
+  "version": "0.1.0",
+  "description": "Standardized order form for clinical staff to request medical supplies",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@ganger/deps": "workspace:*",
+    "@ganger/auth": "workspace:*",
+    "@ganger/cache": "workspace:*",
+    "@ganger/config": "workspace:*",
+    "@ganger/db": "workspace:*",
+    "@ganger/integrations": "workspace:*",
+    "@ganger/monitoring": "workspace:*",
+    "@ganger/types": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@ganger/config": "workspace:*"
+  }
+}

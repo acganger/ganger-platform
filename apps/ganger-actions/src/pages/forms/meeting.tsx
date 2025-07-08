@@ -12,6 +12,7 @@ import { Button, Input, Select } from '@ganger/ui';
 
 const meetingSchema = z.object({
   meeting_type: z.string().min(1, 'Meeting type is required'),
+  location: z.enum(['Ann Arbor', 'Wixom', 'Plymouth', 'Any/All']),
   title: z.string().min(5, 'Title must be at least 5 characters'),
   purpose: z.string().min(10, 'Please provide meeting purpose'),
   participants: z.string().min(1, 'Please specify participants'),
@@ -65,6 +66,7 @@ export default function MeetingRequestForm() {
     resolver: zodResolver(meetingSchema),
     defaultValues: {
       meeting_type: '',
+      location: 'Ann Arbor',
       title: '',
       purpose: '',
       participants: '',
@@ -110,6 +112,7 @@ export default function MeetingRequestForm() {
         form_data: {
           submitter_name: data.submitter_name,
           submitter_email: data.submitter_email,
+          location: data.location,
           meeting_type: data.meeting_type,
           title: data.title,
           purpose: data.purpose,
@@ -187,6 +190,26 @@ export default function MeetingRequestForm() {
                   placeholder="Enter your email address"
                   error={errors.submitter_email?.message}
                 />
+              </div>
+
+              {/* Location */}
+              <div className="mb-6">
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+                  Meeting Location *
+                </label>
+                <select
+                  id="location"
+                  {...register('location')}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  <option value="Ann Arbor">Ann Arbor</option>
+                  <option value="Wixom">Wixom</option>
+                  <option value="Plymouth">Plymouth</option>
+                  <option value="Any/All">Any/All</option>
+                </select>
+                {errors.location && (
+                  <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
+                )}
               </div>
 
               {/* Meeting Type */}

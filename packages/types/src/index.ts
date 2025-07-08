@@ -39,3 +39,6 @@ export const ErrorCodes = {
 } as const;
 
 export type ErrorCode = typeof ErrorCodes[keyof typeof ErrorCodes];
+
+// Export AI Purchasing types
+export * from './ai-purchasing';

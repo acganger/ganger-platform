@@ -119,6 +119,9 @@ export default function ExpenseReimbursementForm() {
         description: data.description,
         form_type: 'expense_reimbursement',
         form_data: {
+          submitter_name: data.submitter_name,
+          submitter_email: data.submitter_email,
+          location: authUser?.location || 'Multiple',
           expense_type: data.expense_type,
           expense_date: data.expense_date,
           amount: data.amount,
@@ -126,8 +129,6 @@ export default function ExpenseReimbursementForm() {
           description: data.description,
           expense_items: data.expense_items,
           total_amount: calculateTotal(),
-          submitter_name: data.submitter_name,
-          submitter_email: data.submitter_email,
           receipt_files: uploadedFiles
         }
       };

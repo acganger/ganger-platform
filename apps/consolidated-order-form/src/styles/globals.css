@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    --order-primary: 34 197 94;
+    --order-secondary: 22 163 74;
+    --order-accent: 16 185 129;
+    --order-light: 240 253 244;
+    --order-dark: 5 46 22;
+    --order-success: 34 197 94;
+    --order-warning: 245 158 11;
+    --order-danger: 239 68 68;
+  }
+  
+  html {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  }
+  
+  body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .order-gradient {
+    background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 100%);
+  }
+  
+  .order-card {
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+  
+  .department-header {
+    background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}

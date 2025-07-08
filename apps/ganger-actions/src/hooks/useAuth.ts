@@ -31,7 +31,7 @@ export function useAuth(requireAuth = true) {
     name: baseAuth.profile?.full_name || baseAuth.user.user_metadata?.full_name || baseAuth.user.email.split('@')[0],
     image: baseAuth.user.user_metadata?.avatar_url,
     role: baseAuth.profile?.role === 'viewer' ? 'staff' : (baseAuth.profile?.role || 'staff') as 'admin' | 'manager' | 'staff',
-    location: baseAuth.profile?.department || 'Multiple',
+    location: baseAuth.profile?.location || 'Multiple',
     manager: baseAuth.profile?.position
   } : null;
 

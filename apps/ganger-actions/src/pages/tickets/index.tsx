@@ -55,9 +55,10 @@ const PRIORITY_OPTIONS = [
 
 // Location options
 const LOCATION_OPTIONS = [
-  { value: 'Northfield', label: 'Northfield' },
-  { value: 'Woodbury', label: 'Woodbury' },
-  { value: 'Burnsville', label: 'Burnsville' }
+  { value: 'Wixom', label: 'Wixom' },
+  { value: 'Ann Arbor', label: 'Ann Arbor' },
+  { value: 'Plymouth', label: 'Plymouth' },
+  { value: 'Multiple', label: 'Multiple' }
 ];
 
 interface Ticket {

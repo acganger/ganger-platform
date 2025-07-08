@@ -27,7 +27,7 @@ export interface Database {
           email: string;
           department: string | null;
           role: 'staff' | 'manager' | 'admin';
-          location: 'Northfield' | 'Woodbury' | 'Burnsville' | 'Multiple' | null;
+          location: 'Wixom' | 'Ann Arbor' | 'Plymouth' | 'Multiple' | null;
           hire_date: string | null;
           manager_id: string | null;
           is_active: boolean;
@@ -44,7 +44,7 @@ export interface Database {
           email: string;
           department?: string | null;
           role?: 'staff' | 'manager' | 'admin';
-          location?: 'Northfield' | 'Woodbury' | 'Burnsville' | 'Multiple' | null;
+          location?: 'Wixom' | 'Ann Arbor' | 'Plymouth' | 'Multiple' | null;
           hire_date?: string | null;
           manager_id?: string | null;
           is_active?: boolean;
@@ -61,7 +61,7 @@ export interface Database {
           email?: string;
           department?: string | null;
           role?: 'staff' | 'manager' | 'admin';
-          location?: 'Northfield' | 'Woodbury' | 'Burnsville' | 'Multiple' | null;
+          location?: 'Wixom' | 'Ann Arbor' | 'Plymouth' | 'Multiple' | null;
           hire_date?: string | null;
           manager_id?: string | null;
           is_active?: boolean;
@@ -141,7 +141,7 @@ export interface Database {
           submitter_name: string;
           status: 'pending' | 'open' | 'in_progress' | 'stalled' | 'approved' | 'denied' | 'completed' | 'cancelled';
           priority: 'low' | 'medium' | 'high' | 'urgent' | null;
-          location: 'Northfield' | 'Woodbury' | 'Burnsville' | 'Multiple' | null;
+          location: 'Wixom' | 'Ann Arbor' | 'Plymouth' | 'Multiple' | null;
           title: string;
           description: string | null;
           form_data: any;
@@ -170,7 +170,7 @@ export interface Database {
           submitter_name: string;
           status?: 'pending' | 'open' | 'in_progress' | 'stalled' | 'approved' | 'denied' | 'completed' | 'cancelled';
           priority?: 'low' | 'medium' | 'high' | 'urgent' | null;
-          location?: 'Northfield' | 'Woodbury' | 'Burnsville' | 'Multiple' | null;
+          location?: 'Wixom' | 'Ann Arbor' | 'Plymouth' | 'Multiple' | null;
           title: string;
           description?: string | null;
           form_data?: any;
@@ -199,7 +199,7 @@ export interface Database {
           submitter_name?: string;
           status?: 'pending' | 'open' | 'in_progress' | 'stalled' | 'approved' | 'denied' | 'completed' | 'cancelled';
           priority?: 'low' | 'medium' | 'high' | 'urgent' | null;
-          location?: 'Northfield' | 'Woodbury' | 'Burnsville' | 'Multiple' | null;
+          location?: 'Wixom' | 'Ann Arbor' | 'Plymouth' | 'Multiple' | null;
           title?: string;
           description?: string | null;
           form_data?: any;
