@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Calendar, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
+import { Button, Input, Select } from '@ganger/ui';
 
 const timeSlotSchema = z.object({
   day: z.string(),
@@ -73,20 +74,20 @@ export default function AvailabilityChangeForm() {
       available: true
     };
     setTimeSlots([...timeSlots, newSlot]);
-    setValue('availability', [...timeSlots, newSlot]);
+    // Time slots are managed separately from the main form
   };
 
   const updateTimeSlot = (index: number, field: keyof TimeSlot, value: any) => {
     const updatedSlots = [...timeSlots];
     updatedSlots[index] = { ...updatedSlots[index], [field]: value };
     setTimeSlots(updatedSlots);
-    setValue('availability', updatedSlots);
+    // Time slots are managed separately from the main form
   };
 
   const removeTimeSlot = (index: number) => {
     const updatedSlots = timeSlots.filter((_slot, i) => i !== index);
     setTimeSlots(updatedSlots);
-    setValue('availability', updatedSlots);
+    // Time slots are managed separately from the main form
   };
 
   const submitRequest = useMutation({
@@ -144,8 +145,12 @@ export default function AvailabilityChangeForm() {
   });
 
   const onSubmit = (data: AvailabilityFormData) => {
-    data.availability = timeSlots;
-    submitRequest.mutate(data);
+    // Include time slots in the submission data
+    const submissionData = {
+      ...data,
+      time_slots: timeSlots
+    };
+    submitRequest.mutate(submissionData);
   };
 
   return (
@@ -175,58 +180,44 @@ export default function AvailabilityChangeForm() {
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      value="permanent"
-                      {...register('change_type')}
+                      value="Increasing"
+                      {...register('availability_change')}
                       className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Permanent change</span>
+                    <span className="ml-2 text-sm text-gray-700">Increasing availability</span>
                   </label>
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      value="temporary"
-                      {...register('change_type')}
+                      value="Decreasing"
+                      {...register('availability_change')}
                       className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Temporary change</span>
+                    <span className="ml-2 text-sm text-gray-700">Decreasing availability</span>
                   </label>
                 </div>
-                {errors.change_type && (
-                  <p className="mt-1 text-sm text-red-600">{errors.change_type.message}</p>
+                {errors.availability_change && (
+                  <p className="mt-1 text-sm text-red-600">{errors.availability_change.message}</p>
                 )}
               </div>
 
               {/* Dates */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                  <label htmlFor="effective_date" className="block text-sm font-medium text-gray-700 mb-2">
-                    Effective Date *
-                  </label>
-                  <input
-                    type="date"
-                    id="effective_date"
-                    {...register('effective_date')}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                  {errors.effective_date && (
-                    <p className="mt-1 text-sm text-red-600">{errors.effective_date.message}</p>
-                  )}
-                </div>
+                <Input
+                  type="date"
+                  {...register('effective_date')}
+                  label="Effective Date *"
+                  error={errors.effective_date?.message}
+                />
 
-                {changeType === 'temporary' && (
+                {changeType === 'Decreasing' && (
                   <div>
-                    <label htmlFor="end_date" className="block text-sm font-medium text-gray-700 mb-2">
-                      End Date *
-                    </label>
-                    <input
+                    <Input
                       type="date"
-                      id="end_date"
-                      {...register('end_date')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      {...register('return_date')}
+                      label="Expected Return Date"
+                      error={errors.return_date?.message}
                     />
-                    {errors.end_date && (
-                      <p className="mt-1 text-sm text-red-600">{errors.end_date.message}</p>
-                    )}
                   </div>
                 )}
               </div>
@@ -270,48 +261,46 @@ export default function AvailabilityChangeForm() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div>
                             <label className="block text-xs text-gray-600 mb-1">Day</label>
-                            <select
+                            <Select
                               value={slot.day}
                               onChange={(e) => updateTimeSlot(index, 'day', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                            >
-                              {daysOfWeek.map(day => (
-                                <option key={day} value={day}>{day}</option>
-                              ))}
-                            </select>
+                              options={daysOfWeek.map(day => ({ value: day, label: day }))}
+                              className="w-full text-sm"
+                            />
                           </div>
 
                           <div>
                             <label className="block text-xs text-gray-600 mb-1">Available?</label>
-                            <select
+                            <Select
                               value={slot.available.toString()}
                               onChange={(e) => updateTimeSlot(index, 'available', e.target.value === 'true')}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                            >
-                              <option value="true">Available</option>
-                              <option value="false">Not Available</option>
-                            </select>
+                              options={[
+                                { value: 'true', label: 'Available' },
+                                { value: 'false', label: 'Not Available' }
+                              ]}
+                              className="w-full text-sm"
+                            />
                           </div>
 
                           {slot.available && (
                             <>
                               <div>
                                 <label className="block text-xs text-gray-600 mb-1">Start Time</label>
-                                <input
+                                <Input
                                   type="time"
                                   value={slot.start_time}
                                   onChange={(e) => updateTimeSlot(index, 'start_time', e.target.value)}
-                                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                  className="w-full text-sm"
                                 />
                               </div>
 
                               <div>
                                 <label className="block text-xs text-gray-600 mb-1">End Time</label>
-                                <input
+                                <Input
                                   type="time"
                                   value={slot.end_time}
                                   onChange={(e) => updateTimeSlot(index, 'end_time', e.target.value)}
-                                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                  className="w-full text-sm"
                                 />
                               </div>
                             </>
@@ -321,9 +310,7 @@ export default function AvailabilityChangeForm() {
                     ))}
                   </div>
                 )}
-                {errors.availability && (
-                  <p className="mt-1 text-sm text-red-600">{errors.availability.message}</p>
-                )}
+                {/* Time slots are managed separately from form validation */}
               </div>
 
               {/* Reason */}
@@ -351,7 +338,7 @@ export default function AvailabilityChangeForm() {
                 <textarea
                   id="additional_notes"
                   rows={3}
-                  {...register('additional_notes')}
+                  {...register('additional_comments')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="Any other information relevant to your availability change..."
                 />
@@ -360,20 +347,20 @@ export default function AvailabilityChangeForm() {
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => router.push('/forms')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="primary"
+                loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

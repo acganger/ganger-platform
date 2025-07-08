@@ -21,7 +21,7 @@ import {
   PencilIcon
 } from '@heroicons/react/24/outline';
 import { format } from 'date-fns';
-import { Button } from '@ganger/ui';
+import { Button, Card, CardHeader, CardContent, CardTitle, Input, Select, Badge } from '@ganger/ui';
 
 // Form type options
 const FORM_TYPES = [
@@ -34,23 +34,23 @@ const FORM_TYPES = [
   { value: 'general_inquiry', label: 'General Inquiry' }
 ];
 
-// Status options with colors
+// Status options
 const STATUS_OPTIONS = [
-  { value: 'open', label: 'Open', color: 'bg-blue-100 text-blue-800', icon: ClockIcon },
-  { value: 'in_progress', label: 'In Progress', color: 'bg-yellow-100 text-yellow-800', icon: ArrowPathIcon },
-  { value: 'closed', label: 'Closed', color: 'bg-gray-100 text-gray-800', icon: CheckCircleIcon },
-  { value: 'pending_approval', label: 'Pending Approval', color: 'bg-purple-100 text-purple-800', icon: PauseCircleIcon },
-  { value: 'approved', label: 'Approved', color: 'bg-green-100 text-green-800', icon: CheckCircleIcon },
-  { value: 'denied', label: 'Denied', color: 'bg-red-100 text-red-800', icon: XCircleIcon },
-  { value: 'stalled', label: 'Stalled', color: 'bg-orange-100 text-orange-800', icon: ExclamationCircleIcon }
+  { value: 'open', label: 'Open', icon: ClockIcon },
+  { value: 'in_progress', label: 'In Progress', icon: ArrowPathIcon },
+  { value: 'closed', label: 'Closed', icon: CheckCircleIcon },
+  { value: 'pending_approval', label: 'Pending Approval', icon: PauseCircleIcon },
+  { value: 'approved', label: 'Approved', icon: CheckCircleIcon },
+  { value: 'denied', label: 'Denied', icon: XCircleIcon },
+  { value: 'stalled', label: 'Stalled', icon: ExclamationCircleIcon }
 ];
 
-// Priority options with colors
+// Priority options
 const PRIORITY_OPTIONS = [
-  { value: 'low', label: 'Low', color: 'bg-gray-100 text-gray-800' },
-  { value: 'normal', label: 'Normal', color: 'bg-blue-100 text-blue-800' },
-  { value: 'high', label: 'High', color: 'bg-orange-100 text-orange-800' },
-  { value: 'urgent', label: 'Urgent', color: 'bg-red-100 text-red-800' }
+  { value: 'low', label: 'Low' },
+  { value: 'normal', label: 'Normal' },
+  { value: 'high', label: 'High' },
+  { value: 'urgent', label: 'Urgent' }
 ];
 
 // Location options
@@ -259,11 +259,26 @@ export default function TicketsPage() {
     if (!statusOption) return null;
     
     const Icon = statusOption.icon;
+    
+    // Map status to Badge variants
+    const variantMap: Record<string, 'primary' | 'secondary' | 'success' | 'warning' | 'destructive'> = {
+      'open': 'primary',
+      'in_progress': 'primary',
+      'approved': 'success',
+      'completed': 'success',
+      'pending_approval': 'warning',
+      'stalled': 'secondary',
+      'closed': 'destructive',
+      'denied': 'destructive'
+    };
+    
+    const variant = variantMap[status] || 'secondary';
+    
     return (
-      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${statusOption.color}`}>
+      <Badge variant={variant} size="sm" className="gap-1">
         <Icon className="w-3.5 h-3.5" />
         {statusOption.label}
-      </span>
+      </Badge>
     );
   };
 
@@ -271,10 +286,20 @@ export default function TicketsPage() {
     const priorityOption = PRIORITY_OPTIONS.find(p => p.value === priority);
     if (!priorityOption) return null;
     
+    // Map priority to Badge variants
+    const variantMap: Record<string, 'primary' | 'secondary' | 'success' | 'warning' | 'destructive'> = {
+      'low': 'secondary',
+      'normal': 'primary',
+      'high': 'warning',
+      'urgent': 'destructive'
+    };
+    
+    const variant = variantMap[priority] || 'secondary';
+    
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${priorityOption.color}`}>
+      <Badge variant={variant} size="sm">
         {priorityOption.label}
-      </span>
+      </Badge>
     );
   };
 
@@ -334,18 +359,19 @@ export default function TicketsPage() {
 
         {/* Filters */}
         {showFilters && (
-          <div className="bg-gray-50 p-4 rounded-lg space-y-4">
+          <Card className="bg-gray-50">
+            <CardContent className="p-4 space-y-4">
             {/* Search */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
               <div className="relative">
                 <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
+                <Input
                   type="text"
                   value={filters.search}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
                   placeholder="Search by title, description, or ticket number..."
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="pl-10 w-full"
                 />
               </div>
             </div>
@@ -438,37 +464,28 @@ export default function TicketsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Date Range */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">From Date</label>
-                <input
-                  type="date"
-                  value={filters.date_from}
-                  onChange={(e) => handleFilterChange('date_from', e.target.value)}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">To Date</label>
-                <input
-                  type="date"
-                  value={filters.date_to}
-                  onChange={(e) => handleFilterChange('date_to', e.target.value)}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
+              <Input
+                type="date"
+                label="From Date"
+                value={filters.date_from}
+                onChange={(e) => handleFilterChange('date_from', e.target.value)}
+              />
+              <Input
+                type="date"
+                label="To Date"
+                value={filters.date_to}
+                onChange={(e) => handleFilterChange('date_to', e.target.value)}
+              />
 
               {/* Manager/Admin only filters */}
               {isManagerOrAdmin && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Submitter Email</label>
-                  <input
-                    type="email"
-                    value={filters.submitter}
-                    onChange={(e) => handleFilterChange('submitter', e.target.value)}
-                    placeholder="user@gangerdermatology.com"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-                </div>
+                <Input
+                  type="email"
+                  label="Submitter Email"
+                  value={filters.submitter}
+                  onChange={(e) => handleFilterChange('submitter', e.target.value)}
+                  placeholder="user@gangerdermatology.com"
+                />
               )}
             </div>
 
@@ -513,7 +530,8 @@ export default function TicketsPage() {
                 Clear all filters
               </Button>
             </div>
-          </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Error Message */}
@@ -524,7 +542,8 @@ export default function TicketsPage() {
         )}
 
         {/* Tickets Table */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
+        <Card className="overflow-hidden">
+          <CardContent className="p-0">
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -662,11 +681,13 @@ export default function TicketsPage() {
               </table>
             </div>
           )}
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+          <Card>
+            <CardContent className="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
             <div className="flex-1 flex justify-between sm:hidden">
               <Button
                 variant="outline"
@@ -757,23 +778,24 @@ export default function TicketsPage() {
                 <label htmlFor="page-size" className="text-sm text-gray-700">
                   Show:
                 </label>
-                <select
-                  id="page-size"
-                  value={pageSize}
+                <Select
+                  value={pageSize.toString()}
                   onChange={(e) => {
                     setPageSize(Number(e.target.value));
                     setPage(1);
                   }}
-                  className="text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
+                  options={[
+                    { value: '10', label: '10' },
+                    { value: '20', label: '20' },
+                    { value: '50', label: '50' },
+                    { value: '100', label: '100' }
+                  ]}
+                  className="text-sm"
+                />
               </div>
             </div>
-          </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     </DashboardLayout>

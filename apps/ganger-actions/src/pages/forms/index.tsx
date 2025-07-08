@@ -1,5 +1,6 @@
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useRouter } from 'next/router';
+import { Card, CardContent } from '@ganger/ui';
 import { 
   Ticket, 
   Calendar,
@@ -123,13 +124,14 @@ export default function FormsPage() {
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {categoryForms.map((form) => (
-                <button
+                <Card
                   key={form.id}
                   onClick={() => router.push(form.href)}
-                  className={`relative group bg-white p-6 rounded-lg shadow-sm border-2 hover:shadow-md transition-all ${
+                  className={`relative group border-2 hover:shadow-md transition-all cursor-pointer ${
                     categoryColors[form.category]
                   }`}
                 >
+                  <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center mb-3">
@@ -142,7 +144,8 @@ export default function FormsPage() {
                     </div>
                     <ArrowRight className="h-5 w-5 ml-3 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </button>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
@@ -152,18 +155,24 @@ export default function FormsPage() {
         <div className="mt-12 bg-gray-50 rounded-lg p-6">
           <h3 className="text-sm font-medium text-gray-900 mb-4">Recent Activity</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="bg-white rounded-lg p-4">
-              <p className="text-2xl font-semibold text-gray-900">12</p>
-              <p className="text-sm text-gray-600">Open Requests</p>
-            </div>
-            <div className="bg-white rounded-lg p-4">
-              <p className="text-2xl font-semibold text-gray-900">3</p>
-              <p className="text-sm text-gray-600">Pending Approval</p>
-            </div>
-            <div className="bg-white rounded-lg p-4">
-              <p className="text-2xl font-semibold text-gray-900">94%</p>
-              <p className="text-sm text-gray-600">Resolution Rate</p>
-            </div>
+            <Card>
+              <CardContent className="p-4">
+                <p className="text-2xl font-semibold text-gray-900">12</p>
+                <p className="text-sm text-gray-600">Open Requests</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <p className="text-2xl font-semibold text-gray-900">3</p>
+                <p className="text-sm text-gray-600">Pending Approval</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <p className="text-2xl font-semibold text-gray-900">94%</p>
+                <p className="text-sm text-gray-600">Resolution Rate</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

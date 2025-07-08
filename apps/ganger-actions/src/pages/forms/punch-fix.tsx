@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Clock, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
+import { Button, Input, Select } from '@ganger/ui';
 
 const punchFixSchema = z.object({
   employee_name: z.string().optional(), // For managers submitting on behalf of others
@@ -138,37 +139,22 @@ export default function PunchFixRequestForm() {
             <div className="bg-white shadow rounded-lg p-6">
               {/* Issue Type */}
               <div className="mb-6">
-                <label htmlFor="punch_type" className="block text-sm font-medium text-gray-700 mb-2">
-                  Issue Type *
-                </label>
-                <select
-                  id="punch_type"
+                <Select
                   {...register('punch_type')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  {Object.entries(punchTypeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-                {errors.punch_type && (
-                  <p className="mt-1 text-sm text-red-600">{errors.punch_type.message}</p>
-                )}
+                  label="Issue Type *"
+                  options={Object.entries(punchTypeLabels).map(([value, label]) => ({ value, label }))}
+                  error={errors.punch_type?.message}
+                />
               </div>
 
               {/* Date */}
               <div className="mb-6">
-                <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
-                  Date of Issue *
-                </label>
-                <input
+                <Input
                   type="date"
-                  id="date"
                   {...register('date')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  label="Date of Issue *"
+                  error={errors.date?.message}
                 />
-                {errors.date && (
-                  <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
-                )}
               </div>
 
               {/* Scheduled Times */}
@@ -179,11 +165,10 @@ export default function PunchFixRequestForm() {
                     <label htmlFor="scheduled_in" className="block text-sm text-gray-600 mb-1">
                       Scheduled In
                     </label>
-                    <input
+                    <Input
                       type="time"
-                      id="scheduled_in"
                       {...register('scheduled_in')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full"
                     />
                   </div>
 
@@ -191,11 +176,10 @@ export default function PunchFixRequestForm() {
                     <label htmlFor="scheduled_out" className="block text-sm text-gray-600 mb-1">
                       Scheduled Out
                     </label>
-                    <input
+                    <Input
                       type="time"
-                      id="scheduled_out"
                       {...register('scheduled_out')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full"
                     />
                   </div>
                 </div>
@@ -209,11 +193,10 @@ export default function PunchFixRequestForm() {
                     <label htmlFor="actual_in" className="block text-sm text-gray-600 mb-1">
                       Actual In
                     </label>
-                    <input
+                    <Input
                       type="time"
-                      id="actual_in"
                       {...register('actual_in')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full"
                     />
                   </div>
 
@@ -221,11 +204,10 @@ export default function PunchFixRequestForm() {
                     <label htmlFor="actual_out" className="block text-sm text-gray-600 mb-1">
                       Actual Out
                     </label>
-                    <input
+                    <Input
                       type="time"
-                      id="actual_out"
                       {...register('actual_out')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full"
                     />
                   </div>
                 </div>
@@ -265,20 +247,20 @@ export default function PunchFixRequestForm() {
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => router.push('/forms')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="primary"
+                loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { DollarSign, Plus, X, Upload, Receipt } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ganger/ui';
+import { Button, Input, Select } from '@ganger/ui';
 
 const expenseItemSchema = z.object({
   date: z.string(),
@@ -24,9 +24,11 @@ const expenseSchema = z.object({
     .regex(/^\d+(\.\d{1,2})?$/, 'Invalid amount format'),
   category: z.enum(['Travel', 'Supplies', 'Meals', 'Other']),
   description: z.string().min(10, 'Please provide at least 10 characters describing the expense'),
-  receipt: z.instanceof(File, { message: 'Receipt is required' }),
   expense_type: z.string(),
-  expense_items: z.array(expenseItemSchema).optional()
+  expense_items: z.array(expenseItemSchema).optional(),
+  submitter_name: z.string().min(1, 'Name is required'),
+  submitter_email: z.string().email('Valid email is required'),
+  receipt_files: z.array(z.instanceof(File)).min(1, 'At least one receipt is required')
 });
 
 type ExpenseFormData = z.infer<typeof expenseSchema>;
@@ -52,7 +54,7 @@ const categoryLabels = {
 export default function ExpenseReimbursementForm() {
   const router = useRouter();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { authUser } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
   
@@ -64,7 +66,9 @@ export default function ExpenseReimbursementForm() {
   } = useForm<ExpenseFormData>({
     resolver: zodResolver(expenseSchema),
     defaultValues: {
-      category: 'Travel'
+      category: 'Travel',
+      submitter_name: authUser?.name || '',
+      submitter_email: authUser?.email || ''
     }
   });
 
@@ -99,25 +103,32 @@ export default function ExpenseReimbursementForm() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     setUploadedFiles(prev => [...prev, ...files]);
+    setValue('receipt_files', [...uploadedFiles, ...files]);
   };
 
   const removeFile = (index: number) => {
-    setUploadedFiles(prev => prev.filter((_file, i) => i !== index));
+    const newFiles = uploadedFiles.filter((_file, i) => i !== index);
+    setUploadedFiles(newFiles);
+    setValue('receipt_files', newFiles);
   };
 
   const submitRequest = useMutation({
     mutationFn: async (data: ExpenseFormData) => {
       const formData = {
-        title: `Expense Reimbursement - ${expenseTypeLabels[data.expense_type]}`,
-        description: data.business_purpose,
+        title: `Expense Reimbursement - ${expenseTypeLabels[data.expense_type as keyof typeof expenseTypeLabels] || data.expense_type}`,
+        description: data.description,
         form_type: 'expense_reimbursement',
         form_data: {
           expense_type: data.expense_type,
-          payment_method: data.payment_method,
+          expense_date: data.expense_date,
+          amount: data.amount,
+          category: data.category,
+          description: data.description,
           expense_items: data.expense_items,
           total_amount: calculateTotal(),
-          business_purpose: data.business_purpose,
-          additional_notes: data.additional_notes || null
+          submitter_name: data.submitter_name,
+          submitter_email: data.submitter_email,
+          receipt_files: uploadedFiles
         }
       };
 
@@ -175,42 +186,46 @@ export default function ExpenseReimbursementForm() {
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="bg-white shadow rounded-lg p-6">
+              {/* Submitter Information */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <Input
+                  {...register('submitter_name')}
+                  label="Your Name *"
+                  placeholder="Enter your full name"
+                  error={errors.submitter_name?.message}
+                />
+                <Input
+                  {...register('submitter_email')}
+                  type="email"
+                  label="Your Email *"
+                  placeholder="Enter your email address"
+                  error={errors.submitter_email?.message}
+                />
+              </div>
+
               {/* Expense Type */}
               <div className="mb-6">
-                <label htmlFor="expense_type" className="block text-sm font-medium text-gray-700 mb-2">
-                  Expense Type *
-                </label>
-                <select
-                  id="expense_type"
+                <Select
                   {...register('expense_type')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  {Object.entries(expenseTypeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-                {errors.expense_type && (
-                  <p className="mt-1 text-sm text-red-600">{errors.expense_type.message}</p>
-                )}
+                  label="Expense Type *"
+                  options={Object.entries(expenseTypeLabels).map(([value, label]) => ({ value, label }))}
+                  error={errors.expense_type?.message}
+                />
               </div>
 
               {/* Payment Method */}
-              <div className="mb-6">
-                <label htmlFor="payment_method" className="block text-sm font-medium text-gray-700 mb-2">
-                  Payment Method *
-                </label>
-                <select
-                  id="payment_method"
-                  {...register('payment_method')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  <option value="personal_card">Personal Credit/Debit Card</option>
-                  <option value="personal_cash">Personal Cash</option>
-                  <option value="company_card">Company Card</option>
-                </select>
-                {errors.payment_method && (
-                  <p className="mt-1 text-sm text-red-600">{errors.payment_method.message}</p>
-                )}
+              {/* Payment method removed - not in current schema */}
+              <div className="mb-6 hidden">
+                <Select
+                  {...register('expense_type')}
+                  label="Payment Method *"
+                  options={[
+                    { value: 'personal_card', label: 'Personal Credit/Debit Card' },
+                    { value: 'personal_cash', label: 'Personal Cash' },
+                    { value: 'company_card', label: 'Company Card' }
+                  ]}
+                  error={errors.expense_type?.message}
+                />
               </div>
 
               {/* Expense Items */}
@@ -254,47 +269,44 @@ export default function ExpenseReimbursementForm() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div>
                             <label className="block text-xs text-gray-600 mb-1">Date</label>
-                            <input
+                            <Input
                               type="date"
                               value={item.date}
                               onChange={(e) => updateExpenseItem(index, 'date', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                              className="w-full text-sm"
                             />
                           </div>
 
                           <div>
                             <label className="block text-xs text-gray-600 mb-1">Category</label>
-                            <select
+                            <Select
                               value={item.category}
                               onChange={(e) => updateExpenseItem(index, 'category', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                            >
-                              {Object.entries(categoryLabels).map(([value, label]) => (
-                                <option key={value} value={value}>{label}</option>
-                              ))}
-                            </select>
+                              options={Object.entries(categoryLabels).map(([value, label]) => ({ value, label }))}
+                              className="w-full text-sm"
+                            />
                           </div>
 
                           <div>
                             <label className="block text-xs text-gray-600 mb-1">Description</label>
-                            <input
+                            <Input
                               type="text"
                               value={item.description}
                               onChange={(e) => updateExpenseItem(index, 'description', e.target.value)}
                               placeholder="Brief description"
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                              className="w-full text-sm"
                             />
                           </div>
 
                           <div>
                             <label className="block text-xs text-gray-600 mb-1">Amount ($)</label>
-                            <input
+                            <Input
                               type="number"
                               step="0.01"
                               value={item.amount || ''}
                               onChange={(e) => updateExpenseItem(index, 'amount', parseFloat(e.target.value) || 0)}
                               placeholder="0.00"
-                              className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                              className="w-full text-sm"
                             />
                           </div>
                         </div>
@@ -323,12 +335,12 @@ export default function ExpenseReimbursementForm() {
                 <textarea
                   id="business_purpose"
                   rows={4}
-                  {...register('business_purpose')}
+                  {...register('description')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="Explain the business purpose of these expenses..."
                 />
-                {errors.business_purpose && (
-                  <p className="mt-1 text-sm text-red-600">{errors.business_purpose.message}</p>
+                {errors.description && (
+                  <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
                 )}
               </div>
 
@@ -392,12 +404,13 @@ export default function ExpenseReimbursementForm() {
                 <label htmlFor="additional_notes" className="block text-sm font-medium text-gray-700 mb-2">
                   Additional Notes (Optional)
                 </label>
+                {/* Additional notes removed - not in current schema */}
                 <textarea
                   id="additional_notes"
                   rows={3}
-                  {...register('additional_notes')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Any additional information..."
+                  disabled
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 opacity-50"
+                  placeholder="Additional notes feature coming soon..."
                 />
               </div>
             </div>

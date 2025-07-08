@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Filter, Target, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
+import { Button, Input, Select } from '@ganger/ui';
 
 const impactFilterSchema = z.object({
   submitter_name: z.string().min(1, 'Name is required'),
@@ -34,7 +35,7 @@ const timeframeLabels = {
 export default function ImpactFilterForm() {
   const router = useRouter();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { authUser } = useAuth();
   
   const {
     register,
@@ -44,8 +45,8 @@ export default function ImpactFilterForm() {
   } = useForm<ImpactFilterFormData>({
     resolver: zodResolver(impactFilterSchema),
     defaultValues: {
-      submitter_name: user?.name || '',
-      submitter_email: user?.email || '',
+      submitter_name: authUser?.name || '',
+      submitter_email: authUser?.email || '',
       timeframe: 'this_month'
     }
   });
@@ -226,40 +227,31 @@ export default function ImpactFilterForm() {
 
               {/* Timeframe */}
               <div className="mb-6">
-                <label htmlFor="timeframe" className="block text-sm font-medium text-gray-700 mb-2">
-                  Timeframe *
-                </label>
-                <select
-                  id="timeframe"
+                <Select
                   {...register('timeframe')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  {Object.entries(timeframeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-                {errors.timeframe && (
-                  <p className="mt-1 text-sm text-red-600">{errors.timeframe.message}</p>
-                )}
+                  label="Timeframe *"
+                  options={Object.entries(timeframeLabels).map(([value, label]) => ({ value, label }))}
+                  error={errors.timeframe?.message}
+                />
               </div>
             </div>
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => router.push('/forms')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="primary"
+                loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Impact Filter'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

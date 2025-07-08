@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@ganger/ui';
+import { LoadingSpinner, Badge } from '@ganger/ui';
 import { 
   ArrowLeft, 
   MessageSquare, 
@@ -61,18 +61,18 @@ const MOCK_TICKETS: SupportTicket[] = [
 ];
 
 const CATEGORIES = [
-  { value: 'hardware', label: 'Hardware', icon: Monitor, color: 'bg-blue-100 text-blue-800' },
-  { value: 'software', label: 'Software', icon: Bug, color: 'bg-green-100 text-green-800' },
-  { value: 'network', label: 'Network', icon: Wifi, color: 'bg-purple-100 text-purple-800' },
-  { value: 'access', label: 'Access/Login', icon: User, color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'other', label: 'Other', icon: HelpCircle, color: 'bg-gray-100 text-gray-800' }
+  { value: 'hardware', label: 'Hardware', icon: Monitor },
+  { value: 'software', label: 'Software', icon: Bug },
+  { value: 'network', label: 'Network', icon: Wifi },
+  { value: 'access', label: 'Access/Login', icon: User },
+  { value: 'other', label: 'Other', icon: HelpCircle }
 ];
 
 const PRIORITIES = [
-  { value: 'low', label: 'Low', color: 'bg-gray-100 text-gray-800' },
-  { value: 'medium', label: 'Medium', color: 'bg-blue-100 text-blue-800' },
-  { value: 'high', label: 'High', color: 'bg-orange-100 text-orange-800' },
-  { value: 'urgent', label: 'Urgent', color: 'bg-red-100 text-red-800' }
+  { value: 'low', label: 'Low' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high', label: 'High' },
+  { value: 'urgent', label: 'Urgent' }
 ];
 
 export default function SupportTicketsPage() {
@@ -139,19 +139,6 @@ export default function SupportTicketsPage() {
     return CATEGORIES.find(c => c.value === category) || CATEGORIES[4];
   };
 
-  const getPriorityColor = (priority: string) => {
-    return PRIORITIES.find(p => p.value === priority)?.color || 'bg-gray-100 text-gray-800';
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'open': return 'bg-red-100 text-red-800';
-      case 'in_progress': return 'bg-yellow-100 text-yellow-800';
-      case 'resolved': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -328,17 +315,24 @@ export default function SupportTicketsPage() {
                   
                   <div className="flex flex-col items-end space-y-2 ml-6">
                     <div className="flex items-center space-x-2">
-                      <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(ticket.status)}`}>
-                        <StatusIcon className="w-3 h-3 mr-1" />
+                      <Badge 
+                        variant={ticket.status === 'open' ? 'primary' : ticket.status === 'in_progress' ? 'primary' : ticket.status === 'resolved' ? 'success' : 'destructive'} 
+                        size="sm" 
+                        className="gap-1"
+                      >
+                        <StatusIcon className="w-3 h-3" />
                         {ticket.status.replace('_', ' ')}
-                      </span>
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPriorityColor(ticket.priority)}`}>
+                      </Badge>
+                      <Badge 
+                        variant={ticket.priority === 'low' ? 'secondary' : ticket.priority === 'medium' ? 'primary' : ticket.priority === 'high' ? 'warning' : 'destructive'} 
+                        size="sm"
+                      >
                         {ticket.priority}
-                      </span>
+                      </Badge>
                     </div>
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${categoryInfo.color}`}>
+                    <Badge variant="outline" size="sm">
                       {categoryInfo.label}
-                    </span>
+                    </Badge>
                   </div>
                 </div>
                 

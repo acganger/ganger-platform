@@ -5,13 +5,13 @@ import { SupportTicketFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { AlertCircle, Paperclip, X } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from '@ganger/ui';
+import { Button, Input, Select } from '@ganger/ui';
 
 const supportTicketSchema = z.object({
-  location: z.enum(['Northfield', 'Woodbury', 'Burnsville'], {
+  location: z.enum(['Wixom', 'Ann Arbor', 'Plymouth'], {
     required_error: 'Please select a location',
   }),
-  requestType: z.enum([
+  request_type: z.enum([
     'General Support',
     'Equipment Issue', 
     'Software Problem',
@@ -20,17 +20,14 @@ const supportTicketSchema = z.object({
   ], {
     required_error: 'Please select a request type',
   }),
-  priority: z.object({
-    urgency: z.enum(['Urgent', 'Not Urgent'], {
-      required_error: 'Please select urgency level',
-    }),
-    importance: z.enum(['Important', 'Not Important'], {
-      required_error: 'Please select importance level',
-    }),
+  priority: z.enum(['low', 'medium', 'high', 'urgent'], {
+    required_error: 'Please select priority level',
   }),
-  description: z.string()
-    .min(10, 'Description must be at least 10 characters')
-    .max(2000, 'Description cannot exceed 2000 characters'),
+  details: z.string()
+    .min(10, 'Details must be at least 10 characters')
+    .max(2000, 'Details cannot exceed 2000 characters'),
+  submitter_name: z.string().min(1, 'Name is required'),
+  submitter_email: z.string().email('Valid email is required'),
   attachments: z.array(z.instanceof(File)).max(10, 'Maximum 10 files allowed'),
 });
 
@@ -52,13 +49,15 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
   } = useForm<SupportTicketFormData>({
     resolver: zodResolver(supportTicketSchema),
     defaultValues: {
-      location: (authUser?.location as 'Northfield' | 'Woodbury' | 'Burnsville' | undefined) || undefined,
+      location: (authUser?.location as 'Wixom' | 'Ann Arbor' | 'Plymouth' | undefined) || undefined,
+      submitter_name: authUser?.name || '',
+      submitter_email: authUser?.email || '',
       attachments: [],
     },
   });
 
   const watchedValues = watch();
-  const description = watch('description', '');
+  const details = watch('details', '');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
@@ -73,19 +72,6 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
     setValue('attachments', newFiles);
   };
 
-  const getPriorityLevel = () => {
-    const { urgency, importance } = watchedValues.priority || {};
-    if (urgency === 'Urgent' && importance === 'Important') return 'urgent';
-    if (urgency === 'Urgent' || importance === 'Important') return 'high';
-    return 'medium';
-  };
-
-  const priorityLevel = getPriorityLevel();
-  const priorityColors = {
-    urgent: 'text-red-600 bg-red-50 border-red-200',
-    high: 'text-orange-600 bg-orange-50 border-orange-200',
-    medium: 'text-yellow-600 bg-yellow-50 border-yellow-200',
-  };
 
   const totalFileSize = files.reduce((acc, file) => acc + file.size, 0);
   const maxFileSize = 50 * 1024 * 1024; // 50MB
@@ -93,150 +79,85 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data as SupportTicketFormData))} className="space-y-6">
       {/* Location */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Location *
-        </label>
-        <select
-          {...register('location')}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-        >
-          <option value="">Select location</option>
-          <option value="Northfield">Northfield</option>
-          <option value="Woodbury">Woodbury</option>
-          <option value="Burnsville">Burnsville</option>
-        </select>
-        {errors.location && (
-          <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
-        )}
-      </div>
+      <Select
+        {...register('location')}
+        label="Location *"
+        placeholder="Select location"
+        options={[
+          { value: 'Wixom', label: 'Wixom' },
+          { value: 'Ann Arbor', label: 'Ann Arbor' },
+          { value: 'Plymouth', label: 'Plymouth' }
+        ]}
+        error={errors.location?.message}
+      />
 
       {/* Request Type */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Request Type *
-        </label>
-        <select
-          {...register('requestType')}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-        >
-          <option value="">Select request type</option>
-          <option value="General Support">General Support</option>
-          <option value="Equipment Issue">Equipment Issue</option>
-          <option value="Software Problem">Software Problem</option>
-          <option value="Network Issue">Network Issue</option>
-          <option value="Other">Other</option>
-        </select>
-        {errors.requestType && (
-          <p className="mt-1 text-sm text-red-600">{errors.requestType.message}</p>
-        )}
+      <Select
+        {...register('request_type')}
+        label="Request Type *"
+        placeholder="Select request type"
+        options={[
+          { value: 'General Support', label: 'General Support' },
+          { value: 'Equipment Issue', label: 'Equipment Issue' },
+          { value: 'Software Problem', label: 'Software Problem' },
+          { value: 'Network Issue', label: 'Network Issue' },
+          { value: 'Other', label: 'Other' }
+        ]}
+        error={errors.request_type?.message}
+      />
+
+      {/* Priority */}
+      <Select
+        {...register('priority')}
+        label="Priority *"
+        placeholder="Select priority level"
+        options={[
+          { value: 'low', label: 'Low - Can wait for normal support hours' },
+          { value: 'medium', label: 'Medium - Important but not urgent' },
+          { value: 'high', label: 'High - Important and time-sensitive' },
+          { value: 'urgent', label: 'Urgent - Blocking work or affecting patients' }
+        ]}
+        error={errors.priority?.message}
+      />
+
+      {/* Submitter Information */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Input
+          {...register('submitter_name')}
+          label="Your Name *"
+          placeholder="Enter your full name"
+          error={errors.submitter_name?.message}
+        />
+        <Input
+          {...register('submitter_email')}
+          type="email"
+          label="Your Email *"
+          placeholder="Enter your email address"
+          error={errors.submitter_email?.message}
+        />
       </div>
 
-      {/* Priority Matrix */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-3">
-          Priority Assessment *
-        </label>
-        <div className="space-y-4">
-          {/* Urgency */}
-          <div>
-            <span className="text-sm text-gray-600 mb-2 block">How urgent is this issue?</span>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  {...register('priority.urgency')}
-                  value="Urgent"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
-                />
-                <span className="ml-2 text-sm text-gray-900">
-                  Urgent - Blocking my work or affecting patients
-                </span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  {...register('priority.urgency')}
-                  value="Not Urgent"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
-                />
-                <span className="ml-2 text-sm text-gray-900">
-                  Not Urgent - Can wait for normal support hours
-                </span>
-              </label>
-            </div>
-            {errors.priority?.urgency && (
-              <p className="mt-1 text-sm text-red-600">{errors.priority.urgency.message}</p>
-            )}
-          </div>
-
-          {/* Importance */}
-          <div>
-            <span className="text-sm text-gray-600 mb-2 block">How important is this issue?</span>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  {...register('priority.importance')}
-                  value="Important"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
-                />
-                <span className="ml-2 text-sm text-gray-900">
-                  Important - Critical for daily operations
-                </span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  {...register('priority.importance')}
-                  value="Not Important"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
-                />
-                <span className="ml-2 text-sm text-gray-900">
-                  Not Important - Nice to have improvement
-                </span>
-              </label>
-            </div>
-            {errors.priority?.importance && (
-              <p className="mt-1 text-sm text-red-600">{errors.priority.importance.message}</p>
-            )}
-          </div>
-
-          {/* Priority Result */}
-          {watchedValues.priority?.urgency && watchedValues.priority?.importance && (
-            <div className={`p-3 rounded-md border ${priorityColors[priorityLevel]}`}>
-              <div className="flex items-center">
-                <AlertCircle className="h-5 w-5 mr-2" />
-                <span className="text-sm font-medium">
-                  Calculated Priority: {priorityLevel.charAt(0).toUpperCase() + priorityLevel.slice(1)}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Description */}
+      {/* Details */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Description *
+          Details *
         </label>
         <textarea
-          {...register('description')}
+          {...register('details')}
           rows={6}
           className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
           placeholder="Please describe the issue in detail. Include what you were trying to do, what happened, and any error messages you saw."
         />
         <div className="mt-1 flex justify-between">
-          {errors.description ? (
-            <p className="text-sm text-red-600">{errors.description.message}</p>
+          {errors.details ? (
+            <p className="text-sm text-red-600">{errors.details.message}</p>
           ) : (
             <p className="text-sm text-gray-500">
               Provide as much detail as possible to help us resolve your issue quickly.
             </p>
           )}
-          <span className={`text-sm ${description.length > 1900 ? 'text-red-600' : 'text-gray-500'}`}>
-            {description.length}/2000
+          <span className={`text-sm ${details.length > 1900 ? 'text-red-600' : 'text-gray-500'}`}>
+            {details.length}/2000
           </span>
         </div>
       </div>

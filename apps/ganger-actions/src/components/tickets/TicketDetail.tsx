@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Ticket, Comment } from '@/types';
-import { formatDateTime, formatTimeAgo, getInitials, getAvatarColor } from '@/lib/utils';
+import { formatDateTime, formatTimeAgo } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Clock, 
@@ -15,7 +15,7 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react';
-import { Button } from '@ganger/ui';
+import { Button, Badge, Avatar } from '@ganger/ui';
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -26,23 +26,23 @@ interface TicketDetailProps {
 
 const StatusBadge = ({ status }: { status: Ticket['status'] }) => {
   const statusConfig = {
-    pending: { label: 'Pending', className: 'status-badge-pending', icon: Clock },
-    open: { label: 'Open', className: 'status-badge-open', icon: AlertCircle },
-    in_progress: { label: 'In Progress', className: 'status-badge-in-progress', icon: Clock },
-    stalled: { label: 'Stalled', className: 'status-badge-stalled', icon: XCircle },
-    approved: { label: 'Approved', className: 'status-badge-approved', icon: CheckCircle },
-    denied: { label: 'Denied', className: 'status-badge-denied', icon: XCircle },
-    completed: { label: 'Completed', className: 'status-badge-completed', icon: CheckCircle },
+    pending: { label: 'Pending', variant: 'warning' as const, icon: Clock },
+    open: { label: 'Open', variant: 'primary' as const, icon: AlertCircle },
+    in_progress: { label: 'In Progress', variant: 'primary' as const, icon: Clock },
+    stalled: { label: 'Stalled', variant: 'secondary' as const, icon: XCircle },
+    approved: { label: 'Approved', variant: 'success' as const, icon: CheckCircle },
+    denied: { label: 'Denied', variant: 'destructive' as const, icon: XCircle },
+    completed: { label: 'Completed', variant: 'success' as const, icon: CheckCircle },
   };
 
   const config = statusConfig[status];
   const Icon = config.icon;
   
   return (
-    <span className={`${config.className} flex items-center`}>
-      <Icon className="h-3 w-3 mr-1" />
+    <Badge variant={config.variant} size="sm" className="gap-1">
+      <Icon className="h-3 w-3" />
       {config.label}
-    </span>
+    </Badge>
   );
 };
 
@@ -75,9 +75,11 @@ const CommentItem = ({
   return (
     <div className="flex space-x-3">
       {/* Avatar */}
-      <div className={`flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center text-white text-sm font-medium ${getAvatarColor(comment.author.name)}`}>
-        {getInitials(comment.author.name)}
-      </div>
+      <Avatar 
+        size="md"
+        alt={comment.author.name}
+        className="flex-shrink-0"
+      />
       
       {/* Comment Content */}
       <div className="flex-1 bg-gray-50 rounded-lg p-4">
@@ -86,9 +88,9 @@ const CommentItem = ({
             <div className="flex items-center space-x-2">
               <span className="font-medium text-gray-900">{comment.author.name}</span>
               {comment.is_internal && (
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                <Badge variant="warning" size="sm">
                   Internal
-                </span>
+                </Badge>
               )}
             </div>
             <p className="text-sm text-gray-500">{formatTimeAgo(comment.created_at)}</p>

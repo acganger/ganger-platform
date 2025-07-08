@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@ganger/ui';
+import { LoadingSpinner, Input, Select, Badge } from '@ganger/ui';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -19,8 +19,7 @@ import {
   AlertTriangle,
   Clock,
   Activity,
-  ChevronRight,
-  Badge
+  ChevronRight
 } from 'lucide-react';
 
 interface StaffUser {
@@ -47,12 +46,12 @@ interface ActivityLog {
 }
 
 const ROLES = [
-  { value: 'admin', label: 'Administrator', color: 'bg-red-100 text-red-800', icon: Shield },
-  { value: 'manager', label: 'Manager', color: 'bg-blue-100 text-blue-800', icon: UserCheck },
-  { value: 'staff', label: 'Staff', color: 'bg-green-100 text-green-800', icon: User }
+  { value: 'admin', label: 'Administrator', icon: Shield },
+  { value: 'manager', label: 'Manager', icon: UserCheck },
+  { value: 'staff', label: 'Staff', icon: User }
 ];
 
-const LOCATIONS = ['Northfield', 'Woodbury', 'Burnsville', 'Multiple'];
+const LOCATIONS = ['Wixom', 'Ann Arbor', 'Plymouth', 'Multiple'];
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -330,9 +329,9 @@ export default function UserProfilePage() {
             <div className="bg-white shadow rounded-lg p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-medium text-gray-900">Basic Information</h2>
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${user.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                <Badge variant={user.is_active ? 'success' : 'destructive'} size="md">
                   {user.is_active ? 'Active' : 'Inactive'}
-                </span>
+                </Badge>
               </div>
 
               <div className="space-y-4">
@@ -340,11 +339,10 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Full Name</label>
                   {isEditing ? (
-                    <input
+                    <Input
                       type="text"
                       value={editedUser.full_name || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, full_name: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                     />
                   ) : (
                     <p className="mt-1 text-sm text-gray-900">{user.full_name}</p>
@@ -364,11 +362,10 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Phone</label>
                   {isEditing ? (
-                    <input
+                    <Input
                       type="tel"
                       value={editedUser.phone_number || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, phone_number: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                     />
                   ) : (
                     <div className="mt-1 flex items-center text-sm text-gray-900">
@@ -382,11 +379,10 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Employee ID</label>
                   {isEditing ? (
-                    <input
+                    <Input
                       type="text"
                       value={editedUser.employee_id || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, employee_id: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                     />
                   ) : (
                     <p className="mt-1 text-sm text-gray-900">{user.employee_id || 'Not assigned'}</p>
@@ -404,21 +400,20 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Role</label>
                   {isEditing ? (
-                    <select
+                    <Select
                       value={editedUser.role || 'staff'}
                       onChange={(e) => setEditedUser({ ...editedUser, role: e.target.value as StaffUser['role'] })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                    >
-                      {ROLES.map(role => (
-                        <option key={role.value} value={role.value}>{role.label}</option>
-                      ))}
-                    </select>
+                      options={ROLES.map(role => ({ value: role.value, label: role.label }))}
+                    />
                   ) : (
                     <div className="mt-1 flex items-center">
                       <RoleIcon className="h-4 w-4 mr-2 text-gray-400" />
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${roleInfo.color}`}>
+                      <Badge 
+                        variant={user.role === 'admin' ? 'destructive' : user.role === 'manager' ? 'primary' : 'success'} 
+                        size="sm"
+                      >
                         {roleInfo.label}
-                      </span>
+                      </Badge>
                     </div>
                   )}
                 </div>
@@ -427,16 +422,12 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Department</label>
                   {isEditing ? (
-                    <select
+                    <Select
                       value={editedUser.department || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, department: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                    >
-                      <option value="">Select Department</option>
-                      {departments.map(dept => (
-                        <option key={dept} value={dept}>{dept}</option>
-                      ))}
-                    </select>
+                      placeholder="Select Department"
+                      options={departments.map(dept => ({ value: dept, label: dept }))}
+                    />
                   ) : (
                     <div className="mt-1 flex items-center text-sm text-gray-900">
                       <Building className="h-4 w-4 text-gray-400 mr-2" />
@@ -450,16 +441,12 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Location</label>
                   {isEditing ? (
-                    <select
+                    <Select
                       value={editedUser.location || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, location: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                    >
-                      <option value="">Select Location</option>
-                      {LOCATIONS.map(loc => (
-                        <option key={loc} value={loc}>{loc}</option>
-                      ))}
-                    </select>
+                      placeholder="Select Location"
+                      options={LOCATIONS.map(loc => ({ value: loc, label: loc }))}
+                    />
                   ) : (
                     <div className="mt-1 flex items-center text-sm text-gray-900">
                       <MapPin className="h-4 w-4 text-gray-400 mr-2" />
@@ -472,11 +459,10 @@ export default function UserProfilePage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Hire Date</label>
                   {isEditing ? (
-                    <input
+                    <Input
                       type="date"
                       value={editedUser.hire_date ? editedUser.hire_date.split('T')[0] : ''}
                       onChange={(e) => setEditedUser({ ...editedUser, hire_date: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                     />
                   ) : (
                     <div className="mt-1 flex items-center text-sm text-gray-900">
@@ -491,14 +477,14 @@ export default function UserProfilePage() {
                 {isEditing && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700">Status</label>
-                    <select
+                    <Select
                       value={editedUser.is_active ? 'active' : 'inactive'}
                       onChange={(e) => setEditedUser({ ...editedUser, is_active: e.target.value === 'active' })}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                    >
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                    </select>
+                      options={[
+                        { value: 'active', label: 'Active' },
+                        { value: 'inactive', label: 'Inactive' }
+                      ]}
+                    />
                   </div>
                 )}
               </div>

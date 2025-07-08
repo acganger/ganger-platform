@@ -17,7 +17,7 @@ import {
   XCircle,
   Loader2
 } from 'lucide-react';
-import { Button } from '@ganger/ui';
+import { Button, Card, CardHeader, CardContent, CardTitle, CardDescription, Badge } from '@ganger/ui';
 
 interface TicketStats {
   total: number;
@@ -60,8 +60,8 @@ const StatCard = ({
   };
 
   return (
-    <div className="bg-white overflow-hidden shadow rounded-lg">
-      <div className="p-5">
+    <Card>
+      <CardContent className="p-5">
         <div className="flex items-center">
           <div className="flex-shrink-0">
             <Icon className="h-6 w-6 text-gray-400" />
@@ -90,8 +90,8 @@ const StatCard = ({
             </dl>
           </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -116,23 +116,25 @@ const QuickAction = ({
   };
 
   return (
-    <div
+    <Card
       onClick={onClick}
-      className="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary-500 rounded-lg shadow hover:shadow-md transition-all duration-200 cursor-pointer"
+      className="relative group focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary-500 hover:shadow-md transition-all duration-200 cursor-pointer"
     >
-      <div>
-        <span className={`rounded-lg inline-flex p-3 ${colorClasses[color]}`}>
-          <Icon className="h-6 w-6" />
+      <CardContent className="p-6">
+        <div>
+          <span className={`rounded-lg inline-flex p-3 ${colorClasses[color]}`}>
+            <Icon className="h-6 w-6" />
+          </span>
+        </div>
+        <div className="mt-8">
+          <CardTitle className="text-lg font-medium text-gray-900">{title}</CardTitle>
+          <CardDescription className="mt-2">{description}</CardDescription>
+        </div>
+        <span className="absolute top-6 right-6 text-gray-300 group-hover:text-gray-400 transition-colors">
+          <ArrowRight className="h-5 w-5" />
         </span>
-      </div>
-      <div className="mt-8">
-        <h3 className="text-lg font-medium text-gray-900">{title}</h3>
-        <p className="mt-2 text-sm text-gray-500">{description}</p>
-      </div>
-      <span className="absolute top-6 right-6 text-gray-300 group-hover:text-gray-400 transition-colors">
-        <ArrowRight className="h-5 w-5" />
-      </span>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -143,16 +145,6 @@ const TicketCard = ({
   ticket: any;
   onClick: () => void;
 }) => {
-  const statusColors = {
-    open: 'bg-blue-100 text-blue-800',
-    in_progress: 'bg-yellow-100 text-yellow-800',
-    completed: 'bg-green-100 text-green-800',
-    pending: 'bg-gray-100 text-gray-800',
-    approved: 'bg-green-100 text-green-800',
-    denied: 'bg-red-100 text-red-800',
-    stalled: 'bg-orange-100 text-orange-800',
-    cancelled: 'bg-gray-100 text-gray-800',
-  };
 
   const priorityColors = {
     low: 'text-gray-500',
@@ -172,35 +164,46 @@ const TicketCard = ({
   };
 
   return (
-    <div 
+    <Card 
       onClick={onClick}
-      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+      className="hover:shadow-md transition-shadow cursor-pointer"
     >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-1">
-            <span className="text-sm font-medium text-gray-900">
-              #{ticket.ticket_number}
-            </span>
-            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[ticket.status] || 'bg-gray-100 text-gray-800'}`}>
-              {ticket.status.replace(/_/g, ' ')}
-            </span>
-            <span className="text-sm text-gray-500">
-              {formTypeLabels[ticket.form_type] || ticket.form_type}
-            </span>
+      <CardContent className="p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <div className="flex items-center space-x-2 mb-1">
+              <span className="text-sm font-medium text-gray-900">
+                #{ticket.ticket_number}
+              </span>
+              <Badge 
+                variant={
+                  ticket.status === 'open' || ticket.status === 'in_progress' ? 'primary' :
+                  ticket.status === 'completed' || ticket.status === 'approved' ? 'success' :
+                  ticket.status === 'pending' ? 'warning' :
+                  ticket.status === 'denied' || ticket.status === 'cancelled' ? 'destructive' :
+                  'secondary'
+                } 
+                size="sm"
+              >
+                {ticket.status.replace(/_/g, ' ')}
+              </Badge>
+              <span className="text-sm text-gray-500">
+                {formTypeLabels[ticket.form_type] || ticket.form_type}
+              </span>
+            </div>
+            <p className="text-sm font-medium text-gray-900 line-clamp-1">
+              {ticket.title}
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              {ticket.submitter_name} • {new Date(ticket.created_at).toLocaleDateString()}
+            </p>
           </div>
-          <p className="text-sm font-medium text-gray-900 line-clamp-1">
-            {ticket.title}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">
-            {ticket.submitter_name} • {new Date(ticket.created_at).toLocaleDateString()}
-          </p>
+          <div className={`ml-2 ${priorityColors[ticket.priority || 'medium']}`}>
+            <AlertCircle className="h-5 w-5" />
+          </div>
         </div>
-        <div className={`ml-2 ${priorityColors[ticket.priority || 'medium']}`}>
-          <AlertCircle className="h-5 w-5" />
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -425,12 +428,12 @@ export default function DashboardPage() {
         {/* Two column layout for tickets */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Recent Tickets */}
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg leading-6 font-medium text-gray-900">
                   Recent Tickets
-                </h3>
+                </CardTitle>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -441,6 +444,8 @@ export default function DashboardPage() {
                   View all
                 </Button>
               </div>
+            </CardHeader>
+            <CardContent>
               
               {loading ? (
                 <div className="flex items-center justify-center py-8">
@@ -471,22 +476,24 @@ export default function DashboardPage() {
                   </Button>
                 </div>
               )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Assigned Tickets (for managers/admins) or Activity Summary */}
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
+          <Card>
+            <CardContent className="px-4 py-5 sm:p-6">
               {authUser?.role !== 'staff' && dashboardData.assignedTickets.length > 0 ? (
                 <>
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Assigned to You
-                    </h3>
-                    <span className="text-sm text-gray-500">
-                      {dashboardData.assignedTickets.length} tickets
-                    </span>
-                  </div>
+                  <CardHeader className="px-0 pb-4">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg leading-6 font-medium text-gray-900">
+                        Assigned to You
+                      </CardTitle>
+                      <span className="text-sm text-gray-500">
+                        {dashboardData.assignedTickets.length} tickets
+                      </span>
+                    </div>
+                  </CardHeader>
                   <div className="space-y-3">
                     {dashboardData.assignedTickets.slice(0, 5).map((ticket) => (
                       <TicketCard
@@ -499,9 +506,11 @@ export default function DashboardPage() {
                 </>
               ) : (
                 <>
-                  <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-                    This Week's Activity
-                  </h3>
+                  <CardHeader className="px-0 pb-4">
+                    <CardTitle className="text-lg leading-6 font-medium text-gray-900">
+                      This Week's Activity
+                    </CardTitle>
+                  </CardHeader>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between py-3 border-b border-gray-200">
                       <div className="flex items-center">
@@ -541,8 +550,8 @@ export default function DashboardPage() {
                   </div>
                 </>
               )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </DashboardLayout>

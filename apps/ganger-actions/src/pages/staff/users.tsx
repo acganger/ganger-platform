@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Button } from '@ganger/ui';
+import { LoadingSpinner, Button, Card, CardHeader, CardContent, CardTitle, Input, Select, Badge } from '@ganger/ui';
 import { 
   ArrowLeft, 
   Users, 
@@ -47,9 +47,9 @@ interface UserFilters {
 }
 
 const ROLES = [
-  { value: 'admin', label: 'Administrator', color: 'bg-red-100 text-red-800' },
-  { value: 'manager', label: 'Manager', color: 'bg-blue-100 text-blue-800' },
-  { value: 'staff', label: 'Staff', color: 'bg-green-100 text-green-800' }
+  { value: 'admin', label: 'Administrator' },
+  { value: 'manager', label: 'Manager' },
+  { value: 'staff', label: 'Staff' }
 ];
 
 export default function UserManagementPage() {
@@ -165,13 +165,6 @@ export default function UserManagementPage() {
     }
   };
 
-  const getRoleColor = (role: string) => {
-    return ROLES.find(r => r.value === role)?.color || 'bg-gray-100 text-gray-800';
-  };
-
-  const getStatusColor = (isActive: boolean) => {
-    return isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
-  };
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A';
@@ -243,60 +236,51 @@ export default function UserManagementPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow mb-6 p-4">
+        <Card className="mb-6">
+          <CardContent className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
+              <Input
                 type="text"
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-primary-500"
+                className="pl-10 pr-3 py-2 w-full"
               />
             </div>
 
             {/* Department Filter */}
-            <select
+            <Select
               value={filterDepartment}
               onChange={(e) => setFilterDepartment(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500"
-            >
-              <option value="">All Departments</option>
-              {filters.departments.map(dept => (
-                <option key={dept} value={dept}>{dept}</option>
-              ))}
-            </select>
+              placeholder="All Departments"
+              options={filters.departments.map(dept => ({ value: dept, label: dept }))}
+            />
 
             {/* Location Filter */}
-            <select
+            <Select
               value={filterLocation}
               onChange={(e) => setFilterLocation(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500"
-            >
-              <option value="">All Locations</option>
-              {filters.locations.map(loc => (
-                <option key={loc} value={loc}>{loc}</option>
-              ))}
-            </select>
+              placeholder="All Locations"
+              options={filters.locations.map(loc => ({ value: loc, label: loc }))}
+            />
 
             {/* Role Filter */}
-            <select
+            <Select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500"
-            >
-              <option value="">All Roles</option>
-              {ROLES.map(role => (
-                <option key={role.value} value={role.value}>{role.label}</option>
-              ))}
-            </select>
+              placeholder="All Roles"
+              options={ROLES.map(role => ({ value: role.value, label: role.label }))}
+            />
           </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Users Table */}
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+        <Card className="overflow-hidden">
+          <CardContent className="p-0">
           {isLoading ? (
             <div className="p-8 text-center">
               <LoadingSpinner size="md" text="Loading users..." center />
@@ -367,9 +351,12 @@ export default function UserManagementPage() {
                         </Link>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}>
+                        <Badge 
+                          variant={user.role === 'admin' ? 'destructive' : user.role === 'manager' ? 'primary' : 'success'} 
+                          size="sm"
+                        >
                           {ROLES.find(r => r.value === user.role)?.label || user.role}
-                        </span>
+                        </Badge>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center text-sm text-gray-900">
@@ -384,9 +371,9 @@ export default function UserManagementPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(user.is_active)}`}>
+                        <Badge variant={user.is_active ? 'success' : 'destructive'} size="sm">
                           {user.is_active ? 'Active' : 'Inactive'}
-                        </span>
+                        </Badge>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {user.manager ? user.manager.full_name : 'N/A'}
@@ -464,152 +451,88 @@ export default function UserManagementPage() {
               </div>
             </div>
           )}
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Create User Modal */}
       {showCreateForm && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-lg w-full p-6">
+          <Card className="max-w-lg w-full">
+            <CardContent className="p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Create New User</h2>
             <form onSubmit={handleCreateUser} className="space-y-4">
-              <div>
-                <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  id="full_name"
-                  required
-                  value={newUser.full_name}
-                  onChange={(e) => setNewUser({ ...newUser, full_name: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                />
-              </div>
+              <Input
+                type="text"
+                label="Full Name *"
+                required
+                value={newUser.full_name}
+                onChange={(e) => setNewUser({ ...newUser, full_name: e.target.value })}
+              />
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  pattern=".*@gangerdermatology\.com$"
-                  title="Email must be @gangerdermatology.com"
-                  value={newUser.email}
-                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                />
-              </div>
+              <Input
+                type="email"
+                label="Email *"
+                required
+                pattern=".*@gangerdermatology\.com$"
+                title="Email must be @gangerdermatology.com"
+                value={newUser.email}
+                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+              />
 
-              <div>
-                <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">
-                  Employee ID
-                </label>
-                <input
-                  type="text"
-                  id="employee_id"
-                  value={newUser.employee_id}
-                  onChange={(e) => setNewUser({ ...newUser, employee_id: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                />
-              </div>
+              <Input
+                type="text"
+                label="Employee ID"
+                value={newUser.employee_id}
+                onChange={(e) => setNewUser({ ...newUser, employee_id: e.target.value })}
+              />
 
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  value={newUser.phone_number}
-                  onChange={(e) => setNewUser({ ...newUser, phone_number: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                />
-              </div>
+              <Input
+                type="tel"
+                label="Phone"
+                value={newUser.phone_number}
+                onChange={(e) => setNewUser({ ...newUser, phone_number: e.target.value })}
+              />
 
-              <div>
-                <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                  Role *
-                </label>
-                <select
-                  id="role"
-                  required
-                  value={newUser.role}
-                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value as StaffUser['role'] })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                >
-                  {ROLES.map(role => (
-                    <option key={role.value} value={role.value}>{role.label}</option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label="Role *"
+                required
+                value={newUser.role}
+                onChange={(e) => setNewUser({ ...newUser, role: e.target.value as StaffUser['role'] })}
+                options={ROLES.map(role => ({ value: role.value, label: role.label }))}
+              />
 
-              <div>
-                <label htmlFor="department" className="block text-sm font-medium text-gray-700">
-                  Department
-                </label>
-                <select
-                  id="department"
-                  value={newUser.department}
-                  onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                >
-                  <option value="">Select Department</option>
-                  {filters.departments.map(dept => (
-                    <option key={dept} value={dept}>{dept}</option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label="Department"
+                value={newUser.department}
+                onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
+                placeholder="Select Department"
+                options={filters.departments.map(dept => ({ value: dept, label: dept }))}
+              />
 
-              <div>
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-                  Location
-                </label>
-                <select
-                  id="location"
-                  value={newUser.location}
-                  onChange={(e) => setNewUser({ ...newUser, location: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                >
-                  <option value="">Select Location</option>
-                  {filters.locations.map(loc => (
-                    <option key={loc} value={loc}>{loc}</option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label="Location"
+                value={newUser.location}
+                onChange={(e) => setNewUser({ ...newUser, location: e.target.value })}
+                placeholder="Select Location"
+                options={filters.locations.map(loc => ({ value: loc, label: loc }))}
+              />
 
 
-              <div>
-                <label htmlFor="hire_date" className="block text-sm font-medium text-gray-700">
-                  Hire Date
-                </label>
-                <input
-                  type="date"
-                  id="hire_date"
-                  value={newUser.hire_date}
-                  onChange={(e) => setNewUser({ ...newUser, hire_date: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                />
-              </div>
+              <Input
+                type="date"
+                label="Hire Date"
+                value={newUser.hire_date}
+                onChange={(e) => setNewUser({ ...newUser, hire_date: e.target.value })}
+              />
 
-              <div>
-                <label htmlFor="manager_id" className="block text-sm font-medium text-gray-700">
-                  Manager
-                </label>
-                <select
-                  id="manager_id"
-                  value={newUser.manager_id}
-                  onChange={(e) => setNewUser({ ...newUser, manager_id: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                >
-                  <option value="">No Manager</option>
-                  {users.filter(u => u.role === 'manager' || u.role === 'admin').map(manager => (
-                    <option key={manager.id} value={manager.id}>{manager.full_name}</option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                label="Manager"
+                value={newUser.manager_id}
+                onChange={(e) => setNewUser({ ...newUser, manager_id: e.target.value })}
+                placeholder="No Manager"
+                options={users.filter(u => u.role === 'manager' || u.role === 'admin').map(manager => ({ value: manager.id, label: manager.full_name }))}
+              />
 
               <div className="flex justify-end space-x-3 pt-4">
                 <Button
@@ -629,7 +552,8 @@ export default function UserManagementPage() {
                 </Button>
               </div>
             </form>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       )}
     </div>

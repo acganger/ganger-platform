@@ -13,7 +13,7 @@ export interface Ticket {
   };
   status: 'pending' | 'open' | 'in_progress' | 'stalled' | 'approved' | 'denied' | 'completed';
   priority: 'low' | 'medium' | 'high' | 'urgent';
-  location: 'Northfield' | 'Woodbury' | 'Burnsville';
+  location: 'Wixom' | 'Ann Arbor' | 'Plymouth';
   title: string; // max 200 chars
   description: string; // max 2000 chars
   form_data: Record<string, unknown>;
@@ -64,7 +64,7 @@ export interface UserProfile {
   email: string;
   department: string;
   role: 'staff' | 'manager' | 'admin';
-  location: 'Northfield' | 'Woodbury' | 'Burnsville';
+  location: 'Wixom' | 'Ann Arbor' | 'Plymouth';
   hire_date?: string; // ISO 8601 date
   manager?: {
     id: string;
@@ -87,13 +87,12 @@ export interface ErrorResponse {
 
 // Form-specific data types
 export interface SupportTicketFormData {
-  location: 'Northfield' | 'Woodbury' | 'Burnsville';
-  requestType: 'General Support' | 'Equipment Issue' | 'Software Problem' | 'Network Issue' | 'Other';
-  priority: {
-    urgency: 'Urgent' | 'Not Urgent';
-    importance: 'Important' | 'Not Important';
-  };
-  description: string; // max 2000 chars
+  location: 'Wixom' | 'Ann Arbor' | 'Plymouth';
+  request_type: 'General Support' | 'Equipment Issue' | 'Software Problem' | 'Network Issue' | 'Other';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  details: string; // max 2000 chars
+  submitter_name: string;
+  submitter_email: string;
   attachments: File[]; // max 10 files, 50MB total
 }
 

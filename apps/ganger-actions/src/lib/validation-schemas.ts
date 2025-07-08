@@ -62,7 +62,7 @@ export const phoneSchema = z.string().regex(/^\+?[\d\s\-\(\)]{10,}$/, 'Invalid p
 
 // User-related schemas
 export const userRoleSchema = z.enum(['staff', 'manager', 'admin']);
-export const locationSchema = z.enum(['Northfield', 'Woodbury', 'Burnsville', 'Multiple']);
+export const locationSchema = z.enum(['Wixom', 'Ann Arbor', 'Plymouth', 'Multiple']);
 export const departmentSchema = z.string().min(1, 'Department is required').max(50, 'Department name too long');
 
 export const emergencyContactSchema = z.object({

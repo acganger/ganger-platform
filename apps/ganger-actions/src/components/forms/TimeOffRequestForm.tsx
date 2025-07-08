@@ -5,7 +5,7 @@ import { TimeOffRequestFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { Calendar, Clock, AlertTriangle } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Button } from '@ganger/ui';
+import { Button, Input, Select } from '@ganger/ui';
 // TODO: Fix date-fns import issue - temporarily commented
 // import { addDays, differenceInDays, isSameDay, isWeekend } from 'date-fns';
 
@@ -144,53 +144,37 @@ export const TimeOffRequestForm = ({ onSubmit, loading = false }: TimeOffRequest
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Date Range */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Start Date *
-            </label>
-            <Controller
-              name="dateRange.startDate"
-              control={control}
-              render={({ field }) => (
-                <input
-                  type="date"
-                  {...field}
-                  value={field.value ? field.value.toISOString().split('T')[0] : ''}
-                  onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : null)}
-                  min={getMinDate()}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-                />
-              )}
-            />
-            {errors.dateRange?.startDate && (
-              <p className="mt-1 text-sm text-red-600">{errors.dateRange.startDate.message}</p>
+          <Controller
+            name="dateRange.startDate"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="date"
+                label="Start Date *"
+                value={field.value ? field.value.toISOString().split('T')[0] : ''}
+                onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : null)}
+                min={getMinDate()}
+                error={errors.dateRange?.startDate?.message}
+              />
             )}
-          </div>
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              End Date *
-            </label>
-            <Controller
-              name="dateRange.endDate"
-              control={control}
-              render={({ field }) => (
-                <input
-                  type="date"
-                  {...field}
-                  value={field.value ? field.value.toISOString().split('T')[0] : ''}
-                  onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : null)}
-                  min={watchedDateRange?.startDate ? 
-                    watchedDateRange.startDate.toISOString().split('T')[0] : 
-                    getMinDate()}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-                />
-              )}
-            />
-            {errors.dateRange?.endDate && (
-              <p className="mt-1 text-sm text-red-600">{errors.dateRange.endDate.message}</p>
+          <Controller
+            name="dateRange.endDate"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="date"
+                label="End Date *"
+                value={field.value ? field.value.toISOString().split('T')[0] : ''}
+                onChange={(e) => field.onChange(e.target.value ? new Date(e.target.value) : null)}
+                min={watchedDateRange?.startDate ? 
+                  watchedDateRange.startDate.toISOString().split('T')[0] : 
+                  getMinDate()}
+                error={errors.dateRange?.endDate?.message}
+              />
             )}
-          </div>
+          />
         </div>
 
         {/* Date Range Summary */}

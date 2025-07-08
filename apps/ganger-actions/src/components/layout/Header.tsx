@@ -10,8 +10,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { getInitials, getAvatarColor } from '@/lib/utils';
-import { Button } from '@ganger/ui';
+import { Button, Avatar } from '@ganger/ui';
 
 interface HeaderProps {
   title: string;
@@ -97,9 +96,10 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
                 className="flex items-center space-x-3 p-2 text-sm bg-white hover:bg-gray-50 h-auto"
               >
                 {/* User avatar */}
-                <div className={`flex items-center justify-center h-8 w-8 rounded-full text-white text-sm font-medium ${getAvatarColor(authUser?.name || 'User')}`}>
-                  {getInitials(authUser?.name || 'User')}
-                </div>
+                <Avatar 
+                  size="sm"
+                  alt={authUser?.name || 'User'}
+                />
                 
                 <div className="hidden md:block text-left">
                   <p className="text-gray-900 font-medium">

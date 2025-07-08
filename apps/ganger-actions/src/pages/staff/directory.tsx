@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner } from '@ganger/ui';
+import { LoadingSpinner, Badge, Avatar } from '@ganger/ui';
 import { 
   ArrowLeft, 
   Folder, 
@@ -142,15 +142,6 @@ export default function StaffDirectoryPage() {
     return matchesSearch && matchesDepartment && matchesLocation;
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'vacation': return 'bg-blue-100 text-blue-800';
-      case 'sick': return 'bg-red-100 text-red-800';
-      case 'remote': return 'bg-purple-100 text-purple-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   const getStatusLabel = (status: string) => {
     switch (status) {
@@ -162,9 +153,6 @@ export default function StaffDirectoryPage() {
     }
   };
 
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  };
 
   const formatStartDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -297,10 +285,11 @@ export default function StaffDirectoryPage() {
               className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow cursor-pointer p-6"
             >
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                  <span className="text-lg font-semibold text-blue-600">
-                    {getInitials(member.name)}
-                  </span>
+                <div className="flex justify-center mb-4">
+                  <Avatar 
+                    size="xl"
+                    alt={member.name}
+                  />
                 </div>
                 
                 <h3 className="text-lg font-medium text-gray-900 mb-1">
@@ -343,9 +332,12 @@ export default function StaffDirectoryPage() {
                 </div>
                 
                 <div className="mt-4">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(member.status)}`}>
+                  <Badge 
+                    variant={member.status === 'active' ? 'success' : member.status === 'remote' ? 'primary' : member.status === 'vacation' ? 'warning' : 'destructive'} 
+                    size="sm"
+                  >
                     {getStatusLabel(member.status)}
-                  </span>
+                  </Badge>
                 </div>
               </div>
             </div>
@@ -369,19 +361,22 @@ export default function StaffDirectoryPage() {
               <div className="mt-3">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
-                      <span className="text-xl font-semibold text-blue-600">
-                        {getInitials(selectedMember.name)}
-                      </span>
-                    </div>
+                    <Avatar 
+                      size="xl"
+                      alt={selectedMember.name}
+                    />
                     <div>
                       <h3 className="text-xl font-semibold text-gray-900">
                         {selectedMember.name}
                       </h3>
                       <p className="text-gray-600">{selectedMember.position}</p>
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(selectedMember.status)} mt-2`}>
+                      <Badge 
+                        variant={selectedMember.status === 'active' ? 'success' : selectedMember.status === 'remote' ? 'primary' : selectedMember.status === 'vacation' ? 'warning' : 'destructive'} 
+                        size="sm" 
+                        className="mt-2"
+                      >
                         {getStatusLabel(selectedMember.status)}
-                      </span>
+                      </Badge>
                     </div>
                   </div>
                   <button
@@ -473,9 +468,9 @@ export default function StaffDirectoryPage() {
                       <h4 className="text-lg font-medium text-gray-900 mb-4">Skills & Expertise</h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedMember.skills.map(skill => (
-                          <span key={skill} className="inline-flex px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
+                          <Badge key={skill} variant="outline" size="sm">
                             {skill}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </div>

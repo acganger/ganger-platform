@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { createSupabaseServerClient } from '@ganger/auth/server';
 import { createClient } from '@supabase/supabase-js';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './auth/[...nextauth]';
 import { 
   ApiErrors, 
   sendSuccess, 
@@ -29,9 +28,11 @@ export default withErrorHandler(async function handler(
     throw ApiErrors.validation(`Method ${req.method} not allowed`);
   }
 
-  const session = await getServerSession(req, res, authOptions);
+  // Use @ganger/auth for authentication
+  const supabase = createSupabaseServerClient();
+  const { data: { session }, error: authError } = await supabase.auth.getSession();
   
-  if (!session?.user?.email) {
+  if (authError || !session?.user?.email) {
     throw ApiErrors.unauthorized('Authentication required');
   }
 
@@ -39,12 +40,12 @@ export default withErrorHandler(async function handler(
   logger.logRequest(req, userEmail);
 
   const startTime = Date.now();
-  const supabase = getSupabaseClient();
+  const serviceSupabase = getSupabaseClient();
   
   logger.debug('Fetching staff list', { userEmail });
 
   // Fetch all active staff members
-  const { data: staff, error } = await supabase
+  const { data: staff, error } = await serviceSupabase
     .from('staff_user_profiles')
     .select('id, employee_id, full_name, email, department, role, location')
     .eq('is_active', true)

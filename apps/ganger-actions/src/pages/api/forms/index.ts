@@ -1,6 +1,6 @@
 // pages/api/forms/index.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createSupabaseServerClient } from '@ganger/auth/server';
 import { Database } from '../../../types/database';
 import { validateRequest, validateQuery, formQuerySchema, createFormSchema } from '../../../lib/validation-schemas';
 
@@ -62,7 +62,7 @@ export default async function handler(
   const requestId = Math.random().toString(36).substring(7);
 
   // Authentication check
-  const supabase = createServerSupabaseClient<Database>({ req, res });
+  const supabase = createSupabaseServerClient();
   const { data: { session }, error: authError } = await supabase.auth.getSession();
 
   if (authError || !session) {

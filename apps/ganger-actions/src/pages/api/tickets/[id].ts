@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]';
+import { createSupabaseServerClient } from '@ganger/auth/server';
 import { 
   ApiErrors, 
   sendSuccess, 
@@ -26,9 +25,11 @@ export default withErrorHandler(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerSession(req, res, authOptions);
+  // Use @ganger/auth for authentication
+  const supabase = createSupabaseServerClient();
+  const { data: { session }, error: authError } = await supabase.auth.getSession();
   
-  if (!session?.user?.email) {
+  if (authError || !session?.user?.email) {
     throw ApiErrors.unauthorized('Authentication required');
   }
 

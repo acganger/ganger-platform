@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../auth/[...nextauth]';
+import { createSupabaseServerClient } from '@ganger/auth/server';
 import { createClient } from '@supabase/supabase-js';
 import { getGoogleWorkspaceService } from '../../../lib/google-workspace-service';
 import { 
@@ -28,9 +27,11 @@ export default withErrorHandler(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerSession(req, res, authOptions);
+  // Use @ganger/auth for authentication
+  const supabase = createSupabaseServerClient();
+  const { data: { session }, error: authError } = await supabase.auth.getSession();
 
-  if (!session?.user?.email) {
+  if (authError || !session?.user?.email) {
     throw ApiErrors.unauthorized('Authentication required');
   }
 
@@ -38,10 +39,10 @@ export default withErrorHandler(async function handler(
   logger.logRequest(req, userEmail);
 
   // Create Supabase client inside handler
-  const supabase = getSupabaseClient();
+  const serviceSupabase = getSupabaseClient();
 
   // Get current user's profile to check permissions
-  const { data: currentUser, error: userError } = await supabase
+  const { data: currentUser, error: userError } = await serviceSupabase
     .from('staff_user_profiles')
     .select('role')
     .eq('email', userEmail)
@@ -76,7 +77,7 @@ async function handleGet(
   const startTime = Date.now();
   
   // Create Supabase client inside function
-  const supabase = getSupabaseClient();
+  const serviceSupabase = getSupabaseClient();
 
   const { 
     search, 
@@ -95,7 +96,7 @@ async function handleGet(
   });
 
   // Build query
-  let query = supabase
+  let query = serviceSupabase
     .from('staff_user_profiles')
     .select(`
       *,
@@ -146,7 +147,7 @@ async function handleGet(
   logger.logDatabase('SELECT', 'staff_user_profiles', Date.now() - startTime);
 
   // Get unique departments from existing users
-  const { data: deptData, error: deptError } = await supabase
+  const { data: deptData, error: deptError } = await serviceSupabase
     .from('staff_user_profiles')
     .select('department')
     .not('department', 'is', null)
@@ -158,7 +159,7 @@ async function handleGet(
   }
 
   const uniqueDepartments = Array.from(new Set(deptData?.map(d => d.department) || []));
-  const locations = ['Northfield', 'Woodbury', 'Burnsville', 'Multiple'];
+  const locations = ['Wixom', 'Ann Arbor', 'Plymouth', 'Multiple'];
   const roles = ['admin', 'manager', 'staff'];
 
   sendSuccess(res, {
@@ -182,7 +183,7 @@ async function handlePost(
   const startTime = Date.now();
   
   // Create Supabase client inside function
-  const supabase = getSupabaseClient();
+  const serviceSupabase = getSupabaseClient();
 
   const {
     email,
@@ -202,7 +203,7 @@ async function handlePost(
   logger.info('Creating new user', { userEmail, newUserEmail: email });
 
   // Check if user already exists in database
-  const { data: existingUser, error: checkError } = await supabase
+  const { data: existingUser, error: checkError } = await serviceSupabase
     .from('staff_user_profiles')
     .select('id')
     .eq('email', email)
@@ -221,7 +222,7 @@ async function handlePost(
   // Get manager email if manager_id is provided
   let managerEmail = undefined;
   if (manager_id) {
-    const { data: manager, error: managerError } = await supabase
+    const { data: manager, error: managerError } = await serviceSupabase
       .from('staff_user_profiles')
       .select('email')
       .eq('id', manager_id)
@@ -261,7 +262,7 @@ async function handlePost(
   }
 
   // Create user profile in database
-  const { data: newUser, error } = await supabase
+  const { data: newUser, error } = await serviceSupabase
     .from('staff_user_profiles')
     .insert({
       email,
@@ -286,7 +287,7 @@ async function handlePost(
   logger.logDatabase('INSERT', 'staff_user_profiles', Date.now() - startTime);
 
   // Log the activity in analytics table
-  const { error: analyticsError } = await supabase
+  const { error: analyticsError } = await serviceSupabase
     .from('staff_analytics')
     .insert({
       event_type: 'user_created',

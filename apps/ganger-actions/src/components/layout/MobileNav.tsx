@@ -13,7 +13,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { cn } from '@/lib/utils';
+import { cn } from '@ganger/ui';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },

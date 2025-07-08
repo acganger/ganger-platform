@@ -1,6 +1,7 @@
 import { TicketFilters as TicketFiltersType, Ticket } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { X } from 'lucide-react';
+import { Input, Select, Badge } from '@ganger/ui';
 
 interface TicketFiltersProps {
   filters: TicketFiltersType;
@@ -25,9 +26,9 @@ const priorityOptions: { value: Ticket['priority']; label: string }[] = [
 ];
 
 const locationOptions: { value: Ticket['location']; label: string }[] = [
-  { value: 'Northfield', label: 'Northfield' },
-  { value: 'Woodbury', label: 'Woodbury' },
-  { value: 'Burnsville', label: 'Burnsville' },
+  { value: 'Wixom', label: 'Wixom' },
+  { value: 'Ann Arbor', label: 'Ann Arbor' },
+  { value: 'Plymouth', label: 'Plymouth' },
 ];
 
 const formTypeOptions: { value: Ticket['form_type']; label: string }[] = [
@@ -164,7 +165,7 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs text-gray-500 mb-1">From</label>
-            <input
+            <Input
               type="date"
               value={filters.date_range?.start ? new Date(filters.date_range.start).toISOString().split('T')[0] : ''}
               onChange={(e) => {
@@ -176,12 +177,11 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
                   } : undefined
                 });
               }}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
             />
           </div>
           <div>
             <label className="block text-xs text-gray-500 mb-1">To</label>
-            <input
+            <Input
               type="date"
               value={filters.date_range?.end ? new Date(filters.date_range.end).toISOString().split('T')[0] : ''}
               onChange={(e) => {
@@ -193,7 +193,6 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
                   } : undefined
                 });
               }}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
             />
           </div>
         </div>
@@ -203,16 +202,16 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
       {authUser && (authUser.role === 'manager' || authUser.role === 'admin') && (
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Assigned To</label>
-          <select
+          <Select
             value={filters.assigned_to || ''}
             onChange={(e) => updateFilters({ assigned_to: e.target.value || undefined })}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
-          >
-            <option value="">All assignments</option>
-            <option value="unassigned">Unassigned</option>
-            <option value={authUser.id}>Assigned to me</option>
-            {/* TODO: Add other team members */}
-          </select>
+            options={[
+              { value: '', label: 'All assignments' },
+              { value: 'unassigned', label: 'Unassigned' },
+              { value: authUser.id, label: 'Assigned to me' }
+              // TODO: Add other team members
+            ]}
+          />
         </div>
       )}
 
@@ -221,9 +220,11 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
         <div className="pt-4 border-t border-gray-200">
           <div className="flex flex-wrap gap-2">
             {(filters.status || []).map((status) => (
-              <span
+              <Badge
                 key={`status-${status}`}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                variant="primary"
+                size="sm"
+                className="gap-1"
               >
                 Status: {statusOptions.find(o => o.value === status)?.label}
                 <button
@@ -234,12 +235,14 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
                 >
                   <X className="h-3 w-3" />
                 </button>
-              </span>
+              </Badge>
             ))}
             {(filters.priority || []).map((priority) => (
-              <span
+              <Badge
                 key={`priority-${priority}`}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+                variant="warning"
+                size="sm"
+                className="gap-1"
               >
                 Priority: {priorityOptions.find(o => o.value === priority)?.label}
                 <button
@@ -250,12 +253,14 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
                 >
                   <X className="h-3 w-3" />
                 </button>
-              </span>
+              </Badge>
             ))}
             {(filters.location || []).map((location) => (
-              <span
+              <Badge
                 key={`location-${location}`}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+                variant="success"
+                size="sm"
+                className="gap-1"
               >
                 Location: {location}
                 <button
@@ -266,7 +271,7 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
                 >
                   <X className="h-3 w-3" />
                 </button>
-              </span>
+              </Badge>
             ))}
           </div>
         </div>

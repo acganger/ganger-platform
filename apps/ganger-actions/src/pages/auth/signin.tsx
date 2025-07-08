@@ -1,27 +1,27 @@
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GangerLogo } from '@ganger/ui';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignInPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { signInWithGoogle, isAuthenticated, loading } = useAuth(false);
+
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      const callbackUrl = router.query.callbackUrl as string || '/dashboard';
+      router.push(callbackUrl);
+    }
+  }, [isAuthenticated, loading, router]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const result = await signIn('google', {
-        callbackUrl: router.query.callbackUrl as string || '/dashboard',
-        redirect: true,
-      });
-
-      if (result?.error) {
-        setError(result.error);
-        setIsLoading(false);
-      }
+      await signInWithGoogle();
     } catch (err) {
       setError('An error occurred during sign in');
       setIsLoading(false);

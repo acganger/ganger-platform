@@ -4,11 +4,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { Card, CardHeader, CardContent, CardTitle, CardDescription, Badge, Avatar } from '@ganger/ui';
 import { 
   formatDateTime, 
   formatTimeAgo, 
-  getInitials, 
-  getAvatarColor,
   formatFileSize 
 } from '@/lib/utils';
 import { Database } from '@/types/database';
@@ -80,24 +79,24 @@ type TicketPriority = Database['public']['Tables']['staff_tickets']['Row']['prio
 // Status badge component
 const StatusBadge = ({ status }: { status: TicketStatus }) => {
   const statusConfig = {
-    pending: { label: 'Pending', className: 'bg-yellow-100 text-yellow-800', icon: Clock },
-    open: { label: 'Open', className: 'bg-blue-100 text-blue-800', icon: AlertCircle },
-    in_progress: { label: 'In Progress', className: 'bg-indigo-100 text-indigo-800', icon: Activity },
-    stalled: { label: 'Stalled', className: 'bg-orange-100 text-orange-800', icon: AlertTriangle },
-    approved: { label: 'Approved', className: 'bg-green-100 text-green-800', icon: CheckCircle },
-    denied: { label: 'Denied', className: 'bg-red-100 text-red-800', icon: XCircle },
-    completed: { label: 'Completed', className: 'bg-emerald-100 text-emerald-800', icon: CheckCircle },
-    cancelled: { label: 'Cancelled', className: 'bg-gray-100 text-gray-800', icon: X },
+    pending: { label: 'Pending', variant: 'warning' as const, icon: Clock },
+    open: { label: 'Open', variant: 'primary' as const, icon: AlertCircle },
+    in_progress: { label: 'In Progress', variant: 'primary' as const, icon: Activity },
+    stalled: { label: 'Stalled', variant: 'secondary' as const, icon: AlertTriangle },
+    approved: { label: 'Approved', variant: 'success' as const, icon: CheckCircle },
+    denied: { label: 'Denied', variant: 'destructive' as const, icon: XCircle },
+    completed: { label: 'Completed', variant: 'success' as const, icon: CheckCircle },
+    cancelled: { label: 'Cancelled', variant: 'destructive' as const, icon: X },
   };
 
   const config = statusConfig[status];
   const Icon = config.icon;
   
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.className}`}>
-      <Icon className="h-3 w-3 mr-1" />
+    <Badge variant={config.variant} size="sm" className="gap-1">
+      <Icon className="h-3 w-3" />
       {config.label}
-    </span>
+    </Badge>
   );
 };
 
@@ -442,8 +441,8 @@ export default function TicketDetailPage() {
         </nav>
 
         {/* Header */}
-        <div className="bg-white shadow-sm rounded-lg mb-6">
-          <div className="px-6 py-4 border-b border-gray-200">
+        <Card className="mb-6">
+          <CardHeader className="border-b border-gray-200">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
@@ -466,74 +465,89 @@ export default function TicketDetailPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </CardHeader>
+        </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Description */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Description</h3>
-              <div className="prose max-w-none">
-                <p className="text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
-              </div>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-medium text-gray-900">Description</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="prose max-w-none">
+                  <p className="text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Form Data */}
             {ticket.form_data && Object.keys(ticket.form_data).length > 0 && (
-              <div className="bg-white shadow-sm rounded-lg p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Form Details</h3>
-                <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {Object.entries(ticket.form_data as Record<string, any>).map(([key, value]) => (
-                    <div key={key}>
-                      <dt className="text-sm font-medium text-gray-500 capitalize">
-                        {key.replace(/_/g, ' ')}
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900">
-                        {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg font-medium text-gray-900">Form Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {Object.entries(ticket.form_data as Record<string, any>).map(([key, value]) => (
+                      <div key={key}>
+                        <dt className="text-sm font-medium text-gray-500 capitalize">
+                          {key.replace(/_/g, ' ')}
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900">
+                          {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </CardContent>
+              </Card>
             )}
 
             {/* Attachments */}
             {ticket.files && ticket.files.length > 0 && (
-              <div className="bg-white shadow-sm rounded-lg p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  Attachments ({ticket.files.length})
-                </h3>
-                <ul className="divide-y divide-gray-200">
-                  {ticket.files.map((file) => (
-                    <li key={file.id} className="py-3 flex items-center justify-between">
-                      <div className="flex items-center">
-                        <Paperclip className="h-5 w-5 text-gray-400 mr-3" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">{file.file_name}</p>
-                          <p className="text-sm text-gray-500">
-                            {formatFileSize(file.file_size)} • 
-                            Uploaded by {file.uploader?.raw_user_meta_data?.full_name || 'Unknown'} • 
-                            {formatTimeAgo(file.created_at)}
-                          </p>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg font-medium text-gray-900">
+                    Attachments ({ticket.files.length})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="divide-y divide-gray-200">
+                    {ticket.files.map((file) => (
+                      <li key={file.id} className="py-3 flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Paperclip className="h-5 w-5 text-gray-400 mr-3" />
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">{file.file_name}</p>
+                            <p className="text-sm text-gray-500">
+                              {formatFileSize(file.file_size)} • 
+                              Uploaded by {file.uploader?.raw_user_meta_data?.full_name || 'Unknown'} • 
+                              {formatTimeAgo(file.created_at)}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <button
-                        onClick={() => downloadAttachment(file)}
-                        className="ml-4 flex-shrink-0 text-primary-600 hover:text-primary-500"
-                      >
-                        <Download className="h-5 w-5" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                        <button
+                          onClick={() => downloadAttachment(file)}
+                          className="ml-4 flex-shrink-0 text-primary-600 hover:text-primary-500"
+                        >
+                          <Download className="h-5 w-5" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             )}
 
             {/* Activity Timeline */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Activity</h3>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-medium text-gray-900">Activity</CardTitle>
+              </CardHeader>
+              <CardContent>
               <div className="flow-root">
                 <ul className="-mb-8">
                   {/* Ticket created */}
@@ -578,21 +592,27 @@ export default function TicketDetailPage() {
                   </li>
                 </ul>
               </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Comments Section */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">
-                Comments ({ticket.comments?.filter(c => c.comment_type === 'comment').length || 0})
-              </h3>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-medium text-gray-900">
+                  Comments ({ticket.comments?.filter(c => c.comment_type === 'comment').length || 0})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
               
               {/* Comment List */}
               <div className="space-y-4 mb-6">
                 {ticket.comments?.filter(c => c.comment_type === 'comment').map((comment) => (
                   <div key={comment.id} className="flex space-x-3">
-                    <div className={`flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center text-white text-sm font-medium ${getAvatarColor(comment.author_name)}`}>
-                      {getInitials(comment.author_name)}
-                    </div>
+                    <Avatar 
+                      size="md"
+                      alt={comment.author_name}
+                      className="flex-shrink-0"
+                    />
                     <div className="flex-1">
                       <div className="bg-gray-100 rounded-lg px-4 py-3">
                         <div className="flex items-start justify-between">
@@ -601,9 +621,9 @@ export default function TicketDetailPage() {
                               {comment.author?.raw_user_meta_data?.full_name || comment.author_name}
                             </span>
                             {comment.is_internal && (
-                              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                              <Badge variant="warning" size="sm" className="ml-2">
                                 Internal
-                              </span>
+                              </Badge>
                             )}
                             <p className="text-xs text-gray-500 mt-1">{formatTimeAgo(comment.created_at)}</p>
                           </div>
@@ -660,14 +680,18 @@ export default function TicketDetailPage() {
                   </div>
                 </div>
               </form>
-            </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Ticket Info */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Details</h3>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-medium text-gray-900">Details</CardTitle>
+              </CardHeader>
+              <CardContent>
               <dl className="space-y-4">
                 <div>
                   <dt className="text-sm font-medium text-gray-500">Status</dt>
@@ -732,11 +756,15 @@ export default function TicketDetailPage() {
                   </dd>
                 </div>
               </dl>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Actions */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Actions</h3>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg font-medium text-gray-900">Actions</CardTitle>
+              </CardHeader>
+              <CardContent>
               <div className="space-y-2">
                 {/* Status Actions */}
                 {canUpdateStatus && (
@@ -852,7 +880,8 @@ export default function TicketDetailPage() {
                   </div>
                 )}
               </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
@@ -860,7 +889,8 @@ export default function TicketDetailPage() {
       {/* Assignment Modal */}
       {showAssignModal && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
+          <Card className="max-w-md w-full">
+            <CardContent className="p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">
               {ticket.assigned_to ? 'Reassign Ticket' : 'Assign Ticket'}
             </h3>
@@ -900,7 +930,8 @@ export default function TicketDetailPage() {
                 {updating ? 'Assigning...' : 'Assign'}
               </button>
             </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       )}
     </DashboardLayout>

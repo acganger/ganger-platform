@@ -100,12 +100,8 @@ export function withRequestLogging(
   return async (req: any, res: any) => {
     const startTime = Date.now();
     
-    // Log request
-    const session = await import('next-auth').then(m => 
-      m.getServerSession(req, res, { providers: [] })
-    ).catch(() => null);
-    
-    logger.logRequest(req, session?.user?.email);
+    // Log request - get user email from handler context instead of session
+    logger.logRequest(req);
     
     // Capture original end function
     const originalEnd = res.end;

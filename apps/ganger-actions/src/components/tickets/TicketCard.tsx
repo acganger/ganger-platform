@@ -1,5 +1,7 @@
 import { Ticket } from '@/types';
-import { formatTimeAgo, cn } from '@/lib/utils';
+import { cn } from '@ganger/ui';
+import { formatTimeAgo } from '@/lib/utils';
+import { Card, CardContent, Badge } from '@ganger/ui';
 import { 
   Clock, 
   User, 
@@ -17,20 +19,20 @@ interface TicketCardProps {
 
 const StatusBadge = ({ status }: { status: Ticket['status'] }) => {
   const statusConfig = {
-    pending: { label: 'Pending', className: 'status-badge-pending' },
-    open: { label: 'Open', className: 'status-badge-open' },
-    in_progress: { label: 'In Progress', className: 'status-badge-in-progress' },
-    stalled: { label: 'Stalled', className: 'status-badge-stalled' },
-    approved: { label: 'Approved', className: 'status-badge-approved' },
-    denied: { label: 'Denied', className: 'status-badge-denied' },
-    completed: { label: 'Completed', className: 'status-badge-completed' },
+    pending: { label: 'Pending', variant: 'warning' as const },
+    open: { label: 'Open', variant: 'primary' as const },
+    in_progress: { label: 'In Progress', variant: 'primary' as const },
+    stalled: { label: 'Stalled', variant: 'secondary' as const },
+    approved: { label: 'Approved', variant: 'success' as const },
+    denied: { label: 'Denied', variant: 'destructive' as const },
+    completed: { label: 'Completed', variant: 'success' as const },
   };
 
   const config = statusConfig[status];
   return (
-    <span className={config.className}>
+    <Badge variant={config.variant} size="sm">
       {config.label}
-    </span>
+    </Badge>
   );
 };
 
@@ -68,9 +70,9 @@ export const TicketCard = ({ ticket, onClick, selected }: TicketCardProps) => {
   const isUrgent = ticket.priority === 'urgent';
   
   return (
-    <div
+    <Card
       className={cn(
-        'ticket-card cursor-pointer transition-all duration-200',
+        'cursor-pointer transition-all duration-200',
         isUrgent && 'ticket-card-urgent',
         selected && 'ring-2 ring-primary-500 bg-primary-50',
         'hover:scale-[1.02] focus:scale-[1.02]'
@@ -86,6 +88,7 @@ export const TicketCard = ({ ticket, onClick, selected }: TicketCardProps) => {
       }}
       aria-label={`Ticket ${ticket.id}: ${ticket.title}`}
     >
+      <CardContent>
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center space-x-2">
@@ -160,6 +163,7 @@ export const TicketCard = ({ ticket, onClick, selected }: TicketCardProps) => {
           <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
         </div>
       )}
-    </div>
+      </CardContent>
+    </Card>
   );
 };

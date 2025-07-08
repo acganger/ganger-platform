@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Ticket, TicketFilters } from '@/types';
 import { TicketCard } from './TicketCard';
 import { TicketFilters as TicketFiltersComponent } from './TicketFilters';
-import { LoadingSpinner } from '@ganger/ui';
+import { LoadingSpinner, Card, CardContent } from '@ganger/ui';
 import { Search, Filter, SortAsc, SortDesc } from 'lucide-react';
 
 interface TicketListProps {
@@ -119,7 +119,8 @@ export const TicketList = ({
   return (
     <div className="space-y-6">
       {/* Search and Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <Card>
+        <CardContent className="p-4">
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <form onSubmit={handleSearch} className="flex-1">
@@ -158,7 +159,8 @@ export const TicketList = ({
             />
           </div>
         )}
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Sort Options */}
       <div className="flex items-center space-x-4 text-sm">
