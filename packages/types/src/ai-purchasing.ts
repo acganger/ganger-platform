@@ -349,6 +349,20 @@ export interface ProductUsageStats {
   suggested_quantity: number;
 }
 
+// Order item type for historical order data analysis
+export interface OrderItem {
+  id: string;
+  order_id: string;
+  standardized_product_id?: string;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+  vendor_id?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface VendorPerformanceMetrics {
   vendor_id: string;
   average_delivery_days: number;
