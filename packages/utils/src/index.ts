@@ -5,6 +5,9 @@ export * from './validation/schemas';
 // TODO: Fix date-fns dependency resolution in monorepo
 // export * from './formatting/text';
 
+// Currency and number formatters
+export * from './formatters';
+
 // Analytics utilities
 export {
   analytics,

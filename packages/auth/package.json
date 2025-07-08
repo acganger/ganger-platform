@@ -19,6 +19,11 @@
       "types": "./src/staff/index.ts",
       "import": "./src/staff/index.ts",
       "require": "./src/staff/index.ts"
+    },
+    "./middleware": {
+      "types": "./middleware.ts",
+      "import": "./middleware.ts",
+      "require": "./middleware.ts"
     }
   },
   "files": [

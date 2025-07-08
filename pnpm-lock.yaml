@@ -1281,6 +1281,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@ganger/types':
+        specifier: workspace:*
+        version: link:../types
       '@prisma/client':
         specifier: ^6.9.0
         version: 6.11.0(prisma@6.11.0)(typescript@5.8.3)
@@ -1580,6 +1583,9 @@ importers:
 
   packages/utils:
     dependencies:
+      '@ganger/db':
+        specifier: workspace:*
+        version: link:../db
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -12331,6 +12337,7 @@ packages:
     resolution: {directory: packages/db, type: directory}
     name: '@ganger/db'
     dependencies:
+      '@ganger/types': link:packages/types
       '@prisma/client': 6.11.0(prisma@6.11.0)(typescript@5.8.3)
       '@supabase/supabase-js': 2.50.2
       ioredis: 5.6.1
@@ -12355,6 +12362,7 @@ packages:
     id: file:packages/utils
     name: '@ganger/utils'
     dependencies:
+      '@ganger/db': link:packages/db
       crypto-js: 4.2.0
       date-fns: 4.1.0
       lodash: 4.17.21

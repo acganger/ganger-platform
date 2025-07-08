@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ConsolidatedOrdersRepository } from '@ganger/db'
 import type { ConsolidatedOrder, ConsolidatedOrderItem, UrgencyLevel } from '@ganger/types'
+import { withStaffAuth } from '@ganger/auth'
 
 interface CreateOrderRequest {
   department: string
@@ -16,7 +17,7 @@ interface CreateOrderRequest {
   requesterName?: string
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withStaffAuth(async (request: NextRequest) => {
   try {
     const body: CreateOrderRequest = await request.json()
     const { department, urgency, items, notes, requesterEmail, requesterName } = body
@@ -62,7 +63,6 @@ export async function POST(request: NextRequest) {
       status: 'draft',
       urgency,
       notes,
-      total_estimated_cost: 0, // Will be calculated after price analysis
       total_estimated_savings: 0
     }
 
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       consolidated_order_id: order.id,
       standardized_product_id: item.productId,
       requested_quantity: item.quantity,
-      urgency_level: item.urgency || urgency,
+      urgency_level: (item.urgency === 'emergency' ? 'urgent' : item.urgency) || (urgency === 'emergency' ? 'urgent' : urgency) || 'routine',
       justification: item.justification
     }))
 
@@ -82,18 +82,12 @@ export async function POST(request: NextRequest) {
     )
 
     // Calculate estimated costs (mock calculation for now)
-    const estimatedTotal = createdItems.length * 25.50 // Mock calculation
-    await repository.update(order.id, {
-      total_estimated_cost: estimatedTotal
-    })
+    // const estimatedTotal = createdItems.length * 25.50 // Mock calculation
 
     return NextResponse.json({
       success: true,
       data: {
-        order: {
-          ...order,
-          total_estimated_cost: estimatedTotal
-        },
+        order,
         items: createdItems
       },
       message: `Order ${orderNumber} created successfully with ${createdItems.length} items`
@@ -109,9 +103,9 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 
-export async function GET(request: NextRequest) {
+export const GET = withStaffAuth(async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url)
     const department = searchParams.get('department')
@@ -145,7 +139,7 @@ export async function GET(request: NextRequest) {
     const summary = {
       totalOrders: ordersWithItems.length,
       totalItems: ordersWithItems.reduce((sum, order) => sum + order.itemCount, 0),
-      totalEstimatedCost: ordersWithItems.reduce((sum, order) => sum + (order.total_estimated_cost || 0), 0),
+      totalEstimatedCost: ordersWithItems.reduce((sum, order) => sum + (order.itemCount * 25.50), 0), // Mock calculation
       statusBreakdown: {
         draft: ordersWithItems.filter(o => o.status === 'draft').length,
         submitted: ordersWithItems.filter(o => o.status === 'submitted').length,
@@ -182,4 +176,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

@@ -6,10 +6,15 @@ The authentication error "Unsupported provider: provider is not enabled" occurs 
 
 ## Current Configuration
 
-### Google OAuth Credentials (from legacy system)
-- **Client ID**: `745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com`
-- **Client Secret**: `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`
+### Google OAuth Credentials (Updated January 8, 2025)
+- **Client ID**: `310418971046-skkrjvju66fid4r75lfdile2i8o8nrsd.apps.googleusercontent.com`
+- **Client Secret**: `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`
+- **Client Name**: staff.gangerdermatology.com
 - **Domain**: `gangerdermatology.com`
+- **Google Cloud Console**: https://console.cloud.google.com/auth/overview?project=apigatewayproject-451519
+- **Authorized Redirect URIs**:
+  - `https://staff.gangerdermatology.com/auth/callback`
+  - `http://localhost:3001/auth/callback`
 
 ### Authentication Approach
 
@@ -34,9 +39,9 @@ Since we're using NextAuth instead of Supabase Auth, you don't need to enable Go
 Ensure these are set in your `.env.local` file and Vercel:
 
 ```bash
-# Google OAuth
-GOOGLE_CLIENT_ID=745912643942-ttm6166flfqbsad430k7a5q3n8stvv34.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
+# Google OAuth (Updated January 8, 2025)
+GOOGLE_CLIENT_ID=310418971046-skkrjvju66fid4r75lfdile2i8o8nrsd.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
 
 # NextAuth
 NEXTAUTH_URL=https://ganger-actions.vercel.app  # Or your deployment URL

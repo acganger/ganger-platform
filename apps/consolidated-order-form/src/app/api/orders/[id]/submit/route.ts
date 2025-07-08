@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ConsolidatedOrdersRepository } from '@ganger/db'
+import { withStaffAuth } from '@ganger/auth'
 
 interface RouteParams {
   params: {
@@ -7,7 +8,7 @@ interface RouteParams {
   }
 }
 
-export async function POST(request: NextRequest, { params }: RouteParams) {
+export const POST = withStaffAuth(async (request: NextRequest, { params }: RouteParams) => {
   try {
     const repository = new ConsolidatedOrdersRepository()
     
@@ -68,4 +69,4 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       { status: 500 }
     )
   }
-}
+})

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { VendorManagementRepository } from '@ganger/db'
 import type { VendorConfiguration } from '@ganger/types'
+import { withStaffAuth } from '@ganger/auth/middleware'
 
-export async function GET(request: NextRequest) {
+export const GET = withStaffAuth(async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url)
     const onlyActive = searchParams.get('active') !== 'false'
@@ -81,9 +82,9 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 
-export async function POST(request: NextRequest) {
+export const POST = withStaffAuth(async (request: NextRequest) => {
   try {
     const body = await request.json()
     const repository = new VendorManagementRepository()
@@ -138,4 +139,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

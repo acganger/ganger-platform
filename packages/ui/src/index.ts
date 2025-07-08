@@ -7,6 +7,8 @@ export { Checkbox } from './components/Checkbox';
 export { Badge } from './components/Badge';
 export { Avatar } from './components/Avatar';
 export { Switch } from './components/Switch';
+export { Alert } from './components/Alert';
+export { Progress } from './components/Progress';
 
 // Data Display Components
 export { 
@@ -32,6 +34,12 @@ export {
   ToastContainer, 
   useToast 
 } from './components/Toast';
+export {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent
+} from './components/Tabs';
 
 // Form Components
 export { FormField } from './components/FormField';
@@ -81,6 +89,9 @@ export type {
   SwitchProps
 } from './types';
 export type { Column, DataTableProps } from './components/DataTable';
+export type { AlertProps } from './components/Alert';
+export type { ProgressProps } from './components/Progress';
+export type { TabsProps, TabsListProps, TabsTriggerProps, TabsContentProps } from './components/Tabs';
 
 // TODO: Additional components to implement
 // export { AppLayout } from './components/AppLayout';

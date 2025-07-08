@@ -7,10 +7,13 @@
 
 ## 🎯 Overview
 
-**Ganger Actions** is the central employee portal for Ganger Dermatology, successfully deployed and fully operational. It replaces the legacy PHP system with a modern Next.js application while maintaining 100% compatibility with existing workflows.
+**Ganger Actions** is the employee portal homepage for Ganger Dermatology, successfully deployed and fully operational. It replaces the legacy PHP system with a modern Next.js application while maintaining 100% compatibility with existing workflows.
 
 **Deployment URL**: `ganger-actions-7zveihttb-ganger.vercel.app`  
+**Access URL**: `staff.gangerdermatology.com/` (routed via ganger-staff)  
 **Status**: ✅ **PRODUCTION READY**
+
+**Architecture Note**: `ganger-actions` is accessed through the `ganger-staff` router app, which contains the middleware.ts that handles all platform routing. The ganger-actions app itself has NO middleware - it's a standalone Next.js app.
 
 ---
 

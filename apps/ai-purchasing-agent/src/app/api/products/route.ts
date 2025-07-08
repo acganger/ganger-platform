@@ -1,12 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { StandardizedProductsRepository } from '@ganger/db'
+import { withStaffAuth } from '@ganger/auth/middleware'
 import type { StandardizedProduct, ProductCategory } from '@ganger/types'
+import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/api-utils'
+import { validateRequest, searchProductsSchema, paginationSchema, checkRateLimit } from '@/lib/validation'
 
-export async function GET(request: NextRequest) {
+const getHandler = async (request: NextRequest, context: any) => {
   try {
+    const session = context.session
+    
+    // Rate limiting
+    if (!checkRateLimit(session?.user?.email || 'anonymous', 100, 60000)) {
+      return createErrorResponse('Rate limit exceeded', 429)
+    }
+    
     const { searchParams } = new URL(request.url)
-    const category = searchParams.get('category')
-    const search = searchParams.get('search')
+    
+    // Parse search parameters manually for now
+    const search = searchParams.get('search') || undefined
+    const category = searchParams.get('category') || undefined
+    const vendorId = searchParams.get('vendorId') || undefined
+    const inStock = searchParams.get('inStock') ? searchParams.get('inStock') === 'true' : undefined
+    
+    const page = parseInt(searchParams.get('page') || '1')
+    const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100)
+    const offset = (page - 1) * limit
+    
     const onlyActive = searchParams.get('active') !== 'false'
     const critical = searchParams.get('critical')
 
@@ -43,25 +62,27 @@ export async function GET(request: NextRequest) {
       return a.name.localeCompare(b.name)
     })
 
-    return NextResponse.json({
-      success: true,
-      data: products,
-      count: products.length
+    const total = products.length
+    const paginatedProducts = products.slice(offset, offset + limit)
+    
+    return createSuccessResponse({
+      data: paginatedProducts,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
     })
   } catch (error) {
-    console.error('Error fetching products:', error)
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Failed to fetch products',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    )
+    return handleApiError(error)
   }
 }
 
-export async function POST(request: NextRequest) {
+// Apply authentication
+export const GET = withStaffAuth(getHandler)
+
+export const POST = withStaffAuth(async (request: NextRequest) => {
   try {
     const body = await request.json()
     const repository = new StandardizedProductsRepository()
@@ -108,4 +129,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

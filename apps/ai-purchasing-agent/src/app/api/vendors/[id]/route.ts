@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { VendorManagementRepository } from '@ganger/db'
+import { withStaffAuth, type AuthenticatedHandler } from '@ganger/auth/middleware'
 
-interface RouteParams {
+interface RouteContext {
   params: {
     id: string
   }
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+const getHandler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+  const { params } = context as RouteContext
   try {
     const repository = new VendorManagementRepository()
     const vendor = await repository.findById(params.id)
@@ -27,26 +29,20 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const totalQuotes = quotes.length
     const contractQuotes = quotes.filter(q => q.is_contract_pricing).length
     const inStockQuotes = quotes.filter(q => q.is_in_stock).length
-    const averageUnitPrice = quotes.length > 0 
-      ? quotes.reduce((sum, q) => sum + q.unit_price, 0) / quotes.length 
-      : 0
-
-    const vendorWithStats = {
-      ...vendor,
-      statistics: {
-        totalQuotes,
-        contractQuotes,
-        inStockQuotes,
-        contractCoverage: totalQuotes > 0 ? (contractQuotes / totalQuotes) * 100 : 0,
-        stockAvailability: totalQuotes > 0 ? (inStockQuotes / totalQuotes) * 100 : 0,
-        averageUnitPrice,
-        productsCovered: productMappings.length
-      }
-    }
+    const averageUnitPrice = quotes.reduce((sum, q) => sum + q.unit_price, 0) / (totalQuotes || 1)
 
     return NextResponse.json({
       success: true,
-      data: vendorWithStats
+      data: {
+        ...vendor,
+        statistics: {
+          totalQuotes,
+          contractQuotes,
+          inStockQuotes,
+          averageUnitPrice,
+          productsCovered: productMappings.length
+        }
+      }
     })
   } catch (error) {
     console.error('Error fetching vendor:', error)
@@ -61,7 +57,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export const GET = withStaffAuth(getHandler)
+
+const patchHandler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+  const { params } = context as RouteContext
   try {
     const body = await request.json()
     const repository = new VendorManagementRepository()
@@ -94,7 +93,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export const PATCH = withStaffAuth(patchHandler)
+
+const deleteHandler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+  const { params } = context as RouteContext
   try {
     const repository = new VendorManagementRepository()
     
@@ -126,3 +128,5 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     )
   }
 }
+
+export const DELETE = withStaffAuth(deleteHandler)

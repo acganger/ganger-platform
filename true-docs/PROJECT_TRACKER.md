@@ -38,13 +38,16 @@
 
 ### How It Works
 ```
-staff.gangerdermatology.com (Router with Edge Config)
+staff.gangerdermatology.com (ganger-staff Router with Edge Config)
+├── / → ganger-actions-project.vercel.app (Employee Portal)
 ├── /inventory → ganger-inventory-project.vercel.app
 ├── /handouts → ganger-handouts-project.vercel.app
 ├── /l10 → ganger-eos-l10-project.vercel.app
 ├── /batch → ganger-batch-closeout-project.vercel.app
 └── ... (all apps follow pattern: ganger-[app-name]-project.vercel.app)
 ```
+
+**Architecture Note**: The `ganger-staff` app (in `apps/staff/`) contains the middleware.ts that routes all requests. The `ganger-actions` app is the employee portal that gets routed to the root path.
 
 ### Deployment Process (Auto-deploy DISABLED)
 ```bash
@@ -67,7 +70,8 @@ pnpm dlx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
 
 | App | Folder | Route | Description |
 |-----|--------|-------|-------------|
-| **✅ Ganger Actions** | `apps/ganger-actions` | `/` | Main portal & app launcher - **DEPLOYED** |
+| **Staff Portal Router** | `apps/staff` | N/A | Central router with middleware.ts |
+| **✅ Ganger Actions** | `apps/ganger-actions` | `/` | Employee portal (home page) - **DEPLOYED** |
 | **Inventory** | `apps/inventory` | `/inventory` | Medical supply tracking |
 | **Handouts** | `apps/handouts` | `/handouts` | Patient education (staff view) |
 | **EOS L10** | `apps/eos-l10` | `/l10` | Team management |

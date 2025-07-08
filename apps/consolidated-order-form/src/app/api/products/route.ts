@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { StandardizedProductsRepository } from '@ganger/db'
 import type { StandardizedProduct, ProductCategory } from '@ganger/types'
+import { withStaffAuth } from '@ganger/auth'
 
-export async function GET(request: NextRequest) {
+export const GET = withStaffAuth(async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url)
-    const category = searchParams.get('category') as ProductCategory | null
+    const category = searchParams.get('category')
     const search = searchParams.get('search')
     const department = searchParams.get('department')
 
@@ -13,7 +14,7 @@ export async function GET(request: NextRequest) {
     let products: StandardizedProduct[]
 
     if (category && category !== 'all') {
-      products = await repository.findByCategory(category, true) // Only active products
+      products = await repository.findByCategory(category as ProductCategory, true) // Only active products
     } else {
       products = await repository.findAll(true) // Only active products
     }
@@ -68,9 +69,9 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 
-export async function POST(request: NextRequest) {
+export const POST = withStaffAuth(async (request: NextRequest) => {
   try {
     const body = await request.json()
     
@@ -115,4 +116,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

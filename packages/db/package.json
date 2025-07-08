@@ -11,6 +11,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@ganger/types": "workspace:*",
     "@supabase/supabase-js": "^2.49.10",
     "@prisma/client": "^6.9.0",
     "prisma": "^6.9.0",

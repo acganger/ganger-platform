@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
 import { StandardizedProductsRepository, VendorManagementRepository } from '@ganger/db'
+import { withStaffAuth } from '@ganger/auth/middleware'
 
-export async function GET() {
+export const dynamic = 'force-dynamic'
+
+export const GET = withStaffAuth(async () => {
   try {
     // Test database connections
     const productRepo = new StandardizedProductsRepository()
@@ -42,4 +45,4 @@ export async function GET() {
       { status: 503 }
     )
   }
-}
+})

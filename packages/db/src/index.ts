@@ -31,22 +31,26 @@ export { auditLogQueries, auditLogger } from './queries/audit-logs';
 export { ClinicalStaffingQueries } from './queries/clinical-staffing';
 export { PharmaSchedulingQueries } from './queries/pharmaceutical-scheduling';
 
-// AI Purchasing repositories - temporarily commented out during active development
-// export {
-//   StandardizedProductsRepository,
-//   PurchaseRequestsRepository,
-//   VendorManagementRepository,
-//   ConsolidatedOrdersRepository,
-//   // Validation schemas
-//   standardizedProductSchema,
-//   purchaseRequestItemSchema,
-//   createPurchaseRequestSchema,
-//   vendorConfigurationSchema,
-//   consolidatedOrderItemSchema,
-//   createConsolidatedOrderSchema,
-//   // Types
-//   type CreateStandardizedProductInput
-// } from './repositories/ai-purchasing';
+// AI Purchasing repositories
+export {
+  StandardizedProductsRepository,
+  PurchaseRequestsRepository,
+  VendorManagementRepository,
+  VendorConfigurationsRepository,
+  VendorPricesRepository,
+  VendorContractsRepository,
+  UsageHistoryRepository,
+  ConsolidatedOrdersRepository,
+  // Validation schemas
+  standardizedProductSchema,
+  purchaseRequestItemSchema,
+  createPurchaseRequestSchema,
+  vendorConfigurationSchema,
+  consolidatedOrderItemSchema,
+  createConsolidatedOrderSchema,
+  // Types
+  type CreateStandardizedProductInput
+} from './repositories/ai-purchasing';
 
 // Type definitions
 export type {

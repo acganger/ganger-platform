@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PurchaseRequestsRepository, StandardizedProductsRepository } from '@ganger/db'
 import type { PurchaseRequest, PurchaseRequestItem, RequestType, UrgencyLevel } from '@ganger/types'
+import { withStaffAuth } from '@ganger/auth/middleware'
+import { createSuccessResponse, createErrorResponse, handleApiError, generateRequestId } from '@/lib/api-utils'
+import { validateRequest, cartInterceptorSchema, checkRateLimit } from '@/lib/validation'
 
 interface CartInterceptorRequest {
   items: Array<{
@@ -19,37 +22,35 @@ interface CartInterceptorRequest {
   originalCartData?: any // Raw shopping cart data from external system
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withStaffAuth(async (request: NextRequest, context: any) => {
   try {
-    const body: CartInterceptorRequest = await request.json()
+    const session = context.session
+    
+    // Rate limiting
+    if (!checkRateLimit(session?.user?.email || 'anonymous', 20, 60000)) {
+      return createErrorResponse('Rate limit exceeded', 429)
+    }
+    
+    const body = await request.json()
+    
+    // For cart interceptor, we have a different schema
+    // Validate basic structure
+    if (!body.items || !Array.isArray(body.items) || body.items.length === 0) {
+      return createErrorResponse('Items array is required and must not be empty', 400)
+    }
+    
     const { 
       items, 
-      requesterEmail, 
-      requesterName, 
-      department, 
+      requesterEmail = session?.user?.email, 
+      requesterName = session?.user?.name, 
+      department = 'General', 
       urgency = 'routine', 
       notes,
       originalCartData 
     } = body
 
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Items array is required and must not be empty'
-        },
-        { status: 400 }
-      )
-    }
-
     if (!requesterEmail) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Requester email is required'
-        },
-        { status: 400 }
-      )
+      return createErrorResponse('Requester email is required', 400)
     }
 
     const purchaseRepo = new PurchaseRequestsRepository()
@@ -193,8 +194,7 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-
-}
+})
 
 // Helper functions for string matching (should be moved to utils)
 function calculateStringMatch(str1: string, str2: string): number {

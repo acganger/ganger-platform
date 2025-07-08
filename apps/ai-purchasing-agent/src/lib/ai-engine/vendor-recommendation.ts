@@ -78,6 +78,7 @@ export class VendorRecommendationEngine {
       const recommendation = await this.generateVendorRecommendation(
         vendor,
         request,
+        items,
         products,
         quotes,
         capability
@@ -98,6 +99,7 @@ export class VendorRecommendationEngine {
     // Check for split order opportunities
     const splitOrderRecommendation = this.analyzeSplitOrderOpportunity(
       request,
+      items,
       products,
       vendors,
       quotes,
@@ -115,6 +117,7 @@ export class VendorRecommendationEngine {
     const riskFactors = this.identifyRiskFactors(
       recommendations[0],
       request,
+      items,
       products
     )
 
@@ -123,7 +126,7 @@ export class VendorRecommendationEngine {
       alternatives: recommendations.slice(1, 4), // Top 3 alternatives
       consolidationSavings: this.calculateConsolidationSavings(
         recommendations[0],
-        request,
+        items,
         quotes
       ),
       splitOrderRecommendation,
@@ -164,6 +167,7 @@ export class VendorRecommendationEngine {
   private async generateVendorRecommendation(
     vendor: VendorConfiguration,
     request: PurchaseRequest,
+    items: PurchaseRequestItem[],
     products: Map<string, StandardizedProduct>,
     quotes: Map<string, VendorQuote[]>,
     capability: { coverage: number; canFulfill: Set<string> }
@@ -175,7 +179,7 @@ export class VendorRecommendationEngine {
     const benefits: string[] = []
 
     // Calculate products and pricing
-    for (const item of request.items) {
+    for (const item of items) {
       if (!capability.canFulfill.has(item.standardized_product_id || '')) {
         continue
       }
@@ -255,7 +259,7 @@ export class VendorRecommendationEngine {
 
     return {
       vendorId: vendor.id,
-      vendorName: vendor.name,
+      vendorName: vendor.vendor_name,
       score: avgScore,
       confidence: avgScore * capability.coverage,
       products: vendorProducts,
@@ -269,6 +273,7 @@ export class VendorRecommendationEngine {
 
   private analyzeSplitOrderOpportunity(
     request: PurchaseRequest,
+    items: PurchaseRequestItem[],
     products: Map<string, StandardizedProduct>,
     vendors: VendorConfiguration[],
     quotes: Map<string, VendorQuote[]>,
@@ -281,7 +286,7 @@ export class VendorRecommendationEngine {
 
     // Use optimization engine to analyze split order
     const optimizedOrder = this.optimizationEngine.optimizeOrderSplitting(
-      request.items,
+      items,
       products,
       quotes,
       vendors
@@ -326,7 +331,7 @@ export class VendorRecommendationEngine {
 
       splitVendors.push({
         vendorId,
-        vendorName: vendor.name,
+        vendorName: vendor.vendor_name,
         score: 0.8, // Split orders get a moderate score
         confidence: 0.8,
         products: vendorProducts,
@@ -347,13 +352,13 @@ export class VendorRecommendationEngine {
 
   private calculateConsolidationSavings(
     recommendation: VendorRecommendation,
-    request: PurchaseRequest,
+    items: PurchaseRequestItem[],
     quotes: Map<string, VendorQuote[]>
   ): number {
     // Calculate what it would cost to order each item from its cheapest vendor
     let individualCost = 0
     
-    for (const item of request.items) {
+    for (const item of items) {
       const productQuotes = quotes.get(item.standardized_product_id || '') || []
       if (productQuotes.length > 0) {
         const cheapest = Math.min(...productQuotes.map(q => q.total_price))
@@ -363,7 +368,7 @@ export class VendorRecommendationEngine {
 
     // Add estimated shipping for individual orders (assume $15 per vendor)
     const uniqueVendorCount = new Set(
-      request.items.map(item => {
+      items.map(item => {
         const productQuotes = quotes.get(item.standardized_product_id || '') || []
         const cheapest = productQuotes.reduce((min, q) => 
           !min || q.total_price < min.total_price ? q : min, null as VendorQuote | null
@@ -437,6 +442,7 @@ export class VendorRecommendationEngine {
   private identifyRiskFactors(
     recommendation: VendorRecommendation,
     request: PurchaseRequest,
+    items: PurchaseRequestItem[],
     products: Map<string, StandardizedProduct>
   ): string[] {
     const risks: string[] = []
@@ -447,7 +453,7 @@ export class VendorRecommendationEngine {
     }
 
     // Critical items
-    const criticalItems = request.items.filter(item => {
+    const criticalItems = items.filter(item => {
       const product = products.get(item.standardized_product_id || '')
       return product?.is_critical
     })

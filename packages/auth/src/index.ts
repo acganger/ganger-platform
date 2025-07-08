@@ -40,6 +40,11 @@ export * from './utils';
 // Staff portal authentication
 export * from './staff';
 
+// App Router API authentication middleware
+// NOTE: These exports are for server-side use only (API routes)
+// Do not import @ganger/auth in client components if you need these
+// Instead, import from @ganger/auth/middleware directly in API routes
+
 // SSR-compatible Supabase clients with cross-domain cookies
 // These are only available in App Router environments
 // For Pages Router, use @supabase/auth-helpers-nextjs instead
