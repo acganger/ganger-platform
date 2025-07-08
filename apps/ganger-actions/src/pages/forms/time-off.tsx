@@ -15,6 +15,9 @@ const timeOffSchema = z.object({
   start_date: z.string().min(1, 'Start date is required'),
   end_date: z.string().min(1, 'End date is required'),
   requesting_pto: z.enum(['Yes', 'No']),
+  full_day: z.boolean().optional(),
+  start_time: z.string().optional(),
+  end_time: z.string().optional(),
   reason: z.string().min(10, 'Please provide at least 10 characters explaining your request'),
   comments: z.string().optional()
 }).refine((data) => {
@@ -56,6 +59,7 @@ export default function TimeOffRequestForm() {
   });
 
   const requestingPto = watch('requesting_pto');
+  const fullDay = watch('full_day');
 
   const submitRequest = useMutation({
     mutationFn: async (data: TimeOffFormData) => {
@@ -66,10 +70,14 @@ export default function TimeOffRequestForm() {
         form_data: {
           submitter_name: user?.name || '',
           submitter_email: user?.email || '',
+          submitter_location: user?.location || 'Multiple',
           request_type: data.request_type,
           start_date: data.start_date,
           end_date: data.end_date,
           requesting_pto: data.requesting_pto,
+          full_day: data.full_day || false,
+          start_time: data.start_time || '',
+          end_time: data.end_time || '',
           reason: data.reason,
           comments: data.comments || ''
         }
