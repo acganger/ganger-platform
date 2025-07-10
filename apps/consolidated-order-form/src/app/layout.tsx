@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { Inter } from 'next/font/google'
 import { AuthProvider } from '@ganger/auth'
 import { StaffPortalLayout } from '@ganger/ui'

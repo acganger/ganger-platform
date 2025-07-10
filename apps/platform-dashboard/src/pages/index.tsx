@@ -1,13 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import { AuthGuard } from '@ganger/auth/staff';
 import { Button, Card } from '@ganger/ui';
 import { useEffect, useState } from 'react';
 import { Activity, Users, BarChart2, Shield, Calendar, Settings } from 'lucide-react';
 import dynamic from 'next/dynamic';
-
-// Force dynamic rendering to prevent static generation errors
-export const getServerSideProps = async () => {
-  return { props: {} };
-};
 
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
