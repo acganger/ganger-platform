@@ -39,12 +39,13 @@ export default function HomePage() {
 
   // Debug logging
   useEffect(() => {
-    console.log('Auth state:', { 
+    console.log('[HomePage] Auth state:', { 
       user: auth.user, 
       loading: auth.loading,
-      session: auth.session 
+      session: auth.session,
+      loadingApps: loadingApps
     });
-  }, [auth]);
+  }, [auth, loadingApps]);
 
   useEffect(() => {
     async function fetchAppMetadata() {
@@ -178,6 +179,7 @@ export default function HomePage() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading applications...</p>
+            <p className="css-test-marker mt-2">CSS Test Marker - Should be red and bold</p>
           </div>
         </div>
       </>

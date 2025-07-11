@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Debug styles to test if CSS is loading */
+body {
+  background-color: #f9fafb; /* Light gray background */
+}
+
+.css-test-marker {
+  color: red !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
