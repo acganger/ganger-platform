@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth';
+import { useAuth, withAuthComponent } from '@ganger/auth/staff';
 import { AppLayout, PageHeader, Card, Button } from '@ganger/ui';
 
 // Cloudflare Workers Edge Runtime

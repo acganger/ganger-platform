@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { AuthGuard } from '@ganger/auth';
+import { AuthGuard } from '@ganger/auth/staff';
 
 function HandoutsHomePage() {
   const router = useRouter();

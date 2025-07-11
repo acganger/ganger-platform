@@ -332,38 +332,6 @@ function IntegrationStatusDashboard() {
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             created_by: user?.email || 'system'
-          },
-          {
-            id: 'cloudflare-1',
-            name: 'cloudflare-workers',
-            display_name: 'Cloudflare Workers',
-            description: 'Application hosting and edge computing platform',
-            service_type: 'other',
-            health_status: 'healthy',
-            base_url: 'https://api.cloudflare.com',
-            auth_type: 'bearer_token',
-            environment: 'production',
-            is_active: true,
-            last_health_check: new Date().toISOString(),
-            last_successful_check: new Date().toISOString(),
-            next_health_check: new Date(Date.now() + 300000).toISOString(),
-            health_check_interval: 300,
-            config: {
-              timeout: 5000,
-              retry_attempts: 3,
-              alert_thresholds: {
-                response_time_warning: 1500,
-                response_time_critical: 8000,
-                uptime_warning: 95,
-                uptime_critical: 90,
-                error_rate_warning: 5,
-                error_rate_critical: 10
-              },
-              monitoring_enabled: true
-            },
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            created_by: user?.email || 'system'
           }
         ]
         

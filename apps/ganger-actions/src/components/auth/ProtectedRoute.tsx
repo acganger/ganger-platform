@@ -1,5 +1,5 @@
 // Use @ganger/auth guards instead of custom ProtectedRoute
-import { AuthGuard, StaffOnly, AdminOnly } from '@ganger/auth';
+import { AuthGuard, StaffOnly, AdminOnly } from '@ganger/auth/staff';
 import { AuthUser } from '@/hooks/useAuth';
 
 interface ProtectedRouteProps {

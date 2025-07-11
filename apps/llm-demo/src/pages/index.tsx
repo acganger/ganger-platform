@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { AIModel } from '@ganger/ai';
+import type { AIModel } from '@/types/ai';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 

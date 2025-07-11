@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { LoadingSpinner, Badge } from '@ganger/ui';

@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { createSupabaseServerClient } from '@ganger/auth/utils/supabase';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 export const runtime = 'experimental-edge';
 
@@ -9,8 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // const supabase = createSupabaseServerClient();
-  // Using client-side supabase for now - TODO: implement server-side client
+  // Create server-side Supabase client
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      auth: {
+        persistSession: false
+      }
+    }
+  );
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',

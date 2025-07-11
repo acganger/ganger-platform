@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { AIModel, ChatMessage } from '@ganger/ai';
+import type { AIModel, ChatMessage } from '@/types/ai';
 
 // Simple in-memory rate limiter
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();

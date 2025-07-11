@@ -727,7 +727,7 @@ export async function runMigration(options: {
       port: parseInt(process.env.LEGACY_DB_PORT || '3306')
     },
     supabase: {
-      url: process.env.SUPABASE_URL!,
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
       serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY!
     },
     batchSize: options.batchSize || 50,

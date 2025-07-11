@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth, AuthGuard } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth/staff';
 import { LoadingSpinner } from '@ganger/ui';
 import { analytics } from '@ganger/utils';
 

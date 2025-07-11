@@ -137,8 +137,8 @@ export default async function handler(
         user_id: userProfile.id,
         channels: cleanChannels,
         connection_info: {
-          supabase_url: process.env.SUPABASE_URL || '',
-          anon_key: process.env.SUPABASE_ANON_KEY || '',
+          supabase_url: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+          anon_key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
           user_channels: cleanChannels
         }
       }

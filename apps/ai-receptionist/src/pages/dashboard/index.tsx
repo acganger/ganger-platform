@@ -1,7 +1,9 @@
 'use client'
 
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
-import { withAuthComponent } from '@ganger/auth';
+import { withAuthComponent } from '@ganger/auth/staff';
 import { 
   AppLayout, 
   PageHeader, 

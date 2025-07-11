@@ -1,6 +1,8 @@
+export const dynamic = 'force-dynamic';
+
 'use client'
 
-import { AuthGuard } from '@ganger/auth'
+import { AuthGuard } from '@ganger/auth/staff'
 import { InventoryLayout } from '@/components/salient/InventoryLayout'
 import { Container } from '@/components/salient/Container'
 import { FadeIn, FadeInStagger } from '@/components/salient/FadeIn'

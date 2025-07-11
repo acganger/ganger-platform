@@ -1,7 +1,7 @@
 'use client'
 
 import { StaffPortalLayout } from '@ganger/ui';
-import { useStaffAuth } from '@ganger/auth';
+import { useStaffAuth } from '@ganger/auth/staff';
 
 interface CallCenterLayoutProps {
   children: React.ReactNode;

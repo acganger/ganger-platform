@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic';
+
 import { useAuth } from '@ganger/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui'
 import { Button, Badge } from '@ganger/ui'

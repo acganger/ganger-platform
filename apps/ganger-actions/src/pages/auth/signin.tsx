@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { GangerLogo } from '@ganger/ui';

@@ -1,5 +1,7 @@
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
-import { useAuth, AuthGuard } from '@ganger/auth';
+import { useAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
   AppLayout, 
   PageHeader, 
