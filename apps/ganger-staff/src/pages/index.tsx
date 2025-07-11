@@ -31,13 +31,22 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function HomePage() {
-  const { user, loading } = useAuth();
+  const auth = useAuth();
   const [appMetadata, setAppMetadata] = useState<AppData>({});
   const [loadingApps, setLoadingApps] = useState(true);
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Auth state:', { 
+      user: auth.user, 
+      loading: auth.loading,
+      session: auth.session 
+    });
+  }, [auth]);
+
   // Redirect authenticated users to the main actions app
   useEffect(() => {
-    if (!loading && user) {
+    if (!auth.loading && auth.user) {
       // Check if user explicitly navigated here (e.g., from app menu)
       const referrer = document.referrer;
       const isInternalNavigation = referrer && new URL(referrer).hostname === window.location.hostname;
@@ -47,7 +56,7 @@ export default function HomePage() {
         window.location.href = '/actions';
       }
     }
-  }, [user, loading]);
+  }, [auth.user, auth.loading]);
 
   useEffect(() => {
     async function fetchAppMetadata() {
@@ -169,7 +178,7 @@ export default function HomePage() {
     fetchAppMetadata();
   }, []);
 
-  if (loading || loadingApps) {
+  if (auth.loading || loadingApps) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -180,13 +189,13 @@ export default function HomePage() {
     );
   }
 
-  if (!user) {
+  if (!auth.user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome to Ganger Platform</h1>
           <p className="text-gray-600 mb-8">Please sign in to access applications</p>
-          <Link href="/auth/login" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          <Link href="/auth/signin" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
             Sign In
           </Link>
         </div>
@@ -218,7 +227,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Ganger Platform</h1>
-              <p className="text-sm text-gray-600 mt-1">Welcome back, {user.email}</p>
+              <p className="text-sm text-gray-600 mt-1">Welcome back, {auth.user.email}</p>
             </div>
             <Link href="/auth/logout" className="text-sm text-gray-600 hover:text-gray-900">
               Sign Out

@@ -196,19 +196,19 @@ jobs:
         run: pnpm add -g vercel@latest
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_TEAM_ID }}
         working-directory: apps/${{ matrix.app }}
 
       - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_TEAM_ID }}
         working-directory: apps/${{ matrix.app }}
 
       - name: Deploy to Vercel
         id: deploy
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_TEAM_ID }})
           echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
-          echo "${{ matrix.app }}=$DEPLOYMENT_URL" >> deployment-urls.txt
+          echo "${{ matrix.app }}=$DEPLOYMENT_URL" >> ../../deployment-urls.txt
         working-directory: apps/${{ matrix.app }}
 
       - name: Validate deployment URL
@@ -230,6 +230,7 @@ jobs:
           name: deployment-url-${{ matrix.app }}
           path: deployment-urls.txt
           retention-days: 1
+        if: always()
 
       - name: Collect URLs for output
         id: collect-urls
@@ -284,8 +285,8 @@ jobs:
             fi
             
             # Run the update script
-            if [ -f scripts/update-vercel-rewrites.js ]; then
-              node scripts/update-vercel-rewrites.js deployment-urls.txt
+            if [ -f scripts/update-vercel-rewrites-smart.js ]; then
+              node scripts/update-vercel-rewrites-smart.js deployment-urls.txt
               
               # Check if vercel.json changed
               if [ -f apps/ganger-staff/vercel.json.backup ]; then
@@ -301,7 +302,7 @@ jobs:
                 echo "needs-update=true" >> $GITHUB_OUTPUT
               fi
             else
-              echo "⚠️ Update script not found: scripts/update-vercel-rewrites.js"
+              echo "⚠️ Update script not found: scripts/update-vercel-rewrites-smart.js"
               echo "needs-update=false" >> $GITHUB_OUTPUT
             fi
           else
@@ -319,9 +320,9 @@ jobs:
           
           # Deploy to Vercel
           cd apps/ganger-staff
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_TEAM_ID }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_TEAM_ID }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --scope=${{ secrets.VERCEL_TEAM_ID }}
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}

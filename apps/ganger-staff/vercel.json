@@ -2,5 +2,34 @@
   "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
   "buildCommand": "cd ../.. && pnpm -F @ganger/staff build",
   "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/actions/:path*",
+      "destination": "https://inventory-test.vercel.app/:path*"
+    },
+    {
+      "source": "/inventory/:path*",
+      "destination": "https://inventory-test.vercel.app/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
 }

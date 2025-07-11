@@ -4,7 +4,7 @@ import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
+    <AuthProvider appName="ganger-staff">
       <Component {...pageProps} />
     </AuthProvider>
   );

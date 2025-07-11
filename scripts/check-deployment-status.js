@@ -22,6 +22,9 @@ if (!VERCEL_TOKEN) {
   process.exit(1);
 }
 
+// Check for team ID
+const VERCEL_TEAM_ID = process.env.VERCEL_TEAM_ID;
+
 // Vercel API configuration
 const VERCEL_API = 'https://api.vercel.com';
 const headers = {
@@ -32,9 +35,14 @@ const headers = {
 // Helper to make API requests
 function makeRequest(path) {
   return new Promise((resolve, reject) => {
+    // Add team ID to path if available
+    const finalPath = VERCEL_TEAM_ID ? 
+      (path.includes('?') ? `${path}&teamId=${VERCEL_TEAM_ID}` : `${path}?teamId=${VERCEL_TEAM_ID}`) : 
+      path;
+    
     const options = {
       hostname: 'api.vercel.com',
-      path: path,
+      path: finalPath,
       method: 'GET',
       headers: headers
     };
