@@ -1,0 +1,33 @@
+{
+  "deploymentOrder": [
+    "staff",
+    "ganger-actions",
+    "platform-dashboard",
+    "inventory",
+    "handouts",
+    "eos-l10",
+    "batch-closeout",
+    "clinical-staffing",
+    "compliance-training",
+    "config-dashboard",
+    "integration-status",
+    "ai-receptionist",
+    "call-center-ops",
+    "medication-auth",
+    "pharma-scheduling",
+    "checkin-kiosk",
+    "socials-reviews",
+    "component-showcase"
+  ],
+  "priority": {
+    "critical": ["staff"],
+    "high": ["ganger-actions", "platform-dashboard"],
+    "medium": ["inventory", "handouts", "eos-l10", "batch-closeout", "clinical-staffing"],
+    "low": ["compliance-training", "config-dashboard", "integration-status", "ai-receptionist", "call-center-ops", "medication-auth", "pharma-scheduling", "checkin-kiosk", "socials-reviews", "component-showcase"]
+  },
+  "notes": {
+    "staff": "Must deploy first as it's the central router for all other apps",
+    "ganger-actions": "Primary employee portal - high traffic",
+    "platform-dashboard": "System monitoring - important for operations"
+  }
+}

@@ -6,7 +6,7 @@ on:
       deploy_order:
         description: 'Deployment order (comma-separated app names)'
         required: false
-        default: 'platform-dashboard,staff,inventory,handouts,eos-l10,call-center-ops'
+        default: 'staff,ganger-actions,platform-dashboard,inventory,handouts,eos-l10,call-center-ops'
       environment:
         description: 'Target environment'
         required: true

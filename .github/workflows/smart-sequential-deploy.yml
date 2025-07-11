@@ -73,8 +73,8 @@ jobs:
               DEPLOY_LIST='${{ steps.changes.outputs.apps }}'
               ;;
             "sequential-all")
-              # Define deployment order
-              DEPLOY_LIST='["ganger-actions","platform-dashboard","staff","inventory","handouts","eos-l10","call-center-ops","checkin-kiosk","medication-auth","batch-closeout","clinical-staffing","compliance-training","component-showcase","config-dashboard","integration-status","pharma-scheduling","socials-reviews","ai-receptionist","llm-demo","deployment-helper"]'
+              # Define deployment order - staff must be first as it's the router
+              DEPLOY_LIST='["staff","ganger-actions","platform-dashboard","inventory","handouts","eos-l10","call-center-ops","checkin-kiosk","medication-auth","batch-closeout","clinical-staffing","compliance-training","component-showcase","config-dashboard","integration-status","pharma-scheduling","socials-reviews","ai-receptionist","llm-demo","deployment-helper"]'
               ;;
             "specific-apps")
               # Convert comma-separated to JSON array
