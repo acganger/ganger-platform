@@ -473,74 +473,256 @@ Create `/true-docs/catalyst-migration-status.md`:
 
 ## 👥 Team Requirements
 
-### UI Expert Requirements
-- **Catalyst Experience**: Must have shipped production Catalyst apps
-- **Medical Software**: Bonus, not required
-- **Testing Mindset**: Obsessive about quality
-- **Communication**: Daily updates, no surprises
+### Working with AI Agents
 
-### Code Review Requirements
-- Every PR needs screenshots/recordings
-- Before/after comparisons
-- Bundle size impact
-- Accessibility audit results
-- Mobile responsiveness proof
+**Why AI for this project:**
+- Systematic approach perfect for component-by-component migration
+- Never gets tired or takes shortcuts
+- Can maintain perfect consistency
+- Follows rules exactly as written
+- Can work 24/7 if needed
 
-## 📅 MANDATORY DAILY CHECK-INS
+**AI Agent Requirements:**
+- Must have file system access
+- Must have ability to run commands
+- Must be able to read/write files
+- Must maintain context across sessions
+- Should be instructed to use this PRD
 
-### Every Day at 5 PM, You MUST Report:
+### AI Session Handoff Protocol
 
+**When switching AI sessions/contexts:**
 ```markdown
-## Daily Update - [Date]
+## Handoff Document - [Date]
 
-### What I Did Today:
-- Component worked on: [Name]
-- Files modified: [List every file]
-- Apps tested: [List every app]
+### Current State:
+- Component in progress: [name]
+- Files modified: [list]
+- Last successful build: [time]
+- Next step: [specific action]
 
-### Proof of No Regressions:
-- [ ] All apps still build: `pnpm build` output attached
-- [ ] No new TypeScript errors: `pnpm type-check` output attached
-- [ ] All tests pass: `pnpm test` output attached
+### Context to reload:
+- Read these files: [list]
+- Current errors: [if any]
+- Decisions made: [summary]
 
-### Issues Encountered:
-- Issue: [Description]
-- Root Cause: [Not a guess - actual cause]
-- Solution: [What I did - not a hack]
-- Why Not a Hack: [Explanation]
-
-### Tomorrow's Plan:
-- [Specific tasks]
-
-### Blockers:
-- [Any blockers - no assumptions]
+### Do NOT:
+- [List any discovered gotchas]
 ```
 
-### RED FLAGS That Require IMMEDIATE ESCALATION:
+## 🤖 AI AGENT IMPLEMENTATION GUIDELINES
 
-🚨 **"I simplified it to make it work"**
-🚨 **"I'll fix the other apps tomorrow"**
-🚨 **"It mostly works the same"**
-🚨 **"I commented out some code temporarily"**
-🚨 **"The errors will go away once we finish"**
-🚨 **"I had to change how it works slightly"**
+### Context Management Requirements
 
-## 🔒 FINAL ACCOUNTABILITY MEASURES
+**YOU MUST:**
+1. **Read EVERY file before modification** - Use Read tool, never assume content
+2. **Track all changes in memory** - Maintain a list of modified files
+3. **Verify after EVERY change** - Run build/type-check immediately
+4. **Never trust cached knowledge** - Re-read files if context was cleared
 
-### Git Commit Rules:
-1. **NO COMMITS** without passing ALL checks
-2. **NO MERGES** without video proof
-3. **NO DEPLOYS** without 24-hour testing
+### Required Tool Usage Pattern
 
-### Three-Strike Policy:
-1. **Strike 1**: Hackjob detected = Written warning + revert
-2. **Strike 2**: Second hackjob = Final warning + code review required
-3. **Strike 3**: Third hackjob = Project termination
+```markdown
+For EACH component migration:
 
-### Success Incentives:
-- **Week 4**: First app migrated successfully = Bonus
-- **Week 8**: 50% complete with zero regressions = Bonus
-- **Week 12**: Full migration, all functionality preserved = Final bonus
+1. Read current component:
+   - Read: packages/ui/src/components/[Component].tsx
+   - Read: All files from grep results
+   - Document current implementation
+
+2. Before ANY modification:
+   - Backup: cp Component.tsx ComponentLegacy.tsx
+   - Commit backup immediately
+
+3. After EACH change:
+   - Run: pnpm build
+   - Run: pnpm type-check
+   - If errors: STOP and fix, never proceed with errors
+
+4. Document everything:
+   - Create: migrations/[Component]-migration-log.md
+   - Include: Every decision, every change, every test
+```
+
+### AI-Specific Prohibitions
+
+❌ **NEVER use pattern matching from other components**
+- Each component is unique
+- Read actual implementation every time
+
+❌ **NEVER skip file reading**
+- Even if you "remember" the content
+- Context can be lost between sessions
+
+❌ **NEVER batch changes**
+- One file at a time
+- Verify after each file
+
+❌ **NEVER trust error messages alone**
+- Read the actual code causing the error
+- Understand the full context
+
+### Required Verification Loop
+
+```python
+while migrating_component:
+    1. Make ONE atomic change
+    2. Run: pnpm build
+    3. If build fails:
+       - Revert the change
+       - Read the error context
+       - Try different approach
+    4. If build succeeds:
+       - Run: pnpm type-check
+       - Test in one app
+       - Document what worked
+    5. Commit with detailed message
+```
+
+### Context Switching Protocol
+
+**When resuming work (new session):**
+1. Read: /true-docs/CATALYST_MIGRATION_STATUS.md
+2. Read: Last migration log
+3. Re-read: Current component being migrated
+4. Verify: Current state with pnpm build
+5. Only then: Continue work
+
+### Error Resolution Protocol
+
+**When encountering an error:**
+1. **STOP** - Do not try to work around it
+2. **READ** - The actual source code, not just error
+3. **UNDERSTAND** - Why the error occurs
+4. **PLAN** - A proper solution that preserves functionality
+5. **IMPLEMENT** - With adapter/wrapper if needed
+6. **VERIFY** - All functionality still works
+
+### Documentation Requirements
+
+**For EVERY component, create:**
+```markdown
+# [Component] Migration Log
+
+## Pre-Migration Analysis
+- Used in: [list every file]
+- Props: [document all props]
+- Features: [list all functionality]
+- Edge cases: [document special behaviors]
+
+## Migration Decisions
+- Decision 1: [what and why]
+- Decision 2: [what and why]
+...
+
+## Verification Results
+- Build: ✅ All apps build
+- Types: ✅ No errors
+- Visual: [screenshots]
+- Functional: [test results]
+
+## Code Examples
+[Before/after code snippets]
+```
+
+### Session Management
+
+**At start of EACH session:**
+```bash
+# Verify clean state
+git status
+pnpm build
+pnpm type-check
+
+# Read current progress
+cat /true-docs/CATALYST_MIGRATION_STATUS.md
+
+# Continue from last point
+```
+
+**At end of EACH session:**
+```bash
+# Commit all work
+git add -A
+git commit -m "chore: migration progress - [details]"
+
+# Update status
+# Edit: /true-docs/CATALYST_MIGRATION_STATUS.md
+
+# Verify everything still works
+pnpm build
+```
+
+### AI Tool Limitations Workarounds
+
+**For screenshots/video:**
+- Create detailed text descriptions instead
+- Document EXACT visual differences
+- Use ASCII diagrams if helpful
+
+**For testing across apps:**
+- Systematically test each app
+- Document results in markdown tables
+- Create test scripts that can be re-run
+
+**For complex debugging:**
+- Add extensive console.log statements
+- Create temporary debug files
+- Remove all debug code before committing
+
+### Monorepo-Specific AI Guidelines
+
+**Understanding Dependencies:**
+```bash
+# Before modifying any component, map dependencies:
+find . -name "*.tsx" -o -name "*.ts" | \
+  xargs grep -l "ComponentName" | \
+  while read file; do
+    echo "=== $file ==="
+    grep -A 3 -B 3 "ComponentName" "$file"
+  done
+```
+
+**Preventing Cascade Failures:**
+1. NEVER commit if any app fails to build
+2. Test changes in dependency order:
+   - packages/ui (shared components)
+   - One app using the component
+   - All other apps using the component
+3. Keep a rollback script ready:
+   ```bash
+   git reset --hard HEAD~1
+   ```
+
+**Working with pnpm Workspaces:**
+- Understand that packages/ui changes affect ALL apps
+- Run `pnpm -F @ganger/ui build` after component changes
+- Then run `pnpm build` to verify all apps
+
+**Memory Management for AI:**
+- Document each decision in migration logs
+- Create a decisions.md file per component
+- Reference previous decisions to maintain consistency
+
+### AI-Specific Success Metrics
+
+**Per Session:**
+- Zero build failures at session end
+- All changes documented
+- Status tracker updated
+- No uncommitted changes
+
+**Per Component:**
+- Backup created and committed
+- All apps using component still work
+- Migration log complete
+- Zero TypeScript errors
+
+**Overall:**
+- No functionality lost
+- No business logic changed
+- All visual changes documented
+- Complete audit trail
 
 ## 📚 Reference Documentation
 
