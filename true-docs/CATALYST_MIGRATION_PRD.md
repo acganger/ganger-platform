@@ -29,6 +29,86 @@ The Ganger Platform consists of 17 production-ready medical applications built w
 4. **PROTECT business logic** - UI changes only, never modify functionality
 5. **QUALITY over speed** - We have no time constraints, only quality metrics
 
+## 🚨🚨 ABSOLUTE PROHIBITIONS - AUTOMATIC TERMINATION OFFENSES 🚨🚨
+
+**The following actions will result in immediate project termination:**
+
+### 1. **HACKJOB REWRITES**
+❌ **FORBIDDEN**: Rewriting components to avoid errors
+❌ **FORBIDDEN**: Removing "problematic" features instead of fixing them
+❌ **FORBIDDEN**: Simplifying logic to make migration easier
+✅ **REQUIRED**: Fix errors properly, maintain ALL existing functionality
+
+**Example of FORBIDDEN hackjob:**
+```typescript
+// BEFORE: Complex form with validation
+<Input 
+  value={value} 
+  onChange={handleChange} 
+  onBlur={validateField}
+  error={errors[field]}
+/>
+
+// ❌ FORBIDDEN HACKJOB: Removing validation to avoid errors
+<CatalystInput value={value} onChange={handleChange} />
+```
+
+### 2. **CIRCULAR BREAK/FIX PATTERNS**
+❌ **FORBIDDEN**: Fixing Component A breaks Component B, fixing B breaks A
+❌ **FORBIDDEN**: Making changes without understanding dependencies
+✅ **REQUIRED**: Map ALL dependencies before changing anything
+
+**Mandatory Dependency Check:**
+```bash
+# MUST RUN before touching any component:
+grep -r "ComponentName" packages/ apps/ --include="*.tsx" --include="*.ts"
+# Document EVERY usage location
+# Create dependency graph
+# Plan for ALL impacts
+```
+
+### 3. **CASCADING MONOREPO FAILURES**
+❌ **FORBIDDEN**: Deploying changes that break other apps
+❌ **FORBIDDEN**: "I'll fix the other apps later" mentality
+✅ **REQUIRED**: ALL affected apps must build before ANY commit
+
+**Mandatory Pre-Commit Check:**
+```bash
+# MUST PASS before EVERY commit:
+pnpm build  # ALL apps must build
+pnpm type-check  # ZERO type errors
+pnpm test  # ALL tests pass
+```
+
+### 4. **LOST CODE / FUNCTIONALITY**
+❌ **FORBIDDEN**: Deleting code without preserving it
+❌ **FORBIDDEN**: Removing features during migration
+✅ **REQUIRED**: Create `ComponentNameLegacy.tsx` backup for EVERY component
+
+**Mandatory Backup Process:**
+```bash
+# BEFORE touching any component:
+cp Component.tsx ComponentLegacy.tsx
+git add ComponentLegacy.tsx
+git commit -m "backup: preserve original Component before migration"
+```
+
+### 5. **ASSUMPTION-BASED CHANGES**
+❌ **FORBIDDEN**: "This probably works the same way"
+❌ **FORBIDDEN**: "I think this is what they meant"
+❌ **FORBIDDEN**: "This looks similar to X, so I'll do Y"
+✅ **REQUIRED**: Test EVERY assumption, document EVERY decision
+
+**Decision Documentation Required:**
+```typescript
+// REQUIRED comment for EVERY non-obvious change:
+// MIGRATION NOTE: Changed prop 'color' to 'variant' because:
+// 1. Catalyst Button uses 'variant' not 'color'
+// 2. Mapped: color="primary" → variant="primary"
+// 3. Tested in: ganger-actions, inventory, handouts
+// 4. No functional change, only prop name
+```
+
 ## 📊 Current State Analysis
 
 ### Component Inventory (23 Custom Components)
@@ -171,6 +251,28 @@ main (protected)
 - [ ] Test dark mode compatibility
 - [ ] Test mobile responsiveness
 
+### 4.5. MANDATORY VERIFICATION PHASE
+**NO EXCEPTIONS - MUST HAVE PROOF**
+- [ ] Screenshot BEFORE migration for EVERY affected view
+- [ ] Screenshot AFTER migration for EVERY affected view
+- [ ] Record video of ALL interactive features working
+- [ ] Document ANY visual differences (even 1px)
+- [ ] Get written confirmation: "All functionality preserved"
+
+**Required Proof Format:**
+```markdown
+## Component: Button - Verification Report
+### App: ganger-actions
+- Before: [screenshot-before.png]
+- After: [screenshot-after.png]
+- Functionality Test: [video-link]
+- Visual Differences: NONE
+- Forms Submit: ✅ VERIFIED
+- Validation Works: ✅ VERIFIED
+- Loading States: ✅ VERIFIED
+- Disabled States: ✅ VERIFIED
+```
+
 ### 5. Review Phase
 - [ ] Self-review: Read every changed line
 - [ ] Verify no business logic changed
@@ -217,6 +319,73 @@ main (protected)
 3. **NEVER** merge without screenshots
 4. **NEVER** change business logic "while you're at it"
 5. **ALWAYS** have a rollback plan ready
+
+## 🚫 FORBIDDEN "QUICK FIXES"
+
+### When You Encounter Errors, You MUST NOT:
+
+❌ **Comment out the problematic code**
+```typescript
+// ❌ FORBIDDEN
+// const validation = validateInput(value); // TODO: fix later
+```
+
+❌ **Add @ts-ignore**
+```typescript
+// ❌ FORBIDDEN
+// @ts-ignore
+<CatalystButton onClick={complexHandler} />
+```
+
+❌ **Simplify the implementation**
+```typescript
+// ❌ FORBIDDEN
+// Old: Complex tooltip with positioning logic
+// New: Just removed tooltip because "it was complicated"
+```
+
+❌ **Change the business logic to fit the component**
+```typescript
+// ❌ FORBIDDEN
+// Old: Form could submit with Enter key
+// New: Removed because Catalyst form didn't support it easily
+```
+
+### When You Encounter Errors, You MUST:
+
+✅ **Understand the root cause**
+```typescript
+// ✅ REQUIRED
+// Error: Catalyst Button doesn't accept 'loading' prop
+// Research: Found Catalyst uses 'disabled' + separate Spinner
+// Solution: Create wrapper that maintains our API
+```
+
+✅ **Create adapter layers**
+```typescript
+// ✅ REQUIRED
+function Button({ loading, ...props }) {
+  if (loading) {
+    return (
+      <CatalystButton disabled {...props}>
+        <Spinner /> Loading...
+      </CatalystButton>
+    );
+  }
+  return <CatalystButton {...props} />;
+}
+```
+
+✅ **Document the solution**
+```typescript
+// ✅ REQUIRED
+/**
+ * MIGRATION ADAPTER: Button
+ * - Maps our 'loading' prop to Catalyst pattern
+ * - Preserves exact same behavior
+ * - Tested in: all 82 instances
+ */
+```
 
 ## 📊 Progress Tracking
 
@@ -316,6 +485,62 @@ Create `/true-docs/catalyst-migration-status.md`:
 - Bundle size impact
 - Accessibility audit results
 - Mobile responsiveness proof
+
+## 📅 MANDATORY DAILY CHECK-INS
+
+### Every Day at 5 PM, You MUST Report:
+
+```markdown
+## Daily Update - [Date]
+
+### What I Did Today:
+- Component worked on: [Name]
+- Files modified: [List every file]
+- Apps tested: [List every app]
+
+### Proof of No Regressions:
+- [ ] All apps still build: `pnpm build` output attached
+- [ ] No new TypeScript errors: `pnpm type-check` output attached
+- [ ] All tests pass: `pnpm test` output attached
+
+### Issues Encountered:
+- Issue: [Description]
+- Root Cause: [Not a guess - actual cause]
+- Solution: [What I did - not a hack]
+- Why Not a Hack: [Explanation]
+
+### Tomorrow's Plan:
+- [Specific tasks]
+
+### Blockers:
+- [Any blockers - no assumptions]
+```
+
+### RED FLAGS That Require IMMEDIATE ESCALATION:
+
+🚨 **"I simplified it to make it work"**
+🚨 **"I'll fix the other apps tomorrow"**
+🚨 **"It mostly works the same"**
+🚨 **"I commented out some code temporarily"**
+🚨 **"The errors will go away once we finish"**
+🚨 **"I had to change how it works slightly"**
+
+## 🔒 FINAL ACCOUNTABILITY MEASURES
+
+### Git Commit Rules:
+1. **NO COMMITS** without passing ALL checks
+2. **NO MERGES** without video proof
+3. **NO DEPLOYS** without 24-hour testing
+
+### Three-Strike Policy:
+1. **Strike 1**: Hackjob detected = Written warning + revert
+2. **Strike 2**: Second hackjob = Final warning + code review required
+3. **Strike 3**: Third hackjob = Project termination
+
+### Success Incentives:
+- **Week 4**: First app migrated successfully = Bonus
+- **Week 8**: 50% complete with zero regressions = Bonus
+- **Week 12**: Full migration, all functionality preserved = Final bonus
 
 ## 📚 Reference Documentation
 
