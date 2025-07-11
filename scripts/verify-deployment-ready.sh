@@ -19,9 +19,18 @@ TOTAL_ISSUES=0
 CRITICAL_ISSUES=0
 WARNINGS=0
 
+# Check for --app parameter
+SPECIFIC_APP=""
+if [ "$1" == "--app" ] && [ -n "$2" ]; then
+    SPECIFIC_APP="$2"
+fi
+
 echo "🔍 Ganger Platform Pre-Deployment Verification"
 echo "=============================================="
 echo "Based on CLAUDE.md deployment requirements"
+if [ -n "$SPECIFIC_APP" ]; then
+    echo "Checking specific app: $SPECIFIC_APP"
+fi
 echo ""
 
 # Function to check an individual app
@@ -321,16 +330,27 @@ check_app() {
 }
 
 # Main verification
-echo "🔍 Checking all apps..."
-echo ""
-
-# Get all app directories
-for app_dir in apps/*/; do
-    if [ -d "$app_dir" ]; then
-        app_name=$(basename "$app_dir")
-        check_app "$app_name"
+if [ -n "$SPECIFIC_APP" ]; then
+    # Check only the specified app
+    if [ -d "apps/$SPECIFIC_APP" ]; then
+        check_app "$SPECIFIC_APP"
+    else
+        echo -e "${RED}Error: App '$SPECIFIC_APP' not found in apps/ directory${NC}"
+        exit 1
     fi
-done
+else
+    # Check all apps
+    echo "🔍 Checking all apps..."
+    echo ""
+    
+    # Get all app directories
+    for app_dir in apps/*/; do
+        if [ -d "$app_dir" ]; then
+            app_name=$(basename "$app_dir")
+            check_app "$app_name"
+        fi
+    done
+fi
 
 # Summary
 echo "=============================================="

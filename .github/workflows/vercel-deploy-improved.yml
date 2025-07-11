@@ -1,0 +1,375 @@
+name: 🚀 Vercel Deployment (Improved)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**/src/**'
+      - 'apps/**/package.json'
+      - 'packages/**/src/**'
+      - 'packages/**/package.json'
+      - 'turbo.json'
+      - '.github/workflows/vercel-deploy-improved.yml'
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'Specific app to deploy (leave empty for all changed apps)'
+        required: false
+        type: string
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  detect-changes:
+    name: 🔍 Detect Changed Apps
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.changes.outputs.apps }}
+      matrix: ${{ steps.changes.outputs.matrix }}
+      staff-needs-update: ${{ steps.changes.outputs.staff-needs-update }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for accurate change detection
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Detect changed apps using Turborepo
+        id: changes
+        run: |
+          if [ "${{ github.event.inputs.app }}" ]; then
+            # Manual deployment of specific app
+            echo "apps=${{ github.event.inputs.app }}" >> $GITHUB_OUTPUT
+            echo "matrix=[\"${{ github.event.inputs.app }}\"]" >> $GITHUB_OUTPUT
+            echo "staff-needs-update=false" >> $GITHUB_OUTPUT
+          else
+            # Use Turborepo to detect what needs to be built
+            echo "Detecting changed apps..."
+            
+            # Get the list of tasks that would run for changed files
+            changed_tasks=$(npx turbo run build --dry-run --filter="...[HEAD^1]" 2>/dev/null | grep -E "• @ganger/" | awk '{print $2}' | sed 's/@ganger\///' | sort | uniq || echo "")
+            
+            if [ -z "$changed_tasks" ]; then
+              echo "No apps changed"
+              echo "apps=" >> $GITHUB_OUTPUT
+              echo "matrix=[]" >> $GITHUB_OUTPUT
+              echo "staff-needs-update=false" >> $GITHUB_OUTPUT
+            else
+              # Convert to space-separated list
+              apps_list=$(echo "$changed_tasks" | tr '\n' ' ' | sed 's/ $//')
+              echo "Changed apps: $apps_list"
+              echo "apps=$apps_list" >> $GITHUB_OUTPUT
+              
+              # Create JSON matrix
+              matrix=$(echo "$changed_tasks" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+              echo "matrix=$matrix" >> $GITHUB_OUTPUT
+              
+              # Check if staff portal needs update
+              if echo "$apps_list" | grep -q "ganger-staff"; then
+                echo "staff-needs-update=true" >> $GITHUB_OUTPUT
+              else
+                echo "staff-needs-update=false" >> $GITHUB_OUTPUT
+              fi
+            fi
+          fi
+
+  validate:
+    name: ✅ Validate ${{ matrix.app }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.apps != ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Cache Turborepo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ matrix.app }}-${{ hashFiles('pnpm-lock.yaml', 'turbo.json') }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ matrix.app }}-
+            ${{ runner.os }}-turbo-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run verification checks
+        run: |
+          # Run the custom verification script
+          if [ -f "scripts/verify-deployment-ready.sh" ]; then
+            echo "Running deployment verification for ${{ matrix.app }}..."
+            bash scripts/verify-deployment-ready.sh --app ${{ matrix.app }} || true
+          fi
+
+      - name: Lint and type-check
+        run: pnpm turbo run verify --filter=@ganger/${{ matrix.app }}
+        env:
+          SKIP_ENV_VALIDATION: true
+
+  deploy-apps:
+    name: 🚀 Deploy ${{ matrix.app }}
+    needs: [detect-changes, validate]
+    if: needs.detect-changes.outputs.apps != ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+      fail-fast: false
+    outputs:
+      deployment-urls: ${{ steps.collect-urls.outputs.urls }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Cache Turborepo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ matrix.app }}-${{ hashFiles('pnpm-lock.yaml', 'turbo.json') }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ matrix.app }}-
+            ${{ runner.os }}-turbo-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm turbo run build --filter=@ganger/${{ matrix.app }}
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NODE_ENV: development
+          SKIP_ENV_VALIDATION: true
+
+      - name: Install Vercel CLI
+        run: pnpm add -g vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "${{ matrix.app }}=$DEPLOYMENT_URL" >> deployment-urls.txt
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Validate deployment URL
+        run: |
+          echo "Validating deployment URL: ${{ steps.deploy.outputs.url }}"
+          for i in {1..5}; do
+            if curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.url }}" | grep -E "^[23]"; then
+              echo "✅ Deployment URL is accessible"
+              break
+            else
+              echo "⏳ Waiting for deployment to be ready (attempt $i/5)..."
+              sleep 10
+            fi
+          done
+
+      - name: Upload deployment URLs
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-url-${{ matrix.app }}
+          path: deployment-urls.txt
+          retention-days: 1
+
+      - name: Collect URLs for output
+        id: collect-urls
+        run: |
+          if [ -f deployment-urls.txt ]; then
+            urls=$(cat deployment-urls.txt | tr '\n' ';' | sed 's/;$//')
+            echo "urls=$urls" >> $GITHUB_OUTPUT
+          fi
+
+  update-staff-portal:
+    name: 🔄 Update Staff Portal Router
+    needs: [detect-changes, deploy-apps]
+    if: |
+      always() && 
+      needs.deploy-apps.result == 'success' && 
+      needs.deploy-apps.outputs.deployment-urls != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download all deployment URLs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: deployment-url-*
+          merge-multiple: true
+
+      - name: Check if staff portal routing needs update
+        id: check-routing
+        run: |
+          # Check if we have deployment URLs to process
+          if [ -f deployment-urls.txt ] && [ -s deployment-urls.txt ]; then
+            echo "📋 New deployment URLs found:"
+            cat deployment-urls.txt
+            
+            # Create a backup of current vercel.json
+            if [ -f apps/ganger-staff/vercel.json ]; then
+              cp apps/ganger-staff/vercel.json apps/ganger-staff/vercel.json.backup
+            fi
+            
+            # Run the update script
+            if [ -f scripts/update-vercel-rewrites.js ]; then
+              node scripts/update-vercel-rewrites.js deployment-urls.txt
+              
+              # Check if vercel.json changed
+              if [ -f apps/ganger-staff/vercel.json.backup ]; then
+                if ! diff -q apps/ganger-staff/vercel.json apps/ganger-staff/vercel.json.backup > /dev/null; then
+                  echo "needs-update=true" >> $GITHUB_OUTPUT
+                  echo "✅ Staff portal routing configuration updated"
+                else
+                  echo "needs-update=false" >> $GITHUB_OUTPUT
+                  echo "ℹ️ No changes to staff portal routing needed"
+                fi
+                rm -f apps/ganger-staff/vercel.json.backup
+              else
+                echo "needs-update=true" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "⚠️ Update script not found: scripts/update-vercel-rewrites.js"
+              echo "needs-update=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "ℹ️ No deployment URLs to process"
+            echo "needs-update=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy staff portal (if needed)
+        if: steps.check-routing.outputs.needs-update == 'true' || needs.detect-changes.outputs.staff-needs-update == 'true'
+        run: |
+          echo "🚀 Deploying staff portal with updated routing..."
+          
+          # Build the staff portal
+          pnpm turbo run build --filter=@ganger/ganger-staff
+          
+          # Deploy to Vercel
+          cd apps/ganger-staff
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NODE_ENV: development
+          SKIP_ENV_VALIDATION: true
+
+  summary:
+    name: 📊 Deployment Summary
+    needs: [detect-changes, validate, deploy-apps, update-staff-portal]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summary
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.detect-changes.outputs.apps }}" ]; then
+            echo "### ✅ Apps Processed:" >> $GITHUB_STEP_SUMMARY
+            for app in ${{ needs.detect-changes.outputs.apps }}; do
+              echo "- $app" >> $GITHUB_STEP_SUMMARY
+            done
+          else
+            echo "### ℹ️ No apps were changed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.validate.result }}" == "success" ]; then
+            echo "### ✅ Validation: Passed" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.validate.result }}" == "failure" ]; then
+            echo "### ❌ Validation: Failed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ⏭️ Validation: Skipped" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.deploy-apps.result }}" == "success" ]; then
+            echo "### ✅ Deployment: Successful" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.deploy-apps.result }}" == "failure" ]; then
+            echo "### ❌ Deployment: Failed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ⏭️ Deployment: Skipped" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.update-staff-portal.result }}" == "success" ]; then
+            echo "### ✅ Staff Portal Update: Complete" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.update-staff-portal.result }}" == "skipped" ]; then
+            echo "### ⏭️ Staff Portal Update: Not needed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Staff Portal Update: Failed" >> $GITHUB_STEP_SUMMARY
+          fi

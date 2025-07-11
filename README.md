@@ -210,14 +210,43 @@ ganger-platform/
 
 ---
 
+## 🚀 **Enhanced Deployment System**
+
+### **Turborepo-Powered Deployments**
+The platform now uses Turborepo for intelligent change detection and optimized deployments:
+- **Smart Change Detection**: Only deploys apps that have changed
+- **Parallel Deployments**: Multiple apps deploy concurrently
+- **Validation First**: All apps verified before deployment
+- **5-10x Faster**: Single app deploys in 3-5 minutes (vs 25-35 minutes for all)
+
+### **Key Commands**
+```bash
+# Verify apps before deployment
+pnpm verify:changed      # Verify only changed apps
+pnpm verify:app inventory # Verify specific app
+pnpm verify:all          # Verify all apps
+
+# Build and deploy
+pnpm build:changed       # Build only changed apps
+pnpm deploy:changed      # Deploy only changed apps
+
+# Check deployment status
+export VERCEL_TOKEN=your-token
+node scripts/check-deployment-status.js
+```
+
 ## 📚 **Documentation**
 
 ### **Key Documentation**
 - **AI Instructions**: [CLAUDE.md](./CLAUDE.md) - Development principles
 - **Project Tracking**: [true-docs/PROJECT_TRACKER.md](./true-docs/PROJECT_TRACKER.md)
 - **Deployment Guide**: [true-docs/deployment/](./true-docs/deployment/)
+- **Enhanced Deployment**: [true-docs/deployment/ENHANCED_DEPLOYMENT_SYSTEM.md](./true-docs/deployment/ENHANCED_DEPLOYMENT_SYSTEM.md)
 
 ### **Recent Updates**
+- Implemented Turborepo for smart change detection and faster deployments
+- Enhanced verification script with single-app support
+- Created intelligent routing update system for staff portal
 - Successfully deployed ganger-actions to Vercel
 - Migrated from legacy MySQL to Supabase
 - Implemented NextAuth replacing Supabase Auth

@@ -1,0 +1,130 @@
+{
+  "apps": {
+    "inventory": {
+      "name": "Inventory Management",
+      "routes": ["/inventory", "/actions"],
+      "description": "Medical supply tracking with barcode scanning",
+      "public": false,
+      "domain": null
+    },
+    "handouts": {
+      "name": "Patient Handouts",
+      "routes": ["/handouts"],
+      "description": "Educational materials with QR scanning",
+      "public": false,
+      "domain": null
+    },
+    "eos-l10": {
+      "name": "EOS L10",
+      "routes": ["/l10", "/eos-l10"],
+      "description": "Team management and EOS implementation",
+      "public": false,
+      "domain": null
+    },
+    "batch-closeout": {
+      "name": "Batch Closeout",
+      "routes": ["/batch", "/batch-closeout"],
+      "description": "Financial batch processing",
+      "public": false,
+      "domain": null
+    },
+    "compliance-training": {
+      "name": "Compliance Training",
+      "routes": ["/compliance", "/compliance-training"],
+      "description": "Staff training platform",
+      "public": false,
+      "domain": null
+    },
+    "clinical-staffing": {
+      "name": "Clinical Staffing",
+      "routes": ["/clinical-staffing", "/staffing"],
+      "description": "Provider scheduling",
+      "public": false,
+      "domain": null
+    },
+    "config-dashboard": {
+      "name": "Config Dashboard",
+      "routes": ["/config", "/config-dashboard"],
+      "description": "Platform configuration management",
+      "public": false,
+      "domain": null
+    },
+    "integration-status": {
+      "name": "Integration Status",
+      "routes": ["/status", "/integration-status"],
+      "description": "Integration monitoring",
+      "public": false,
+      "domain": null
+    },
+    "ai-receptionist": {
+      "name": "AI Receptionist",
+      "routes": ["/ai-receptionist"],
+      "description": "AI phone agent demo",
+      "public": false,
+      "domain": null
+    },
+    "call-center-ops": {
+      "name": "Call Center Operations",
+      "routes": ["/call-center", "/call-center-ops"],
+      "description": "Call management dashboard",
+      "public": false,
+      "domain": null
+    },
+    "medication-auth": {
+      "name": "Medication Authorization",
+      "routes": ["/medication-auth"],
+      "description": "Prior authorization management",
+      "public": false,
+      "domain": null
+    },
+    "pharma-scheduling": {
+      "name": "Pharmaceutical Scheduling",
+      "routes": ["/pharma", "/lunch", "/pharma-scheduling"],
+      "description": "Rep visit coordination",
+      "public": true,
+      "domain": "lunch.gangerdermatology.com"
+    },
+    "checkin-kiosk": {
+      "name": "Check-in Kiosk",
+      "routes": ["/kiosk", "/checkin-kiosk"],
+      "description": "Patient self-service terminal",
+      "public": true,
+      "domain": "kiosk.gangerdermatology.com"
+    },
+    "socials-reviews": {
+      "name": "Socials & Reviews",
+      "routes": ["/socials", "/socials-reviews"],
+      "description": "Review management",
+      "public": false,
+      "domain": null
+    },
+    "component-showcase": {
+      "name": "Component Showcase",
+      "routes": ["/components", "/component-showcase"],
+      "description": "UI component library",
+      "public": false,
+      "domain": null
+    },
+    "platform-dashboard": {
+      "name": "Platform Dashboard",
+      "routes": ["/platform", "/platform-dashboard"],
+      "description": "System overview",
+      "public": false,
+      "domain": null
+    },
+    "ganger-staff": {
+      "name": "Staff Portal",
+      "routes": ["/"],
+      "description": "Main portal & app launcher",
+      "public": false,
+      "domain": "staff.gangerdermatology.com"
+    },
+    "ganger-actions": {
+      "name": "Ganger Actions",
+      "routes": ["/actions"],
+      "description": "Employee portal",
+      "public": false,
+      "domain": null
+    }
+  }
+}

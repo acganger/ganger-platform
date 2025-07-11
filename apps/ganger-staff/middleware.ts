@@ -6,8 +6,22 @@ type AppUrls = {
   [key: string]: string;
 };
 
-// Fetch from Edge Config using the connection string
+// Cache for Edge Config data to avoid repeated fetches
+let edgeConfigCache: {
+  data: any;
+  timestamp: number;
+} | null = null;
+
+// Cache duration in milliseconds (5 minutes)
+const CACHE_DURATION = 5 * 60 * 1000;
+
+// Fetch from Edge Config using the connection string with caching
 async function getFromEdgeConfig(key: string): Promise<any> {
+  // Check if we have valid cached data
+  if (edgeConfigCache && Date.now() - edgeConfigCache.timestamp < CACHE_DURATION) {
+    console.log('Middleware: Returning cached Edge Config data');
+    return edgeConfigCache.data;
+  }
   const edgeConfigUrl = process.env.EDGE_CONFIG_202507_1;
   console.log('Middleware: EDGE_CONFIG_202507_1 value:', edgeConfigUrl);
   if (!edgeConfigUrl) {
@@ -36,6 +50,13 @@ async function getFromEdgeConfig(key: string): Promise<any> {
     
     const data = await response.json();
     console.log('Middleware: Successfully fetched appUrls:', data);
+    
+    // Cache the fetched data
+    edgeConfigCache = {
+      data: data,
+      timestamp: Date.now()
+    };
+    
     return data;
   } catch (error) {
     console.error('Middleware: Edge Config error during fetch:', error);
@@ -54,7 +75,10 @@ export async function middleware(request: NextRequest) {
     for (const [appPath, appUrl] of Object.entries(appUrls)) {
       console.log('Middleware: Checking path:', pathname, 'against appPath:', appPath);
       if (pathname.startsWith(`/${appPath}`)) {
-        const targetUrl = new URL(pathname, appUrl as string);
+        // Fix path replacement for nested routes - ensure proper path handling
+        const remainingPath = pathname.slice(`/${appPath}`.length);
+        const targetPath = remainingPath.startsWith('/') ? remainingPath : `/${remainingPath}`;
+        const targetUrl = new URL(targetPath, appUrl as string);
         targetUrl.search = request.nextUrl.search;
         
         console.log('Middleware: Original search params:', request.nextUrl.search);
@@ -66,7 +90,17 @@ export async function middleware(request: NextRequest) {
         }
         
         console.log('Middleware: Rewriting to targetUrl:', targetUrl.toString());
-        return NextResponse.rewrite(targetUrl);
+        
+        // Create headers with forwarding information
+        const headers = new Headers(request.headers);
+        headers.set('x-forwarded-host', request.headers.get('host') || '');
+        headers.set('x-forwarded-proto', 'https');
+        headers.set('x-forwarded-for', request.headers.get('x-forwarded-for') || request.ip || '');
+        headers.set('x-original-pathname', pathname);
+        
+        return NextResponse.rewrite(targetUrl, {
+          request: { headers },
+        });
       }
     }
     
