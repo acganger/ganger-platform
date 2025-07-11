@@ -26,7 +26,16 @@ import {
   PageHeader,
   useTheme,
   colors,
-  GangerLogo
+  GangerLogo,
+  Alert,
+  Progress,
+  Toast,
+  ToastProvider,
+  useToast,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent
 } from '@ganger/ui';
 
 // Sample data for DataTable
@@ -82,6 +91,40 @@ const ColorSwatch: React.FC<{ name: string; colors: any; prefix?: string }> = ({
   </div>
 );
 
+// Toast Demo Component
+const ToastDemo = () => {
+  const { toast } = useToast();
+  
+  return (
+    <div className="space-y-3">
+      <Button 
+        variant="primary" 
+        onClick={() => toast({ title: "Success!", description: "Operation completed successfully", variant: "success" })}
+      >
+        Show Success Toast
+      </Button>
+      <Button 
+        variant="secondary" 
+        onClick={() => toast({ title: "Info", description: "Here's some information for you", variant: "info" })}
+      >
+        Show Info Toast
+      </Button>
+      <Button 
+        variant="outline" 
+        onClick={() => toast({ title: "Warning", description: "Please be careful with this action", variant: "warning" })}
+      >
+        Show Warning Toast
+      </Button>
+      <Button 
+        variant="destructive" 
+        onClick={() => toast({ title: "Error", description: "Something went wrong", variant: "error" })}
+      >
+        Show Error Toast
+      </Button>
+    </div>
+  );
+};
+
 export default function ComponentShowcase() {
   const { theme, setTheme, actualTheme } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
@@ -91,7 +134,7 @@ export default function ComponentShowcase() {
   const [switchValue, setSwitchValue] = useState(false);
 
   return (
-    <>
+    <ToastProvider>
       <Head>
         <title>Ganger Platform - Component Showcase</title>
         <meta name="description" content="Visual showcase of all UI components across Ganger Platform applications" />
@@ -536,6 +579,153 @@ export default function ComponentShowcase() {
             </div>
           </section>
 
+          {/* Alert Component */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Alerts & Notifications</h2>
+            <div className="showcase-grid">
+              <ComponentDemo 
+                title="Alert Variants"
+                code={`<Alert variant="info">This is an info alert</Alert>
+<Alert variant="success">This is a success alert</Alert>
+<Alert variant="warning">This is a warning alert</Alert>
+<Alert variant="error">This is an error alert</Alert>
+<Alert variant="destructive">This is a destructive alert</Alert>
+<Alert variant="neutral">This is a neutral alert</Alert>`}
+              >
+                <div className="space-y-3">
+                  <Alert variant="info">This is an info alert - used for general information</Alert>
+                  <Alert variant="success">This is a success alert - operation completed successfully</Alert>
+                  <Alert variant="warning">This is a warning alert - please pay attention</Alert>
+                  <Alert variant="error">This is an error alert - something went wrong</Alert>
+                  <Alert variant="destructive">This is a destructive alert - action cannot be undone</Alert>
+                  <Alert variant="neutral">This is a neutral alert - general message</Alert>
+                </div>
+              </ComponentDemo>
+            </div>
+          </section>
+
+          {/* Progress Component */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Progress Indicators</h2>
+            <div className="showcase-grid">
+              <ComponentDemo 
+                title="Progress Bar Variants"
+                code={`<Progress value={25} variant="primary" />
+<Progress value={50} variant="secondary" />
+<Progress value={75} variant="success" />
+<Progress value={90} variant="warning" />`}
+              >
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Primary (25%)</div>
+                    <Progress value={25} variant="primary" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Secondary (50%)</div>
+                    <Progress value={50} variant="secondary" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Success (75%)</div>
+                    <Progress value={75} variant="success" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Warning (90%)</div>
+                    <Progress value={90} variant="warning" />
+                  </div>
+                </div>
+              </ComponentDemo>
+
+              <ComponentDemo 
+                title="Progress with Labels"
+                code={`<Progress value={60} label="Upload Progress" showPercentage />
+<Progress value={100} variant="success" label="Complete!" />`}
+              >
+                <div className="space-y-4">
+                  <Progress value={60} label="Upload Progress" showPercentage />
+                  <Progress value={100} variant="success" label="Complete!" />
+                </div>
+              </ComponentDemo>
+            </div>
+          </section>
+
+          {/* Toast Notifications */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Toast Notifications</h2>
+            <div className="showcase-grid">
+              <ComponentDemo 
+                title="Toast Notifications"
+                code={`const { toast } = useToast();
+
+// Show different toast variants
+toast({ 
+  title: "Success!", 
+  description: "Operation completed", 
+  variant: "success" 
+});
+
+toast({ 
+  title: "Error", 
+  description: "Something went wrong", 
+  variant: "error" 
+});`}
+              >
+                <ToastDemo />
+              </ComponentDemo>
+            </div>
+          </section>
+
+          {/* Tabs Component */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Tabs Navigation</h2>
+            <div className="component-demo">
+              <ComponentDemo 
+                title="Tab Component"
+                code={`<Tabs defaultValue="tab1">
+  <TabsList>
+    <TabsTrigger value="tab1">General</TabsTrigger>
+    <TabsTrigger value="tab2">Security</TabsTrigger>
+    <TabsTrigger value="tab3">Advanced</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">General settings content</TabsContent>
+  <TabsContent value="tab2">Security settings content</TabsContent>
+  <TabsContent value="tab3">Advanced settings content</TabsContent>
+</Tabs>`}
+              >
+                <Tabs defaultValue="tab1">
+                  <TabsList>
+                    <TabsTrigger value="tab1">General</TabsTrigger>
+                    <TabsTrigger value="tab2">Security</TabsTrigger>
+                    <TabsTrigger value="tab3">Advanced</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="tab1">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <h4 className="font-medium mb-2">General Settings</h4>
+                        <p className="text-sm text-neutral-600 dark:text-neutral-400">Configure your general application preferences here.</p>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="tab2">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <h4 className="font-medium mb-2">Security Settings</h4>
+                        <p className="text-sm text-neutral-600 dark:text-neutral-400">Manage your security and privacy settings.</p>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="tab3">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <h4 className="font-medium mb-2">Advanced Settings</h4>
+                        <p className="text-sm text-neutral-600 dark:text-neutral-400">Advanced configuration options for power users.</p>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+              </ComponentDemo>
+            </div>
+          </section>
+
           {/* Application-Specific Components */}
           <section className="mb-12">
             <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Application-Specific Examples</h2>
@@ -641,7 +831,7 @@ export default function ComponentShowcase() {
                   <div>
                     <h4 className="font-medium mb-2 text-neutral-900 dark:text-neutral-100">Components</h4>
                     <ul className="text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
-                      <li>• 18 core UI components</li>
+                      <li>• 23 core UI components</li>
                       <li>• Consistent API patterns</li>
                       <li>• WCAG 2.1 AA compliance</li>
                       <li>• Mobile-responsive design</li>
@@ -662,6 +852,6 @@ export default function ComponentShowcase() {
           </section>
         </div>
       </div>
-    </>
+    </ToastProvider>
   );
 }
