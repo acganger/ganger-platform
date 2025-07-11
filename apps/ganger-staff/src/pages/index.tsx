@@ -1,7 +1,9 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Disable caching completely
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { useAuth } from '@ganger/auth';
 
 type AppMetadata = {
@@ -166,12 +168,19 @@ export default function HomePage() {
 
   if (auth.loading || loadingApps) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading applications...</p>
+      <>
+        <Head>
+          <meta httpEquiv="cache-control" content="no-cache, no-store, must-revalidate" />
+          <meta httpEquiv="pragma" content="no-cache" />
+          <meta httpEquiv="expires" content="0" />
+        </Head>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading applications...</p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -207,8 +216,15 @@ export default function HomePage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b border-gray-200">
+    <>
+      <Head>
+        <title>Ganger Platform</title>
+        <meta httpEquiv="cache-control" content="no-cache, no-store, must-revalidate" />
+        <meta httpEquiv="pragma" content="no-cache" />
+        <meta httpEquiv="expires" content="0" />
+      </Head>
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
@@ -268,5 +284,6 @@ export default function HomePage() {
         ))}
       </main>
     </div>
+    </>
   );
 }
