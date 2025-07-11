@@ -8,6 +8,7 @@ on:
         required: true
         type: choice
         options:
+          - ganger-actions
           - inventory
           - handouts
           - eos-l10
@@ -65,6 +66,7 @@ jobs:
         id: project_id
         run: |
           case "${{ github.event.inputs.app }}" in
+            "ganger-actions") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_GANGER_ACTIONS }}" >> $GITHUB_OUTPUT ;;
             "inventory") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_INVENTORY }}" >> $GITHUB_OUTPUT ;;
             "handouts") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_HANDOUTS }}" >> $GITHUB_OUTPUT ;;
             "eos-l10") echo "project_id=${{ secrets.VERCEL_PROJECT_ID_EOS_L10 }}" >> $GITHUB_OUTPUT ;;

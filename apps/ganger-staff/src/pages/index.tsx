@@ -47,8 +47,8 @@ export default function HomePage() {
   useEffect(() => {
     async function fetchAppMetadata() {
       try {
-        // In production, this would fetch from Edge Config
-        // For now, we'll use the static data that matches our Edge Config
+        // App metadata is hardcoded for now
+        // In the future, this could be fetched from a configuration API
         const metadata: AppData = {
           actions: {
             name: 'Ganger Actions',

@@ -2,7 +2,7 @@
   "apps": {
     "inventory": {
       "name": "Inventory Management",
-      "routes": ["/inventory", "/actions"],
+      "routes": ["/inventory"],
       "description": "Medical supply tracking with barcode scanning",
       "public": false,
       "domain": null

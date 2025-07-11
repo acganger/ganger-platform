@@ -14,7 +14,7 @@ const crypto = require('crypto');
 // Configuration for app routes and their aliases
 const APP_CONFIG = {
   'inventory': {
-    routes: ['/inventory', '/actions'],
+    routes: ['/inventory'],
     description: 'Medical supply tracking'
   },
   'handouts': {
@@ -76,6 +76,10 @@ const APP_CONFIG = {
   'platform-dashboard': {
     routes: ['/platform', '/platform-dashboard'],
     description: 'System overview'
+  },
+  'ganger-actions': {
+    routes: ['/actions'],
+    description: 'Employee portal'
   }
 };
 
@@ -135,7 +139,7 @@ function generateRewrites(appUrls) {
   Object.entries(APP_CONFIG).forEach(([app, config]) => {
     const url = appUrls[app];
     if (url) {
-      // Add a rewrite for each route/alias
+      // Add a rewrite for each route/alias with :path* parameter
       config.routes.forEach(route => {
         rewrites.push({
           source: `${route}/:path*`,

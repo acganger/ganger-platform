@@ -30,9 +30,6 @@ const requiredEnvVars = {
   GOOGLE_CLIENT_ID: '310418971046-skkrjvju66fid4r75lfdile2i8o8nrsd.apps.googleusercontent.com',
   GOOGLE_CLIENT_SECRET: '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',
   
-  // Edge Config
-  EDGE_CONFIG_202507_1: process.env.EDGE_CONFIG_202507_1 || '', // Should be set from Vercel dashboard
-  
   // Application Settings
   NEXT_PUBLIC_APP_URL: 'https://staff.gangerdermatology.com',
   NODE_ENV: 'production'
@@ -151,9 +148,6 @@ async function main() {
   const criticalMissing = [];
   if (!currentKeys.includes('SUPABASE_SERVICE_ROLE_KEY') && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     criticalMissing.push('SUPABASE_SERVICE_ROLE_KEY');
-  }
-  if (!currentKeys.includes('EDGE_CONFIG_202507_1') && !process.env.EDGE_CONFIG_202507_1) {
-    criticalMissing.push('EDGE_CONFIG_202507_1');
   }
 
   if (criticalMissing.length > 0) {

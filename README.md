@@ -21,7 +21,7 @@
 ### **Ganger Actions (Employee Hub)** ✅ DEPLOYED
 *Comprehensive employee portal with all staff functionality*
 
-**Live URL**: https://ganger-actions-7zveihttb-ganger.vercel.app
+**Live URL**: https://ganger-actions.vercel.app
 
 **Completed Features:**
 - ✅ **Authentication**: NextAuth with Google OAuth (@gangerdermatology.com domain)
