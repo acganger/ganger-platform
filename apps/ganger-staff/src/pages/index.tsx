@@ -181,7 +181,7 @@ export default function HomePage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome to Ganger Platform</h1>
           <p className="text-gray-600 mb-8">Please sign in to access applications</p>
-          <Link href="/auth/signin" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          <Link href="/auth/login" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
             Sign In
           </Link>
         </div>
@@ -230,7 +230,27 @@ export default function HomePage() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {appsByCategory[category].map((app) => {
-                const appPath = app.key === 'eos-l10' ? 'l10' : app.key.replace('-', '');
+                // Map app keys to their URL paths based on vercel.json
+                const appPaths: Record<string, string> = {
+                  'actions': 'actions',
+                  'inventory': 'inventory',
+                  'handouts': 'handouts',
+                  'eos-l10': 'l10',
+                  'batch-closeout': 'batch',
+                  'compliance-training': 'compliance',
+                  'clinical-staffing': 'clinical-staffing',
+                  'config-dashboard': 'config',
+                  'integration-status': 'status',
+                  'ai-receptionist': 'ai-receptionist',
+                  'call-center-ops': 'call-center',
+                  'medication-auth': 'medication-auth',
+                  'pharma-scheduling': 'pharma',
+                  'checkin-kiosk': 'kiosk',
+                  'socials-reviews': 'socials',
+                  'component-showcase': 'components',
+                  'platform-dashboard': 'platform'
+                };
+                const appPath = appPaths[app.key] || app.key;
                 return (
                   <Link
                     key={app.key}
