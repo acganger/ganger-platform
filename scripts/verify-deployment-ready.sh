@@ -312,6 +312,29 @@ check_app() {
         fi
     fi
     
+    # Check 21: Vercel URL consistency check
+    # Check if app has hardcoded Vercel URLs that don't match the standard pattern
+    vercel_urls=$(grep -r "\.vercel\.app" "$app_path/src" 2>/dev/null | grep -v "node_modules" | grep -v ".next" || true)
+    if [ ! -z "$vercel_urls" ]; then
+        # Expected pattern: https://ganger-[app-name].vercel.app
+        expected_pattern="https://ganger-$app_name.vercel.app"
+        
+        # Check for old pattern with anand-gangers-projects
+        if echo "$vercel_urls" | grep -q "anand-gangers-projects\.vercel\.app"; then
+            echo -e "  ${RED}✗ Found outdated Vercel URLs with 'anand-gangers-projects' pattern${NC}"
+            echo -e "    Should be: $expected_pattern"
+            ((issues++))
+            ((critical++))
+        fi
+        
+        # Check for git-main pattern (also outdated)
+        if echo "$vercel_urls" | grep -q "git-main-ganger\.vercel\.app"; then
+            echo -e "  ${YELLOW}⚠ Found git-branch specific Vercel URLs${NC}"
+            echo -e "    Consider using: $expected_pattern"
+            ((issues++))
+        fi
+    fi
+    
     # Update totals
     TOTAL_ISSUES=$((TOTAL_ISSUES + issues))
     CRITICAL_ISSUES=$((CRITICAL_ISSUES + critical))
@@ -350,6 +373,37 @@ else
             check_app "$app_name"
         fi
     done
+    
+    # Global checks (only when checking all apps)
+    echo -e "${BLUE}Checking global configuration...${NC}"
+    
+    # Check edge-config-items.json for outdated URLs
+    if [ -f "edge-config-items.json" ]; then
+        outdated_urls=$(grep -o "[^\"]*\.vercel\.app" edge-config-items.json | grep "anand-gangers-projects\|git-main-ganger" || true)
+        if [ ! -z "$outdated_urls" ]; then
+            echo -e "  ${RED}✗ Found outdated Vercel URLs in edge-config-items.json${NC}"
+            echo "$outdated_urls" | while read url; do
+                echo -e "    ${RED}$url${NC}"
+            done
+            echo -e "    URLs should follow pattern: https://ganger-[app-name].vercel.app"
+            ((CRITICAL_ISSUES++))
+            ((TOTAL_ISSUES++))
+        else
+            echo -e "  ${GREEN}✓ edge-config-items.json URLs are up to date${NC}"
+        fi
+    fi
+    
+    # Check update-vercel-rewrites-smart.js for hardcoded URLs
+    if [ -f "scripts/update-vercel-rewrites-smart.js" ]; then
+        script_urls=$(grep -o "[^\"]*\.vercel\.app" scripts/update-vercel-rewrites-smart.js 2>/dev/null || true)
+        if echo "$script_urls" | grep -q "anand-gangers-projects\|git-main-ganger"; then
+            echo -e "  ${YELLOW}⚠ Found outdated URLs in update-vercel-rewrites-smart.js${NC}"
+            ((WARNINGS++))
+            ((TOTAL_ISSUES++))
+        fi
+    fi
+    
+    echo ""
 fi
 
 # Summary
