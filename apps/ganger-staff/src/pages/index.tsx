@@ -44,20 +44,6 @@ export default function HomePage() {
     });
   }, [auth]);
 
-  // Redirect authenticated users to the main actions app
-  useEffect(() => {
-    if (!auth.loading && auth.user) {
-      // Check if user explicitly navigated here (e.g., from app menu)
-      const referrer = document.referrer;
-      const isInternalNavigation = referrer && new URL(referrer).hostname === window.location.hostname;
-      
-      // Only redirect if this is the initial landing (not internal navigation)
-      if (!isInternalNavigation && window.location.pathname === '/') {
-        window.location.href = '/actions';
-      }
-    }
-  }, [auth.user, auth.loading]);
-
   useEffect(() => {
     async function fetchAppMetadata() {
       try {

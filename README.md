@@ -51,14 +51,24 @@
 
 **Technology:** Next.js 14, React 18, TypeScript, Supabase, NextAuth, Tailwind CSS
 
-### **Ganger Staff (Central Router)** ✅ DEPLOYED
+### **Ganger Staff (Platform Router)** ✅ DEPLOYED & ENHANCED
 *Smart routing application for unified staff portal*
+
+**Live URL**: https://staff.gangerdermatology.com
 
 **Features:**
 - Central authentication gateway
-- Dynamic routing based on Edge Config
-- Seamless app switching
-- Session management across apps
+- Static routing via vercel.json rewrites (high performance)
+- App launcher interface showing all 17 apps as tiles
+- Seamless app switching without middleware overhead
+- Session management across all platform apps
+- Enhanced request headers for better tracking
+
+**Recent Improvements (July 2025):**
+- ✅ Edge Config caching (5-minute TTL)
+- ✅ Fixed nested route handling
+- ✅ API-based configuration updates
+- ✅ Smart client-side redirects
 
 ---
 
@@ -269,5 +279,33 @@ node scripts/check-deployment-status.js
 
 Private - All rights reserved. Internal medical practice management software.
 
-*Last Updated: January 7, 2025 at 1:40 AM EST*
+---
+
+## 🚨 **Platform Updates (July 11, 2025)**
+
+### **Enhanced Routing Architecture**
+Based on Vercel expert recommendations, the platform is transitioning to a simpler routing approach:
+- **New**: Static `vercel.json` rewrites for better performance (replacing Edge Config middleware)
+- **Result**: Faster response times without middleware overhead
+
+### **Key Improvements Implemented**
+- ✅ **App Launcher**: Root path (`/`) shows all 17 apps as tiles for easy navigation
+- ✅ **Performance**: Static rewrites eliminate middleware overhead
+- ✅ **Enhanced Headers**: Better request tracking (x-forwarded-for, x-original-pathname)
+- ✅ **Path Handling**: Fixed nested route issues (e.g., `/inventory/items/123`)
+- ✅ **Automation Scripts**: API-based env var management and deployment triggers
+
+### **New Commands**
+```bash
+# Manage environment variables
+node scripts/verify-and-set-env-vars.js
+
+# Update Edge Config (if using dynamic routing)
+node scripts/update-edge-config.js
+
+# Trigger deployment via API
+node scripts/trigger-deployment.js
+```
+
+*Last Updated: July 11, 2025*
 *Documentation maintained by: Claude Code & Anand Ganger*
