@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Building2, Phone, Mail, FileText, Users, MessageSquare, Check } from 'lucide-react';
-import { Button, Card, CardHeader, CardTitle, CardContent, CardFooter, Input, Checkbox, Badge, useToast, Textarea } from '@ganger/ui';
+import { Button, Card, CardHeader, CardTitle, CardContent, CardFooter, Input, Checkbox, Badge, useToast } from '@ganger/ui';
 import { useBookingSubmission } from '@/hooks';
 import type { TimeSlot, Location, BookingRequest } from '@/types';
 
@@ -321,10 +321,11 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Special Requests
                 </label>
-                <Textarea
+                <textarea
                   {...register('specialRequests')}
                   rows={3}
                   placeholder="Projector setup, dietary restrictions, etc."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <p className="text-sm text-gray-500">Any special requirements for your presentation?</p>
                 {errors.specialRequests?.message && (
@@ -336,10 +337,11 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 <label className="text-sm font-medium text-gray-700">
                   Catering Preferences
                 </label>
-                <Textarea
+                <textarea
                   {...register('cateringPreferences')}
                   rows={2}
                   placeholder="Vegetarian options, allergies, etc."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <p className="text-sm text-gray-500">Any specific lunch preferences or dietary requirements?</p>
                 {errors.cateringPreferences?.message && (

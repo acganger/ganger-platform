@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, AuthGuard } from '@ganger/auth/staff';
+import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
   AppLayout, 
   PageHeader, 
@@ -29,7 +29,7 @@ interface GeneratedHandout {
 }
 
 function HistoryPage() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useStaffAuth();
   const [handouts, setHandouts] = useState<GeneratedHandout[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');

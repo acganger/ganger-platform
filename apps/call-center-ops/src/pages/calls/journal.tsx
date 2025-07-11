@@ -3,7 +3,8 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth/staff';
+import { useStaffAuth } from '@ganger/auth/staff';
+import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -93,7 +94,7 @@ const REFERRAL_TYPES = [
 ];
 
 function CallJournalPage() {
-  const { user } = useAuth();
+  const { user } = useStaffAuth();
   const [formData, setFormData] = useState<JournalFormData>(initialFormData);
   const [recentCalls, setRecentCalls] = useState<CallRecord[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);

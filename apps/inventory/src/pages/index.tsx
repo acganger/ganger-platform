@@ -2,12 +2,12 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth, AuthGuard } from '@ganger/auth/staff';
+import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { LoadingSpinner } from '@ganger/ui';
 import { analytics } from '@ganger/utils';
 
 function InventoryHomePage() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading } = useStaffAuth();
   const router = useRouter();
 
   useEffect(() => {

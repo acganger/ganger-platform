@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { withAuthComponent } from '@ganger/auth/staff';
+import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 

@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, AuthGuard } from '@ganger/auth/staff';
+import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
   AppLayout, 
   PageHeader, 
@@ -26,7 +26,7 @@ interface Template {
 }
 
 function TemplatesPage() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useStaffAuth();
   const { state, loadTemplates } = useHandoutContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');

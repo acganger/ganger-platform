@@ -202,6 +202,29 @@ check_app() {
         ((critical++))
     fi
     
+    # Check 16a: Check for incorrect auth imports (useAuth from @ganger/auth/staff should be useStaffAuth)
+    wrong_auth_imports=$(grep -r "useAuth.*from.*@ganger/auth/staff" "$app_path/src" 2>/dev/null || true)
+    if [ ! -z "$wrong_auth_imports" ]; then
+        echo -e "  ${RED}✗ Found incorrect auth imports: useAuth from @ganger/auth/staff (should be useStaffAuth)${NC}"
+        ((issues++))
+        ((critical++))
+    fi
+    
+    # Check 16b: Check for non-existent subpath imports (@ganger/ui/staff doesn't exist)
+    invalid_subpaths=$(grep -r "@ganger/ui/staff\|@ganger/ui/admin" "$app_path/src" 2>/dev/null || true)
+    if [ ! -z "$invalid_subpaths" ]; then
+        echo -e "  ${RED}✗ Found imports from non-existent @ganger/ui subpaths (ui/staff, ui/admin don't exist)${NC}"
+        ((issues++))
+        ((critical++))
+    fi
+    
+    # Check 16c: Check for missing UI components (Textarea should come from a different package or be created)
+    missing_ui_components=$(grep -r "Textarea.*from.*@ganger/ui" "$app_path/src" 2>/dev/null || true)
+    if [ ! -z "$missing_ui_components" ]; then
+        echo -e "  ${YELLOW}⚠ Found imports of Textarea from @ganger/ui (component may not exist)${NC}"
+        ((issues++))
+    fi
+    
     # Check 17: Client components shouldn't use non-NEXT_PUBLIC env vars
     client_files=$(grep -r "'use client'" "$app_path/src" -l 2>/dev/null || true)
     for client_file in $client_files; do
@@ -228,6 +251,48 @@ check_app() {
         echo -e "  ${RED}✗ Found forbidden static export patterns${NC}"
         ((issues++))
         ((critical++))
+    fi
+    
+    # Check 19a: Environment variables in getStaticProps/getStaticPaths
+    static_files=$(grep -r "getStaticProps\|getStaticPaths" "$app_path/src" -l 2>/dev/null || true)
+    for static_file in $static_files; do
+        if grep -q "process\.env\." "$static_file" 2>/dev/null; then
+            echo -e "  ${RED}✗ Using environment variables in static generation: ${static_file#$app_path/}${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    done
+    
+    # Check 19b: Directive placement issues ('use client' not at top)
+    tsx_files=$(find "$app_path/src" -name "*.tsx" 2>/dev/null || true)
+    for tsx_file in $tsx_files; do
+        if grep -q "'use client'" "$tsx_file" 2>/dev/null; then
+            # Check if 'use client' is in the first 3 lines (allowing for comments)
+            if ! head -n 3 "$tsx_file" | grep -q "'use client'"; then
+                echo -e "  ${YELLOW}⚠ 'use client' directive not at top of file: ${tsx_file#$app_path/}${NC}"
+                ((issues++))
+            fi
+        fi
+    done
+    
+    # Check 19c: Server-only imports in client components
+    client_files=$(grep -r "'use client'" "$app_path/src" -l 2>/dev/null || true)
+    for client_file in $client_files; do
+        if grep -q "fs\|path\|crypto\|child_process\|@ganger/db" "$client_file" 2>/dev/null | grep -v "// \|/\*"; then
+            echo -e "  ${RED}✗ Client component importing server-only modules: ${client_file#$app_path/}${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    done
+    
+    # Check 19d: Missing critical environment variables
+    if grep -r "NEXT_PUBLIC_SUPABASE_URL\|NEXT_PUBLIC_SUPABASE_ANON_KEY" "$app_path/src" >/dev/null 2>&1; then
+        # App uses Supabase, check if createClient is called without env vars
+        if grep -r "createClient(" "$app_path/src" 2>/dev/null | grep -q "undefined\|''\|\"\""; then
+            echo -e "  ${RED}✗ Creating Supabase client with missing/empty environment variables${NC}"
+            ((issues++))
+            ((critical++))
+        fi
     fi
     
     # Check 20: tsconfig.json extends from shared config

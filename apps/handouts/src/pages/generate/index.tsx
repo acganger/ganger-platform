@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, AuthGuard } from '@ganger/auth/staff';
+import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
   AppLayout, 
   PageHeader, 
@@ -28,7 +28,7 @@ interface Patient {
 }
 
 function HandoutGeneratorPage() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useStaffAuth();
   const { generateHandouts, isGenerating } = useHandoutGenerator();
   
   const [currentStep, setCurrentStep] = useState<'patient' | 'templates' | 'delivery' | 'generate'>('patient');

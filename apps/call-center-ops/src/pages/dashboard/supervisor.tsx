@@ -3,7 +3,8 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth/staff';
+import { useStaffAuth } from '@ganger/auth/staff';
+import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -31,7 +32,7 @@ interface SupervisorDashboardData {
 }
 
 function SupervisorDashboard() {
-  const { user } = useAuth();
+  const { user } = useStaffAuth();
   const [data, setData] = useState<SupervisorDashboardData>({
     teamMetrics: {} as TeamMetrics,
     activeAgents: [],

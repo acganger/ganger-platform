@@ -4,8 +4,7 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '@ganger/auth'
-import { StaffPortalLayout } from '@ganger/ui/staff'
-import { Card, Button, Badge, Table, LoadingSpinner, Select } from '@ganger/ui'
+import { StaffPortalLayout, Card, Button, Badge, Table, LoadingSpinner, Select } from '@ganger/ui'
 import { 
   FileText, 
   Clock, 

@@ -2,7 +2,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth/staff';
+import { useStaffAuth } from '@ganger/auth/staff';
+import { withAuthComponent } from '@ganger/auth';
 import { AppLayout, PageHeader, Card, Button } from '@ganger/ui';
 
 // Cloudflare Workers Edge Runtime
@@ -25,7 +26,7 @@ const DASHBOARD_ROUTES: DashboardRedirect = {
 };
 
 function HomePage() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useStaffAuth();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {

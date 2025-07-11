@@ -3,7 +3,8 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, withAuthComponent } from '@ganger/auth/staff';
+import { useStaffAuth } from '@ganger/auth/staff';
+import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
@@ -36,7 +37,7 @@ interface CallHistoryData {
 }
 
 function CallHistoryPage() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useStaffAuth();
   const [data, setData] = useState<CallHistoryData>({
     calls: [],
     journals: {},

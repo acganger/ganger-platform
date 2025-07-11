@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
-import { useAuth, AuthGuard } from '@ganger/auth/staff';
+import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
   AppLayout, 
   PageHeader, 
@@ -31,7 +31,7 @@ interface InventoryItem {
 }
 
 function InventoryDashboard() {
-  const { user, profile } = useAuth();
+  const { user, profile } = useStaffAuth();
   const [stats, setStats] = useState<InventoryStats | null>(null);
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
