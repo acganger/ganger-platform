@@ -1694,6 +1694,18 @@ importers:
       '@ganger/db':
         specifier: workspace:*
         version: link:../db
+      '@types/crypto-js':
+        specifier: ^4.2.2
+        version: 4.2.2
+      '@types/lodash':
+        specifier: ^4.17.13
+        version: 4.17.20
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.4
+      '@types/uuid':
+        specifier: ^10.0.0
+        version: 10.0.0
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -1716,21 +1728,9 @@ importers:
         specifier: ^3.25.51
         version: 3.25.67
     devDependencies:
-      '@types/crypto-js':
-        specifier: ^4.2.2
-        version: 4.2.2
       '@types/jest':
         specifier: ^29.5.0
         version: 29.5.14
-      '@types/lodash':
-        specifier: ^4.17.13
-        version: 4.17.20
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.4
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
       eslint:
         specifier: ^8.0.0
         version: 8.57.1
@@ -3461,7 +3461,7 @@ packages:
 
   /@types/crypto-js@4.2.2:
     resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
-    dev: true
+    dev: false
 
   /@types/d3-array@3.2.1:
     resolution: {integrity: sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg==}
@@ -3624,7 +3624,7 @@ packages:
 
   /@types/lodash@4.17.20:
     resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
-    dev: true
+    dev: false
 
   /@types/luxon@3.4.2:
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
@@ -3769,7 +3769,6 @@ packages:
 
   /@types/uuid@10.0.0:
     resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
-    dev: true
 
   /@types/ws@8.18.1:
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -6069,7 +6068,7 @@ packages:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
       eslint: 8.57.1
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.35.1)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
       get-tsconfig: 4.10.1
       is-bun-module: 2.0.0
       stable-hash: 0.0.5
@@ -12471,6 +12470,10 @@ packages:
     name: '@ganger/utils'
     dependencies:
       '@ganger/db': link:packages/db
+      '@types/crypto-js': 4.2.2
+      '@types/lodash': 4.17.20
+      '@types/node': 20.19.4
+      '@types/uuid': 10.0.0
       crypto-js: 4.2.0
       date-fns: 4.1.0
       lodash: 4.17.21
