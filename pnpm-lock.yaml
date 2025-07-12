@@ -243,18 +243,27 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
       openai:
         specifier: ^4.0.0
         version: 4.104.0(ws@8.18.3)(zod@3.25.67)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       twilio:
         specifier: ^5.3.4
         version: 5.7.1
@@ -291,18 +300,27 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       formidable:
         specifier: ^3.5.1
         version: 3.5.4
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/call-center-ops:
     dependencies:
@@ -336,15 +354,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/checkin-kiosk:
     dependencies:
@@ -378,15 +405,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/clinical-staffing:
     dependencies:
@@ -420,15 +456,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/compliance-training:
     dependencies:
@@ -462,18 +507,27 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       ioredis:
         specifier: ^5.3.2
         version: 5.6.1
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/component-showcase:
     dependencies:
@@ -507,15 +561,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/config-dashboard:
     dependencies:
@@ -555,12 +618,18 @@ importers:
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/consolidated-order-form:
     dependencies:
@@ -594,51 +663,6 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      next:
-        specifier: ^14.2.29
-        version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      react:
-        specifier: 18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: 18.3.1
-        version: 18.3.1(react@18.3.1)
-
-  apps/deployment-helper:
-    dependencies:
-      '@ganger/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@ganger/cache':
-        specifier: workspace:*
-        version: link:../../packages/cache
-      '@ganger/config':
-        specifier: workspace:*
-        version: link:../../packages/config
-      '@ganger/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@ganger/deps':
-        specifier: workspace:*
-        version: link:../../packages/deps
-      '@ganger/integrations':
-        specifier: workspace:*
-        version: link:../../packages/integrations
-      '@ganger/monitoring':
-        specifier: workspace:*
-        version: link:../../packages/monitoring
-      '@ganger/types':
-        specifier: workspace:*
-        version: link:../../packages/types
-      '@ganger/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      '@ganger/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
-      '@supabase/ssr':
-        specifier: ^0.6.0
-        version: 0.6.1(@supabase/supabase-js@2.50.2)
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
@@ -693,12 +717,18 @@ importers:
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/ganger-actions:
     dependencies:
@@ -732,6 +762,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.6.0
         version: 3.10.0(react-hook-form@7.59.0)
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       '@tanstack/react-query':
         specifier: ^5.0.0
         version: 5.81.5(react@18.3.1)
@@ -747,6 +780,9 @@ importers:
       nodemailer:
         specifier: ^6.9.16
         version: 6.10.1
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       puppeteer:
         specifier: ^23.10.4
         version: 23.11.1(typescript@5.8.3)
@@ -759,6 +795,9 @@ importers:
       react-hook-form:
         specifier: ^7.48.0
         version: 7.59.0(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       zod:
         specifier: ^3.23.8
         version: 3.25.67
@@ -778,15 +817,24 @@ importers:
       '@ganger/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
     devDependencies:
       '@ganger/config':
         specifier: workspace:*
@@ -824,12 +872,18 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       jspdf:
         specifier: ^2.5.1
         version: 2.5.2
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       quagga:
         specifier: ^0.12.1
         version: 0.12.1
@@ -839,6 +893,9 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/integration-status:
     dependencies:
@@ -872,15 +929,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/inventory:
     dependencies:
@@ -914,15 +980,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/llm-demo:
     dependencies:
@@ -1007,12 +1082,18 @@ importers:
       openai:
         specifier: ^4.0.0
         version: 4.104.0(ws@8.18.3)(zod@3.25.67)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/pharma-scheduling:
     dependencies:
@@ -1046,15 +1127,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/platform-dashboard:
     dependencies:
@@ -1088,15 +1178,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   apps/socials-reviews:
     dependencies:
@@ -1130,15 +1229,24 @@ importers:
       '@ganger/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
       next:
         specifier: ^14.2.29
         version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.5.6
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
+      tailwindcss:
+        specifier: ^4.0.0-alpha.33
+        version: 4.1.11
 
   packages/ai:
     dependencies:
@@ -5961,7 +6069,7 @@ packages:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
       eslint: 8.57.1
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.35.1)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
       get-tsconfig: 4.10.1
       is-bun-module: 2.0.0
       stable-hash: 0.0.5

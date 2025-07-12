@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd ../.. && pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
+  "installCommand": "cd ../.. && pnpm install && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
   "buildCommand": "cd ../.. && pnpm -F @ganger/integration-status build",
   "outputDirectory": ".next",
   "framework": "nextjs",
