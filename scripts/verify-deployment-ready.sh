@@ -93,6 +93,42 @@ check_app() {
             ((issues++))
             ((critical++))
         fi
+    else
+        echo -e "  ${RED}✗ Missing postcss.config.js${NC}"
+        ((issues++))
+        ((critical++))
+    fi
+    
+    # Check 4a: Tailwind CSS v4 configuration
+    if [ ! -f "$app_path/tailwind.config.js" ]; then
+        echo -e "  ${RED}✗ Missing tailwind.config.js (required for v4 monorepo content detection)${NC}"
+        ((issues++))
+        ((critical++))
+    else
+        # Check for explicit content paths
+        if ! grep -q "packages/ui/src" "$app_path/tailwind.config.js"; then
+            echo -e "  ${RED}✗ tailwind.config.js missing monorepo content paths${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    fi
+    
+    # Check 4b: Tailwind CSS in dependencies (not devDependencies)
+    if [ -f "$app_path/package.json" ]; then
+        if grep -q "\"tailwindcss\"" "$app_path/package.json" && ! grep -A 50 "\"dependencies\"" "$app_path/package.json" | grep -q "\"tailwindcss\""; then
+            echo -e "  ${RED}✗ Tailwind CSS should be in dependencies, not devDependencies${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    fi
+    
+    # Check 4c: Correct CSS import syntax
+    if [ -f "$app_path/src/styles/globals.css" ]; then
+        if grep -q "@tailwind base" "$app_path/src/styles/globals.css"; then
+            echo -e "  ${RED}✗ Using old @tailwind directives (must use @import \"tailwindcss\")${NC}"
+            ((issues++))
+            ((critical++))
+        fi
     fi
     
     # Check 5: Force-dynamic on auth pages (skip API routes)
@@ -171,11 +207,31 @@ check_app() {
         fi
     fi
     
-    # Check 12: No custom middleware.ts files (only ganger-staff should have it)
-    if [[ "$app_name" != "ganger-staff" ]] && [ -f "$app_path/src/middleware.ts" ]; then
-        echo -e "  ${RED}✗ App has middleware.ts (only ganger-staff should have middleware)${NC}"
+    # Check 12: No custom middleware.ts files (removed per expert guidance)
+    if [ -f "$app_path/src/middleware.ts" ]; then
+        echo -e "  ${RED}✗ App has middleware.ts (use vercel.json rewrites instead)${NC}"
         ((issues++))
         ((critical++))
+    fi
+    
+    # Check 12a: Staff portal router configuration
+    if [[ "$app_name" == "ganger-staff" ]]; then
+        if [ -f "$app_path/vercel.json" ]; then
+            # Check for rewrites
+            if ! grep -q "\"rewrites\":" "$app_path/vercel.json"; then
+                echo -e "  ${RED}✗ Staff portal missing rewrites configuration${NC}"
+                ((issues++))
+                ((critical++))
+            else
+                # Check that rewrites include basePath in destination
+                if grep -q "\"destination\": \"https://ganger-.*\.vercel\.app/:path\*\"" "$app_path/vercel.json"; then
+                    echo -e "  ${RED}✗ Staff portal rewrites missing basePath in destinations${NC}"
+                    echo -e "    Destinations should include the basePath (e.g., /inventory/:path*)${NC}"
+                    ((issues++))
+                    ((critical++))
+                fi
+            fi
+        fi
     fi
     
     # Check 13: Component export check
@@ -312,7 +368,18 @@ check_app() {
         fi
     fi
     
-    # Check 21: Vercel URL consistency check
+    # Check 21: basePath configuration for router
+    if [[ "$app_name" != "ganger-staff" ]]; then
+        if [ -f "$app_path/next.config.js" ]; then
+            if ! grep -q "basePath:" "$app_path/next.config.js"; then
+                echo -e "  ${RED}✗ Missing basePath in next.config.js (required for subpath routing)${NC}"
+                ((issues++))
+                ((critical++))
+            fi
+        fi
+    fi
+    
+    # Check 22: Vercel URL consistency check
     # Check if app has hardcoded Vercel URLs that don't match the standard pattern
     vercel_urls=$(grep -r "\.vercel\.app" "$app_path/src" 2>/dev/null | grep -v "node_modules" | grep -v ".next" || true)
     if [ ! -z "$vercel_urls" ]; then
