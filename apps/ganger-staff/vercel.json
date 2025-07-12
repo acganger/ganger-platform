@@ -1,39 +1,129 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
+  "installCommand": "cd ../.. && pnpm install && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
   "buildCommand": "cd ../.. && pnpm -F @ganger/staff build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "rewrites": [
-    { "source": "/inventory/:path*", "destination": "https://ganger-inventory.vercel.app/inventory/:path*" },
-    { "source": "/actions/:path*", "destination": "https://ganger-actions.vercel.app/:path*" },
-    { "source": "/handouts/:path*", "destination": "https://ganger-handouts.vercel.app/handouts/:path*" },
-    { "source": "/l10/:path*", "destination": "https://ganger-eos-l10.vercel.app/l10/:path*" },
-    { "source": "/eos-l10/:path*", "destination": "https://ganger-eos-l10.vercel.app/l10/:path*" },
-    { "source": "/batch/:path*", "destination": "https://ganger-batch-closeout.vercel.app/batch/:path*" },
-    { "source": "/batch-closeout/:path*", "destination": "https://ganger-batch-closeout.vercel.app/batch/:path*" },
-    { "source": "/compliance/:path*", "destination": "https://ganger-compliance-training.vercel.app/compliance/:path*" },
-    { "source": "/compliance-training/:path*", "destination": "https://ganger-compliance-training.vercel.app/compliance/:path*" },
-    { "source": "/clinical-staffing/:path*", "destination": "https://ganger-clinical-staffing.vercel.app/clinical-staffing/:path*" },
-    { "source": "/staffing/:path*", "destination": "https://ganger-clinical-staffing.vercel.app/staffing/:path*" },
-    { "source": "/config/:path*", "destination": "https://ganger-config-dashboard.vercel.app/config/:path*" },
-    { "source": "/config-dashboard/:path*", "destination": "https://ganger-config-dashboard.vercel.app/config/:path*" },
-    { "source": "/status/:path*", "destination": "https://ganger-integration-status.vercel.app/status/:path*" },
-    { "source": "/integration-status/:path*", "destination": "https://ganger-integration-status.vercel.app/status/:path*" },
-    { "source": "/ai-receptionist/:path*", "destination": "https://ganger-ai-receptionist.vercel.app/ai-receptionist/:path*" },
-    { "source": "/call-center/:path*", "destination": "https://ganger-call-center-ops.vercel.app/call-center/:path*" },
-    { "source": "/call-center-ops/:path*", "destination": "https://ganger-call-center-ops.vercel.app/call-center/:path*" },
-    { "source": "/medication-auth/:path*", "destination": "https://ganger-medication-auth.vercel.app/medication-auth/:path*" },
-    { "source": "/pharma/:path*", "destination": "https://ganger-pharma-scheduling.vercel.app/pharma/:path*" },
-    { "source": "/lunch/:path*", "destination": "https://ganger-pharma-scheduling.vercel.app/pharma/:path*" },
-    { "source": "/pharma-scheduling/:path*", "destination": "https://ganger-pharma-scheduling.vercel.app/pharma/:path*" },
-    { "source": "/kiosk/:path*", "destination": "https://ganger-checkin-kiosk.vercel.app/kiosk/:path*" },
-    { "source": "/checkin-kiosk/:path*", "destination": "https://ganger-checkin-kiosk.vercel.app/kiosk/:path*" },
-    { "source": "/socials/:path*", "destination": "https://ganger-socials-reviews.vercel.app/socials/:path*" },
-    { "source": "/socials-reviews/:path*", "destination": "https://ganger-socials-reviews.vercel.app/socials/:path*" },
-    { "source": "/components/:path*", "destination": "https://ganger-component-showcase.vercel.app/components/:path*" },
-    { "source": "/component-showcase/:path*", "destination": "https://ganger-component-showcase.vercel.app/components/:path*" },
-    { "source": "/platform/:path*", "destination": "https://ganger-platform-dashboard.vercel.app/platform-dashboard/:path*" },
-    { "source": "/platform-dashboard/:path*", "destination": "https://ganger-platform-dashboard.vercel.app/platform-dashboard/:path*" }
+    {
+      "source": "/inventory/:path*",
+      "destination": "https://ganger-inventory.vercel.app/inventory/:path*"
+    },
+    {
+      "source": "/actions/:path*",
+      "destination": "https://ganger-actions.vercel.app/actions/:path*"
+    },
+    {
+      "source": "/handouts/:path*",
+      "destination": "https://ganger-handouts.vercel.app/handouts/:path*"
+    },
+    {
+      "source": "/l10/:path*",
+      "destination": "https://ganger-eos-l10.vercel.app/l10/:path*"
+    },
+    {
+      "source": "/eos-l10/:path*",
+      "destination": "https://ganger-eos-l10.vercel.app/l10/:path*"
+    },
+    {
+      "source": "/batch/:path*",
+      "destination": "https://ganger-batch-closeout.vercel.app/batch/:path*"
+    },
+    {
+      "source": "/batch-closeout/:path*",
+      "destination": "https://ganger-batch-closeout.vercel.app/batch/:path*"
+    },
+    {
+      "source": "/compliance/:path*",
+      "destination": "https://ganger-compliance-training.vercel.app/compliance/:path*"
+    },
+    {
+      "source": "/compliance-training/:path*",
+      "destination": "https://ganger-compliance-training.vercel.app/compliance/:path*"
+    },
+    {
+      "source": "/clinical-staffing/:path*",
+      "destination": "https://ganger-clinical-staffing.vercel.app/clinical-staffing/:path*"
+    },
+    {
+      "source": "/staffing/:path*",
+      "destination": "https://ganger-clinical-staffing.vercel.app/clinical-staffing/:path*"
+    },
+    {
+      "source": "/config/:path*",
+      "destination": "https://ganger-config-dashboard.vercel.app/config/:path*"
+    },
+    {
+      "source": "/config-dashboard/:path*",
+      "destination": "https://ganger-config-dashboard.vercel.app/config/:path*"
+    },
+    {
+      "source": "/status/:path*",
+      "destination": "https://ganger-integration-status.vercel.app/status/:path*"
+    },
+    {
+      "source": "/integration-status/:path*",
+      "destination": "https://ganger-integration-status.vercel.app/status/:path*"
+    },
+    {
+      "source": "/ai-receptionist/:path*",
+      "destination": "https://ganger-ai-receptionist.vercel.app/ai-receptionist/:path*"
+    },
+    {
+      "source": "/call-center/:path*",
+      "destination": "https://ganger-call-center-ops.vercel.app/call-center/:path*"
+    },
+    {
+      "source": "/call-center-ops/:path*",
+      "destination": "https://ganger-call-center-ops.vercel.app/call-center/:path*"
+    },
+    {
+      "source": "/medication-auth/:path*",
+      "destination": "https://ganger-medication-auth.vercel.app/medication-auth/:path*"
+    },
+    {
+      "source": "/pharma/:path*",
+      "destination": "https://ganger-pharma-scheduling.vercel.app/pharma/:path*"
+    },
+    {
+      "source": "/lunch/:path*",
+      "destination": "https://ganger-pharma-scheduling.vercel.app/pharma/:path*"
+    },
+    {
+      "source": "/pharma-scheduling/:path*",
+      "destination": "https://ganger-pharma-scheduling.vercel.app/pharma/:path*"
+    },
+    {
+      "source": "/kiosk/:path*",
+      "destination": "https://ganger-checkin-kiosk.vercel.app/kiosk/:path*"
+    },
+    {
+      "source": "/checkin-kiosk/:path*",
+      "destination": "https://ganger-checkin-kiosk.vercel.app/kiosk/:path*"
+    },
+    {
+      "source": "/socials/:path*",
+      "destination": "https://ganger-socials-reviews.vercel.app/socials/:path*"
+    },
+    {
+      "source": "/socials-reviews/:path*",
+      "destination": "https://ganger-socials-reviews.vercel.app/socials/:path*"
+    },
+    {
+      "source": "/components/:path*",
+      "destination": "https://ganger-component-showcase.vercel.app/components/:path*"
+    },
+    {
+      "source": "/component-showcase/:path*",
+      "destination": "https://ganger-component-showcase.vercel.app/components/:path*"
+    },
+    {
+      "source": "/platform/:path*",
+      "destination": "https://ganger-platform-dashboard.vercel.app/platform-dashboard/:path*"
+    },
+    {
+      "source": "/platform-dashboard/:path*",
+      "destination": "https://ganger-platform-dashboard.vercel.app/platform-dashboard/:path*"
+    }
   ],
   "headers": [
     {
@@ -53,5 +143,9 @@
         }
       ]
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+  }
 }

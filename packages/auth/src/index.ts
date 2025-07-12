@@ -37,6 +37,10 @@ export type { Database, TypedSupabaseClient } from './supabase';
 // Utility functions
 export * from './utils';
 
+// Cookie utilities for session management
+export { getCookie, setCookie, deleteCookie, getAllCookies, clearAllCookies } from './utils/cookies';
+export { CookieStorage, gangerCookieStorage } from './utils/CookieStorage';
+
 // Staff portal authentication
 export * from './staff';
 

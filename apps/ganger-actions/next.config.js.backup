@@ -3,8 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@ganger/auth', '@ganger/types', '@ganger/ui', '@ganger/utils'],
   
-  // This app is served at /actions through the staff portal router
-  basePath: '/actions',
+  // Staff portal is the root - no basePath needed
   
   eslint: {
     ignoreDuringBuilds: true,

@@ -1,6 +1,10 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
+  "installCommand": "cd ../.. && pnpm install && pnpm -F @ganger/auth build && pnpm -F @ganger/ui build && pnpm -F @ganger/utils build && pnpm -F @ganger/config build",
   "buildCommand": "cd ../.. && pnpm -F @ganger/socials-reviews build",
   "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "env": {
+    "NODE_ENV": "production",
+    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+  }
 }

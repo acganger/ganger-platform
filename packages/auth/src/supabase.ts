@@ -2,6 +2,7 @@
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { AuthConfig } from './types';
+import { gangerCookieStorage } from './utils/CookieStorage';
 
 // Default configuration
 const defaultConfig: AuthConfig = {
@@ -30,7 +31,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
           persistSession: true,
           autoRefreshToken: true,
           detectSessionInUrl: true,
-          storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+          storage: typeof window !== 'undefined' ? gangerCookieStorage : undefined,
         },
         global: {
           headers: {
@@ -68,7 +69,7 @@ export function createAppSupabaseClient(appName: string, config?: Partial<AuthCo
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+        storage: typeof window !== 'undefined' ? gangerCookieStorage : undefined,
       },
       global: {
         headers: {

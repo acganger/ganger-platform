@@ -1,6 +1,10 @@
 {
-  "installCommand": "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile",
+  "installCommand": "cd ../.. && pnpm install",
   "buildCommand": "cd ../.. && pnpm -F @ganger/ai-purchasing-agent build",
   "outputDirectory": ".next",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "env": {
+    "NODE_ENV": "production",
+    "ENABLE_EXPERIMENTAL_COREPACK": "1"
+  }
 }
