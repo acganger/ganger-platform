@@ -1,8 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-    '../../packages/ui/src/**/*.{js,ts,jsx,tsx}',
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/ui/src/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/auth/src/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/utils/src/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/deps/src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {},
