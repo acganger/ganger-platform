@@ -25,7 +25,9 @@
     "@ganger/ui": "workspace:*",
     "@ganger/utils": "workspace:*",
     "@tailwindcss/postcss": "^4.1.10",
-    "openai": "^4.0.0"
+    "openai": "^4.0.0",
+    "tailwindcss": "^4.0.0-alpha.33",
+    "postcss": "^8.4.35"
   },
   "devDependencies": {
     "@ganger/config": "workspace:*"

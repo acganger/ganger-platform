@@ -26,7 +26,10 @@
     "@ganger/types": "workspace:*",
     "@ganger/ui": "workspace:*",
     "@ganger/utils": "workspace:*",
-    "formidable": "^3.5.1"
+    "formidable": "^3.5.1",
+    "tailwindcss": "^4.0.0-alpha.33",
+    "@tailwindcss/postcss": "^4.0.0-alpha.33",
+    "postcss": "^8.4.35"
   },
   "devDependencies": {
     "@ganger/config": "workspace:*"

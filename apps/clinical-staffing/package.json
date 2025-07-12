@@ -25,7 +25,10 @@
     "@ganger/monitoring": "workspace:*",
     "@ganger/types": "workspace:*",
     "@ganger/ui": "workspace:*",
-    "@ganger/utils": "workspace:*"
+    "@ganger/utils": "workspace:*",
+    "tailwindcss": "^4.0.0-alpha.33",
+    "@tailwindcss/postcss": "^4.0.0-alpha.33",
+    "postcss": "^8.4.35"
   },
   "devDependencies": {
     "@ganger/config": "workspace:*"
