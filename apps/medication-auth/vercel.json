@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd ../.. && pnpm install",
+  "installCommand": "cd ../.. && pnpm install --frozen-lockfile=false",
   "buildCommand": "cd ../.. && npx turbo run build --filter=@ganger/medication-auth",
   "outputDirectory": ".next",
   "framework": "nextjs",
