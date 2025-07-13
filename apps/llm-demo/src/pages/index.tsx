@@ -420,10 +420,10 @@ export default function LLMDemo() {
                     {msg.role === 'user' ? (
                       msg.content
                     ) : (
-                      <ReactMarkdown 
-                        remarkPlugins={[remarkGfm]}
-                        className="prose prose-sm max-w-none"
-                        components={{
+                      <div className="prose prose-sm max-w-none">
+                        <ReactMarkdown 
+                          remarkPlugins={[remarkGfm]}
+                          components={{
                           // Custom styling for markdown elements
                           h1: ({children}) => <h1 className="text-lg font-bold mb-2">{children}</h1>,
                           h2: ({children}) => <h2 className="text-base font-semibold mb-2">{children}</h2>,
@@ -432,8 +432,8 @@ export default function LLMDemo() {
                           ul: ({children}) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
                           ol: ({children}) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
                           li: ({children}) => <li className="ml-2">{children}</li>,
-                          code: ({inline, children}) => 
-                            inline ? (
+                          code: ({children, ...props}) => 
+                            (props as any).inline ? (
                               <code className="bg-gray-200 text-gray-800 px-1 py-0.5 rounded text-xs">{children}</code>
                             ) : (
                               <code className="block bg-gray-100 text-gray-800 p-2 rounded text-xs overflow-x-auto">{children}</code>
@@ -455,9 +455,10 @@ export default function LLMDemo() {
                           th: ({children}) => <th className="border border-gray-300 px-2 py-1 bg-gray-100 text-left text-xs">{children}</th>,
                           td: ({children}) => <td className="border border-gray-300 px-2 py-1 text-xs">{children}</td>,
                         }}
-                      >
-                        {msg.content}
-                      </ReactMarkdown>
+                        >
+                          {msg.content}
+                        </ReactMarkdown>
+                      </div>
                     )}
                     {msg.role === 'assistant' && msg.cost !== undefined && (
                       <div className="text-xs mt-1 text-gray-500">
@@ -523,10 +524,10 @@ export default function LLMDemo() {
                           )}
                         </h3>
                         <div className="text-sm text-gray-900 mt-1">
-                          <ReactMarkdown 
-                            remarkPlugins={[remarkGfm]}
-                            className="prose prose-sm max-w-none"
-                            components={{
+                          <div className="prose prose-sm max-w-none">
+                            <ReactMarkdown 
+                              remarkPlugins={[remarkGfm]}
+                              components={{
                               h1: ({children}) => <h1 className="text-base font-bold mb-1">{children}</h1>,
                               h2: ({children}) => <h2 className="text-sm font-semibold mb-1">{children}</h2>,
                               h3: ({children}) => <h3 className="text-xs font-semibold mb-1">{children}</h3>,
@@ -534,8 +535,8 @@ export default function LLMDemo() {
                               ul: ({children}) => <ul className="list-disc list-inside mb-1 space-y-0.5 text-xs">{children}</ul>,
                               ol: ({children}) => <ol className="list-decimal list-inside mb-1 space-y-0.5 text-xs">{children}</ol>,
                               li: ({children}) => <li className="ml-2">{children}</li>,
-                              code: ({inline, children}) => 
-                                inline ? (
+                              code: ({children, ...props}) => 
+                                (props as any).inline ? (
                                   <code className="bg-gray-100 text-gray-800 px-1 rounded text-xs">{children}</code>
                                 ) : (
                                   <code className="block bg-gray-100 text-gray-800 p-1 rounded text-xs overflow-x-auto">{children}</code>
@@ -550,9 +551,10 @@ export default function LLMDemo() {
                                 </a>
                               ),
                             }}
-                          >
-                            {lastResponse.content}
-                          </ReactMarkdown>
+                            >
+                              {lastResponse.content}
+                            </ReactMarkdown>
+                          </div>
                         </div>
                       </div>
                     );

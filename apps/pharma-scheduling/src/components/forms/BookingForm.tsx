@@ -55,7 +55,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const { submitBooking, loading, error } = useBookingSubmission();
-  const { toast } = useToast();
+  const { addToast } = useToast();
 
   const {
     register,
@@ -110,17 +110,17 @@ const BookingForm: React.FC<BookingFormProps> = ({
       };
 
       const response = await submitBooking(bookingRequest);
-      toast({
+      addToast({
         title: 'Success',
-        description: 'Booking submitted successfully!',
-        variant: 'default'
+        message: 'Booking submitted successfully!',
+        type: 'success'
       });
       onSubmit(bookingRequest);
     } catch (err) {
-      toast({
+      addToast({
         title: 'Error',
-        description: error || 'Failed to submit booking. Please try again.',
-        variant: 'destructive'
+        message: error || 'Failed to submit booking. Please try again.',
+        type: 'error'
       });
     }
   };

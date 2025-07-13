@@ -91,7 +91,7 @@ const TimeSlotGrid: React.FC<TimeSlotGridProps> = ({
               key={timeKey}
               onClick={() => isAvailable && onSlotSelect(representativeSlot)}
               disabled={!isAvailable}
-              variant={isSelected ? "default" : "outline"}
+              variant={isSelected ? "primary" : "outline"}
               className={clsx(
                 'h-auto min-h-[80px] p-4',
                 'flex flex-col items-center justify-center space-y-2',
