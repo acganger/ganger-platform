@@ -31,12 +31,10 @@
     "src/**/*"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
     "dev": "tsc --watch",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit",
-    "check-types": "tsc --noEmit -p tsconfig.build.json",
-    "prepack": "npm run build"
+    "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.10",
