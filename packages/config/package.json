@@ -2,8 +2,8 @@
   "name": "@ganger/config",
   "version": "0.1.0",
   "description": "Shared configuration files for Ganger Platform",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "eslint/**/*",
     "typescript/**/*",
@@ -14,7 +14,7 @@
     "index.*"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit"
   },
@@ -31,11 +31,11 @@
   "author": "Ganger Platform Team",
   "license": "MIT",
   "dependencies": {
+    "@ganger/db": "workspace:*",
     "@supabase/supabase-js": "^2.39.0",
     "typescript": "^5.5.0"
   },
   "devDependencies": {
-    "@ganger/db": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.57.0",
