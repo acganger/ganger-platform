@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsc --watch",
     "lint": "eslint src/",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
     "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "dependencies": {

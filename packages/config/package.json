@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf dist",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
     "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "keywords": [

@@ -9,7 +9,7 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "test": "jest",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
     "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "dependencies": {
