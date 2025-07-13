@@ -23,6 +23,7 @@
     "@ganger/monitoring": "workspace:*",
     "@ganger/types": "workspace:*",
     "@ganger/ui": "workspace:*",
+    "@ganger/ui-catalyst": "workspace:*",
     "@ganger/utils": "workspace:*",
     "openai": "^4.28.0",
     "pdf-parse": "^1.1.1",

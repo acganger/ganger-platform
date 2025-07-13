@@ -7,11 +7,11 @@ import { LoadingSpinner } from '@ganger/ui';
 import { analytics } from '@ganger/utils';
 
 function InventoryHomePage() {
-  const { user, profile, loading } = useStaffAuth();
+  const { user, profile, isLoading } = useStaffAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading) {
+    if (!isLoading) {
       analytics.track('page_view', 'navigation', {
         page: 'inventory_home',
         user_role: profile?.role
@@ -22,9 +22,9 @@ function InventoryHomePage() {
         router.push('/dashboard');
       }
     }
-  }, [user, profile, loading, router]);
+  }, [user, profile, isLoading, router]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner size="lg" />

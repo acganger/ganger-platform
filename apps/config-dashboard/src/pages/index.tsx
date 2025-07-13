@@ -17,7 +17,7 @@ export default function ConfigDashboardHome() {
   const [activeTab, setActiveTab] = useState<'applications' | 'configurations' | 'permissions' | 'impersonation' | 'approval' | 'audit'>('applications');
 
   return (
-    <AuthGuard>
+    <AuthGuard level="admin">
       <DashboardLayout>
         <div className="max-w-7xl mx-auto">
         <div className="mb-8">

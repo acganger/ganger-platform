@@ -9,8 +9,7 @@ const nextConfig = {
   },
   
   typescript: {
-    // Skip TypeScript errors during production builds
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   
   // Force dynamic rendering for all pages

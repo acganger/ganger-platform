@@ -38,6 +38,9 @@ import {
   TabsContent
 } from '@ganger/ui';
 
+// Import Catalyst components for comparison
+import { Progress as CatalystProgress } from '@ganger/ui-catalyst';
+
 // Sample data for DataTable
 const sampleData = [
   { id: 1, name: 'John Doe', role: 'Medical Assistant', location: 'Plymouth', status: 'Active' },
@@ -645,6 +648,77 @@ export default function ComponentShowcase() {
                   <Progress value={100} variant="success" />
                 </div>
               </ComponentDemo>
+            </div>
+          </section>
+
+          {/* Catalyst Progress Component */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">🎨 Catalyst Progress (New Design System)</h2>
+            <div className="showcase-grid">
+              <ComponentDemo 
+                title="Catalyst Progress Colors"
+                code={`<CatalystProgress value={25} color="blue" />
+<CatalystProgress value={50} color="green" />
+<CatalystProgress value={75} color="yellow" />
+<CatalystProgress value={90} color="red" />`}
+              >
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Blue (25%)</div>
+                    <CatalystProgress value={25} color="blue" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Green (50%)</div>
+                    <CatalystProgress value={50} color="green" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Yellow (75%)</div>
+                    <CatalystProgress value={75} color="yellow" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Red (90%)</div>
+                    <CatalystProgress value={90} color="red" />
+                  </div>
+                </div>
+              </ComponentDemo>
+
+              <ComponentDemo 
+                title="Extended Color Palette"
+                code={`<CatalystProgress value={40} color="indigo" />
+<CatalystProgress value={60} color="purple" />
+<CatalystProgress value={80} color="pink" />
+<CatalystProgress value={100} color="emerald" />`}
+              >
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Indigo (40%)</div>
+                    <CatalystProgress value={40} color="indigo" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Purple (60%)</div>
+                    <CatalystProgress value={60} color="purple" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Pink (80%)</div>
+                    <CatalystProgress value={80} color="pink" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Emerald (100%)</div>
+                    <CatalystProgress value={100} color="emerald" />
+                  </div>
+                </div>
+              </ComponentDemo>
+            </div>
+            
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">✨ Catalyst Design System Benefits</h3>
+              <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                <li>• Professional design system from Tailwind team</li>
+                <li>• Enhanced color palette with 18 semantic colors</li>
+                <li>• Better dark mode support</li>
+                <li>• Accessibility improvements (better ARIA labels)</li>
+                <li>• Consistent with Headless UI patterns</li>
+              </ul>
             </div>
           </section>
 

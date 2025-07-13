@@ -6,7 +6,8 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useAuth } from '@ganger/auth'
 import { PageLayout } from '@/components/PageLayout'
-import { Card, CardHeader, CardContent, Button, Badge, Alert, LoadingSpinner, Progress } from '@ganger/ui'
+import { Card, CardHeader, CardContent, Button, Badge, Alert, LoadingSpinner } from '@ganger/ui'
+import { Progress } from '@ganger/ui-catalyst'
 import { useCart } from '@/contexts/CartContext'
 import { 
   Brain, 
@@ -141,7 +142,7 @@ export default function PurchaseRequestAnalysisPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <Progress value={progress} className="h-2" />
+              <Progress value={progress} color="blue" className="h-2" />
               
               <div className="space-y-3">
                 {steps.map((step) => (
