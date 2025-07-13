@@ -93,31 +93,31 @@ const ColorSwatch: React.FC<{ name: string; colors: any; prefix?: string }> = ({
 
 // Toast Demo Component
 const ToastDemo = () => {
-  const { toast } = useToast();
+  const { addToast } = useToast();
   
   return (
     <div className="space-y-3">
       <Button 
         variant="primary" 
-        onClick={() => toast({ title: "Success!", description: "Operation completed successfully", variant: "success" })}
+        onClick={() => addToast({ title: "Success!", message: "Operation completed successfully", type: "success" })}
       >
         Show Success Toast
       </Button>
       <Button 
         variant="secondary" 
-        onClick={() => toast({ title: "Info", description: "Here's some information for you", variant: "info" })}
+        onClick={() => addToast({ title: "Info", message: "Here's some information for you", type: "info" })}
       >
         Show Info Toast
       </Button>
       <Button 
         variant="outline" 
-        onClick={() => toast({ title: "Warning", description: "Please be careful with this action", variant: "warning" })}
+        onClick={() => addToast({ title: "Warning", message: "Please be careful with this action", type: "warning" })}
       >
         Show Warning Toast
       </Button>
       <Button 
         variant="destructive" 
-        onClick={() => toast({ title: "Error", description: "Something went wrong", variant: "error" })}
+        onClick={() => addToast({ title: "Error", message: "Something went wrong", type: "error" })}
       >
         Show Error Toast
       </Button>
@@ -590,7 +590,7 @@ export default function ComponentShowcase() {
 <Alert variant="warning">This is a warning alert</Alert>
 <Alert variant="error">This is an error alert</Alert>
 <Alert variant="destructive">This is a destructive alert</Alert>
-<Alert variant="neutral">This is a neutral alert</Alert>`}
+<Alert variant="default">This is a default alert</Alert>`}
               >
                 <div className="space-y-3">
                   <Alert variant="info">This is an info alert - used for general information</Alert>
@@ -598,7 +598,7 @@ export default function ComponentShowcase() {
                   <Alert variant="warning">This is a warning alert - please pay attention</Alert>
                   <Alert variant="error">This is an error alert - something went wrong</Alert>
                   <Alert variant="destructive">This is a destructive alert - action cannot be undone</Alert>
-                  <Alert variant="neutral">This is a neutral alert - general message</Alert>
+                  <Alert variant="default">This is a default alert - general message</Alert>
                 </div>
               </ComponentDemo>
             </div>
@@ -610,19 +610,19 @@ export default function ComponentShowcase() {
             <div className="showcase-grid">
               <ComponentDemo 
                 title="Progress Bar Variants"
-                code={`<Progress value={25} variant="primary" />
-<Progress value={50} variant="secondary" />
+                code={`<Progress value={25} variant="default" />
+<Progress value={50} variant="default" />
 <Progress value={75} variant="success" />
 <Progress value={90} variant="warning" />`}
               >
                 <div className="space-y-4">
                   <div>
                     <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Primary (25%)</div>
-                    <Progress value={25} variant="primary" />
+                    <Progress value={25} variant="default" />
                   </div>
                   <div>
                     <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Secondary (50%)</div>
-                    <Progress value={50} variant="secondary" />
+                    <Progress value={50} variant="default" />
                   </div>
                   <div>
                     <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">Success (75%)</div>
@@ -637,12 +637,12 @@ export default function ComponentShowcase() {
 
               <ComponentDemo 
                 title="Progress with Labels"
-                code={`<Progress value={60} label="Upload Progress" showPercentage />
-<Progress value={100} variant="success" label="Complete!" />`}
+                code={`<Progress value={60} />
+<Progress value={100} variant="success" />`}
               >
                 <div className="space-y-4">
-                  <Progress value={60} label="Upload Progress" showPercentage />
-                  <Progress value={100} variant="success" label="Complete!" />
+                  <Progress value={60} />
+                  <Progress value={100} variant="success" />
                 </div>
               </ComponentDemo>
             </div>
@@ -654,19 +654,19 @@ export default function ComponentShowcase() {
             <div className="showcase-grid">
               <ComponentDemo 
                 title="Toast Notifications"
-                code={`const { toast } = useToast();
+                code={`const { addToast } = useToast();
 
 // Show different toast variants
-toast({ 
+addToast({ 
   title: "Success!", 
-  description: "Operation completed", 
-  variant: "success" 
+  message: "Operation completed", 
+  type: "success" 
 });
 
-toast({ 
+addToast({ 
   title: "Error", 
-  description: "Something went wrong", 
-  variant: "error" 
+  message: "Something went wrong", 
+  type: "error" 
 });`}
               >
                 <ToastDemo />
