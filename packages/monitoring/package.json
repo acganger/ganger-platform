@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
-    "@ganger/db": "file:../db",
-    "@ganger/cache": "file:../cache",
+    "@ganger/db": "workspace:*",
+    "@ganger/cache": "workspace:*",
     "typescript": "^5.5.0"
   },
   "devDependencies": {

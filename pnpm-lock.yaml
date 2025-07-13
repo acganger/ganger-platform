@@ -1251,17 +1251,17 @@ importers:
   packages/ai:
     dependencies:
       '@ganger/auth':
-        specifier: file:../auth
-        version: file:packages/auth(next@14.2.30)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../auth
       '@ganger/db':
-        specifier: file:../db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../db
       '@ganger/types':
-        specifier: file:../types
-        version: file:packages/types
+        specifier: workspace:*
+        version: link:../types
       '@ganger/utils':
-        specifier: file:../utils
-        version: file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../utils
       '@supabase/supabase-js':
         specifier: ^2.49.10
         version: 2.50.2
@@ -1533,8 +1533,8 @@ importers:
   packages/integrations:
     dependencies:
       '@ganger/db':
-        specifier: file:../db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../db
       '@google-cloud/storage':
         specifier: ^7.13.0
         version: 7.16.0
@@ -1609,11 +1609,11 @@ importers:
   packages/monitoring:
     dependencies:
       '@ganger/cache':
-        specifier: file:../cache
-        version: file:packages/cache(@ganger/db@1.0.0)
+        specifier: workspace:*
+        version: link:../cache
       '@ganger/db':
-        specifier: file:../db
-        version: file:packages/db
+        specifier: workspace:*
+        version: link:../db
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.50.2
@@ -1637,8 +1637,8 @@ importers:
   packages/ui:
     dependencies:
       '@ganger/auth':
-        specifier: file:../auth
-        version: file:packages/auth(next@14.2.30)(react@18.3.1)
+        specifier: workspace:*
+        version: link:../auth
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -6068,7 +6068,7 @@ packages:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.1
       eslint: 8.57.1
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.35.1)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
       get-tsconfig: 4.10.1
       is-bun-module: 2.0.0
       stable-hash: 0.0.5
@@ -12404,89 +12404,4 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
-    dev: false
-
-  file:packages/auth(next@14.2.30)(react@18.3.1):
-    resolution: {directory: packages/auth, type: directory}
-    id: file:packages/auth
-    name: '@ganger/auth'
-    peerDependencies:
-      next: ^14.0.0
-      react: 18.3.1
-    dependencies:
-      '@supabase/supabase-js': 2.50.2
-      next: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
-  file:packages/cache(@ganger/db@1.0.0):
-    resolution: {directory: packages/cache, type: directory}
-    id: file:packages/cache
-    name: '@ganger/cache'
-    peerDependencies:
-      '@ganger/db': 1.0.0
-    dependencies:
-      '@ganger/db': file:packages/db
-      '@supabase/supabase-js': 2.50.2
-      ioredis: 5.6.1
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:packages/db:
-    resolution: {directory: packages/db, type: directory}
-    name: '@ganger/db'
-    dependencies:
-      '@ganger/types': link:packages/types
-      '@prisma/client': 6.11.0(prisma@6.11.0)(typescript@5.8.3)
-      '@supabase/supabase-js': 2.50.2
-      ioredis: 5.6.1
-      prisma: 6.11.0(typescript@5.8.3)
-      typescript: 5.8.3
-      zod: 3.25.67
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:packages/types:
-    resolution: {directory: packages/types, type: directory}
-    name: '@ganger/types'
-    dependencies:
-      typescript: 5.8.3
-    dev: false
-
-  file:packages/utils(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {directory: packages/utils, type: directory}
-    id: file:packages/utils
-    name: '@ganger/utils'
-    dependencies:
-      '@ganger/db': link:packages/db
-      '@types/crypto-js': 4.2.2
-      '@types/lodash': 4.17.20
-      '@types/node': 20.19.4
-      '@types/uuid': 10.0.0
-      crypto-js: 4.2.0
-      date-fns: 4.1.0
-      lodash: 4.17.21
-      next: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
-      typescript: 5.8.3
-      uuid: 11.1.0
-      zod: 3.25.67
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@opentelemetry/api'
-      - '@playwright/test'
-      - babel-plugin-macros
-      - react
-      - react-dom
-      - sass
     dev: false
