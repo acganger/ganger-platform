@@ -1,5 +1,5 @@
 {
-  "installCommand": "cd ../.. && pnpm install",
+  "installCommand": "cd ../.. && pnpm install --production=false",
   "buildCommand": "cd ../.. && npx turbo run build --filter=@ganger/staff",
   "outputDirectory": ".next",
   "framework": "nextjs",
