@@ -13,6 +13,17 @@
     "supabase-template.*",
     "index.*"
   ],
+  "exports": {
+    ".": "./index.ts",
+    "./typescript/base.json": "./typescript/base.json",
+    "./typescript/nextjs.json": "./typescript/nextjs.json",
+    "./typescript/react.json": "./typescript/react.json",
+    "./eslint/base": "./eslint/base.js",
+    "./eslint/nextjs": "./eslint/nextjs.js",
+    "./eslint/react": "./eslint/react.js",
+    "./tailwind/base": "./tailwind/base.js",
+    "./tailwind/preset": "./tailwind/preset.js"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
