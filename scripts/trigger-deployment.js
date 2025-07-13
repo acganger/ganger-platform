@@ -8,9 +8,15 @@
 const https = require('https');
 
 // Configuration
-const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'RdwA23mHSvPcm9ptReM6zxjF';
-const TEAM_ID = process.env.VERCEL_TEAM_ID || 'team_wpY7PcIsYQNnslNN39o7fWvS';
-const PROJECT_NAME = 'ganger-staff';
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
+const TEAM_ID = process.env.VERCEL_TEAM_ID;
+const PROJECT_NAME = process.argv[2] || 'ganger-staff';
+
+if (!VERCEL_TOKEN || !TEAM_ID) {
+  console.error('❌ Error: Missing required environment variables');
+  console.error('Please set VERCEL_TOKEN and VERCEL_TEAM_ID environment variables');
+  process.exit(1);
+}
 
 // Function to make HTTPS request
 function makeRequest(options, data = null) {

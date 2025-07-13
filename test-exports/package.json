@@ -1,0 +1,11 @@
+{
+  "name": "test-exports",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@ganger/db": "workspace:*",
+    "@ganger/cache": "workspace:*",
+    "@ganger/monitoring": "workspace:*",
+    "typescript": "^5.0.0"
+  }
+}

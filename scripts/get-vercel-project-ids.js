@@ -7,8 +7,14 @@
 
 const https = require('https');
 
-const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'RdwA23mHSvPcm9ptReM6zxjF';
-const TEAM_ID = process.env.VERCEL_TEAM_ID || 'team_wpY7PcIsYQNnslNN39o7fWvS';
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
+const TEAM_ID = process.env.VERCEL_TEAM_ID;
+
+if (!VERCEL_TOKEN || !TEAM_ID) {
+  console.error('❌ Error: Missing required environment variables');
+  console.error('Please set VERCEL_TOKEN and VERCEL_TEAM_ID environment variables');
+  process.exit(1);
+}
 
 // Apps we need project IDs for
 const apps = [

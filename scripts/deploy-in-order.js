@@ -8,8 +8,14 @@
 const https = require('https');
 const deploymentOrder = require('./deployment-order.json');
 
-const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'RdwA23mHSvPcm9ptReM6zxjF';
-const TEAM_ID = process.env.VERCEL_TEAM_ID || 'team_wpY7PcIsYQNnslNN39o7fWvS';
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
+const TEAM_ID = process.env.VERCEL_TEAM_ID;
+
+if (!VERCEL_TOKEN || !TEAM_ID) {
+  console.error('❌ Error: Missing required environment variables');
+  console.error('Please set VERCEL_TOKEN and VERCEL_TEAM_ID environment variables');
+  process.exit(1);
+}
 
 async function triggerDeployment(projectName) {
   return new Promise((resolve, reject) => {
@@ -106,21 +112,21 @@ async function main() {
   const appsToDeploy = apps.length > 0 ? apps : deploymentOrder.deploymentOrder;
 
   // Always ensure staff is first if it's in the list
-  if (appsToDeploy.includes('staff') && appsToDisplay.indexOf('staff') !== 0) {
-    const staffIndex = appsToDisplay.indexOf('staff');
-    appsToDisplay.splice(staffIndex, 1);
-    appsToDisplay.unshift('staff');
+  if (appsToDeploy.includes('staff') && appsToDeploy.indexOf('staff') !== 0) {
+    const staffIndex = appsToDeploy.indexOf('staff');
+    appsToDeploy.splice(staffIndex, 1);
+    appsToDeploy.unshift('staff');
     console.log('⚠️  Reordered: Moving "staff" to first position (required as router)\n');
   }
 
   console.log('Deployment order:');
-  appsToDisplay.forEach((app, index) => {
+  appsToDeploy.forEach((app, index) => {
     const note = deploymentOrder.notes[app] || '';
     console.log(`${index + 1}. ${app} ${note ? `- ${note}` : ''}`);
   });
   console.log('');
 
-  for (const app of appsToDisplay) {
+  for (const app of appsToDeploy) {
     const projectName = app === 'staff' ? 'ganger-staff' : `ganger-${app}`;
     
     try {
