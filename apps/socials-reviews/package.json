@@ -29,7 +29,8 @@
     "@ganger/utils": "workspace:*",
     "tailwindcss": "^4.0.0-alpha.33",
     "@tailwindcss/postcss": "^4.0.0-alpha.33",
-    "postcss": "^8.4.35"
+    "postcss": "^8.4.35",
+    "date-fns": "^3.6.0"
   },
   "devDependencies": {
     "@ganger/config": "workspace:*"
