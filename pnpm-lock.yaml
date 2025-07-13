@@ -1355,6 +1355,9 @@ importers:
 
   packages/config:
     dependencies:
+      '@ganger/db':
+        specifier: workspace:*
+        version: link:../db
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.50.2
@@ -1362,9 +1365,6 @@ importers:
         specifier: ^5.5.0
         version: 5.8.3
     devDependencies:
-      '@ganger/db':
-        specifier: workspace:*
-        version: link:../db
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.1)(typescript@5.8.3)
