@@ -2,13 +2,14 @@
   "name": "@ganger/monitoring",
   "version": "1.0.0",
   "description": "Centralized monitoring and health check system for Ganger Platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsc --watch",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit"
+    "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

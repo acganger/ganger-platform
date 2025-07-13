@@ -29,6 +29,10 @@
       "dependsOn": ["^type-check"],
       "outputs": []
     },
+    "check-types": {
+      "dependsOn": ["^check-types"],
+      "cache": false
+    },
     "verify": {
       "dependsOn": ["lint", "type-check"],
       "cache": false

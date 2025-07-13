@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && pnpm install && pnpm -F @ganger/types build && pnpm -F @ganger/db build && pnpm -F @ganger/auth build && pnpm -F @ganger/cache build && pnpm -F @ganger/utils build && pnpm -F @ganger/ui build && pnpm -F @ganger/config build",
-  "buildCommand": "cd ../.. && pnpm -F @ganger/integration-status build",
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && npx turbo run build --filter=@ganger/integration-status",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "env": {

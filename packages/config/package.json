@@ -2,8 +2,8 @@
   "name": "@ganger/config",
   "version": "0.1.0",
   "description": "Shared configuration files for Ganger Platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "files": [
     "eslint/**/*",
     "typescript/**/*",
@@ -17,6 +17,7 @@
     "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit"
+    "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "keywords": [
     "ganger-platform",

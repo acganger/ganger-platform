@@ -79,9 +79,23 @@ check_app() {
             ((issues++))
             ((critical++))
         fi
-        # Check for NODE_ENV=development
-        if ! grep -q 'NODE_ENV.*development' "$app_path/vercel.json"; then
-            echo -e "  ${YELLOW}⚠ vercel.json should set NODE_ENV=development${NC}"
+        # Check for NODE_ENV=production (updated from development)
+        if ! grep -q 'NODE_ENV.*production' "$app_path/vercel.json"; then
+            echo -e "  ${RED}✗ vercel.json should set NODE_ENV=production${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+        
+        # Check for ENABLE_EXPERIMENTAL_COREPACK=1 (required for pnpm)
+        if ! grep -q 'ENABLE_EXPERIMENTAL_COREPACK.*1' "$app_path/vercel.json"; then
+            echo -e "  ${RED}✗ vercel.json missing ENABLE_EXPERIMENTAL_COREPACK=1${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+        
+        # Check for --no-frozen-lockfile (should NOT be present after lockfile fix)
+        if grep -q '\-\-no\-frozen\-lockfile' "$app_path/vercel.json"; then
+            echo -e "  ${YELLOW}⚠ vercel.json still has --no-frozen-lockfile (not needed after lockfile fix)${NC}"
             ((issues++))
         fi
     fi
@@ -402,6 +416,55 @@ check_app() {
         fi
     fi
     
+    # Check NEW PATTERNS: Dual TypeScript configuration
+    if [ -f "$app_path/tsconfig.build.json" ]; then
+        echo -e "  ${GREEN}✓ Has tsconfig.build.json for production builds${NC}"
+        # Verify it has empty paths object
+        if ! grep -q '"paths": {}' "$app_path/tsconfig.build.json"; then
+            echo -e "  ${RED}✗ tsconfig.build.json should have empty paths object${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    else
+        # Only critical for packages, not apps
+        if [[ "$app_path" == packages/* ]]; then
+            echo -e "  ${RED}✗ Package missing tsconfig.build.json${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    fi
+    
+    # Check NEW PATTERNS: Package.json points to dist/ for packages
+    if [[ "$app_path" == packages/* ]] && [ -f "$app_path/package.json" ]; then
+        if ! grep -q '"main": "dist/' "$app_path/package.json"; then
+            echo -e "  ${RED}✗ Package main field should point to dist/index.js${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+        if ! grep -q '"types": "dist/' "$app_path/package.json"; then
+            echo -e "  ${RED}✗ Package types field should point to dist/index.d.ts${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    fi
+    
+    # Check NEW PATTERNS: Build order includes @ganger/db before @ganger/config
+    if [ -f "$app_path/vercel.json" ] && grep -q "@ganger/config" "$app_path/package.json"; then
+        if ! grep -q "pnpm -F @ganger/db build" "$app_path/vercel.json"; then
+            echo -e "  ${RED}✗ vercel.json missing @ganger/db build step before @ganger/config${NC}"
+            ((issues++))
+            ((critical++))
+        fi
+    fi
+    
+    # Check NEW PATTERNS: No legacy --no-frozen-lockfile in production
+    if [ -f "$app_path/vercel.json" ]; then
+        if grep -q '\-\-no\-frozen\-lockfile' "$app_path/vercel.json"; then
+            echo -e "  ${YELLOW}⚠ Still using --no-frozen-lockfile (should be removed after lockfile fix)${NC}"
+            ((issues++))
+        fi
+    fi
+
     # Update totals
     TOTAL_ISSUES=$((TOTAL_ISSUES + issues))
     CRITICAL_ISSUES=$((CRITICAL_ISSUES + critical))
@@ -468,6 +531,45 @@ else
             ((WARNINGS++))
             ((TOTAL_ISSUES++))
         fi
+    fi
+    
+    # Check NEW GLOBAL PATTERNS: Packages have dual TypeScript configs
+    echo "📋 Checking monorepo package patterns..."
+    missing_build_configs=0
+    for pkg_dir in packages/*/; do
+        if [ -d "$pkg_dir" ]; then
+            pkg_name=$(basename "$pkg_dir")
+            if [ ! -f "${pkg_dir}tsconfig.build.json" ]; then
+                echo -e "  ${RED}✗ Package $pkg_name missing tsconfig.build.json${NC}"
+                ((missing_build_configs++))
+            fi
+            
+            # Check if package.json points to src/ instead of dist/
+            if [ -f "${pkg_dir}package.json" ]; then
+                if grep -q '"main": "src/' "${pkg_dir}package.json"; then
+                    echo -e "  ${RED}✗ Package $pkg_name main field points to src/ (should be dist/)${NC}"
+                    ((CRITICAL_ISSUES++))
+                    ((TOTAL_ISSUES++))
+                fi
+            fi
+        fi
+    done
+    
+    if [ $missing_build_configs -eq 0 ]; then
+        echo -e "  ${GREEN}✓ All packages have production build configs${NC}"
+    else
+        echo -e "  ${RED}✗ $missing_build_configs packages missing build configs${NC}"
+        ((CRITICAL_ISSUES += missing_build_configs))
+        ((TOTAL_ISSUES += missing_build_configs))
+    fi
+    
+    # Check for proper pnpm lockfile state
+    if [ -f "pnpm-lock.yaml" ]; then
+        echo -e "  ${GREEN}✓ pnpm lockfile exists and should be current${NC}"
+    else
+        echo -e "  ${RED}✗ Missing pnpm-lock.yaml${NC}"
+        ((CRITICAL_ISSUES++))
+        ((TOTAL_ISSUES++))
     fi
     
     echo ""

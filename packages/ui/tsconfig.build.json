@@ -5,7 +5,10 @@
     "declaration": true,
     "noEmit": false,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@ganger/auth": ["../auth/dist/index.d.ts"],
+      "@ganger/auth/*": ["../auth/dist/*"]
+    },
     "jsx": "react-jsx"
   },
   "include": ["src/**/*"],
