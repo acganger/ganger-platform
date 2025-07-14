@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import type { Integration } from '../types/integration'
-import { useAuth } from '@ganger/auth'
+import { useAuth } from '../lib/auth'
 import { useToast } from '@ganger/ui'
 import { AuthGuard } from '@ganger/auth/staff'
 import { createClient } from '@supabase/supabase-js'
@@ -247,7 +247,7 @@ function IntegrationStatusDashboard() {
   const [error, setError] = useState<string | null>(null)
 
   // Custom hooks
-  const { toast } = useToast()
+  const { addToast } = useToast()
 
   // Load initial data from Supabase
   const loadDashboardData = useCallback(async () => {
@@ -256,6 +256,10 @@ function IntegrationStatusDashboard() {
       setError(null)
 
       // Fetch integrations from the database
+      if (!supabase) {
+        throw new Error('Supabase client not initialized')
+      }
+      
       const { data: integrationsData, error: dbError } = await supabase
         .from('integrations')
         .select('*')
@@ -343,15 +347,15 @@ function IntegrationStatusDashboard() {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load dashboard data'
       setError(errorMessage)
-      toast({
+      addToast({
         title: 'Load Error',
-        description: errorMessage,
-        variant: 'destructive'
+        message: errorMessage,
+        type: 'error'
       })
     } finally {
       setIsLoading(false)
     }
-  }, [toast, user?.email])
+  }, [addToast, user?.email])
 
   // Initial load
   useEffect(() => {
@@ -530,7 +534,7 @@ function IntegrationStatusDashboard() {
 
 export default function IntegrationStatusPage() {
   return (
-    <AuthGuard requiredPermission="view_platform_status">
+    <AuthGuard level="staff">
       <IntegrationStatusDashboard />
     </AuthGuard>
   )

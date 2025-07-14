@@ -63,11 +63,11 @@ const MOCK_TICKETS: SupportTicket[] = [
 ];
 
 const CATEGORIES = [
-  { value: 'hardware', label: 'Hardware', icon: Monitor },
-  { value: 'software', label: 'Software', icon: Bug },
-  { value: 'network', label: 'Network', icon: Wifi },
-  { value: 'access', label: 'Access/Login', icon: User },
-  { value: 'other', label: 'Other', icon: HelpCircle }
+  { value: 'hardware', label: 'Hardware', icon: Monitor, color: 'bg-blue-100 text-blue-600' },
+  { value: 'software', label: 'Software', icon: Bug, color: 'bg-green-100 text-green-600' },
+  { value: 'network', label: 'Network', icon: Wifi, color: 'bg-purple-100 text-purple-600' },
+  { value: 'access', label: 'Access/Login', icon: User, color: 'bg-yellow-100 text-yellow-600' },
+  { value: 'other', label: 'Other', icon: HelpCircle, color: 'bg-gray-100 text-gray-600' }
 ];
 
 const PRIORITIES = [

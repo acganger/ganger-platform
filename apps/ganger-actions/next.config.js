@@ -10,7 +10,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],

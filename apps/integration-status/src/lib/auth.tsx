@@ -145,11 +145,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser({
         id: authUser.id,
         email: authUser.email,
-        name: userProfile.name || authUser.user_metadata?.name || authUser.email.split('@')[0],
-        picture: userProfile.avatar_url || authUser.user_metadata?.avatar_url,
-        role: userProfile.role || 'staff',
-        permissions: userProfile.permissions || [],
-        locations: userProfile.locations || ['unknown']
+        name: userProfile?.name || authUser.user_metadata?.name || authUser.email.split('@')[0],
+        picture: userProfile?.avatar_url || authUser.user_metadata?.avatar_url,
+        role: (userProfile?.role as any) || 'staff',
+        permissions: (userProfile?.permissions as string[]) || [],
+        locations: (userProfile?.locations as string[]) || ['unknown']
       });
 
     } catch (error) {

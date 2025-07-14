@@ -131,7 +131,7 @@ export default function UserProfilePage() {
       const response = await fetch('/api/users?limit=100');
       if (response.ok) {
         const data = await response.json();
-        const uniqueDepts = [...new Set(data.users?.map((u: any) => u.department).filter(Boolean) || [])];
+        const uniqueDepts = [...new Set(data.users?.map((u: any) => u.department).filter(Boolean) || [])] as string[];
         setDepartments(uniqueDepts.sort());
       }
     } catch (error) {

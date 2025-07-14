@@ -265,7 +265,7 @@ export default function TimeOffRequestForm() {
                 <textarea
                   id="coverage_notes"
                   rows={3}
-                  {...register('coverage_notes')}
+                  {...register('comments')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   placeholder="Any notes about coverage arrangements..."
                 />

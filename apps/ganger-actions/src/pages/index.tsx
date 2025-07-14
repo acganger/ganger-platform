@@ -190,7 +190,7 @@ const TicketCard = ({
                 {ticket.status.replace(/_/g, ' ')}
               </Badge>
               <span className="text-sm text-gray-500">
-                {formTypeLabels[ticket.form_type] || ticket.form_type}
+                {formTypeLabels[ticket.form_type as keyof typeof formTypeLabels] || ticket.form_type}
               </span>
             </div>
             <p className="text-sm font-medium text-gray-900 line-clamp-1">
@@ -200,7 +200,7 @@ const TicketCard = ({
               {ticket.submitter_name} • {new Date(ticket.created_at).toLocaleDateString()}
             </p>
           </div>
-          <div className={`ml-2 ${priorityColors[ticket.priority || 'medium']}`}>
+          <div className={`ml-2 ${priorityColors[ticket.priority as keyof typeof priorityColors || 'medium']}`}>
             <AlertCircle className="h-5 w-5" />
           </div>
         </div>
