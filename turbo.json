@@ -1,9 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": [
+    "**/.env.*local",
+    "**/tsconfig.json",
+    "**/next.config.js",
+    "**/package.json"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["src/**", "next.config.js", "tsconfig.json", "package.json"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"],
       "env": [
         "NEXT_PUBLIC_SUPABASE_URL",
