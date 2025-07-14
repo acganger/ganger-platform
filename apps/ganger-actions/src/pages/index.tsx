@@ -1,3 +1,4 @@
+// Force rebuild - TypeScript fixes applied
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
