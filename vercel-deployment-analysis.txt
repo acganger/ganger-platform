@@ -1,0 +1,807 @@
+# VERCEL DEPLOYMENT ANALYSIS - EXPERT CONSULTATION
+# =====================================================
+# Date: July 14, 2025
+# Issue: All Vercel deployments being cancelled by turbo-ignore despite fixes
+# Status: TypeScript and edge runtime fixes ready but cannot deploy
+
+## PROBLEM SUMMARY
+================
+All Vercel deployments are being cancelled with message:
+"The Deployment has been canceled as a result of running the command defined in the 'Ignored Build Step' setting."
+
+Even though:
+1. commandForIgnoringBuildStep is set to ""
+2. VERCEL_FORCE_NO_BUILD_CACHE=1 is set
+3. Source code changes were made to trigger turbo detection
+
+Vercel continues running `npx turbo-ignore` automatically for monorepos.
+
+## MONOREPO STRUCTURE
+====================
+```
+ganger-platform/
+├── apps/
+│   ├── ganger-staff/          # Main router app
+│   ├── ganger-actions/        # Employee forms & utilities
+│   ├── ganger-inventory/      # Medical supply tracking
+│   ├── ganger-eos-l10/        # Team management
+│   ├── component-showcase/    # UI components
+│   ├── platform-dashboard/    # System overview
+│   ├── integration-status/    # Integration monitoring
+│   └── ... (10 more apps)
+├── packages/
+│   ├── auth/                  # Authentication
+│   ├── ui/                    # Shared components
+│   ├── db/                    # Database layer
+│   ├── config/                # Shared configs
+│   └── ... (6 more packages)
+├── turbo.json                 # Turborepo configuration
+└── package.json               # Root workspace
+```
+
+## VERCEL PROJECT CONFIGURATION
+===============================
+
+### Current Project Settings (via API)
+All projects have:
+- buildCommand: "cd ../.. && pnpm -F @ganger/[app-name] build"
+- installCommand: "cd ../.. && NODE_ENV=development pnpm install --no-frozen-lockfile"
+- rootDirectory: null
+- commandForIgnoringBuildStep: ""
+- framework: "nextjs"
+- nodeVersion: "22.x"
+
+### Environment Variables (Production)
+Key variables set across all projects:
+- NEXT_PUBLIC_SUPABASE_URL
+- NEXT_PUBLIC_SUPABASE_ANON_KEY
+- SUPABASE_SERVICE_ROLE_KEY
+- GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET
+- VERCEL_FORCE_NO_BUILD_CACHE=1 (recently added)
+
+### Team Settings
+- Team: Ganger (Pro plan)
+- concurrentBuilds: 1
+- All projects linked to GitHub repo: acganger/ganger-platform
+
+## TURBOREPO CONFIGURATION
+==========================
+
+### turbo.json
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"],
+      "env": [
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "NEXT_PUBLIC_SITE_URL",
+        "NODE_ENV",
+        "SKIP_ENV_VALIDATION"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "type-check": {
+      "dependsOn": ["^type-check"],
+      "outputs": []
+    },
+    "verify": {
+      "dependsOn": ["lint", "type-check"],
+      "cache": false
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "cache": false
+    }
+  }
+}
+```
+
+### Root package.json workspace config
+```json
+{
+  "name": "ganger-platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "build": "turbo run build",
+    "build:changed": "turbo run build --filter='[HEAD^1]'",
+    "dev": "turbo run dev --parallel",
+    "deploy:changed": "turbo run deploy --filter='[HEAD^1]'"
+  }
+}
+```
+
+## GANGER-STAFF APP DETAILS
+===========================
+
+### Directory: apps/staff/
+### Vercel Project ID: prj_ieT5HxdUCrsZwDSNxhQxtOL5Ejgp
+### Production URL: https://staff.gangerdermatology.com
+
+### package.json
+```json
+{
+  "name": "@ganger/staff",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@ganger/deps": "workspace:*",
+    "@ganger/auth": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*",
+    "tailwindcss": "^4.0.0-alpha.33",
+    "@tailwindcss/postcss": "^4.0.0-alpha.33",
+    "postcss": "^8.4.35"
+  },
+  "devDependencies": {
+    "@ganger/config": "workspace:*"
+  }
+}
+```
+
+### next.config.js
+```javascript
+const { createNextConfig } = require('@ganger/config/next-config-template');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = createNextConfig({
+  // Staff-specific config
+  poweredByHeader: false,
+  
+  // Router app - handles routing to other apps
+  async rewrites() {
+    return [
+      {
+        source: '/inventory/:path*',
+        destination: 'https://ganger-inventory.vercel.app/inventory/:path*'
+      },
+      {
+        source: '/actions/:path*',
+        destination: 'https://ganger-actions-ganger.vercel.app/actions/:path*'
+      },
+      {
+        source: '/handouts/:path*',
+        destination: 'https://ganger-handouts.vercel.app/handouts/:path*'
+      },
+      {
+        source: '/l10/:path*',
+        destination: 'https://ganger-eos-l10.vercel.app/l10/:path*'
+      },
+      {
+        source: '/clinical-staffing/:path*',
+        destination: 'https://ganger-clinical-staffing.vercel.app/clinical-staffing/:path*'
+      },
+      {
+        source: '/call-center/:path*',
+        destination: 'https://ganger-call-center.vercel.app/call-center/:path*'
+      },
+      {
+        source: '/batch/:path*',
+        destination: 'https://ganger-batch-closeout.vercel.app/batch/:path*'
+      },
+      {
+        source: '/compliance/:path*',
+        destination: 'https://ganger-compliance-training.vercel.app/compliance/:path*'
+      },
+      {
+        source: '/socials/:path*',
+        destination: 'https://ganger-socials-reviews.vercel.app/socials/:path*'
+      },
+      {
+        source: '/platform-dashboard/:path*',
+        destination: 'https://ganger-platform-dashboard.vercel.app/platform-dashboard/:path*'
+      },
+      {
+        source: '/config/:path*',
+        destination: 'https://ganger-config-dashboard.vercel.app/config/:path*'
+      },
+      {
+        source: '/status/:path*',
+        destination: 'https://ganger-integration-status.vercel.app/status/:path*'
+      },
+      {
+        source: '/component-showcase/:path*',
+        destination: 'https://ganger-component-showcase.vercel.app/component-showcase/:path*'
+      },
+      {
+        source: '/ai-receptionist/:path*',
+        destination: 'https://ganger-ai-receptionist.vercel.app/ai-receptionist/:path*'
+      }
+    ];
+  }
+});
+
+module.exports = nextConfig;
+```
+
+### tsconfig.json (INLINED TO FIX TS6053)
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"]
+    },
+    "preserveSymlinks": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+### Key Source Files
+
+#### src/pages/_app.tsx
+```tsx
+import { AppProps } from 'next/app';
+import { AuthProvider } from '@ganger/auth';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@ganger/ui';
+import '@/styles/globals.css';
+
+const queryClient = new QueryClient();
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Component {...pageProps} />
+        <Toaster />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+#### src/pages/auth/error.tsx (EDGE RUNTIME FIXED)
+```tsx
+export const runtime = 'experimental-edge'; // CHANGED FROM 'edge'
+
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+export default function AuthError() {
+  const router = useRouter();
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    const { error: errorParam } = router.query;
+    if (errorParam) {
+      setError(errorParam as string);
+    }
+  }, [router.query]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Authentication Error
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            {error || 'An authentication error occurred'}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## GANGER-ACTIONS APP DETAILS
+=============================
+
+### Directory: apps/ganger-actions/
+### Vercel Project ID: prj_p2TakyHptLfHQs98taMsBYs6PrVk
+### Production URL: https://ganger-actions-ganger.vercel.app
+
+### package.json
+```json
+{
+  "name": "@ganger/ganger-actions",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3011",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "next": "^14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@ganger/deps": "workspace:*",
+    "@ganger/auth": "workspace:*",
+    "@ganger/cache": "workspace:*",
+    "@ganger/db": "workspace:*",
+    "@ganger/integrations": "workspace:*",
+    "@ganger/monitoring": "workspace:*",
+    "@ganger/types": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*",
+    "@tanstack/react-query": "^5.0.0",
+    "googleapis": "^131.0.0",
+    "mysql2": "^3.9.0",
+    "nodemailer": "^6.9.16",
+    "puppeteer": "^23.10.4",
+    "@hookform/resolvers": "^3.6.0",
+    "react-hook-form": "^7.48.0",
+    "zod": "^3.23.8",
+    "tailwindcss": "^4.0.0-alpha.33",
+    "@tailwindcss/postcss": "^4.0.0-alpha.33",
+    "postcss": "^8.4.35"
+  },
+  "devDependencies": {
+    "@ganger/config": "workspace:*"
+  },
+  "comment": "App-specific dependencies that are edge-incompatible or specific to this app's needs"
+}
+```
+
+### next.config.js
+```javascript
+const { createNextConfig } = require('@ganger/config/next-config-template');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = createNextConfig({
+  // Actions-specific config
+  basePath: '/actions',
+  
+  experimental: {
+    serverComponentsExternalPackages: ['puppeteer', 'mysql2']
+  },
+});
+
+module.exports = nextConfig;
+```
+
+### tsconfig.json (INLINED TO FIX TS6053)
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"]
+    },
+    "preserveSymlinks": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+### Key Source Files
+
+#### src/pages/index.tsx (WITH FORCED REBUILD COMMENT)
+```tsx
+// Force rebuild - TypeScript fixes applied
+export const dynamic = 'force-dynamic';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { useAuth } from '@/hooks/useAuth';
+import { 
+  Ticket, 
+  Clock, 
+  Users, 
+  AlertCircle,
+  FileText,
+  Calendar,
+  CheckCircle,
+  XCircle 
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { AuthGuard } from '@ganger/auth'; // FIXED: Added AuthGuard level
+
+const quickActions = [
+  {
+    title: 'Support Ticket',
+    description: 'Submit a technical support request',
+    icon: Ticket,
+    href: '/actions/forms/support',
+    color: 'bg-blue-500'
+  },
+  {
+    title: 'Time Off Request',
+    description: 'Request vacation or sick leave',
+    icon: Calendar,
+    href: '/actions/forms/time-off',
+    color: 'bg-green-500'
+  },
+  // ... more actions
+];
+
+export default function ActionsHome() {
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+  const [stats, setStats] = useState({
+    pendingTickets: 0,
+    recentSubmissions: 0,
+    upcomingTimeOff: 0,
+    systemAlerts: 0
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <AuthGuard level="staff"> {/* FIXED: Added level prop */}
+      <DashboardLayout>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Ganger Actions</h1>
+            <p className="text-gray-600">Employee forms and utility hub</p>
+          </div>
+
+          {/* Quick Actions Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {quickActions.map((action) => {
+              const Icon = action.icon;
+              return (
+                <Card key={action.title} className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader className="pb-3">
+                    <div className={`w-12 h-12 rounded-lg ${action.color} flex items-center justify-center mb-3`}>
+                      <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <CardTitle className="text-lg">{action.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">{action.description}</p>
+                    <Button 
+                      variant="primary" 
+                      className="w-full"
+                      onClick={() => router.push(action.href)}
+                    >
+                      Get Started
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </DashboardLayout>
+    </AuthGuard>
+  );
+}
+```
+
+#### src/pages/auth/error.tsx (EDGE RUNTIME FIXED)
+```tsx
+export const runtime = 'experimental-edge'; // CHANGED FROM 'edge'
+
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+export default function AuthError() {
+  const router = useRouter();
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    const { error: errorParam } = router.query;
+    if (errorParam) {
+      setError(errorParam as string);
+    }
+  }, [router.query]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Authentication Error
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            {error || 'An authentication error occurred'}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## SHARED PACKAGE DEPENDENCIES
+==============================
+
+### @ganger/auth package (AuthGuard component)
+```tsx
+// packages/auth/src/guards.tsx
+interface AuthGuardProps {
+  children: React.ReactNode;
+  level: 'public' | 'authenticated' | 'staff' | 'admin' | 'team-member' | 'team-leader'; // FIXED: Added level prop
+  fallback?: React.ReactNode;
+}
+
+export function AuthGuard({ children, level, fallback }: AuthGuardProps) {
+  const { user, isLoading } = useStaffAuth();
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (level === 'public') {
+    return <>{children}</>;
+  }
+  
+  if (!user) {
+    return fallback || <div>Please sign in</div>;
+  }
+  
+  // Role-based access control logic
+  return <>{children}</>;
+}
+```
+
+### @ganger/ui components (Toast API Migration)
+```tsx
+// packages/ui/src/toast.tsx - NEW API
+export interface ToastProps {
+  message: string;     // CHANGED FROM: description
+  type: 'success' | 'error' | 'warning' | 'info'; // CHANGED FROM: variant
+  duration?: number;
+}
+
+export function addToast({ message, type, duration = 5000 }: ToastProps) {
+  // Toast implementation
+}
+
+// MIGRATION PATTERN APPLIED:
+// OLD: toast({ description: "Success!", variant: "success" })
+// NEW: addToast({ message: "Success!", type: "success" })
+```
+
+### @ganger/ui Button component
+```tsx
+// packages/ui/src/button.tsx
+export interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'; // REMOVED: 'default'
+  size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+}
+
+// MIGRATION APPLIED:
+// OLD: <Button variant="default">
+// NEW: <Button variant="primary">
+```
+
+## TYPESCRIPT FIXES APPLIED
+============================
+
+### 1. AuthGuard Missing Level Property
+Fixed in 7 apps by adding appropriate level:
+- config-dashboard: level="admin"
+- platform-dashboard: level="admin"  
+- inventory: level="staff"
+- ganger-actions: level="staff"
+- integration-status: level="admin"
+
+### 2. Toast API Migration
+Applied across multiple components:
+```tsx
+// OLD API
+toast({
+  description: "Form submitted successfully!",
+  variant: "success"
+});
+
+// NEW API
+addToast({
+  message: "Form submitted successfully!",
+  type: "success"
+});
+```
+
+### 3. Button Variant Fix
+Changed from non-existent 'default' to 'primary':
+```tsx
+// OLD
+<Button variant="default">Submit</Button>
+
+// NEW  
+<Button variant="primary">Submit</Button>
+```
+
+### 4. Edge Runtime Configuration
+Changed across 15 auth error pages:
+```tsx
+// OLD
+export const runtime = 'edge';
+
+// NEW
+export const runtime = 'experimental-edge';
+```
+
+### 5. TypeScript Config Resolution (TS6053)
+Inlined all tsconfig.json files instead of extending to fix build errors.
+
+## VERCEL BUILD LOGS ANALYSIS
+=============================
+
+### Recent Deployment Attempt (CANCELLED)
+```
+Running build in Washington, D.C., USA (East) – iad1
+Build machine configuration: 4 cores, 8 GB
+Cloning github.com/acganger/ganger-platform (Branch: main, Commit: 1c353c4)
+Previous build caches not available
+Warning: Failed to fetch one or more git submodules
+Cloning completed: 2.236s
+Found .vercelignore
+Removed 649 ignored files defined in .vercelignore
+Running "npx turbo-ignore"
+≫   Using Turborepo to determine if this project is affected by the commit...
+≫   Inferred "ganger-platform" as workspace from "package.json"
+≫   Inferred turbo version "^1.10.0" from "package.json"
+≫   Using "build" as the task from the arguments
+≫   Found previous deployment ("b666960b0a0828ad477db1eb275e5cbc1274db7b") for "ganger-platform" on branch "main"
+≫   Analyzing results of `npx -y turbo@^1.10.0 run "build" --filter="ganger-platform...[b666960b0a0828ad477db1eb275e5cbc1274db7b]" --dry=json`
+≫   This project and its dependencies are not affected
+⏭ Ignoring the change
+Exiting build container
+```
+
+### Turbo Detection Results
+When running locally:
+```bash
+npx turbo run build --filter="ganger-actions...[HEAD^1]" --dry=json
+```
+
+Turbo detects all package dependencies but determines the app is not affected by recent changes, even though we made:
+- TypeScript config modifications
+- Edge runtime changes  
+- Source code comments
+
+## ATTEMPTED SOLUTIONS
+======================
+
+### 1. Disabled Ignore Build Step Command
+```bash
+curl -X PATCH \
+  -H "Authorization: Bearer RdwA23mHSvPcm9ptReM6zxjF" \
+  -H "Content-Type: application/json" \
+  -d '{"commandForIgnoringBuildStep": ""}' \
+  "https://api.vercel.com/v9/projects/$PROJECT_ID?teamId=team_wpY7PcIsYQNnslNN39o7fWvS"
+```
+**Result**: Still runs turbo-ignore automatically
+
+### 2. Added Force Cache Environment Variable
+```bash
+curl -X POST \
+  -H "Authorization: Bearer RdwA23mHSvPcm9ptReM6zxjF" \
+  -H "Content-Type: application/json" \
+  -d '{"key": "VERCEL_FORCE_NO_BUILD_CACHE", "value": "1", "target": ["production"], "type": "plain"}' \
+  "https://api.vercel.com/v10/projects/$PROJECT_ID/env?teamId=team_wpY7PcIsYQNnslNN39o7fWvS"
+```
+**Result**: Still cancelled by turbo-ignore
+
+### 3. Made Source Code Changes
+Added comment to force turbo detection:
+```tsx
+// Force rebuild - TypeScript fixes applied
+export const dynamic = 'force-dynamic';
+```
+**Result**: Still not detected as affecting the build
+
+### 4. Used Deploy Hooks
+```bash
+curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_p2TakyHptLfHQs98taMsBYs6PrVk/lsptXnNFuQ"
+```
+**Result**: Deploy hook triggers deployment but still gets cancelled by turbo-ignore
+
+## CURRENT STATUS
+=================
+
+### TypeScript Errors: FIXED ✅
+- All imports resolve correctly
+- All type errors resolved  
+- Edge runtime configurations updated
+- AuthGuard level properties added
+- Toast API migrations applied
+
+### Deployment Status: BLOCKED ❌ 
+- All deployments cancelled by turbo-ignore
+- Vercel automatically runs `npx turbo-ignore` for monorepos
+- Standard bypass methods are not working
+- Need expert guidance on Vercel + Turborepo configuration
+
+### Team Configuration
+- Vercel Pro plan with concurrentBuilds: 1
+- All projects properly configured via API
+- Environment variables correctly set
+- GitHub integration active
+
+## EXPERT QUESTIONS
+==================
+
+1. **Is there a Vercel API endpoint or setting to completely disable turbo-ignore for monorepos?**
+
+2. **Should we modify the turbo.json configuration to force detection of our changes?**
+
+3. **Can we override the automatic turbo-ignore behavior through Vercel dashboard settings?**
+
+4. **Is there a way to force individual app deployments that bypass the monorepo turbo detection?**
+
+5. **Should we temporarily restructure the deployment approach (e.g., separate repos) to get the fixes deployed?**
+
+The core issue appears to be that Vercel's automatic turbo-ignore execution for monorepos cannot be bypassed through the standard API methods, and our TypeScript/configuration changes are not being detected as "affecting" the build by turbo's dependency analysis.
