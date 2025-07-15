@@ -210,7 +210,7 @@ function validateApp(appDir) {
       }
 
       // Check for hardcoded values
-      if (supabaseContent.includes('https://pfqtzmxxxhhsxmlddrta.supabase.co')) {
+      if (supabaseContent.includes('https://supa.gangerdermatology.com')) {
         results.warnings.push('Hardcoded Supabase URL found');
         colorLog(`⚠️  Hardcoded Supabase URL (consider using env vars only)`, 'yellow');
       }

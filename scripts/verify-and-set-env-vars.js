@@ -23,8 +23,8 @@ if (!VERCEL_TOKEN || !TEAM_ID) {
 // Required environment variables for ganger-staff
 const requiredEnvVars = {
   // Supabase Configuration
-  NEXT_PUBLIC_SUPABASE_URL: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s',
+  NEXT_PUBLIC_SUPABASE_URL: 'https://supa.gangerdermatology.com',
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: 'sb_publishable_q-yj56RH8zrMVH-4cRazWA_PI2pBoeh',
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '', // Should be set separately
   
   // Google OAuth

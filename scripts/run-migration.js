@@ -10,8 +10,8 @@ async function runMigration() {
     const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
     
     // Use fetch to execute via Supabase REST API
-    const supabaseUrl = 'https://pfqtzmxxxhhsxmlddrta.supabase.co';
-    const serviceRoleKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA5ODUyNCwiZXhwIjoyMDY0Njc0NTI0fQ.LwGWw4cSQFvT6JdWx-VC9YRDQM0ykdJbUl2o_dXKsoc';
+    const supabaseUrl = 'https://supa.gangerdermatology.com';
+    const serviceRoleKey = 'sb_secret_v5sXkhM2ouPpiR5axMqYIQ_Db7TwDVc';
     
     console.log('🚀 Running authentication schema migration...');
     console.log(`📁 Migration file: ${migrationPath}`);
@@ -77,8 +77,8 @@ async function createTablesViaSupabase() {
     // Import Supabase (if available)
     const { createClient } = require('@supabase/supabase-js');
     
-    const supabaseUrl = 'https://pfqtzmxxxhhsxmlddrta.supabase.co';
-    const serviceRoleKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA5ODUyNCwiZXhwIjoyMDY0Njc0NTI0fQ.LwGWw4cSQFvT6JdWx-VC9YRDQM0ykdJbUl2o_dXKsoc';
+    const supabaseUrl = 'https://supa.gangerdermatology.com';
+    const serviceRoleKey = 'sb_secret_v5sXkhM2ouPpiR5axMqYIQ_Db7TwDVc';
     
     const supabase = createClient(supabaseUrl, serviceRoleKey);
     

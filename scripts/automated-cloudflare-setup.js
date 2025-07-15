@@ -87,7 +87,7 @@ async function createPagesProject(project) {
       production: {
         env_vars: {
           NODE_ENV: 'production',
-          SUPABASE_URL: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
+          SUPABASE_URL: 'https://supa.gangerdermatology.com',
           NEXT_PUBLIC_STAFF_URL: 'https://staff.gangerdermatology.com',
           NEXT_PUBLIC_REPS_URL: 'https://reps.gangerdermatology.com',
           NEXT_PUBLIC_KIOSK_URL: 'https://kiosk.gangerdermatology.com'
