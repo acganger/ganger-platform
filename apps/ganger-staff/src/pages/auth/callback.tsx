@@ -2,19 +2,20 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '@ganger/auth';
 
 export default function CallbackPage() {
   const router = useRouter();
-  const { user } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      // Redirect to intended destination or home
-      const returnUrl = router.query.returnUrl as string || '/';
-      router.push(returnUrl);
-    }
-  }, [user, router]);
+    // Since Supabase has detectSessionInUrl: true, it will automatically
+    // handle the OAuth callback. We just need to redirect to home
+    // where the auth context will pick up the session.
+    const timer = setTimeout(() => {
+      router.push('/');
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
