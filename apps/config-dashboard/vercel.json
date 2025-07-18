@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd ../.. && pnpm install --frozen-lockfile=false",
-  "buildCommand": "cd ../.. && npx turbo run build --filter=@ganger/config-dashboard",
+  "installCommand": "pnpm install",
+  "buildCommand": "turbo run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "env": {
