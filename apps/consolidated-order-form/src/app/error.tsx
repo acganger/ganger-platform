@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import { Button, Card, Alert } from '@ganger/ui'
+import { Button, Alert } from '@ganger/ui'
+import { Card } from '@ganger/ui-catalyst'
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
 
 export default function Error({

@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, Button, Input, Badge, Select, LoadingSpinner } from '@ganger/ui'
+import { Button, Badge, LoadingSpinner } from '@ganger/ui'
+import { Card, CardContent } from '@ganger/ui-catalyst'
+import { Input, Select } from '@ganger/ui-catalyst'
 import { useCart } from '@/contexts/CartContext'
 import { 
   Package, 
@@ -101,12 +103,14 @@ export function ProductCatalog({
               <Select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                options={categories.map(category => ({
-                  value: category,
-                  label: category === 'all' ? 'All Categories' : category
-                }))}
                 className="w-48"
-              />
+              >
+                {categories.map(category => (
+                  <option key={category} value={category}>
+                    {category === 'all' ? 'All Categories' : category}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
         </CardContent>

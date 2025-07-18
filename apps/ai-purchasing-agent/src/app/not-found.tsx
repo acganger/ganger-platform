@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Card, CardContent } from '@ganger/ui'
+import { Button } from '@ganger/ui'
+import { Card, CardContent } from '@ganger/ui-catalyst'
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 

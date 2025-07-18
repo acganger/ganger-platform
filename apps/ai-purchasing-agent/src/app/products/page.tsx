@@ -8,7 +8,9 @@ import { useAuth } from '@ganger/auth'
 import { PageLayout } from '@/components/PageLayout'
 import { ProductCatalog } from '@/components/ProductCatalog'
 import { useCart } from '@/contexts/CartContext'
-import { Button, Badge, Alert } from '@ganger/ui'
+import { Button } from '@ganger/ui'
+import { Badge } from '@ganger/ui-catalyst'
+import { Alert } from '@ganger/ui-catalyst'
 import { ShoppingCart } from 'lucide-react'
 import type { StandardizedProduct } from '@ganger/types'
 
@@ -66,7 +68,7 @@ export default function ProductsPage() {
           View Cart
           {totalItems > 0 && (
             <Badge 
-              variant="destructive" 
+              color="red" 
               size="sm" 
               className="absolute -top-2 -right-2"
             >
@@ -78,7 +80,7 @@ export default function ProductsPage() {
     >
       <div className="space-y-6">
         {/* Instructions */}
-        <Alert>
+        <Alert color="blue">
           <div className="font-semibold">AI-Powered Procurement</div>
           <div className="text-sm mt-1">
             Browse our catalog and add items to your cart. Our AI will analyze your selections
@@ -88,7 +90,7 @@ export default function ProductsPage() {
 
         {/* Error Display */}
         {error && (
-          <Alert variant="error">
+          <Alert color="red">
             {error}
           </Alert>
         )}

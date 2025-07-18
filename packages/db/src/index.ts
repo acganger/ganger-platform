@@ -131,3 +131,32 @@ export {
   validateOrThrow,
   validatePartial,
 } from './schemas/validation';
+
+// Migration support
+export {
+  StatusMapping,
+  TableMapping,
+  ColumnMapping,
+  ReverseStatusMapping,
+  MigrationHelpers,
+  isOldTicketStatus,
+  isNewTicketStatus,
+  isOldEmployeeStatus,
+  isNewEmployeeStatus,
+  type OldTicketStatus,
+  type NewTicketStatus,
+  type OldEmployeeStatus,
+  type NewEmployeeStatus,
+  type OldScheduleStatus,
+  type NewScheduleStatus,
+  type OldAvailabilityType,
+  type NewAvailabilityType,
+  type OldTableName,
+  type NewTableName
+} from './types/migration-enums';
+
+export {
+  MigrationQueryAdapter,
+  migrationAdapter,
+  type MigrationConfig
+} from './migration/migration-query-adapter';

@@ -2,13 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Modal, 
   Button, 
   LoadingSpinner,
   Badge,
-  Card,
-  Select
+  Card
 } from '@ganger/ui';
+import { Select, Modal } from '@ganger/ui-catalyst';
 import { 
   Alert,
   Tabs,
@@ -214,13 +213,13 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
 
   return (
     <Modal
-      isOpen={isOpen}
+      open={isOpen}
       onClose={onClose}
-      title={`GD It! - Adapt Content for Ganger Dermatology`}
       size="xl"
       className={className}
     >
       <div className="space-y-6">
+        <h2 className="text-xl font-semibold">GD It! - Adapt Content for Ganger Dermatology</h2>
         {/* Original Post Display */}
         <Card className="p-4 bg-gray-50">
           <div className="flex items-start justify-between mb-3">

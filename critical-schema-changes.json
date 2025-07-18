@@ -1,0 +1,358 @@
+{
+  "critical_files_count": 89,
+  "issues_count": {
+    "staff_tables": 88,
+    "removed_columns": 70,
+    "old_statuses": 80
+  },
+  "critical_files": [
+    "/apps/ai-receptionist/src/hooks/useDemoData.ts",
+    "/apps/clinical-staffing/src/components/analytics/CoverageAnalytics.tsx",
+    "/apps/clinical-staffing/src/components/mobile/MobileScheduleView.tsx",
+    "/apps/clinical-staffing/src/components/schedule/ProviderScheduleGrid.tsx",
+    "/apps/clinical-staffing/src/components/schedule/ScheduleBuilder.tsx",
+    "/apps/clinical-staffing/src/components/schedule/StaffAssignmentGrid.tsx",
+    "/apps/clinical-staffing/src/components/staff/StaffingSidebar.tsx",
+    "/apps/clinical-staffing/src/hooks/useRealtimeStaffing.ts",
+    "/apps/clinical-staffing/src/lib/validation.ts",
+    "/apps/clinical-staffing/src/types/staffing.ts",
+    "/apps/clinical-staffing/src/__tests__/StaffingDashboard.test.tsx",
+    "/apps/clinical-staffing/src/__tests__/api/staff-schedules.test.ts",
+    "/apps/clinical-staffing/src/__tests__/components/StaffCard.test.tsx",
+    "/apps/ganger-actions/src/hooks/useNotifications.ts",
+    "/apps/ganger-actions/src/pages/api/staff.ts",
+    "/apps/ganger-actions/src/pages/api/admin/google-sync.ts",
+    "/apps/ganger-actions/src/pages/api/attachments/index.ts",
+    "/apps/ganger-actions/src/pages/api/attachments/[id].ts",
+    "/apps/ganger-actions/src/pages/api/comments/index.ts",
+    "/apps/ganger-actions/src/pages/api/comments/[id].ts"
+  ],
+  "sample_issues": {
+    "staff_tables": [
+      {
+        "file": "/apps/ganger-actions/src/hooks/useNotifications.ts",
+        "line": 328,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      },
+      {
+        "file": "/apps/ganger-actions/src/hooks/useNotifications.ts",
+        "line": 345,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      },
+      {
+        "file": "/apps/ganger-actions/src/hooks/useNotifications.ts",
+        "line": 363,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      },
+      {
+        "file": "/apps/ganger-actions/src/hooks/useNotifications.ts",
+        "line": 436,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/attachments/index.ts",
+        "line": 168,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/attachments/index.ts",
+        "line": 313,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/attachments/index.ts",
+        "line": 432,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/attachments/[id].ts",
+        "line": 158,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/attachments/[id].ts",
+        "line": 292,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/index.ts",
+        "line": 174,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/index.ts",
+        "line": 302,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/index.ts",
+        "line": 358,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/[id].ts",
+        "line": 156,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/[id].ts",
+        "line": 259,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/[id].ts",
+        "line": 341,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/comments/[id].ts",
+        "line": 419,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/forms/[id].ts",
+        "line": 510,
+        "table": "staff_tickets",
+        "new_name": "tickets"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/notifications/index.ts",
+        "line": 178,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/notifications/index.ts",
+        "line": 230,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/notifications/index.ts",
+        "line": 238,
+        "table": "staff_notifications",
+        "new_name": "REMOVED"
+      }
+    ],
+    "column_refs": [
+      {
+        "file": "/apps/ganger-actions/src/components/layout/MobileNav.tsx",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/components/layout/Sidebar.tsx",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/index.tsx",
+        "column": "form_type",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/index.tsx",
+        "column": "assigned_to_email",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/forms/[id].ts",
+        "column": "form_type",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/realtime/subscribe.ts",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/index.ts",
+        "column": "form_type",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/index.ts",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/index.ts",
+        "column": "assigned_to_email",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/index.ts",
+        "column": "payload",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/[id].ts",
+        "column": "assigned_to_email",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/[id].ts",
+        "column": "payload",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/api/tickets/[id]/comments.ts",
+        "column": "payload",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/availability.tsx",
+        "column": "form_type",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/availability.tsx",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/availability.tsx",
+        "column": "completed_by",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/expense.tsx",
+        "column": "form_type",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/expense.tsx",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/impact.tsx",
+        "column": "form_type",
+        "note": "Column removed from tickets table"
+      },
+      {
+        "file": "/apps/ganger-actions/src/pages/forms/impact.tsx",
+        "column": "location",
+        "note": "Column removed from tickets table"
+      }
+    ],
+    "status_refs": [
+      {
+        "file": "/apps/compliance-training/src/components/charts/ComplianceCharts.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/compliance-training/src/components/filters/ComplianceFilters.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/compliance-training/src/components/shared/ComplianceStatusBadge.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/compliance-training/src/utils/compliance-helpers.ts",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/eos-l10/out/_next/static/chunks/pages/todos-1df2cbfca15cd418.js",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/eos-l10/out/_next/static/chunks/pages/todos-1df2cbfca15cd418.js",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/eos-l10/out/_next/static/chunks/pages/meeting/start-4354251f5997e5d8.js",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/eos-l10/out/_next/static/chunks/pages/meeting/start-4354251f5997e5d8.js",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/meeting/MeetingTodoReview.tsx",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/meeting/MeetingTodoReview.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/todos/TodoCard.tsx",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/todos/TodoCard.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/todos/TodoFilters.tsx",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/todos/TodoFilters.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/todos/TodoKanban.tsx",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/eos-l10/src/components/todos/TodoKanban.tsx",
+        "old_status": "Completed",
+        "new_status": "resolved"
+      },
+      {
+        "file": "/apps/ganger-actions/src/components/tickets/TicketCard.tsx",
+        "old_status": "Open",
+        "new_status": "open"
+      },
+      {
+        "file": "/apps/ganger-actions/src/components/tickets/TicketCard.tsx",
+        "old_status": "In Progress",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/ganger-actions/src/components/tickets/TicketCard.tsx",
+        "old_status": "Stalled",
+        "new_status": "in-progress"
+      },
+      {
+        "file": "/apps/ganger-actions/src/components/tickets/TicketCard.tsx",
+        "old_status": "Approved",
+        "new_status": "resolved"
+      }
+    ]
+  }
+}

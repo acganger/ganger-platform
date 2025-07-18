@@ -8,16 +8,13 @@ import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
-  Card, 
   Button, 
-  DataTable,
   StatCard,
-  LoadingSpinner,
-  Modal,
-  FormField,
-  Input,
-  Select
+  LoadingSpinner
 } from '@ganger/ui';
+import { DataTable, Modal, FormField } from '@ganger/ui-catalyst';
+import { Card } from '@ganger/ui-catalyst';
+import { Input, Select } from '@ganger/ui-catalyst';
 // Temporary local implementations until @ganger/utils is available
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString();
 const formatTime = (dateString: string) => new Date(dateString).toLocaleTimeString();
@@ -295,15 +292,14 @@ function SupervisorDashboard() {
               <Select
                 value={selectedAgent}
                 onChange={(e) => setSelectedAgent(e.target.value)}
-                options={[
-                  { value: '', label: 'All Agents' },
-                  ...data.activeAgents.map(agent => ({
-                    value: agent.agent_email,
-                    label: agent.agent_name
-                  }))
-                ]}
-                placeholder="Filter by agent"
-              />
+              >
+                <option value="">All Agents</option>
+                {data.activeAgents.map(agent => (
+                  <option key={agent.agent_email} value={agent.agent_email}>
+                    {agent.agent_name}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
           <DataTable

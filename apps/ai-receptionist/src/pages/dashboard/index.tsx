@@ -8,11 +8,11 @@ import {
   AppLayout, 
   PageHeader, 
   Button, 
-  Card, 
   StatCard,
   LoadingSpinner,
   Badge
 } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { CallMonitoringPanel } from '@/components/dashboard/CallMonitoringPanel';
 import { ActiveCallsGrid } from '@/components/dashboard/ActiveCallsGrid';
 import { DemoScenarioPanel } from '@/components/demo/DemoScenarioPanel';

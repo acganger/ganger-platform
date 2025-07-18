@@ -66,8 +66,8 @@ async function buildApp(appName) {
       env: {
         ...process.env,
         NODE_ENV: 'production',
-        SUPABASE_URL: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
-        NEXT_PUBLIC_SUPABASE_URL: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
+        SUPABASE_URL: 'https://supa.gangerdermatology.com',
+        NEXT_PUBLIC_SUPABASE_URL: 'https://supa.gangerdermatology.com',
         NEXT_PUBLIC_STAFF_URL: 'https://staff.gangerdermatology.com',
         NEXT_PUBLIC_PLATFORM_VERSION: '1.0'
       }

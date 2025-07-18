@@ -6,10 +6,10 @@ import {
   AppLayout, 
   PageHeader, 
   Button,
-  Input,
   LoadingSpinner,
   Card
 } from '@ganger/ui';
+import { Input } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
 import { QRScanner } from '@/components/QRScanner';
 import { TemplateSelector } from '@/components/TemplateSelector';

@@ -5,7 +5,8 @@ import { SupportTicketFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { AlertCircle, Paperclip, X } from 'lucide-react';
 import { useState } from 'react';
-import { Button, Input, Select } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 
 const supportTicketSchema = z.object({
   location: z.enum(['Wixom', 'Ann Arbor', 'Plymouth'], {

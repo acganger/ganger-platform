@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AppLayout, PageHeader, Card, LoadingSpinner } from '@ganger/ui';
+import { AppLayout, PageHeader, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { useAuth } from '@ganger/auth';
 import { ScheduleBuilder } from '@/components/schedule/ScheduleBuilder';
 import { StaffingSidebar } from '@/components/staff/StaffingSidebar';

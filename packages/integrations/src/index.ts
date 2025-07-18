@@ -28,3 +28,14 @@ export * from './database';
 // React providers for Universal Hubs
 export { CommunicationProvider, useCommunication } from './providers/CommunicationProvider';
 export { PaymentProvider, usePayment } from './providers/PaymentProvider';
+
+// Deputy integration
+export { DeputyClient } from './deputy/deputy-client';
+export { MigrationDeputyAdapter, createMigrationDeputyAdapter } from './deputy/migration-deputy-adapter';
+export type { 
+  DeputyConfig, 
+  DeputyEmployee, 
+  DeputyAvailability, 
+  SyncAvailabilityResult 
+} from './deputy/deputy-client';
+export type { MigrationDeputyConfig } from './deputy/migration-deputy-adapter';

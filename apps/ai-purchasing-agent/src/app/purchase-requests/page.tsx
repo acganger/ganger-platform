@@ -6,7 +6,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@ganger/auth'
 import { PageLayout } from '@/components/PageLayout'
-import { Card, CardContent, CardHeader, Button, Badge, LoadingSpinner, DataTable } from '@ganger/ui'
+import { Button, Badge, LoadingSpinner } from '@ganger/ui'
+import { Card, CardContent, CardHeader, DataTable } from '@ganger/ui-catalyst'
 import { 
   FileText, 
   Clock, 

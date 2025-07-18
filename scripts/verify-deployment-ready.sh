@@ -374,6 +374,34 @@ check_app() {
         fi
     fi
     
+    # Check 19e: Verify Supabase URL matches production .env file
+    if grep -r "supabase" "$app_path/src" >/dev/null 2>&1; then
+        # Get the correct Supabase URL from root .env
+        correct_supabase_url=$(grep "^NEXT_PUBLIC_SUPABASE_URL=" "$ROOT_DIR/.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'")
+        
+        if [ ! -z "$correct_supabase_url" ]; then
+            # Check for hardcoded incorrect Supabase URLs
+            incorrect_urls=$(grep -r "ddfovyobbezqefpoxhip\.supabase\.co" "$app_path/src" 2>/dev/null || true)
+            if [ ! -z "$incorrect_urls" ]; then
+                echo -e "  ${RED}✗ Found incorrect Supabase URL (ddfovyobbezqefpoxhip) - should use value from .env${NC}"
+                echo -e "    Correct URL: $correct_supabase_url"
+                ((issues++))
+                ((critical++))
+            fi
+            
+            # Check if auth package has correct default
+            if [ -f "$app_path/node_modules/@ganger/auth/src/index.ts" ]; then
+                auth_default_url=$(grep "DEFAULT_AUTH_CONFIG" "$app_path/node_modules/@ganger/auth/src/index.ts" -A 5 | grep "supabaseUrl:" | grep -o "https://[^']*" || true)
+                if [ ! -z "$auth_default_url" ] && [ "$auth_default_url" != "$correct_supabase_url" ]; then
+                    echo -e "  ${YELLOW}⚠ @ganger/auth default URL doesn't match .env file${NC}"
+                    echo -e "    Auth default: $auth_default_url"
+                    echo -e "    .env value: $correct_supabase_url"
+                    ((issues++))
+                fi
+            fi
+        fi
+    fi
+    
     # Check 20: tsconfig.json extends from shared config
     if [ -f "$app_path/tsconfig.json" ]; then
         if ! grep -q "extends.*@ganger/config" "$app_path/tsconfig.json"; then
@@ -506,6 +534,41 @@ else
     
     # Global checks (only when checking all apps)
     echo -e "${BLUE}Checking global configuration...${NC}"
+    
+    # Check critical environment variables match .env file
+    if [ -f "$ROOT_DIR/.env" ]; then
+        # Extract key environment variables from .env
+        env_supabase_url=$(grep "^NEXT_PUBLIC_SUPABASE_URL=" "$ROOT_DIR/.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'")
+        env_supabase_key=$(grep "^NEXT_PUBLIC_SUPABASE_ANON_KEY=" "$ROOT_DIR/.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'")
+        
+        if [ ! -z "$env_supabase_url" ]; then
+            # Check if any scripts have incorrect Supabase URL
+            incorrect_in_scripts=$(grep -r "ddfovyobbezqefpoxhip\.supabase\.co" scripts/ 2>/dev/null || true)
+            if [ ! -z "$incorrect_in_scripts" ]; then
+                echo -e "  ${RED}✗ Found incorrect Supabase URL in scripts (should match .env)${NC}"
+                echo -e "    Correct URL from .env: $env_supabase_url"
+                ((CRITICAL_ISSUES++))
+                ((TOTAL_ISSUES++))
+            fi
+            
+            # Verify auth package default matches .env
+            auth_pkg_path="packages/auth/src/index.ts"
+            if [ -f "$auth_pkg_path" ]; then
+                auth_default=$(grep -A 5 "DEFAULT_AUTH_CONFIG" "$auth_pkg_path" | grep "supabaseUrl:" | grep -o "'[^']*'" | tr -d "'" || true)
+                if [ ! -z "$auth_default" ] && [ "$auth_default" != "$env_supabase_url" ]; then
+                    echo -e "  ${RED}✗ @ganger/auth DEFAULT_AUTH_CONFIG doesn't match .env${NC}"
+                    echo -e "    Auth package: $auth_default"
+                    echo -e "    .env file: $env_supabase_url"
+                    ((CRITICAL_ISSUES++))
+                    ((TOTAL_ISSUES++))
+                fi
+            fi
+        fi
+    else
+        echo -e "  ${RED}✗ Missing root .env file${NC}"
+        ((CRITICAL_ISSUES++))
+        ((TOTAL_ISSUES++))
+    fi
     
     # Check edge-config-items.json for outdated URLs
     if [ -f "edge-config-items.json" ]; then

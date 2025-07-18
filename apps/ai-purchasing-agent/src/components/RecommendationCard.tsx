@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, Button, Badge } from '@ganger/ui'
+import { Button } from '@ganger/ui'
+import { Card, CardContent, CardHeader, Badge } from '@ganger/ui-catalyst'
 import { 
   TrendingUp, 
   DollarSign, 
@@ -82,10 +83,10 @@ export function RecommendationCard({
           </div>
           <div className="flex items-center space-x-2">
             <Badge 
-              variant={
-                recommendation.priority === 'high' ? 'destructive' : 
-                recommendation.priority === 'medium' ? 'warning' : 
-                'secondary'
+              color={
+                recommendation.priority === 'high' ? 'red' : 
+                recommendation.priority === 'medium' ? 'yellow' : 
+                'zinc'
               }
               size="sm"
             >
@@ -146,13 +147,13 @@ export function RecommendationCard({
               </>
             )}
             {isAccepted && (
-              <Badge variant="success" className="ml-2">
+              <Badge color="green" className="ml-2">
                 <CheckCircle className="h-3 w-3 mr-1" />
                 Accepted
               </Badge>
             )}
             {isRejected && (
-              <Badge variant="secondary" className="ml-2">
+              <Badge color="zinc" className="ml-2">
                 <XCircle className="h-3 w-3 mr-1" />
                 Dismissed
               </Badge>

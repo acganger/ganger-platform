@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Card, Badge, Button } from '@ganger/ui';
+import { Badge, Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { CallRecord, ConversationTurn } from '@/types';
 
 interface CallMonitoringPanelProps {

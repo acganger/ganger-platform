@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Input, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
+import { Input } from '@ganger/ui-catalyst';
 import { Search, Pill, Info } from 'lucide-react';
 
 interface Medication {

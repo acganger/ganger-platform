@@ -1,6 +1,8 @@
 // Component wrappers to fix TypeScript JSX issues
 import React from 'react';
-import { Card as OriginalCard, Button as OriginalButton, Modal as OriginalModal, Select as OriginalSelect, Input as OriginalInput } from '@ganger/ui';
+import { Button as OriginalButton } from '@ganger/ui';
+import { Card as OriginalCard, Modal as OriginalModal } from '@ganger/ui-catalyst';
+import { Input as OriginalInput, Select as OriginalSelect } from '@ganger/ui-catalyst';
 
 // Extract types manually to avoid conflicts
 interface CardWrapperProps {
@@ -31,7 +33,7 @@ interface ButtonWrapperProps {
 
 interface ModalWrapperProps {
   children?: React.ReactNode;
-  isOpen: boolean;
+  open: boolean;
   onClose: () => void;
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';

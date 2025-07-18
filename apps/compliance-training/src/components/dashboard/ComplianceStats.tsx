@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { StatCard } from '@ganger/ui';
-import { Card } from '../ui/ComponentWrappers';
+import { Card } from '@ganger/ui-catalyst';
 import { Users, CheckCircle, AlertTriangle, Clock, TrendingUp } from 'lucide-react';
 import type { Employee, TrainingModule, TrainingCompletion } from '@/types/compliance';
 

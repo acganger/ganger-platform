@@ -17,3 +17,10 @@ export {
   withSmartCache
 } from './cache-middleware';
 export type { CacheMiddlewareOptions } from './cache-middleware';
+
+// Export migration cache invalidation
+export {
+  MigrationCacheInvalidation,
+  migrationCacheInvalidation,
+  type MigrationCacheConfig
+} from './migration-cache-invalidation';

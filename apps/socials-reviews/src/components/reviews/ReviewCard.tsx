@@ -2,11 +2,11 @@
 
 import React, { useState, memo } from 'react';
 import { 
-  Card, 
   Badge, 
-  Button, 
-  Avatar
+  Button
 } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
+import { Avatar } from '@ganger/ui-catalyst';
 import { DropdownMenu, Tooltip } from '@/components/ui/placeholders';
 import { 
   Star, 

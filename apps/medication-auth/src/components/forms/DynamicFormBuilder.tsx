@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Card, Button, Input, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
+import { Input } from '@ganger/ui-catalyst';
 import { FileText, Plus, Minus, Upload, Calendar } from 'lucide-react';
 
 interface FormField {

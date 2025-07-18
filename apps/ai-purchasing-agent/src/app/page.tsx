@@ -3,9 +3,8 @@
 export const dynamic = 'force-dynamic';
 
 import { useAuth } from '@ganger/auth'
-import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui'
-import { Button, Badge } from '@ganger/ui'
-import { StatCard } from '@ganger/ui'
+import { Button, Badge, StatCard } from '@ganger/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui-catalyst'
 import { ShoppingCartIcon, ChartBarIcon, CurrencyDollarIcon, DocumentTextIcon } from '@heroicons/react/24/outline'
 import { useCart } from '@/contexts/CartContext'
 import { ShoppingCart, Package, TrendingUp, FileText } from 'lucide-react'

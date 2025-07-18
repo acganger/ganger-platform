@@ -4,10 +4,9 @@ export const dynamic = 'force-dynamic';
 
 import { useState } from 'react'
 import { useAuth } from '@ganger/auth'
-import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui'
 import { Button } from '@ganger/ui'
-import { Input } from '@ganger/ui'
-import { Select } from '@ganger/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui-catalyst'
+import { Input, Select } from '@ganger/ui-catalyst'
 import { 
   ShoppingBagIcon, 
   MagnifyingGlassIcon,

@@ -1,7 +1,7 @@
 import { Ticket } from '@/types';
-import { cn } from '@ganger/ui';
+import { cn, Badge } from '@ganger/ui';
 import { formatTimeAgo } from '@/lib/utils';
-import { Card, CardContent, Badge } from '@ganger/ui';
+import { Card, CardContent } from '@ganger/ui-catalyst';
 import { 
   Clock, 
   User, 

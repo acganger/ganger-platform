@@ -2,7 +2,9 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Button, Card, CardHeader, CardContent, CardTitle, Input, Select, Badge } from '@ganger/ui';
+import { LoadingSpinner, Button, Badge } from '@ganger/ui';
+import { Card, CardHeader, CardContent, CardTitle } from '@ganger/ui-catalyst';
+import { Input, Select } from '@ganger/ui-catalyst';
 import { 
   ArrowLeft, 
   Users, 

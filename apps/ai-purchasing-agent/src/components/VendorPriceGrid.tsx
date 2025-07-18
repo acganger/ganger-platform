@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui'
-import { Badge } from '@ganger/ui'
-import { Button } from '@ganger/ui'
+import { Badge, Button } from '@ganger/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui-catalyst'
 import { CheckCircleIcon, TruckIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/24/solid'
 import type { VendorQuote, VendorConfiguration, StandardizedProduct } from '@ganger/types'

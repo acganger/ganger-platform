@@ -4,7 +4,7 @@ const path = require('path');
 // Load environment variables
 require('dotenv').config();
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://pfqtzmxxxhhsxmlddrta.supabase.co';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://supa.gangerdermatology.com';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_SERVICE_KEY) {

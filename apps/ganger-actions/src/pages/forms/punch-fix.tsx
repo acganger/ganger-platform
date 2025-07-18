@@ -10,7 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import { Clock, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button, Input, Select } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 
 const punchFixSchema = z.object({
   employee_name: z.string().optional(), // For managers submitting on behalf of others

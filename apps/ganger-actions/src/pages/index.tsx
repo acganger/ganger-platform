@@ -20,7 +20,8 @@ import {
   XCircle,
   Loader2
 } from 'lucide-react';
-import { Button, Card, CardHeader, CardContent, CardTitle, CardDescription, Badge } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@ganger/ui-catalyst';
 
 interface TicketStats {
   total: number;

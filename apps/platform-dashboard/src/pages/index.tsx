@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic';
 
 import { AuthGuard } from '@ganger/auth/staff';
-import { Button, Card } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { useEffect, useState } from 'react';
 import { Activity, Users, BarChart2, Shield, Calendar, Settings } from 'lucide-react';
 

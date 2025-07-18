@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Input, FormField } from '@ganger/ui';
+import { Button, FormField } from '@ganger/ui';
+import { Input } from '@ganger/ui-catalyst';
 import { StaffMember } from '@/types/staffing';
 import { staffAvailabilitySchema, validateForm, StaffAvailabilityForm as FormData } from '@/lib/validation';
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';

@@ -1,4 +1,5 @@
-import { Button, Card } from '@ganger/ui'
+import { Button } from '@ganger/ui'
+import { Card } from '@ganger/ui-catalyst'
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react'
 
 export default function NotFound() {

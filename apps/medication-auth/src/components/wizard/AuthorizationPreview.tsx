@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Button } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { FileText, User, Pill, Shield, Send, Edit, Download } from 'lucide-react';
 
 interface Patient {

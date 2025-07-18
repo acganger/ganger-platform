@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { 
   LoadingSpinner, 
   Button, 
-  Select,
   Badge,
   Card
 } from '@ganger/ui';
+import { Select } from '@ganger/ui-catalyst';
 import { 
   Alert,
   Pagination,

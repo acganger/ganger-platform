@@ -7,7 +7,8 @@ export const getServerSideProps = async () => {
 // Demonstrates immediate business value from Universal Payment Processing Hub
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { AppLayout, Button, Card, LoadingSpinner } from '@ganger/ui';
+import { AppLayout, Button, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { User, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
 import { PaymentProcessor } from '@/components/PaymentProcessor';
 import type { CheckInSession, CheckInStep } from '@/types/kiosk';

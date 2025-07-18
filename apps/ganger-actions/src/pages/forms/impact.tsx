@@ -10,7 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import { Filter, Target, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button, Input, Select } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 
 const impactFilterSchema = z.object({
   submitter_name: z.string().min(1, 'Name is required'),

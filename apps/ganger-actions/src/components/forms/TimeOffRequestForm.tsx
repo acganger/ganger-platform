@@ -5,7 +5,8 @@ import { TimeOffRequestFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { Calendar, Clock, AlertTriangle } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Button, Input, Select } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 // TODO: Fix date-fns import issue - temporarily commented
 // import { addDays, differenceInDays, isSameDay, isWeekend } from 'date-fns';
 
