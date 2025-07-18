@@ -5,7 +5,8 @@
 
 import React from 'react';
 import { MapPin, Calendar, Clock, Users, ChevronRight } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent, Button } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card, CardHeader, CardTitle, CardContent } from '@ganger/ui-catalyst';
 import type { Location } from '@/types';
 
 interface LocationCardProps {

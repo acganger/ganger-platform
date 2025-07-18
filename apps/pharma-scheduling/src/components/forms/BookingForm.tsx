@@ -8,7 +8,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Building2, Phone, Mail, FileText, Users, MessageSquare, Check } from 'lucide-react';
-import { Button, Card, CardHeader, CardTitle, CardContent, CardFooter, Input, Checkbox, Badge, useToast } from '@ganger/ui';
+import { Button, Badge, useToast } from '@ganger/ui';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@ganger/ui-catalyst';
+import { CheckboxLegacy as Checkbox, Input } from '@ganger/ui-catalyst';
 import { useBookingSubmission } from '@/hooks';
 import type { TimeSlot, Location, BookingRequest } from '@/types';
 

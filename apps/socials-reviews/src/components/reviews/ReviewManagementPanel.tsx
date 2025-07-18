@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   LoadingSpinner, 
-  Button, 
-  Select
+  Button
 } from '@ganger/ui';
+import { Select } from '@ganger/ui-catalyst';
 import { Alert, Pagination } from '@/components/ui/placeholders';
 import { RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 

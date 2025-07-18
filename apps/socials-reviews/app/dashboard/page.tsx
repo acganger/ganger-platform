@@ -1,7 +1,8 @@
 'use client'
 
 import { useStaffAuth } from '@ganger/auth/staff';
-import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
+import { Button, StaffLoginRedirect } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { TrendingUp, MessageSquare, Star, AlertCircle } from 'lucide-react';
 
 // Cloudflare Workers Edge Runtime

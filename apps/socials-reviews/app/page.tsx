@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useStaffAuth } from '@ganger/auth/staff';
-import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
+import { Button, StaffLoginRedirect } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { SocialMonitoringPanel } from '@/components/social/SocialMonitoringPanel';
 import { ReviewManagementPanel } from '@/components/reviews/ReviewManagementPanel';
 import { ContentLibraryPanel } from '@/components/content/ContentLibraryPanel';

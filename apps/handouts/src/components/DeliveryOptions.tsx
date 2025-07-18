@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Button, Card, Checkbox, Input } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
+import { Checkbox, Input } from '@ganger/ui-catalyst';
 import { handoutsCommunication } from '../lib/communication-service';
 
 interface Patient {

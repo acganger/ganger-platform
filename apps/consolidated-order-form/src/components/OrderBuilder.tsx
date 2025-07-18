@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui'
-import { Badge } from '@ganger/ui'
-import { Button } from '@ganger/ui'
-import { Input } from '@ganger/ui'
+import { Badge, Button } from '@ganger/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui-catalyst'
+import { Input } from '@ganger/ui-catalyst'
 import { 
   TrashIcon, 
   PencilIcon,

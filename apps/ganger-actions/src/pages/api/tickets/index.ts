@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { createSupabaseServerClient } from '@ganger/auth/server';
+import { migrationAdapter, MigrationHelpers } from '@ganger/db';
 import { 
   ApiErrors, 
   sendError, 
@@ -9,6 +10,13 @@ import {
   validateRequiredFields 
 } from '@/lib/api/errors';
 import { logger } from '@/lib/api/logger';
+
+// Configure migration adapter for backward compatibility
+migrationAdapter.updateConfig({
+  enableMigrationMode: true,
+  useNewSchema: process.env.MIGRATION_USE_NEW_SCHEMA === 'true',
+  logMigrationQueries: process.env.NODE_ENV === 'development'
+});
 
 // Factory function to create Supabase client
 const getSupabaseClient = () => {
@@ -91,80 +99,94 @@ async function handleGet(
     const isManagerOrAdmin = userData?.role === 'manager' || userData?.role === 'admin';
     const showAllTickets = view_all === 'true' && isManagerOrAdmin;
 
-    let query = supabase
-      .from('tickets')
-      .select(`
-        *,
-        comments:ticket_comments(count),
-        files:ticket_file_uploads(count)
-      `, { count: 'exact' });
+    // Build filters for migration-aware query
+    const filters: Record<string, any> = {};
 
     // Apply user filter - managers/admins can see all, others see only their tickets
     if (!showAllTickets) {
-      query = query.or(`submitter_email.eq.${userEmail},assigned_to_email.eq.${userEmail}`);
+      // For non-managers, filter to show only their tickets
+      // We'll handle this with a more complex query
     }
 
     // Apply filters
     if (status) {
       const statusArray = Array.isArray(status) ? status : [status];
-      query = query.in('status', statusArray);
+      filters.status = statusArray.length === 1 ? statusArray[0] : statusArray;
     }
 
     if (form_type) {
       const formTypeArray = Array.isArray(form_type) ? form_type : [form_type];
-      query = query.in('form_type', formTypeArray);
+      filters.form_type = formTypeArray.length === 1 ? formTypeArray[0] : formTypeArray;
     }
 
     if (priority) {
       const priorityArray = Array.isArray(priority) ? priority : [priority];
-      query = query.in('priority', priorityArray);
+      filters.priority = priorityArray.length === 1 ? priorityArray[0] : priorityArray;
     }
 
     if (location) {
       const locationArray = Array.isArray(location) ? location : [location];
-      query = query.in('location', locationArray);
-    }
-
-    if (search) {
-      query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,ticket_number.ilike.%${search}%`);
+      filters.location = locationArray.length === 1 ? locationArray[0] : locationArray;
     }
 
     if (submitter && isManagerOrAdmin) {
-      query = query.eq('submitter_email', submitter);
+      filters.submitter_email = submitter;
     }
 
     if (assigned_to) {
-      query = query.eq('assigned_to_email', assigned_to);
+      filters.assigned_to = assigned_to;
     }
 
     if (date_from) {
-      query = query.gte('created_at', date_from);
+      filters.created_at = { gte: date_from };
     }
 
     if (date_to) {
-      query = query.lte('created_at', date_to);
+      if (filters.created_at) {
+        filters.created_at = { ...filters.created_at, lte: date_to };
+      } else {
+        filters.created_at = { lte: date_to };
+      }
     }
 
-    // Apply sorting
-    const validSortFields = ['created_at', 'updated_at', 'priority', 'status', 'ticket_number'];
-    const sortField = validSortFields.includes(sort_by as string) ? sort_by as string : 'created_at';
-    const sortAscending = sort_order === 'asc';
-    
-    query = query.order(sortField, { ascending: sortAscending });
+    // Use migration adapter for backward-compatible queries
+    let tickets = await migrationAdapter.select(
+      'staff_tickets',
+      `
+        *,
+        comments:staff_ticket_comments(count),
+        files:staff_attachments(count)
+      `,
+      filters,
+      {
+        orderBy: `${sort_by === 'desc' ? '-' : ''}${sort_by || 'created_at'}`,
+        limit: Number(limit),
+        offset: Number(offset)
+      }
+    );
 
-    // Apply pagination
-    query = query.range(Number(offset), Number(offset) + Number(limit) - 1);
-
-    const { data, error, count } = await query;
-
-    if (error) {
-      logger.error('Error fetching tickets', error);
-      throw ApiErrors.database('Failed to fetch tickets');
+    // Apply user filter for non-managers (post-query filter)
+    if (!showAllTickets) {
+      tickets = tickets.filter(ticket => 
+        ticket.submitter_email === userEmail || ticket.assigned_to === userEmail
+      );
     }
+
+    // Apply search filter (post-query filter for simplicity)
+    if (search) {
+      const searchLower = search.toString().toLowerCase();
+      tickets = tickets.filter(ticket =>
+        ticket.title?.toLowerCase().includes(searchLower) ||
+        ticket.description?.toLowerCase().includes(searchLower) ||
+        ticket.ticket_number?.toLowerCase().includes(searchLower)
+      );
+    }
+
+    const totalCount = tickets.length;
 
     sendSuccess(res, {
-      tickets: data || [],
-      total: count || 0,
+      tickets: tickets || [],
+      total: totalCount,
       limit: Number(limit),
       offset: Number(offset),
       isManagerOrAdmin
@@ -191,33 +213,32 @@ async function handlePost(
     const requiresApproval = ['time_off_request', 'expense_reimbursement'].includes(form_type);
     const initialStatus = requiresApproval ? 'pending_approval' : 'open';
 
-    // Create the ticket
-    const { data: ticket, error: ticketError } = await supabase
-      .from('tickets')
-      .insert({
-        form_type,
-        submitter_email: userEmail,
-        submitter_name: userName,
-        status: initialStatus,
-        priority: priority || 'normal',
-        location,
-        title: title || `New ${form_type.replace(/_/g, ' ')}`,
-        description: description || '',
-        form_data,
-        requires_approval: requiresApproval
-      })
-      .select()
-      .single();
+    // Create the ticket using migration adapter
+    const ticketData = {
+      form_type,
+      submitter_email: userEmail,
+      submitter_name: userName,
+      status: MigrationHelpers.convertTicketStatus(initialStatus),
+      priority: priority || 'medium',
+      location,
+      title: title || `New ${form_type.replace(/_/g, ' ')}`,
+      description: description || '',
+      form_data,
+      approval_required: requiresApproval,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
 
-    if (ticketError) {
-      logger.error('Error creating ticket', ticketError);
+    const [ticket] = await migrationAdapter.insert('staff_tickets', ticketData);
+
+    if (!ticket) {
+      logger.error('Error creating ticket - no ticket returned');
       throw ApiErrors.database('Failed to create ticket');
     }
 
-    // Add notification job to queue
-    const { error: jobError } = await supabase
-      .from('job_queue')
-      .insert({
+    // Add notification job to queue using migration adapter
+    try {
+      await migrationAdapter.insert('job_queue', {
         handler: 'NotifyNewTicket',
         payload: {
           ticket_id: ticket.id,
@@ -227,11 +248,12 @@ async function handlePost(
           submitter_email: ticket.submitter_email,
           submitter_name: ticket.submitter_name
         },
-        priority: ticket.priority === 'urgent' ? 1 : 3
+        priority: ticket.priority === 'urgent' ? 1 : 3,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       });
-
-    if (jobError) {
-      logger.warn('Error creating notification job', jobError);
+    } catch (jobError) {
+      logger.warn('Error creating notification job', jobError as any);
       // Don't fail the request if notification fails
     }
 

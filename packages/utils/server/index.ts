@@ -77,6 +77,14 @@ export {
   generateStaffingForecast
 } from './staffing-business-logic';
 
+// Migration-Aware Staffing Business Logic
+export {
+  MigrationStaffingBusinessLogic,
+  createMigrationStaffingBusinessLogic,
+  migrationStaffingBusinessLogic,
+  type MigrationStaffingConfig
+} from './migration-staffing-business-logic';
+
 // Helper function for audit logging (placeholder if it doesn't exist)
 export async function auditLog(params: {
   action: string;

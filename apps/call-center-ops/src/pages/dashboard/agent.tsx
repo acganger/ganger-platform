@@ -8,12 +8,11 @@ import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
-  Card, 
   Button, 
-  DataTable,
   StatCard,
   LoadingSpinner
 } from '@ganger/ui';
+import { Card, DataTable } from '@ganger/ui-catalyst';
 // Temporary local implementations until @ganger/utils is available
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString();
 const formatTime = (dateString: string) => new Date(dateString).toLocaleTimeString();

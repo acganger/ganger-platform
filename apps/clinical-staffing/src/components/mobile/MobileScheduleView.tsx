@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Card } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { StaffMember, Provider, StaffSchedule } from '@/types/staffing';
 import { formatDate, formatTime } from '@/utils/formatting';
 import { StaffCard } from '@/components/staff/StaffCard';

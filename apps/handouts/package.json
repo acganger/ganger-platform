@@ -23,6 +23,7 @@
     "@ganger/monitoring": "workspace:*",
     "@ganger/types": "workspace:*",
     "@ganger/ui": "workspace:*",
+    "@ganger/ui-catalyst": "workspace:*",
     "@ganger/utils": "workspace:*",
     "jspdf": "^2.5.1",
     "quagga": "^0.12.1",

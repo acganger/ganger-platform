@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Badge, Button, Modal } from '@ganger/ui';
+import { Badge, Button } from '@ganger/ui';
+import { Modal } from '@ganger/ui-catalyst';
 import { SystemHealth } from '@/types';
 
 interface SystemHealthIndicatorProps {
@@ -68,11 +69,11 @@ export const SystemHealthIndicator = ({ health }: SystemHealthIndicatorProps) =>
       </Button>
 
       <Modal
-        isOpen={showDetails}
+        open={showDetails}
         onClose={() => setShowDetails(false)}
-        title="System Health Status"
       >
         <div className="space-y-6">
+          <h3 className="text-lg font-semibold">System Health Status</h3>
           {/* Overall Status */}
           <div className="text-center">
             <div className="text-4xl mb-2">{getHealthIcon(overallHealth)}</div>

@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic';
 
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Badge, Avatar } from '@ganger/ui';
+import { LoadingSpinner, Badge } from '@ganger/ui';
+import { Avatar } from '@ganger/ui-catalyst';
 import { 
   ArrowLeft, 
   Folder, 

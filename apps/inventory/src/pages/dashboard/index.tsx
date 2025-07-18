@@ -6,11 +6,10 @@ import {
   AppLayout, 
   PageHeader, 
   StatCard, 
-  DataTable, 
   Button,
-  Input,
   LoadingSpinner 
 } from '@ganger/ui';
+import { Input, DataTable } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
 
 interface InventoryStats {

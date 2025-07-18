@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Button, Card, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 
 interface Patient {
   mrn: string;

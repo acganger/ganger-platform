@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react'
 import { useAuth } from '@ganger/auth'
 import { PageLayout } from '@/components/PageLayout'
-import { Card, CardHeader, CardContent, Button, Alert, LoadingSpinner, Badge, Tabs, TabsList, TabsTrigger, TabsContent } from '@ganger/ui'
+import { Button, Alert, LoadingSpinner, Badge, Tabs, TabsList, TabsTrigger, TabsContent } from '@ganger/ui'
+import { Card, CardHeader, CardContent } from '@ganger/ui-catalyst'
 import { RecommendationCard } from '@/components/RecommendationCard'
 import { 
   TrendingUp, 

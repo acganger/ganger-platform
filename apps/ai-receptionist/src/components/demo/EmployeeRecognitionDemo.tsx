@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button, Card, Badge } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 
 interface EmployeeRecognitionDemoProps {
   onRunDemo: (phone: string, name: string) => void;

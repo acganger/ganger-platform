@@ -1,7 +1,8 @@
 'use client'
 
 import { useStaffAuth } from '@ganger/auth';
-import { Button, Card, StaffLoginRedirect } from '@ganger/ui';
+import { Button, StaffLoginRedirect } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 
 // Cloudflare Workers Edge Runtime
 // export const runtime = 'edge'; // Removed for Vercel compatibility

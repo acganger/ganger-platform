@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, StatCard } from '@ganger/ui';
+import { Button, StatCard } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { StaffMember, StaffSchedule, Location as StaffingLocation, OptimizationSuggestion, CoverageMetrics } from '@/types/staffing';
 import { formatDate } from '@/utils/formatting';
 import { apiClient } from '@/lib/api-client';

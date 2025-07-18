@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Card, Button } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 
 interface Props {
   children: ReactNode;

@@ -6,8 +6,8 @@ import { gangerCookieStorage } from './utils/CookieStorage';
 
 // Default configuration
 const defaultConfig: AuthConfig = {
-  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
-  supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s',
+  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supa.gangerdermatology.com',
+  supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_q-yj56RH8zrMVH-4cRazWA_PI2pBoeh',
   redirectUrl: 'https://staff.gangerdermatology.com/auth/callback',
   enableAuditLogging: true,
   sessionTimeout: 86400 // 24 hours

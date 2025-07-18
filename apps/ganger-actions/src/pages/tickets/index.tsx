@@ -23,7 +23,9 @@ import {
   PencilIcon
 } from '@heroicons/react/24/outline';
 import { format } from 'date-fns';
-import { Button, Card, CardHeader, CardContent, CardTitle, Input, Select, Badge } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Card, CardHeader, CardContent, CardTitle } from '@ganger/ui-catalyst';
+import { Input, Select } from '@ganger/ui-catalyst';
 
 // Form type options
 const FORM_TYPES = [

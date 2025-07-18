@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui'
-import { Badge } from '@ganger/ui'
-import { Button } from '@ganger/ui'
+import { Badge, Button } from '@ganger/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@ganger/ui-catalyst'
 import { 
   BuildingOfficeIcon,
   UserGroupIcon,

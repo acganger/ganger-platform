@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/contexts/CartContext'
-import { Button, Card, CardContent, CardHeader, Input, Badge, Alert } from '@ganger/ui'
+import { Button, Badge, Alert } from '@ganger/ui'
+import { Card, CardContent, CardHeader } from '@ganger/ui-catalyst'
+import { Input } from '@ganger/ui-catalyst'
 import { Trash2, Plus, Minus, ShoppingCart, ArrowRight, Package } from 'lucide-react'
 import { formatCurrency } from '@ganger/utils'
 

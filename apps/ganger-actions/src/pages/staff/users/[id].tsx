@@ -3,7 +3,8 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Input, Select, Badge } from '@ganger/ui';
+import { LoadingSpinner, Badge } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 import Link from 'next/link';
 import {
   ArrowLeft,

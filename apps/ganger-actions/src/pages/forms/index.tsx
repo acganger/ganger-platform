@@ -1,6 +1,6 @@
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { useRouter } from 'next/router';
-import { Card, CardContent } from '@ganger/ui';
+import { Card, CardContent } from '@ganger/ui-catalyst';
 import { 
   Ticket, 
   Calendar,

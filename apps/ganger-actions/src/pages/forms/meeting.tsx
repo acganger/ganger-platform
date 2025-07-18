@@ -10,7 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import { Users, Calendar, MapPin, Video, Plus, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button, Input, Select } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 
 const meetingSchema = z.object({
   meeting_type: z.string().min(1, 'Meeting type is required'),

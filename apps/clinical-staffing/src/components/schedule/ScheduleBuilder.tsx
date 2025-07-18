@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button, Input, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui';
+import { Input } from '@ganger/ui-catalyst';
 import { formatDate } from '@/utils/formatting';
 import { ScheduleBuilderProps, StaffSchedule, StaffMember } from '@/types/staffing';
 import { StaffAssignmentGrid } from './StaffAssignmentGrid';

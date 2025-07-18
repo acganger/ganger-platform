@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { 
-  Modal, 
   Button, 
   LoadingSpinner,
   Badge,
   Card
 } from '@ganger/ui';
+import { Modal } from '@ganger/ui-catalyst';
 import { 
   Alert,
   Tabs,
@@ -145,13 +145,13 @@ export default function ResponseGenerationModal({
 
   return (
     <Modal
-      isOpen={isOpen}
+      open={isOpen}
       onClose={onClose}
-      title="Generate Review Response"
       size="xl"
       className={className}
     >
       <div className="space-y-6">
+        <h2 className="text-xl font-semibold">Generate Review Response</h2>
         {/* Review Display */}
         <Card className="p-4 bg-gray-50">
           <div className="flex items-start justify-between mb-3">

@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Badge, Select } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Select } from '@ganger/ui-catalyst';
 import { Input } from '@/components/ui/placeholders';
 import { Search, X, Filter, Save, History, Zap } from 'lucide-react';
 import { useDebounce } from '@/hooks/usePerformanceOptimization';

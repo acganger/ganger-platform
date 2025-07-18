@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Card, Button, Badge, Modal } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Card, Modal } from '@ganger/ui-catalyst';
 import { DemoScenario } from '@/types';
 
 interface DemoScenarioPanelProps {
@@ -178,12 +179,12 @@ export const DemoScenarioPanel = ({ scenarios, onRunScenario }: DemoScenarioPane
 
       {/* Scenario Detail Modal */}
       <Modal
-        isOpen={selectedScenario !== null && !isRunning}
+        open={selectedScenario !== null && !isRunning}
         onClose={() => setSelectedScenario(null)}
-        title={selectedScenario?.name || ''}
       >
         {selectedScenario && (
           <div className="space-y-4">
+            <h3 className="text-lg font-semibold">{selectedScenario.name}</h3>
             <div>
               <h4 className="font-medium text-slate-900 mb-2">Scenario Details</h4>
               <div className="grid grid-cols-2 gap-4 text-sm">

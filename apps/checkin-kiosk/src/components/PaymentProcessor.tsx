@@ -2,7 +2,9 @@
 // Demonstrates immediate business value from Universal Payment Hub
 
 import React, { useState } from 'react';
-import { Button, Card, LoadingSpinner, Input } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
+import { Input } from '@ganger/ui-catalyst';
 import { CreditCard, DollarSign, CheckCircle, AlertCircle } from 'lucide-react';
 import type { CheckInSession } from '@/types/kiosk';
 

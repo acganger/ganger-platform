@@ -1,4 +1,4 @@
-import { Card } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 
 interface Patient {
   mrn: string;

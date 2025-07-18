@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import { Button, Card, CardContent, Alert } from '@ganger/ui'
+import { Button, Alert } from '@ganger/ui'
+import { Card, CardContent } from '@ganger/ui-catalyst'
 import { useRouter } from 'next/navigation'
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
 

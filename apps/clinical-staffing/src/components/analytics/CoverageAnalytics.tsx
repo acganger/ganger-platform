@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, StatCard } from '@ganger/ui';
+import { StatCard } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { StaffingAnalytics } from '@/types/staffing';
 import { apiClient } from '@/lib/api-client';
 import { CoverageChart, UtilizationChart } from '@/components/charts/SimpleChart';

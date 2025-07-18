@@ -15,7 +15,8 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react';
-import { Button, Badge, Avatar } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Avatar } from '@ganger/ui-catalyst';
 
 interface TicketDetailProps {
   ticket: Ticket;

@@ -10,7 +10,8 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { Button, Avatar } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Avatar } from '@ganger/ui-catalyst';
 
 interface HeaderProps {
   title: string;

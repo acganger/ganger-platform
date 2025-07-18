@@ -8,13 +8,11 @@ import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
-  Card, 
   Button, 
-  DataTable,
   StatCard,
-  LoadingSpinner,
-  Select,
+  LoadingSpinner
 } from '@ganger/ui';
+import { Card, DataTable, Select } from '@ganger/ui-catalyst';
 // Temporary local implementations until @ganger/utils is available
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString();
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
@@ -200,23 +198,21 @@ function ManagerDashboard() {
             <Select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              options={[
-                { value: 'all', label: 'All Locations' },
-                { value: 'ann_arbor', label: 'Ann Arbor' },
-                { value: 'wixom', label: 'Wixom' },
-                { value: 'plymouth', label: 'Plymouth' }
-              ]}
-            />
+            >
+              <option value="all">All Locations</option>
+              <option value="ann_arbor">Ann Arbor</option>
+              <option value="wixom">Wixom</option>
+              <option value="plymouth">Plymouth</option>
+            </Select>
             <Select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              options={[
-                { value: '7d', label: 'Last 7 Days' },
-                { value: '30d', label: 'Last 30 Days' },
-                { value: '90d', label: 'Last 90 Days' },
-                { value: '1y', label: 'Last Year' }
-              ]}
-            />
+            >
+              <option value="7d">Last 7 Days</option>
+              <option value="30d">Last 30 Days</option>
+              <option value="90d">Last 90 Days</option>
+              <option value="1y">Last Year</option>
+            </Select>
             <Button variant="outline" onClick={exportReport}>
               📊 Export Report
             </Button>

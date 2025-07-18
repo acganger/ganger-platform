@@ -3,6 +3,7 @@ import { useAuth } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
 import { Team, Rock, Issue, Todo, L10Meeting } from '@/types/eos';
 import { Database } from '@/types/database';
+import { eosL10MigrationAdapter } from '@/lib/migration-adapter';
 
 type Tables = Database['public']['Tables'];
 
@@ -141,41 +142,37 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
         setLoading(true);
         setError(null);
 
-        // Load initial rocks data
-        const { data: rocksData, error: rocksError } = await supabase
-          .from('rocks')
-          .select('*')
-          .eq('team_id', currentTeamId as any)
-          .order('priority', { ascending: true });
+        // Load initial rocks data using migration adapter
+        const rocksData = await eosL10MigrationAdapter.select(
+          'rocks',
+          '*',
+          { team_id: currentTeamId },
+          { orderBy: 'priority' }
+        );
 
-        if (rocksError) throw rocksError;
+        // Load initial issues data using migration adapter
+        const issuesData = await eosL10MigrationAdapter.select(
+          'issues',
+          '*',
+          { team_id: currentTeamId },
+          { orderBy: '-created_at' }
+        );
 
-        // Load initial issues data
-        const { data: issuesData, error: issuesError } = await supabase
-          .from('issues')
-          .select('*')
-          .eq('team_id', currentTeamId as any)
-          .order('created_at', { ascending: false });
+        // Load initial todos data using migration adapter
+        const todosData = await eosL10MigrationAdapter.select(
+          'todos',
+          '*',
+          { team_id: currentTeamId },
+          { orderBy: 'due_date' }
+        );
 
-        if (issuesError) throw issuesError;
-
-        // Load initial todos data
-        const { data: todosData, error: todosError } = await supabase
-          .from('todos')
-          .select('*')
-          .eq('team_id', currentTeamId as any)
-          .order('due_date', { ascending: true });
-
-        if (todosError) throw todosError;
-
-        // Load initial meetings data
-        const { data: meetingsData, error: meetingsError } = await supabase
-          .from('l10_meetings')
-          .select('*')
-          .eq('team_id', currentTeamId as any)
-          .order('scheduled_date', { ascending: false });
-
-        if (meetingsError) throw meetingsError;
+        // Load initial meetings data using migration adapter
+        const meetingsData = await eosL10MigrationAdapter.select(
+          'l10_meetings',
+          '*',
+          { team_id: currentTeamId },
+          { orderBy: '-scheduled_date' }
+        );
 
         // Transform database types to application types
         setRocks(rocksData.map((rock: any) => transformRockFromDB(rock)));
@@ -191,15 +188,15 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
     };
 
     const setupSubscriptions = () => {
-      // Subscribe to rocks changes
+      // Subscribe to rocks changes (migration-aware)
       rocksSubscription = supabase
-        .channel(`rocks-${currentTeamId}`)
+        .channel(`l10_rocks-${currentTeamId}`)
         .on(
           'postgres_changes',
           {
             event: '*',
             schema: 'public',
-            table: 'rocks',
+            table: process.env.MIGRATION_USE_NEW_SCHEMA === 'true' ? 'l10_rocks' : 'rocks',
             filter: `team_id=eq.${currentTeamId}`,
           },
           (payload) => {
@@ -208,15 +205,15 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
         )
         .subscribe();
 
-      // Subscribe to issues changes
+      // Subscribe to issues changes (migration-aware)
       issuesSubscription = supabase
-        .channel(`issues-${currentTeamId}`)
+        .channel(`l10_issues-${currentTeamId}`)
         .on(
           'postgres_changes',
           {
             event: '*',
             schema: 'public',
-            table: 'issues',
+            table: process.env.MIGRATION_USE_NEW_SCHEMA === 'true' ? 'l10_issues' : 'issues',
             filter: `team_id=eq.${currentTeamId}`,
           },
           (payload) => {
@@ -225,15 +222,15 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
         )
         .subscribe();
 
-      // Subscribe to todos changes
+      // Subscribe to todos changes (migration-aware)
       todosSubscription = supabase
-        .channel(`todos-${currentTeamId}`)
+        .channel(`l10_todos-${currentTeamId}`)
         .on(
           'postgres_changes',
           {
             event: '*',
             schema: 'public',
-            table: 'todos',
+            table: process.env.MIGRATION_USE_NEW_SCHEMA === 'true' ? 'l10_todos' : 'todos',
             filter: `team_id=eq.${currentTeamId}`,
           },
           (payload) => {

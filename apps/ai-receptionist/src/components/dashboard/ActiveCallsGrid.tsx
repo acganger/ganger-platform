@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button, Badge, Modal } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui';
+import { Modal } from '@ganger/ui-catalyst';
 import { CallRecord, LiveCallUpdate } from '@/types';
 
 interface ActiveCallsGridProps {
@@ -172,16 +173,16 @@ export const ActiveCallsGrid = ({
 
       {/* Transfer Modal */}
       <Modal
-        isOpen={transferModalOpen}
+        open={transferModalOpen}
         onClose={() => {
           setTransferModalOpen(false);
           setSelectedCall(null);
           setTransferReason('');
         }}
-        title="Transfer Call"
       >
         {selectedCall && (
           <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Transfer Call</h3>
             <div>
               <h4 className="font-medium text-slate-900 mb-2">
                 Transfer call from {selectedCall.caller_name || 'Unknown Caller'}

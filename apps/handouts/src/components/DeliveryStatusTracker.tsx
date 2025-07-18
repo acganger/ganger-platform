@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { handoutsCommunication } from '../lib/communication-service';
 
 interface DeliveryStatus {

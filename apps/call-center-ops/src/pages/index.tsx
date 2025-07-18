@@ -4,7 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useStaffAuth } from '@ganger/auth/staff';
 import { withAuthComponent } from '@ganger/auth';
-import { AppLayout, PageHeader, Card, Button } from '@ganger/ui';
+import { AppLayout, PageHeader, Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 
 // Cloudflare Workers Edge Runtime
 // export const runtime = 'edge'; // Removed for Vercel compatibility

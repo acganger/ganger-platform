@@ -8,14 +8,12 @@ import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
-  Card, 
   Button, 
-  DataTable,
-  Select,
-  Input,
-  LoadingSpinner,
-  Modal
+  LoadingSpinner
 } from '@ganger/ui';
+import { DataTable, Modal } from '@ganger/ui-catalyst';
+import { Card } from '@ganger/ui-catalyst';
+import { Input, Select } from '@ganger/ui-catalyst';
 import { formatCallDuration } from '../../lib/utils';
 
 // Temporary local implementations until @ganger/utils is available
@@ -341,36 +339,32 @@ function CallHistoryPage() {
             <Select
               value={filters.location || ''}
               onChange={(e) => handleFilterChange('location', e.target.value)}
-              options={[
-                { value: 'all', label: 'All Locations' },
-                { value: 'ann_arbor', label: 'Ann Arbor' },
-                { value: 'wixom', label: 'Wixom' },
-                { value: 'plymouth', label: 'Plymouth' }
-              ]}
-              placeholder="Location"
-            />
+            >
+              <option value="">All Locations</option>
+              <option value="ann_arbor">Ann Arbor</option>
+              <option value="wixom">Wixom</option>
+              <option value="plymouth">Plymouth</option>
+            </Select>
             
             {(profile?.role === 'admin' || profile?.role === 'staff') && (
               <Select
                 value={filters.agent || ''}
                 onChange={(e) => handleFilterChange('agent', e.target.value)}
-                options={[
-                  { value: 'all', label: 'All Agents' },
-                ]}
-                placeholder="Agent"
-              />
+              >
+                <option value="">All Agents</option>
+              </Select>
             )}
             
             <Select
               value={filters.period || ''}
               onChange={(e) => handleFilterChange('period', e.target.value)}
-              options={[
-                { value: 'today', label: 'Today' },
-                { value: '7d', label: 'Last 7 Days' },
-                { value: '30d', label: 'Last 30 Days' },
-                { value: '90d', label: 'Last 90 Days' }
-              ]}
-            />
+            >
+              <option value="">Select Period</option>
+              <option value="today">Today</option>
+              <option value="7d">Last 7 Days</option>
+              <option value="30d">Last 30 Days</option>
+              <option value="90d">Last 90 Days</option>
+            </Select>
             
             <Button 
               variant="outline" 

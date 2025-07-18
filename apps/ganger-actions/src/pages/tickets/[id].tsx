@@ -6,7 +6,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card, CardHeader, CardContent, CardTitle, CardDescription, Badge, Avatar } from '@ganger/ui';
+import { Badge } from '@ganger/ui';
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@ganger/ui-catalyst';
+import { Avatar } from '@ganger/ui-catalyst';
 import { 
   formatDateTime, 
   formatTimeAgo, 

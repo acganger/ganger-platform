@@ -102,6 +102,14 @@ export {
   createError,
 } from './src/helpers/common';
 
+// Migration-Aware Staffing Business Logic
+export {
+  MigrationStaffingBusinessLogic,
+  createMigrationStaffingBusinessLogic,
+  migrationStaffingBusinessLogic,
+  type MigrationStaffingConfig
+} from './server/migration-staffing-business-logic';
+
 // Audit logging function for compliance
 export async function auditLog(entry: {
   action: string;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
 import { Shield, CheckCircle, AlertTriangle, XCircle, RefreshCw } from 'lucide-react';
 
 interface InsuranceInfo {

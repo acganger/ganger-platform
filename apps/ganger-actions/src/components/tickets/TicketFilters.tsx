@@ -1,7 +1,8 @@
 import { TicketFilters as TicketFiltersType, Ticket } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { X } from 'lucide-react';
-import { Input, Select, Badge } from '@ganger/ui';
+import { Badge } from '@ganger/ui';
+import { Input, Select } from '@ganger/ui-catalyst';
 
 interface TicketFiltersProps {
   filters: TicketFiltersType;

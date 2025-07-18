@@ -8,15 +8,12 @@ import { withAuthComponent } from '@ganger/auth';
 import { 
   AppLayout, 
   PageHeader, 
-  Card, 
   Button, 
-  FormField,
-  Input,
-  Select,
-  Checkbox,
-  LoadingSpinner,
-  Modal
+  LoadingSpinner
 } from '@ganger/ui';
+import { Modal, FormField } from '@ganger/ui-catalyst';
+import { Card } from '@ganger/ui-catalyst';
+import { Input, Checkbox, Select } from '@ganger/ui-catalyst';
 // Temporary local implementation until @ganger/utils is available
 const validateForm = (data: any, schema: any) => ({ isValid: true, errors: {} });
 import type { CallRecord, JournalEntry } from '../../types';
@@ -263,22 +260,21 @@ function CallJournalPage() {
                 <Select
                   value={formData.call_id}
                   onChange={(e) => handleCallSelect(e.target.value)}
-                  options={[
-                    { value: '', label: 'Select a recent call...' },
-                    ...recentCalls.map(call => ({
-                      value: call.id,
-                      label: `${call.caller_name || 'Unknown'} - ${new Date(call.call_start_time).toLocaleString()}`
-                    }))
-                  ]}
-                  placeholder="Choose call to journal"
-                />
+                >
+                  <option value="">Select a recent call...</option>
+                  {recentCalls.map(call => (
+                    <option key={call.id} value={call.id}>
+                      {call.caller_name || 'Unknown'} - {new Date(call.call_start_time).toLocaleString()}
+                    </option>
+                  ))}
+                </Select>
               </FormField>
 
               {/* Call Summary */}
               <FormField label="Call Summary" required error={errors.call_summary}>
                 <Input
                   value={formData.call_summary}
-                  onChange={(value) => handleInputChange('call_summary', value)}
+                  onChange={(e) => handleInputChange('call_summary', e.target.value)}
                   placeholder="Brief summary of the call purpose and outcome"
                 />
               </FormField>
@@ -287,7 +283,7 @@ function CallJournalPage() {
               <FormField label="Patient Concern" required error={errors.patient_concern}>
                 <Input
                   value={formData.patient_concern}
-                  onChange={(value) => handleInputChange('patient_concern', value)}
+                  onChange={(e) => handleInputChange('patient_concern', e.target.value)}
                   placeholder="Primary patient concern or request"
                 />
               </FormField>
@@ -324,9 +320,9 @@ function CallJournalPage() {
               {/* Follow-up Section */}
               <div className="space-y-4">
                 <Checkbox
+                  label="Follow-up Required"
                   checked={formData.follow_up_required}
                   onChange={(checked) => handleInputChange('follow_up_required', checked)}
-                  label="Follow-up Required"
                 />
 
                 {formData.follow_up_required && (
@@ -335,16 +331,19 @@ function CallJournalPage() {
                       <Select
                         value={formData.follow_up_type}
                         onChange={(e) => handleInputChange('follow_up_type', e.target.value)}
-                        options={FOLLOW_UP_TYPES}
-                        placeholder="Select follow-up type"
-                      />
+                      >
+                        <option value="">Select follow-up type</option>
+                        {FOLLOW_UP_TYPES.map(type => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </Select>
                     </FormField>
 
                     <FormField label="Follow-up Date">
                       <Input
                         type="date"
                         value={formData.follow_up_date}
-                        onChange={(value) => handleInputChange('follow_up_date', value)}
+                        onChange={(e) => handleInputChange('follow_up_date', e.target.value)}
                       />
                     </FormField>
 
@@ -352,7 +351,7 @@ function CallJournalPage() {
                       <FormField label="Follow-up Notes">
                         <Input
                           value={formData.follow_up_notes}
-                          onChange={(value) => handleInputChange('follow_up_notes', value)}
+                          onChange={(e) => handleInputChange('follow_up_notes', e.target.value)}
                           placeholder="Notes about the required follow-up"
                         />
                       </FormField>
@@ -364,9 +363,9 @@ function CallJournalPage() {
               {/* Referral Section */}
               <div className="space-y-4">
                 <Checkbox
+                  label="Referral Made"
                   checked={formData.referral_made}
                   onChange={(checked) => handleInputChange('referral_made', checked)}
-                  label="Referral Made"
                 />
 
                 {formData.referral_made && (
@@ -375,9 +374,12 @@ function CallJournalPage() {
                       <Select
                         value={formData.referral_type}
                         onChange={(e) => handleInputChange('referral_type', e.target.value)}
-                        options={REFERRAL_TYPES}
-                        placeholder="Select referral type"
-                      />
+                      >
+                        <option value="">Select referral type</option>
+                        {REFERRAL_TYPES.map(type => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </Select>
                     </FormField>
                   </div>
                 )}

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Button, Card, Input, Checkbox } from '@ganger/ui';
+import { Button } from '@ganger/ui';
+import { Card } from '@ganger/ui-catalyst';
+import { Checkbox, Input } from '@ganger/ui-catalyst';
 
 interface TemplateField {
   id: string;
