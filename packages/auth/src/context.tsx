@@ -303,7 +303,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
           redirectTo: redirectUrl,
           queryParams: {
             access_type: 'offline',
-            prompt: 'consent',
+            prompt: 'select_account',
           },
         },
       });
