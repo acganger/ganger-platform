@@ -212,9 +212,13 @@ export default function ExpenseReimbursementForm() {
                 <Select
                   {...register('expense_type')}
                   label="Expense Type *"
-                  options={Object.entries(expenseTypeLabels).map(([value, label]) => ({ value, label }))}
                   error={errors.expense_type?.message}
-                />
+                >
+                  <option value="">Select expense type</option>
+                  {Object.entries(expenseTypeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
               </div>
 
               {/* Payment Method */}
@@ -223,13 +227,13 @@ export default function ExpenseReimbursementForm() {
                 <Select
                   {...register('expense_type')}
                   label="Payment Method *"
-                  options={[
-                    { value: 'personal_card', label: 'Personal Credit/Debit Card' },
-                    { value: 'personal_cash', label: 'Personal Cash' },
-                    { value: 'company_card', label: 'Company Card' }
-                  ]}
                   error={errors.expense_type?.message}
-                />
+                >
+                  <option value="">Select payment method</option>
+                  <option value="personal_card">Personal Credit/Debit Card</option>
+                  <option value="personal_cash">Personal Cash</option>
+                  <option value="company_card">Company Card</option>
+                </Select>
               </div>
 
               {/* Expense Items */}
@@ -286,9 +290,13 @@ export default function ExpenseReimbursementForm() {
                             <Select
                               value={item.category}
                               onChange={(e) => updateExpenseItem(index, 'category', e.target.value)}
-                              options={Object.entries(categoryLabels).map(([value, label]) => ({ value, label }))}
                               className="w-full text-sm"
-                            />
+                            >
+                              <option value="">Select category</option>
+                              {Object.entries(categoryLabels).map(([value, label]) => (
+                                <option key={value} value={value}>{label}</option>
+                              ))}
+                            </Select>
                           </div>
 
                           <div>

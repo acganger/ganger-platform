@@ -220,9 +220,13 @@ export default function MeetingRequestForm() {
                 <Select
                   {...register('meeting_type')}
                   label="Meeting Type *"
-                  options={Object.entries(meetingTypeLabels).map(([value, label]) => ({ value, label }))}
                   error={errors.meeting_type?.message}
-                />
+                >
+                  <option value="">Select meeting type</option>
+                  {Object.entries(meetingTypeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
               </div>
 
               {/* Title */}

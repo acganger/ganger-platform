@@ -292,9 +292,13 @@ export default function AvailabilityChangeForm() {
                             <Select
                               value={slot.day}
                               onChange={(e) => updateTimeSlot(index, 'day', e.target.value)}
-                              options={daysOfWeek.map(day => ({ value: day, label: day }))}
                               className="w-full text-sm"
-                            />
+                            >
+                              <option value="">Select day</option>
+                              {daysOfWeek.map(day => (
+                                <option key={day} value={day}>{day}</option>
+                              ))}
+                            </Select>
                           </div>
 
                           <div>
@@ -302,12 +306,12 @@ export default function AvailabilityChangeForm() {
                             <Select
                               value={slot.available.toString()}
                               onChange={(e) => updateTimeSlot(index, 'available', e.target.value === 'true')}
-                              options={[
-                                { value: 'true', label: 'Available' },
-                                { value: 'false', label: 'Not Available' }
-                              ]}
                               className="w-full text-sm"
-                            />
+                            >
+                              <option value="">Select availability</option>
+                              <option value="true">Available</option>
+                              <option value="false">Not Available</option>
+                            </Select>
                           </div>
 
                           {slot.available && (

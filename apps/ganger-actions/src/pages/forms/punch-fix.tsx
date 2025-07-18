@@ -152,9 +152,13 @@ export default function PunchFixRequestForm() {
                 <Select
                   {...register('punch_type')}
                   label="Issue Type *"
-                  options={Object.entries(punchTypeLabels).map(([value, label]) => ({ value, label }))}
                   error={errors.punch_type?.message}
-                />
+                >
+                  <option value="">Select issue type</option>
+                  {Object.entries(punchTypeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
               </div>
 
               {/* Date */}

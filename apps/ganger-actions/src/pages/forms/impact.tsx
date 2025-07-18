@@ -236,9 +236,13 @@ export default function ImpactFilterForm() {
                 <Select
                   {...register('timeframe')}
                   label="Timeframe *"
-                  options={Object.entries(timeframeLabels).map(([value, label]) => ({ value, label }))}
                   error={errors.timeframe?.message}
-                />
+                >
+                  <option value="">Select timeframe</option>
+                  {Object.entries(timeframeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </Select>
               </div>
             </div>
 

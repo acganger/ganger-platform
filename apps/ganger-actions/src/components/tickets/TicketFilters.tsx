@@ -206,13 +206,12 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
           <Select
             value={filters.assigned_to || ''}
             onChange={(e) => updateFilters({ assigned_to: e.target.value || undefined })}
-            options={[
-              { value: '', label: 'All assignments' },
-              { value: 'unassigned', label: 'Unassigned' },
-              { value: authUser.id, label: 'Assigned to me' }
-              // TODO: Add other team members
-            ]}
-          />
+          >
+            <option value="">All assignments</option>
+            <option value="unassigned">Unassigned</option>
+            <option value={authUser.id}>Assigned to me</option>
+            {/* TODO: Add other team members */}
+          </Select>
         </div>
       )}
 

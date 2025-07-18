@@ -789,14 +789,13 @@ export default function TicketsPage() {
                     setPageSize(Number(e.target.value));
                     setPage(1);
                   }}
-                  options={[
-                    { value: '10', label: '10' },
-                    { value: '20', label: '20' },
-                    { value: '50', label: '50' },
-                    { value: '100', label: '100' }
-                  ]}
                   className="text-sm"
-                />
+                >
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </Select>
               </div>
             </div>
             </CardContent>

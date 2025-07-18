@@ -83,43 +83,40 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
       <Select
         {...register('location')}
         label="Location *"
-        placeholder="Select location"
-        options={[
-          { value: 'Wixom', label: 'Wixom' },
-          { value: 'Ann Arbor', label: 'Ann Arbor' },
-          { value: 'Plymouth', label: 'Plymouth' }
-        ]}
         error={errors.location?.message}
-      />
+      >
+        <option value="">Select location</option>
+        <option value="Wixom">Wixom</option>
+        <option value="Ann Arbor">Ann Arbor</option>
+        <option value="Plymouth">Plymouth</option>
+      </Select>
 
       {/* Request Type */}
       <Select
         {...register('request_type')}
         label="Request Type *"
-        placeholder="Select request type"
-        options={[
-          { value: 'General Support', label: 'General Support' },
-          { value: 'Equipment Issue', label: 'Equipment Issue' },
-          { value: 'Software Problem', label: 'Software Problem' },
-          { value: 'Network Issue', label: 'Network Issue' },
-          { value: 'Other', label: 'Other' }
-        ]}
         error={errors.request_type?.message}
-      />
+      >
+        <option value="">Select request type</option>
+        <option value="General Support">General Support</option>
+        <option value="Equipment Issue">Equipment Issue</option>
+        <option value="Software Problem">Software Problem</option>
+        <option value="Network Issue">Network Issue</option>
+        <option value="Other">Other</option>
+      </Select>
 
       {/* Priority */}
       <Select
         {...register('priority')}
         label="Priority *"
-        placeholder="Select priority level"
-        options={[
-          { value: 'low', label: 'Low - Can wait for normal support hours' },
-          { value: 'medium', label: 'Medium - Important but not urgent' },
-          { value: 'high', label: 'High - Important and time-sensitive' },
-          { value: 'urgent', label: 'Urgent - Blocking work or affecting patients' }
-        ]}
         error={errors.priority?.message}
-      />
+      >
+        <option value="">Select priority level</option>
+        <option value="low">Low - Can wait for normal support hours</option>
+        <option value="medium">Medium - Important but not urgent</option>
+        <option value="high">High - Important and time-sensitive</option>
+        <option value="urgent">Urgent - Blocking work or affecting patients</option>
+      </Select>
 
       {/* Submitter Information */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

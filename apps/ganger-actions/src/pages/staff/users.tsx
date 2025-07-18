@@ -259,25 +259,34 @@ export default function UserManagementPage() {
             <Select
               value={filterDepartment}
               onChange={(e) => setFilterDepartment(e.target.value)}
-              placeholder="All Departments"
-              options={filters.departments.map(dept => ({ value: dept, label: dept }))}
-            />
+            >
+              <option value="">All Departments</option>
+              {filters.departments.map(dept => (
+                <option key={dept} value={dept}>{dept}</option>
+              ))}
+            </Select>
 
             {/* Location Filter */}
             <Select
               value={filterLocation}
               onChange={(e) => setFilterLocation(e.target.value)}
-              placeholder="All Locations"
-              options={filters.locations.map(loc => ({ value: loc, label: loc }))}
-            />
+            >
+              <option value="">All Locations</option>
+              {filters.locations.map(loc => (
+                <option key={loc} value={loc}>{loc}</option>
+              ))}
+            </Select>
 
             {/* Role Filter */}
             <Select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              placeholder="All Roles"
-              options={ROLES.map(role => ({ value: role.value, label: role.label }))}
-            />
+            >
+              <option value="">All Roles</option>
+              {ROLES.map(role => (
+                <option key={role.value} value={role.value}>{role.label}</option>
+              ))}
+            </Select>
           </div>
           </CardContent>
         </Card>
@@ -503,24 +512,34 @@ export default function UserManagementPage() {
                 required
                 value={newUser.role}
                 onChange={(e) => setNewUser({ ...newUser, role: e.target.value as StaffUser['role'] })}
-                options={ROLES.map(role => ({ value: role.value, label: role.label }))}
-              />
+              >
+                <option value="">Select role</option>
+                {ROLES.map(role => (
+                  <option key={role.value} value={role.value}>{role.label}</option>
+                ))}
+              </Select>
 
               <Select
                 label="Department"
                 value={newUser.department}
                 onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
-                placeholder="Select Department"
-                options={filters.departments.map(dept => ({ value: dept, label: dept }))}
-              />
+              >
+                <option value="">Select Department</option>
+                {filters.departments.map(dept => (
+                  <option key={dept} value={dept}>{dept}</option>
+                ))}
+              </Select>
 
               <Select
                 label="Location"
                 value={newUser.location}
                 onChange={(e) => setNewUser({ ...newUser, location: e.target.value })}
-                placeholder="Select Location"
-                options={filters.locations.map(loc => ({ value: loc, label: loc }))}
-              />
+              >
+                <option value="">Select Location</option>
+                {filters.locations.map(loc => (
+                  <option key={loc} value={loc}>{loc}</option>
+                ))}
+              </Select>
 
 
               <Input
@@ -534,9 +553,12 @@ export default function UserManagementPage() {
                 label="Manager"
                 value={newUser.manager_id}
                 onChange={(e) => setNewUser({ ...newUser, manager_id: e.target.value })}
-                placeholder="No Manager"
-                options={users.filter(u => u.role === 'manager' || u.role === 'admin').map(manager => ({ value: manager.id, label: manager.full_name }))}
-              />
+              >
+                <option value="">No Manager</option>
+                {users.filter(u => u.role === 'manager' || u.role === 'admin').map(manager => (
+                  <option key={manager.id} value={manager.id}>{manager.full_name}</option>
+                ))}
+              </Select>
 
               <div className="flex justify-end space-x-3 pt-4">
                 <Button

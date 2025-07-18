@@ -406,8 +406,12 @@ export default function UserProfilePage() {
                     <Select
                       value={editedUser.role || 'staff'}
                       onChange={(e) => setEditedUser({ ...editedUser, role: e.target.value as StaffUser['role'] })}
-                      options={ROLES.map(role => ({ value: role.value, label: role.label }))}
-                    />
+                    >
+                      <option value="">Select role</option>
+                      {ROLES.map(role => (
+                        <option key={role.value} value={role.value}>{role.label}</option>
+                      ))}
+                    </Select>
                   ) : (
                     <div className="mt-1 flex items-center">
                       <RoleIcon className="h-4 w-4 mr-2 text-gray-400" />
@@ -428,9 +432,12 @@ export default function UserProfilePage() {
                     <Select
                       value={editedUser.department || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, department: e.target.value })}
-                      placeholder="Select Department"
-                      options={departments.map(dept => ({ value: dept, label: dept }))}
-                    />
+                    >
+                      <option value="">Select Department</option>
+                      {departments.map(dept => (
+                        <option key={dept} value={dept}>{dept}</option>
+                      ))}
+                    </Select>
                   ) : (
                     <div className="mt-1 flex items-center text-sm text-gray-900">
                       <Building className="h-4 w-4 text-gray-400 mr-2" />
@@ -447,9 +454,12 @@ export default function UserProfilePage() {
                     <Select
                       value={editedUser.location || ''}
                       onChange={(e) => setEditedUser({ ...editedUser, location: e.target.value })}
-                      placeholder="Select Location"
-                      options={LOCATIONS.map(loc => ({ value: loc, label: loc }))}
-                    />
+                    >
+                      <option value="">Select Location</option>
+                      {LOCATIONS.map(loc => (
+                        <option key={loc} value={loc}>{loc}</option>
+                      ))}
+                    </Select>
                   ) : (
                     <div className="mt-1 flex items-center text-sm text-gray-900">
                       <MapPin className="h-4 w-4 text-gray-400 mr-2" />
@@ -483,11 +493,11 @@ export default function UserProfilePage() {
                     <Select
                       value={editedUser.is_active ? 'active' : 'inactive'}
                       onChange={(e) => setEditedUser({ ...editedUser, is_active: e.target.value === 'active' })}
-                      options={[
-                        { value: 'active', label: 'Active' },
-                        { value: 'inactive', label: 'Inactive' }
-                      ]}
-                    />
+                    >
+                      <option value="">Select status</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </Select>
                   </div>
                 )}
               </div>
