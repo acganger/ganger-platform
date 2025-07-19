@@ -36,6 +36,10 @@ export class CookieStorage implements StorageAdapter {
 
     try {
       const value = getCookie(key);
+      // Debug logging
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[Cookie Storage] Getting ${key}:`, value ? 'found' : 'not found');
+      }
       // Supabase expects null, not empty string
       return value || null;
     } catch (error) {
@@ -51,6 +55,10 @@ export class CookieStorage implements StorageAdapter {
     }
 
     try {
+      // Debug logging
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[Cookie Storage] Setting ${key} with options:`, this.options);
+      }
       setCookie(key, value, this.options);
     } catch (error) {
       console.error(`Error setting cookie ${key}:`, error);
@@ -80,8 +88,8 @@ export class CookieStorage implements StorageAdapter {
  */
 export const gangerCookieStorage = new CookieStorage({
   domain: '.gangerdermatology.com',
-  secure: true,
+  secure: process.env.NODE_ENV === 'production', // Only secure in production
   sameSite: 'lax',
   path: '/',
-  maxAge: 86400 // 24 hours
+  maxAge: 60 * 60 * 24 * 7 // 7 days to match JWT expiry in Supabase
 });
