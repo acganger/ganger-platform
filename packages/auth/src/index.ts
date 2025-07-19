@@ -40,6 +40,10 @@ export * from './utils';
 // Cookie utilities for session management
 export { getCookie, setCookie, deleteCookie, getAllCookies, clearAllCookies } from './utils/cookies';
 export { CookieStorage, gangerCookieStorage } from './utils/CookieStorage';
+export { CookieStorageAdapter, createGangerCookieStorage } from './utils/CookieStorageAdapter';
+
+// Debugging utilities (use only in development)
+export { debugAuth, diagnoseAuth, enableAuthDebugging, disableAuthDebugging } from './utils/auth-debug';
 
 // Staff portal authentication
 export * from './staff';

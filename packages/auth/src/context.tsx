@@ -152,50 +152,9 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
         setSession(authSession);
         await loadUserData(session.user);
       } else {
-        // Check for cookie-based session (cross-domain SSO)
-        const cookieAccessToken = getCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token.0');
-        const cookieRefreshToken = getCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token.1');
-        
-        if (cookieAccessToken && cookieRefreshToken) {
-          console.log('Found cookie session, attempting to restore...');
-          try {
-            const { data, error: sessionError } = await supabase.auth.setSession({
-              access_token: cookieAccessToken,
-              refresh_token: cookieRefreshToken
-            });
-            
-            if (data?.session) {
-              const authUser: AuthUser = {
-                id: data.session.user.id,
-                email: data.session.user.email || '',
-                user_metadata: data.session.user.user_metadata || {},
-                app_metadata: data.session.user.app_metadata || {},
-                aud: data.session.user.aud || 'authenticated',
-                created_at: data.session.user.created_at || new Date().toISOString()
-              };
-              
-              const authSession: AuthSession = {
-                access_token: data.session.access_token,
-                refresh_token: data.session.refresh_token || '',
-                expires_in: data.session.expires_in || 3600,
-                token_type: data.session.token_type || 'bearer',
-                user: authUser
-              };
-              
-              setUser(authUser);
-              setSession(authSession);
-              await loadUserData(data.session.user);
-              console.log('Cookie session restored successfully');
-            } else if (sessionError) {
-              console.error('Failed to restore cookie session:', sessionError);
-              // Clear invalid cookies
-              document.cookie = 'sb-pfqtzmxxxhhsxmlddrta-auth-token.0=; Max-Age=0; path=/; domain=.gangerdermatology.com';
-              document.cookie = 'sb-pfqtzmxxxhhsxmlddrta-auth-token.1=; Max-Age=0; path=/; domain=.gangerdermatology.com';
-            }
-          } catch (error) {
-            console.error('Error restoring cookie session:', error);
-          }
-        }
+        // Session restoration is now handled by Supabase's detectSessionInUrl
+        // and the cookie storage adapter we configured
+        console.log('No active session found on initialization');
       }
     } catch (error) {
       console.error('Error initializing auth:', error);

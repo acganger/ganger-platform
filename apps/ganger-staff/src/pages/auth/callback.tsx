@@ -7,72 +7,98 @@ import { supabase } from '@ganger/auth';
 
 export default function CallbackPage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(true);
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // First check if there's an error in the URL (from OAuth provider)
+        // Check for OAuth errors first
         const urlError = router.query.error || router.query.error_description;
         if (urlError) {
-          console.error('OAuth error:', urlError);
+          console.error('[Callback] OAuth error:', urlError);
           setError(typeof urlError === 'string' ? urlError : 'Authentication failed');
           setIsProcessing(false);
           return;
         }
 
-        // Expert 2's approach: If user is already available (via auth context), redirect immediately
-        if (user) {
-          console.log('[Callback] User already authenticated, redirecting...');
-          router.push('/');
+        // Wait for router to be ready
+        if (!router.isReady) {
           return;
         }
 
-        // Expert 1's approach: Check for OAuth code and exchange it
+        // Get the current session first
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        
+        if (currentSession) {
+          console.log('[Callback] Session already exists:', currentSession.user.email);
+          // Give the auth context a moment to update
+          setTimeout(() => {
+            router.push('/');
+          }, 100);
+          return;
+        }
+
+        // Handle OAuth code exchange
         const { code } = router.query;
         if (code && typeof code === 'string') {
-          console.log('[Callback] OAuth code found, exchanging for session...');
+          console.log('[Callback] Exchanging OAuth code for session...');
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           
           if (exchangeError) {
-            console.error('Code exchange error:', exchangeError);
+            console.error('[Callback] Code exchange error:', exchangeError);
             setError(exchangeError.message);
             setIsProcessing(false);
             return;
           }
 
-          console.log('[Callback] Session established:', data.session?.user?.email);
-          // Let the auth context pick up the new session
+          if (data.session) {
+            console.log('[Callback] Session established:', data.session.user.email);
+            // The auth context will pick up the new session via onAuthStateChange
+            // Wait a moment for the context to update, then redirect
+            setTimeout(() => {
+              router.push('/');
+            }, 100);
+            return;
+          }
         }
 
-        // If we have hash params (from magic links or other flows), Supabase will handle via detectSessionInUrl
+        // If no code and no session, check for hash params (magic links)
         const hash = window.location.hash;
         if (hash && hash.includes('access_token')) {
-          console.log('[Callback] Hash params detected, letting Supabase handle...');
+          console.log('[Callback] Hash params detected, processing...');
+          // Supabase will handle this via detectSessionInUrl
+          // Wait for auth state to update
+        } else if (!code && !hash) {
+          // No auth data in URL, redirect to sign in
+          console.log('[Callback] No auth data found, redirecting to sign in...');
+          setError('No authentication data found');
+          setTimeout(() => {
+            router.push('/');
+          }, 2000);
         }
 
         setIsProcessing(false);
       } catch (err) {
-        console.error('Callback error:', err);
+        console.error('[Callback] Unexpected error:', err);
         setError('An unexpected error occurred during sign in');
         setIsProcessing(false);
       }
     };
 
     handleCallback();
-  }, [router, user]);
+  }, [router, router.isReady]);
 
-  // Expert 2's approach: Wait for auth context update
+  // Watch for user updates from auth context
   useEffect(() => {
-    if (!isProcessing && user) {
-      console.log('[Callback] User authenticated, redirecting to home...');
+    if (!authLoading && user && !isProcessing) {
+      console.log('[Callback] User authenticated via context, redirecting...');
       router.push('/');
     }
-  }, [user, router, isProcessing]);
+  }, [user, authLoading, isProcessing, router]);
 
-  // Handle errors
+  // Show error state
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -81,7 +107,7 @@ export default function CallbackPage() {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => router.push('/')}
-            className="text-blue-600 hover:text-blue-800 underline"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
           >
             Return to sign in
           </button>
@@ -90,11 +116,13 @@ export default function CallbackPage() {
     );
   }
 
+  // Show loading state
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
         <p className="mt-4 text-gray-600">Completing sign in...</p>
+        <p className="mt-2 text-sm text-gray-500">Please wait while we authenticate you...</p>
       </div>
     </div>
   );
