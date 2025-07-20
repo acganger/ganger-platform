@@ -29,67 +29,57 @@ export function MedicationSelector({ onMedicationSelect, selectedMedication }: M
   const [filteredMedications, setFilteredMedications] = useState<Medication[]>([]);
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [searchDebounceTimer, setSearchDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
-  // Mock medication data
-  useEffect(() => {
-    const mockMedications: Medication[] = [
-      {
-        id: 'med-1',
-        name: 'Humira',
-        genericName: 'adalimumab',
-        strength: '40mg/0.8mL',
-        dosageForm: 'prefilled pen',
-        manufacturer: 'AbbVie',
-        ndcNumber: '0074-3799-02',
-        therapeuticClass: 'TNF Inhibitor',
-        indication: 'Rheumatoid Arthritis',
-        isFormulary: false,
-        requiresPA: true
-      },
-      {
-        id: 'med-2',
-        name: 'Dupixent',
-        genericName: 'dupilumab',
-        strength: '300mg/2mL',
-        dosageForm: 'prefilled syringe',
-        manufacturer: 'Sanofi',
-        ndcNumber: '0024-5913-02',
-        therapeuticClass: 'IL-4/IL-13 Inhibitor',
-        indication: 'Atopic Dermatitis',
-        isFormulary: false,
-        requiresPA: true
-      },
-      {
-        id: 'med-3',
-        name: 'Otezla',
-        genericName: 'apremilast',
-        strength: '30mg',
-        dosageForm: 'tablet',
-        manufacturer: 'Amgen',
-        ndcNumber: '54092-515-14',
-        therapeuticClass: 'PDE4 Inhibitor',
-        indication: 'Psoriasis',
-        isFormulary: true,
-        requiresPA: true
-      }
-    ];
-    setMedications(mockMedications);
-  }, []);
-
-  useEffect(() => {
-    if (searchTerm.length > 0) {
-      const filtered = medications.filter(med =>
-        med.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        med.genericName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        med.indication.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredMedications(filtered);
-      setShowSuggestions(true);
-    } else {
+  // Search for medications when search term changes
+  const searchMedications = async (term: string) => {
+    if (!term || term.length < 2) {
       setFilteredMedications([]);
-      setShowSuggestions(false);
+      return;
     }
-  }, [searchTerm, medications]);
+
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/medications/search?search=${encodeURIComponent(term)}`);
+      if (!response.ok) {
+        throw new Error('Failed to search medications');
+      }
+      
+      const data = await response.json();
+      setMedications(data.medications || []);
+      setFilteredMedications(data.medications || []);
+    } catch (error) {
+      console.error('Error searching medications:', error);
+      setFilteredMedications([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Clear existing timer
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+    }
+
+    // Set new timer for debounced search
+    const timer = setTimeout(() => {
+      if (searchTerm.length > 1) {
+        searchMedications(searchTerm);
+        setShowSuggestions(true);
+      } else {
+        setFilteredMedications([]);
+        setShowSuggestions(false);
+      }
+    }, 300);
+
+    setSearchDebounceTimer(timer);
+
+    // Cleanup
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [searchTerm]);
 
   const handleMedicationSelect = (medication: Medication) => {
     setSearchTerm(medication.name);

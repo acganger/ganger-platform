@@ -79,31 +79,29 @@ export function InsuranceChecker({ patientId, medicationId, onCoverageVerified }
     setError('');
 
     try {
-      // Simulate coverage verification
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await fetch('/api/insurance/verify-coverage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          patient_id: patientId,
+          medication_id: medicationId,
+          plan_id: insuranceInfo.planId || 'default'
+        })
+      });
 
-      const mockCoverage: CoverageInfo = {
-        isCovered: true,
-        requiresPA: true,
-        copayAmount: 50,
-        coinsurancePercent: 20,
-        deductibleApplies: true,
-        priorAuthStatus: 'pending',
-        limitations: [
-          'Must try formulary alternatives first',
-          'Requires dermatologist prescription',
-          'Limited to 30-day supply initially'
-        ],
-        alternatives: [
-          'Methotrexate (preferred formulary)',
-          'Sulfasalazine (preferred formulary)',
-          'Leflunomide (non-preferred formulary)'
-        ]
-      };
+      if (!response.ok) {
+        throw new Error('Failed to verify coverage');
+      }
 
-      setCoverageInfo(mockCoverage);
-      onCoverageVerified(mockCoverage);
-    } catch {
+      const data = await response.json();
+      const coverage = data.coverage;
+
+      setCoverageInfo(coverage);
+      onCoverageVerified(coverage);
+    } catch (error) {
+      console.error('Coverage verification error:', error);
       setError('Failed to verify coverage. Please try again.');
     } finally {
       setVerifying(false);
