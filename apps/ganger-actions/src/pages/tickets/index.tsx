@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
@@ -26,6 +26,7 @@ import { format } from 'date-fns';
 import { Button, Badge } from '@ganger/ui';
 import { Card, CardHeader, CardContent, CardTitle } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
+import debounce from 'lodash/debounce';
 
 // Form type options
 const FORM_TYPES = [
@@ -109,6 +110,9 @@ export default function TicketsPage() {
     date_to: '',
     view_all: false
   });
+  
+  // Separate state for immediate UI updates
+  const [searchInput, setSearchInput] = useState('');
 
   // Sort states
   const [sortBy, setSortBy] = useState('created_at');
@@ -180,9 +184,30 @@ export default function TicketsPage() {
     }
   }, [authUser, page, pageSize, sortBy, sortOrder, filters]);
 
+  // Debounce search input changes
+  const debouncedSetSearch = useMemo(
+    () => debounce((value: string) => {
+      setFilters(prev => ({ ...prev, search: value }));
+    }, 500),
+    []
+  );
+  
+  // Debounce other text filter changes
+  const debouncedSetFilter = useMemo(
+    () => debounce((filterType: string, value: any) => {
+      setFilters(prev => ({ ...prev, [filterType]: value }));
+    }, 300),
+    []
+  );
+
   useEffect(() => {
     fetchTickets();
   }, [fetchTickets]);
+  
+  // Handle search input changes
+  useEffect(() => {
+    debouncedSetSearch(searchInput);
+  }, [searchInput, debouncedSetSearch]);
 
   const handleSort = (field: string) => {
     if (sortBy === field) {
@@ -194,6 +219,18 @@ export default function TicketsPage() {
   };
 
   const handleFilterChange = (filterType: string, value: any) => {
+    if (filterType === 'search') {
+      setSearchInput(value);
+      return;
+    }
+    
+    // For text inputs, use debounced update
+    if (filterType === 'submitter' || filterType === 'assigned_to') {
+      debouncedSetFilter(filterType, value);
+      return;
+    }
+    
+    // For other filters, update immediately
     setFilters(prev => ({
       ...prev,
       [filterType]: value
@@ -373,7 +410,7 @@ export default function TicketsPage() {
                 <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                   type="text"
-                  value={filters.search}
+                  value={searchInput}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
                   placeholder="Search by title, description, or ticket number..."
                   className="pl-10 w-full"

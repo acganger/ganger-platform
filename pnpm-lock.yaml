@@ -801,9 +801,15 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.0.0
         version: 5.81.5(react@18.3.1)
+      '@types/lodash':
+        specifier: ^4.17.13
+        version: 4.17.20
       googleapis:
         specifier: ^131.0.0
         version: 131.0.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       mysql2:
         specifier: ^3.9.0
         version: 3.14.1

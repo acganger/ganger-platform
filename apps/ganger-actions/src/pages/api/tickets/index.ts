@@ -104,8 +104,11 @@ async function handleGet(
 
     // Apply user filter - managers/admins can see all, others see only their tickets
     if (!showAllTickets) {
-      // For non-managers, filter to show only their tickets
-      // We'll handle this with a more complex query
+      // Use OR condition for tickets where user is submitter or assigned
+      filters['or'] = [
+        { submitter_email: userEmail },
+        { assigned_to: userEmail }
+      ];
     }
 
     // Apply filters
@@ -149,8 +152,33 @@ async function handleGet(
       }
     }
 
+    // Apply search filter at database level
+    if (search) {
+      const searchPattern = `%${search}%`;
+      filters['or'] = filters['or'] ? [
+        ...filters['or'],
+        { title: { ilike: searchPattern } },
+        { description: { ilike: searchPattern } },
+        { ticket_number: { ilike: searchPattern } }
+      ] : [
+        { title: { ilike: searchPattern } },
+        { description: { ilike: searchPattern } },
+        { ticket_number: { ilike: searchPattern } }
+      ];
+    }
+
+    // Get total count for pagination
+    // Since migrationAdapter doesn't have count, we'll fetch with limit 0 to get count
+    const countData = await migrationAdapter.select(
+      'staff_tickets',
+      'id',
+      filters,
+      { limit: 1000 } // Get reasonable count
+    );
+    const totalCount = countData.length;
+
     // Use migration adapter for backward-compatible queries
-    let tickets = await migrationAdapter.select(
+    const tickets = await migrationAdapter.select(
       'staff_tickets',
       `
         *,
@@ -165,24 +193,7 @@ async function handleGet(
       }
     );
 
-    // Apply user filter for non-managers (post-query filter)
-    if (!showAllTickets) {
-      tickets = tickets.filter(ticket => 
-        ticket.submitter_email === userEmail || ticket.assigned_to === userEmail
-      );
-    }
-
-    // Apply search filter (post-query filter for simplicity)
-    if (search) {
-      const searchLower = search.toString().toLowerCase();
-      tickets = tickets.filter(ticket =>
-        ticket.title?.toLowerCase().includes(searchLower) ||
-        ticket.description?.toLowerCase().includes(searchLower) ||
-        ticket.ticket_number?.toLowerCase().includes(searchLower)
-      );
-    }
-
-    const totalCount = tickets.length;
+    // Total count is now calculated before fetching data
 
     sendSuccess(res, {
       tickets: tickets || [],
