@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { LoadingSpinner, Badge } from '@ganger/ui';
 import { Avatar } from '@ganger/ui-catalyst';
@@ -36,103 +36,46 @@ interface StaffMember {
   skills?: string[];
 }
 
-// Mock data
-const MOCK_STAFF: StaffMember[] = [
-  {
-    id: '1',
-    name: 'Dr. Anand Ganger',
-    email: 'anand@gangerdermatology.com',
-    phone: '+1 (248) 555-0123',
-    position: 'Medical Director',
-    department: 'Administration',
-    location: 'Ann Arbor',
-    startDate: '2020-01-15',
-    status: 'active',
-    bio: 'Board-certified dermatologist specializing in medical and cosmetic dermatology.',
-    skills: ['Medical Dermatology', 'Cosmetic Procedures', 'Practice Management']
-  },
-  {
-    id: '2',
-    name: 'Sarah Johnson',
-    email: 'sarah@gangerdermatology.com',
-    phone: '+1 (248) 555-0124',
-    position: 'Practice Manager',
-    department: 'Administration',
-    location: 'Ann Arbor',
-    startDate: '2021-03-10',
-    manager: 'Dr. Anand Ganger',
-    status: 'active',
-    bio: 'Experienced healthcare administrator with 8+ years in dermatology practice management.',
-    skills: ['Practice Management', 'Staff Coordination', 'Patient Experience']
-  },
-  {
-    id: '3',
-    name: 'Mike Chen',
-    email: 'mike@gangerdermatology.com',
-    phone: '+1 (248) 555-0125',
-    position: 'IT Specialist',
-    department: 'IT',
-    location: 'Remote',
-    startDate: '2022-07-20',
-    manager: 'Sarah Johnson',
-    status: 'remote',
-    bio: 'Full-stack developer and IT specialist maintaining all practice technology systems.',
-    skills: ['Software Development', 'Network Administration', 'Database Management']
-  },
-  {
-    id: '4',
-    name: 'Emily Rodriguez',
-    email: 'emily@gangerdermatology.com',
-    phone: '+1 (248) 555-0126',
-    position: 'Medical Assistant',
-    department: 'Clinical',
-    location: 'Plymouth',
-    startDate: '2023-02-14',
-    manager: 'Dr. Anand Ganger',
-    status: 'active',
-    bio: 'Certified medical assistant with expertise in patient care and clinical procedures.',
-    skills: ['Patient Care', 'Clinical Procedures', 'Medical Documentation']
-  },
-  {
-    id: '5',
-    name: 'Jessica Smith',
-    email: 'jessica@gangerdermatology.com',
-    phone: '+1 (248) 555-0127',
-    position: 'Registered Nurse',
-    department: 'Clinical',
-    location: 'Wixom',
-    startDate: '2022-09-05',
-    manager: 'Dr. Anand Ganger',
-    status: 'vacation',
-    bio: 'RN with specialization in dermatology and cosmetic procedure assistance.',
-    skills: ['Clinical Care', 'Cosmetic Procedures', 'Patient Education']
-  },
-  {
-    id: '6',
-    name: 'David Wilson',
-    email: 'david@gangerdermatology.com',
-    phone: '+1 (248) 555-0128',
-    position: 'Front Desk Coordinator',
-    department: 'Reception',
-    location: 'Ann Arbor',
-    startDate: '2023-05-12',
-    manager: 'Sarah Johnson',
-    status: 'active',
-    bio: 'Customer service specialist managing patient appointments and front desk operations.',
-    skills: ['Customer Service', 'Appointment Scheduling', 'Insurance Verification']
-  }
-];
-
 const DEPARTMENTS = ['All', 'Administration', 'Clinical', 'IT', 'Reception', 'Billing'];
 const LOCATIONS = ['All', 'Ann Arbor', 'Plymouth', 'Wixom', 'Remote'];
 
 export default function StaffDirectoryPage() {
   const { authUser, isAuthenticated, loading } = useAuth();
-  const [staff, setStaff] = useState<StaffMember[]>(MOCK_STAFF);
+  const [staff, setStaff] = useState<StaffMember[]>([]);
+  const [loadingStaff, setLoadingStaff] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('All');
   const [filterLocation, setFilterLocation] = useState('All');
   const [selectedMember, setSelectedMember] = useState<StaffMember | null>(null);
+
+  // Fetch staff data
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchStaffDirectory();
+    }
+  }, [isAuthenticated]);
+
+  const fetchStaffDirectory = async () => {
+    try {
+      setLoadingStaff(true);
+      setError(null);
+      
+      const response = await fetch('/api/staff/directory');
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch staff directory');
+      }
+      
+      setStaff(data.staff || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error fetching staff directory:', err);
+    } finally {
+      setLoadingStaff(false);
+    }
+  };
 
   // Filter staff
   const filteredStaff = staff.filter(member => {
@@ -179,11 +122,11 @@ export default function StaffDirectoryPage() {
   };
 
   // Authentication loading state
-  if (loading) {
+  if (loading || loadingStaff) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <LoadingSpinner size="lg" text="Loading directory..." center />
+          <LoadingSpinner size="lg" text={loading ? "Loading directory..." : "Fetching staff data..."} center />
         </div>
       </div>
     );
@@ -237,6 +180,13 @@ export default function StaffDirectoryPage() {
             </div>
           </div>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-md p-4">
+            <p className="text-sm text-red-800">{error}</p>
+          </div>
+        )}
 
         {/* Filters */}
         <div className="mb-6 bg-white rounded-lg shadow p-6">

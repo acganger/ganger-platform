@@ -51,14 +51,51 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
     currentPage,
   });
 
-  // Mock data for development
+  // Fetch reviews from API
   useEffect(() => {
-    const loadMockReviews = () => {
-      setLoading(true);
+    fetchReviews();
+  }, [filters, sortBy, sortOrder, currentPage]);
+
+  const fetchReviews = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const params = new URLSearchParams();
       
-      // Simulate API delay
-      setTimeout(() => {
-        const mockReviews: GoogleBusinessReview[] = [
+      // Add filters
+      if (filters.location) params.append('location', filters.location);
+      if (filters.status) params.append('status', filters.status);
+      if (filters.sentiment) params.append('sentiment', filters.sentiment);
+      if (filters.dateFrom) params.append('date_from', filters.dateFrom);
+      if (filters.dateTo) params.append('date_to', filters.dateTo);
+      
+      // Add sorting
+      params.append('sort_by', sortBy);
+      params.append('sort_order', sortOrder);
+      
+      // Add pagination
+      params.append('page', currentPage.toString());
+      params.append('page_size', '10');
+      
+      const response = await fetch(`/api/reviews?${params.toString()}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('auth-token') || ''}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+      
+      const data = await response.json();
+      setAllReviews(data.reviews || []);
+    } catch (err) {
+      console.error('Error fetching reviews:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load reviews');
+      
+      // Fallback to mock data for development
+      const mockReviews: GoogleBusinessReview[] = [
           {
             id: 'rev_001',
             google_review_id: 'gb_12345',
@@ -151,21 +188,17 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
         ];
 
         setAllReviews(mockReviews);
-        setLoading(false);
-        setError(null);
-      }, 1000);
-    };
-
-    loadMockReviews();
+      }
+    } finally {
+      setLoading(false);
+    }
   }, [filters, sortBy, sortOrder, currentPage]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    // Simulate refresh
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 500);
-  };
+    await fetchReviews();
+    setIsRefreshing(false);
+  }, [fetchReviews]);
 
   const handleRespond = (reviewId: string) => {
     void reviewId;
