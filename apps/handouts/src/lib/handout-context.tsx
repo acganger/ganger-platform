@@ -145,39 +145,9 @@ export function HandoutProvider({ children }: { children: ReactNode }) {
       
       dispatch({ type: 'SET_TEMPLATES', payload: templates });
     } catch (error) {
-      
-      // Fallback to mock data if template loading fails
-      const mockTemplates: HandoutTemplate[] = [
-        {
-          id: 'acne-handout-kf',
-          name: 'Acne Treatment Plan',
-          category: 'treatment',
-          description: 'Comprehensive acne treatment with medication options',
-          complexity: 'complex',
-          estimatedTime: 5,
-          digitalDeliveryEnabled: true
-        },
-        {
-          id: 'sun-protection',
-          name: 'Sun Protection Guidelines',
-          category: 'education',
-          description: 'UV protection and skin cancer prevention',
-          complexity: 'simple',
-          estimatedTime: 1,
-          digitalDeliveryEnabled: true
-        },
-        {
-          id: 'patch-testing',
-          name: 'Patch Testing Instructions',
-          category: 'pre_procedure',
-          description: 'Pre-procedure preparation for allergy testing',
-          complexity: 'simple',
-          estimatedTime: 2,
-          digitalDeliveryEnabled: true
-        }
-      ];
-      
-      dispatch({ type: 'SET_TEMPLATES', payload: mockTemplates });
+      console.error('Error loading templates:', error);
+      // Set empty array on error to avoid showing stale data
+      dispatch({ type: 'SET_TEMPLATES', payload: [] });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
@@ -185,24 +155,37 @@ export function HandoutProvider({ children }: { children: ReactNode }) {
 
   const loadRecentHandouts = async () => {
     try {
-      const mockHandouts: GeneratedHandout[] = [
-        {
-          id: '1',
-          patientMRN: 'MRN001',
-          templateIds: ['acne-handout-kf'],
-          generatedAt: new Date().toISOString(),
-          deliveryMethods: ['print', 'email'],
-          status: 'completed',
-          pdfUrl: '/generated/handout1.pdf',
-          deliveryStatus: {
-            print: true,
-            email: 'delivered'
-          }
-        }
-      ];
+      // Fetch recent handouts from API
+      const params = new URLSearchParams({ dateRange: '7d' });
+      const response = await fetch(`/api/handouts/history?${params}`);
       
-      dispatch({ type: 'SET_RECENT_HANDOUTS', payload: mockHandouts });
+      if (!response.ok) {
+        throw new Error('Failed to fetch recent handouts');
+      }
+      
+      const { data } = await response.json();
+      
+      // Transform API data to match GeneratedHandout interface
+      const handouts: GeneratedHandout[] = (data || []).map((handout: any) => ({
+        id: handout.id,
+        patientMRN: handout.patientMRN,
+        templateIds: handout.templates,
+        generatedAt: handout.generatedAt,
+        deliveryMethods: handout.deliveryMethods,
+        status: handout.status,
+        pdfUrl: handout.pdfUrl || undefined,
+        deliveryStatus: {
+          print: handout.deliveryMethods.includes('print'),
+          email: handout.emailStatus,
+          sms: handout.smsStatus
+        }
+      }));
+      
+      dispatch({ type: 'SET_RECENT_HANDOUTS', payload: handouts });
     } catch (error) {
+      console.error('Error loading recent handouts:', error);
+      // Set empty array on error
+      dispatch({ type: 'SET_RECENT_HANDOUTS', payload: [] });
     }
   };
 

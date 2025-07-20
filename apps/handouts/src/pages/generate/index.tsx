@@ -50,24 +50,44 @@ function HandoutGeneratorPage() {
 
   const handleQRCodeScanned = async (qrData: string) => {
     try {
-      const mockPatient: Patient = {
-        id: `patient_${Date.now()}_qr`, // Generate unique ID for communication service
-        mrn: qrData,
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        phone: '+1234567890',
-        dateOfBirth: '1980-01-01'
+      // Fetch patient data from API
+      const response = await fetch(`/api/patients/lookup?mrn=${encodeURIComponent(qrData)}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          alert('Patient not found. Please check the MRN and try again.');
+          return;
+        }
+        throw new Error('Failed to look up patient');
+      }
+      
+      const { data: patientData } = await response.json();
+      
+      // Parse the full name into first and last
+      const nameParts = (patientData.name || '').split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+      
+      const patient: Patient = {
+        id: patientData.id,
+        mrn: patientData.mrn,
+        firstName,
+        lastName,
+        email: patientData.email || '',
+        phone: patientData.phone || '',
+        dateOfBirth: patientData.dateOfBirth || ''
       };
       
-      setPatient(mockPatient);
+      setPatient(patient);
       setShowQRScanner(false);
       setCurrentStep('templates');
       
       analytics.track('patient_identified_qr', 'interaction', {
-        mrn: mockPatient.mrn
+        mrn: patient.mrn
       });
     } catch (error) {
+      console.error('Error processing QR code:', error);
+      alert('Error looking up patient. Please try again.');
     }
   };
 
@@ -75,23 +95,43 @@ function HandoutGeneratorPage() {
     if (!manualMRN.trim()) return;
     
     try {
-      const mockPatient: Patient = {
-        id: `patient_${Date.now()}_manual`, // Generate unique ID for communication service
-        mrn: manualMRN.trim(),
-        firstName: 'Jane',
-        lastName: 'Smith',
-        email: 'jane.smith@example.com',
-        phone: '+1987654321',
-        dateOfBirth: '1975-05-15'
+      // Fetch patient data from API
+      const response = await fetch(`/api/patients/lookup?mrn=${encodeURIComponent(manualMRN.trim())}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          alert('Patient not found. Please check the MRN and try again.');
+          return;
+        }
+        throw new Error('Failed to look up patient');
+      }
+      
+      const { data: patientData } = await response.json();
+      
+      // Parse the full name into first and last
+      const nameParts = (patientData.name || '').split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+      
+      const patient: Patient = {
+        id: patientData.id,
+        mrn: patientData.mrn,
+        firstName,
+        lastName,
+        email: patientData.email || '',
+        phone: patientData.phone || '',
+        dateOfBirth: patientData.dateOfBirth || ''
       };
       
-      setPatient(mockPatient);
+      setPatient(patient);
       setCurrentStep('templates');
       
       analytics.track('patient_identified_manual', 'interaction', {
-        mrn: mockPatient.mrn
+        mrn: patient.mrn
       });
     } catch (error) {
+      console.error('Error looking up patient:', error);
+      alert('Error looking up patient. Please try again.');
     }
   };
 

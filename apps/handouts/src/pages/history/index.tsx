@@ -37,55 +37,25 @@ function HistoryPage() {
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        // Mock handout history data
-        const mockHandouts: GeneratedHandout[] = [
-          {
-            id: '1',
-            patientName: 'John Doe',
-            patientMRN: 'MRN001',
-            templates: ['Acne Treatment Plan', 'Sun Protection Guidelines'],
-            generatedAt: '2024-01-15T10:30:00Z',
-            generatedBy: 'Jane Smith',
-            deliveryMethods: ['print', 'email'],
-            status: 'completed',
-            emailStatus: 'delivered',
-            downloadCount: 3,
-            lastDownloaded: '2024-01-15T14:22:00Z'
-          },
-          {
-            id: '2',
-            patientName: 'Mary Johnson',
-            patientMRN: 'MRN002',
-            templates: ['Patch Testing Instructions'],
-            generatedAt: '2024-01-15T09:15:00Z',
-            generatedBy: 'Mike Wilson',
-            deliveryMethods: ['print', 'sms'],
-            status: 'completed',
-            smsStatus: 'delivered',
-            downloadCount: 1,
-            lastDownloaded: '2024-01-15T12:45:00Z'
-          },
-          {
-            id: '3',
-            patientName: 'Robert Brown',
-            patientMRN: 'MRN003',
-            templates: ['Isotretinoin for Female Patients'],
-            generatedAt: '2024-01-14T16:45:00Z',
-            generatedBy: 'Sarah Davis',
-            deliveryMethods: ['print', 'email'],
-            status: 'completed',
-            emailStatus: 'failed',
-            downloadCount: 0
-          }
-        ];
+        // Fetch real handout history from API
+        const params = new URLSearchParams({ dateRange });
+        const response = await fetch(`/api/handouts/history?${params}`);
         
-        setHandouts(mockHandouts);
+        if (!response.ok) {
+          throw new Error('Failed to fetch handout history');
+        }
+        
+        const { data } = await response.json();
+        setHandouts(data || []);
         
         analytics.track('history_page_viewed', 'navigation', {
           user_role: profile?.role,
           date_range: dateRange
         });
       } catch (error) {
+        console.error('Error loading handout history:', error);
+        // Set empty array on error to avoid showing stale data
+        setHandouts([]);
       } finally {
         setLoading(false);
       }

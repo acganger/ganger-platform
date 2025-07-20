@@ -37,57 +37,23 @@ function TemplatesPage() {
       try {
         await loadTemplates();
         
-        // Mock templates data with usage statistics
-        const mockTemplates: Template[] = [
-          {
-            id: 'acne-handout-kf',
-            name: 'Acne Treatment Plan (Complex)',
-            category: 'treatment',
-            complexity: 'complex',
-            digitalDeliveryEnabled: true,
-            isActive: true,
-            lastModified: '2024-01-15',
-            usageCount: 245
-          },
-          {
-            id: 'sun-protection',
-            name: 'Sun Protection Guidelines',
-            category: 'education',
-            complexity: 'simple',
-            digitalDeliveryEnabled: true,
-            isActive: true,
-            lastModified: '2024-01-10',
-            usageCount: 189
-          },
-          {
-            id: 'patch-testing',
-            name: 'Patch Testing Instructions',
-            category: 'pre_procedure',
-            complexity: 'simple',
-            digitalDeliveryEnabled: true,
-            isActive: true,
-            lastModified: '2024-01-08',
-            usageCount: 67
-          },
-          {
-            id: 'isotretinoin-female',
-            name: 'Isotretinoin for Female Patients',
-            category: 'medication',
-            complexity: 'complex',
-            digitalDeliveryEnabled: true,
-            isActive: true,
-            lastModified: '2024-01-05',
-            usageCount: 23
-          }
-        ];
+        // Fetch real templates from API
+        const response = await fetch('/api/templates');
+        if (!response.ok) {
+          throw new Error('Failed to fetch templates');
+        }
         
-        setTemplates(mockTemplates);
+        const { data } = await response.json();
+        setTemplates(data || []);
         
         analytics.track('templates_page_viewed', 'navigation', {
           user_role: profile?.role,
-          template_count: mockTemplates.length
+          template_count: data?.length || 0
         });
       } catch (error) {
+        console.error('Error loading templates:', error);
+        // Set empty array on error to avoid showing stale data
+        setTemplates([]);
       } finally {
         setLoading(false);
       }
