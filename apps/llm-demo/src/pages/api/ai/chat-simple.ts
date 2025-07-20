@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { withAuth, AuthenticatedRequest } from '@/lib/auth-middleware';
+import { trackUsage } from '@/lib/usage-tracking';
 
 // Share rate limiter with main chat endpoint
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -56,16 +58,16 @@ function checkRateLimit(clientId: string): { allowed: boolean; message?: string 
   return { allowed: true };
 }
 
-export default async function handler(
-  req: NextApiRequest,
+async function chatSimpleHandler(
+  req: AuthenticatedRequest,
   res: NextApiResponse
 ) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Check rate limit
-  const clientId = getClientId(req);
+  // Check rate limit - use authenticated user email instead of IP
+  const clientId = req.user.email;
   const rateLimitResult = checkRateLimit(clientId);
   
   if (!rateLimitResult.allowed) {
@@ -113,6 +115,20 @@ export default async function handler(
 
     const data = await response.json();
     
+    // Track usage
+    const totalTokens = data.result.usage?.total_tokens || 0;
+    const cost = totalTokens * 0.0001;
+    
+    await trackUsage({
+      user_id: req.user.id,
+      user_email: req.user.email,
+      endpoint: '/api/ai/chat-simple',
+      model: model,
+      tokens_used: totalTokens,
+      cost: cost,
+      timestamp: new Date()
+    });
+    
     // Return in our expected format
     res.status(200).json({
       success: true,
@@ -138,3 +154,6 @@ export default async function handler(
     });
   }
 }
+
+// Export the handler wrapped with authentication
+export default withAuth(chatSimpleHandler);

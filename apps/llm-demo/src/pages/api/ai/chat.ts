@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { AIModel, ChatMessage } from '@/types/ai';
+import { withAuth, AuthenticatedRequest } from '@/lib/auth-middleware';
+import { trackUsage } from '@/lib/usage-tracking';
 
 // Simple in-memory rate limiter
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -11,7 +13,7 @@ const RATE_LIMIT = {
   message: 'Too many requests. Please wait a moment before trying again.'
 };
 
-// Get client identifier from request
+// Get client identifier from request (kept for backwards compatibility)
 function getClientId(req: NextApiRequest): string {
   const forwarded = req.headers['x-forwarded-for'];
   const ip = typeof forwarded === 'string' 
@@ -87,16 +89,16 @@ const costPerToken: Record<AIModel, number> = {
   'bge-reranker-base': 0.00003
 };
 
-export default async function handler(
-  req: NextApiRequest,
+async function chatHandler(
+  req: AuthenticatedRequest,
   res: NextApiResponse
 ) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Check rate limit
-  const clientId = getClientId(req);
+  // Check rate limit - use authenticated user email instead of IP
+  const clientId = req.user.email;
   const rateLimitResult = checkRateLimit(clientId);
   
   if (!rateLimitResult.allowed) {
@@ -200,6 +202,17 @@ export default async function handler(
     const totalTokens = data.result.usage?.total_tokens || 0;
     const cost = totalTokens * (costPerToken[model as AIModel] || 0.0001);
     
+    // Track usage for billing and monitoring
+    await trackUsage({
+      user_id: req.user.id,
+      user_email: req.user.email,
+      endpoint: '/api/ai/chat',
+      model: model,
+      tokens_used: totalTokens,
+      cost: cost,
+      timestamp: new Date()
+    });
+    
     // Return in GangerAI expected format
     res.status(200).json({
       success: true,
@@ -227,3 +240,6 @@ export default async function handler(
     });
   }
 }
+
+// Export the handler wrapped with authentication
+export default withAuth(chatHandler);
