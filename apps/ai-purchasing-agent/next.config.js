@@ -22,7 +22,7 @@ const nextConfig = {
   typescript: {
     // During development, we want to see errors
     // During deployment, use ignoreBuildErrors if needed
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   eslint: {
     // During development, we want to see warnings
