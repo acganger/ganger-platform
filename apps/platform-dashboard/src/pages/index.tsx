@@ -6,13 +6,53 @@ import { Card } from '@ganger/ui-catalyst';
 import { useEffect, useState } from 'react';
 import { Activity, Users, BarChart2, Shield, Calendar, Settings } from 'lucide-react';
 
+interface Metrics {
+  activeApplications: number;
+  totalUsers: number;
+  apiCallsToday: number;
+  systemHealth: number;
+}
+
+interface AppStatus {
+  name: string;
+  status: 'online' | 'offline' | 'maintenance';
+  users: number;
+}
+
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
+  const [metrics, setMetrics] = useState<Metrics>({
+    activeApplications: 0,
+    totalUsers: 0,
+    apiCallsToday: 0,
+    systemHealth: 0
+  });
+  const [applications, setApplications] = useState<AppStatus[]>([]);
   
   useEffect(() => {
-    // Simulate loading platform data
-    const timer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(timer);
+    const loadDashboardData = async () => {
+      try {
+        // Fetch metrics
+        const metricsResponse = await fetch('/api/metrics');
+        if (metricsResponse.ok) {
+          const { data } = await metricsResponse.json();
+          setMetrics(data);
+        }
+        
+        // Fetch application status
+        const appsResponse = await fetch('/api/applications/status');
+        if (appsResponse.ok) {
+          const { data } = await appsResponse.json();
+          setApplications(data);
+        }
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadDashboardData();
   }, []);
 
   return (
@@ -39,7 +79,7 @@ function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-600">Active Applications</p>
-                        <p className="text-2xl font-semibold text-gray-900">17</p>
+                        <p className="text-2xl font-semibold text-gray-900">{metrics.activeApplications}</p>
                       </div>
                       <Activity className="w-8 h-8 text-green-500" />
                     </div>
@@ -51,7 +91,7 @@ function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-600">Total Users</p>
-                        <p className="text-2xl font-semibold text-gray-900">142</p>
+                        <p className="text-2xl font-semibold text-gray-900">{metrics.totalUsers}</p>
                       </div>
                       <Users className="w-8 h-8 text-blue-500" />
                     </div>
@@ -63,7 +103,7 @@ function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-600">API Calls Today</p>
-                        <p className="text-2xl font-semibold text-gray-900">8,493</p>
+                        <p className="text-2xl font-semibold text-gray-900">{metrics.apiCallsToday.toLocaleString()}</p>
                       </div>
                       <BarChart2 className="w-8 h-8 text-purple-500" />
                     </div>
@@ -75,7 +115,7 @@ function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium text-gray-600">System Health</p>
-                        <p className="text-2xl font-semibold text-green-600">100%</p>
+                        <p className="text-2xl font-semibold text-green-600">{metrics.systemHealth}%</p>
                       </div>
                       <Shield className="w-8 h-8 text-green-500" />
                     </div>
@@ -120,13 +160,7 @@ function Dashboard() {
                 <div className="p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Application Status</h2>
                   <div className="space-y-3">
-                    {[
-                      { name: 'Inventory Management', status: 'online', users: 12 },
-                      { name: 'Patient Handouts', status: 'online', users: 8 },
-                      { name: 'Check-in Kiosk', status: 'online', users: 3 },
-                      { name: 'EOS L10', status: 'online', users: 24 },
-                      { name: 'Clinical Staffing', status: 'online', users: 15 },
-                    ].map((app) => (
+                    {applications.map((app) => (
                       <div key={app.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center">
                           <div className={`w-2 h-2 rounded-full mr-3 ${
