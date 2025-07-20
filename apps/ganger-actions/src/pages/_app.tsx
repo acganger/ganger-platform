@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { AuthProvider } from '@ganger/auth';
-import { ToastProvider } from '@ganger/ui';
+import { ToastProvider, ErrorBoundary } from '@ganger/ui';
 import '@/styles/globals.css';
 
 // Create a QueryClient instance
@@ -36,14 +36,16 @@ export default function App({
   const [queryClient] = useState(() => createQueryClient());
 
   return (
-    <AuthProvider appName="ganger-actions">
-      <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <div className="min-h-screen bg-gray-50">
-            <Component {...pageProps} />
-          </div>
-        </ToastProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider appName="ganger-actions">
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <div className="min-h-screen bg-gray-50">
+              <Component {...pageProps} />
+            </div>
+          </ToastProvider>
+        </QueryClientProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }

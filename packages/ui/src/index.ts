@@ -50,6 +50,9 @@ export { PageHeader } from './components/PageHeader';
 export { StatCard } from './components/StatCard';
 export { ThemeProvider, useTheme } from './components/ThemeProvider';
 
+// Error Handling
+export { ErrorBoundary, useErrorHandler } from './components/ErrorBoundary';
+
 // Branding Components
 export { 
   GangerLogo, 
