@@ -1587,6 +1587,52 @@ importers:
         specifier: ^20.10.0
         version: 20.19.4
 
+  packages/hooks:
+    dependencies:
+      '@ganger/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@ganger/cache':
+        specifier: workspace:*
+        version: link:../cache
+      '@ganger/db':
+        specifier: workspace:*
+        version: link:../db
+      '@ganger/monitoring':
+        specifier: workspace:*
+        version: link:../monitoring
+      '@ganger/types':
+        specifier: workspace:*
+        version: link:../types
+      '@ganger/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@tanstack/react-query':
+        specifier: ^5.62.16
+        version: 5.81.5(react@18.3.1)
+      next:
+        specifier: ^14.2.29
+        version: 14.2.30(@babel/core@7.27.7)(react-dom@18.3.1)(react@18.3.1)
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
+      zustand:
+        specifier: ^4.5.2
+        version: 4.5.7(@types/react@18.3.0)(react@18.3.1)
+    devDependencies:
+      '@ganger/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/react':
+        specifier: 18.3.0
+        version: 18.3.0
+      '@types/react-dom':
+        specifier: 18.3.0
+        version: 18.3.0
+
   packages/integrations:
     dependencies:
       '@ganger/db':
