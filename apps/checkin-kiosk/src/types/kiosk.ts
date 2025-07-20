@@ -50,6 +50,9 @@ export interface CheckInSession {
   forms_completed: boolean;
   check_in_completed: boolean;
   session_start: Date;
+  appointment_id: string;
+  location_id: string;
+  appointment_date: string;
 }
 
 export interface CheckInStep {

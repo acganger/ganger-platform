@@ -10,7 +10,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { AppLayout, Button, LoadingSpinner } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
 import { User, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
-import { PaymentProcessor } from '@/components/PaymentProcessor';
+import { SecurePaymentProcessor } from '@/components/SecurePaymentProcessor';
 import type { CheckInSession, CheckInStep } from '@/types/kiosk';
 
 // Mock type for static build
@@ -64,7 +64,10 @@ export default function CheckInKiosk() {
     payment_completed: false,
     forms_completed: true,
     check_in_completed: false,
-    session_start: new Date()
+    session_start: new Date(),
+    appointment_id: 'appt-456',
+    location_id: 'loc-001',
+    appointment_date: '2025-01-06'
   }), []);
 
   const steps: CheckInStep[] = [
@@ -268,7 +271,7 @@ export default function CheckInKiosk() {
           )}
 
           {currentStep === 2 && (
-            <PaymentProcessor
+            <SecurePaymentProcessor
               session={session}
               onPaymentComplete={handlePaymentComplete}
               onSkip={handlePaymentSkipped}
