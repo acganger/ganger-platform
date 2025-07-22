@@ -23,6 +23,7 @@
     "@ganger/ui-catalyst": "workspace:*",
     "@ganger/utils": "workspace:*",
     "@hookform/resolvers": "^3.6.0",
+    "@sentry/nextjs": "^7.108.0",
     "@tailwindcss/postcss": "^4.0.0-alpha.33",
     "@tanstack/react-query": "^5.0.0",
     "@types/lodash": "^4.17.13",

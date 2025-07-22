@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import type { Integration } from '../types/integration'
 import { useAuth } from '../lib/auth'
-import { useToast } from '@ganger/ui'
+import { useToast, DataTableSkeleton, CardSkeleton } from '@ganger/ui-catalyst'
 import { AuthGuard } from '@ganger/auth/staff'
 import { createClient } from '@supabase/supabase-js'
 
@@ -390,8 +390,32 @@ function IntegrationStatusDashboard() {
   if (isLoading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-64">
-          <LoadingSpinner size="lg" />
+        <div className="space-y-6">
+          {/* Header */}
+          <PageHeader 
+            title="Third-Party Integration Status" 
+            subtitle="Monitor health and performance of all external service integrations"
+          >
+            <Button onClick={handleRefresh} variant="outline">
+              Refresh
+            </Button>
+          </PageHeader>
+
+          {/* Stats Overview Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <CardSkeleton lines={2} />
+            <CardSkeleton lines={2} />
+            <CardSkeleton lines={2} />
+          </div>
+
+          {/* Integrations Table Skeleton */}
+          <DataTableSkeleton 
+            rows={5}
+            columns={5}
+            showSearch={false}
+            showFilters={false}
+            showPagination={false}
+          />
         </div>
       </AppLayout>
     )

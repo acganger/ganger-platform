@@ -6,7 +6,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Badge } from '@ganger/ui';
+import { Badge } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@ganger/ui-catalyst';
 import { Avatar } from '@ganger/ui-catalyst';
 import { 
@@ -97,7 +98,7 @@ const StatusBadge = ({ status }: { status: TicketStatus }) => {
   const Icon = config.icon;
   
   return (
-    <Badge variant={config.variant} size="sm" className="gap-1">
+    <Badge className={`${getBadgeClassName(config.variant)} gap-1`}>
       <Icon className="h-3 w-3" />
       {config.label}
     </Badge>
@@ -625,7 +626,7 @@ export default function TicketDetailPage() {
                               {comment.author?.raw_user_meta_data?.full_name || comment.author_name}
                             </span>
                             {comment.is_internal && (
-                              <Badge variant="warning" size="sm" className="ml-2">
+                              <Badge className={`${getBadgeClassName('warning')} ml-2`}>
                                 Internal
                               </Badge>
                             )}

@@ -1,7 +1,8 @@
 import { Ticket } from '@/types';
-import { cn, Badge } from '@ganger/ui';
+import { clsx as cn, Badge } from '@ganger/ui-catalyst';
 import { formatTimeAgo } from '@/lib/utils';
 import { Card, CardContent } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 import { 
   Clock, 
   User, 
@@ -30,7 +31,7 @@ const StatusBadge = ({ status }: { status: Ticket['status'] }) => {
 
   const config = statusConfig[status];
   return (
-    <Badge variant={config.variant} size="sm">
+    <Badge className={getBadgeClassName(config.variant)} size="sm">
       {config.label}
     </Badge>
   );

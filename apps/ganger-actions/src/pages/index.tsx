@@ -20,8 +20,9 @@ import {
   XCircle,
   Loader2
 } from 'lucide-react';
-import { Button, Badge } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui-catalyst';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 
 interface TicketStats {
   total: number;
@@ -180,14 +181,13 @@ const TicketCard = ({
                 #{ticket.ticket_number}
               </span>
               <Badge 
-                variant={
+                className={getBadgeClassName(
                   ticket.status === 'open' || ticket.status === 'in_progress' ? 'primary' :
                   ticket.status === 'completed' || ticket.status === 'approved' ? 'success' :
                   ticket.status === 'pending' ? 'warning' :
                   ticket.status === 'denied' || ticket.status === 'cancelled' ? 'destructive' :
                   'secondary'
-                } 
-                size="sm"
+                )}
               >
                 {ticket.status.replace(/_/g, ' ')}
               </Badge>
@@ -398,7 +398,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-medium text-gray-900">Quick Actions</h2>
             <Button
-              variant="ghost"
+              plain
               size="sm"
               onClick={() => router.push('/forms')}
               className="text-sm text-primary-600 hover:text-primary-500 font-medium"
@@ -423,7 +423,7 @@ export default function DashboardPage() {
                   Recent Tickets
                 </CardTitle>
                 <Button
-                  variant="ghost"
+                  plain
                   size="sm"
                   onClick={() => router.push('/tickets')}
                   rightIcon={<ArrowRight className="h-4 w-4" />}
@@ -454,7 +454,7 @@ export default function DashboardPage() {
                   <Ticket className="mx-auto h-12 w-12 text-gray-400" />
                   <p className="mt-2 text-sm text-gray-500">No recent tickets</p>
                   <Button
-                    variant="secondary"
+                    outline
                     size="sm"
                     onClick={() => router.push('/forms/support')}
                     leftIcon={<Plus className="h-3 w-3" />}

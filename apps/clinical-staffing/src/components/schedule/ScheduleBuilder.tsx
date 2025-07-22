@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Button, LoadingSpinner } from '@ganger/ui';
-import { Input } from '@ganger/ui-catalyst';
+import { Input, Skeleton } from '@ganger/ui-catalyst';
 import { formatDate } from '@/utils/formatting';
 import { ScheduleBuilderProps, StaffSchedule, StaffMember } from '@/types/staffing';
 import { StaffAssignmentGrid } from './StaffAssignmentGrid';
 import { ProviderScheduleGrid } from './ProviderScheduleGrid';
+import { ScheduleGridSkeleton, ProviderScheduleGridSkeleton } from './ScheduleGridSkeleton';
 import { apiClient } from '@/lib/api-client';
 import { announceToScreenReader, generateId } from '@/utils/accessibility';
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
@@ -334,12 +335,16 @@ export function ScheduleBuilder({
               >
                 Available Staff
               </h3>
-              <StaffAssignmentGrid 
-                staffMembers={staffMembers}
-                schedules={schedules}
-                selectedDate={currentDate}
-                viewMode={viewMode}
-              />
+              {isLoading ? (
+                <ScheduleGridSkeleton sections={3} itemsPerSection={3} />
+              ) : (
+                <StaffAssignmentGrid 
+                  staffMembers={staffMembers}
+                  schedules={schedules}
+                  selectedDate={currentDate}
+                  viewMode={viewMode}
+                />
+              )}
             </section>
           </ErrorBoundary>
 
@@ -357,13 +362,17 @@ export function ScheduleBuilder({
               >
                 Provider Schedules
               </h3>
-              <ProviderScheduleGrid
-                providers={providers}
-                schedules={schedules}
-                selectedDate={currentDate}
-                viewMode={viewMode}
-                onStaffAssignment={handleStaffAssignment}
-              />
+              {isLoading ? (
+                <ProviderScheduleGridSkeleton />
+              ) : (
+                <ProviderScheduleGrid
+                  providers={providers}
+                  schedules={schedules}
+                  selectedDate={currentDate}
+                  viewMode={viewMode}
+                  onStaffAssignment={handleStaffAssignment}
+                />
+              )}
             </section>
           </ErrorBoundary>
         </div>

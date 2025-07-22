@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { DollarSign, Plus, X, Upload, Receipt } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 
 const expenseItemSchema = z.object({
@@ -243,7 +243,7 @@ export default function ExpenseReimbursementForm() {
                     Expense Items *
                   </label>
                   <Button
-                    variant="primary"
+                    color="blue"
                     size="sm"
                     onClick={addExpenseItem}
                     leftIcon={<Plus className="h-4 w-4" />}
@@ -265,7 +265,7 @@ export default function ExpenseReimbursementForm() {
                         <div className="flex justify-between items-start mb-3">
                           <h4 className="text-sm font-medium text-gray-700">Item {index + 1}</h4>
                           <Button
-                            variant="ghost"
+                            plain
                             size="sm"
                             onClick={() => removeExpenseItem(index)}
                             className="text-red-500 hover:text-red-700 h-auto p-1"
@@ -397,7 +397,7 @@ export default function ExpenseReimbursementForm() {
                         <li key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
                           <span className="text-sm text-gray-600">{file.name}</span>
                           <Button
-                            variant="ghost"
+                            plain
                             size="sm"
                             onClick={() => removeFile(index)}
                             className="text-red-500 hover:text-red-700 h-auto p-1"
@@ -430,7 +430,7 @@ export default function ExpenseReimbursementForm() {
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
               <Button
-                variant="outline"
+                outline
                 size="md"
                 onClick={() => router.push('/forms')}
               >
@@ -438,7 +438,7 @@ export default function ExpenseReimbursementForm() {
               </Button>
               <Button
                 type="submit"
-                variant="primary"
+                color="blue"
                 size="md"
                 loading={isSubmitting}
               >

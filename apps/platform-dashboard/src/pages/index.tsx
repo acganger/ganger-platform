@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { AuthGuard } from '@ganger/auth/staff';
 import { Button } from '@ganger/ui';
-import { Card } from '@ganger/ui-catalyst';
+import { Card, CardSkeleton, Skeleton } from '@ganger/ui-catalyst';
 import { useEffect, useState } from 'react';
 import { Activity, Users, BarChart2, Shield, Calendar, Settings } from 'lucide-react';
 
@@ -67,9 +67,38 @@ function Dashboard() {
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {isLoading ? (
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            </div>
+            <>
+              {/* Key Metrics Skeleton */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {[...Array(4)].map((_, i) => (
+                  <CardSkeleton key={i} lines={2} />
+                ))}
+              </div>
+
+              {/* Quick Actions Skeleton */}
+              <Card className="mb-8">
+                <div className="p-6">
+                  <Skeleton variant="text" height={24} width="200px" className="mb-4" />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[...Array(3)].map((_, i) => (
+                      <Skeleton key={i} variant="rectangular" height={40} />
+                    ))}
+                  </div>
+                </div>
+              </Card>
+
+              {/* Application Status Skeleton */}
+              <Card>
+                <div className="p-6">
+                  <Skeleton variant="text" height={24} width="200px" className="mb-4" />
+                  <div className="space-y-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Skeleton key={i} variant="rectangular" height={56} className="rounded-lg" />
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </>
           ) : (
             <>
               {/* Key Metrics */}

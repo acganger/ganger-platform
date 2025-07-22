@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { TimeOffRequestForm } from '@/components/forms/TimeOffRequestForm';
 import { TimeOffRequestFormData } from '@/types';
-import { LoadingSpinner } from '@ganger/ui';
+import { LoadingSpinner } from '@ganger/ui-catalyst';
 import { ArrowLeft, Calendar, CheckCircle, Clock } from 'lucide-react';
 
 export default function TimeOffRequestPage() {

@@ -26,7 +26,7 @@ export class StripeMCPService {
   constructor(config: StripeMCPConfig) {
     this.config = config;
     this.stripe = new Stripe(config.apiKey, {
-      apiVersion: '2025-02-24.acacia',
+      apiVersion: '2025-06-30.basil',
       telemetry: false
     });
   }

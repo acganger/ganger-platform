@@ -2,7 +2,7 @@
 // Demonstrates immediate business value from Universal Payment Hub
 
 import React, { useState } from 'react';
-import { Button, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui-catalyst';
 import { Card } from '@ganger/ui-catalyst';
 import { Input } from '@ganger/ui-catalyst';
 import { CreditCard, DollarSign, CheckCircle, AlertCircle } from 'lucide-react';
@@ -183,7 +183,7 @@ export function PaymentProcessor({ session, onPaymentComplete, onSkip }: Payment
           </Button>
           
           <Button
-            variant="outline"
+            outline
             onClick={onSkip}
             disabled={loading}
           >

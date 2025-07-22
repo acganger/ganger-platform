@@ -3,7 +3,8 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Badge } from '@ganger/ui';
+import { LoadingSpinner, Badge } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 import { Input, Select } from '@ganger/ui-catalyst';
 import Link from 'next/link';
 import {
@@ -332,7 +333,7 @@ export default function UserProfilePage() {
             <div className="bg-white shadow rounded-lg p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-medium text-gray-900">Basic Information</h2>
-                <Badge variant={user.is_active ? 'success' : 'destructive'} size="md">
+                <Badge className={getBadgeClassName(user.is_active ? 'success' : 'destructive')}>
                   {user.is_active ? 'Active' : 'Inactive'}
                 </Badge>
               </div>
@@ -416,8 +417,11 @@ export default function UserProfilePage() {
                     <div className="mt-1 flex items-center">
                       <RoleIcon className="h-4 w-4 mr-2 text-gray-400" />
                       <Badge 
-                        variant={user.role === 'admin' ? 'destructive' : user.role === 'manager' ? 'primary' : 'success'} 
-                        size="sm"
+                        className={getBadgeClassName(
+                          user.role === 'admin' ? 'destructive' : 
+                          user.role === 'manager' ? 'primary' : 
+                          'success'
+                        )}
                       >
                         {roleInfo.label}
                       </Badge>

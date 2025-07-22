@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Button } from '@ganger/ui';
+import { LoadingSpinner, Button } from '@ganger/ui-catalyst';
 import { Building2, Users, Headphones } from 'lucide-react';
 
 export default function LoginPage() {
@@ -80,7 +80,7 @@ export default function LoginPage() {
 
           {/* Sign In Button */}
           <Button
-            variant="primary"
+            color="blue"
             size="lg"
             fullWidth
             onClick={handleSignIn}

@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Button, Badge } from '@ganger/ui';
+import { LoadingSpinner, Button, Badge } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 import { Card, CardHeader, CardContent, CardTitle } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 import { 
@@ -225,7 +226,7 @@ export default function UserManagementPage() {
             </div>
             {canManageUsers && (
               <Button
-                variant="primary"
+                color="blue"
                 size="sm"
                 onClick={() => setShowCreateForm(true)}
                 leftIcon={<UserPlus className="h-4 w-4" />}
@@ -365,8 +366,11 @@ export default function UserManagementPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Badge 
-                          variant={user.role === 'admin' ? 'destructive' : user.role === 'manager' ? 'primary' : 'success'} 
-                          size="sm"
+                          className={getBadgeClassName(
+                            user.role === 'admin' ? 'destructive' : 
+                            user.role === 'manager' ? 'primary' : 
+                            'success'
+                          )}
                         >
                           {ROLES.find(r => r.value === user.role)?.label || user.role}
                         </Badge>
@@ -384,7 +388,7 @@ export default function UserManagementPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Badge variant={user.is_active ? 'success' : 'destructive'} size="sm">
+                        <Badge className={getBadgeClassName(user.is_active ? 'success' : 'destructive')}>
                           {user.is_active ? 'Active' : 'Inactive'}
                         </Badge>
                       </td>
@@ -410,7 +414,7 @@ export default function UserManagementPage() {
             <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
               <div className="flex-1 flex justify-between sm:hidden">
                 <Button
-                  variant="outline"
+                  outline
                   size="sm"
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
@@ -418,7 +422,7 @@ export default function UserManagementPage() {
                   Previous
                 </Button>
                 <Button
-                  variant="outline"
+                  outline
                   size="sm"
                   onClick={() => setCurrentPage(currentPage + 1)}
                   disabled={currentPage * 50 >= totalUsers}
@@ -442,7 +446,7 @@ export default function UserManagementPage() {
                 <div>
                   <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                     <Button
-                      variant="outline"
+                      outline
                       size="sm"
                       onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                       disabled={currentPage === 1}
@@ -451,7 +455,7 @@ export default function UserManagementPage() {
                       Previous
                     </Button>
                     <Button
-                      variant="outline"
+                      outline
                       size="sm"
                       onClick={() => setCurrentPage(currentPage + 1)}
                       disabled={currentPage * 50 >= totalUsers}
@@ -562,7 +566,7 @@ export default function UserManagementPage() {
 
               <div className="flex justify-end space-x-3 pt-4">
                 <Button
-                  variant="outline"
+                  outline
                   size="md"
                   onClick={() => setShowCreateForm(false)}
                 >
@@ -570,7 +574,7 @@ export default function UserManagementPage() {
                 </Button>
                 <Button
                   type="submit"
-                  variant="primary"
+                  color="blue"
                   size="md"
                   loading={isSaving}
                 >

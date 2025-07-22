@@ -9,7 +9,7 @@ import {
   Button,
   LoadingSpinner 
 } from '@ganger/ui';
-import { Input, DataTable } from '@ganger/ui-catalyst';
+import { Input, DataTable, CardSkeleton, DataTableSkeleton } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
 
 interface InventoryStats {
@@ -95,9 +95,31 @@ function InventoryDashboard() {
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center h-64">
-          <LoadingSpinner size="lg" />
+        <PageHeader 
+          title="Inventory Dashboard"
+          subtitle="Track and manage medical supplies"
+          actions={
+            <Button variant="primary" size="sm" disabled>
+              Add New Item
+            </Button>
+          }
+        />
+
+        {/* Stats Overview Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {[...Array(4)].map((_, i) => (
+            <CardSkeleton key={i} lines={2} />
+          ))}
         </div>
+
+        {/* Inventory Table Skeleton */}
+        <DataTableSkeleton 
+          rows={10}
+          columns={6}
+          showSearch={true}
+          showFilters={true}
+          showPagination={true}
+        />
       </AppLayout>
     );
   }

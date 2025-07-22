@@ -6,7 +6,7 @@ import {
   useStripe,
   useElements
 } from '@stripe/react-stripe-js';
-import { Button, LoadingSpinner } from '@ganger/ui';
+import { Button, LoadingSpinner } from '@ganger/ui-catalyst';
 import { Card } from '@ganger/ui-catalyst';
 import { CreditCard, DollarSign, CheckCircle, AlertCircle } from 'lucide-react';
 import type { CheckInSession } from '@/types/kiosk';
@@ -218,7 +218,7 @@ function PaymentForm({ session, onPaymentComplete, onSkip }: SecurePaymentProces
             
             <Button
               type="button"
-              variant="outline"
+              outline
               onClick={onSkip}
               disabled={loading}
             >

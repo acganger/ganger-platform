@@ -10,6 +10,18 @@
       "import": "./src/index.ts",
       "require": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./sentry": {
+      "types": "./src/sentry.ts",
+      "import": "./src/sentry.ts",
+      "require": "./src/sentry.ts",
+      "default": "./src/sentry.ts"
+    },
+    "./performance-tracking": {
+      "types": "./src/performance-tracking.ts",
+      "import": "./src/performance-tracking.ts",
+      "require": "./src/performance-tracking.ts",
+      "default": "./src/performance-tracking.ts"
     }
   },
   "scripts": {
@@ -22,6 +34,7 @@
     "@supabase/supabase-js": "^2.39.0",
     "@ganger/db": "workspace:*",
     "@ganger/cache": "workspace:*",
+    "@sentry/nextjs": "^7.108.0",
     "typescript": "^5.5.0"
   },
   "devDependencies": {

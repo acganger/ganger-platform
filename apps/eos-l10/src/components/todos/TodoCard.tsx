@@ -49,6 +49,7 @@ export default function TodoCard({
 }: TodoCardProps) {
   const [showActions, setShowActions] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const priorityStyle = priorityConfig[todo.priority];
   const statusStyle = statusConfig[todo.status];
@@ -281,17 +282,29 @@ export default function TodoCard({
                   </button>
                   
                   <button
-                    onClick={(e) => {
+                    onClick={async (e) => {
                       e.stopPropagation();
                       if (confirm('Are you sure you want to delete this todo?')) {
-                        onDelete(todo.id);
-                        setShowActions(false);
+                        setIsDeleting(true);
+                        try {
+                          await onDelete(todo.id);
+                          setShowActions(false);
+                        } catch (error) {
+                          console.error('Failed to delete todo:', error);
+                        } finally {
+                          setIsDeleting(false);
+                        }
                       }
                     }}
-                    className="w-full text-left px-2 py-1 text-xs rounded hover:bg-red-50 text-red-600 flex items-center space-x-2"
+                    disabled={isDeleting || isUpdating}
+                    className="w-full text-left px-2 py-1 text-xs rounded hover:bg-red-50 text-red-600 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Trash2 className="h-3 w-3" />
-                    <span>Delete Todo</span>
+                    {isDeleting ? (
+                      <div className="h-3 w-3 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Trash2 className="h-3 w-3" />
+                    )}
+                    <span>{isDeleting ? 'Deleting...' : 'Delete Todo'}</span>
                   </button>
                 </div>
               </div>

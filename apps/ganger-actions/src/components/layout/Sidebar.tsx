@@ -25,7 +25,7 @@ import {
   Palette
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { cn } from '@ganger/ui';
+import { clsx as cn } from '@ganger/ui-catalyst';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },

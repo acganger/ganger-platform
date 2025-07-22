@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic';
 
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Badge } from '@ganger/ui';
+import { LoadingSpinner, Badge } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 import { 
   ArrowLeft, 
   MessageSquare, 
@@ -318,21 +319,28 @@ export default function SupportTicketsPage() {
                   <div className="flex flex-col items-end space-y-2 ml-6">
                     <div className="flex items-center space-x-2">
                       <Badge 
-                        variant={ticket.status === 'open' ? 'primary' : ticket.status === 'in_progress' ? 'primary' : ticket.status === 'resolved' ? 'success' : 'destructive'} 
-                        size="sm" 
-                        className="gap-1"
+                        className={`${getBadgeClassName(
+                          ticket.status === 'open' ? 'primary' : 
+                          ticket.status === 'in_progress' ? 'primary' : 
+                          ticket.status === 'resolved' ? 'success' : 
+                          'destructive'
+                        )} gap-1`}
                       >
                         <StatusIcon className="w-3 h-3" />
                         {ticket.status.replace('_', ' ')}
                       </Badge>
                       <Badge 
-                        variant={ticket.priority === 'low' ? 'secondary' : ticket.priority === 'medium' ? 'primary' : ticket.priority === 'high' ? 'warning' : 'destructive'} 
-                        size="sm"
+                        className={getBadgeClassName(
+                          ticket.priority === 'low' ? 'secondary' : 
+                          ticket.priority === 'medium' ? 'primary' : 
+                          ticket.priority === 'high' ? 'warning' : 
+                          'destructive'
+                        )}
                       >
                         {ticket.priority}
                       </Badge>
                     </div>
-                    <Badge variant="outline" size="sm">
+                    <Badge className={getBadgeClassName('secondary')}>
                       {categoryInfo.label}
                     </Badge>
                   </div>

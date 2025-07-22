@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Filter, Target, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 
 const impactFilterSchema = z.object({
@@ -250,14 +250,14 @@ export default function ImpactFilterForm() {
             <div className="flex justify-end space-x-3">
               <Button
                 type="button"
-                variant="outline"
+                outline
                 onClick={() => router.push('/forms')}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                variant="primary"
+                color="blue"
                 loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Impact Filter'}

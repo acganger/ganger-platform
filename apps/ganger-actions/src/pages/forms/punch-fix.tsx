@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Clock, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 
 const punchFixSchema = z.object({
@@ -263,14 +263,14 @@ export default function PunchFixRequestForm() {
             <div className="flex justify-end space-x-3">
               <Button
                 type="button"
-                variant="outline"
+                outline
                 onClick={() => router.push('/forms')}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                variant="primary"
+                color="blue"
                 loading={isSubmitting}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Request'}

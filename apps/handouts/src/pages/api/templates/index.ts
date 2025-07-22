@@ -1,5 +1,6 @@
 import { createApiHandler, ApiErrors, successResponse } from '@ganger/utils/server';
 import { createSupabaseServerClient } from '@ganger/auth/server';
+import { cacheManager } from '@ganger/cache';
 
 export default createApiHandler(
   async (req, res) => {
@@ -7,6 +8,15 @@ export default createApiHandler(
     
     if (req.method === 'GET') {
       const { category, search, active } = req.query;
+      
+      // Create cache key
+      const cacheKey = `handout_templates:${category || 'all'}:${search || ''}:${active || 'all'}`;
+      
+      // Check cache first
+      const cachedData = await cacheManager.get(cacheKey);
+      if (cachedData) {
+        return successResponse(res, cachedData);
+      }
       
       // Build query
       let query = supabase
@@ -73,6 +83,9 @@ export default createApiHandler(
           usageCount
         };
       });
+      
+      // Cache the result for 5 minutes
+      await cacheManager.set(cacheKey, templatesWithStats, 300);
       
       return successResponse(res, templatesWithStats);
     }

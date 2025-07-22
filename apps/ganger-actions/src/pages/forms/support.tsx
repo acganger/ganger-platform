@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Ticket, Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 
 const supportTicketSchema = z.object({
   location: z.enum(['Ann Arbor', 'Wixom', 'Plymouth', 'Any/All']),
@@ -273,7 +273,7 @@ export default function SupportTicketForm() {
                         <li key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
                           <span className="text-sm text-gray-600">{file.name}</span>
                           <Button
-                            variant="ghost"
+                            plain
                             size="sm"
                             onClick={() => removeFile(index)}
                             className="text-red-500 hover:text-red-700 h-auto p-1"
@@ -291,7 +291,7 @@ export default function SupportTicketForm() {
             {/* Submit Button */}
             <div className="flex justify-end space-x-3">
               <Button
-                variant="outline"
+                outline
                 size="md"
                 onClick={() => router.push('/forms')}
               >
@@ -299,7 +299,7 @@ export default function SupportTicketForm() {
               </Button>
               <Button
                 type="submit"
-                variant="primary"
+                color="blue"
                 size="md"
                 loading={isSubmitting}
               >

@@ -5,7 +5,7 @@ import {
   LoadingSpinner, 
   Button
 } from '@ganger/ui';
-import { Select } from '@ganger/ui-catalyst';
+import { Select, CardSkeleton } from '@ganger/ui-catalyst';
 import { Alert, Pagination } from '@/components/ui/placeholders';
 import { RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 
@@ -235,7 +235,13 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
       )}
 
       {/* Reviews List */}
-      {!loading && reviews.length > 0 && (
+      {loading ? (
+        <div className="space-y-4">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <CardSkeleton key={i} lines={4} />
+          ))}
+        </div>
+      ) : reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((review) => (
             <ReviewCard
@@ -247,7 +253,7 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
             />
           ))}
         </div>
-      )}
+      ) : null}
 
       {/* Empty State */}
       {!loading && reviews.length === 0 && (

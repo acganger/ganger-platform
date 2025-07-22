@@ -1,7 +1,7 @@
 import { TicketFilters as TicketFiltersType, Ticket } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { X } from 'lucide-react';
-import { Badge } from '@ganger/ui';
+import { Badge } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 
 interface TicketFiltersProps {
@@ -222,7 +222,7 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
             {(filters.status || []).map((status) => (
               <Badge
                 key={`status-${status}`}
-                variant="primary"
+                color="blue"
                 size="sm"
                 className="gap-1"
               >
@@ -240,9 +240,8 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
             {(filters.priority || []).map((priority) => (
               <Badge
                 key={`priority-${priority}`}
-                variant="warning"
+                className="bg-yellow-100 text-yellow-800 gap-1"
                 size="sm"
-                className="gap-1"
               >
                 Priority: {priorityOptions.find(o => o.value === priority)?.label}
                 <button
@@ -258,9 +257,8 @@ export const TicketFilters = ({ filters, onFiltersChange }: TicketFiltersProps) 
             {(filters.location || []).map((location) => (
               <Badge
                 key={`location-${location}`}
-                variant="success"
+                className="bg-green-100 text-green-800 gap-1"
                 size="sm"
-                className="gap-1"
               >
                 Location: {location}
                 <button

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Ticket, TicketFilters } from '@/types';
 import { TicketCard } from './TicketCard';
 import { TicketFilters as TicketFiltersComponent } from './TicketFilters';
-import { LoadingSpinner } from '@ganger/ui';
+import { LoadingSpinner } from '@ganger/ui-catalyst';
 import { Card, CardContent } from '@ganger/ui-catalyst';
 import { Search, Filter, SortAsc, SortDesc } from 'lucide-react';
 

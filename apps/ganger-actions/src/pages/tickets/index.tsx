@@ -23,10 +23,11 @@ import {
   PencilIcon
 } from '@heroicons/react/24/outline';
 import { format } from 'date-fns';
-import { Button, Badge } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui-catalyst';
 import { Card, CardHeader, CardContent, CardTitle } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 import debounce from 'lodash/debounce';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 
 // Form type options
 const FORM_TYPES = [
@@ -317,7 +318,7 @@ export default function TicketsPage() {
     const variant = variantMap[status] || 'secondary';
     
     return (
-      <Badge variant={variant} size="sm" className="gap-1">
+      <Badge className={`${getBadgeClassName(variant)} gap-1`}>
         <Icon className="w-3.5 h-3.5" />
         {statusOption.label}
       </Badge>
@@ -339,7 +340,7 @@ export default function TicketsPage() {
     const variant = variantMap[priority] || 'secondary';
     
     return (
-      <Badge variant={variant} size="sm">
+      <Badge className={getBadgeClassName(variant)}>
         {priorityOption.label}
       </Badge>
     );
@@ -374,7 +375,7 @@ export default function TicketsPage() {
           </div>
           <div className="mt-4 sm:mt-0 flex items-center gap-3">
             <Button
-              variant="outline"
+              outline
               size="sm"
               onClick={() => setShowFilters(!showFilters)}
               leftIcon={<FunnelIcon className="h-4 w-4" />}
@@ -382,7 +383,7 @@ export default function TicketsPage() {
               Filters
             </Button>
             <Button
-              variant="outline"
+              outline
               size="sm"
               onClick={handleExportCSV}
               leftIcon={<ArrowDownTrayIcon className="h-4 w-4" />}
@@ -390,7 +391,7 @@ export default function TicketsPage() {
               Export CSV
             </Button>
             <Button
-              variant="primary"
+              color="blue"
               size="sm"
               onClick={() => router.push('/forms/support')}
             >
@@ -550,7 +551,7 @@ export default function TicketsPage() {
             {/* Clear Filters */}
             <div className="flex justify-end">
               <Button
-                variant="ghost"
+                plain
                 size="sm"
                 onClick={() => {
                   setFilters({
@@ -692,7 +693,7 @@ export default function TicketsPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-2">
                           <Button
-                            variant="ghost"
+                            plain
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -704,7 +705,7 @@ export default function TicketsPage() {
                             <EyeIcon className="h-5 w-5" />
                           </Button>
                           <Button
-                            variant="ghost"
+                            plain
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -732,7 +733,7 @@ export default function TicketsPage() {
             <CardContent className="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
             <div className="flex-1 flex justify-between sm:hidden">
               <Button
-                variant="outline"
+                outline
                 size="sm"
                 onClick={() => setPage(Math.max(1, page - 1))}
                 disabled={page === 1}
@@ -740,7 +741,7 @@ export default function TicketsPage() {
                 Previous
               </Button>
               <Button
-                variant="outline"
+                outline
                 size="sm"
                 onClick={() => setPage(Math.min(totalPages, page + 1))}
                 disabled={page === totalPages}
@@ -764,7 +765,7 @@ export default function TicketsPage() {
               <div>
                 <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                   <Button
-                    variant="outline"
+                    outline
                     size="sm"
                     onClick={() => setPage(Math.max(1, page - 1))}
                     disabled={page === 1}
@@ -790,7 +791,7 @@ export default function TicketsPage() {
                     return (
                       <Button
                         key={pageNumber}
-                        variant={pageNumber === page ? "primary" : "outline"}
+                        {...(pageNumber === page ? { color: 'blue' as const } : { outline: true })}
                         size="sm"
                         onClick={() => setPage(pageNumber)}
                         className={`rounded-none ${
@@ -805,7 +806,7 @@ export default function TicketsPage() {
                   })}
                   
                   <Button
-                    variant="outline"
+                    outline
                     size="sm"
                     onClick={() => setPage(Math.min(totalPages, page + 1))}
                     disabled={page === totalPages}

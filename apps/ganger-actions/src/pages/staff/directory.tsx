@@ -2,8 +2,9 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoadingSpinner, Badge } from '@ganger/ui';
+import { LoadingSpinner, Badge } from '@ganger/ui-catalyst';
 import { Avatar } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 import { 
   ArrowLeft, 
   Folder, 
@@ -286,8 +287,12 @@ export default function StaffDirectoryPage() {
                 
                 <div className="mt-4">
                   <Badge 
-                    variant={member.status === 'active' ? 'success' : member.status === 'remote' ? 'primary' : member.status === 'vacation' ? 'warning' : 'destructive'} 
-                    size="sm"
+                    className={getBadgeClassName(
+                      member.status === 'active' ? 'success' : 
+                      member.status === 'remote' ? 'primary' : 
+                      member.status === 'vacation' ? 'warning' : 
+                      'destructive'
+                    )}
                   >
                     {getStatusLabel(member.status)}
                   </Badge>
@@ -324,9 +329,12 @@ export default function StaffDirectoryPage() {
                       </h3>
                       <p className="text-gray-600">{selectedMember.position}</p>
                       <Badge 
-                        variant={selectedMember.status === 'active' ? 'success' : selectedMember.status === 'remote' ? 'primary' : selectedMember.status === 'vacation' ? 'warning' : 'destructive'} 
-                        size="sm" 
-                        className="mt-2"
+                        className={`${getBadgeClassName(
+                          selectedMember.status === 'active' ? 'success' : 
+                          selectedMember.status === 'remote' ? 'primary' : 
+                          selectedMember.status === 'vacation' ? 'warning' : 
+                          'destructive'
+                        )} mt-2`}
                       >
                         {getStatusLabel(selectedMember.status)}
                       </Badge>
@@ -421,7 +429,7 @@ export default function StaffDirectoryPage() {
                       <h4 className="text-lg font-medium text-gray-900 mb-4">Skills & Expertise</h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedMember.skills.map(skill => (
-                          <Badge key={skill} variant="outline" size="sm">
+                          <Badge key={skill} className={getBadgeClassName('secondary')}>
                             {skill}
                           </Badge>
                         ))}

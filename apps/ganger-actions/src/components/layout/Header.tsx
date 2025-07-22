@@ -10,7 +10,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 import { Avatar } from '@ganger/ui-catalyst';
 
 interface HeaderProps {
@@ -46,7 +46,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
           {/* Left side - Mobile menu button and title */}
           <div className="flex items-center">
             <Button
-              variant="ghost"
+              plain
               size="sm"
               onClick={onMenuClick}
               className="lg:hidden p-2 text-gray-400 hover:text-gray-500"
@@ -80,7 +80,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
           <div className="flex items-center space-x-4">
             {/* Notifications */}
             <Button
-              variant="ghost"
+              plain
               size="sm"
               className="p-2 text-gray-400 hover:text-gray-500"
             >
@@ -91,7 +91,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
             {/* User menu */}
             <div className="relative">
               <Button
-                variant="ghost"
+                plain
                 size="sm"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center space-x-3 p-2 text-sm bg-white hover:bg-gray-50 h-auto"
@@ -133,7 +133,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
                       </div>
                       
                       <Button
-                        variant="ghost"
+                        plain
                         size="sm"
                         onClick={() => {
                           setUserMenuOpen(false);
@@ -146,7 +146,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
                       </Button>
                       
                       <Button
-                        variant="ghost"
+                        plain
                         size="sm"
                         onClick={() => {
                           setUserMenuOpen(false);
@@ -160,7 +160,7 @@ export const Header = ({ title, onMenuClick }: HeaderProps) => {
                       
                       <div className="border-t border-gray-100">
                         <Button
-                          variant="ghost"
+                          plain
                           size="sm"
                           onClick={handleSignOut}
                           className="flex items-center w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50 justify-start h-auto"

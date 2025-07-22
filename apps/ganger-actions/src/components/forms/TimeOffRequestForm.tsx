@@ -5,7 +5,7 @@ import { TimeOffRequestFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { Calendar, Clock, AlertTriangle } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 // TODO: Fix date-fns import issue - temporarily commented
 // import { addDays, differenceInDays, isSameDay, isWeekend } from 'date-fns';
@@ -325,7 +325,7 @@ export const TimeOffRequestForm = ({ onSubmit, loading = false }: TimeOffRequest
         <div className="flex justify-end">
           <Button
             type="submit"
-            variant="primary"
+            color="blue"
             size="md"
             loading={loading}
             leftIcon={<Calendar className="h-4 w-4" />}

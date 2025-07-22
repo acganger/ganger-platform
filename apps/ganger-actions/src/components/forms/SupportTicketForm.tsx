@@ -5,7 +5,7 @@ import { SupportTicketFormData } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { AlertCircle, Paperclip, X } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from '@ganger/ui';
+import { Button } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 
 const supportTicketSchema = z.object({
@@ -201,7 +201,7 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
                 </div>
                 <Button
                   type="button"
-                  variant="ghost"
+                  plain
                   size="sm"
                   onClick={() => removeFile(index)}
                   className="text-red-400 hover:text-red-600 h-auto p-1"
@@ -226,7 +226,7 @@ export const SupportTicketForm = ({ onSubmit, loading = false }: SupportTicketFo
       <div className="flex justify-end">
         <Button
           type="submit"
-          variant="primary"
+          color="blue"
           size="md"
           loading={loading}
           disabled={totalFileSize > maxFileSize}

@@ -15,8 +15,9 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react';
-import { Button, Badge } from '@ganger/ui';
+import { Button, Badge } from '@ganger/ui-catalyst';
 import { Avatar } from '@ganger/ui-catalyst';
+import { getBadgeClassName } from '@/utils/catalyst-helpers';
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -40,7 +41,7 @@ const StatusBadge = ({ status }: { status: Ticket['status'] }) => {
   const Icon = config.icon;
   
   return (
-    <Badge variant={config.variant} size="sm" className="gap-1">
+    <Badge className={`${getBadgeClassName(config.variant)} gap-1`} size="sm">
       <Icon className="h-3 w-3" />
       {config.label}
     </Badge>
@@ -89,7 +90,7 @@ const CommentItem = ({
             <div className="flex items-center space-x-2">
               <span className="font-medium text-gray-900">{comment.author.name}</span>
               {comment.is_internal && (
-                <Badge variant="warning" size="sm">
+                <Badge className="bg-yellow-100 text-yellow-800" size="sm">
                   Internal
                 </Badge>
               )}
@@ -99,7 +100,7 @@ const CommentItem = ({
           
           {canDelete && (
             <Button
-              variant="ghost"
+              plain
               size="sm"
               onClick={onDelete}
               className="text-gray-400 hover:text-red-500 h-auto p-1"
@@ -186,7 +187,7 @@ export const TicketDetail = ({
           
           {canEditTicket && (
             <Button
-              variant="ghost"
+              plain
               size="sm"
               className="text-gray-400 hover:text-gray-500 h-auto p-2"
             >
@@ -250,7 +251,7 @@ export const TicketDetail = ({
                         </div>
                       </div>
                       <Button
-                        variant="ghost"
+                        plain
                         size="sm"
                         className="text-primary-600 hover:text-primary-500 h-auto p-2"
                       >
@@ -308,7 +309,7 @@ export const TicketDetail = ({
                     <div className="flex space-x-2">
                       <Button
                         type="submit"
-                        variant="primary"
+                        color="blue"
                         size="sm"
                         disabled={!newComment.trim()}
                         leftIcon={<Send className="h-4 w-4" />}
@@ -380,7 +381,7 @@ export const TicketDetail = ({
                   {statusActions.map((action) => (
                     <Button
                       key={action.status}
-                      variant="ghost"
+                      plain
                       size="sm"
                       onClick={() => onStatusChange?.(ticket.id, action.status)}
                       className={`w-full text-left justify-start ${action.className}`}

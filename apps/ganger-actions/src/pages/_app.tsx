@@ -2,7 +2,9 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { AuthProvider } from '@ganger/auth';
-import { ToastProvider, ErrorBoundary } from '@ganger/ui';
+import { ToastProvider } from '@ganger/ui-catalyst';
+import { ErrorBoundary } from '@ganger/ui';
+import { initSentry } from '@ganger/monitoring/sentry';
 import '@/styles/globals.css';
 
 // Create a QueryClient instance
@@ -25,6 +27,16 @@ function createQueryClient() {
         retry: 1,
       },
     },
+  });
+}
+
+// Initialize Sentry
+if (typeof window !== 'undefined') {
+  initSentry({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN || '',
+    environment: process.env.NEXT_PUBLIC_ENV || 'development',
+    enabled: process.env.NODE_ENV === 'production',
+    tracesSampleRate: 0.1,
   });
 }
 

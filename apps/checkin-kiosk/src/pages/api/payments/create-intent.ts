@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { MedicalPaymentService } from '@ganger/integrations';
-import { createRouteHandlerClient } from '@ganger/auth/server';
-import { z } from '@ganger/deps';
+import { getSupabaseClient } from '@ganger/auth';
+import { z } from 'zod';
 
 // Input validation schema
 const PaymentIntentSchema = z.object({
@@ -43,14 +43,21 @@ export default async function handler(
       amount: validatedData.amount,
       payment_type: 'copay',
       description: validatedData.description,
-      payment_method: 'card',
-      metadata: validatedData.metadata
+      payment_method_id: 'card',
+      metadata: {
+        provider_id: validatedData.metadata.provider_id,
+        provider_name: validatedData.metadata.provider_name,
+        location_id: validatedData.metadata.location_id,
+        appointment_date: validatedData.metadata.appointment_date,
+        copay_amount: validatedData.metadata.copay_amount.toString(),
+        processing_fee: validatedData.metadata.processing_fee.toString()
+      }
     });
 
     // Return only the client secret, not sensitive payment details
     return res.status(200).json({
-      clientSecret: paymentResult.processor_transaction_id,
-      paymentIntentId: paymentResult.payment_id
+      clientSecret: paymentResult.client_secret,
+      paymentIntentId: paymentResult.stripe_payment_intent_id || paymentResult.payment_id
     });
 
   } catch (error) {

@@ -20,9 +20,39 @@ export {
   type PerformanceTrend
 } from './performance-monitor';
 
+// Sentry error tracking exports
+export {
+  initSentry,
+  setSentryUser,
+  captureError,
+  captureMessage,
+  trackEvent,
+  startTransaction,
+  Sentry
+} from './sentry';
+
+// Performance tracking exports
+export {
+  PerformanceTracker,
+  performanceTracker,
+  usePerformanceTracking,
+  trackWebVitals,
+  type PerformanceMark,
+  type PerformanceMeasure
+} from './performance-tracking';
+
+// Alert configuration exports
+export {
+  alertManager,
+  DEFAULT_ALERTS,
+  type AlertConfig,
+  type AlertThreshold
+} from './alerts-config';
+
 // Import instances for convenience functions
 import { integrationHealthMonitor, type IntegrationHealthStatus } from './integration-health';
 import { performanceMonitor, type PerformanceMetrics } from './performance-monitor';
+import { alertManager } from './alerts-config';
 
 // Convenience function to start all monitoring services
 export async function startMonitoring(): Promise<void> {
@@ -30,7 +60,11 @@ export async function startMonitoring(): Promise<void> {
   integrationHealthMonitor.startPeriodicCleanup();
   performanceMonitor.startPeriodicCleanup();
   
+  // Start alert monitoring
+  alertManager.startMonitoring(5); // Check every 5 minutes
+  
   console.log('🔍 Ganger Platform monitoring services started');
+  console.log('🚨 Alert monitoring active');
 }
 
 // Convenience function to get complete system health

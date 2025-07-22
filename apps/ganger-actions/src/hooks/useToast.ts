@@ -1,4 +1,4 @@
-import { useToast as useUIToast } from '@ganger/ui';
+import { useToast as useUIToast } from '@ganger/ui-catalyst';
 
 export function useToast() {
   const { addToast } = useUIToast();
