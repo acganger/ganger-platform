@@ -85,6 +85,27 @@ export {
   type MigrationStaffingConfig
 } from './migration-staffing-business-logic';
 
+// API Templates and Patterns
+export {
+  createApiRoute,
+  createCrudRoutes,
+  type ApiConfig,
+  type ApiContext,
+  type ApiHandler
+} from './api-templates';
+
+// API Error Handling
+export {
+  ApiError,
+  ErrorCodes,
+  CommonErrors,
+  createErrorResponse,
+  handleValidationError,
+  mapDatabaseError,
+  withErrorHandler,
+  type ErrorResponse
+} from './api-error-handler';
+
 // Helper function for audit logging (placeholder if it doesn't exist)
 export async function auditLog(params: {
   action: string;
