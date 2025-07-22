@@ -37,14 +37,10 @@ export default function HomePage() {
   const [appMetadata, setAppMetadata] = useState<AppData>({});
   const [loadingApps, setLoadingApps] = useState(true);
 
-  // Debug logging
+  // Monitor auth state changes
   useEffect(() => {
-    console.log('[HomePage] Auth state:', { 
-      user: auth.user, 
-      loading: auth.loading,
-      session: auth.session,
-      loadingApps: loadingApps
-    });
+    // Auth state is available via the auth object
+    // No need to log sensitive data
   }, [auth, loadingApps]);
 
   useEffect(() => {

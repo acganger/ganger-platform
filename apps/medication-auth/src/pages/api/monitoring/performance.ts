@@ -1,44 +1,60 @@
-import { NextApiResponse } from 'next';
-import { withAuth, AuthenticatedRequest, respondWithSuccess, respondWithError, ErrorCodes, withStandardErrorHandling } from '../../../lib/utils/mock-response-utils';
-import { performanceMonitor } from '../../../lib/monitoring/mock-monitoring-services';
+import { createApiRoute } from '@ganger/utils/server';
+import { performanceMonitor, getSystemHealth } from '@ganger/monitoring';
+import { z } from 'zod';
 
-async function performanceHandler(req: AuthenticatedRequest, res: NextApiResponse) {
-  const { action, timeframe } = req.query;
+// Query schema for performance endpoint
+const querySchema = z.object({
+  action: z.enum(['metrics', 'trends', 'summary', 'alerts']).optional().default('metrics'),
+  timeframe: z.enum(['1h', '6h', '24h', '7d']).optional().default('24h')
+});
 
-  try {
+export default createApiRoute(
+  {
+    requireAuth: true,
+    allowedRoles: ['manager', 'superadmin'],
+    querySchema,
+    cache: {
+      enabled: true,
+      ttl: 60 // Cache for 1 minute
+    }
+  },
+  async ({ query }) => {
+    const { action, timeframe } = query;
+
     switch (action) {
       case 'metrics':
-        return await handleMetrics(req, res);
+        return await handleMetrics();
+      
       case 'trends':
-        return await handleTrends(req, res, timeframe as string);
+        return await handleTrends(timeframe);
+      
       case 'summary':
-        return await handleSummary(req, res);
+        return await handleSummary();
+      
       case 'alerts':
-        return await handleAlerts(req, res);
+        return await handleAlerts();
+      
       default:
-        return await handleMetrics(req, res);
+        return await handleMetrics();
     }
-  } catch (error) {
-    return respondWithError(
-      res,
-      'Performance monitoring request failed',
-      500,
-      ErrorCodes.INTERNAL_ERROR,
-      req,
-      { action, error: error instanceof Error ? error.message : 'Unknown error' }
-    );
   }
-}
+);
 
-// Get current performance metrics
-async function handleMetrics(req: AuthenticatedRequest, res: NextApiResponse) {
-  const metrics = await performanceMonitor.collectSystemMetrics();
+async function handleMetrics() {
+  const systemHealth = await getSystemHealth();
+  const currentMetrics = await performanceMonitor.getCurrentMetrics();
   
-  const response = {
-    current_metrics: metrics,
+  return {
+    current_metrics: {
+      system_health: systemHealth.overall_status,
+      response_times: currentMetrics.response_times,
+      error_rate: currentMetrics.error_rate,
+      request_count: currentMetrics.request_count,
+      active_users: currentMetrics.active_users,
+      timestamp: new Date().toISOString()
+    },
     collection_info: {
-      collected_at: metrics.timestamp,
-      collection_duration_ms: Date.now() - new Date(metrics.timestamp).getTime(),
+      collected_at: new Date().toISOString(),
       metrics_available: {
         system: true,
         database: true,
@@ -47,167 +63,148 @@ async function handleMetrics(req: AuthenticatedRequest, res: NextApiResponse) {
       }
     }
   };
-
-  return respondWithSuccess(res, response);
 }
 
-// Get performance trends
-async function handleTrends(req: AuthenticatedRequest, res: NextApiResponse, timeframe?: string) {
-  const validTimeframes = ['1h', '6h', '24h', '7d'];
-  const requestedTimeframe = timeframe || '24h';
+async function handleTrends(timeframe: string) {
+  const endDate = new Date();
+  const startDate = new Date();
   
-  if (!validTimeframes.includes(requestedTimeframe)) {
-    return respondWithError(
-      res,
-      'Invalid timeframe specified',
-      400,
-      ErrorCodes.VALIDATION_ERROR,
-      req,
-      { 
-        requested_timeframe: requestedTimeframe,
-        valid_timeframes: validTimeframes
-      }
-    );
+  switch (timeframe) {
+    case '1h':
+      startDate.setHours(startDate.getHours() - 1);
+      break;
+    case '6h':
+      startDate.setHours(startDate.getHours() - 6);
+      break;
+    case '24h':
+      startDate.setDate(startDate.getDate() - 1);
+      break;
+    case '7d':
+      startDate.setDate(startDate.getDate() - 7);
+      break;
   }
-
-  const trendsData = await performanceMonitor.getPerformanceTrends(requestedTimeframe as any);
   
-  const response = {
-    timeframe: requestedTimeframe,
-    trends: trendsData,
+  const trends = await performanceMonitor.getTrends(startDate, endDate);
+  
+  return {
+    timeframe,
+    trends: trends.map(trend => ({
+      timestamp: trend.timestamp,
+      avg_response_time: trend.avgResponseTime,
+      error_rate: trend.errorRate,
+      request_count: trend.requestCount
+    })),
     trend_analysis: {
-      total_data_points: trendsData.dataPoints?.length || 0,
-      period: trendsData.period,
-      summary: trendsData.summary
+      total_data_points: trends.length,
+      period: {
+        start: startDate.toISOString(),
+        end: endDate.toISOString()
+      },
+      summary: {
+        avg_response_time_change: calculateTrendChange(trends, 'avgResponseTime'),
+        error_rate_change: calculateTrendChange(trends, 'errorRate'),
+        request_volume_change: calculateTrendChange(trends, 'requestCount')
+      }
     },
     timestamp: new Date().toISOString()
   };
-
-  return respondWithSuccess(res, response);
 }
 
-// Get performance summary
-async function handleSummary(req: AuthenticatedRequest, res: NextApiResponse) {
-  const [currentMetrics, summary] = await Promise.all([
-    performanceMonitor.collectSystemMetrics(),
-    performanceMonitor.getPerformanceSummary()
+async function handleSummary() {
+  const [systemHealth, currentMetrics] = await Promise.all([
+    getSystemHealth(),
+    performanceMonitor.getCurrentMetrics()
   ]);
-
-  const response = {
-    performance_summary: summary,
+  
+  return {
+    performance_summary: {
+      overall_status: systemHealth.overall_status,
+      integrations_health: systemHealth.integrations,
+      performance_metrics: systemHealth.performance
+    },
     current_status: {
-      overall_health: 'good',
-      critical_alerts: 0,
-      warnings: 0
+      overall_health: systemHealth.overall_status,
+      critical_alerts: currentMetrics.alerts.filter(a => a.severity === 'critical').length,
+      warnings: currentMetrics.alerts.filter(a => a.severity === 'high').length
     },
     key_metrics: {
-      cpu_usage_percent: currentMetrics.cpu.usage,
-      memory_usage_percent: currentMetrics.memory.percentage,
-      disk_usage_percent: currentMetrics.disk.percentage,
-      network_bytes_in: currentMetrics.network.bytesIn,
-      network_bytes_out: currentMetrics.network.bytesOut
+      avg_response_time_ms: currentMetrics.response_times.percentiles.p50,
+      p95_response_time_ms: currentMetrics.response_times.percentiles.p95,
+      error_rate_percent: (currentMetrics.error_rate * 100).toFixed(2),
+      requests_per_minute: Math.round(currentMetrics.request_count / 60),
+      active_users: currentMetrics.active_users
     },
     timestamp: new Date().toISOString()
   };
-
-  return respondWithSuccess(res, response);
 }
 
-// Get performance alerts
-async function handleAlerts(req: AuthenticatedRequest, res: NextApiResponse) {
-  const metrics = await performanceMonitor.collectSystemMetrics();
+async function handleAlerts() {
+  const currentMetrics = await performanceMonitor.getCurrentMetrics();
+  const alerts = currentMetrics.alerts || [];
   
-  // Mock alerts data since the metrics don't include alerts
-  const mockAlerts = [
-    { id: '1', severity: 'medium', type: 'performance', message: 'Mock alert' },
-    { id: '2', severity: 'low', type: 'system', message: 'Mock alert 2' }
-  ];
-
   const alertsSummary = {
-    total_alerts: mockAlerts.length,
+    total_alerts: alerts.length,
     by_severity: {
-      critical: mockAlerts.filter((a: any) => a.severity === 'critical').length,
-      high: mockAlerts.filter((a: any) => a.severity === 'high').length,
-      medium: mockAlerts.filter((a: any) => a.severity === 'medium').length,
-      low: mockAlerts.filter((a: any) => a.severity === 'low').length
+      critical: alerts.filter(a => a.severity === 'critical').length,
+      high: alerts.filter(a => a.severity === 'high').length,
+      medium: alerts.filter(a => a.severity === 'medium').length,
+      low: alerts.filter(a => a.severity === 'low').length
     },
-    alerts: mockAlerts.map((alert: any) => ({
+    alerts: alerts.map(alert => ({
       ...alert,
       action_required: alert.severity === 'critical' || alert.severity === 'high',
-      escalation_threshold: getEscalationThreshold(alert.type)
+      escalation_threshold: getEscalationThreshold(alert.metric)
     })),
-    recommendations: generateAlertRecommendations(mockAlerts)
+    recommendations: generateAlertRecommendations(alerts)
   };
-
-  return respondWithSuccess(res, alertsSummary);
+  
+  return alertsSummary;
 }
 
 // Helper functions
-function isImprovementMetric(metric: string): boolean {
-  // Metrics where lower values are better
-  const lowerIsBetter = [
-    'memory_usage',
-    'api_response_time',
-    'api_error_rate',
-    'database_pool_utilization'
-  ];
+function calculateTrendChange(trends: any[], metric: string): string {
+  if (trends.length < 2) return '0%';
   
-  return !lowerIsBetter.includes(metric);
+  const firstValue = trends[0][metric] || 0;
+  const lastValue = trends[trends.length - 1][metric] || 0;
+  
+  if (firstValue === 0) return '0%';
+  
+  const change = ((lastValue - firstValue) / firstValue) * 100;
+  return `${change > 0 ? '+' : ''}${change.toFixed(1)}%`;
 }
 
-function getOverallHealth(metrics: any): 'excellent' | 'good' | 'fair' | 'poor' {
-  const criticalAlerts = metrics.alerts.filter((a: any) => a.severity === 'critical').length;
-  const highAlerts = metrics.alerts.filter((a: any) => a.severity === 'high').length;
-  
-  if (criticalAlerts > 0) return 'poor';
-  if (highAlerts > 2) return 'fair';
-  if (highAlerts > 0 || metrics.alerts.length > 5) return 'good';
-  return 'excellent';
-}
-
-function getEscalationThreshold(alertType: string): number {
+function getEscalationThreshold(metric: string): number {
   const thresholds: Record<string, number> = {
-    memory_usage: 1000, // MB
-    database_pool: 95, // %
-    cache_hit_rate: 50, // %
-    api_error_rate: 15, // %
-    api_response_time: 2000 // ms
+    response_time: 3000, // ms
+    error_rate: 0.05, // 5%
+    memory_usage: 90, // %
+    cpu_usage: 80, // %
+    database_connections: 100 // count
   };
   
-  return thresholds[alertType] || 0;
+  return thresholds[metric] || 0;
 }
 
 function generateAlertRecommendations(alerts: any[]): string[] {
-  const recommendations = [];
+  const recommendations: string[] = [];
+  const alertTypes = new Set(alerts.map(a => a.metric));
   
-  if (alerts.some(a => a.type === 'memory_usage')) {
-    recommendations.push('Consider optimizing memory usage or increasing available memory');
+  if (alertTypes.has('response_time')) {
+    recommendations.push('Consider optimizing slow API endpoints or scaling infrastructure');
   }
   
-  if (alerts.some(a => a.type === 'database_pool')) {
-    recommendations.push('Review database connection pool configuration and query optimization');
+  if (alertTypes.has('error_rate')) {
+    recommendations.push('Investigate error patterns and implement better error handling');
   }
   
-  if (alerts.some(a => a.type === 'cache_hit_rate')) {
-    recommendations.push('Analyze cache patterns and consider cache warming strategies');
+  if (alertTypes.has('memory_usage')) {
+    recommendations.push('Review memory leaks and consider increasing available memory');
   }
   
-  if (alerts.some(a => a.type === 'api_error_rate')) {
-    recommendations.push('Investigate error patterns and implement error handling improvements');
-  }
-  
-  if (alerts.some(a => a.type === 'api_response_time')) {
-    recommendations.push('Profile slow API endpoints and implement performance optimizations');
+  if (alertTypes.has('database_connections')) {
+    recommendations.push('Optimize database queries and connection pooling');
   }
   
   return recommendations;
 }
-
-export default withStandardErrorHandling(
-  withAuth(performanceHandler, {
-    roles: ['manager', 'superadmin'],
-    auditLog: true,
-    hipaaCompliant: false // Performance monitoring is not PHI
-  })
-);
-// Cloudflare Workers Edge Runtime
