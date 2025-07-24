@@ -10,13 +10,13 @@ export interface InventoryItem extends BaseEntity {
   
   // Stock management
   current_stock: number;
-  min_stock_level: number;
-  max_stock_level?: number;
+  minimum_stock: number;  // Changed from min_stock_level
+  maximum_stock?: number;  // Changed from max_stock_level
   reorder_point: number;
   reorder_quantity: number;
   
   // Pricing
-  unit_cost: number;
+  cost_per_unit: number;  // Changed from unit_cost
   unit_price?: number;
   currency: string;
   
@@ -39,6 +39,7 @@ export interface InventoryItem extends BaseEntity {
   storage_location?: string;
   
   // Status and flags
+  status?: 'active' | 'inactive' | 'discontinued';  // Added status field
   is_active: boolean;
   is_prescription_required: boolean;
   is_controlled_substance: boolean;
