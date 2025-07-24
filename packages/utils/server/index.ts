@@ -9,7 +9,6 @@
 // export * from './audit-log'; // TODO: Create audit-log.ts file
 
 // Secure Error Handling System
-export * from './secure-error-handler';
 export {
   withSecureErrorHandler,
   generateRequestId,
@@ -28,7 +27,6 @@ export {
 } from './secure-error-handler';
 
 // Clinical Staffing Validation Utilities
-export * from './staffing-validation';
 export {
   validateStaffingData,
   validateScheduleConflicts,
@@ -102,9 +100,21 @@ export {
   createErrorResponse,
   handleValidationError,
   mapDatabaseError,
-  withErrorHandler,
-  type ErrorResponse
+  withErrorHandler
 } from './api-error-handler';
+
+// API Handler Utilities
+export {
+  createApiHandler,
+  ApiErrors,
+  validateBody,
+  validateQuery,
+  successResponse,
+  errorResponse,
+  type ApiRequest,
+  type ApiResponse,
+  type ApiHandlerOptions
+} from './api-handler';
 
 // Helper function for audit logging (placeholder if it doesn't exist)
 export async function auditLog(params: {

@@ -365,13 +365,13 @@ export async function validateStaffingData(data: any, type: string): Promise<{
     if (error instanceof z.ZodError) {
       return {
         isValid: false,
-        errors: error.errors.map(err => `${err.path.join('.')}: ${err.message}`)
+        errors: error.errors.map((err: any) => `${err.path.join('.')}: ${err.message}`)
       };
     }
 
     return {
       isValid: false,
-      errors: [`Validation error: ${error.message}`]
+      errors: [`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`]
     };
   }
 }
@@ -440,13 +440,13 @@ export function validateWorkingHoursLimits(
   }
 
   // Check for same-day schedules
-  const sameDaySchedules = existingSchedules.filter(schedule => 
+  const sameDaySchedules = existingSchedules.filter((schedule: any) => 
     schedule.staff_member_id === staffMemberId &&
     schedule.schedule_date.toDateString() === new Date(newSchedule.schedule_date).toDateString() &&
     schedule.id !== newSchedule.id
   );
 
-  const totalDailyHours = sameDaySchedules.reduce((total, schedule) => {
+  const totalDailyHours = sameDaySchedules.reduce((total: number, schedule: any) => {
     const start = new Date(`2000-01-01T${schedule.shift_start_time}`);
     const end = new Date(`2000-01-01T${schedule.shift_end_time}`);
     if (end < start) end.setDate(end.getDate() + 1);
@@ -465,14 +465,14 @@ export function validateWorkingHoursLimits(
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekStart.getDate() + 6);
 
-  const weeklySchedules = existingSchedules.filter(schedule =>
+  const weeklySchedules = existingSchedules.filter((schedule: any) =>
     schedule.staff_member_id === staffMemberId &&
     new Date(schedule.schedule_date) >= weekStart &&
     new Date(schedule.schedule_date) <= weekEnd &&
     schedule.id !== newSchedule.id
   );
 
-  const totalWeeklyHours = weeklySchedules.reduce((total, schedule) => {
+  const totalWeeklyHours = weeklySchedules.reduce((total: number, schedule: any) => {
     const start = new Date(`2000-01-01T${schedule.shift_start_time}`);
     const end = new Date(`2000-01-01T${schedule.shift_end_time}`);
     if (end < start) end.setDate(end.getDate() + 1);
@@ -511,7 +511,7 @@ export function validateRestTimeBetweenShifts(
   const dayAfter = new Date(newStart);
   dayAfter.setDate(dayAfter.getDate() + 1);
 
-  const nearbySchedules = existingSchedules.filter(schedule =>
+  const nearbySchedules = existingSchedules.filter((schedule: any) =>
     schedule.staff_member_id === staffMemberId &&
     new Date(schedule.schedule_date) >= dayBefore &&
     new Date(schedule.schedule_date) <= dayAfter &&
@@ -558,7 +558,7 @@ export function validateAvailabilityAlignment(
   const dayOfWeek = scheduleDate.getDay();
 
   // Find relevant availability records
-  const relevantAvailability = availability.filter(avail =>
+  const relevantAvailability = availability.filter((avail: any) =>
     new Date(avail.date_range_start) <= scheduleDate &&
     new Date(avail.date_range_end) >= scheduleDate &&
     avail.days_of_week.includes(dayOfWeek)
@@ -590,7 +590,7 @@ export function validateAvailabilityAlignment(
 
   // Check for unavailable dates
   const unavailableDates = relevantAvailability.flatMap(avail => 
-    avail.unavailable_dates?.map(date => new Date(date).toDateString()) || []
+    avail.unavailable_dates?.map((date: any) => new Date(date).toDateString()) || []
   );
 
   if (unavailableDates.includes(scheduleDate.toDateString())) {

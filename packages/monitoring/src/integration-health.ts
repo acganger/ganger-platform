@@ -307,12 +307,12 @@ export class IntegrationHealthMonitor {
   // Cleanup old cache entries
   private cleanupCache(): void {
     const now = Date.now();
-    for (const [key, timestamp] of this.lastCheckTimes.entries()) {
+    Array.from(this.lastCheckTimes.entries()).forEach(([key, timestamp]) => {
       if (now - timestamp > this.CACHE_TTL_MS * 2) {
         this.healthCache.delete(key);
         this.lastCheckTimes.delete(key);
       }
-    }
+    });
   }
 
   startPeriodicCleanup(): void {

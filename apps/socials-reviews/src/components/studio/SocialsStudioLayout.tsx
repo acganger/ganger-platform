@@ -177,8 +177,8 @@ function SocialsStudioLayoutInner({ children }: { children: React.ReactNode }) {
   let panelId = useId()
   let [expanded, setExpanded] = useState(false)
   let [isTransitioning, setIsTransitioning] = useState(false)
-  let openRef = useRef<React.ElementRef<'button'>>(null)
-  let closeRef = useRef<React.ElementRef<'button'>>(null)
+  let openRef = useRef<HTMLButtonElement>(null)
+  let closeRef = useRef<HTMLButtonElement>(null)
   let navRef = useRef<React.ElementRef<'div'>>(null)
   let shouldReduceMotion = useReducedMotion()
 
@@ -216,7 +216,7 @@ function SocialsStudioLayoutInner({ children }: { children: React.ReactNode }) {
           <Header
             panelId={panelId}
             icon={MenuIcon}
-            toggleRef={openRef}
+            toggleRef={openRef as React.RefObject<HTMLButtonElement>}
             expanded={expanded}
             onToggle={() => {
               setIsTransitioning(true)
@@ -243,7 +243,7 @@ function SocialsStudioLayoutInner({ children }: { children: React.ReactNode }) {
                 invert
                 panelId={panelId}
                 icon={XIcon}
-                toggleRef={closeRef}
+                toggleRef={closeRef as React.RefObject<HTMLButtonElement>}
                 expanded={expanded}
                 onToggle={() => {
                   setIsTransitioning(true)

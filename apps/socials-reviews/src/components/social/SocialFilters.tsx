@@ -59,11 +59,11 @@ export default function SocialFilters({
   };
 
   const platformOptions = [
-    { value: 'facebook', label: 'Facebook', color: 'blue' },
-    { value: 'instagram', label: 'Instagram', color: 'purple' },
-    { value: 'twitter', label: 'Twitter', color: 'sky' },
-    { value: 'linkedin', label: 'LinkedIn', color: 'blue' },
-    { value: 'tiktok', label: 'TikTok', color: 'gray' },
+    { value: 'facebook', label: 'Facebook', color: 'primary' },
+    { value: 'instagram', label: 'Instagram', color: 'secondary' },
+    { value: 'twitter', label: 'Twitter', color: 'primary' },
+    { value: 'linkedin', label: 'LinkedIn', color: 'primary' },
+    { value: 'tiktok', label: 'TikTok', color: 'secondary' },
   ];
 
   const performanceOptions = [
@@ -129,7 +129,7 @@ export default function SocialFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.platform?.includes(option.value as 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'tiktok') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentPlatforms = filters?.platform || [];
                         const newPlatforms = checked
                           ? [...currentPlatforms, option.value as 'facebook' | 'instagram' | 'twitter' | 'linkedin' | 'tiktok']
@@ -153,7 +153,7 @@ export default function SocialFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.performance_level?.includes(option.value as 'high' | 'medium' | 'low') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentLevels = filters?.performance_level || [];
                         const newLevels = checked
                           ? [...currentLevels, option.value as 'high' | 'medium' | 'low']
@@ -177,7 +177,7 @@ export default function SocialFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.content_topics?.includes(option.value as 'skincare' | 'acne_treatment' | 'cosmetic_procedures' | 'sun_protection' | 'medical_dermatology' | 'patient_testimonials' | 'educational' | 'before_after' | 'product_recommendations' | 'seasonal_tips') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentTopics = filters?.content_topics || [];
                         const newTopics = checked
                           ? [...currentTopics, option.value as 'skincare' | 'acne_treatment' | 'cosmetic_procedures' | 'sun_protection' | 'medical_dermatology' | 'patient_testimonials' | 'educational' | 'before_after' | 'product_recommendations' | 'seasonal_tips']
@@ -200,7 +200,7 @@ export default function SocialFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.competitor?.includes(option.value) || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentCompetitors = filters?.competitor || [];
                         const newCompetitors = checked
                           ? [...currentCompetitors, option.value]
@@ -223,7 +223,7 @@ export default function SocialFilters({
                     max={10}
                     step={0.1}
                     value={[(filters?.min_engagement || 0) * 100]}
-                    onValueChange={(value) => updateFilter('min_engagement', value[0] / 100)}
+                    onValueChange={(value: number[]) => updateFilter('min_engagement', value[0] / 100)}
                     className="mb-2"
                   />
                   <div className="text-sm text-gray-600 text-center">
@@ -242,7 +242,7 @@ export default function SocialFilters({
                   <DatePicker
                     placeholder="Start date"
                     value={filters?.date_range?.start || ''}
-                    onChange={(date) => updateFilter('date_range', {
+                    onChange={(date: string) => updateFilter('date_range', {
                       ...filters?.date_range,
                       start: date
                     })}
@@ -250,7 +250,7 @@ export default function SocialFilters({
                   <DatePicker
                     placeholder="End date"
                     value={filters?.date_range?.end || ''}
-                    onChange={(date) => updateFilter('date_range', {
+                    onChange={(date: string) => updateFilter('date_range', {
                       ...filters?.date_range,
                       end: date
                     })}
@@ -285,7 +285,7 @@ export default function SocialFilters({
           {filters?.platform?.map((platform) => (
             <Badge
               key={platform}
-              variant={(platformOptions.find(p => p.value === platform)?.color as 'blue' | 'purple' | 'sky' | 'gray') || 'blue'}
+              variant={(platformOptions.find(p => p.value === platform)?.color as 'primary' | 'secondary') || 'primary'}
               size="sm"
               className="flex items-center space-x-1"
             >
@@ -304,7 +304,7 @@ export default function SocialFilters({
           {filters?.performance_level?.map((level) => (
             <Badge
               key={level}
-              variant="green"
+              variant="success"
               size="sm"
               className="flex items-center space-x-1"
             >
@@ -323,7 +323,7 @@ export default function SocialFilters({
           {filters?.content_topics?.slice(0, 3).map((topic) => (
             <Badge
               key={topic}
-              variant="purple"
+              variant="secondary"
               size="sm"
               className="flex items-center space-x-1"
             >
@@ -340,14 +340,14 @@ export default function SocialFilters({
           ))}
 
           {(filters?.content_topics?.length || 0) > 3 && (
-            <Badge variant="purple" size="sm">
+            <Badge variant="secondary" size="sm">
               +{(filters?.content_topics?.length || 0) - 3} more topics
             </Badge>
           )}
 
           {filters?.min_engagement && filters.min_engagement > 0 && (
             <Badge
-              variant="orange"
+              variant="warning"
               size="sm"
               className="flex items-center space-x-1"
             >

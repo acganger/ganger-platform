@@ -4,6 +4,7 @@ import { Card } from '@ganger/ui-catalyst';
 import { Shield, CheckCircle, AlertTriangle, XCircle, RefreshCw } from 'lucide-react';
 
 interface InsuranceInfo {
+  planId?: string;
   planName: string;
   planType: string;
   memberId: string;

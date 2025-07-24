@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSupabaseClient } from '@ganger/auth/server';
+import { createSupabaseServerClient } from '@ganger/auth/server';
 import { captureError } from '@ganger/monitoring/sentry';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // Check database connection
   try {
-    const supabase = getSupabaseClient(req, res);
+    const supabase = createSupabaseServerClient();
     const dbStart = Date.now();
     const { error } = await supabase.from('patients').select('count').limit(1);
     

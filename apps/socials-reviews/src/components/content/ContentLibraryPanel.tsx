@@ -216,17 +216,17 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
   const getStatusColor = (status: AdaptedContent['adaptation_status']) => {
     switch (status) {
       case 'pending':
-        return 'yellow';
+        return 'warning';
       case 'processing':
-        return 'blue';
+        return 'primary';
       case 'completed':
-        return 'green';
+        return 'success';
       case 'failed':
-        return 'red';
+        return 'destructive';
       case 'published':
-        return 'green';
+        return 'success';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -250,17 +250,17 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
   const getPlatformColor = (platform: AdaptedContent['target_platform']) => {
     switch (platform) {
       case 'facebook':
-        return 'blue';
+        return 'primary';
       case 'instagram':
-        return 'purple';
+        return 'secondary';
       case 'twitter':
-        return 'sky';
+        return 'primary';
       case 'linkedin':
-        return 'blue';
+        return 'primary';
       case 'tiktok':
-        return 'gray';
+        return 'secondary';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -321,7 +321,7 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              variant={viewMode === 'grid' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('grid')}
               className="flex items-center space-x-1"
@@ -330,7 +330,7 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
               <span className="hidden sm:inline">Grid</span>
             </Button>
             <Button
-              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              variant={viewMode === 'list' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('list')}
               className="flex items-center space-x-1"
@@ -342,19 +342,22 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
 
           <Select
             value={getSortLabel()}
-            onChange={(value) => {
+            onChange={(e) => {
+              const value = e.target.value;
               const option = sortOptions.find(opt => opt.label === value);
               if (option) {
                 setSortBy(option.field as 'created_at' | 'adaptation_status');
                 setSortOrder(option.direction);
               }
             }}
-            options={sortOptions.map(opt => ({
-              value: opt.label,
-              label: opt.label,
-            }))}
             className="w-48"
-          />
+          >
+            {sortOptions.map(opt => (
+              <option key={opt.label} value={opt.label}>
+                {opt.label}
+              </option>
+            ))}
+          </Select>
           
           <Button
             variant="outline"
@@ -370,7 +373,7 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
       </div>
 
       {/* Status Tabs */}
-      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'all' | 'pending' | 'approved' | 'published')}>
+      <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'all' | 'pending' | 'approved' | 'published')}>
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="all" className="flex items-center space-x-2">
             <FolderOpen className="h-4 w-4" />
@@ -471,12 +474,12 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
                       <div className="mb-4">
                         <div className="flex flex-wrap gap-1">
                           {item.adapted_hashtags.slice(0, 4).map((hashtag, index) => (
-                            <Badge key={index} variant="gray" size="sm" className="text-xs">
+                            <Badge key={index} variant="secondary" size="sm" className="text-xs">
                               {hashtag}
                             </Badge>
                           ))}
                           {item.adapted_hashtags.length > 4 && (
-                            <Badge variant="gray" size="sm" className="text-xs">
+                            <Badge variant="secondary" size="sm" className="text-xs">
                               +{item.adapted_hashtags.length - 4} more
                             </Badge>
                           )}

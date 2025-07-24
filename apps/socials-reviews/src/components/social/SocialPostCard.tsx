@@ -38,17 +38,17 @@ const SocialPostCard = memo(function SocialPostCard({
   const getPlatformColor = (platform: SocialMediaPost['platform']) => {
     switch (platform) {
       case 'facebook':
-        return 'blue';
+        return 'primary';
       case 'instagram':
-        return 'purple';
+        return 'secondary';
       case 'twitter':
-        return 'sky';
+        return 'primary';
       case 'linkedin':
-        return 'blue';
+        return 'primary';
       case 'tiktok':
-        return 'gray';
+        return 'secondary';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -69,13 +69,13 @@ const SocialPostCard = memo(function SocialPostCard({
   const getPerformanceColor = (level: SocialMediaPost['performance_level']) => {
     switch (level) {
       case 'high':
-        return 'green';
+        return 'success';
       case 'medium':
-        return 'yellow';
+        return 'warning';
       case 'low':
-        return 'gray';
+        return 'secondary';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -107,11 +107,15 @@ const SocialPostCard = memo(function SocialPostCard({
           <div className="flex items-center space-x-3">
             <div className="relative">
               <Avatar
-                fallback={post.account_handle.charAt(0).toUpperCase()}
+                initials={post.account_handle.charAt(0).toUpperCase()}
                 size="md"
                 className="border-2 border-gray-200"
               />
-              <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-${getPlatformColor(post.platform)}-500 flex items-center justify-center`}>
+              <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center ${
+                post.platform === 'facebook' || post.platform === 'twitter' || post.platform === 'linkedin' 
+                  ? 'bg-blue-500' 
+                  : 'bg-purple-500'
+              }`}>
                 <PlatformIcon className="w-3 h-3 text-white" />
               </div>
             </div>
@@ -136,7 +140,7 @@ const SocialPostCard = memo(function SocialPostCard({
           <div className="flex items-center space-x-2">
             {post.is_high_performing && (
               <Tooltip content="High-performing post">
-                <Badge variant="green" size="sm" className="flex items-center space-x-1">
+                <Badge variant="success" size="sm" className="flex items-center space-x-1">
                   <TrendingUp className="h-3 w-3" />
                   <span>High Performance</span>
                 </Badge>
@@ -275,13 +279,13 @@ const SocialPostCard = memo(function SocialPostCard({
           <div className="mb-4">
             <div className="flex flex-wrap gap-1">
               {post.hashtags.slice(0, 5).map((hashtag, index) => (
-                <Badge key={index} variant="gray" size="sm" className="text-xs">
+                <Badge key={index} variant="secondary" size="sm" className="text-xs">
                   <Hash className="h-2 w-2 mr-1" />
                   {hashtag.replace('#', '')}
                 </Badge>
               ))}
               {post.hashtags.length > 5 && (
-                <Badge variant="gray" size="sm" className="text-xs">
+                <Badge variant="secondary" size="sm" className="text-xs">
                   +{post.hashtags.length - 5} more
                 </Badge>
               )}
@@ -294,7 +298,7 @@ const SocialPostCard = memo(function SocialPostCard({
           <div className="mb-4">
             <div className="flex flex-wrap gap-1">
               {post.content_topics.map((topic, index) => (
-                <Badge key={index} variant="blue" size="sm" className="text-xs capitalize">
+                <Badge key={index} variant="primary" size="sm" className="text-xs capitalize">
                   {topic.replace('_', ' ')}
                 </Badge>
               ))}

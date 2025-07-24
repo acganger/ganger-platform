@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     // Get reviews statistics
     const { data: reviews, error: reviewsError } = await supabase
       .from('social_reviews')
-      .select('rating, sentiment, platform, created_at')
+      .select('rating, sentiment, platform, created_at, response_text')
       .order('created_at', { ascending: false });
 
     if (reviewsError) {

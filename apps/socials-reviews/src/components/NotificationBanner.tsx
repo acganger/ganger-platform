@@ -51,15 +51,15 @@ export default function NotificationBanner({
   const getNotificationColor = (type: NotificationEvent['type']) => {
     switch (type) {
       case 'new_review':
-        return 'blue';
+        return 'info';
       case 'high_performing_post':
-        return 'green';
+        return 'success';
       case 'urgent_review':
-        return 'red';
+        return 'error';
       case 'content_ready':
-        return 'purple';
+        return 'default';
       default:
-        return 'gray';
+        return 'default';
     }
   };
 

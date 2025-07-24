@@ -43,11 +43,17 @@ export default function SocialMonitoringPanel({ className = '' }: SocialMonitori
         const params = new URLSearchParams();
         
         // Add filters
-        if (filters.platform) params.append('platform', filters.platform);
-        if (filters.competitor) params.append('competitor', filters.competitor);
-        if (filters.performanceLevel) params.append('performance_level', filters.performanceLevel);
-        if (filters.dateFrom) params.append('date_from', filters.dateFrom);
-        if (filters.dateTo) params.append('date_to', filters.dateTo);
+        if (filters.platform) {
+          filters.platform.forEach(p => params.append('platform', p));
+        }
+        if (filters.competitor) {
+          filters.competitor.forEach(c => params.append('competitor', c));
+        }
+        if (filters.performance_level) {
+          filters.performance_level.forEach(pl => params.append('performance_level', pl));
+        }
+        if (filters.date_range?.start) params.append('date_from', filters.date_range.start);
+        if (filters.date_range?.end) params.append('date_to', filters.date_range.end);
         
         // Add sorting
         params.append('sort_by', sortBy);
@@ -87,11 +93,17 @@ export default function SocialMonitoringPanel({ className = '' }: SocialMonitori
     const params = new URLSearchParams();
     
     // Add filters
-    if (filters.platform) params.append('platform', filters.platform);
-    if (filters.competitor) params.append('competitor', filters.competitor);
-    if (filters.performanceLevel) params.append('performance_level', filters.performanceLevel);
-    if (filters.dateFrom) params.append('date_from', filters.dateFrom);
-    if (filters.dateTo) params.append('date_to', filters.dateTo);
+    if (filters.platform) {
+      filters.platform.forEach(p => params.append('platform', p));
+    }
+    if (filters.competitor) {
+      filters.competitor.forEach(c => params.append('competitor', c));
+    }
+    if (filters.performance_level) {
+      filters.performance_level.forEach(pl => params.append('performance_level', pl));
+    }
+    if (filters.date_range?.start) params.append('date_from', filters.date_range.start);
+    if (filters.date_range?.end) params.append('date_to', filters.date_range.end);
     
     // Add sorting
     params.append('sort_by', sortBy);
@@ -130,6 +142,16 @@ export default function SocialMonitoringPanel({ className = '' }: SocialMonitori
   const handleClearFilters = () => {
     setFilters({});
     setCurrentPage(1);
+  };
+
+  const handleAdapt = (postId: string) => {
+    // Handle content adaptation
+    console.log('Adapting post:', postId);
+  };
+
+  const handleViewDetails = (postId: string) => {
+    // Handle viewing post details
+    console.log('Viewing details for post:', postId);
   };
 
   const sortOptions: SortOption<SocialMediaPost>[] = [
@@ -205,15 +227,21 @@ export default function SocialMonitoringPanel({ className = '' }: SocialMonitori
 
           <Select
             value={getSortLabel()}
-            onChange={(value) => {
+            onChange={(e) => {
+              const value = e.target.value;
               const option = sortOptions.find(opt => opt.label === value);
               if (option) {
                 setSortBy(option.field as any);
                 setSortOrder(option.direction);
               }
             }}
-            options={sortOptions.map(opt => opt.label)}
-          />
+          >
+            {sortOptions.map(opt => (
+              <option key={opt.label} value={opt.label}>
+                {opt.label}
+              </option>
+            ))}
+          </Select>
           
           <Button 
             onClick={handleRefresh}
@@ -233,6 +261,7 @@ export default function SocialMonitoringPanel({ className = '' }: SocialMonitori
         filters={filters}
         onFiltersChange={handleFiltersChange}
         onClearFilters={handleClearFilters}
+        totalResults={posts.length}
       />
 
       {/* Content */}
@@ -260,7 +289,8 @@ export default function SocialMonitoringPanel({ className = '' }: SocialMonitori
               <SocialPostCard
                 key={post.id}
                 post={post}
-                viewMode={viewMode}
+                onAdapt={handleAdapt}
+                onViewDetails={handleViewDetails}
               />
             ))}
           </div>

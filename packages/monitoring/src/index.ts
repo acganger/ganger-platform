@@ -49,6 +49,13 @@ export {
   type AlertThreshold
 } from './alerts-config';
 
+// Error tracking exports
+export {
+  errorTracking,
+  type ErrorEvent,
+  type PerformanceMetric
+} from './services/error-tracking';
+
 // Import instances for convenience functions
 import { integrationHealthMonitor, type IntegrationHealthStatus } from './integration-health';
 import { performanceMonitor, type PerformanceMetrics } from './performance-monitor';

@@ -127,7 +127,7 @@ export default function ReviewFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.location?.includes(option.value as 'ann_arbor' | 'plymouth' | 'wixom') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentLocations = filters?.location || [];
                         const newLocations = checked
                           ? [...currentLocations, option.value as 'ann_arbor' | 'plymouth' | 'wixom']
@@ -150,7 +150,7 @@ export default function ReviewFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.sentiment?.includes(option.value as 'positive' | 'negative' | 'neutral') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentSentiments = filters?.sentiment || [];
                         const newSentiments = checked
                           ? [...currentSentiments, option.value as 'positive' | 'negative' | 'neutral']
@@ -174,7 +174,7 @@ export default function ReviewFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.rating?.includes(option.value) || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentRatings = filters?.rating || [];
                         const newRatings = checked
                           ? [...currentRatings, option.value]
@@ -197,7 +197,7 @@ export default function ReviewFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.urgency?.includes(option.value as 'low' | 'medium' | 'high' | 'critical') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentUrgency = filters?.urgency || [];
                         const newUrgency = checked
                           ? [...currentUrgency, option.value as 'low' | 'medium' | 'high' | 'critical']
@@ -220,7 +220,7 @@ export default function ReviewFilters({
                       key={option.value}
                       label={option.label}
                       checked={filters?.status?.includes(option.value as 'new' | 'in_progress' | 'responded' | 'archived') || false}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         const currentStatus = filters?.status || [];
                         const newStatus = checked
                           ? [...currentStatus, option.value as 'new' | 'in_progress' | 'responded' | 'archived']
@@ -242,7 +242,7 @@ export default function ReviewFilters({
                   <DatePicker
                     placeholder="Start date"
                     value={filters?.date_range?.start || ''}
-                    onChange={(date) => updateFilter('date_range', {
+                    onChange={(date: string) => updateFilter('date_range', {
                       ...filters?.date_range,
                       start: date
                     })}
@@ -250,7 +250,7 @@ export default function ReviewFilters({
                   <DatePicker
                     placeholder="End date"
                     value={filters?.date_range?.end || ''}
-                    onChange={(date) => updateFilter('date_range', {
+                    onChange={(date: string) => updateFilter('date_range', {
                       ...filters?.date_range,
                       end: date
                     })}
@@ -285,7 +285,7 @@ export default function ReviewFilters({
           {filters?.location?.map((location) => (
             <Badge
               key={location}
-              variant="blue"
+              variant="primary"
               size="sm"
               className="flex items-center space-x-1"
             >
@@ -304,7 +304,7 @@ export default function ReviewFilters({
           {filters?.sentiment?.map((sentiment) => (
             <Badge
               key={sentiment}
-              variant="green"
+              variant="success"
               size="sm"
               className="flex items-center space-x-1"
             >
@@ -323,7 +323,7 @@ export default function ReviewFilters({
           {filters?.rating?.map((rating) => (
             <Badge
               key={rating}
-              variant="yellow"
+              variant="warning"
               size="sm"
               className="flex items-center space-x-1"
             >

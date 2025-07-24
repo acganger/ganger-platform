@@ -211,7 +211,7 @@ export default function AdvancedSearch({
             <Input
               placeholder={placeholder}
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
               className="pl-10 pr-20"
               aria-label="Search query"
             />
@@ -362,17 +362,27 @@ export default function AdvancedSearch({
               <div key={index} className="flex items-center space-x-2 bg-white p-3 rounded border">
                 <Select
                   value={filter.field}
-                  onChange={(value) => handleUpdateFilter(index, { field: value })}
-                  options={searchFields.map(f => ({ value: f.key, label: f.label }))}
+                  onChange={(e) => handleUpdateFilter(index, { field: e.target.value })}
                   className="w-32"
-                />
+                >
+                  {searchFields.map(f => (
+                    <option key={f.key} value={f.key}>
+                      {f.label}
+                    </option>
+                  ))}
+                </Select>
 
                 <Select
                   value={filter.operator}
-                  onChange={(value) => handleUpdateFilter(index, { operator: value as 'equals' | 'contains' | 'starts_with' | 'ends_with' | 'greater_than' | 'less_than' | 'between' })}
-                  options={operatorOptions}
+                  onChange={(e) => handleUpdateFilter(index, { operator: e.target.value as 'equals' | 'contains' | 'starts_with' | 'ends_with' | 'greater_than' | 'less_than' | 'between' })}
                   className="w-32"
-                />
+                >
+                  {operatorOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </Select>
 
                 {filter.operator === 'between' ? (
                   <div className="flex items-center space-x-1">
@@ -380,7 +390,7 @@ export default function AdvancedSearch({
                       type={field?.type === 'number' ? 'number' : field?.type === 'date' ? 'date' : 'text'}
                       placeholder="From"
                       value={Array.isArray(filter.value) ? filter.value[0] : ''}
-                      onChange={(e) => handleUpdateFilter(index, { 
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUpdateFilter(index, { 
                         value: [e.target.value, Array.isArray(filter.value) ? filter.value[1] : ''] 
                       })}
                       className="w-24"
@@ -390,7 +400,7 @@ export default function AdvancedSearch({
                       type={field?.type === 'number' ? 'number' : field?.type === 'date' ? 'date' : 'text'}
                       placeholder="To"
                       value={Array.isArray(filter.value) ? filter.value[1] : ''}
-                      onChange={(e) => handleUpdateFilter(index, { 
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUpdateFilter(index, { 
                         value: [Array.isArray(filter.value) ? filter.value[0] : '', e.target.value] 
                       })}
                       className="w-24"
@@ -399,17 +409,22 @@ export default function AdvancedSearch({
                 ) : field?.type === 'select' ? (
                   <Select
                     value={typeof filter.value === 'string' ? filter.value : ''}
-                    onChange={(value) => handleUpdateFilter(index, { value })}
-                    options={field.options || []}
-                    placeholder="Select value"
+                    onChange={(e) => handleUpdateFilter(index, { value: e.target.value })}
                     className="flex-1"
-                  />
+                  >
+                    <option value="">Select value</option>
+                    {(field.options || []).map(opt => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </Select>
                 ) : (
                   <Input
                     type={field?.type === 'number' ? 'number' : field?.type === 'date' ? 'date' : 'text'}
                     placeholder="Enter value"
                     value={typeof filter.value === 'string' ? filter.value : ''}
-                    onChange={(e) => handleUpdateFilter(index, { value: e.target.value })}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUpdateFilter(index, { value: e.target.value })}
                     className="flex-1"
                   />
                 )}

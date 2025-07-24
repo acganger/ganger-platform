@@ -163,7 +163,7 @@ export class PerformanceMonitor {
     let totalResponseTime = 0;
     const endpointStats = new Map();
 
-    for (const [endpoint, requests] of this.apiMetrics.entries()) {
+    Array.from(this.apiMetrics.entries()).forEach(([endpoint, requests]) => {
       // Filter out old entries
       const recentRequests = requests.filter(req => req.timestamp > cutoff);
       this.apiMetrics.set(endpoint, recentRequests);
@@ -182,7 +182,7 @@ export class PerformanceMonitor {
         totalErrors += errors;
         totalResponseTime += avgResponseTime * recentRequests.length;
       }
-    }
+    });
 
     return {
       total_requests: totalRequests,
@@ -325,7 +325,7 @@ export class PerformanceMonitor {
     const dataPoints: Array<{ timestamp: string; value: number }> = [];
 
     // Collect data points from history
-    for (const [day, metrics] of this.metricsHistory.entries()) {
+    Array.from(this.metricsHistory.entries()).forEach(([day, metrics]) => {
       for (const metric_data of metrics) {
         const metricTime = new Date(metric_data.timestamp);
         if (metricTime >= cutoff) {
@@ -338,7 +338,7 @@ export class PerformanceMonitor {
           }
         }
       }
-    }
+    });
 
     if (dataPoints.length < 2) {
       return null;
@@ -387,11 +387,11 @@ export class PerformanceMonitor {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     
-    for (const [key] of this.metricsHistory.entries()) {
+    Array.from(this.metricsHistory.entries()).forEach(([key]) => {
       if (new Date(key) < thirtyDaysAgo) {
         this.metricsHistory.delete(key);
       }
-    }
+    });
   }
 
   startPeriodicCleanup(): void {
@@ -448,13 +448,13 @@ export class PerformanceMonitor {
     const cutoff = new Date(Date.now() - hours * 60 * 60 * 1000);
     const history: PerformanceMetrics[] = [];
     
-    for (const [day, metrics] of this.metricsHistory.entries()) {
+    Array.from(this.metricsHistory.entries()).forEach(([day, metrics]) => {
       for (const metric of metrics) {
         if (new Date(metric.timestamp) >= cutoff) {
           history.push(metric);
         }
       }
-    }
+    });
     
     return history.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
   }

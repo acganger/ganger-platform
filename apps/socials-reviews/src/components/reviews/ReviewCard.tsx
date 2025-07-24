@@ -35,45 +35,45 @@ const ReviewCard = memo(function ReviewCard({
   const getSentimentColor = (sentiment: GoogleBusinessReview['sentiment_category']) => {
     switch (sentiment) {
       case 'positive':
-        return 'green';
+        return 'success';
       case 'neutral':
-        return 'yellow';
+        return 'warning';
       case 'negative':
-        return 'red';
+        return 'destructive';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
   const getUrgencyColor = (urgency: GoogleBusinessReview['urgency_level']) => {
     switch (urgency) {
       case 'low':
-        return 'blue';
+        return 'primary';
       case 'medium':
-        return 'yellow';
+        return 'warning';
       case 'high':
-        return 'orange';
+        return 'warning';
       case 'critical':
-        return 'red';
+        return 'destructive';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
   const getStatusColor = (status: GoogleBusinessReview['response_status']) => {
     switch (status) {
       case 'pending':
-        return 'gray';
+        return 'secondary';
       case 'draft':
-        return 'blue';
+        return 'primary';
       case 'approved':
-        return 'green';
+        return 'success';
       case 'published':
-        return 'green';
+        return 'success';
       case 'rejected':
-        return 'red';
+        return 'destructive';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -116,7 +116,7 @@ const ReviewCard = memo(function ReviewCard({
           <Avatar
             src={review.reviewer_photo_url}
             alt={review.reviewer_name}
-            fallback={review.reviewer_name.charAt(0)}
+            initials={review.reviewer_name.charAt(0)}
             size="md"
           />
           <div>
@@ -213,7 +213,7 @@ const ReviewCard = memo(function ReviewCard({
         <div className="mb-4">
           <div className="flex flex-wrap gap-1">
             {review.key_topics.map((topic, index) => (
-              <Badge key={index} variant="gray" size="sm">
+              <Badge key={index} variant="secondary" size="sm">
                 {topic}
               </Badge>
             ))}
@@ -243,7 +243,7 @@ const ReviewCard = memo(function ReviewCard({
           <div className="flex items-center space-x-2 mb-2">
             <Bot className="h-4 w-4 text-purple-600" />
             <span className="text-sm font-medium text-purple-900">AI-Generated Response</span>
-            <Badge variant="purple" size="sm">Draft</Badge>
+            <Badge variant="secondary" size="sm">Draft</Badge>
           </div>
           <p className="text-sm text-purple-800">{review.ai_generated_response}</p>
         </div>

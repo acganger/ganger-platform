@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getSupabaseClient } from '@ganger/auth/server';
+import { createSupabaseServerClient } from '@ganger/auth/server';
 import { captureError } from '@ganger/monitoring/sentry';
 import { performanceTracker } from '@ganger/monitoring/performance-tracking';
 import { cacheManager } from '@ganger/cache';
@@ -38,7 +38,7 @@ export interface ApiContext<TParams = any, TBody = any> {
   body: TBody;
   query: Record<string, string | string[]>;
   user: any | null;
-  supabase: ReturnType<typeof getSupabaseClient>;
+  supabase: ReturnType<typeof createSupabaseServerClient>;
 }
 
 export type ApiHandler<TParams = any, TBody = any, TResponse = any> = (
@@ -66,7 +66,7 @@ export function createApiRoute<TParams = any, TBody = any, TResponse = any>(
       }
       
       // Get Supabase client
-      const supabase = getSupabaseClient(req);
+      const supabase = createSupabaseServerClient();
       
       // Check authentication
       let user = null;
@@ -95,7 +95,7 @@ export function createApiRoute<TParams = any, TBody = any, TResponse = any>(
       }
       
       // Parse request data
-      const params = context?.params || {} as TParams;
+      let params = context?.params || {} as TParams;
       const query = Object.fromEntries(req.nextUrl.searchParams);
       let body = {} as TBody;
       
@@ -185,9 +185,7 @@ export function createApiRoute<TParams = any, TBody = any, TResponse = any>(
           ? config.cache.keyGenerator(params, query)
           : `api:${routeName}:${JSON.stringify({ params, query })}`;
           
-        await cacheManager.set(cacheKey, result, {
-          ttl: config.cache.ttl || 300 // 5 minutes default
-        });
+        await cacheManager.set(cacheKey, result, config.cache.ttl || 300); // 5 minutes default
       }
       
       // Track performance

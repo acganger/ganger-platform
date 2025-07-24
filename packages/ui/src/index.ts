@@ -28,6 +28,12 @@ export {
   ModalContent, 
   ModalFooter 
 } from './components/Modal';
+export type {
+  ModalProps,
+  ModalHeaderProps,
+  ModalContentProps,
+  ModalFooterProps
+} from './components/Modal';
 export { 
   Toast, 
   ToastProvider, 

@@ -64,11 +64,17 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
       const params = new URLSearchParams();
       
       // Add filters
-      if (filters.location) params.append('location', filters.location);
-      if (filters.status) params.append('status', filters.status);
-      if (filters.sentiment) params.append('sentiment', filters.sentiment);
-      if (filters.dateFrom) params.append('date_from', filters.dateFrom);
-      if (filters.dateTo) params.append('date_to', filters.dateTo);
+      if (filters.location) {
+        filters.location.forEach(loc => params.append('location', loc));
+      }
+      if (filters.status) {
+        filters.status.forEach(s => params.append('status', s));
+      }
+      if (filters.sentiment) {
+        filters.sentiment.forEach(s => params.append('sentiment', s));
+      }
+      if (filters.date_range?.start) params.append('date_from', filters.date_range.start);
+      if (filters.date_range?.end) params.append('date_to', filters.date_range.end);
       
       // Add sorting
       params.append('sort_by', sortBy);
@@ -95,7 +101,6 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
       setError(err instanceof Error ? err.message : 'Failed to load reviews');
       // Set empty array on error to avoid showing stale/mock data
       setAllReviews([]);
-    }
     } finally {
       setLoading(false);
     }
@@ -192,19 +197,22 @@ export default function ReviewManagementPanel({ className = '' }: ReviewManageme
         <div className="flex items-center space-x-3">
           <Select
             value={getSortLabel()}
-            onChange={(value) => {
+            onChange={(e) => {
+              const value = e.target.value;
               const option = sortOptions.find(opt => opt.label === value);
               if (option) {
                 setSortBy(option.field as 'review_date' | 'rating' | 'urgency_level');
                 setSortOrder(option.direction);
               }
             }}
-            options={sortOptions.map(opt => ({
-              value: opt.label,
-              label: opt.label,
-            }))}
             className="w-48"
-          />
+          >
+            {sortOptions.map(opt => (
+              <option key={opt.label} value={opt.label}>
+                {opt.label}
+              </option>
+            ))}
+          </Select>
           
           <Button
             variant="outline"

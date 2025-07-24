@@ -90,7 +90,8 @@ export type {
 // Toast Components
 export { 
   Toast, ToastContainer, ToastProvider, useToast,
-  ToastLegacy, ToastContainerLegacy, ToastProviderLegacy
+  ToastLegacy, ToastContainerLegacy, ToastProviderLegacy,
+  Toast as toast // Add lowercase alias for compatibility
 } from './components/toast'
 export type { ToastProps, ToastContainerProps, ToastProviderProps, ToastLegacyProps } from './components/toast'
 

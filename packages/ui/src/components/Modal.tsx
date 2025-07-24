@@ -123,3 +123,4 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ children, className }) => (
 );
 
 export { Modal, ModalHeader, ModalContent, ModalFooter };
+export type { ModalProps, ModalHeaderProps, ModalContentProps, ModalFooterProps };

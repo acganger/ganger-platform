@@ -37,18 +37,20 @@ export interface MigrationStaffingConfig {
 export class MigrationStaffingBusinessLogic {
   private config: MigrationStaffingConfig;
 
-  constructor(config: MigrationStaffingConfig = {
-    enableMigrationMode: true,
-    useNewSchema: false,
-    logMigrationOperations: process.env.NODE_ENV === 'development'
-  }) {
-    this.config = config;
+  constructor(config?: Partial<MigrationStaffingConfig>) {
+    // Merge with defaults
+    this.config = {
+      enableMigrationMode: true,
+      useNewSchema: false,
+      logMigrationOperations: process.env.NODE_ENV === 'development',
+      ...config
+    };
     
     // Configure migration adapter
     migrationAdapter.updateConfig({
-      enableMigrationMode: config.enableMigrationMode,
-      useNewSchema: config.useNewSchema,
-      logMigrationQueries: config.logMigrationOperations
+      enableMigrationMode: this.config.enableMigrationMode,
+      useNewSchema: this.config.useNewSchema,
+      logMigrationQueries: this.config.logMigrationOperations
     });
   }
 

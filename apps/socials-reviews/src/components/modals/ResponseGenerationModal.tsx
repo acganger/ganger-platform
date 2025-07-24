@@ -118,13 +118,13 @@ export default function ResponseGenerationModal({
   const getSentimentColor = (sentiment: GoogleBusinessReview['sentiment_category']) => {
     switch (sentiment) {
       case 'positive':
-        return 'green';
+        return 'success';
       case 'neutral':
-        return 'yellow';
+        return 'warning';
       case 'negative':
-        return 'red';
+        return 'destructive';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -145,7 +145,7 @@ export default function ResponseGenerationModal({
 
   return (
     <Modal
-      open={isOpen}
+      isOpen={isOpen}
       onClose={onClose}
       size="xl"
       className={className}
@@ -168,7 +168,7 @@ export default function ResponseGenerationModal({
                 {review.sentiment_category}
               </Badge>
               {review.urgency_level !== 'low' && (
-                <Badge variant="red" size="sm">
+                <Badge variant="destructive" size="sm">
                   {review.urgency_level} urgency
                 </Badge>
               )}
@@ -189,7 +189,7 @@ export default function ResponseGenerationModal({
           {review.key_topics.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {review.key_topics.map((topic, index) => (
-                <Badge key={index} variant="gray" size="sm">
+                <Badge key={index} variant="secondary" size="sm">
                   {topic}
                 </Badge>
               ))}
@@ -198,7 +198,7 @@ export default function ResponseGenerationModal({
         </Card>
 
         {/* Response Generation Tabs */}
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'ai' | 'manual')}>
+        <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'ai' | 'manual')}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="ai" className="flex items-center space-x-2">
               <Bot className="h-4 w-4" />
@@ -259,7 +259,7 @@ export default function ResponseGenerationModal({
                           <span className="text-sm font-medium text-gray-900">
                             Option {index + 1}
                           </span>
-                          <Badge variant="purple" size="sm">
+                          <Badge variant="secondary" size="sm">
                             AI Generated
                           </Badge>
                         </div>
@@ -300,7 +300,7 @@ export default function ResponseGenerationModal({
                 </label>
                 <TextArea
                   value={response}
-                  onChange={(e) => setResponse(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setResponse(e.target.value)}
                   rows={4}
                   placeholder="Edit the AI-generated response..."
                   className="w-full"
@@ -316,7 +316,7 @@ export default function ResponseGenerationModal({
               </label>
               <TextArea
                 value={response}
-                onChange={(e) => setResponse(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setResponse(e.target.value)}
                 rows={6}
                 placeholder="Write a personalized response to this review..."
                 className="w-full"
@@ -354,7 +354,7 @@ export default function ResponseGenerationModal({
               <div className="flex items-center space-x-2 mb-2">
                 <MessageSquare className="h-4 w-4 text-blue-600" />
                 <span className="text-sm font-medium text-blue-900">Ganger Dermatology</span>
-                <Badge variant="blue" size="sm">
+                <Badge variant="primary" size="sm">
                   {activeTab === 'ai' ? 'AI-Assisted' : 'Manual'}
                 </Badge>
               </div>

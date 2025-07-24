@@ -187,17 +187,17 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
   const getPlatformColor = (platform: SocialPlatform) => {
     switch (platform) {
       case 'facebook':
-        return 'blue';
+        return 'primary';
       case 'instagram':
-        return 'purple';
+        return 'secondary';
       case 'twitter':
-        return 'sky';
+        return 'primary';
       case 'linkedin':
-        return 'blue';
+        return 'primary';
       case 'tiktok':
-        return 'gray';
+        return 'secondary';
       default:
-        return 'gray';
+        return 'secondary';
     }
   };
 
@@ -213,7 +213,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
 
   return (
     <Modal
-      open={isOpen}
+      isOpen={isOpen}
       onClose={onClose}
       size="xl"
       className={className}
@@ -237,7 +237,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                 <span>{(post.engagement_rate * 100).toFixed(1)}% engagement</span>
               </div>
             </div>
-            <Badge variant="green" size="sm">
+            <Badge variant="success" size="sm">
               High Performance
             </Badge>
           </div>
@@ -264,12 +264,12 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
           {post.hashtags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {post.hashtags.slice(0, 8).map((hashtag, index) => (
-                <Badge key={index} variant="gray" size="sm">
+                <Badge key={index} variant="secondary" size="sm">
                   {hashtag}
                 </Badge>
               ))}
               {post.hashtags.length > 8 && (
-                <Badge variant="gray" size="sm">
+                <Badge variant="secondary" size="sm">
                   +{post.hashtags.length - 8} more
                 </Badge>
               )}
@@ -278,7 +278,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
         </Card>
 
         {/* Adaptation Tabs */}
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'adapt' | 'preview' | 'schedule')}>
+        <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'adapt' | 'preview' | 'schedule')}>
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="adapt" className="flex items-center space-x-2">
               <Wand2 className="h-4 w-4" />
@@ -303,9 +303,14 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                 </label>
                 <Select
                   value={targetPlatform}
-                  onChange={(value) => setTargetPlatform(value as SocialPlatform)}
-                  options={platformOptions}
-                />
+                  onChange={(e) => setTargetPlatform(e.target.value as SocialPlatform)}
+                >
+                  {platformOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </Select>
               </div>
 
               <div>
@@ -318,7 +323,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                       key={element}
                       label={element.charAt(0).toUpperCase() + element.slice(1)}
                       checked={preserveElements.includes(element)}
-                      onChange={(checked) => {
+                      onChange={(checked: boolean) => {
                         if (checked) {
                           setPreserveElements(prev => [...prev, element]);
                         } else {
@@ -337,7 +342,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
               </label>
               <TextArea
                 value={customInstructions}
-                onChange={(e) => setCustomInstructions(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCustomInstructions(e.target.value)}
                 rows={2}
                 placeholder="Add any specific instructions for the adaptation..."
                 className="w-full"
@@ -375,7 +380,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                   </label>
                   <TextArea
                     value={adaptedContent}
-                    onChange={(e) => setAdaptedContent(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setAdaptedContent(e.target.value)}
                     rows={6}
                     className="w-full"
                   />
@@ -383,7 +388,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                     <span>{adaptedContent.length} characters</span>
                     <div className="flex items-center space-x-4">
                       <span>Brand Voice Score: {brandVoiceScore}/100</span>
-                      <Badge variant={brandVoiceScore >= 90 ? 'green' : brandVoiceScore >= 80 ? 'yellow' : 'red'} size="sm">
+                      <Badge variant={brandVoiceScore >= 90 ? 'success' : brandVoiceScore >= 80 ? 'warning' : 'destructive'} size="sm">
                         {brandVoiceScore >= 90 ? 'Excellent' : brandVoiceScore >= 80 ? 'Good' : 'Needs Work'}
                       </Badge>
                     </div>
@@ -398,7 +403,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                     {adaptedHashtags.map((hashtag, index) => (
                       <Badge
                         key={index}
-                        variant="blue"
+                        variant="primary"
                         size="sm"
                         className="cursor-pointer"
                         onClick={() => {
@@ -412,7 +417,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
                     <Input
                       placeholder="Add hashtag..."
                       className="w-32 h-6 text-xs"
-                      onKeyPress={(e) => {
+                      onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.key === 'Enter') {
                           const value = (e.target as HTMLInputElement).value.trim();
                           if (value && !adaptedHashtags.includes(value)) {
@@ -515,7 +520,7 @@ Schedule your appointment today and discover why patients trust Ganger Dermatolo
               <Input
                 type="datetime-local"
                 value={scheduledDate}
-                onChange={(e) => setScheduledDate(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScheduledDate(e.target.value)}
                 min={new Date().toISOString().slice(0, 16)}
               />
               <p className="text-sm text-gray-500 mt-1">

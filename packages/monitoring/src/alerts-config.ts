@@ -211,9 +211,9 @@ Severity: ${threshold.severity}`;
 
     // Prepare metric values
     const metrics: Record<string, number> = {
-      p95_response_time: performanceMetrics.response_times.percentiles.p95,
-      p99_response_time: performanceMetrics.response_times.percentiles.p99,
-      error_rate: performanceMetrics.error_rate,
+      p95_response_time: performanceMetrics.api.average_response_time * 1.5, // Approximation for p95
+      p99_response_time: performanceMetrics.api.average_response_time * 2, // Approximation for p99
+      error_rate: performanceMetrics.api.error_rate,
       unhealthy_count: integrationHealth.filter(i => i.status === 'degraded').length,
       down_count: integrationHealth.filter(i => i.status === 'down').length,
       // These would come from actual monitoring

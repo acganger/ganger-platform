@@ -26,7 +26,7 @@ export default createApiRoute(
         return await handleMetrics();
       
       case 'trends':
-        return await handleTrends(timeframe);
+        return await handleTrends(timeframe as string);
       
       case 'summary':
         return await handleSummary();
@@ -47,10 +47,10 @@ async function handleMetrics() {
   return {
     current_metrics: {
       system_health: systemHealth.overall_status,
-      response_times: currentMetrics.response_times,
-      error_rate: currentMetrics.error_rate,
-      request_count: currentMetrics.request_count,
-      active_users: currentMetrics.active_users,
+      api_metrics: currentMetrics.api,
+      database_metrics: currentMetrics.database,
+      cache_metrics: currentMetrics.cache,
+      system_metrics: currentMetrics.system,
       timestamp: new Date().toISOString()
     },
     collection_info: {
@@ -66,44 +66,32 @@ async function handleMetrics() {
 }
 
 async function handleTrends(timeframe: string) {
-  const endDate = new Date();
-  const startDate = new Date();
+  // Map timeframe to period for getPerformanceTrends
+  const periodMap: Record<string, 'hour' | 'day' | 'week'> = {
+    '1h': 'hour',
+    '6h': 'hour',
+    '24h': 'day',
+    '7d': 'week'
+  };
   
-  switch (timeframe) {
-    case '1h':
-      startDate.setHours(startDate.getHours() - 1);
-      break;
-    case '6h':
-      startDate.setHours(startDate.getHours() - 6);
-      break;
-    case '24h':
-      startDate.setDate(startDate.getDate() - 1);
-      break;
-    case '7d':
-      startDate.setDate(startDate.getDate() - 7);
-      break;
-  }
-  
-  const trends = await performanceMonitor.getTrends(startDate, endDate);
+  const period = periodMap[timeframe] || 'day';
+  const trends = await performanceMonitor.getPerformanceTrends(period);
   
   return {
     timeframe,
     trends: trends.map(trend => ({
-      timestamp: trend.timestamp,
-      avg_response_time: trend.avgResponseTime,
-      error_rate: trend.errorRate,
-      request_count: trend.requestCount
+      metric: trend.metric,
+      data_points: trend.data_points,
+      trend_direction: trend.trend_direction,
+      change_percentage: trend.change_percentage
     })),
     trend_analysis: {
-      total_data_points: trends.length,
-      period: {
-        start: startDate.toISOString(),
-        end: endDate.toISOString()
-      },
+      total_trends: trends.length,
+      period: timeframe,
       summary: {
-        avg_response_time_change: calculateTrendChange(trends, 'avgResponseTime'),
-        error_rate_change: calculateTrendChange(trends, 'errorRate'),
-        request_volume_change: calculateTrendChange(trends, 'requestCount')
+        improving_metrics: trends.filter(t => t.trend_direction === 'down' && ['error_rate', 'response_time'].includes(t.metric)).length,
+        degrading_metrics: trends.filter(t => t.trend_direction === 'up' && ['error_rate', 'response_time'].includes(t.metric)).length,
+        stable_metrics: trends.filter(t => t.trend_direction === 'stable').length
       }
     },
     timestamp: new Date().toISOString()
@@ -128,11 +116,11 @@ async function handleSummary() {
       warnings: currentMetrics.alerts.filter(a => a.severity === 'high').length
     },
     key_metrics: {
-      avg_response_time_ms: currentMetrics.response_times.percentiles.p50,
-      p95_response_time_ms: currentMetrics.response_times.percentiles.p95,
-      error_rate_percent: (currentMetrics.error_rate * 100).toFixed(2),
-      requests_per_minute: Math.round(currentMetrics.request_count / 60),
-      active_users: currentMetrics.active_users
+      avg_response_time_ms: currentMetrics.api.average_response_time,
+      error_rate_percent: currentMetrics.api.error_rate.toFixed(2),
+      total_requests: currentMetrics.api.total_requests,
+      database_pool_utilization: currentMetrics.database.pool_utilization,
+      cache_hit_rate: currentMetrics.cache.hit_rate
     },
     timestamp: new Date().toISOString()
   };
@@ -153,7 +141,7 @@ async function handleAlerts() {
     alerts: alerts.map(alert => ({
       ...alert,
       action_required: alert.severity === 'critical' || alert.severity === 'high',
-      escalation_threshold: getEscalationThreshold(alert.metric)
+      escalation_threshold: getEscalationThreshold(alert.type)
     })),
     recommendations: generateAlertRecommendations(alerts)
   };
@@ -188,13 +176,13 @@ function getEscalationThreshold(metric: string): number {
 
 function generateAlertRecommendations(alerts: any[]): string[] {
   const recommendations: string[] = [];
-  const alertTypes = new Set(alerts.map(a => a.metric));
+  const alertTypes = new Set(alerts.map(a => a.type));
   
-  if (alertTypes.has('response_time')) {
+  if (alertTypes.has('api_response_time')) {
     recommendations.push('Consider optimizing slow API endpoints or scaling infrastructure');
   }
   
-  if (alertTypes.has('error_rate')) {
+  if (alertTypes.has('api_error_rate')) {
     recommendations.push('Investigate error patterns and implement better error handling');
   }
   

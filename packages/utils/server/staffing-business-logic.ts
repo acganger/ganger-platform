@@ -96,13 +96,13 @@ export async function calculateOptimalStaffing(
       for (const schedule of providerSchedules) {
         if (timeOverlaps(schedule.start_time, schedule.end_time, slot.start, slot.end)) {
           // Find support requirements for this provider
-          const requirement = supportRequirements.find(req => 
+          const requirement = supportRequirements.find((req: any) => 
             req.physician_id === schedule.provider_id
           );
 
           if (requirement) {
             requiredStaff += requirement.support_staff_count;
-            requirement.required_skills.forEach(skill => {
+            requirement.required_skills.forEach((skill: string) => {
               slotSkills.add(skill);
               allRequiredSkills.add(skill);
             });
@@ -124,7 +124,7 @@ export async function calculateOptimalStaffing(
     }
 
     // Calculate peak staffing requirement
-    const optimalStaffCount = Math.max(...timeSlotRequirements.map(slot => slot.requiredStaff), 0);
+    const optimalStaffCount = Math.max(...timeSlotRequirements.map((slot: any) => slot.requiredStaff), 0);
 
     return {
       optimalStaffCount,
@@ -163,18 +163,18 @@ export async function calculateStaffingMetrics(
     `, [locationId, date]);
 
     // Calculate total provider hours
-    const totalProviderHours = providerSchedules.reduce((total, schedule) => {
+    const totalProviderHours = providerSchedules.reduce((total: number, schedule: any) => {
       return total + calculateHoursBetween(schedule.start_time, schedule.end_time);
     }, 0);
 
     // Calculate total support hours
-    const totalSupportHours = staffSchedules.reduce((total, schedule) => {
+    const totalSupportHours = staffSchedules.reduce((total: number, schedule: any) => {
       return total + calculateHoursBetween(schedule.shift_start_time, schedule.shift_end_time);
     }, 0);
 
     // Calculate optimal support hours
     const optimalStaffing = await calculateOptimalStaffing(locationId, date, providerSchedules);
-    const optimalSupportHours = optimalStaffing.timeSlotRequirements.reduce((total, slot) => {
+    const optimalSupportHours = optimalStaffing.timeSlotRequirements.reduce((total: number, slot: any) => {
       const slotDuration = calculateHoursBetween(slot.startTime, slot.endTime);
       return total + (slot.requiredStaff * slotDuration);
     }, 0);
@@ -185,7 +185,7 @@ export async function calculateStaffingMetrics(
       : 100;
 
     // Calculate utilization rate
-    const totalAvailableHours = staffSchedules.reduce((total, schedule) => {
+    const totalAvailableHours = staffSchedules.reduce((total: number, schedule: any) => {
       const dailyMax = (schedule.staff_member.max_hours_per_week || 40) / 5;
       return total + dailyMax;
     }, 0);
@@ -195,7 +195,7 @@ export async function calculateStaffingMetrics(
       : 0;
 
     // Calculate overtime hours
-    const overtimeHours = staffSchedules.reduce((total, schedule) => {
+    const overtimeHours = staffSchedules.reduce((total: number, schedule: any) => {
       const scheduledHours = calculateHoursBetween(schedule.shift_start_time, schedule.shift_end_time);
       const regularHours = 8; // Standard 8-hour shift
       return total + Math.max(0, scheduledHours - regularHours);
@@ -292,7 +292,7 @@ function analyzeStaffingPeriods(
   let overstaffedPeriods = 0;
 
   for (const requirement of requirements) {
-    const staffInSlot = staffSchedules.filter(schedule =>
+    const staffInSlot = staffSchedules.filter((schedule: any) =>
       timeOverlaps(schedule.shift_start_time, schedule.shift_end_time, requirement.startTime, requirement.endTime)
     );
 
@@ -465,7 +465,7 @@ async function getUnderstaffedPeriodStaff(locationId: string, date: Date): Promi
         AND ss.status != 'cancelled'
     `, [locationId, date]);
 
-    return staffSchedules.map(schedule => 
+    return staffSchedules.map((schedule: any) => 
       `${schedule.staff_member.first_name} ${schedule.staff_member.last_name}`
     );
   } catch (error) {
@@ -505,7 +505,7 @@ async function analyzePreferenceOptimization(locationId: string, date: Date): Pr
     const affectedStaff: string[] = [];
 
     for (const schedule of schedules) {
-      const staffAvailability = availability.find(avail => 
+      const staffAvailability = availability.find((avail: any) => 
         avail.staff_member_id === schedule.staff_member_id
       );
 
@@ -618,7 +618,7 @@ export async function autoApproveSchedules(
             AND id != $4
         `, [schedule.staff_member_id, weekStart, weekEnd, schedule.id]);
 
-        const totalWeeklyHours = weeklySchedules.reduce((total, s) => {
+        const totalWeeklyHours = weeklySchedules.reduce((total: number, s: any) => {
           return total + calculateHoursBetween(s.shift_start_time, s.shift_end_time);
         }, 0) + calculateHoursBetween(schedule.shift_start_time, schedule.shift_end_time);
 
@@ -764,16 +764,16 @@ export async function generateStaffingForecast(
           AND analytics_date >= $2
       `, [locationId, ninetyDaysAgo]);
 
-      const sameDayData = historicalData.filter(data => 
+      const sameDayData = historicalData.filter((data: any) => 
         new Date(data.analytics_date).getDay() === dayOfWeek
       );
 
       if (sameDayData.length > 0) {
-        const avgDemand = sameDayData.reduce((sum, data) => 
+        const avgDemand = sameDayData.reduce((sum: number, data: any) => 
           sum + (data.total_support_hours || 0), 0
         ) / sameDayData.length;
 
-        const avgStaff = sameDayData.reduce((sum, data) => 
+        const avgStaff = sameDayData.reduce((sum: number, data: any) => 
           sum + (data.total_support_hours || 0) / 8, 0
         ) / sameDayData.length; // Assuming 8-hour shifts
 

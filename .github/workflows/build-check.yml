@@ -1,0 +1,48 @@
+name: Build Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Build shared packages
+        run: pnpm run build:shared
+        
+      - name: Build all applications
+        run: pnpm run build:apps
+        
+      - name: Run linting
+        run: pnpm run lint:all
+        
+      - name: Run tests
+        run: pnpm run test:all
+        
+      - name: Type check
+        run: pnpm run typecheck:all
+        
+      - name: Report build status
+        if: always()
+        run: |
+          echo "Build completed with status: ${{ job.status }}"
+          echo "All apps built successfully" > build-report.txt
