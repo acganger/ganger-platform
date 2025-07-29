@@ -44,7 +44,15 @@ export class CookieStorageAdapter {
     try {
       // For Supabase v2, the key format is different
       // It expects to find the session data under a specific key
-      const value = getCookie(key);
+      let value = getCookie(key);
+      
+      // Fallback: If using custom domain, also check the project-specific key
+      if (!value && key === 'sb-auth-token') {
+        value = getCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token');
+        if (value && process.env.NODE_ENV === 'development') {
+          console.log(`[CookieStorageAdapter] Found session under project-specific key`);
+        }
+      }
       
       if (process.env.NODE_ENV === 'development') {
         console.log(`[CookieStorageAdapter] Getting ${key}:`, value ? 'found' : 'not found');
@@ -74,6 +82,14 @@ export class CookieStorageAdapter {
       }
 
       setCookie(key, value, this.cookieOptions);
+      
+      // Also set the project-specific key for compatibility
+      if (key === 'sb-auth-token') {
+        setCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token', value, this.cookieOptions);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`[CookieStorageAdapter] Also set project-specific key for compatibility`);
+        }
+      }
     } catch (error) {
       console.error(`[CookieStorageAdapter] Error setting ${key}:`, error);
     }
@@ -96,6 +112,17 @@ export class CookieStorageAdapter {
         ...this.cookieOptions,
         maxAge: 0
       });
+      
+      // Also remove the project-specific key
+      if (key === 'sb-auth-token') {
+        deleteCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token', {
+          ...this.cookieOptions,
+          maxAge: 0
+        });
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`[CookieStorageAdapter] Also removed project-specific key`);
+        }
+      }
     } catch (error) {
       console.error(`[CookieStorageAdapter] Error removing ${key}:`, error);
     }

@@ -68,8 +68,34 @@ export default function CallbackPage() {
         const hash = window.location.hash;
         if (hash && hash.includes('access_token')) {
           console.log('[Callback] Hash params detected, processing...');
-          // Supabase will handle this via detectSessionInUrl
-          // Wait for auth state to update
+          
+          // Actively process the hash tokens
+          const hashParams = new URLSearchParams(hash.substring(1));
+          const accessToken = hashParams.get('access_token');
+          const refreshToken = hashParams.get('refresh_token');
+          
+          if (accessToken) {
+            console.log('[Callback] Setting session from hash params...');
+            const { data, error: sessionError } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken || ''
+            });
+            
+            if (sessionError) {
+              console.error('[Callback] Error setting session from hash:', sessionError);
+              setError(sessionError.message);
+              setIsProcessing(false);
+              return;
+            }
+            
+            if (data.session) {
+              console.log('[Callback] Session set successfully from hash params');
+              setTimeout(() => {
+                router.push('/');
+              }, 100);
+              return;
+            }
+          }
         } else if (!code && !hash) {
           // No auth data in URL, redirect to sign in
           console.log('[Callback] No auth data found, redirecting to sign in...');
