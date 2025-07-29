@@ -36,6 +36,7 @@ export default function HomePage() {
   const auth = useAuth();
   const [appMetadata, setAppMetadata] = useState<AppData>({});
   const [loadingApps, setLoadingApps] = useState(true);
+  const [signInError, setSignInError] = useState<string | null>(null);
 
   // Monitor auth state changes
   useEffect(() => {
@@ -192,8 +193,42 @@ export default function HomePage() {
           </div>
           
           <div className="mt-8 bg-white py-8 px-6 shadow rounded-lg">
+            {signInError && (
+              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <h3 className="text-red-800 font-semibold mb-2">Authentication Failed</h3>
+                <p className="text-red-700 text-sm">{signInError}</p>
+                {signInError.toLowerCase().includes('fetch') && (
+                  <div className="mt-3 text-red-600 text-sm">
+                    <p className="font-semibold">Troubleshooting steps:</p>
+                    <ul className="list-disc ml-5 mt-1">
+                      <li>Try disabling browser extensions (ad blockers, privacy tools)</li>
+                      <li>Clear your browser cache and cookies</li>
+                      <li>Try using an incognito/private window</li>
+                      <li>Check if you're behind a firewall or proxy</li>
+                    </ul>
+                    <div className="mt-3">
+                      <a 
+                        href="/auth/reset-cookies" 
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        → Reset authentication data
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            
             <button
-              onClick={() => auth.signIn()}
+              onClick={async () => {
+                try {
+                  setSignInError(null);
+                  await auth.signIn();
+                } catch (error: any) {
+                  console.error('[HomePage] Sign in error:', error);
+                  setSignInError(error.message || 'Failed to sign in');
+                }
+              }}
               className="w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -208,6 +243,15 @@ export default function HomePage() {
             <p className="mt-4 text-center text-sm text-gray-600">
               By signing in, you agree to our terms and conditions
             </p>
+            
+            <div className="mt-6 text-center">
+              <a 
+                href="/auth/reset-cookies" 
+                className="text-xs text-gray-500 hover:text-gray-700"
+              >
+                Having trouble signing in? Reset authentication
+              </a>
+            </div>
           </div>
         </div>
       </div>

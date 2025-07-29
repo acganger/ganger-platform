@@ -256,7 +256,10 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       const redirectUrl = redirectTo || 
         (typeof window !== 'undefined' ? window.location.origin + '/auth/callback' : undefined);
       
-      const { error } = await supabase.auth.signInWithOAuth({
+      console.log('[Auth] Starting sign in with redirect to:', redirectUrl);
+      console.log('[Auth] Using Supabase URL:', supabase.supabaseUrl);
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: redirectUrl,
@@ -264,15 +267,28 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
             access_type: 'offline',
             prompt: 'select_account',
           },
+          // Skip browser redirect to handle it manually (helps with ad blockers)
+          skipBrowserRedirect: false,
         },
       });
 
       if (error) {
-        console.error('Error signing in:', error);
+        console.error('[Auth] OAuth error:', error);
+        // Check if it's a network error
+        if (error.message?.toLowerCase().includes('fetch')) {
+          console.error('[Auth] Network error detected. Possible causes:');
+          console.error('- Browser extensions blocking the request');
+          console.error('- CORS issues with custom domain');
+          console.error('- Network connectivity problems');
+          console.error('- Try using standard Supabase URL: https://pfqtzmxxxhhsxmlddrta.supabase.co');
+        }
         throw error;
       }
+      
+      console.log('[Auth] OAuth initiated successfully');
+      return data;
     } catch (error) {
-      console.error('Sign in failed:', error);
+      console.error('[Auth] Sign in failed:', error);
       throw error;
     }
   }

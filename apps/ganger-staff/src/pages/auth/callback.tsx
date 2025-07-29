@@ -126,11 +126,35 @@ export default function CallbackPage() {
 
   // Show error state
   if (error) {
+    // Check if it's a network error
+    const isNetworkError = error.toLowerCase().includes('fetch') || 
+                          error.toLowerCase().includes('network') ||
+                          error.toLowerCase().includes('failed to fetch');
+    
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full bg-white shadow rounded-lg p-8 text-center">
-          <div className="text-red-600 text-xl font-semibold mb-4">Authentication Failed</div>
+          <div className="text-red-600 text-xl font-semibold mb-4">
+            {isNetworkError ? 'Connection Error' : 'Authentication Failed'}
+          </div>
           <p className="text-gray-600 mb-6">{error}</p>
+          
+          {isNetworkError && (
+            <div className="text-left bg-yellow-50 p-4 rounded mb-6">
+              <p className="font-semibold mb-2">Troubleshooting steps:</p>
+              <ul className="list-disc ml-5 space-y-1 text-sm text-gray-700">
+                <li>Disable ad blockers or privacy extensions</li>
+                <li>Try using an incognito/private window</li>
+                <li>Check your internet connection</li>
+                <li>Clear browser cache and cookies</li>
+                <li>Try a different browser (Chrome recommended)</li>
+              </ul>
+              <p className="mt-3 text-xs text-gray-600">
+                If the issue persists, contact IT support with error: "SUPABASE_FETCH_ERROR"
+              </p>
+            </div>
+          )}
+          
           <button
             onClick={() => router.push('/')}
             className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
