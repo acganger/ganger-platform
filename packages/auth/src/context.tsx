@@ -288,7 +288,8 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       }
       
       console.log('[Auth] OAuth initiated successfully');
-      return data;
+      // Don't return data - the interface expects Promise<void>
+      // The browser will redirect automatically
     } catch (error) {
       console.error('[Auth] Sign in failed:', error);
       throw error;
