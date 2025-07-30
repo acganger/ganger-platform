@@ -256,8 +256,10 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       const redirectUrl = redirectTo || 
         (typeof window !== 'undefined' ? window.location.origin + '/auth/callback' : undefined);
       
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supa.gangerdermatology.com';
       console.log('[Auth] Starting sign in with redirect to:', redirectUrl);
-      console.log('[Auth] Using Supabase URL:', supabase.supabaseUrl);
+      console.log('[Auth] Using Supabase URL:', supabaseUrl);
+      console.log('[Auth] Using custom domain:', supabaseUrl.includes('gangerdermatology.com'));
       
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
