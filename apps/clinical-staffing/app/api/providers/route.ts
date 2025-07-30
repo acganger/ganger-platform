@@ -20,8 +20,7 @@ migrationAdapter.updateConfig({
  * Retrieve providers with their schedules
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { searchParams } = new URL(request.url);
       const locationId = searchParams.get('locationId');
       const date = searchParams.get('date');
@@ -93,7 +92,6 @@ export async function GET(request: NextRequest) {
 
       return respondWithSuccess(transformedProviders);
     });
-  })(request);
 }
 
 /**
@@ -101,8 +99,7 @@ export async function GET(request: NextRequest) {
  * Create new provider
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const body = await request.json();
       
       // Validate required fields
@@ -142,7 +139,6 @@ export async function POST(request: NextRequest) {
 
       return respondWithSuccess(newProvider, 201);
     });
-  })(request);
 }
 
 /**
@@ -150,8 +146,7 @@ export async function POST(request: NextRequest) {
  * Update existing provider
  */
 export async function PUT(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const providerId = pathname.split('/').pop();
       
@@ -191,7 +186,6 @@ export async function PUT(request: NextRequest) {
 
       return respondWithSuccess(updatedProviders[0]);
     });
-  })(request);
 }
 
 /**
@@ -199,8 +193,7 @@ export async function PUT(request: NextRequest) {
  * Deactivate provider (soft delete)
  */
 export async function DELETE(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const providerId = pathname.split('/').pop();
       
@@ -231,5 +224,4 @@ export async function DELETE(request: NextRequest) {
 
       return respondWithSuccess({ message: 'Provider deactivated successfully' });
     });
-  })(request);
 }

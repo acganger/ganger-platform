@@ -20,8 +20,7 @@ migrationAdapter.updateConfig({
  * Retrieve staff schedules with optional filtering
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { searchParams } = new URL(request.url);
       const date = searchParams.get('date');
       const locationId = searchParams.get('locationId');
@@ -99,7 +98,6 @@ export async function GET(request: NextRequest) {
 
       return respondWithSuccess(transformedSchedules);
     });
-  })(request);
 }
 
 /**
@@ -107,8 +105,7 @@ export async function GET(request: NextRequest) {
  * Create new staff schedule
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const body = await request.json();
       
       // Validate required fields
@@ -158,7 +155,6 @@ export async function POST(request: NextRequest) {
 
       return respondWithSuccess(newSchedule, 201);
     });
-  })(request);
 }
 
 /**
@@ -166,8 +162,7 @@ export async function POST(request: NextRequest) {
  * Update existing staff schedule
  */
 export async function PUT(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const scheduleId = pathname.split('/').pop();
       
@@ -212,7 +207,6 @@ export async function PUT(request: NextRequest) {
 
       return respondWithSuccess(updatedSchedules[0]);
     });
-  })(request);
 }
 
 /**
@@ -220,8 +214,7 @@ export async function PUT(request: NextRequest) {
  * Delete staff schedule
  */
 export async function DELETE(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const scheduleId = pathname.split('/').pop();
       
@@ -253,5 +246,4 @@ export async function DELETE(request: NextRequest) {
 
       return respondWithSuccess({ message: 'Schedule deleted successfully' });
     });
-  })(request);
 }

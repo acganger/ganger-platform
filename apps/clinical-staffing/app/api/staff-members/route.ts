@@ -20,8 +20,7 @@ migrationAdapter.updateConfig({
  * Retrieve staff members with optional filtering
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { searchParams } = new URL(request.url);
       const locationId = searchParams.get('locationId');
       const role = searchParams.get('role');
@@ -85,7 +84,6 @@ export async function GET(request: NextRequest) {
 
       return respondWithSuccess(transformedStaffMembers);
     });
-  })(request);
 }
 
 /**
@@ -93,8 +91,7 @@ export async function GET(request: NextRequest) {
  * Create new staff member
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const body = await request.json();
       
       // Validate required fields
@@ -147,7 +144,6 @@ export async function POST(request: NextRequest) {
 
       return respondWithSuccess(newMember, 201);
     });
-  })(request);
 }
 
 /**
@@ -155,8 +151,7 @@ export async function POST(request: NextRequest) {
  * Update existing staff member
  */
 export async function PUT(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const memberId = pathname.split('/').pop();
       
@@ -205,7 +200,6 @@ export async function PUT(request: NextRequest) {
 
       return respondWithSuccess(updatedMembers[0]);
     });
-  })(request);
 }
 
 /**
@@ -213,8 +207,7 @@ export async function PUT(request: NextRequest) {
  * Deactivate staff member (soft delete)
  */
 export async function DELETE(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const memberId = pathname.split('/').pop();
       
@@ -246,5 +239,4 @@ export async function DELETE(request: NextRequest) {
 
       return respondWithSuccess({ message: 'Staff member deactivated successfully' });
     });
-  })(request);
 }

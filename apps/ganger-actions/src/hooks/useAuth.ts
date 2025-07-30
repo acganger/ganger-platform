@@ -44,6 +44,7 @@ export function useAuth(requireAuth = true) {
   const signInWithGoogle = async () => {
     const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : undefined;
     await baseAuth.signIn(redirectTo);
+    // signIn now returns void, no data returned
   };
 
   return {

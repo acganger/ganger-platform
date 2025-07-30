@@ -27,8 +27,7 @@ migrationStaffingBusinessLogic.updateConfig({
  * Auto-assign staff to optimal schedules
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const body = await request.json();
       
       // Validate required fields
@@ -213,5 +212,4 @@ export async function POST(request: NextRequest) {
         approval_results: approvalResult
       });
     });
-  })(request);
 }

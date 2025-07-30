@@ -108,8 +108,7 @@ export class ComplianceMigrationAdapter {
     
     const results = await migrationAdapter.insert<T>(
       mappedTable,
-      convertedData,
-      options
+      convertedData
     );
     
     if (process.env.NODE_ENV === 'development') {

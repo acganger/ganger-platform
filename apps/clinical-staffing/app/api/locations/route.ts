@@ -20,8 +20,7 @@ migrationAdapter.updateConfig({
  * Retrieve locations with staffing information
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { searchParams } = new URL(request.url);
       const isActive = searchParams.get('isActive');
       const includeStaffing = searchParams.get('includeStaffing');
@@ -95,8 +94,7 @@ export async function GET(request: NextRequest) {
       }));
 
       return respondWithSuccess(transformedLocations);
-    });
-  })(request);
+  });
 }
 
 /**
@@ -104,8 +102,7 @@ export async function GET(request: NextRequest) {
  * Create new location
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const body = await request.json();
       
       // Validate required fields
@@ -154,8 +151,7 @@ export async function POST(request: NextRequest) {
       const [newLocation] = await migrationAdapter.insert('locations', locationData);
 
       return respondWithSuccess(newLocation, 201);
-    });
-  })(request);
+  });
 }
 
 /**
@@ -163,8 +159,7 @@ export async function POST(request: NextRequest) {
  * Update existing location
  */
 export async function PUT(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const locationId = pathname.split('/').pop();
       
@@ -203,8 +198,7 @@ export async function PUT(request: NextRequest) {
       }
 
       return respondWithSuccess(updatedLocations[0]);
-    });
-  })(request);
+  });
 }
 
 /**
@@ -212,8 +206,7 @@ export async function PUT(request: NextRequest) {
  * Deactivate location (soft delete)
  */
 export async function DELETE(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const locationId = pathname.split('/').pop();
       
@@ -243,6 +236,5 @@ export async function DELETE(request: NextRequest) {
       );
 
       return respondWithSuccess({ message: 'Location deactivated successfully' });
-    });
-  })(request);
+  });
 }

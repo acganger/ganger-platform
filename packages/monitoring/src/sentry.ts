@@ -23,13 +23,8 @@ export function initSentry(config: SentryConfig) {
     
     // Performance Monitoring
     integrations: [
-      new Sentry.BrowserTracing({
-        // Set sampling rate for performance monitoring
-        tracingOrigins: ['localhost', 'gangerdermatology.com', /^\//],
-        // Track route changes
-        routingInstrumentation: Sentry.nextRouterInstrumentation,
-      }),
-      new Sentry.Replay({
+      // Sentry.replayIntegration is the new API
+      Sentry.replayIntegration({
         // Mask all text and inputs for HIPAA compliance
         maskAllText: true,
         maskAllInputs: true,

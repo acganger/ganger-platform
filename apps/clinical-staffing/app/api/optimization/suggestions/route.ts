@@ -27,8 +27,7 @@ migrationStaffingBusinessLogic.updateConfig({
  * Generate staffing optimization suggestions
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { searchParams } = new URL(request.url);
       const locationId = searchParams.get('locationId');
       const date = searchParams.get('date');
@@ -126,7 +125,6 @@ export async function GET(request: NextRequest) {
         generated_at: new Date().toISOString()
       });
     });
-  })(request);
 }
 
 /**
@@ -134,8 +132,7 @@ export async function GET(request: NextRequest) {
  * Apply optimization suggestions
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const body = await request.json();
       
       // Validate required fields
@@ -178,7 +175,6 @@ export async function POST(request: NextRequest) {
         }
       });
     });
-  })(request);
 }
 
 /**

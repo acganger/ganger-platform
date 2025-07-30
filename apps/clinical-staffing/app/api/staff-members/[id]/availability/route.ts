@@ -20,8 +20,7 @@ migrationAdapter.updateConfig({
  * Get staff member availability
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname, searchParams } = new URL(request.url);
       const pathParts = pathname.split('/');
       const memberId = pathParts[pathParts.length - 2]; // staff-members/[id]/availability
@@ -76,7 +75,6 @@ export async function GET(request: NextRequest) {
 
       return respondWithSuccess(transformedAvailability);
     });
-  })(request);
 }
 
 /**
@@ -84,8 +82,7 @@ export async function GET(request: NextRequest) {
  * Update staff member availability
  */
 export async function PUT(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const pathParts = pathname.split('/');
       const memberId = pathParts[pathParts.length - 2]; // staff-members/[id]/availability
@@ -158,7 +155,6 @@ export async function PUT(request: NextRequest) {
 
       return respondWithSuccess(updatedMembers[0]);
     });
-  })(request);
 }
 
 /**
@@ -166,8 +162,7 @@ export async function PUT(request: NextRequest) {
  * Add new availability record for staff member
  */
 export async function POST(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { pathname } = new URL(request.url);
       const pathParts = pathname.split('/');
       const memberId = pathParts[pathParts.length - 2]; // staff-members/[id]/availability
@@ -220,5 +215,4 @@ export async function POST(request: NextRequest) {
 
       return respondWithSuccess(newAvailability, 201);
     });
-  })(request);
 }

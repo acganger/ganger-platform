@@ -27,8 +27,7 @@ migrationStaffingBusinessLogic.updateConfig({
  * Get comprehensive staffing analytics
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (user) => {
-    return withStandardErrorHandling(async () => {
+  return withAuth(async (request, { user }) => {
       const { searchParams } = new URL(request.url);
       const startDate = searchParams.get('startDate');
       const endDate = searchParams.get('endDate');
@@ -111,7 +110,6 @@ export async function GET(request: NextRequest) {
 
       return respondWithSuccess(analytics);
     });
-  })(request);
 }
 
 /**
