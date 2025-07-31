@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
       providerSchedules,
       start,
       end,
-      locationId
+      locationId || undefined
     );
 
     // Compile comprehensive analytics
