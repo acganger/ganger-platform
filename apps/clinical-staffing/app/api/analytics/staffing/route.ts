@@ -170,7 +170,7 @@ async function calculateCoverageMetrics(schedules: any[], providerSchedules: any
   for (const [locationId, providers] of Object.entries(providersByLocation)) {
     const locationSchedules = schedulesByLocation[locationId] || [];
     
-    for (const provider of providers) {
+    for (const provider of providers as typeof providerSchedules) {
       const supportingSchedules = locationSchedules.filter(schedule => {
         // Check if schedule overlaps with provider schedule
         const scheduleStart = new Date(`2000-01-01T${schedule.start_time}`);
