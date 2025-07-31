@@ -190,6 +190,12 @@ screenshots/
 vercel logs/
 "vercel logs/"
 
+# Temporary migration files (use version control for production migrations)
+supabase/migrations/20250722_*.sql
+supabase/migrations/20250729_*.sql
+supabase/migrations/20250730_*.sql
+supabase/migrations/20250731_*.sql
+
 # Private configuration and credential files
 **/config/oauth.php
 **/config/database.php
