@@ -28,9 +28,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log error for debugging
-    void error;
-    void errorInfo;
+    // Log error to Vercel logs
+    if (typeof window !== 'undefined') {
+      import('@ganger/utils').then(({ logErrorToService }) => {
+        logErrorToService(error, errorInfo);
+      });
+    }
     
     this.setState({
       error,
@@ -39,11 +42,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     // Call optional error handler
     this.props.onError?.(error, errorInfo);
-
-    // Report to error tracking service in production
-    if (process.env.NODE_ENV === 'production') {
-      // Example: Sentry.captureException(error, { extra: errorInfo });
-    }
   }
 
   handleRetry = () => {

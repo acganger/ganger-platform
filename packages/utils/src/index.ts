@@ -138,3 +138,17 @@ export {
   AppError,
   createError,
 } from './helpers/common';
+
+// Error logging utilities (Vercel-compatible)
+export {
+  errorLogger,
+  captureException,
+  captureMessage,
+  setUser,
+  logErrorToService,
+  logApiError,
+} from './error-logger';
+export type {
+  ErrorContext,
+  ErrorLogEntry,
+} from './error-logger';

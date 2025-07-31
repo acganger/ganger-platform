@@ -1,5 +1,16 @@
-import * as Sentry from '@sentry/nextjs';
+/**
+ * Error tracking module - now using Vercel's free logging
+ * This module maintains the same API as the previous Sentry implementation
+ * but routes all logging to Vercel logs instead
+ */
+
 import { User } from '@supabase/supabase-js';
+import { 
+  errorLogger, 
+  captureException as logException,
+  captureMessage as logMessage,
+  setUser as setLoggerUser,
+} from '@ganger/utils';
 
 interface SentryConfig {
   dsn: string;
@@ -9,182 +20,111 @@ interface SentryConfig {
   debug?: boolean;
 }
 
+/**
+ * Initialize error tracking (no-op for Vercel logging)
+ * Kept for backwards compatibility
+ */
 export function initSentry(config: SentryConfig) {
-  if (!config.enabled || !config.dsn) {
-    console.log('[Sentry] Monitoring disabled or DSN not provided');
+  if (!config.enabled) {
+    console.log('[ErrorTracking] Monitoring disabled');
     return;
   }
 
-  Sentry.init({
-    dsn: config.dsn,
-    environment: config.environment,
-    tracesSampleRate: config.tracesSampleRate,
-    debug: config.debug || false,
-    
-    // Performance Monitoring
-    integrations: [
-      // Note: Session Replay is only available in browser environments
-      // It should be configured in the client-side Sentry initialization
-    ],
-
-    // HIPAA Compliance: Scrub sensitive data
-    beforeSend(event, hint) {
-      // Remove any PII from the event
-      if (event.user) {
-        event.user = {
-          id: event.user.id,
-          // Don't send email or name
-        };
-      }
-
-      // Scrub sensitive data from URLs
-      if (event.request?.url) {
-        event.request.url = scrubSensitiveData(event.request.url);
-      }
-
-      // Scrub sensitive data from breadcrumbs
-      if (event.breadcrumbs) {
-        event.breadcrumbs = event.breadcrumbs.map(breadcrumb => ({
-          ...breadcrumb,
-          message: breadcrumb.message ? scrubSensitiveData(breadcrumb.message) : undefined,
-          data: breadcrumb.data ? scrubObjectData(breadcrumb.data) : undefined,
-        }));
-      }
-
-      // Scrub exception values
-      if (event.exception?.values) {
-        event.exception.values = event.exception.values.map(exception => ({
-          ...exception,
-          value: exception.value ? scrubSensitiveData(exception.value) : undefined,
-        }));
-      }
-
-      return event;
-    },
-
-    // Ignore certain errors
-    ignoreErrors: [
-      // Browser extensions
-      'top.GLOBALS',
-      // Random network errors
-      'Network request failed',
-      'NetworkError',
-      'Failed to fetch',
-      // Ignore harmless errors
-      'ResizeObserver loop limit exceeded',
-      'Non-Error promise rejection captured',
-    ],
-
-    // Don't send default PII
-    sendDefaultPii: false,
-  });
-}
-
-// Set user context for error tracking
-export function setSentryUser(user: User | null) {
-  if (user) {
-    Sentry.setUser({
-      id: user.id,
-      // Don't set email or username for HIPAA compliance
-    });
-  } else {
-    Sentry.setUser(null);
+  console.log(`[ErrorTracking] Initialized for ${config.environment} environment`);
+  
+  if (config.debug) {
+    console.log('[ErrorTracking] Debug mode enabled');
   }
 }
 
-// Capture custom errors with context
+/**
+ * Set user context for error tracking
+ */
+export function setSentryUser(user: User | null) {
+  setLoggerUser(user);
+}
+
+/**
+ * Capture custom errors with context
+ */
 export function captureError(error: Error, context?: Record<string, any>) {
-  const sanitizedContext = context ? scrubObjectData(context) : undefined;
-  
-  Sentry.captureException(error, {
-    contexts: {
-      custom: sanitizedContext,
-    },
+  logException(error, {
+    action: 'custom_error',
+    metadata: context,
   });
 }
 
-// Capture messages with level
+/**
+ * Capture messages with level
+ */
 export function captureMessage(
   message: string, 
   level: 'fatal' | 'error' | 'warning' | 'info' = 'info',
   context?: Record<string, any>
 ) {
-  const sanitizedContext = context ? scrubObjectData(context) : undefined;
+  // Map Sentry severity levels to our logger
+  const levelMap = {
+    fatal: 'error',
+    error: 'error',
+    warning: 'warning',
+    info: 'info',
+  } as const;
   
-  Sentry.captureMessage(message, {
-    level: level as Sentry.SeverityLevel,
-    contexts: {
-      custom: sanitizedContext,
-    },
+  logMessage(message, levelMap[level], {
+    action: 'custom_message',
+    metadata: context,
   });
 }
 
-// Track custom events
+/**
+ * Track custom events
+ */
 export function trackEvent(eventName: string, data?: Record<string, any>) {
-  const sanitizedData = data ? scrubObjectData(data) : undefined;
-  
-  Sentry.addBreadcrumb({
-    category: 'custom',
-    message: eventName,
-    level: 'info',
-    data: sanitizedData,
-  });
+  errorLogger.trackEvent(eventName, data);
 }
 
-// Performance monitoring
+/**
+ * Performance monitoring
+ */
 export function startTransaction(name: string, op: string) {
-  return Sentry.startTransaction({ name, op });
+  return errorLogger.startTransaction(name, op);
 }
 
-// Helper function to scrub sensitive data from strings
-function scrubSensitiveData(str: string): string {
-  // Remove email addresses
-  str = str.replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[REDACTED_EMAIL]');
-  
-  // Remove phone numbers
-  str = str.replace(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g, '[REDACTED_PHONE]');
-  
-  // Remove SSN patterns
-  str = str.replace(/\b\d{3}-\d{2}-\d{4}\b/g, '[REDACTED_SSN]');
-  
-  // Remove potential patient names in common patterns
-  str = str.replace(/patient[:\s]+\S+/gi, 'patient:[REDACTED]');
-  
-  // Remove dates of birth
-  str = str.replace(/\b(0?[1-9]|1[0-2])[\/\-](0?[1-9]|[12]\d|3[01])[\/\-](19|20)\d{2}\b/g, '[REDACTED_DOB]');
-  
-  return str;
-}
-
-// Helper function to scrub sensitive data from objects
-function scrubObjectData(obj: Record<string, any>): Record<string, any> {
-  const sensitiveKeys = [
-    'password', 'ssn', 'dob', 'dateOfBirth', 'email', 
-    'phone', 'address', 'name', 'firstName', 'lastName',
-    'patientName', 'patientId', 'medicalRecord', 'diagnosis',
-    'medication', 'prescription', 'insurance', 'creditCard'
-  ];
-
-  const scrubbed: Record<string, any> = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    const lowerKey = key.toLowerCase();
-    
-    if (sensitiveKeys.some(sensitive => lowerKey.includes(sensitive))) {
-      scrubbed[key] = '[REDACTED]';
-    } else if (typeof value === 'string') {
-      scrubbed[key] = scrubSensitiveData(value);
-    } else if (typeof value === 'object' && value !== null) {
-      scrubbed[key] = Array.isArray(value) 
-        ? value.map(v => typeof v === 'object' ? scrubObjectData(v) : v)
-        : scrubObjectData(value);
-    } else {
-      scrubbed[key] = value;
-    }
-  }
-
-  return scrubbed;
-}
-
-// Export Sentry instance for advanced usage
-export { Sentry };
+/**
+ * Export a mock Sentry object for compatibility
+ * This allows code using Sentry.* methods to continue working
+ */
+export const Sentry = {
+  init: initSentry,
+  setUser: setSentryUser,
+  captureException: captureError,
+  captureMessage: (msg: string, level?: any) => {
+    const severity = typeof level === 'string' ? level : 'info';
+    captureMessage(msg, severity as any);
+  },
+  addBreadcrumb: (breadcrumb: { message?: string; category?: string; data?: any }) => {
+    trackEvent(breadcrumb.message || breadcrumb.category || 'breadcrumb', breadcrumb.data);
+  },
+  startTransaction,
+  configureScope: (callback: (scope: any) => void) => {
+    // No-op for compatibility
+    callback({
+      setTag: () => {},
+      setContext: () => {},
+      setUser: setSentryUser,
+    });
+  },
+  withScope: (callback: (scope: any) => void) => {
+    // No-op for compatibility
+    callback({
+      setTag: () => {},
+      setContext: () => {},
+      setUser: setSentryUser,
+    });
+  },
+  getCurrentHub: () => ({
+    getClient: () => null,
+    captureException: captureError,
+    captureMessage,
+  }),
+};

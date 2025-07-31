@@ -35,7 +35,7 @@
     "@ganger/db": "workspace:*",
     "@ganger/cache": "workspace:*",
     "@ganger/auth": "workspace:*",
-    "@sentry/nextjs": "^7.108.0",
+    "@ganger/utils": "workspace:*",
     "typescript": "^5.5.0"
   },
   "devDependencies": {
