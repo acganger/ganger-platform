@@ -230,7 +230,13 @@ export class VendorManagementRepository extends BaseRepository<VendorConfigurati
     if (!mappings || mappings.length === 0) return null;
 
     // Calculate prices and find best
-    let bestOption = null;
+    let bestOption: {
+      vendor: VendorConfiguration;
+      mapping: VendorProductMapping;
+      total_price: number;
+      unit_price: number;
+      is_contract_pricing: boolean;
+    } | null = null;
     let lowestPrice = Infinity;
 
     for (const mapping of mappings) {

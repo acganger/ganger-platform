@@ -240,9 +240,9 @@ async function handleScheduleConflicts(request: Request, env: Env): Promise<Resp
         type: 'double_booking',
         date: '2025-01-22',
         time: '14:00-16:00',
-        providers: ['Dr. Emily Rodriguez', 'Dr. Michael Chen'],
+        providers: ['Dr. Emily Rodriguez', 'Dr. Michael Chen'] as string[],
         location: 'Ann Arbor Clinic',
-        severity: 'high',
+        severity: 'high' as const,
         suggested_resolution: 'Move Dr. Chen to Plymouth location'
       }
     ],
