@@ -80,7 +80,7 @@ export default createApiHandler(
       }
       
       // Transform data to match frontend format
-      const handouts = (generations || []).map(gen => ({
+      const handouts = (generations || []).map((gen: any) => ({
         id: gen.id,
         patientName: `${gen.patients?.first_name || ''} ${gen.patients?.last_name || ''}`.trim(),
         patientMRN: gen.patients?.medical_record_number || 'Unknown',

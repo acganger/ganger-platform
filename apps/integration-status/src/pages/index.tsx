@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import type { Integration } from '../types/integration'
 import { useAuth } from '../lib/auth'
-import { useToast, DataTableSkeleton, CardSkeleton } from '@ganger/ui-catalyst'
+import { useToast } from '@ganger/ui'
 import { AuthGuard } from '@ganger/auth/staff'
 import { createClient } from '@supabase/supabase-js'
 
@@ -403,19 +403,32 @@ function IntegrationStatusDashboard() {
 
           {/* Stats Overview Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <CardSkeleton lines={2} />
-            <CardSkeleton lines={2} />
-            <CardSkeleton lines={2} />
+            <div className="bg-white p-6 rounded-lg shadow animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/2"></div>
+            </div>
           </div>
 
           {/* Integrations Table Skeleton */}
-          <DataTableSkeleton 
-            rows={5}
-            columns={5}
-            showSearch={false}
-            showFilters={false}
-            showPagination={false}
-          />
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="animate-pulse">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="flex space-x-4 py-4 border-b last:border-0">
+                  {[...Array(5)].map((_, j) => (
+                    <div key={j} className="h-4 bg-gray-200 rounded flex-1"></div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </AppLayout>
     )
