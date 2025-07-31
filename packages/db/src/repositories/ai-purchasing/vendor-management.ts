@@ -184,7 +184,7 @@ export class VendorManagementRepository extends BaseRepository<VendorConfigurati
     if (quotesError) throw quotesError;
 
     // Get recommended vendor if specified
-    let recommendedVendor = null;
+    let recommendedVendor: VendorConfiguration | null = null;
     if (comparison.recommended_vendor_id) {
       recommendedVendor = await this.findById(comparison.recommended_vendor_id);
     }
