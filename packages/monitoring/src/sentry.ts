@@ -23,15 +23,8 @@ export function initSentry(config: SentryConfig) {
     
     // Performance Monitoring
     integrations: [
-      // Sentry.replayIntegration is the new API
-      Sentry.replayIntegration({
-        // Mask all text and inputs for HIPAA compliance
-        maskAllText: true,
-        maskAllInputs: true,
-        // Only capture errors, not sessions
-        sessionSampleRate: 0,
-        errorSampleRate: 1.0,
-      }),
+      // Note: Session Replay is only available in browser environments
+      // It should be configured in the client-side Sentry initialization
     ],
 
     // HIPAA Compliance: Scrub sensitive data

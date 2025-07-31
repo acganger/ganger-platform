@@ -143,7 +143,7 @@ async function calculateCoverageMetrics(schedules: any[], providerSchedules: any
     }, 0);
 
     // Calculate total staff hours for this location
-    const staffHours = locationSchedules.reduce((sum, schedule) => {
+    const staffHours = (locationSchedules as any[]).reduce((sum, schedule) => {
       const start = new Date(`2000-01-01T${schedule.start_time}`);
       const end = new Date(`2000-01-01T${schedule.end_time}`);
       return sum + (end.getTime() - start.getTime()) / (1000 * 60 * 60);

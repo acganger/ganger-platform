@@ -33,7 +33,7 @@ interface ButtonWrapperProps {
 
 interface ModalWrapperProps {
   children?: React.ReactNode;
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
