@@ -148,7 +148,7 @@ export function DeliveryOptions({ patient, options, onChange, onGenerate }: Deli
           <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg">
             <Checkbox
               checked={options.print}
-              onChange={(e) => handleOptionChange('print', e.target.checked)}
+              onChange={(checked) => handleOptionChange('print', checked)}
             />
             <div className="flex-1">
               <div className="flex items-center gap-2">
@@ -167,7 +167,7 @@ export function DeliveryOptions({ patient, options, onChange, onGenerate }: Deli
           <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg">
             <Checkbox
               checked={options.email}
-              onChange={(e) => handleOptionChange('email', e.target.checked)}
+              onChange={(checked) => handleOptionChange('email', checked)}
               disabled={!contactInfo.email}
             />
             <div className="flex-1">
@@ -192,7 +192,7 @@ export function DeliveryOptions({ patient, options, onChange, onGenerate }: Deli
           <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg">
             <Checkbox
               checked={options.sms}
-              onChange={(e) => handleOptionChange('sms', e.target.checked)}
+              onChange={(checked) => handleOptionChange('sms', checked)}
               disabled={!contactInfo.phone}
             />
             <div className="flex-1">
@@ -309,7 +309,7 @@ export function DeliveryOptions({ patient, options, onChange, onGenerate }: Deli
             <div className="flex items-start gap-3">
               <Checkbox
                 checked={consentGiven}
-                onChange={(e) => setConsentGiven(e.target.checked)}
+                onChange={(checked) => setConsentGiven(checked)}
                 className="mt-1"
               />
               <div className="text-sm text-gray-700">

@@ -167,13 +167,13 @@ export function TemplateEditor({ template, onSave, onCancel }: TemplateEditorPro
         <div className="mt-4 flex gap-4">
           <Checkbox
             checked={editingTemplate.digitalDeliveryEnabled}
-            onChange={(e) => setEditingTemplate(prev => ({ ...prev, digitalDeliveryEnabled: e.target.checked }))}
+            onChange={(checked) => setEditingTemplate(prev => ({ ...prev, digitalDeliveryEnabled: checked }))}
             label="Enable digital delivery (email/SMS)"
           />
           
           <Checkbox
             checked={editingTemplate.requiresPhysicianReview}
-            onChange={(e) => setEditingTemplate(prev => ({ ...prev, requiresPhysicianReview: e.target.checked }))}
+            onChange={(checked) => setEditingTemplate(prev => ({ ...prev, requiresPhysicianReview: checked }))}
             label="Requires physician review before use"
           />
         </div>

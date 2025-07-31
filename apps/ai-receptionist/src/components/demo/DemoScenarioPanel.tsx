@@ -179,7 +179,7 @@ export const DemoScenarioPanel = ({ scenarios, onRunScenario }: DemoScenarioPane
 
       {/* Scenario Detail Modal */}
       <Modal
-        open={selectedScenario !== null && !isRunning}
+        isOpen={selectedScenario !== null && !isRunning}
         onClose={() => setSelectedScenario(null)}
       >
         {selectedScenario && (

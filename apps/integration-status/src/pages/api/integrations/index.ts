@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createSupabaseServerClient } from '@ganger/auth/server';
 import { cacheManager } from '@ganger/cache';
-import { IntegrationType } from '@/types/common';
 import { z } from 'zod';
 
 const integrationsWithMetricsQueryKey = (filters: any) => 

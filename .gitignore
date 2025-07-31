@@ -182,6 +182,14 @@ _claude_desktop/logs/
 mcp-servers/*/node_modules/
 mcp-servers/mcp-server-synology/=*
 
+# Temporary scripts and debugging files
+/scripts/
+scripts/
+/screenshots/
+screenshots/
+vercel logs/
+"vercel logs/"
+
 # Private configuration and credential files
 **/config/oauth.php
 **/config/database.php

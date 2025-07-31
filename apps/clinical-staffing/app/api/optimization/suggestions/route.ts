@@ -28,103 +28,103 @@ migrationStaffingBusinessLogic.updateConfig({
  */
 export async function GET(request: NextRequest) {
   return withAuth(async (request, { user }) => {
-      const { searchParams } = new URL(request.url);
-      const locationId = searchParams.get('locationId');
-      const date = searchParams.get('date');
-      const suggestionType = searchParams.get('type') || 'all';
+    const { searchParams } = new URL(request.url);
+    const locationId = searchParams.get('locationId');
+    const date = searchParams.get('date');
+    const suggestionType = searchParams.get('type') || 'all';
 
-      // Validate required parameters
-      if (!locationId || !date) {
-        return respondWithError('locationId and date are required', 400);
-      }
+    // Validate required parameters
+    if (!locationId || !date) {
+      return respondWithError('locationId and date are required', 400);
+    }
 
-      const targetDate = new Date(date);
+    const targetDate = new Date(date);
 
-      // Get current schedules for the date
-      const currentSchedules = await migrationAdapter.select(
-        'staff_schedules',
-        `
-          *,
-          staff_member:staff_members!inner(
-            id, first_name, last_name, role, hourly_rate, 
-            performance_score, skills, certifications
-          )
-        `,
-        {
-          location_id: locationId,
-          schedule_date: date,
-          status: ['scheduled', 'confirmed', 'in_progress']
-        }
-      );
-
-      // Get provider schedules for the date
-      const providerSchedules = await migrationAdapter.rawQuery(`
-        SELECT * FROM provider_schedules_cache 
-        WHERE location_id = $1 AND schedule_date = $2
-      `, [locationId, date]);
-
-      if (providerSchedules.length === 0) {
-        return respondWithError('No provider schedules found for this date', 404);
-      }
-
-      // Calculate optimal staffing using migration-aware business logic
-      const optimalStaffing = await migrationStaffingBusinessLogic.calculateOptimalStaffingWithMigration(
-        locationId,
-        targetDate,
-        providerSchedules
-      );
-
-      // Generate suggestions based on analysis
-      const suggestions = [];
-
-      // 1. Coverage Gap Analysis
-      if (suggestionType === 'all' || suggestionType === 'coverage') {
-        const coverageGaps = await analyzeCoverageGaps(currentSchedules, providerSchedules);
-        suggestions.push(...coverageGaps);
-      }
-
-      // 2. Cost Optimization
-      if (suggestionType === 'all' || suggestionType === 'cost') {
-        const costOptimizations = await analyzeCostOptimizations(currentSchedules, optimalStaffing);
-        suggestions.push(...costOptimizations);
-      }
-
-      // 3. Skill Matching
-      if (suggestionType === 'all' || suggestionType === 'skills') {
-        const skillOptimizations = await analyzeSkillMatching(currentSchedules, providerSchedules);
-        suggestions.push(...skillOptimizations);
-      }
-
-      // 4. Workload Balance
-      if (suggestionType === 'all' || suggestionType === 'workload') {
-        const workloadSuggestions = await analyzeWorkloadBalance(currentSchedules);
-        suggestions.push(...workloadSuggestions);
-      }
-
-      // Sort suggestions by priority and impact
-      const prioritizedSuggestions = suggestions.sort((a, b) => {
-        const priorityOrder = { high: 3, medium: 2, low: 1 };
-        return priorityOrder[b.priority] - priorityOrder[a.priority] || b.impact_score - a.impact_score;
-      });
-
-      return respondWithSuccess({
-        date: date,
+    // Get current schedules for the date
+    const currentSchedules = await migrationAdapter.select(
+      'staff_schedules',
+      `
+        *,
+        staff_member:staff_members!inner(
+          id, first_name, last_name, role, hourly_rate, 
+          performance_score, skills, certifications
+        )
+      `,
+      {
         location_id: locationId,
-        suggestion_type: suggestionType,
-        total_suggestions: prioritizedSuggestions.length,
-        high_priority: prioritizedSuggestions.filter(s => s.priority === 'high').length,
-        medium_priority: prioritizedSuggestions.filter(s => s.priority === 'medium').length,
-        low_priority: prioritizedSuggestions.filter(s => s.priority === 'low').length,
-        suggestions: prioritizedSuggestions,
-        optimal_staffing_summary: {
-          optimal_staff_count: optimalStaffing.optimalStaffCount,
-          current_staff_count: currentSchedules.length,
-          coverage_percentage: Math.round((currentSchedules.length / optimalStaffing.optimalStaffCount) * 100),
-          cost_efficiency_score: optimalStaffing.costEfficiencyScore
-        },
-        generated_at: new Date().toISOString()
-      });
+        schedule_date: date,
+        status: ['scheduled', 'confirmed', 'in_progress']
+      }
+    );
+
+    // Get provider schedules for the date
+    const providerSchedules = await migrationAdapter.rawQuery(`
+      SELECT * FROM provider_schedules_cache 
+      WHERE location_id = $1 AND schedule_date = $2
+    `, [locationId, date]);
+
+    if (providerSchedules.length === 0) {
+      return respondWithError('No provider schedules found for this date', 404);
+    }
+
+    // Calculate optimal staffing using migration-aware business logic
+    const optimalStaffing = await migrationStaffingBusinessLogic.calculateOptimalStaffingWithMigration(
+      locationId,
+      targetDate,
+      providerSchedules
+    );
+
+    // Generate suggestions based on analysis
+    const suggestions = [];
+
+    // 1. Coverage Gap Analysis
+    if (suggestionType === 'all' || suggestionType === 'coverage') {
+      const coverageGaps = await analyzeCoverageGaps(currentSchedules, providerSchedules);
+      suggestions.push(...coverageGaps);
+    }
+
+    // 2. Cost Optimization
+    if (suggestionType === 'all' || suggestionType === 'cost') {
+      const costOptimizations = await analyzeCostOptimizations(currentSchedules, optimalStaffing);
+      suggestions.push(...costOptimizations);
+    }
+
+    // 3. Skill Matching
+    if (suggestionType === 'all' || suggestionType === 'skills') {
+      const skillOptimizations = await analyzeSkillMatching(currentSchedules, providerSchedules);
+      suggestions.push(...skillOptimizations);
+    }
+
+    // 4. Workload Balance
+    if (suggestionType === 'all' || suggestionType === 'workload') {
+      const workloadSuggestions = await analyzeWorkloadBalance(currentSchedules);
+      suggestions.push(...workloadSuggestions);
+    }
+
+    // Sort suggestions by priority and impact
+    const prioritizedSuggestions = suggestions.sort((a, b) => {
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority] || b.impact_score - a.impact_score;
     });
+
+    return respondWithSuccess({
+      date: date,
+      location_id: locationId,
+      suggestion_type: suggestionType,
+      total_suggestions: prioritizedSuggestions.length,
+      high_priority: prioritizedSuggestions.filter(s => s.priority === 'high').length,
+      medium_priority: prioritizedSuggestions.filter(s => s.priority === 'medium').length,
+      low_priority: prioritizedSuggestions.filter(s => s.priority === 'low').length,
+      suggestions: prioritizedSuggestions,
+      optimal_staffing_summary: {
+        optimal_staff_count: optimalStaffing.optimalStaffCount,
+        current_staff_count: currentSchedules.length,
+        coverage_percentage: Math.round((currentSchedules.length / optimalStaffing.optimalStaffCount) * 100),
+        cost_efficiency_score: optimalStaffing.costEfficiencyScore
+      },
+      generated_at: new Date().toISOString()
+    });
+  });
 }
 
 /**
@@ -133,48 +133,48 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   return withAuth(async (request, { user }) => {
-      const body = await request.json();
-      
-      // Validate required fields
-      const required = ['suggestion_ids', 'location_id', 'date'];
-      for (const field of required) {
-        if (!body[field]) {
-          return respondWithError(`${field} is required`, 400);
-        }
+    const body = await request.json();
+    
+    // Validate required fields
+    const required = ['suggestion_ids', 'location_id', 'date'];
+    for (const field of required) {
+      if (!body[field]) {
+        return respondWithError(`${field} is required`, 400);
       }
+    }
 
-      const { suggestion_ids, location_id, date, auto_approve = false } = body;
-      const results = [];
+    const { suggestion_ids, location_id, date, auto_approve = false } = body;
+    const results = [];
 
-      // Process each suggestion
-      for (const suggestionId of suggestion_ids) {
-        try {
-          // This would typically involve looking up the suggestion and applying it
-          // For now, we'll simulate the application
-          const result = await applySuggestion(suggestionId, location_id, date, user.id, auto_approve);
-          results.push(result);
-        } catch (error) {
-          results.push({
-            suggestion_id: suggestionId,
-            success: false,
-            error: error.message
-          });
-        }
+    // Process each suggestion
+    for (const suggestionId of suggestion_ids) {
+      try {
+        // This would typically involve looking up the suggestion and applying it
+        // For now, we'll simulate the application
+        const result = await applySuggestion(suggestionId, location_id, date, user.id, auto_approve);
+        results.push(result);
+      } catch (error) {
+        results.push({
+          suggestion_id: suggestionId,
+          success: false,
+          error: error.message
+        });
       }
+    }
 
-      const successCount = results.filter(r => r.success).length;
-      const failureCount = results.filter(r => !r.success).length;
+    const successCount = results.filter(r => r.success).length;
+    const failureCount = results.filter(r => !r.success).length;
 
-      return respondWithSuccess({
-        applied_suggestions: successCount,
-        failed_suggestions: failureCount,
-        results: results,
-        summary: {
-          total_processed: suggestion_ids.length,
-          success_rate: Math.round((successCount / suggestion_ids.length) * 100)
-        }
-      });
+    return respondWithSuccess({
+      applied_suggestions: successCount,
+      failed_suggestions: failureCount,
+      results: results,
+      summary: {
+        total_processed: suggestion_ids.length,
+        success_rate: Math.round((successCount / suggestion_ids.length) * 100)
+      }
     });
+  });
 }
 
 /**

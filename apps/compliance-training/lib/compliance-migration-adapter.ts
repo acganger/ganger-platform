@@ -135,8 +135,7 @@ export class ComplianceMigrationAdapter {
     const results = await migrationAdapter.update<T>(
       mappedTable,
       convertedData,
-      filters,
-      options
+      filters
     );
     
     if (process.env.NODE_ENV === 'development') {
@@ -158,8 +157,7 @@ export class ComplianceMigrationAdapter {
     
     const results = await migrationAdapter.delete<T>(
       mappedTable,
-      filters,
-      options
+      filters
     );
     
     if (process.env.NODE_ENV === 'development') {

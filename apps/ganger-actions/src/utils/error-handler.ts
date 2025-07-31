@@ -1,5 +1,4 @@
 import { captureError, captureMessage } from '@ganger/monitoring/sentry';
-import { toast } from '@ganger/ui-catalyst';
 
 export interface ApiError extends Error {
   status?: number;
@@ -7,7 +6,13 @@ export interface ApiError extends Error {
   details?: Record<string, any>;
 }
 
-export function handleApiError(error: unknown, context?: string): void {
+export interface ErrorInfo {
+  message: string;
+  type: 'error' | 'warning';
+  context?: string;
+}
+
+export function handleApiError(error: unknown, context?: string): ErrorInfo {
   const apiError = error as ApiError;
   const errorMessage = apiError?.message || 'An unexpected error occurred';
   
@@ -28,13 +33,13 @@ export function handleApiError(error: unknown, context?: string): void {
     captureMessage(`Non-Error thrown: ${String(error)}`, 'error', { context });
   }
   
-  // Show user-friendly error message
+  // Return user-friendly error info
   const userMessage = getUserFriendlyMessage(apiError);
-  toast({
-    title: 'Error',
-    description: userMessage,
-    variant: 'error',
-  });
+  return {
+    message: userMessage,
+    type: 'error',
+    context
+  };
 }
 
 function getUserFriendlyMessage(error: ApiError): string {

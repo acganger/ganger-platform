@@ -69,7 +69,7 @@ export const SystemHealthIndicator = ({ health }: SystemHealthIndicatorProps) =>
       </Button>
 
       <Modal
-        open={showDetails}
+        isOpen={showDetails}
         onClose={() => setShowDetails(false)}
       >
         <div className="space-y-6">

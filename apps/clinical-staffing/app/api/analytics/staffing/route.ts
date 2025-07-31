@@ -28,88 +28,88 @@ migrationStaffingBusinessLogic.updateConfig({
  */
 export async function GET(request: NextRequest) {
   return withAuth(async (request, { user }) => {
-      const { searchParams } = new URL(request.url);
-      const startDate = searchParams.get('startDate');
-      const endDate = searchParams.get('endDate');
-      const locationId = searchParams.get('locationId');
+    const { searchParams } = new URL(request.url);
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+    const locationId = searchParams.get('locationId');
 
-      // Validate required parameters
-      if (!startDate || !endDate) {
-        return respondWithError('startDate and endDate are required', 400);
-      }
+    // Validate required parameters
+    if (!startDate || !endDate) {
+      return respondWithError('startDate and endDate are required', 400);
+    }
 
-      const start = new Date(startDate);
-      const end = new Date(endDate);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-      // Calculate date range metrics
-      const dateRange = {
-        start_date: startDate,
-        end_date: endDate
-      };
+    // Calculate date range metrics
+    const dateRange = {
+      start_date: startDate,
+      end_date: endDate
+    };
 
-      // Get all schedules in the date range
-      const scheduleFilters: Record<string, any> = {
-        schedule_date: { gte: startDate, lte: endDate },
-        status: ['scheduled', 'confirmed', 'completed']
-      };
+    // Get all schedules in the date range
+    const scheduleFilters: Record<string, any> = {
+      schedule_date: { gte: startDate, lte: endDate },
+      status: ['scheduled', 'confirmed', 'completed']
+    };
 
-      if (locationId) {
-        scheduleFilters.location_id = locationId;
-      }
+    if (locationId) {
+      scheduleFilters.location_id = locationId;
+    }
 
-      const schedules = await migrationAdapter.select(
-        'staff_schedules',
-        `
-          *,
-          staff_member:staff_members!inner(
-            id, first_name, last_name, email, role, 
-            hourly_rate, performance_score
-          ),
-          location:locations!inner(
-            id, name, address, timezone
-          )
-        `,
-        scheduleFilters
-      );
+    const schedules = await migrationAdapter.select(
+      'staff_schedules',
+      `
+        *,
+        staff_member:staff_members!inner(
+          id, first_name, last_name, email, role, 
+          hourly_rate, performance_score
+        ),
+        location:locations!inner(
+          id, name, address, timezone
+        )
+      `,
+      scheduleFilters
+    );
 
-      // Get provider schedules for coverage analysis
-      const providerSchedules = await migrationAdapter.rawQuery(`
-        SELECT * FROM provider_schedules_cache 
-        WHERE schedule_date >= $1 AND schedule_date <= $2
-        ${locationId ? 'AND location_id = $3' : ''}
-      `, locationId ? [startDate, endDate, locationId] : [startDate, endDate]);
+    // Get provider schedules for coverage analysis
+    const providerSchedules = await migrationAdapter.rawQuery(`
+      SELECT * FROM provider_schedules_cache 
+      WHERE schedule_date >= $1 AND schedule_date <= $2
+      ${locationId ? 'AND location_id = $3' : ''}
+    `, locationId ? [startDate, endDate, locationId] : [startDate, endDate]);
 
-      // Calculate coverage metrics
-      const coverageMetrics = await calculateCoverageMetrics(schedules, providerSchedules);
+    // Calculate coverage metrics
+    const coverageMetrics = await calculateCoverageMetrics(schedules, providerSchedules);
 
-      // Calculate staff metrics
-      const staffMetrics = await calculateStaffMetrics(schedules, start, end);
+    // Calculate staff metrics
+    const staffMetrics = await calculateStaffMetrics(schedules, start, end);
 
-      // Calculate cost metrics
-      const costMetrics = await calculateCostMetrics(schedules);
+    // Calculate cost metrics
+    const costMetrics = await calculateCostMetrics(schedules);
 
-      // Calculate optimization metrics for each day
-      const optimizationMetrics = await calculateOptimizationMetrics(
-        schedules,
-        providerSchedules,
-        start,
-        end,
-        locationId
-      );
+    // Calculate optimization metrics for each day
+    const optimizationMetrics = await calculateOptimizationMetrics(
+      schedules,
+      providerSchedules,
+      start,
+      end,
+      locationId
+    );
 
-      // Compile comprehensive analytics
-      const analytics = {
-        date_range: dateRange,
-        coverage_metrics: coverageMetrics,
-        staff_metrics: staffMetrics,
-        cost_metrics: costMetrics,
-        optimization_metrics: optimizationMetrics,
-        generated_at: new Date().toISOString(),
-        migration_mode: process.env.MIGRATION_USE_NEW_SCHEMA === 'true' ? 'new_schema' : 'old_schema'
-      };
+    // Compile comprehensive analytics
+    const analytics = {
+      date_range: dateRange,
+      coverage_metrics: coverageMetrics,
+      staff_metrics: staffMetrics,
+      cost_metrics: costMetrics,
+      optimization_metrics: optimizationMetrics,
+      generated_at: new Date().toISOString(),
+      migration_mode: process.env.MIGRATION_USE_NEW_SCHEMA === 'true' ? 'new_schema' : 'old_schema'
+    };
 
-      return respondWithSuccess(analytics);
-    });
+    return respondWithSuccess(analytics);
+  });
 }
 
 /**

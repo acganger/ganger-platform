@@ -128,8 +128,7 @@ export class EOSL10MigrationAdapter {
     
     const results = await migrationAdapter.insert<T>(
       mappedTable,
-      convertedData,
-      options
+      convertedData
     );
     
     if (process.env.NODE_ENV === 'development') {
@@ -156,8 +155,7 @@ export class EOSL10MigrationAdapter {
     const results = await migrationAdapter.update<T>(
       mappedTable,
       convertedData,
-      filters,
-      options
+      filters
     );
     
     if (process.env.NODE_ENV === 'development') {
@@ -179,8 +177,7 @@ export class EOSL10MigrationAdapter {
     
     const results = await migrationAdapter.delete<T>(
       mappedTable,
-      filters,
-      options
+      filters
     );
     
     if (process.env.NODE_ENV === 'development') {

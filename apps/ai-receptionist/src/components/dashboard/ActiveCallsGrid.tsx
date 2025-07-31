@@ -173,7 +173,7 @@ export const ActiveCallsGrid = ({
 
       {/* Transfer Modal */}
       <Modal
-        open={transferModalOpen}
+        isOpen={transferModalOpen}
         onClose={() => {
           setTransferModalOpen(false);
           setSelectedCall(null);
