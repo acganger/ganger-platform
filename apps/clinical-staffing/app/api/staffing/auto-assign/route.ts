@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
 import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapters
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     const required = ['date', 'locationId'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     `, [locationId, date]);
 
     if (providerSchedules.length === 0) {
-      return respondWithError('No provider schedules found for this date', 404);
+      return NextResponse.json({ success: false, error: 'No provider schedules found for this date' }, { status: 404 });
     }
 
     // Calculate optimal staffing using migration-aware business logic
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (eligibleStaff.length === 0) {
-      return respondWithError('No eligible staff members found for this location and date', 404);
+      return NextResponse.json({ success: false, error: 'No eligible staff members found for this location and date' }, { status: 404 });
     }
 
     // Generate optimal assignments
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (validAssignments.length === 0) {
-      return respondWithError('No valid assignments could be generated without conflicts', 409);
+      return NextResponse.json({ success: false, error: 'No valid assignments could be generated without conflicts' }, { status: 409 });
     }
 
     // Create the schedule assignments
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
       user.id
     );
 
-    return respondWithSuccess({
+    return NextResponse.json({ success: true, data: {
       assignments: createdSchedules,
       optimization_summary: {
         total_assignments: createdSchedules.length,
@@ -210,6 +210,6 @@ export async function POST(request: NextRequest) {
         conflicts_resolved: assignments.length - validAssignments.length
       },
       approval_results: approvalResult
-    });
+    }});
   });
 }

@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapter
@@ -90,7 +90,7 @@ export async function GET(request: NextRequest) {
       };
     });
 
-    return respondWithSuccess(transformedProviders);
+    return NextResponse.json({ success: true, data: transformedProviders });
   });
 }
 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     const required = ['first_name', 'last_name', 'email', 'location_id', 'specialty_id'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (existingProviders.length > 0) {
-      return respondWithError('Provider with this email already exists', 409);
+      return NextResponse.json({ success: false, error: 'Provider with this email already exists' }, { status: 409 });
     }
 
     // Create provider data
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
     // Create provider using migration adapter
     const [newProvider] = await migrationAdapter.insert('providers', providerData);
 
-    return respondWithSuccess(newProvider, 201);
+    return NextResponse.json({ success: true, data: newProvider }, { status: 201 });
   });
 }
 
@@ -151,7 +151,7 @@ export async function PUT(request: NextRequest) {
     const providerId = pathname.split('/').pop();
     
     if (!providerId) {
-      return respondWithError('Provider ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Provider ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -164,7 +164,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (existingProviders.length === 0) {
-      return respondWithError('Provider not found', 404);
+      return NextResponse.json({ success: false, error: 'Provider not found' }, { status: 404 });
     }
 
     // Update provider data
@@ -181,10 +181,10 @@ export async function PUT(request: NextRequest) {
     );
 
     if (updatedProviders.length === 0) {
-      return respondWithError('Failed to update provider', 500);
+      return NextResponse.json({ success: false, error: 'Failed to update provider' }, { status: 500 });
     }
 
-    return respondWithSuccess(updatedProviders[0]);
+    return NextResponse.json({ success: true, data: updatedProviders[0] });
   });
 }
 
@@ -198,7 +198,7 @@ export async function DELETE(request: NextRequest) {
     const providerId = pathname.split('/').pop();
     
     if (!providerId) {
-      return respondWithError('Provider ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Provider ID is required' }, { status: 400 });
     }
 
     // Check if provider exists
@@ -209,7 +209,7 @@ export async function DELETE(request: NextRequest) {
     );
 
     if (existingProviders.length === 0) {
-      return respondWithError('Provider not found', 404);
+      return NextResponse.json({ success: false, error: 'Provider not found' }, { status: 404 });
     }
 
     // Soft delete by updating status to inactive
@@ -222,6 +222,6 @@ export async function DELETE(request: NextRequest) {
       { id: providerId }
     );
 
-    return respondWithSuccess({ message: 'Provider deactivated successfully' });
+    return NextResponse.json({ success: true, data: { message: 'Provider deactivated successfully' } });
   });
 }

@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapter
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const memberId = pathParts[pathParts.length - 2]; // staff-members/[id]/availability
     
     if (!memberId) {
-      return respondWithError('Staff member ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Staff member ID is required' }, { status: 400 });
     }
 
     const startDate = searchParams.get('startDate');
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
       updated_at: avail.updated_at
     }));
 
-    return respondWithSuccess(transformedAvailability);
+    return NextResponse.json({ success: true, data: transformedAvailability });
   });
 }
 
@@ -88,7 +88,7 @@ export async function PUT(request: NextRequest) {
     const memberId = pathParts[pathParts.length - 2]; // staff-members/[id]/availability
     
     if (!memberId) {
-      return respondWithError('Staff member ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Staff member ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -101,7 +101,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (existingMembers.length === 0) {
-      return respondWithError('Staff member not found', 404);
+      return NextResponse.json({ success: false, error: 'Staff member not found' }, { status: 404 });
     }
 
     // Update staff member availability preferences
@@ -122,7 +122,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (updatedMembers.length === 0) {
-      return respondWithError('Failed to update availability', 500);
+      return NextResponse.json({ success: false, error: 'Failed to update availability' }, { status: 500 });
     }
 
     // If specific availability records are provided, update them
@@ -153,7 +153,7 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    return respondWithSuccess(updatedMembers[0]);
+    return NextResponse.json({ success: true, data: updatedMembers[0] });
   });
 }
 
@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
     const memberId = pathParts[pathParts.length - 2]; // staff-members/[id]/availability
     
     if (!memberId) {
-      return respondWithError('Staff member ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Staff member ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -181,14 +181,14 @@ export async function POST(request: NextRequest) {
     );
 
     if (existingMembers.length === 0) {
-      return respondWithError('Staff member not found', 404);
+      return NextResponse.json({ success: false, error: 'Staff member not found' }, { status: 404 });
     }
 
     // Validate required fields
     const required = ['availability_type'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -213,6 +213,6 @@ export async function POST(request: NextRequest) {
     // Insert availability using migration adapter
     const [newAvailability] = await migrationAdapter.insert('staff_availability', availabilityData);
 
-    return respondWithSuccess(newAvailability, 201);
+    return NextResponse.json({ success: true, data: newAvailability }, { status: 201 });
   });
 }

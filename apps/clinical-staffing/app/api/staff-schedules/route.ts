@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapter for new schema
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
 
     if (!date) {
-      return respondWithError('Date parameter is required', 400);
+      return NextResponse.json({ success: false, error: 'Date parameter is required' }, { status: 400 });
     }
 
     // Build filters for migration-aware query
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
       } : undefined
     }));
 
-    return respondWithSuccess(transformedSchedules);
+    return NextResponse.json({ success: true, data: transformedSchedules });
   });
 }
 
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     const required = ['staff_member_id', 'location_id', 'schedule_date', 'start_time', 'end_time'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (hasConflict) {
-      return respondWithError('Schedule conflicts with existing assignment', 409);
+      return NextResponse.json({ success: false, error: 'Schedule conflicts with existing assignment' }, { status: 409 });
     }
 
     // Convert status if needed for migration compatibility
@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
     // Create schedule using migration adapter
     const [newSchedule] = await migrationAdapter.insert('staff_schedules', scheduleData);
 
-    return respondWithSuccess(newSchedule, 201);
+    return NextResponse.json({ success: true, data: newSchedule }, { status: 201 });
   });
 }
 
@@ -167,7 +167,7 @@ export async function PUT(request: NextRequest) {
     const scheduleId = pathname.split('/').pop();
     
     if (!scheduleId) {
-      return respondWithError('Schedule ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Schedule ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -180,7 +180,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (existingSchedules.length === 0) {
-      return respondWithError('Schedule not found', 404);
+      return NextResponse.json({ success: false, error: 'Schedule not found' }, { status: 404 });
     }
 
     // Convert status if provided
@@ -202,10 +202,10 @@ export async function PUT(request: NextRequest) {
     );
 
     if (updatedSchedules.length === 0) {
-      return respondWithError('Failed to update schedule', 500);
+      return NextResponse.json({ success: false, error: 'Failed to update schedule' }, { status: 500 });
     }
 
-    return respondWithSuccess(updatedSchedules[0]);
+    return NextResponse.json({ success: true, data: updatedSchedules[0] });
   });
 }
 
@@ -219,7 +219,7 @@ export async function DELETE(request: NextRequest) {
     const scheduleId = pathname.split('/').pop();
     
     if (!scheduleId) {
-      return respondWithError('Schedule ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Schedule ID is required' }, { status: 400 });
     }
 
     // Check if schedule exists
@@ -230,7 +230,7 @@ export async function DELETE(request: NextRequest) {
     );
 
     if (existingSchedules.length === 0) {
-      return respondWithError('Schedule not found', 404);
+      return NextResponse.json({ success: false, error: 'Schedule not found' }, { status: 404 });
     }
 
     // Soft delete by updating status to cancelled
@@ -244,6 +244,6 @@ export async function DELETE(request: NextRequest) {
       { id: scheduleId }
     );
 
-    return respondWithSuccess({ message: 'Schedule deleted successfully' });
+    return NextResponse.json({ success: true, data: { message: 'Schedule deleted successfully' } });
   });
 }

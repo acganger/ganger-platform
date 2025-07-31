@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
 import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapters
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Validate required parameters
     if (!startDate || !endDate) {
-      return respondWithError('startDate and endDate are required', 400);
+      return NextResponse.json({ success: false, error: 'startDate and endDate are required' }, { status: 400 });
     }
 
     const start = new Date(startDate);
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
       migration_mode: process.env.MIGRATION_USE_NEW_SCHEMA === 'true' ? 'new_schema' : 'old_schema'
     };
 
-    return respondWithSuccess(analytics);
+    return NextResponse.json({ success: true, data: analytics });
   });
 }
 

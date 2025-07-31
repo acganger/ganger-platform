@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
 import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapters
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Validate required parameters
     if (!locationId || !date) {
-      return respondWithError('locationId and date are required', 400);
+      return NextResponse.json({ success: false, error: 'locationId and date are required' }, { status: 400 });
     }
 
     const targetDate = new Date(date);
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     `, [locationId, date]);
 
     if (providerSchedules.length === 0) {
-      return respondWithError('No provider schedules found for this date', 404);
+      return NextResponse.json({ success: false, error: 'No provider schedules found for this date' }, { status: 404 });
     }
 
     // Calculate optimal staffing using migration-aware business logic
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
       return priorityOrder[b.priority] - priorityOrder[a.priority] || b.impact_score - a.impact_score;
     });
 
-    return respondWithSuccess({
+    return NextResponse.json({ success: true, data: {
       date: date,
       location_id: locationId,
       suggestion_type: suggestionType,
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
         cost_efficiency_score: optimalStaffing.costEfficiencyScore
       },
       generated_at: new Date().toISOString()
-    });
+    }});
   });
 }
 
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
     const required = ['suggestion_ids', 'location_id', 'date'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
     const successCount = results.filter(r => r.success).length;
     const failureCount = results.filter(r => !r.success).length;
 
-    return respondWithSuccess({
+    return NextResponse.json({ success: true, data: {
       applied_suggestions: successCount,
       failed_suggestions: failureCount,
       results: results,
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
         total_processed: suggestion_ids.length,
         success_rate: Math.round((successCount / suggestion_ids.length) * 100)
       }
-    });
+    }});
   });
 }
 

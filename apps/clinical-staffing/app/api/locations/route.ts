@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapter
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
       return result;
     }));
 
-    return respondWithSuccess(transformedLocations);
+    return NextResponse.json({ success: true, data: transformedLocations });
   });
 }
 
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
     const required = ['name', 'address', 'city', 'state', 'zip_code'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (existingLocations.length > 0) {
-      return respondWithError('Location with this name already exists', 409);
+      return NextResponse.json({ success: false, error: 'Location with this name already exists' }, { status: 409 });
     }
 
     // Create location data
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
     // Create location using migration adapter
     const [newLocation] = await migrationAdapter.insert('locations', locationData);
 
-    return respondWithSuccess(newLocation, 201);
+    return NextResponse.json({ success: true, data: newLocation }, { status: 201 });
   });
 }
 
@@ -164,7 +164,7 @@ export async function PUT(request: NextRequest) {
     const locationId = pathname.split('/').pop();
     
     if (!locationId) {
-      return respondWithError('Location ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Location ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -177,7 +177,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (existingLocations.length === 0) {
-      return respondWithError('Location not found', 404);
+      return NextResponse.json({ success: false, error: 'Location not found' }, { status: 404 });
     }
 
     // Update location data
@@ -194,10 +194,10 @@ export async function PUT(request: NextRequest) {
     );
 
     if (updatedLocations.length === 0) {
-      return respondWithError('Failed to update location', 500);
+      return NextResponse.json({ success: false, error: 'Failed to update location' }, { status: 500 });
     }
 
-    return respondWithSuccess(updatedLocations[0]);
+    return NextResponse.json({ success: true, data: updatedLocations[0] });
   });
 }
 
@@ -211,7 +211,7 @@ export async function DELETE(request: NextRequest) {
     const locationId = pathname.split('/').pop();
     
     if (!locationId) {
-      return respondWithError('Location ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Location ID is required' }, { status: 400 });
     }
 
     // Check if location exists
@@ -222,7 +222,7 @@ export async function DELETE(request: NextRequest) {
     );
 
     if (existingLocations.length === 0) {
-      return respondWithError('Location not found', 404);
+      return NextResponse.json({ success: false, error: 'Location not found' }, { status: 404 });
     }
 
     // Soft delete by updating status to inactive
@@ -235,6 +235,6 @@ export async function DELETE(request: NextRequest) {
       { id: locationId }
     );
 
-    return respondWithSuccess({ message: 'Location deactivated successfully' });
+    return NextResponse.json({ success: true, data: { message: 'Location deactivated successfully' } });
   });
 }

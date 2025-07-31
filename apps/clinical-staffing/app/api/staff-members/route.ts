@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling, respondWithSuccess, respondWithError } from '@ganger/utils';
+import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Configure migration adapter
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       updated_at: member.updated_at
     }));
 
-    return respondWithSuccess(transformedStaffMembers);
+    return NextResponse.json({ success: true, data: transformedStaffMembers });
   });
 }
 
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
     const required = ['first_name', 'last_name', 'email', 'role'];
     for (const field of required) {
       if (!body[field]) {
-        return respondWithError(`${field} is required`, 400);
+        return NextResponse.json({ success: false, error: `${field} is required` }, { status: 400 });
       }
     }
 
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (existingMembers.length > 0) {
-      return respondWithError('Staff member with this email already exists', 409);
+      return NextResponse.json({ success: false, error: 'Staff member with this email already exists' }, { status: 409 });
     }
 
     // Convert data for migration compatibility
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
     // Create staff member using migration adapter
     const [newMember] = await migrationAdapter.insert('staff_members', memberData);
 
-    return respondWithSuccess(newMember, 201);
+    return NextResponse.json({ success: true, data: newMember }, { status: 201 });
   });
 }
 
@@ -156,7 +156,7 @@ export async function PUT(request: NextRequest) {
     const memberId = pathname.split('/').pop();
     
     if (!memberId) {
-      return respondWithError('Staff member ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Staff member ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -169,7 +169,7 @@ export async function PUT(request: NextRequest) {
     );
 
     if (existingMembers.length === 0) {
-      return respondWithError('Staff member not found', 404);
+      return NextResponse.json({ success: false, error: 'Staff member not found' }, { status: 404 });
     }
 
     // Convert data for migration compatibility
@@ -195,10 +195,10 @@ export async function PUT(request: NextRequest) {
     );
 
     if (updatedMembers.length === 0) {
-      return respondWithError('Failed to update staff member', 500);
+      return NextResponse.json({ success: false, error: 'Failed to update staff member' }, { status: 500 });
     }
 
-    return respondWithSuccess(updatedMembers[0]);
+    return NextResponse.json({ success: true, data: updatedMembers[0] });
   });
 }
 
@@ -212,7 +212,7 @@ export async function DELETE(request: NextRequest) {
     const memberId = pathname.split('/').pop();
     
     if (!memberId) {
-      return respondWithError('Staff member ID is required', 400);
+      return NextResponse.json({ success: false, error: 'Staff member ID is required' }, { status: 400 });
     }
 
     // Check if staff member exists
@@ -223,7 +223,7 @@ export async function DELETE(request: NextRequest) {
     );
 
     if (existingMembers.length === 0) {
-      return respondWithError('Staff member not found', 404);
+      return NextResponse.json({ success: false, error: 'Staff member not found' }, { status: 404 });
     }
 
     // Soft delete by updating status to inactive
@@ -237,6 +237,6 @@ export async function DELETE(request: NextRequest) {
       { id: memberId }
     );
 
-    return respondWithSuccess({ message: 'Staff member deactivated successfully' });
+    return NextResponse.json({ success: true, data: { message: 'Staff member deactivated successfully' } });
   });
 }
