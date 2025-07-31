@@ -177,6 +177,31 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
 
       if (profileError) {
         console.error('Error loading profile:', profileError);
+        // If profile doesn't exist and user is authenticated, create it
+        if (profileError.code === 'PGRST116' && authUser.email?.endsWith('@gangerdermatology.com')) {
+          console.log('Creating profile for new user:', authUser.email);
+          const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              id: authUser.id,
+              email: authUser.email,
+              full_name: authUser.user_metadata?.full_name || authUser.email,
+              avatar_url: authUser.user_metadata?.avatar_url,
+              role: authUser.email === 'anand@gangerdermatology.com' ? 'admin' : 'staff',
+              department: 'Unknown',
+              is_active: true
+            })
+            .select()
+            .single();
+          
+          if (createError) {
+            console.error('Error creating profile:', createError);
+            return;
+          }
+          
+          setProfile(newProfile);
+          return;
+        }
         return;
       }
 
