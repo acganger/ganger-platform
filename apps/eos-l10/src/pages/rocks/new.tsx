@@ -334,4 +334,3 @@ export async function getServerSideProps() {
   return {
     props: {}
   };
-}export const runtime = 'experimental-edge';
