@@ -168,14 +168,13 @@ export class EOSL10MigrationAdapter {
   /**
    * Delete data with migration support
    */
-  async delete<T = any>(
+  async delete(
     tableName: string,
-    filters: Record<string, any>,
-    options?: { returning?: string }
-  ): Promise<T[]> {
+    filters: Record<string, any>
+  ): Promise<void> {
     const mappedTable = this.mapTableName(tableName);
     
-    const results = await migrationAdapter.delete(
+    await migrationAdapter.delete(
       mappedTable,
       filters
     );
@@ -183,8 +182,6 @@ export class EOSL10MigrationAdapter {
     if (process.env.NODE_ENV === 'development') {
       console.log(`[EOS L10 Migration] Delete ${tableName} → ${mappedTable}`);
     }
-    
-    return results;
   }
 
   /**

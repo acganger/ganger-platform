@@ -32,6 +32,10 @@ module.exports = withSentryConfig(
     silent: true,
     org: 'ganger-dermatology',
     project: 'ganger-actions',
+    
+    // Disable source map uploading during build to avoid auth errors
+    // Source maps will still be generated but not uploaded to Sentry
+    disable: true,
   },
   {
     // For all available options, see:
