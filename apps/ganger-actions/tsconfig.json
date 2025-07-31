@@ -55,6 +55,11 @@
     ".next",
     "src/index.ts",
     "worker.js",
-    "worker-*.js"
+    "worker-*.js",
+    "**/__tests__/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }
