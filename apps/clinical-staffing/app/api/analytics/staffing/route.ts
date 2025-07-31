@@ -165,7 +165,7 @@ async function calculateCoverageMetrics(schedules: any[], providerSchedules: any
     if (!acc[provider.location_id]) acc[provider.location_id] = [];
     acc[provider.location_id].push(provider);
     return acc;
-  }, {} as Record<string, any[]>);
+  }, {} as Record<string, typeof providerSchedules>);
 
   for (const [locationId, providers] of Object.entries(providersByLocation)) {
     const locationSchedules = schedulesByLocation[locationId] || [];

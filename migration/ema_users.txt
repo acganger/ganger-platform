@@ -1,0 +1,70 @@
+Last Name	First Name	Username	Role	Last Seen	Locked
+Al-Shaer	Selina	als	Medical Assistant	05/27/2025	No
+Aman	Jill	aman	Medical Assistant	07/30/2025	No
+Barton	Michelle	miba	Receptionist	07/31/2025	No
+Baumann	Ali	alib	Medical Assistant	07/31/2025	No
+Beereddy	Deepika	deep	Medical Assistant	07/31/2025	No
+Bratcher	Jessica	jessie	Receptionist	07/28/2025	No
+Brissette	Megan	mbr	Medical Assistant	07/31/2025	No
+Campbell	Annie	cam	Medical Assistant	07/31/2025	No
+Chiravuri	Srikruthi	sri	Medical Assistant	07/30/2025	No
+Cookson	Celina	coo	Medical Assistant	07/29/2025	No
+Czuj	Casey	casey	Receptionist	07/30/2025	No
+Darish	Sawyer	saw	Medical Assistant	07/29/2025	No
+Darland	Allison	dar	Doctor	07/31/2025	No
+Demirjian	Lara	dem	Aesthetician	07/31/2025	No
+Diegel	Anthony	tony	Nurse Practitioner	07/31/2025	No
+Dionne	Jillian	dio	Receptionist	07/29/2025	No
+Do	Thy Thy	ttd	Doctor	07/31/2025	No
+Draper	Eliza	dra	Medical Assistant	07/31/2025	No
+Eskildsen	Jennifer	esk	Nurse Practitioner	07/31/2025	No
+Estes	Michelle	elle	Biller	07/31/2025	No
+Ferrell	Angela	rondina	Doctor	07/31/2025	No
+Fisher	Nalina	fis	Medical Assistant	07/30/2025	No
+Fong	Rebecca	fon	Medical Assistant	07/31/2025	No
+Ganger	A.C.	aganger	Practice Manager	07/30/2025	No
+Ganger	Laura	lganger	Doctor	07/31/2025	No
+Ganger Derm	Access Support	gangerPA	Medical Assistant	07/29/2025	No
+Grimmette	June	gri	Biller	07/31/2025	No
+Gutowsky	Katherine	gut	Medical Assistant	07/31/2025	No
+Hamp	Leela	hamp	Doctor	07/31/2025	No
+Harbali	Mariam	har	Medical Assistant	07/31/2025	No
+Harris	Leah	ris	Aesthetician	07/31/2025	No
+Herrera	Liz	Her	Biller	07/25/2025	No
+Iacco	Megan	iacco	Doctor	07/31/2025	No
+Kacmarek	Grace	kac	Medical Assistant	07/31/2025	No
+Kafati	Michael	kaf	Medical Assistant	07/31/2025	No
+Keeley	Kathy	ktk	Office Manager	07/31/2025	No
+Kempainen	Isabella	kem	Receptionist	07/31/2025	No
+McCarver	Krista	krista	Physician Assistant	07/31/2025	No
+McKenzie	Megan	mmck	Medical Assistant	07/31/2025	No
+McLean	Aubrey	mcl	Receptionist	07/31/2025	No
+Mehdi	Alina	meh	Medical Assistant	07/31/2025	No
+Mesack	Megan	mes	Receptionist	07/31/2025	No
+Michels	Kathryn	kgm	Doctor	07/31/2025	No
+Nielsen	Erika	enielsen	Registered Nurse	07/31/2025	No
+Nowicki	Cesar	now	Medical Assistant	07/01/2025	No
+Orlandi	Anastasia	ana	Medical Assistant	07/31/2025	No
+Patel	Ayesha	aye	Office Manager	07/31/2025	No
+Peppard	Sofia	pep	Medical Assistant	07/31/2025	No
+Reynolds	Kelley	rey	Aesthetician	07/31/2025	No
+Rhodes	Hannah	hann	Medical Assistant	07/31/2025	No
+Riess	Alexis	xis	Medical Assistant	07/31/2025	No
+Robbins	Emma	emm	Medical Assistant	07/30/2025	No
+Rosselle	Nichole	nich	Medical Assistant	07/29/2025	No
+Rowland	Marisa	MNR	Medical Assistant	07/31/2025	No
+Sabol	Shelby	shels	Medical Assistant	07/28/2025	No
+Smith	Marguerite	rite	Medical Assistant	07/31/2025	No
+Sofen	Bryan	bry	Doctor	07/26/2025	No
+Squires	Terri	terri	Aesthetician (Billing)	07/31/2025	No
+Stark	Jordan	jor	Receptionist	07/31/2025	No
+Sunil	Arya	ary	Medical Assistant	07/25/2025	No
+Topic	Susan	susan	Receptionist	07/31/2025	No
+Turri	Erin	tur	Medical Assistant	07/31/2025	No
+Tuttle	Hailey	hrf	Receptionist	07/31/2025	No
+Ward	Emily	war	Medical Assistant	07/31/2025	No
+Wesley	Samantha	sam	Receptionist	07/31/2025	No
+Williams	Madison	mwi	Aesthetician	07/31/2025	No
+Williams	Shelby	shelw	Medical Assistant	07/30/2025	No
+Wilson	Brittney	son	Receptionist	07/30/2025	No
+Younas	Alizah	you	Medical Assistant	07/31/2025	No

@@ -1,0 +1,116 @@
+TriNet Employee ID,First Name,Last Name,Work Email,Status,Deputy Payroll ID,Deputy Username,Deputy Role,Deputy ID,EMA Username,EMA Role,Google Email,Google OU,Notes
+132148,Jill,Aman,juice@gangerdermatology.com,Active,132148,jaman,Employee,3,aman,Medical Assistant,juice@gangerdermatology.com,/Managers,
+132106,Kathy,Keeley,ops@gangerdermatology.com,Active,132106,kkeeley,System Administrator,4,ktk,Office Manager,ops@gangerdermatology.com,/Managers,
+999075,Hailey,Foster,hailey@gangerdermatology.com,Active,999075,hfoster,Employee,19,hrf,Receptionist,hailey@gangerdermatology.com,/Google Cloud Identity,First name mismatch - TriNet/Google: Hailey vs Deputy: Hailey Tuttle
+1290867,Cesar,Nowicki,,,1290867,cnowicki,Employee,20,now,Medical Assistant,cesar@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+1130835,Michelle,Estes,,,1130835,mestes,Supervisor,21,elle,Biller,,,No work email in TriNet; No Google account found
+1130826,Ashly,Flick,,,1130826,aflick,Employee,24,,,ashly@gangerdermatology.com,/Vinya Construction,No work email in TriNet; No EMA account
+1172925,Elizabeth,Herrera,,,1172925,eherrera,Employee,39,Her,Biller,,,Last name mismatch in EMA (Her vs Herrera); No Google account
+132241,Susan,Topic,,,132241,stopic,Employee,40,susan,Receptionist,topic@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+1172904,June,Grimmette,,,1172904,jgrimmette,Employee,57,gri,Biller,,,No work email in TriNet; No Google account
+132172,Erin,Turri,compliance@gangerdermatology.com,Active,132172,eturri,Employee,61,tur,Medical Assistant,compliance@gangerdermatology.com,/Managers,
+999087,Eliza,Draper,,,999087,edraper,Employee,62,dra,Medical Assistant,draper@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+132250,Marisa,Rowland,,,132250,mrowland,Location Manager,76,MNR,Medical Assistant,marisa@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+999102,Srikruthi,Chiravuri,,,999102,schiravuri,Employee,80,sri,Medical Assistant,chiravuri@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+1177197,Ava,Thrasher,,,1177197,athrasher,Employee,84,,,avat@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; No EMA account
+1281087,Kelley,Reynolds,,,1281087,kreynolds,Employee,96,rey,Aesthetician,,,No work email in TriNet; No Google account
+132160,Nichole,Rosselle,,,132160,nrosselle,Employee,100,nich,Medical Assistant,nichole@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+132178,Leah,Harris,,,132178,lharris,Employee,101,ris,Aesthetician,harris@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+1281108,Megan,McKenzie,,,1281108,mmckenzie,Employee,102,mmck,Medical Assistant,mckenzie@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+132112,Erika,Nielsen,,,132112,enielsen,Employee,112,enielsen,Registered Nurse,erika@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+132187,Lara,Demirjian,,,132187,ldemirjian,Employee,113,dem,Aesthetician,demirjian@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+,Krista,McCarver,kristamccarver@gmail.com,,kmccarver,Employee,115,krista,Physician Assistant,mccarver@gangerdermatology.com,/Providers,No TriNet record
+286,Rebecca,Fong,,,286,rfong,Employee,134,fon,Medical Assistant,rebecca@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+293,Madison,Williams,,,293,mwilliams,Employee,152,mwi,Aesthetician,williams@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+291,Ella,Kalapatapu,,,291,ekalapatapu,Employee,154,,,ella@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; No EMA account
+297,Sarah,Noonan,,,297,snoonan,Employee,158,,,sarahn@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; No EMA account
+301,Grace,Kacmarek,,,301,gkacmarek,Employee,161,kac,Medical Assistant,grace@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+304,Nalina,Fisher,,,304,nfisher,Employee,165,fis,Medical Assistant,fisher@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+305,Sawyer,Darish,,,305,sdarish,Employee,166,saw,Medical Assistant,sawyer@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+306,Ariela,Ligori,,,306,aligori,Employee,168,,,ariela@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; No EMA account
+,Angela,Ferrell,ferrell@gangerdermatology.com,,a1ferrell,Advisor,170,rondina,Doctor,rondina@gangerdermatology.com,/Providers,No TriNet record; Email mismatch (ferrell vs rondina)
+311,Ayesha,Patel,traction@gangerdermatology.com,Active,311,apatel,Location Manager,175,aye,Office Manager,traction@gangerdermatology.com,/Managers,
+312,Casey,Czuj,,,312,cczuj,Employee,176,casey,Receptionist,marketing@gangerdermatology.com,/Managers,No work email in TriNet; Google account different (marketing@)
+314,Jennifer,Eskildsen,jen@gangerdermatology.com,Active,314,jeskildsen,Employee,178,esk,Nurse Practitioner,jen@gangerdermatology.com,/Providers,
+315,Jessica,Bratcher,,,315,jbratcher,Location Manager,179,jessie,Receptionist,jessie@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+319,Alexis,Riess,,,319,ariess,Employee,182,xis,Medical Assistant,riess@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+321,Shelby,Williams,,,321,swilliams,Employee,183,shelw,Medical Assistant,shelby1@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; Google email has '1' suffix
+323,Shelby,Sabol,,,323,ssabol,Employee,184,shels,Medical Assistant,sabol@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+324,Alicia,Baumann,,,324,abaumann,Employee,185,alib,Medical Assistant,baumann@gangerdermatology.com,/Google Cloud Identity,First name mismatch (Alicia vs Ali in Google)
+328,Jordan,Stark,,,328,jstark,Employee,187,jor,Receptionist,jordan@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+329,Michelle,Barton,,,329,mbarton,Employee,188,miba,Receptionist,michelle@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+,Alex,LaGreca,,,alegreca,Employee,189,,,alex@gangerdermatology.com,/Vinya Construction,No TriNet record; No EMA account
+333,Anyssa,Cooper-Rowe,,,333,acooperrowe,Employee,191,,,cooper-rowe@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; No EMA account
+334,Arya,Sunil,,,334,asunil,Employee,193,ary,Medical Assistant,sunil@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+335,Samantha,Wesley,,,335,swesley,Employee,194,sam,Receptionist,sam@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+339,Deepika,Beereddy,,,339,dbeereddy,Employee,197,deep,Medical Assistant,deepika@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+338,Emma,Robbins,,,338,erobbins,Employee,198,emm,Medical Assistant,robbins@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+340,Brianna,Slavens,,,340,bslavens,Employee,199,,,slavens@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; No EMA account
+341,Sofia,Peppard,,,341,speppard,Employee,200,pep,Medical Assistant,peppard@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+345,Hannah,Rhodes,,,345,hrhodes,Employee,204,hann,Medical Assistant,hannah@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+347,Alina,Mehdi,,,347,amehdi,Employee,206,meh,Medical Assistant,mehdi@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+349,Megan,Mesack,,,349,mmesack,Employee,208,mes,Receptionist,mesack@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+353,Emily,Ward,,,353,eward,Employee,209,war,Medical Assistant,ward@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+354,Marguerite,Smith,,,354,msmith,Employee,210,rite,Medical Assistant,smith@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+352,Megan,Brissette,,,352,mbrissette,Employee,211,mbr,Medical Assistant,brissette@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+351,Anastasia,Orlandi,,,351,aorlandi,Employee,212,ana,Medical Assistant,orlandi@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+355,Aubrey,McLean,,,355,amclean,Employee,213,mcl,Receptionist,mclean@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+356,Alizah,Younas,,,356,ayounas,Employee,214,you,Medical Assistant,younas@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+359,Annie,Campbell,,,359,acampbell,Employee,215,cam,Medical Assistant,campbell@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+358,Isabella,Kempainen,,,358,bkempainen,Employee,216,kem,Receptionist,kempainen@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet; First name variation (Isabella vs Bella)
+357,Jillian,Dionne,,,357,jdionne,Employee,217,dio,Receptionist,dionne@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+360,Katherine,Gutowsky,,,360,kgutowsky,Employee,218,gut,Medical Assistant,gutowsky@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+361,Mariam,Harbali,,,361,mharbali,Employee,219,har,Medical Assistant,harbali@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+362,Celina,Cookson,,,362,ccookson,Employee,220,coo,Medical Assistant,cookson@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+363,Michael,Kafati,,,363,mkafati,Employee,221,kaf,Medical Assistant,kafati@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+364,Brittney,Wilson,,,364,bwilson,Employee,222,son,Receptionist,wilson@gangerdermatology.com,/Google Cloud Identity,No work email in TriNet
+365,Adrian,Gill,,,365,agill,Employee,223,,,,,No work email in TriNet; No Google or EMA accounts found
+
+UNMATCHED GOOGLE ACCOUNTS:
+,A.C.,Ganger,,,aganger,System Administrator,1,aganger,Practice Manager,anand@gangerdermatology.com,/Managers,No TriNet record for anand@gangerdermatology.com
+,Ilias,Deros,,,ideros,System Administrator,7,,,ilias.deros@toptal.com,/Google Cloud Identity,No TriNet record; No EMA account
+,Terri,Squires,,,,,,,terri,Aesthetician (Billing),terri@gangerdermatology.com,/Google Cloud Identity,No records in TriNet or Deputy
+,Selina,Al-Shaer,,,,,,,als,Medical Assistant,selina@gangerdermatology.com,/Google Cloud Identity,No records in TriNet or Deputy
+,John,Santinga,,,,,,,,,john@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Kennedy,Herriman,,,,,,,,,kennedy@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Emily,Richardson,,,,,,,,,emily@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Jacquelyn,Henderson,,,,,,,,,jacquelyn@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Madison,Krzisnik,,,,,,,,,madisonk@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Mary,Bashshur,,,,,,,,,mary@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Miyuki,Yoshinaga,,,,,,,,,miyuki@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Sarah,VanInwagen,,,,,,,,,sarahv@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Erica,Gavalier,,,,,,,,,erica@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Autumn,Shockency,,,,,,,,,autumns@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Autumn,Charnesky,,,,,,,,,autumn@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Avi,Unknown,,,,,,,,,avi@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Dayla,Balistreri,,,,,,,,,dayla@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Ravel,Ray,,,,,,,,,ravel@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Sakib,Rahman,,,,,,,,,sakib@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Uyen,Dao,,,,,,,,,uyen@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Lewis,Willis,,,,,,,,,lewis@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+,Test,GCO,,,,,,,,,butter@gangerdermatology.com,/Google Cloud Identity,No records in TriNet, Deputy, or EMA
+
+PROVIDERS IN GOOGLE (Special Accounts):
+,Allison,Darland,,,,,,,dar,Doctor,darland@gangerdermatology.com,/Providers,No TriNet record
+,Tony,Diegel,,,,,,,tony,Nurse Practitioner,diegel@gangerdermatology.com,/Providers,No TriNet record
+,Thy Thy,Do,,,,,,,ttd,Doctor,ttd@gangerdermatology.com,/Providers,No TriNet record
+,Leela,Hamp,,,,,,,hamp,Doctor,hamp@gangerdermatology.com,/Providers,No TriNet record
+,Megan,Iacco,,,,,,,iacco,Doctor,iacco@gangerdermatology.com,/Providers,No TriNet record
+,Tim,Johnson,,,,,,,,,johnson@gangerdermatology.com,/Providers,No TriNet record; Not in EMA
+,Laura,Ganger,,,,,,,lganger,Doctor,laura@gangerdermatology.com,/Providers,No TriNet record
+,Kathryn,Michels,,,,,,,kgm,Doctor,michels@gangerdermatology.com,/Providers,No TriNet record
+,Kate,Schumacher,,,,,,,,,princesskate@gangerdermatology.com,/Managers,No TriNet record; Not in EMA or Deputy
+
+SYSTEM ACCOUNTS IN GOOGLE:
+,Ganger,Dermatology,,,,,,,,,staff@gangerdermatology.com,/,System account
+,Ganger,Dermatology,,,,,,,,,office@gangerdermatology.com,/Admin Staff,System account
+,Ganger,Dermatology (HR),,,,,,,,,personnel@gangerdermatology.com,/Managers,System account
+,Ganger,Dermatology Aesthetics,,,,,,,,,beauty@gangerdermatology.com,/Aesthetics,System account
+,Ganger,Dermatology (Billing Dept),,,,,,,,,billing@gangerdermatology.com,/Billing Staff,System account
+,Ganger,Dermatology,,,,,,,,,3cx@gangerdermatology.com,/,System account
+,Ganger Derm,Clinic Ops,,,,,,,,,clinicorn@gangerdermatology.com,/Clinic Staff,System account
+,Ganger Dermatology,(Nurse),,,,,,,,,nurse@gangerdermatology.com,/Clinic Staff,System account
+,GD,Remote,,,,,,,gangerPA,Medical Assistant,remote@gangerdermatology.com,/Clinic Staff,System account
+
+UNMATCHED EMA ACCOUNTS:
+,Bryan,Sofen,,,,,,,bry,Doctor,,,Not found in other systems

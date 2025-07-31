@@ -21,8 +21,10 @@ const nextConfig = {
   output: 'standalone',
 };
 
-// Wrap the config with Sentry
-module.exports = withSentryConfig(
+// Only wrap with Sentry config if DSN is provided and enabled
+const shouldUseSentry = process.env.NEXT_PUBLIC_SENTRY_DSN && process.env.NEXT_PUBLIC_SENTRY_ENABLED !== 'false';
+
+module.exports = shouldUseSentry ? withSentryConfig(
   nextConfig,
   {
     // For all available options, see:
@@ -42,7 +44,7 @@ module.exports = withSentryConfig(
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
     // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
+    widenClientFileUpload: false,
 
     // Transpiles SDK to be compatible with IE11 (not needed for modern browsers)
     transpileClientSDK: false,
@@ -57,6 +59,6 @@ module.exports = withSentryConfig(
     // See the following for more information:
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
-    automaticVercelMonitors: true,
+    automaticVercelMonitors: false,
   }
-);
+) : nextConfig;
