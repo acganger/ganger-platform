@@ -175,7 +175,7 @@ export class EOSL10MigrationAdapter {
   ): Promise<T[]> {
     const mappedTable = this.mapTableName(tableName);
     
-    const results = await migrationAdapter.delete<T>(
+    const results = await migrationAdapter.delete(
       mappedTable,
       filters
     );
