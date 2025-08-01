@@ -63,6 +63,13 @@ export * from './staff';
 //   getCookiesToSet
 // } from './utils/supabase-ssr';
 
+// Pages Router API route Supabase client
+// This replaces createServerSupabaseClient from @supabase/auth-helpers-nextjs
+export { 
+  createPagesRouterSupabaseClient,
+  createServerSupabaseClient 
+} from './utils/pages-router-supabase';
+
 // Default configuration
 export const DEFAULT_AUTH_CONFIG = {
   supabaseUrl: 'https://supa.gangerdermatology.com',

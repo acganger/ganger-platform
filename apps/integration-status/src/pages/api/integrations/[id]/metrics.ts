@@ -1,6 +1,6 @@
 // pages/api/integrations/[id]/metrics.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createServerSupabaseClient } from '@ganger/auth';
 import { Database } from '../../../../types/database';
 
 interface MetricsData {
@@ -56,7 +56,7 @@ export default async function handler(
   }
 
   // Authentication check
-  const supabase = createServerSupabaseClient<Database>({ req, res });
+  const supabase = createServerSupabaseClient<Database>(req, res);
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 
   if (authError || !user) {
