@@ -1,0 +1,17 @@
+
+> @ganger/clinical-staffing@1.0.0 type-check /q/Projects/ganger-platform/apps/clinical-staffing
+> tsc --noEmit
+
+app/api/analytics/staffing/route.ts(174,60): error TS7006: Parameter 'schedule' implicitly has an 'any' type.
+app/api/analytics/staffing/route.ts(187,56): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+app/api/analytics/staffing/route.ts(187,61): error TS7006: Parameter 'schedule' implicitly has an 'any' type.
+app/api/locations/route.ts(85,16): error TS2339: Property 'staffing' does not exist on type '{ id: any; name: any; address: any; city: any; state: any; zip_code: any; phone: any; timezone: any; is_active: any; operating_hours: any; created_at: any; updated_at: any; }'.
+app/api/optimization/suggestions/route.ts(107,14): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ high: number; medium: number; low: number; }'.
+  No index signature with a parameter of type 'string' was found on type '{ high: number; medium: number; low: number; }'.
+app/api/optimization/suggestions/route.ts(107,42): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ high: number; medium: number; low: number; }'.
+  No index signature with a parameter of type 'string' was found on type '{ high: number; medium: number; low: number; }'.
+app/api/optimization/suggestions/route.ts(123,48): error TS2339: Property 'costEfficiencyScore' does not exist on type '{ optimalStaffCount: number; requiredSkills: string[]; timeSlotRequirements: { startTime: string; endTime: string; requiredStaff: number; requiredSkills: string[]; }[]; }'.
+app/api/optimization/suggestions/route.ts(160,18): error TS18046: 'error' is of type 'unknown'.
+app/api/staffing/auto-assign/route.ts(99,62): error TS7006: Parameter 'skill' implicitly has an 'any' type.
+../../packages/monitoring/src/sentry.ts(13,8): error TS2307: Cannot find module '@ganger/utils' or its corresponding type declarations.
+ ELIFECYCLE  Command failed with exit code 2.

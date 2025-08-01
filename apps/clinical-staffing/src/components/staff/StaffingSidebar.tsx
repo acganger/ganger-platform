@@ -36,7 +36,7 @@ export function StaffingSidebar({
       const todaySchedules = schedules.filter(s => s.schedule_date === dateString);
       
       // Get total required staff positions for the day
-      const providers = schedules.reduce((acc, schedule) => {
+      const providers = schedules.reduce((acc: Array<{ id: string; requires_staff_count: number }>, schedule: any) => {
         if (!acc.some(p => p.id === schedule.provider_id)) {
           acc.push({ id: schedule.provider_id, requires_staff_count: 1 }); // Simplified
         }

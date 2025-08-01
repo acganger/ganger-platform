@@ -168,7 +168,7 @@ export function ProviderScheduleGrid({
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 gap-2">
-                        {assignedSchedules.map((schedule) => {
+                        {assignedSchedules.map((schedule: any) => {
                           // Find the staff member for this schedule
                           const staffMember = schedule.staff_member;
                           

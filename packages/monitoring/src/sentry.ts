@@ -5,12 +5,6 @@
  */
 
 import { User } from '@supabase/supabase-js';
-import { 
-  errorLogger, 
-  captureException as logException,
-  captureMessage as logMessage,
-  setUser as setLoggerUser,
-} from '@ganger/utils';
 
 interface SentryConfig {
   dsn: string;
@@ -41,17 +35,30 @@ export function initSentry(config: SentryConfig) {
  * Set user context for error tracking
  */
 export function setSentryUser(user: User | null) {
-  setLoggerUser(user);
+  if (user && process.env.NODE_ENV === 'development') {
+    console.log(`[ErrorTracking] User context set: ${user.id}`);
+  }
 }
 
 /**
  * Capture custom errors with context
  */
 export function captureError(error: Error, context?: Record<string, any>) {
-  logException(error, {
-    action: 'custom_error',
-    metadata: context,
-  });
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  const errorStack = error instanceof Error ? error.stack : undefined;
+
+  if (process.env.NODE_ENV === 'development') {
+    console.error(`🚨 [ErrorTracking] ${errorMessage}`, context || '', errorStack || '');
+  } else {
+    console.error(JSON.stringify({
+      timestamp: new Date().toISOString(),
+      level: 'error',
+      message: errorMessage,
+      stack: errorStack,
+      context,
+      environment: process.env.NODE_ENV || 'development',
+    }));
+  }
 }
 
 /**
@@ -62,32 +69,60 @@ export function captureMessage(
   level: 'fatal' | 'error' | 'warning' | 'info' = 'info',
   context?: Record<string, any>
 ) {
-  // Map Sentry severity levels to our logger
   const levelMap = {
     fatal: 'error',
     error: 'error',
-    warning: 'warning',
-    info: 'info',
+    warning: 'warn',
+    info: 'log',
   } as const;
   
-  logMessage(message, levelMap[level], {
-    action: 'custom_message',
-    metadata: context,
-  });
+  const method = levelMap[level];
+  
+  if (process.env.NODE_ENV === 'development') {
+    const emoji = { error: '🚨', warn: '⚠️', log: 'ℹ️' }[method];
+    console[method](`${emoji} [ErrorTracking] ${message}`, context || '');
+  } else {
+    console[method](JSON.stringify({
+      timestamp: new Date().toISOString(),
+      level: level === 'fatal' ? 'error' : level,
+      message,
+      context,
+      environment: process.env.NODE_ENV || 'development',
+    }));
+  }
 }
 
 /**
  * Track custom events
  */
 export function trackEvent(eventName: string, data?: Record<string, any>) {
-  errorLogger.trackEvent(eventName, data);
+  if (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_VERBOSE_LOGGING === 'true') {
+    console.log(`📊 [ErrorTracking] Event: ${eventName}`, data || {});
+  }
 }
 
 /**
  * Performance monitoring
  */
-export function startTransaction(name: string, op: string) {
-  return errorLogger.startTransaction(name, op);
+export function startTransaction(name: string, op: string): { finish: () => void; setData: (key: string, value: any) => void } {
+  const startTime = Date.now();
+  const transactionData: Record<string, any> = {};
+  
+  return {
+    setData: (key: string, value: any) => {
+      transactionData[key] = value;
+    },
+    finish: () => {
+      if (process.env.NODE_ENV === 'development') {
+        const duration = Date.now() - startTime;
+        console.log(`⏱️ [ErrorTracking] Transaction: ${name} (${op}) completed in ${duration}ms`, {
+          duration,
+          operation: op,
+          ...transactionData
+        });
+      }
+    },
+  };
 }
 
 /**

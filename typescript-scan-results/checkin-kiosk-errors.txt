@@ -1,0 +1,8 @@
+
+> @ganger/checkin-kiosk@0.1.0 type-check /q/Projects/ganger-platform/apps/checkin-kiosk
+> tsc --noEmit
+
+src/__tests__/api/payments.test.ts(1,29): error TS2307: Cannot find module 'node-mocks-http' or its corresponding type declarations.
+src/__tests__/api/payments.test.ts(2,21): error TS2307: Cannot find module '../../pages/api/create-payment-intent' or its corresponding type declarations.
+../../packages/monitoring/src/sentry.ts(13,8): error TS2307: Cannot find module '@ganger/utils' or its corresponding type declarations.
+ ELIFECYCLE  Command failed with exit code 2.

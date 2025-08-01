@@ -24,7 +24,6 @@
   "dependencies": {
     "@ganger/db": "workspace:*",
     "@ganger/auth": "workspace:*",
-    "@ganger/monitoring": "workspace:*",
     "@ganger/cache": "workspace:*",
     "zod": "^3.25.51",
     "date-fns": "^4.1.0",

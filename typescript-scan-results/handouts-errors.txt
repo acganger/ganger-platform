@@ -1,0 +1,7 @@
+
+> @ganger/handouts@0.1.0 type-check /q/Projects/ganger-platform/apps/handouts
+> tsc --noEmit
+
+../../packages/monitoring/src/performance-tracking.ts(65,19): error TS2339: Property 'setData' does not exist on type '{ finish: () => void; }'.
+../../packages/monitoring/src/performance-tracking.ts(66,19): error TS2339: Property 'setData' does not exist on type '{ finish: () => void; }'.
+ ELIFECYCLE  Command failed with exit code 2.

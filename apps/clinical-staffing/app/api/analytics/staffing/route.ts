@@ -120,7 +120,7 @@ async function calculateCoverageMetrics(schedules: any[], providerSchedules: any
   const providerCoverageRates: Record<string, number> = {};
   
   // Group schedules by location
-  const schedulesByLocation = schedules.reduce((acc, schedule) => {
+  const schedulesByLocation = schedules.reduce((acc: Record<string, any[]>, schedule: any) => {
     const locationId = schedule.location_id;
     if (!acc[locationId]) acc[locationId] = [];
     acc[locationId].push(schedule);
@@ -143,7 +143,7 @@ async function calculateCoverageMetrics(schedules: any[], providerSchedules: any
     }, 0);
 
     // Calculate total staff hours for this location
-    const staffHours = (locationSchedules as any[]).reduce((sum, schedule) => {
+    const staffHours = (locationSchedules as any[]).reduce((sum: number, schedule: any) => {
       const start = new Date(`2000-01-01T${schedule.start_time}`);
       const end = new Date(`2000-01-01T${schedule.end_time}`);
       return sum + (end.getTime() - start.getTime()) / (1000 * 60 * 60);
@@ -184,7 +184,7 @@ async function calculateCoverageMetrics(schedules: any[], providerSchedules: any
       const providerHours = (new Date(`2000-01-01T${provider.end_time}`).getTime() - 
                             new Date(`2000-01-01T${provider.start_time}`).getTime()) / (1000 * 60 * 60);
       
-      const supportHours = supportingSchedules.reduce((sum, schedule) => {
+      const supportHours = supportingSchedules.reduce((sum: number, schedule: any) => {
         const start = new Date(`2000-01-01T${schedule.start_time}`);
         const end = new Date(`2000-01-01T${schedule.end_time}`);
         return sum + (end.getTime() - start.getTime()) / (1000 * 60 * 60);

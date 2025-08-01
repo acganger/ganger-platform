@@ -111,14 +111,25 @@ class ErrorLogger {
   /**
    * Start a transaction (no-op for Vercel logging)
    */
-  startTransaction(name: string, op: string): { finish: () => void } {
+  startTransaction(name: string, op: string): { finish: () => void; setData: (key: string, value: any) => void } {
     const startTime = Date.now();
+    const transactionData: Record<string, any> = {};
     
     return {
+      setData: (key: string, value: any) => {
+        transactionData[key] = value;
+      },
       finish: () => {
         if (this.isDevelopment) {
           const duration = Date.now() - startTime;
-          this.logInfo(`Transaction: ${name} (${op}) completed in ${duration}ms`);
+          this.logInfo(`Transaction: ${name} (${op}) completed in ${duration}ms`, {
+            action: 'transaction',
+            metadata: {
+              duration,
+              operation: op,
+              ...transactionData
+            }
+          });
         }
       },
     };

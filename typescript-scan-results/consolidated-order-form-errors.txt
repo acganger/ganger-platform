@@ -1,0 +1,55 @@
+
+> @ganger/consolidated-order-form@0.1.0 type-check /q/Projects/ganger-platform/apps/consolidated-order-form
+> tsc --noEmit
+
+src/app/api/health/route.ts(3,10): error TS2305: Module '"@ganger/auth"' has no exported member 'withStaffAuth'.
+src/app/api/orders/[id]/route.ts(3,10): error TS2305: Module '"@ganger/auth"' has no exported member 'withStaffAuth'.
+src/app/api/orders/[id]/submit/route.ts(3,10): error TS2305: Module '"@ganger/auth"' has no exported member 'withStaffAuth'.
+src/app/api/orders/route.ts(4,10): error TS2305: Module '"@ganger/auth"' has no exported member 'withStaffAuth'.
+src/app/api/products/route.ts(4,10): error TS2305: Module '"@ganger/auth"' has no exported member 'withStaffAuth'.
+src/app/error.tsx(5,22): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/error.tsx(33,20): error TS2339: Property 'Title' does not exist on type '({ children, variant, className }: AlertProps) => Element'.
+src/app/error.tsx(33,47): error TS2339: Property 'Title' does not exist on type '({ children, variant, className }: AlertProps) => Element'.
+src/app/error.tsx(34,20): error TS2339: Property 'Description' does not exist on type '({ children, variant, className }: AlertProps) => Element'.
+src/app/error.tsx(36,21): error TS2339: Property 'Description' does not exist on type '({ children, variant, className }: AlertProps) => Element'.
+src/app/error.tsx(49,15): error TS2322: Type '{ children: (string | Element)[]; href: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/not-found.tsx(2,22): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/not-found.tsx(21,15): error TS2322: Type '{ children: (string | Element)[]; href: string; variant: "outline"; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/not-found.tsx(29,15): error TS2322: Type '{ children: (string | Element)[]; href: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/orders/page.tsx(7,44): error TS2305: Module '"@ganger/ui"' has no exported member 'Table'.
+src/app/orders/page.tsx(8,22): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/orders/page.tsx(9,24): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/orders/page.tsx(98,9): error TS2322: Type '{ children: Element; title: string; user: AuthUser | null; breadcrumbs: { label: string; href: string; }[]; }' is not assignable to type 'IntrinsicAttributes & StaffPortalLayoutProps'.
+  Property 'title' does not exist on type 'IntrinsicAttributes & StaffPortalLayoutProps'.
+src/app/orders/page.tsx(117,7): error TS2322: Type '{ children: Element; title: string; user: AuthUser | null; breadcrumbs: { label: string; href: string; }[]; actions: Element; }' is not assignable to type 'IntrinsicAttributes & StaffPortalLayoutProps'.
+  Property 'title' does not exist on type 'IntrinsicAttributes & StaffPortalLayoutProps'.
+src/app/orders/page.tsx(124,17): error TS2322: Type '{ children: (string | Element)[]; href: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/orders/page.tsx(241,19): error TS2322: Type '{ children: string; variant: "outline"; size: "sm"; className: string; href: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/orders/page.tsx(277,34): error TS2339: Property 'order_type' does not exist on type 'ConsolidatedOrder'.
+src/app/orders/page.tsx(280,42): error TS2339: Property 'requested_by' does not exist on type 'ConsolidatedOrder'.
+src/app/orders/page.tsx(287,29): error TS2322: Type '{ children: string; variant: "ghost"; size: "sm"; href: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/orders/page.tsx(295,31): error TS2322: Type '{ children: string; variant: "ghost"; size: "sm"; href: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'.
+  Property 'href' does not exist on type 'IntrinsicAttributes & ButtonProps & RefAttributes<HTMLButtonElement>'. Did you mean 'ref'?
+src/app/page.tsx(8,58): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/page.tsx(9,31): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/page.tsx(66,30): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/page.tsx(73,26): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/test-components/page.tsx(7,31): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/app/test-components/page.tsx(270,32): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/test-components/page.tsx(277,28): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/DepartmentSelector.tsx(5,58): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/components/OrderBuilder.tsx(5,58): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/components/OrderBuilder.tsx(6,23): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/components/OrderBuilder.tsx(210,36): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/OrderBuilder.tsx(250,40): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/ProductCatalog.tsx(5,35): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/components/ProductCatalog.tsx(6,23): error TS2307: Cannot find module '@ganger/ui-catalyst' or its corresponding type declarations.
+src/components/ProductCatalog.tsx(192,28): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/components/ProductCatalog.tsx(306,36): error TS7006: Parameter 'e' implicitly has an 'any' type.
+ ELIFECYCLE  Command failed with exit code 2.
