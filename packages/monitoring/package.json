@@ -2,12 +2,12 @@
   "name": "@ganger/monitoring",
   "version": "1.0.0",
   "description": "Centralized monitoring and health check system for Ganger Platform",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./sentry": "./src/sentry.ts",
-    "./performance-tracking": "./src/performance-tracking.ts"
+    ".": "./index.ts",
+    "./sentry": "./sentry.ts",
+    "./performance-tracking": "./performance-tracking.ts"
   },
   "scripts": {
     "dev": "tsc --watch",
@@ -26,6 +26,12 @@
     "@types/node": "^20.0.0",
     "eslint": "^8.0.0"
   },
+  "files": [
+    "src",
+    "index.ts",
+    "sentry.ts",
+    "performance-tracking.ts"
+  ],
   "keywords": [
     "ganger-platform",
     "monitoring",
