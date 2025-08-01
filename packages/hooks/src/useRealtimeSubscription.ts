@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { RealtimeChannel, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { getSupabaseClient } from '@ganger/auth';
-import { captureError } from '@ganger/monitoring/sentry';
+import { captureError } from '@ganger/monitoring';
 
 export interface RealtimeOptions {
   event?: 'INSERT' | 'UPDATE' | 'DELETE' | '*';

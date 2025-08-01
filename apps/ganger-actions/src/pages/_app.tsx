@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AuthProvider } from '@ganger/auth';
 import { ToastProvider } from '@ganger/ui-catalyst';
 import { ErrorBoundary } from '@ganger/ui';
-import { initSentry } from '@ganger/monitoring/sentry';
+import { initSentry } from '@ganger/monitoring';
 import '@/styles/globals.css';
 
 // Create a QueryClient instance

@@ -1,4 +1,4 @@
-import { captureError, captureMessage } from '@ganger/monitoring/sentry';
+import { captureError, captureMessage } from '@ganger/monitoring';
 
 export interface ApiError extends Error {
   status?: number;

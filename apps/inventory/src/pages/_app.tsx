@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import { AuthProvider } from '@ganger/auth';
 import { ThemeProvider, ToastProvider } from '@ganger/ui';
 import { analytics } from '@ganger/utils';
-import { initSentry } from '@ganger/monitoring/sentry';
+import { initSentry } from '@ganger/monitoring';
 import '../styles/globals.css';
 
 function InventoryApp({ Component, pageProps }: AppProps) {

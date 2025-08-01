@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createSupabaseServerClient } from '@ganger/auth/server';
-import { captureError } from '@ganger/monitoring/sentry';
+import { captureError } from '@ganger/monitoring';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {

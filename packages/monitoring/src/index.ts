@@ -20,26 +20,9 @@ export {
   type PerformanceTrend
 } from './performance-monitor';
 
-// Sentry error tracking exports
-export {
-  initSentry,
-  setSentryUser,
-  captureError,
-  captureMessage,
-  trackEvent,
-  startTransaction,
-  Sentry
-} from './sentry';
-
-// Performance tracking exports
-export {
-  PerformanceTracker,
-  performanceTracker,
-  usePerformanceTracking,
-  trackWebVitals,
-  type PerformanceMark,
-  type PerformanceMeasure
-} from './performance-tracking';
+// Re-export everything from submodules for easier imports
+export * from './sentry';
+export * from './performance-tracking';
 
 // Alert configuration exports
 export {

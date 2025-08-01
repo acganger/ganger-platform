@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@ganger/auth/server';
-import { captureError } from '@ganger/monitoring/sentry';
-import { performanceTracker } from '@ganger/monitoring/performance-tracking';
+import { captureError } from '@ganger/monitoring';
+import { performanceTracker } from '@ganger/monitoring';
 import { cacheManager } from '@ganger/cache';
 
 export interface ApiConfig<TParams = any, TBody = any> {

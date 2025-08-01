@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { AuthProvider } from '@ganger/auth';
-import { initSentry } from '@ganger/monitoring/sentry';
+import { initSentry } from '@ganger/monitoring';
 import '../styles/globals.css';
 
 // Initialize Sentry

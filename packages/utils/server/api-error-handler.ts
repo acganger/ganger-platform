@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { captureError } from '@ganger/monitoring/sentry';
+import { captureError } from '@ganger/monitoring';
 import { z } from 'zod';
 
 export class ApiError extends Error {

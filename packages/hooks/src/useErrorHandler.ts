@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { captureError, captureMessage } from '@ganger/monitoring/sentry';
+import { captureError, captureMessage } from '@ganger/monitoring';
 import { useToast } from './useToast';
 
 export interface ErrorHandlerOptions {

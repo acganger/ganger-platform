@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { usePerformanceTracking, trackWebVitals } from '@ganger/monitoring/performance-tracking';
+import { usePerformanceTracking, trackWebVitals } from '@ganger/monitoring';
 import { useRouter } from 'next/router';
 
 export function useAppPerformance() {
