@@ -1,12 +1,15 @@
+'use client'
+
+import Link from 'next/link'
 import { Button } from '@ganger/ui'
-import { Card } from '@ganger/ui-catalyst'
+import { Card, CardContent } from '@ganger/ui-catalyst'
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react'
 
 export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
-        <Card.Content className="text-center py-12 px-6">
+        <CardContent className="text-center py-12 px-6">
           <FileQuestion className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           
           <h1 className="text-2xl font-semibold mb-2">Page Not Found</h1>
@@ -17,22 +20,23 @@ export default function NotFound() {
           </p>
 
           <div className="flex gap-3 justify-center">
-            <Button
-              href="/"
-              variant="outline"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Go Back
-            </Button>
+            <Link href="/">
+              <Button
+                variant="outline"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Go Back
+              </Button>
+            </Link>
             
-            <Button
-              href="/"
-            >
-              <Home className="h-4 w-4 mr-2" />
-              Order Form
-            </Button>
+            <Link href="/">
+              <Button>
+                <Home className="h-4 w-4 mr-2" />
+                Order Form
+              </Button>
+            </Link>
           </div>
-        </Card.Content>
+        </CardContent>
       </Card>
     </div>
   )

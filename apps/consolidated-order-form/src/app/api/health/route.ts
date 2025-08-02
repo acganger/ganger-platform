@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { StandardizedProductsRepository, ConsolidatedOrdersRepository } from '@ganger/db'
-import { withStaffAuth } from '@ganger/auth'
+import { withStaffAuth } from '@ganger/auth/middleware'
 
 export const GET = withStaffAuth(async () => {
   try {

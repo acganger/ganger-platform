@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ConsolidatedOrdersRepository } from '@ganger/db'
 import type { ConsolidatedOrder, ConsolidatedOrderItem, UrgencyLevel } from '@ganger/types'
-import { withStaffAuth } from '@ganger/auth'
+import { withStaffAuth } from '@ganger/auth/middleware'
 
 interface CreateOrderRequest {
   department: string

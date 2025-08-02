@@ -9,6 +9,9 @@ import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
 import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
+// Force dynamic rendering for API routes
+export const dynamic = 'force-dynamic';
+
 // Configure migration adapters
 migrationAdapter.updateConfig({
   enableMigrationMode: true,

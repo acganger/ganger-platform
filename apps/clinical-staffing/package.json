@@ -4,7 +4,7 @@
   "description": "Clinical Support Staffing Optimization Frontend",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3012",
+    "dev": "next dev -p 4006",
     "build": "next build",
     "start": "next start -p 3012",
     "lint": "next lint",

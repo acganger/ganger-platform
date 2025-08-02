@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: [
     '@ganger/ui',
+    '@ganger/ui-catalyst',
     '@ganger/auth',
     '@ganger/utils',
     '@ganger/types',

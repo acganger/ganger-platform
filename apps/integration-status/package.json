@@ -4,7 +4,7 @@
   "description": "Third-Party Integration Status Dashboard - Frontend Application",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3008",
+    "dev": "next dev -p 4014",
     "build": "next build",
     "start": "next start -p 3008",
     "lint": "next lint",

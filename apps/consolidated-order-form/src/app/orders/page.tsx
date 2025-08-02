@@ -3,10 +3,10 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { useAuth } from '@ganger/auth'
-import { StaffPortalLayout, Button, Badge, Table, LoadingSpinner } from '@ganger/ui'
-import { Card } from '@ganger/ui-catalyst'
-import { Select } from '@ganger/ui-catalyst'
+import { StaffPortalLayout, Button, Badge, LoadingSpinner } from '@ganger/ui'
+import { Card, CardContent, CardHeader, Select, DataTable } from '@ganger/ui-catalyst'
 import { 
   FileText, 
   Clock, 
@@ -92,21 +92,89 @@ export default function OrdersPage() {
     return matchesStatus && matchesDept
   })
 
+  // DataTable columns configuration
+  const columns = [
+    {
+      key: 'order_number',
+      header: 'Order #',
+      render: (order: ConsolidatedOrder) => (
+        <div className="flex items-center space-x-2">
+          {getStatusIcon(order.status)}
+          <span className="font-medium">{order.order_number}</span>
+        </div>
+      )
+    },
+    {
+      key: 'created_at',
+      header: 'Created',
+      render: (order: ConsolidatedOrder) => (
+        <div className="flex items-center space-x-1 text-sm">
+          <Calendar className="h-3 w-3 text-gray-400" />
+          <span>{formatDate(order.created_at)}</span>
+        </div>
+      )
+    },
+    {
+      key: 'department',
+      header: 'Department'
+    },
+    {
+      key: 'urgency',
+      header: 'Urgency',
+      render: (order: ConsolidatedOrder) => (
+        <Badge variant="outline" size="sm">
+          {order.urgency}
+        </Badge>
+      )
+    },
+    {
+      key: 'requester_name',
+      header: 'Requested By'
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (order: ConsolidatedOrder) => getStatusBadge(order.status)
+    },
+    {
+      key: 'actions',
+      header: 'Actions',
+      render: (order: ConsolidatedOrder) => (
+        <div className="flex gap-2">
+          <Link href={`/orders/${order.id}`}>
+            <Button
+              variant="ghost"
+              size="sm"
+            >
+              View
+            </Button>
+          </Link>
+          {order.status === 'draft' && (
+            <Link href={`/orders/${order.id}/edit`}>
+              <Button
+                variant="ghost"
+                size="sm"
+              >
+                Edit
+              </Button>
+            </Link>
+          )}
+        </div>
+      )
+    }
+  ]
+
   if (loading) {
     return (
       <StaffPortalLayout
-        title="Order History"
-        user={user}
-        breadcrumbs={[
-          { label: 'Dashboard', href: '/' },
-          { label: 'Orders', href: '/orders' }
-        ]}
+        currentApp="consolidated-order-form"
+        appDescription="View and manage your order history"
       >
         <Card>
-          <Card.Content className="flex items-center justify-center py-12">
+          <CardContent className="flex items-center justify-center py-12">
             <LoadingSpinner size="lg" />
             <span className="ml-3">Loading orders...</span>
-          </Card.Content>
+          </CardContent>
         </Card>
       </StaffPortalLayout>
     )
@@ -114,24 +182,24 @@ export default function OrdersPage() {
 
   return (
     <StaffPortalLayout
-      title="Order History"
-      user={user}
-      breadcrumbs={[
-        { label: 'Dashboard', href: '/' },
-        { label: 'Orders', href: '/orders' }
-      ]}
-      actions={
-        <Button href="/create">
-          <Plus className="h-4 w-4 mr-2" />
-          New Order
-        </Button>
-      }
+      currentApp="consolidated-order-form"
+      appDescription="View and manage your order history"
     >
       <div className="space-y-6">
+        {/* Page Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">Order History</h1>
+          <Link href="/create">
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              New Order
+            </Button>
+          </Link>
+        </div>
         {/* Summary Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
-            <Card.Content className="p-4">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">Total Orders</p>
@@ -139,11 +207,11 @@ export default function OrdersPage() {
                 </div>
                 <FileText className="h-8 w-8 text-gray-400" />
               </div>
-            </Card.Content>
+            </CardContent>
           </Card>
 
           <Card>
-            <Card.Content className="p-4">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">Draft Orders</p>
@@ -153,11 +221,11 @@ export default function OrdersPage() {
                 </div>
                 <Clock className="h-8 w-8 text-gray-500" />
               </div>
-            </Card.Content>
+            </CardContent>
           </Card>
 
           <Card>
-            <Card.Content className="p-4">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">Submitted</p>
@@ -167,11 +235,11 @@ export default function OrdersPage() {
                 </div>
                 <Package className="h-8 w-8 text-blue-500" />
               </div>
-            </Card.Content>
+            </CardContent>
           </Card>
 
           <Card>
-            <Card.Content className="p-4">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">Completed</p>
@@ -181,13 +249,13 @@ export default function OrdersPage() {
                 </div>
                 <CheckCircle className="h-8 w-8 text-green-500" />
               </div>
-            </Card.Content>
+            </CardContent>
           </Card>
         </div>
 
         {/* Filters */}
         <Card>
-          <Card.Content className="p-4">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <Filter className="h-4 w-4 text-gray-500" />
@@ -207,104 +275,46 @@ export default function OrdersPage() {
               
               <Select
                 value={departmentFilter}
-                onValueChange={setDepartmentFilter}
+                onChange={(e) => setDepartmentFilter(e.target.value)}
+                className="w-48"
               >
-                <Select.Trigger className="w-48">
-                  <Select.Value placeholder="Filter by department" />
-                </Select.Trigger>
-                <Select.Content>
-                  {getDepartments().map(dept => (
-                    <Select.Item key={dept} value={dept}>
-                      {dept === 'all' ? 'All Departments' : dept}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
+                {getDepartments().map(dept => (
+                  <option key={dept} value={dept}>
+                    {dept === 'all' ? 'All Departments' : dept}
+                  </option>
+                ))}
               </Select>
             </div>
-          </Card.Content>
+          </CardContent>
         </Card>
 
         {/* Orders Table */}
         <Card>
-          <Card.Header>
+          <CardHeader>
             <h3 className="text-lg font-semibold">Orders</h3>
-          </Card.Header>
-          <Card.Content>
+          </CardHeader>
+          <CardContent>
             {filteredOrders.length === 0 ? (
               <div className="text-center py-12">
                 <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500">No orders found</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-4"
-                  href="/create"
-                >
-                  Create First Order
-                </Button>
+                <Link href="/create">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-4"
+                  >
+                    Create First Order
+                  </Button>
+                </Link>
               </div>
             ) : (
-              <Table>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.Head>Order #</Table.Head>
-                    <Table.Head>Created</Table.Head>
-                    <Table.Head>Department</Table.Head>
-                    <Table.Head>Order Type</Table.Head>
-                    <Table.Head>Requested By</Table.Head>
-                    <Table.Head>Status</Table.Head>
-                    <Table.Head>Actions</Table.Head>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {filteredOrders.map((order) => (
-                    <Table.Row key={order.id}>
-                      <Table.Cell className="font-medium">
-                        <div className="flex items-center space-x-2">
-                          {getStatusIcon(order.status)}
-                          <span>{order.order_number}</span>
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <div className="flex items-center space-x-1 text-sm">
-                          <Calendar className="h-3 w-3 text-gray-400" />
-                          <span>{formatDate(order.created_at)}</span>
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>{order.department}</Table.Cell>
-                      <Table.Cell>
-                        <Badge variant="outline" size="sm">
-                          {order.order_type}
-                        </Badge>
-                      </Table.Cell>
-                      <Table.Cell>{order.requested_by}</Table.Cell>
-                      <Table.Cell>{getStatusBadge(order.status)}</Table.Cell>
-                      <Table.Cell>
-                        <div className="flex gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            href={`/orders/${order.id}`}
-                          >
-                            View
-                          </Button>
-                          {order.status === 'draft' && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              href={`/orders/${order.id}/edit`}
-                            >
-                              Edit
-                            </Button>
-                          )}
-                        </div>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
+              <DataTable
+                data={filteredOrders}
+                columns={columns}
+              />
             )}
-          </Card.Content>
+          </CardContent>
         </Card>
       </div>
     </StaffPortalLayout>

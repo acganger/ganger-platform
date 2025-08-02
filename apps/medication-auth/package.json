@@ -4,7 +4,7 @@
   "description": "Ganger Platform - AI-Powered Medication Authorization Assistant",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4017",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

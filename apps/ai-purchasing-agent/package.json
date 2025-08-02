@@ -4,7 +4,7 @@
   "description": "AI-powered purchasing agent for medical supply procurement optimization",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

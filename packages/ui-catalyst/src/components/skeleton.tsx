@@ -59,16 +59,18 @@ export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
           )}
         </div>
         {animation === 'wave' && (
-          <style jsx>{`
-            @keyframes shimmer {
-              100% {
-                transform: translateX(100%);
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              @keyframes shimmer {
+                100% {
+                  transform: translateX(100%);
+                }
               }
-            }
-            .animate-shimmer {
-              animation: shimmer 1.5s infinite;
-            }
-          `}</style>
+              .animate-shimmer {
+                animation: shimmer 1.5s infinite;
+              }
+            `
+          }} />
         )}
       </>
     );

@@ -4,7 +4,7 @@
   "description": "Compliance Training Manager Dashboard - Frontend Application",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3007",
+    "dev": "next dev -p 4007",
     "build": "next build",
     "start": "next start -p 3007",
     "lint": "next lint",

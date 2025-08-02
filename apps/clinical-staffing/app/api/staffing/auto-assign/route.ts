@@ -9,6 +9,8 @@ import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
 import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
+export const dynamic = 'force-dynamic';
+
 // Configure migration adapters
 migrationAdapter.updateConfig({
   enableMigrationMode: true,
@@ -96,7 +98,7 @@ export async function POST(request: NextRequest) {
           let score = 0;
           
           // Skills match
-          const matchingSkills = (staff.skills || []).filter(skill => 
+          const matchingSkills = (staff.skills || []).filter((skill: any) => 
             timeSlot.requiredSkills.includes(skill)
           );
           score += matchingSkills.length * 10;

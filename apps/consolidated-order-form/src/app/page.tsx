@@ -71,14 +71,14 @@ export default function ConsolidatedOrderForm() {
             <Select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              options={[
-                { value: 'all', label: 'All Categories' },
-                ...categories.map((cat) => ({
-                  value: cat.id,
-                  label: `${cat.icon} ${cat.name}`
-                }))
-              ]}
-            />
+            >
+              <option value="all">All Categories</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.icon} {cat.name}
+                </option>
+              ))}
+            </Select>
           </div>
         </CardContent>
       </Card>

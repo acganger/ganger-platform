@@ -275,11 +275,14 @@ export default function TestComponentsPage() {
               <Select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value as ProductCategory | 'all')}
-                options={[
-                  { value: 'all', label: 'All Categories' },
-                  ...categories
-                ]}
-              />
+              >
+                <option value="all">All Categories</option>
+                {categories.map((cat) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </Select>
             </div>
           </section>
 

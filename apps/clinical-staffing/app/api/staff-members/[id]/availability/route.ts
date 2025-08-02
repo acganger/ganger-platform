@@ -8,6 +8,8 @@ import { migrationAdapter, MigrationHelpers } from '@ganger/db';
 import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
+export const dynamic = 'force-dynamic';
+
 // Configure migration adapter
 migrationAdapter.updateConfig({
   enableMigrationMode: true,

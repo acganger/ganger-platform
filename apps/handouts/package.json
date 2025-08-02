@@ -4,7 +4,7 @@
   "description": "Ganger Platform - Rapid Custom Handouts Generator",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4013",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

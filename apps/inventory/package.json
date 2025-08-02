@@ -4,7 +4,7 @@
   "description": "Ganger Platform - Inventory Management SPA",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4015",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

@@ -9,6 +9,8 @@ import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
 import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
+export const dynamic = 'force-dynamic';
+
 // Configure migration adapters
 migrationAdapter.updateConfig({
   enableMigrationMode: true,
@@ -103,7 +105,7 @@ export async function GET(request: NextRequest) {
 
     // Sort suggestions by priority and impact
     const prioritizedSuggestions = suggestions.sort((a, b) => {
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      const priorityOrder: Record<string, number> = { high: 3, medium: 2, low: 1 };
       return priorityOrder[b.priority] - priorityOrder[a.priority] || b.impact_score - a.impact_score;
     });
 
@@ -120,7 +122,7 @@ export async function GET(request: NextRequest) {
         optimal_staff_count: optimalStaffing.optimalStaffCount,
         current_staff_count: currentSchedules.length,
         coverage_percentage: Math.round((currentSchedules.length / optimalStaffing.optimalStaffCount) * 100),
-        cost_efficiency_score: optimalStaffing.costEfficiencyScore
+        cost_efficiency_score: (optimalStaffing as any).costEfficiencyScore || 0
       },
       generated_at: new Date().toISOString()
     }});
@@ -157,7 +159,7 @@ export async function POST(request: NextRequest) {
         results.push({
           suggestion_id: suggestionId,
           success: false,
-          error: error.message
+          error: error instanceof Error ? error.message : 'Unknown error'
         });
       }
     }

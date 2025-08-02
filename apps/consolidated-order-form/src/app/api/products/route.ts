@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { StandardizedProductsRepository } from '@ganger/db'
 import type { StandardizedProduct, ProductCategory } from '@ganger/types'
-import { withStaffAuth } from '@ganger/auth'
+import { withStaffAuth } from '@ganger/auth/middleware'
 
 export const GET = withStaffAuth(async (request: NextRequest) => {
   try {

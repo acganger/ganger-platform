@@ -31,6 +31,7 @@
     "verify:changed": "turbo run verify --filter='...[HEAD^1]'",
     "verify:all": "bash scripts/verify-deployment-ready.sh",
     "verify:app": "bash scripts/verify-deployment-ready.sh --app",
+    "list:changed:apps": "git diff --name-only HEAD~1 | grep '^apps/' | cut -d'/' -f2 | sort -u | tr '\\n' ' '",
     "validate:builds": "bash scripts/validate-builds.sh",
     "validate:types": "bash scripts/validate-types.sh",
     "predeploy": "bash scripts/pre-deploy-check.sh",

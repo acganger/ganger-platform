@@ -18,6 +18,7 @@ export class GangerCacheManager {
   private metrics: CacheMetrics;
   private defaultTTL = 300; // 5 minutes default
   private isRedisAvailable = false;
+  private initializationPromise: Promise<void> | null = null;
 
   constructor() {
     this.metrics = {
@@ -28,7 +29,26 @@ export class GangerCacheManager {
       lastReset: new Date()
     };
 
-    this.initializeRedis();
+    // Lazy initialization - don't connect at import time
+    if (process.env.NODE_ENV === 'development' && process.env.USE_REDIS_DEV !== 'true') {
+      console.log('Redis disabled in development. Set USE_REDIS_DEV=true to enable.');
+      this.isRedisAvailable = false;
+    }
+  }
+
+  private async ensureInitialized(): Promise<void> {
+    if (this.redis || this.initializationPromise) {
+      return this.initializationPromise || Promise.resolve();
+    }
+
+    // Skip Redis in development unless explicitly enabled
+    if (process.env.NODE_ENV === 'development' && process.env.USE_REDIS_DEV !== 'true') {
+      return;
+    }
+
+    // Create initialization promise to prevent multiple connections
+    this.initializationPromise = this.initializeRedis();
+    return this.initializationPromise;
   }
 
   private async initializeRedis() {
@@ -74,6 +94,8 @@ export class GangerCacheManager {
     this.metrics.totalRequests++;
 
     try {
+      await this.ensureInitialized();
+      
       if (this.isRedisAvailable && this.redis) {
         const value = await this.redis.get(key);
         if (value) {
@@ -97,6 +119,8 @@ export class GangerCacheManager {
 
   async set<T>(key: string, value: T, ttl = this.defaultTTL): Promise<boolean> {
     try {
+      await this.ensureInitialized();
+      
       if (this.isRedisAvailable && this.redis) {
         const serialized = JSON.stringify(value);
         await this.redis.setex(key, ttl, serialized);
@@ -111,6 +135,8 @@ export class GangerCacheManager {
 
   async del(key: string): Promise<boolean> {
     try {
+      await this.ensureInitialized();
+      
       if (this.isRedisAvailable && this.redis) {
         await this.redis.del(key);
         return true;
@@ -124,6 +150,8 @@ export class GangerCacheManager {
 
   async invalidatePattern(pattern: string): Promise<number> {
     try {
+      await this.ensureInitialized();
+      
       if (this.isRedisAvailable && this.redis) {
         const keys = await this.redis.keys(pattern);
         if (keys.length > 0) {
@@ -281,6 +309,7 @@ export class GangerCacheManager {
     metrics: CacheMetrics;
     connection_info: any;
   }> {
+    await this.ensureInitialized();
     let connectionInfo = null;
     
     if (this.isRedisAvailable && this.redis) {

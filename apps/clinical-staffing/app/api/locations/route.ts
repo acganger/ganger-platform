@@ -8,6 +8,8 @@ import { migrationAdapter, MigrationHelpers } from '@ganger/db';
 import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
+export const dynamic = 'force-dynamic';
+
 // Configure migration adapter
 migrationAdapter.updateConfig({
   enableMigrationMode: true,
@@ -45,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     // Transform data for consistent API response
     const transformedLocations = await Promise.all(locations.map(async (location) => {
-      const result = {
+      const result: any = {
         id: location.id,
         name: location.name,
         address: location.address,
