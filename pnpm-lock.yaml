@@ -1846,6 +1846,9 @@ importers:
       '@ganger/db':
         specifier: workspace:*
         version: link:../db
+      '@ganger/monitoring':
+        specifier: workspace:*
+        version: link:../monitoring
       '@types/crypto-js':
         specifier: ^4.2.2
         version: 4.2.2

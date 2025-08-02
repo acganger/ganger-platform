@@ -25,6 +25,7 @@
     "@ganger/db": "workspace:*",
     "@ganger/auth": "workspace:*",
     "@ganger/cache": "workspace:*",
+    "@ganger/monitoring": "workspace:*",
     "zod": "^3.25.51",
     "date-fns": "^4.1.0",
     "crypto-js": "^4.2.0",
