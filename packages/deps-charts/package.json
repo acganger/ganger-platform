@@ -1,0 +1,12 @@
+{
+  "name": "@ganger/deps-charts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Charting and visualization dependencies for Ganger Platform apps",
+  "main": "index.js",
+  "dependencies": {
+    "chart.js": "^4.5.0",
+    "react-chartjs-2": "^5.3.0",
+    "recharts": "^2.12.0"
+  }
+}

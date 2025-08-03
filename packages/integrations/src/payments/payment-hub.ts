@@ -23,12 +23,22 @@ export class UniversalPaymentHub {
   private subscriptionManager: SubscriptionManager;
 
   constructor() {
+    const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    
+    if (!stripePublishableKey) {
+      throw new Error('STRIPE_PUBLISHABLE_KEY environment variable is required');
+    }
+    if (!stripeSecretKey) {
+      throw new Error('STRIPE_SECRET_KEY environment variable is required');
+    }
+    
     this.paymentService = new MedicalPaymentService({
-      stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_default'
+      stripePublishableKey
     });
     
     this.subscriptionManager = new SubscriptionManager({
-      stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_default'
+      stripeSecretKey
     });
   }
 

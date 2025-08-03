@@ -1,0 +1,15 @@
+{
+  "name": "@ganger/deps-core",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Essential core dependencies used by all Ganger Platform apps",
+  "main": "index.js",
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.49.10",
+    "clsx": "^2.1.0",
+    "date-fns": "^4.1.0",
+    "tailwind-merge": "^2.0.0",
+    "zod": "^3.25.51"
+  }
+}

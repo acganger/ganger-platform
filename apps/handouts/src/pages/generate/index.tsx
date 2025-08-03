@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
+import dynamicImport from 'next/dynamic';
 import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
   AppLayout, 
@@ -11,11 +12,19 @@ import {
 } from '@ganger/ui';
 import { Input } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
-import { QRScanner } from '@/components/QRScanner';
 import { TemplateSelector } from '@/components/TemplateSelector';
 import { PatientInfo } from '@/components/PatientInfo';
 import { DeliveryOptions } from '@/components/DeliveryOptions';
 import { useHandoutGenerator } from '@/hooks/useHandoutGenerator';
+
+// Lazy load QRScanner component to reduce initial bundle size by ~250KB
+const QRScanner = dynamicImport(
+  () => import('@/components/QRScanner').then(mod => ({ default: mod.QRScanner })),
+  { 
+    ssr: false,
+    loading: () => <LoadingSpinner />
+  }
+);
 
 interface Patient {
   id: string; // Added for communication service integration

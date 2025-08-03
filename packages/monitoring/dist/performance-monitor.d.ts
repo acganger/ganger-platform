@@ -86,3 +86,4 @@ export declare class PerformanceMonitor {
     getAverageMetrics(period?: 'hour' | 'day' | 'week'): Promise<Partial<PerformanceMetrics>>;
 }
 export declare const performanceMonitor: PerformanceMonitor;
+//# sourceMappingURL=performance-monitor.d.ts.map

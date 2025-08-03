@@ -1,0 +1,457 @@
+{
+  "analysis_date": "2025-08-03",
+  "summary": {
+    "total_test_files": 88,
+    "critical_apps_analyzed": 17,
+    "total_gaps_identified": 234,
+    "critical_gaps": 67,
+    "high_priority_gaps": 89,
+    "medium_priority_gaps": 78
+  },
+  "critical_testing_gaps": {
+    "authentication_and_authorization": [
+      {
+        "file_path": "packages/auth/src/lib/auth-provider.ts",
+        "test_type": "unit",
+        "business_criticality": "critical",
+        "risk_if_untested": "Authentication bypass vulnerabilities, unauthorized access to patient data",
+        "estimated_effort": "2-3 days",
+        "test_framework": "Jest with React Testing Library",
+        "missing_tests": [
+          "Google OAuth flow validation",
+          "Session management and timeout",
+          "Role-based access control (RBAC)",
+          "Token refresh mechanism",
+          "Multi-factor authentication"
+        ]
+      },
+      {
+        "file_path": "packages/auth/src/middleware/auth-middleware.ts",
+        "test_type": "integration",
+        "business_criticality": "critical",
+        "risk_if_untested": "API endpoints exposed without proper authentication",
+        "estimated_effort": "1-2 days",
+        "test_framework": "Jest with Supertest",
+        "missing_tests": [
+          "API route protection",
+          "JWT validation",
+          "CORS configuration",
+          "Rate limiting"
+        ]
+      }
+    ],
+    "medical_data_handling": [
+      {
+        "file_path": "apps/medication-auth/src/pages/api/authorizations/*",
+        "test_type": "unit/integration",
+        "business_criticality": "critical",
+        "risk_if_untested": "HIPAA violations, incorrect medication authorizations, patient safety risks",
+        "estimated_effort": "3-4 days",
+        "test_framework": "Jest with MSW for API mocking",
+        "missing_tests": [
+          "Prior authorization submission",
+          "Authorization status tracking",
+          "Insurance verification",
+          "Medication interaction checks",
+          "Audit trail generation"
+        ]
+      },
+      {
+        "file_path": "apps/inventory/src/pages/api/items/*",
+        "test_type": "integration",
+        "business_criticality": "critical",
+        "risk_if_untested": "Medical supply mismanagement, inventory discrepancies, expired medication tracking",
+        "estimated_effort": "2-3 days",
+        "test_framework": "Jest with Supabase test client",
+        "missing_tests": [
+          "Inventory CRUD operations",
+          "Barcode scanning integration",
+          "Low stock alerts",
+          "Expiration date tracking",
+          "Supply chain integration"
+        ]
+      },
+      {
+        "file_path": "apps/handouts/src/pages/api/templates/*",
+        "test_type": "unit",
+        "business_criticality": "high",
+        "risk_if_untested": "Incorrect patient education materials, outdated medical information",
+        "estimated_effort": "1-2 days",
+        "test_framework": "Jest",
+        "missing_tests": [
+          "Template generation",
+          "QR code generation",
+          "Patient-specific customization",
+          "Version control for medical content"
+        ]
+      }
+    ],
+    "payment_processing": [
+      {
+        "file_path": "apps/checkin-kiosk/src/pages/api/payments/create-intent.ts",
+        "test_type": "integration",
+        "business_criticality": "critical",
+        "risk_if_untested": "Payment failures, double charging, PCI compliance violations",
+        "estimated_effort": "2-3 days",
+        "test_framework": "Jest with Stripe test mode",
+        "missing_tests": [
+          "Payment intent creation",
+          "Payment confirmation",
+          "Refund processing",
+          "Error handling for failed payments",
+          "PCI compliance validation"
+        ]
+      },
+      {
+        "file_path": "apps/batch-closeout/src/pages/api/batch/*",
+        "test_type": "integration",
+        "business_criticality": "critical",
+        "risk_if_untested": "Financial reconciliation errors, batch processing failures",
+        "estimated_effort": "2-3 days",
+        "test_framework": "Jest",
+        "missing_tests": [
+          "Batch creation and closing",
+          "Transaction reconciliation",
+          "Report generation",
+          "Error recovery mechanisms"
+        ]
+      }
+    ],
+    "hipaa_compliance": [
+      {
+        "file_path": "packages/monitoring/src/lib/audit-logger.ts",
+        "test_type": "unit",
+        "business_criticality": "critical",
+        "risk_if_untested": "HIPAA audit trail violations, compliance failures",
+        "estimated_effort": "1-2 days",
+        "test_framework": "Jest",
+        "missing_tests": [
+          "Audit log generation",
+          "Log retention policies",
+          "PHI access tracking",
+          "User activity monitoring"
+        ]
+      },
+      {
+        "file_path": "packages/db/src/lib/encryption.ts",
+        "test_type": "unit",
+        "business_criticality": "critical",
+        "risk_if_untested": "PHI data breaches, encryption failures",
+        "estimated_effort": "1-2 days",
+        "test_framework": "Jest",
+        "missing_tests": [
+          "Data encryption at rest",
+          "Data encryption in transit",
+          "Key rotation",
+          "Secure key storage"
+        ]
+      }
+    ]
+  },
+  "missing_api_route_tests": [
+    {
+      "app": "medication-auth",
+      "routes": [
+        "/api/authorizations/[id]",
+        "/api/insurance/verify-coverage",
+        "/api/medications/search",
+        "/api/patients/[id]"
+      ],
+      "criticality": "critical",
+      "estimated_effort": "3-4 days"
+    },
+    {
+      "app": "inventory",
+      "routes": [
+        "/api/items",
+        "/api/stats"
+      ],
+      "criticality": "critical",
+      "estimated_effort": "2-3 days"
+    },
+    {
+      "app": "checkin-kiosk",
+      "routes": [
+        "/api/checkin/create",
+        "/api/checkin/status",
+        "/api/insurance/verify"
+      ],
+      "criticality": "critical",
+      "estimated_effort": "2-3 days"
+    },
+    {
+      "app": "batch-closeout",
+      "routes": [
+        "/api/batch/create",
+        "/api/batch/close",
+        "/api/reports/generate"
+      ],
+      "criticality": "critical",
+      "estimated_effort": "2-3 days"
+    },
+    {
+      "app": "compliance-training",
+      "routes": [
+        "/api/training/assign",
+        "/api/training/complete",
+        "/api/compliance/report"
+      ],
+      "criticality": "high",
+      "estimated_effort": "2-3 days"
+    }
+  ],
+  "missing_e2e_scenarios": [
+    {
+      "scenario": "Complete Patient Check-in Flow",
+      "apps_involved": ["checkin-kiosk", "medication-auth"],
+      "criticality": "critical",
+      "risk_if_untested": "Patient check-in failures, insurance verification issues",
+      "estimated_effort": "3-4 days",
+      "test_framework": "Playwright",
+      "test_cases": [
+        "New patient registration",
+        "Returning patient check-in",
+        "Insurance verification",
+        "Co-pay collection",
+        "Consent form signing"
+      ]
+    },
+    {
+      "scenario": "Medication Authorization Workflow",
+      "apps_involved": ["medication-auth", "inventory"],
+      "criticality": "critical",
+      "risk_if_untested": "Medication authorization delays, patient safety issues",
+      "estimated_effort": "3-4 days",
+      "test_framework": "Playwright",
+      "test_cases": [
+        "Prior auth submission",
+        "Insurance approval workflow",
+        "Pharmacy notification",
+        "Inventory update on approval"
+      ]
+    },
+    {
+      "scenario": "Financial Batch Processing",
+      "apps_involved": ["batch-closeout", "checkin-kiosk"],
+      "criticality": "critical",
+      "risk_if_untested": "Financial discrepancies, payment reconciliation errors",
+      "estimated_effort": "2-3 days",
+      "test_framework": "Playwright",
+      "test_cases": [
+        "Daily batch creation",
+        "Payment reconciliation",
+        "Batch closure",
+        "Report generation"
+      ]
+    },
+    {
+      "scenario": "Staff Compliance Training",
+      "apps_involved": ["compliance-training", "ganger-actions"],
+      "criticality": "high",
+      "risk_if_untested": "Compliance violations, training tracking failures",
+      "estimated_effort": "2-3 days",
+      "test_framework": "Playwright",
+      "test_cases": [
+        "Training assignment",
+        "Course completion",
+        "Certificate generation",
+        "Compliance reporting"
+      ]
+    }
+  ],
+  "missing_integration_tests": [
+    {
+      "integration": "Supabase Database",
+      "components": ["packages/db", "all apps"],
+      "criticality": "critical",
+      "risk_if_untested": "Database connection failures, query errors, data integrity issues",
+      "estimated_effort": "3-4 days",
+      "test_framework": "Jest with Supabase test client",
+      "missing_tests": [
+        "Connection pooling",
+        "Transaction rollback",
+        "Row-level security",
+        "Real-time subscriptions"
+      ]
+    },
+    {
+      "integration": "Google OAuth",
+      "components": ["packages/auth", "all apps"],
+      "criticality": "critical",
+      "risk_if_untested": "Authentication failures, unauthorized access",
+      "estimated_effort": "2-3 days",
+      "test_framework": "Jest with MSW",
+      "missing_tests": [
+        "OAuth flow",
+        "Token refresh",
+        "Domain verification",
+        "Session management"
+      ]
+    },
+    {
+      "integration": "Stripe Payment Gateway",
+      "components": ["checkin-kiosk", "packages/integrations"],
+      "criticality": "critical",
+      "risk_if_untested": "Payment processing failures, compliance issues",
+      "estimated_effort": "2-3 days",
+      "test_framework": "Jest with Stripe test mode",
+      "missing_tests": [
+        "Payment method creation",
+        "Charge processing",
+        "Webhook handling",
+        "Error recovery"
+      ]
+    },
+    {
+      "integration": "Twilio Communications",
+      "components": ["ai-receptionist", "packages/integrations"],
+      "criticality": "high",
+      "risk_if_untested": "Communication failures, appointment reminders not sent",
+      "estimated_effort": "2-3 days",
+      "test_framework": "Jest with Twilio test credentials",
+      "missing_tests": [
+        "SMS sending",
+        "Voice call initiation",
+        "Message status tracking",
+        "Error handling"
+      ]
+    }
+  ],
+  "component_test_gaps": [
+    {
+      "component": "packages/ui/src/components/forms/*",
+      "test_type": "unit",
+      "criticality": "high",
+      "risk_if_untested": "Form validation failures, data entry errors",
+      "estimated_effort": "3-4 days",
+      "test_framework": "Jest with React Testing Library",
+      "missing_tests": [
+        "Form validation",
+        "Error display",
+        "Accessibility compliance",
+        "Field interactions"
+      ]
+    },
+    {
+      "component": "packages/cache/src/lib/redis-cache.ts",
+      "test_type": "unit",
+      "criticality": "medium",
+      "risk_if_untested": "Performance degradation, cache invalidation issues",
+      "estimated_effort": "1-2 days",
+      "test_framework": "Jest with Redis mock",
+      "missing_tests": [
+        "Cache set/get operations",
+        "TTL management",
+        "Cache invalidation",
+        "Connection handling"
+      ]
+    },
+    {
+      "component": "packages/utils/src/lib/formatters/*",
+      "test_type": "unit",
+      "criticality": "medium",
+      "risk_if_untested": "Data formatting errors, display issues",
+      "estimated_effort": "1-2 days",
+      "test_framework": "Jest",
+      "missing_tests": [
+        "Date formatting",
+        "Currency formatting",
+        "Phone number formatting",
+        "Address formatting"
+      ]
+    }
+  ],
+  "recommendations": {
+    "immediate_priorities": [
+      {
+        "area": "Authentication & Authorization",
+        "reason": "Critical for HIPAA compliance and security",
+        "estimated_effort": "1 week",
+        "recommended_approach": "Start with unit tests for auth middleware, then integration tests for OAuth flow"
+      },
+      {
+        "area": "Payment Processing",
+        "reason": "Financial risk and PCI compliance requirements",
+        "estimated_effort": "1 week",
+        "recommended_approach": "Implement integration tests with Stripe test mode, focus on error scenarios"
+      },
+      {
+        "area": "Medical Data APIs",
+        "reason": "Patient safety and HIPAA compliance",
+        "estimated_effort": "2 weeks",
+        "recommended_approach": "Comprehensive API testing for medication-auth and inventory apps"
+      }
+    ],
+    "testing_strategy": {
+      "unit_test_coverage_target": "80%",
+      "integration_test_coverage_target": "70%",
+      "e2e_test_coverage_target": "Critical user journeys only",
+      "recommended_tools": {
+        "unit_testing": "Jest with React Testing Library",
+        "integration_testing": "Jest with Supertest and MSW",
+        "e2e_testing": "Playwright",
+        "coverage_reporting": "Jest coverage with SonarQube integration"
+      }
+    },
+    "implementation_plan": {
+      "phase_1": {
+        "duration": "2 weeks",
+        "focus": "Critical security and payment tests",
+        "deliverables": [
+          "Auth middleware tests",
+          "Payment API integration tests",
+          "Basic E2E for patient check-in"
+        ]
+      },
+      "phase_2": {
+        "duration": "3 weeks",
+        "focus": "Medical data and compliance",
+        "deliverables": [
+          "Medication authorization API tests",
+          "Inventory management tests",
+          "HIPAA compliance audit tests"
+        ]
+      },
+      "phase_3": {
+        "duration": "2 weeks",
+        "focus": "UI components and integrations",
+        "deliverables": [
+          "Form component tests",
+          "External integration tests",
+          "Performance test suite"
+        ]
+      },
+      "phase_4": {
+        "duration": "1 week",
+        "focus": "E2E scenarios and documentation",
+        "deliverables": [
+          "Complete E2E test suite",
+          "Test documentation",
+          "CI/CD integration"
+        ]
+      }
+    }
+  },
+  "estimated_total_effort": {
+    "critical_gaps": "4-6 weeks",
+    "high_priority_gaps": "3-4 weeks",
+    "medium_priority_gaps": "2-3 weeks",
+    "total": "9-13 weeks with 2-3 developers"
+  },
+  "risk_assessment": {
+    "highest_risks": [
+      "Unauthorized access to patient data due to untested auth flows",
+      "Payment processing errors leading to financial losses",
+      "HIPAA compliance violations from inadequate audit logging",
+      "Medical data integrity issues from untested CRUD operations",
+      "System failures during critical patient care workflows"
+    ],
+    "mitigation_strategies": [
+      "Implement automated security testing in CI/CD pipeline",
+      "Regular penetration testing for authentication flows",
+      "Continuous compliance monitoring with automated tools",
+      "Implement feature flags for gradual rollout of critical features",
+      "Establish test data management strategy for HIPAA compliance"
+    ]
+  }
+}

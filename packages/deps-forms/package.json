@@ -1,0 +1,11 @@
+{
+  "name": "@ganger/deps-forms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Form handling dependencies for Ganger Platform apps",
+  "main": "index.js",
+  "dependencies": {
+    "@hookform/resolvers": "^3.7.0",
+    "react-hook-form": "^7.58.0"
+  }
+}

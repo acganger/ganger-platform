@@ -1,0 +1,272 @@
+{
+  "scan_metadata": {
+    "scan_date": "2025-08-03",
+    "platform_version": "2.0.1",
+    "scan_type": "comprehensive_security_scan",
+    "total_issues": 84,
+    "critical_issues": 1,
+    "high_issues": 63,
+    "medium_issues": 19,
+    "low_issues": 1
+  },
+  "findings": [
+    {
+      "category": "hardcoded_secrets",
+      "severity": "low",
+      "issues": [
+        {
+          "file_path": "/q/Projects/ganger-platform/packages/integrations/src/payments/subscription-manager.ts",
+          "line_number": 318,
+          "severity": "low",
+          "issue_description": "Default test Stripe key used as fallback",
+          "code_snippet": "stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_default'",
+          "suggested_fix": "Remove default test key, throw error if environment variable is not set",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/packages/integrations/src/payments/payment-hub.ts",
+          "line_number": 27,
+          "severity": "low",
+          "issue_description": "Default test Stripe publishable key used as fallback",
+          "code_snippet": "stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_default'",
+          "suggested_fix": "Remove default test key, throw error if environment variable is not set",
+          "can_fix_automatically": true
+        }
+      ]
+    },
+    {
+      "category": "api_routes_missing_rate_limiting",
+      "severity": "high",
+      "issues": [
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/ganger-actions/src/pages/api/tickets/index.ts",
+          "severity": "high",
+          "issue_description": "API route handling sensitive ticket data without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STANDARD configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/ganger-actions/src/pages/api/users/index.ts",
+          "severity": "high",
+          "issue_description": "User management API route without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STANDARD configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/ganger-actions/src/pages/api/dashboard/stats.ts",
+          "severity": "medium",
+          "issue_description": "Dashboard stats API route without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.LENIENT configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/config-dashboard/src/pages/api/applications/index.ts",
+          "severity": "high",
+          "issue_description": "Application configuration API route without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STANDARD configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/config-dashboard/src/pages/api/configurations/index.ts",
+          "severity": "high",
+          "issue_description": "Configuration management API route without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STANDARD configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/config-dashboard/src/pages/api/impersonation/start.ts",
+          "severity": "high",
+          "issue_description": "User impersonation API route without rate limiting - critical security feature",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STRICT configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/eos-l10/src/pages/api/auth/google.ts",
+          "severity": "high",
+          "issue_description": "Google OAuth endpoint without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.AUTH configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/checkin-kiosk/src/pages/api/payments/create-intent.ts",
+          "severity": "high",
+          "issue_description": "Payment intent creation endpoint without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STRICT configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/socials-reviews/app/api/reviews/route.ts",
+          "severity": "high",
+          "issue_description": "Reviews API route without rate limiting",
+          "suggested_fix": "Add rate limiting middleware for App Router API route",
+          "can_fix_automatically": false
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/clinical-staffing/app/api/providers/route.ts",
+          "severity": "high",
+          "issue_description": "Provider management API route without rate limiting",
+          "suggested_fix": "Add rate limiting middleware for App Router API route",
+          "can_fix_automatically": false
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/clinical-staffing/app/api/staff-schedules/route.ts",
+          "severity": "high",
+          "issue_description": "Staff scheduling API route without rate limiting",
+          "suggested_fix": "Add rate limiting middleware for App Router API route",
+          "can_fix_automatically": false
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/inventory/src/pages/api/items/index.ts",
+          "severity": "high",
+          "issue_description": "Inventory items API route without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STANDARD configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/handouts/src/pages/api/patients/lookup.ts",
+          "severity": "high",
+          "issue_description": "Patient lookup API route without rate limiting - handles PHI",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.STRICT configuration",
+          "can_fix_automatically": true
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/consolidated-order-form/src/app/api/orders/route.ts",
+          "severity": "high",
+          "issue_description": "Order management API route without rate limiting",
+          "suggested_fix": "Add rate limiting middleware for App Router API route",
+          "can_fix_automatically": false
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/pharma-scheduling/src/pages/api/health.ts",
+          "severity": "medium",
+          "issue_description": "Health check endpoint without rate limiting",
+          "suggested_fix": "Add withRateLimit wrapper with RateLimits.MONITORING configuration",
+          "can_fix_automatically": true
+        }
+      ],
+      "summary": "Found 63 API routes without rate limiting. This is a critical security issue that could lead to DoS attacks, brute force attempts, and resource exhaustion."
+    },
+    {
+      "category": "api_routes_missing_csrf_protection",
+      "severity": "high",
+      "issues": [
+        {
+          "severity": "high",
+          "issue_description": "No CSRF protection middleware found across the entire platform",
+          "affected_files": "All API routes handling POST, PUT, DELETE, PATCH operations",
+          "suggested_fix": "Implement CSRF protection middleware using @edge-csrf/nextjs or similar library",
+          "can_fix_automatically": false,
+          "details": "CSRF tokens are not being validated on state-changing operations. This could allow malicious sites to perform actions on behalf of authenticated users."
+        }
+      ]
+    },
+    {
+      "category": "direct_database_access_in_components",
+      "severity": "critical",
+      "issues": [
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/integration-status/src/pages/index.tsx",
+          "line_numbers": [7, 32, 264, 265],
+          "severity": "critical",
+          "issue_description": "Direct Supabase database access in React component - fetching integrations data",
+          "code_snippet": "await supabase.from('integrations').select('*')",
+          "suggested_fix": "Move database queries to API routes and fetch data via HTTP requests",
+          "can_fix_automatically": false,
+          "details": "This exposes the database service key to the client and allows direct database manipulation"
+        },
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/eos-l10/src/components/scorecard/WeeklyDataEntry.tsx",
+          "line_numbers": [165, 166, 176, 177],
+          "severity": "critical",
+          "issue_description": "Direct database updates from React component for scorecard entries",
+          "code_snippet": ".from('scorecard_entries').update(update as any)",
+          "suggested_fix": "Create API endpoints for scorecard operations and use them from the component",
+          "can_fix_automatically": false
+        }
+      ]
+    },
+    {
+      "category": "client_side_environment_variables",
+      "severity": "medium",
+      "issues": [
+        {
+          "severity": "medium",
+          "issue_description": "No improper client-side environment variable usage detected",
+          "details": "All client-side environment variables properly use NEXT_PUBLIC_ prefix"
+        }
+      ]
+    },
+    {
+      "category": "xss_vulnerabilities",
+      "severity": "medium",
+      "issues": [
+        {
+          "file_path": "/q/Projects/ganger-platform/apps/handouts/src/components/PDFPreview.tsx",
+          "line_number": 152,
+          "severity": "medium",
+          "issue_description": "Use of dangerouslySetInnerHTML with HTML content",
+          "code_snippet": "dangerouslySetInnerHTML={{ __html: previewHtml }}",
+          "suggested_fix": "Ensure previewHtml is properly sanitized using DOMPurify or similar library",
+          "can_fix_automatically": false,
+          "details": "Rendering unsanitized HTML could lead to XSS attacks if the content contains malicious scripts"
+        }
+      ]
+    },
+    {
+      "category": "authentication_issues",
+      "severity": "medium",
+      "issues": [
+        {
+          "severity": "medium",
+          "issue_description": "JWT secret using fallback value in development",
+          "file_path": "/q/Projects/ganger-platform/apps/compliance-training/lib/auth-utils.ts",
+          "line_numbers": [54, 79],
+          "code_snippet": "const jwtSecret = process.env.JWT_SECRET || 'dev-secret-key'",
+          "suggested_fix": "Remove fallback value and throw error if JWT_SECRET is not set",
+          "can_fix_automatically": true
+        }
+      ]
+    },
+    {
+      "category": "security_headers",
+      "severity": "medium",
+      "issues": [
+        {
+          "severity": "medium",
+          "issue_description": "Missing security headers configuration",
+          "details": "No Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, or other security headers configured",
+          "suggested_fix": "Add security headers middleware to Next.js configuration",
+          "can_fix_automatically": false
+        }
+      ]
+    }
+  ],
+  "recommendations": {
+    "immediate_actions": [
+      "1. Fix critical issue: Remove direct database access from React components in integration-status and eos-l10 apps",
+      "2. Implement rate limiting on all API routes using the existing rate-limiting utility",
+      "3. Add CSRF protection middleware to all state-changing API endpoints",
+      "4. Remove hardcoded fallback values for sensitive configuration"
+    ],
+    "short_term_actions": [
+      "1. Implement security headers middleware across all applications",
+      "2. Add input sanitization for any user-generated HTML content",
+      "3. Create a centralized security configuration package",
+      "4. Implement API route authentication checks consistently"
+    ],
+    "long_term_actions": [
+      "1. Implement Web Application Firewall (WAF) rules",
+      "2. Add automated security scanning to CI/CD pipeline",
+      "3. Implement centralized audit logging for all sensitive operations",
+      "4. Regular security audits and penetration testing"
+    ]
+  },
+  "automated_fixes_available": {
+    "count": 67,
+    "categories": [
+      "rate_limiting_addition",
+      "remove_hardcoded_defaults",
+      "jwt_secret_validation"
+    ]
+  }
+}

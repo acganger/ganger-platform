@@ -35,3 +35,4 @@ export declare class HealthChecker {
 }
 export declare function createHealthEndpoint(serviceName: string): (req: any, res: any) => Promise<void>;
 export declare function createNextHealthRoute(serviceName: string): (req: any, res: any) => Promise<void>;
+//# sourceMappingURL=health-check.d.ts.map

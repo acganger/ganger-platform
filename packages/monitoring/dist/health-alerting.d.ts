@@ -31,3 +31,4 @@ export declare class HealthAlertingService {
     private getSeverityColor;
 }
 export declare const healthAlertingService: HealthAlertingService;
+//# sourceMappingURL=health-alerting.d.ts.map

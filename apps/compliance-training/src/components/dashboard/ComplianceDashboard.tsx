@@ -11,7 +11,7 @@ import { MobileComplianceView } from '@/components/mobile/MobileComplianceView';
 import { ResponsiveLayout, useResponsive } from '@/components/layout/ResponsiveLayout';
 import { ComplianceFilters } from '@/components/filters/ComplianceFilters';
 import { ComplianceStats } from '@/components/dashboard/ComplianceStats';
-import { ComplianceCharts } from '@/components/charts/ComplianceCharts';
+import { ComplianceChartsLazy as ComplianceCharts } from '@/components/charts/ComplianceChartsLazy';
 import { ExportControls } from '@/components/exports/ExportControls';
 import { SyncStatusIndicator } from '@/components/shared/SyncStatusIndicator';
 import { QuickSearchPanel } from '@/components/search/QuickSearchPanel';

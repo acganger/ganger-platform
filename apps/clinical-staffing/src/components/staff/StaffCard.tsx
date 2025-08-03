@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Button } from '@ganger/ui';
 import { StaffMember, StaffSchedule } from '@/types/staffing';
 import { formatTime } from '@/utils/formatting';
@@ -12,7 +13,7 @@ interface StaffCardProps {
   onRemove?: () => void;
 }
 
-export function StaffCard({ 
+const StaffCardComponent = ({ 
   staff, 
   schedule, 
   showAssignment = false,
@@ -20,7 +21,7 @@ export function StaffCard({
   status = 'available',
   showRemoveButton = false,
   onRemove
-}: StaffCardProps) {
+}: StaffCardProps) => {
   
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -183,4 +184,27 @@ export function StaffCard({
       )}
     </div>
   );
+};
+
+// Custom comparison function for React.memo
+const areEqual = (prevProps: StaffCardProps, nextProps: StaffCardProps) => {
+  return (
+    prevProps.staff.id === nextProps.staff.id &&
+    prevProps.staff.name === nextProps.staff.name &&
+    prevProps.staff.role === nextProps.staff.role &&
+    prevProps.staff.availability_start_time === nextProps.staff.availability_start_time &&
+    prevProps.staff.availability_end_time === nextProps.staff.availability_end_time &&
+    prevProps.schedule?.id === nextProps.schedule?.id &&
+    prevProps.schedule?.provider_id === nextProps.schedule?.provider_id &&
+    prevProps.showAssignment === nextProps.showAssignment &&
+    prevProps.compact === nextProps.compact &&
+    prevProps.status === nextProps.status &&
+    prevProps.showRemoveButton === nextProps.showRemoveButton
+  );
+};
+
+export function StaffCard(props: StaffCardProps) {
+  return <StaffCardMemoized {...props} />;
 }
+
+const StaffCardMemoized = memo(StaffCardComponent, areEqual);

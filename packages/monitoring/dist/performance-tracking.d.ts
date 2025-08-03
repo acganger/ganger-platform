@@ -54,3 +54,4 @@ export declare function usePerformanceTracking(componentName: string): {
     getMetrics: () => PerformanceMeasure[];
 };
 export declare function trackWebVitals(): void;
+//# sourceMappingURL=performance-tracking.d.ts.map

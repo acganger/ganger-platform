@@ -145,3 +145,4 @@ export function createNextHealthRoute(serviceName) {
         return healthEndpoint(req, res);
     };
 }
+//# sourceMappingURL=health-check.js.map

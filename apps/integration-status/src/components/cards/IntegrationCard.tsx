@@ -1,33 +1,40 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import type { Integration, ServiceMetrics, IntegrationStatusCardProps } from '@/types'
 import { LoadingSkeleton } from '@/components/ui/LoadingState'
 
-export function IntegrationCard({ 
+const IntegrationCardComponent = ({ 
   integration, 
   onClick, 
   onTestConnection,
   metrics: providedMetrics,
   compact = false,
   showActions = true
-}: IntegrationStatusCardProps & { onTestConnection?: () => void }) {
+}: IntegrationStatusCardProps & { onTestConnection?: () => void }) => {
   const [metrics, setMetrics] = useState<ServiceMetrics | null>(providedMetrics || null)
   const [isLoadingMetrics, setIsLoadingMetrics] = useState(false)
   const [isTestingConnection, setIsTestingConnection] = useState(false)
 
-  // Mock metrics loading for now
+  // Fetch metrics if not provided
   useEffect(() => {
     if (!providedMetrics && !compact) {
-      setIsLoadingMetrics(true)
-      // Simulate loading metrics
-      setTimeout(() => {
-        setMetrics({
-          integration_id: integration.id,
-          timestamp: new Date().toISOString(),
-          uptime_percentage: 99.5,
-          avg_response_time: 234,
+      const fetchMetrics = async () => {
+        setIsLoadingMetrics(true)
+        try {
+          // TODO: Replace with actual API call when metrics endpoint is ready
+          // const response = await fetch(`/api/integrations/${integration.id}/metrics`)
+          // const data = await response.json()
+          // setMetrics(data)
+          
+          // Simulate loading metrics for now
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          setMetrics({
+            integration_id: integration.id,
+            timestamp: new Date().toISOString(),
+            uptime_percentage: 99.5,
+            avg_response_time: 234,
           p95_response_time: 456,
           p99_response_time: 789,
           total_requests: 15420,
@@ -40,8 +47,15 @@ export function IntegrationCard({
           response_time_trend: -1,
           success_rate_trend: 0
         })
-        setIsLoadingMetrics(false)
-      }, 1000)
+        } catch (error) {
+          console.error('Failed to fetch metrics:', error)
+          // Keep metrics as null to show "unavailable" state
+        } finally {
+          setIsLoadingMetrics(false)
+        }
+      }
+      
+      fetchMetrics()
     }
   }, [integration.id, providedMetrics, compact])
 
@@ -255,3 +269,21 @@ export function IntegrationCard({
     </div>
   )
 }
+
+// Custom comparison function for React.memo
+const areEqual = (
+  prevProps: IntegrationStatusCardProps & { onTestConnection?: () => void },
+  nextProps: IntegrationStatusCardProps & { onTestConnection?: () => void }
+) => {
+  return (
+    prevProps.integration.id === nextProps.integration.id &&
+    prevProps.integration.health_status === nextProps.integration.health_status &&
+    prevProps.integration.last_health_check === nextProps.integration.last_health_check &&
+    prevProps.metrics?.integration_id === nextProps.metrics?.integration_id &&
+    prevProps.metrics?.timestamp === nextProps.metrics?.timestamp &&
+    prevProps.compact === nextProps.compact &&
+    prevProps.showActions === nextProps.showActions
+  )
+}
+
+export const IntegrationCard = memo(IntegrationCardComponent, areEqual)

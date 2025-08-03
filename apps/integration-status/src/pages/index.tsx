@@ -4,7 +4,6 @@ import type { Integration } from '../types/integration'
 import { useAuth } from '../lib/auth'
 import { useToast } from '@ganger/ui'
 import { AuthGuard } from '@ganger/auth/staff'
-import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic';
 
@@ -18,21 +17,6 @@ const formatDate = (date: string) => {
     minute: '2-digit'
   })
 }
-
-// Create Supabase client
-const createSupabaseClient = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  
-  if (!supabaseUrl || !supabaseKey) {
-    console.error('Missing Supabase credentials')
-    return null
-  }
-  
-  return createClient(supabaseUrl, supabaseKey)
-}
-
-const supabase = createSupabaseClient()
 
 // Production-ready UI components
 const AppLayout = ({ children }: { children: React.ReactNode }) => (
@@ -249,99 +233,29 @@ function IntegrationStatusDashboard() {
   // Custom hooks
   const { addToast } = useToast()
 
-  // Load initial data from Supabase
+  // Load initial data from API
   const loadDashboardData = useCallback(async () => {
     try {
       setIsLoading(true)
       setError(null)
 
-      // Fetch integrations from the database
-      if (!supabase) {
-        throw new Error('Supabase client not initialized')
-      }
+      // Fetch integrations from the API
+      const response = await fetch('/api/integrations')
       
-      const { data: integrationsData, error: dbError } = await supabase
-        .from('integrations')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: true })
-
-      if (dbError) {
-        throw new Error(`Database error: ${(dbError as any)?.message || 'Unknown error'}`)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`)
       }
 
-      // If no data found, create default integrations
-      if (!integrationsData || integrationsData.length === 0) {
-        const defaultIntegrations: Integration[] = [
-          {
-            id: 'supabase-1',
-            name: 'supabase-database',
-            display_name: 'Supabase Database',
-            description: 'Primary database for patient records and platform data',
-            service_type: 'database',
-            health_status: 'healthy',
-            base_url: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
-            auth_type: 'bearer_token',
-            environment: 'production',
-            is_active: true,
-            last_health_check: new Date().toISOString(),
-            last_successful_check: new Date().toISOString(),
-            next_health_check: new Date(Date.now() + 300000).toISOString(),
-            health_check_interval: 300,
-            config: {
-              timeout: 5000,
-              retry_attempts: 3,
-              alert_thresholds: {
-                response_time_warning: 1000,
-                response_time_critical: 5000,
-                uptime_warning: 95,
-                uptime_critical: 90,
-                error_rate_warning: 5,
-                error_rate_critical: 10
-              },
-              monitoring_enabled: true
-            },
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            created_by: user?.email || 'system'
-          },
-          {
-            id: 'google-1',
-            name: 'google-workspace',
-            display_name: 'Google Workspace',
-            description: 'Email, calendar, and authentication integration',
-            service_type: 'api',
-            health_status: 'healthy',
-            base_url: 'https://www.googleapis.com',
-            auth_type: 'oauth2',
-            environment: 'production',
-            is_active: true,
-            last_health_check: new Date().toISOString(),
-            last_successful_check: new Date().toISOString(),
-            next_health_check: new Date(Date.now() + 300000).toISOString(),
-            health_check_interval: 300,
-            config: {
-              timeout: 3000,
-              retry_attempts: 2,
-              alert_thresholds: {
-                response_time_warning: 2000,
-                response_time_critical: 10000,
-                uptime_warning: 95,
-                uptime_critical: 90,
-                error_rate_warning: 5,
-                error_rate_critical: 15
-              },
-              monitoring_enabled: true
-            },
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            created_by: user?.email || 'system'
-          }
-        ]
-        
-        setIntegrations(defaultIntegrations)
+      const result = await response.json()
+      
+      if (result.success && result.data) {
+        setIntegrations(result.data)
+      } else if (result.integrations) {
+        // Handle legacy response format
+        setIntegrations(result.integrations)
       } else {
-        setIntegrations(integrationsData as Integration[])
+        throw new Error('Invalid response format')
       }
 
     } catch (err) {
@@ -355,7 +269,7 @@ function IntegrationStatusDashboard() {
     } finally {
       setIsLoading(false)
     }
-  }, [addToast, user?.email])
+  }, [addToast])
 
   // Initial load
   useEffect(() => {

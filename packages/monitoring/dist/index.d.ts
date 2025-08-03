@@ -13,3 +13,4 @@ export declare function getSystemHealth(): Promise<{
     performance: PerformanceMetrics;
     overall_status: 'healthy' | 'degraded' | 'critical';
 }>;
+//# sourceMappingURL=index.d.ts.map

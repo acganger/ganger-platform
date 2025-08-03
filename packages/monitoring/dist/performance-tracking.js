@@ -168,3 +168,4 @@ export function trackWebVitals() {
         performanceTracker.serverTiming('cls', clsValue);
     }).observe({ entryTypes: ['layout-shift'] });
 }
+//# sourceMappingURL=performance-tracking.js.map

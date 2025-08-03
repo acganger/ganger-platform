@@ -12,6 +12,9 @@ export class SubscriptionManager {
   private stripeSecretKey: string;
 
   constructor(config: { stripeSecretKey: string }) {
+    if (!config.stripeSecretKey) {
+      throw new Error('STRIPE_SECRET_KEY environment variable is required');
+    }
     this.stripeSecretKey = config.stripeSecretKey;
   }
 
@@ -315,5 +318,5 @@ export class SubscriptionManager {
 
 // Export singleton instance
 export const subscriptionManager = new SubscriptionManager({
-  stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_default'
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY || ''
 });

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Ticket } from '@/types';
 import { clsx as cn, Badge } from '@ganger/ui-catalyst';
 import { formatTimeAgo } from '@/lib/utils';
@@ -18,7 +19,7 @@ interface TicketCardProps {
   selected?: boolean;
 }
 
-const StatusBadge = ({ status }: { status: Ticket['status'] }) => {
+const StatusBadge = memo(({ status }: { status: Ticket['status'] }) => {
   const statusConfig = {
     pending: { label: 'Pending', variant: 'warning' as const },
     open: { label: 'Open', variant: 'primary' as const },
@@ -35,9 +36,9 @@ const StatusBadge = ({ status }: { status: Ticket['status'] }) => {
       {config.label}
     </Badge>
   );
-};
+});
 
-const PriorityIndicator = ({ priority }: { priority: Ticket['priority'] }) => {
+const PriorityIndicator = memo(({ priority }: { priority: Ticket['priority'] }) => {
   const priorityConfig = {
     low: { className: 'priority-low', label: 'Low Priority' },
     medium: { className: 'priority-medium', label: 'Medium Priority' },
@@ -53,9 +54,9 @@ const PriorityIndicator = ({ priority }: { priority: Ticket['priority'] }) => {
       aria-label={config.label}
     />
   );
-};
+});
 
-const FormTypeIcon = ({ formType }: { formType: Ticket['form_type'] }) => {
+const FormTypeIcon = memo(({ formType }: { formType: Ticket['form_type'] }) => {
   const icons = {
     support_ticket: AlertCircle,
     time_off_request: Clock,
@@ -65,9 +66,9 @@ const FormTypeIcon = ({ formType }: { formType: Ticket['form_type'] }) => {
 
   const Icon = icons[formType];
   return <Icon className="h-4 w-4" />;
-};
+});
 
-export const TicketCard = ({ ticket, onClick, selected }: TicketCardProps) => {
+const TicketCardComponent = ({ ticket, onClick, selected }: TicketCardProps) => {
   const isUrgent = ticket.priority === 'urgent';
   
   return (
@@ -168,3 +169,19 @@ export const TicketCard = ({ ticket, onClick, selected }: TicketCardProps) => {
     </Card>
   );
 };
+
+// Custom comparison function for React.memo
+const areEqual = (prevProps: TicketCardProps, nextProps: TicketCardProps) => {
+  return (
+    prevProps.selected === nextProps.selected &&
+    prevProps.ticket.id === nextProps.ticket.id &&
+    prevProps.ticket.status === nextProps.ticket.status &&
+    prevProps.ticket.priority === nextProps.ticket.priority &&
+    prevProps.ticket.title === nextProps.ticket.title &&
+    prevProps.ticket.assigned_to?.id === nextProps.ticket.assigned_to?.id &&
+    prevProps.ticket.comments.length === nextProps.ticket.comments.length &&
+    prevProps.ticket.attachments.length === nextProps.ticket.attachments.length
+  );
+};
+
+export const TicketCard = memo(TicketCardComponent, areEqual);

@@ -379,3 +379,4 @@ export class PerformanceMonitor {
     }
 }
 export const performanceMonitor = new PerformanceMonitor();
+//# sourceMappingURL=performance-monitor.js.map

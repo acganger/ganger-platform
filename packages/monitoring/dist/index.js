@@ -46,3 +46,4 @@ export async function getSystemHealth() {
         overall_status: overallStatus
     };
 }
+//# sourceMappingURL=index.js.map

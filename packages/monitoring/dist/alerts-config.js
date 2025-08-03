@@ -234,3 +234,4 @@ Severity: ${threshold.severity}`;
     }
 }
 export const alertManager = new AlertManager();
+//# sourceMappingURL=alerts-config.js.map

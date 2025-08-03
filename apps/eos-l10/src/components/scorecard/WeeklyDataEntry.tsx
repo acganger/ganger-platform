@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-eos';
 import { Scorecard, ScorecardMetric, ScorecardEntry } from '@/types/eos';
-import { supabase } from '@/lib/supabase';
 import { 
   Save, 
   Target, 
@@ -142,13 +141,12 @@ export default function WeeklyDataEntry({
         const existingEntry = existingEntries.find(e => e.metric_id === metricId);
 
         const entryPayload = {
+          scorecard_id: scorecard.id,
           metric_id: metricId,
           value,
           week_ending: selectedWeek,
           notes: entryData.notes || null,
-          status: entryData.status,
-          entered_by: user.id,
-          entered_at: new Date().toISOString()
+          status: entryData.status
         };
 
         if (existingEntry) {
@@ -158,31 +156,25 @@ export default function WeeklyDataEntry({
         }
       }
 
-      // Perform updates
-      if (updates.length > 0) {
-        for (const update of updates) {
-          const { error } = await supabase
-            .from('scorecard_entries')
-            .update(update as any)
-            .eq('id', update.id as any);
-          
-          if (error) throw error;
-        }
-      }
+      // Save via API
+      const response = await fetch('/api/scorecard/entries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ updates, inserts })
+      });
 
-      // Perform inserts
-      if (inserts.length > 0) {
-        const { error } = await supabase
-          .from('scorecard_entries')
-          .insert(inserts as any);
-        
-        if (error) throw error;
+      const result = await response.json();
+      
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || result.message || 'Failed to save entries');
       }
 
       onDataSaved();
       
     } catch (error) {
-      alert('Failed to save entries. Please try again.');
+      alert(error instanceof Error ? error.message : 'Failed to save entries. Please try again.');
     } finally {
       setSaving(false);
     }

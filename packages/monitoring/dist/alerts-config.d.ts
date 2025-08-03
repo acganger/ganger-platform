@@ -47,3 +47,4 @@ declare class AlertManager {
 }
 export declare const alertManager: AlertManager;
 export {};
+//# sourceMappingURL=alerts-config.d.ts.map

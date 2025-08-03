@@ -39,3 +39,4 @@ export declare class IntegrationHealthMonitor {
     }>;
 }
 export declare const integrationHealthMonitor: IntegrationHealthMonitor;
+//# sourceMappingURL=integration-health.d.ts.map

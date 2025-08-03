@@ -1,0 +1,252 @@
+{
+  "scanDate": "2025-08-03",
+  "platform": "Ganger Platform",
+  "totalApps": 22,
+  "summary": {
+    "criticalIssues": 18,
+    "highPriorityIssues": 89,
+    "mediumPriorityIssues": 24,
+    "lowPriorityIssues": 12,
+    "automationPossible": 85
+  },
+  "issues": {
+    "mockData": {
+      "severity": "medium",
+      "count": 8,
+      "description": "Mock or test data found in production code",
+      "findings": [
+        {
+          "file": "apps/compliance-training/src/utils/testing.ts",
+          "lines": [166, 420, 426-428],
+          "type": "TestDataFactory in production",
+          "risk": "medium",
+          "autoFixable": false,
+          "suggestion": "Move test utilities to __tests__ directory",
+          "snippet": "TestDataFactory.createTestDataset()"
+        },
+        {
+          "file": "apps/component-showcase/src/pages/index.tsx",
+          "lines": [76, 1580, 1585],
+          "type": "Sample data in production component",
+          "risk": "low",
+          "autoFixable": true,
+          "suggestion": "Move sample data to separate demo file or load from API",
+          "snippet": "const sampleData = [{id: 1, name: 'John Doe', ...}]"
+        },
+        {
+          "file": "apps/integration-status/src/types/index.ts",
+          "line": 189,
+          "type": "Mock data interface",
+          "risk": "low",
+          "autoFixable": false,
+          "suggestion": "Consider if this interface is needed in production types"
+        }
+      ]
+    },
+    "silentErrorHandling": {
+      "severity": "high",
+      "count": 6,
+      "description": "Catch blocks that don't properly log or handle errors",
+      "findings": [
+        {
+          "file": "apps/ganger-staff/src/pages/index.tsx",
+          "lines": [157-159],
+          "type": "Empty catch with comment only",
+          "risk": "high",
+          "autoFixable": true,
+          "suggestion": "Add error logging: console.error('[HomePage] Failed to load app metadata:', error)",
+          "snippet": "} catch {\n  // Failed to load app metadata\n}"
+        },
+        {
+          "file": "apps/ganger-staff/src/pages/auth/logout.tsx",
+          "lines": [16-19],
+          "type": "Silent failure with navigation",
+          "risk": "medium",
+          "autoFixable": true,
+          "suggestion": "Log error before redirecting: console.error('[Logout] Sign out failed:', error)",
+          "snippet": "} catch {\n  // Logout failed, redirect anyway\n  router.push('/');\n}"
+        },
+        {
+          "file": "apps/ganger-staff/src/pages/auth/login.tsx",
+          "lines": [21-23],
+          "type": "Empty catch block",
+          "risk": "high",
+          "autoFixable": true,
+          "suggestion": "Add error handling: setError(error.message) and console.error",
+          "snippet": "} catch {\n  // Sign in failed\n}"
+        }
+      ]
+    },
+    "missingErrorBoundaries": {
+      "severity": "high",
+      "count": 15,
+      "description": "Apps without error boundaries for graceful error handling",
+      "findings": [
+        {
+          "apps": [
+            "ai-purchasing-agent",
+            "ai-receptionist",
+            "batch-closeout",
+            "call-center-ops",
+            "checkin-kiosk",
+            "component-showcase",
+            "config-dashboard",
+            "consolidated-order-form",
+            "eos-l10",
+            "handouts",
+            "inventory",
+            "llm-demo",
+            "medication-auth",
+            "pharma-scheduling",
+            "platform-dashboard"
+          ],
+          "risk": "high",
+          "autoFixable": true,
+          "suggestion": "Add ErrorBoundary component to _app.tsx or layout",
+          "template": "import { ErrorBoundary } from '@ganger/ui/components/ErrorBoundary'"
+        }
+      ]
+    },
+    "typeScriptAnyTypes": {
+      "severity": "high",
+      "count": 50,
+      "description": "Usage of 'any' type defeats TypeScript's type safety",
+      "findings": [
+        {
+          "file": "apps/ganger-staff/src/pages/index.tsx",
+          "line": 227,
+          "type": "catch block any type",
+          "risk": "medium",
+          "autoFixable": true,
+          "suggestion": "Use 'unknown' and type guard: catch (error: unknown)",
+          "snippet": "} catch (error: any) {"
+        },
+        {
+          "file": "apps/eos-l10/src/types/database.ts",
+          "lines": [15, 24, 33, 75, 88, 101],
+          "type": "Database schema with any types",
+          "risk": "high",
+          "autoFixable": false,
+          "suggestion": "Define proper types for settings and agenda fields",
+          "snippet": "settings: any;"
+        },
+        {
+          "file": "apps/eos-l10/src/components/meeting/*.tsx",
+          "count": 35,
+          "type": "Excessive any casting",
+          "risk": "high",
+          "autoFixable": true,
+          "suggestion": "Remove unnecessary 'as any' casts, use proper types"
+        }
+      ]
+    },
+    "codeDuplication": {
+      "severity": "medium",
+      "count": 3,
+      "description": "Duplicate utility functions across apps",
+      "findings": [
+        {
+          "function": "formatDate",
+          "locations": [
+            "apps/clinical-staffing/src/utils/formatting.ts:3",
+            "apps/compliance-training/lib/utils.ts:17"
+          ],
+          "risk": "low",
+          "autoFixable": true,
+          "suggestion": "Move to @ganger/utils package",
+          "impact": "Maintenance overhead, inconsistent formatting"
+        },
+        {
+          "function": "formatPhoneNumber",
+          "locations": [
+            "apps/call-center-ops/src/lib/utils.ts:98"
+          ],
+          "risk": "low",
+          "autoFixable": true,
+          "suggestion": "Check if exists in @ganger/utils, otherwise add it"
+        }
+      ]
+    },
+    "inconsistentPatterns": {
+      "severity": "medium",
+      "count": 4,
+      "description": "Different approaches to similar problems",
+      "findings": [
+        {
+          "pattern": "Error handling approaches",
+          "variations": [
+            "onError callback pattern (ganger-actions forms)",
+            "try-catch with console.error",
+            "try-catch with state setError",
+            "ValidationError classes"
+          ],
+          "risk": "medium",
+          "autoFixable": false,
+          "suggestion": "Standardize on consistent error handling pattern using @ganger/utils"
+        },
+        {
+          "pattern": "API response handling",
+          "variations": [
+            "Direct response.json()",
+            "NextResponse.json()",
+            "Response with status codes"
+          ],
+          "risk": "low",
+          "autoFixable": true,
+          "suggestion": "Use standardized API response helpers from @ganger/utils"
+        }
+      ]
+    },
+    "unusedCode": {
+      "severity": "low",
+      "count": "unknown",
+      "description": "Unused exports and imports (requires full AST analysis)",
+      "findings": [
+        {
+          "note": "Full analysis requires TypeScript compiler API or dedicated tools like ts-prune",
+          "risk": "low",
+          "autoFixable": true,
+          "suggestion": "Run 'npx ts-prune' on each app to identify unused exports"
+        }
+      ]
+    }
+  },
+  "recommendations": {
+    "immediate": [
+      "Fix all silent error handling - these hide production issues",
+      "Add error boundaries to all apps missing them",
+      "Replace 'any' types in eos-l10 database schema"
+    ],
+    "shortTerm": [
+      "Create standardized error handling utilities in @ganger/utils",
+      "Move all formatting utilities to shared packages",
+      "Remove test data factories from production builds"
+    ],
+    "longTerm": [
+      "Implement automated code quality checks in CI/CD",
+      "Add TypeScript strict mode to all apps",
+      "Create coding standards documentation"
+    ]
+  },
+  "automationOpportunities": {
+    "automated": {
+      "count": 85,
+      "items": [
+        "Adding missing error boundaries (15 apps)",
+        "Fixing silent catch blocks (6 instances)",
+        "Replacing error: any with error: unknown (50 instances)",
+        "Moving duplicate utilities to shared packages (3 functions)",
+        "Standardizing API response patterns"
+      ]
+    },
+    "manual": {
+      "count": 58,
+      "items": [
+        "Defining proper types for 'any' in database schemas",
+        "Reviewing and removing test data from production",
+        "Architectural decisions on error handling patterns",
+        "Determining which utilities belong in shared packages"
+      ]
+    }
+  }
+}

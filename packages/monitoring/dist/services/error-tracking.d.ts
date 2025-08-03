@@ -35,3 +35,4 @@ export declare function logErrorToService(error: Error, errorInfo?: {
 export declare function measureApiCall(endpoint: string, duration: number, status: number): void;
 export declare function measurePageLoad(): void;
 export {};
+//# sourceMappingURL=error-tracking.d.ts.map
