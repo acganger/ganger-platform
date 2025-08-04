@@ -263,7 +263,6 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
         .from('team_members')
         .select(`
           role,
-          is_active,
           teams:team_id (
             id,
             name,
@@ -275,8 +274,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
             updated_at
           )
         `)
-        .eq('user_id', authUser.id)
-        .eq('is_active', true);
+        .eq('user_id', authUser.id);
 
       if (!teamsError && teamsData) {
         const teams = teamsData
@@ -302,8 +300,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       const { data: permissionsData, error: permissionsError } = await supabase
         .from('app_permissions')
         .select('app_name, permission_level')
-        .eq('user_id', authUser.id)
-        .or('expires_at.is.null,expires_at.gt.now()'); // Include non-expired permissions
+        .eq('user_id', authUser.id);
 
       if (!permissionsError && permissionsData) {
         const permissions: Record<string, AppPermission['permission_level']> = {};

@@ -107,7 +107,7 @@ export function useHandoutGenerator() {
               title: 'Email sent',
               message: `Handouts sent to ${request.patient.email}`
             });
-          }).catch(error => {
+          }).catch(() => {
             dispatch({
               type: 'UPDATE_DELIVERY_STATUS',
               payload: { id: generationId, method: 'email', status: 'failed' }

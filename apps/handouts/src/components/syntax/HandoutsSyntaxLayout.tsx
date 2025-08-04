@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { clsx } from 'clsx'
-import { Search, Github, FileText } from 'lucide-react'
+import { Search, FileText } from 'lucide-react'
 
 import { GangerLogo } from '@ganger/ui'
 import { MobileNavigation } from '@/components/syntax/MobileNavigation'
@@ -64,9 +63,6 @@ function Header() {
 }
 
 export function HandoutsSyntaxLayout({ children }: { children: React.ReactNode }) {
-  let pathname = usePathname()
-  let isHomePage = pathname === '/'
-
   return (
     <div className="flex w-full flex-col">
       <Header />

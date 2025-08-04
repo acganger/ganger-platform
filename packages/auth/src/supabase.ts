@@ -38,6 +38,15 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
   if (!supabaseInstance) {
     const finalConfig = { ...defaultConfig, ...config };
     
+    console.log('[Supabase] 🚀 Creating Supabase client with config:', {
+      url: finalConfig.supabaseUrl,
+      hasAnonKey: !!finalConfig.supabaseAnonKey,
+      anonKeyPrefix: finalConfig.supabaseAnonKey.substring(0, 20) + '...',
+      redirectUrl: finalConfig.redirectUrl,
+      isClientSide: typeof window !== 'undefined',
+      timestamp: new Date().toISOString()
+    });
+    
     supabaseInstance = createClient(
       finalConfig.supabaseUrl,
       finalConfig.supabaseAnonKey,
@@ -47,6 +56,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
           autoRefreshToken: true,
           detectSessionInUrl: true,
           storage: typeof window !== 'undefined' ? createGangerCookieStorage() : undefined,
+          debug: true, // Enable auth debug mode
         },
         global: {
           headers: {
@@ -56,6 +66,8 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
         }
       }
     );
+    
+    console.log('[Supabase] ✅ Supabase client created successfully');
   }
   
   return supabaseInstance;

@@ -10,14 +10,24 @@ export default function CallbackPage() {
   const { user, loading: authLoading } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(true);
+  const [debugInfo, setDebugInfo] = useState<string[]>([]);
+  
+  const addDebug = (message: string) => {
+    console.log(`[Callback] ${message}`);
+    setDebugInfo(prev => [...prev, `${new Date().toISOString()} - ${message}`]);
+  };
 
   useEffect(() => {
     const handleCallback = async () => {
+      addDebug('🔄 Callback handler started');
+      addDebug(`URL: ${window.location.href}`);
+      addDebug(`Query params: ${JSON.stringify(router.query)}`);
+      
       try {
         // Check for OAuth errors first
         const urlError = router.query.error || router.query.error_description;
         if (urlError) {
-          console.error('[Callback] OAuth error:', urlError);
+          addDebug(`❌ OAuth error in URL: ${urlError}`);
           setError(typeof urlError === 'string' ? urlError : 'Authentication failed');
           setIsProcessing(false);
           return;
@@ -25,29 +35,43 @@ export default function CallbackPage() {
 
         // Wait for router to be ready
         if (!router.isReady) {
+          addDebug('⏳ Waiting for router to be ready...');
           return;
         }
+        
+        addDebug('✅ Router is ready');
 
         // Get the current session first
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        addDebug('🔍 Checking for existing session...');
+        const { data: { session: currentSession }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          addDebug(`❌ Error getting session: ${sessionError.message}`);
+        }
         
         if (currentSession) {
-          console.log('[Callback] Session already exists:', currentSession.user.email);
+          addDebug(`✅ Session already exists: ${currentSession.user.email}`);
+          addDebug('🚀 Redirecting to home page...');
           // Give the auth context a moment to update
           setTimeout(() => {
             router.push('/');
           }, 100);
           return;
         }
+        
+        addDebug('❓ No existing session found');
 
         // Handle OAuth code exchange
         const { code } = router.query;
         if (code && typeof code === 'string') {
-          console.log('[Callback] Exchanging OAuth code for session...');
+          addDebug(`🔐 OAuth code found: ${code.substring(0, 10)}...`);
+          addDebug('🔄 Exchanging OAuth code for session...');
+          
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           
           if (exchangeError) {
-            console.error('[Callback] Code exchange error:', exchangeError);
+            addDebug(`❌ Code exchange error: ${exchangeError.message}`);
+            addDebug(`Error details: ${JSON.stringify(exchangeError)}`);
             setError(exchangeError.message);
             setIsProcessing(false);
             return;
@@ -166,13 +190,43 @@ export default function CallbackPage() {
     );
   }
 
-  // Show loading state
+  // Show loading state with debug info
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Completing sign in...</p>
-        <p className="mt-2 text-sm text-gray-500">Please wait while we authenticate you...</p>
+      <div className="max-w-2xl w-full p-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Completing sign in...</p>
+          <p className="mt-2 text-sm text-gray-500">Please wait while we authenticate you...</p>
+        </div>
+        
+        {/* Debug Panel */}
+        <div className="mt-8 bg-white shadow rounded-lg p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Authentication Debug Log</h3>
+          <div className="space-y-2 max-h-96 overflow-y-auto">
+            {debugInfo.map((info, index) => (
+              <div key={index} className="text-xs font-mono text-gray-600 p-2 bg-gray-50 rounded">
+                {info}
+              </div>
+            ))}
+            {debugInfo.length === 0 && (
+              <div className="text-xs text-gray-500">Waiting for debug information...</div>
+            )}
+          </div>
+          
+          <details className="mt-4 text-xs text-gray-500">
+            <summary className="cursor-pointer font-semibold">Environment Information</summary>
+            <div className="mt-2 bg-gray-50 p-3 rounded font-mono overflow-x-auto">
+              <div>Auth Loading: {String(authLoading)}</div>
+              <div>User: {user?.email || 'null'}</div>
+              <div>Processing: {String(isProcessing)}</div>
+              <div>Supabase URL: {process.env.NEXT_PUBLIC_SUPABASE_URL}</div>
+              <div>Current URL: {typeof window !== 'undefined' ? window.location.href : 'SSR'}</div>
+              <div>Has Code: {router.query.code ? 'Yes' : 'No'}</div>
+              <div>Has Error: {router.query.error ? 'Yes' : 'No'}</div>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   );

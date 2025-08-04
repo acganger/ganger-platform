@@ -351,22 +351,6 @@ webpack: (config, { isServer }) => {
 },
 ```
 
-## 🐛 Known Issues (August 1, 2025)
-
-### Critical Issues
-1. **Redis Connection Errors**
-   - Apps affected: ganger-actions, clinical-staffing
-   - Error: `ECONNREFUSED 127.0.0.1:6379`
-   - Solution: Apps should handle Redis connection failures gracefully
-
-2. **Missing Package**
-   - consolidated-order-form requires `@ganger/ui-catalyst` package
-   - Either create the package or update imports to use existing packages
-
-3. **Build Failures**
-   - clinical-staffing: API route `/api/analytics/staffing/route` has export errors
-   - checkin-kiosk: Build exits without clear error
-
 ### Dev Server Notes
 - All apps use ports 4000-4020 to avoid conflicts
 - Main router (ganger-staff) runs on port 4000
