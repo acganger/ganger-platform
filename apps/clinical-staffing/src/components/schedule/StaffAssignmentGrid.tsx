@@ -1,4 +1,4 @@
-import { formatDate } from '@/utils/formatting';
+import { formatDate } from '@ganger/utils';
 import { StaffAssignmentGridProps, StaffMember, StaffSchedule } from '@/types/staffing';
 import { StaffCard } from '@/components/staff/StaffCard';
 import { useDragAndDrop, DragItem } from '@/hooks/useDragAndDrop';

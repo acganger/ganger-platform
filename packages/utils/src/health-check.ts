@@ -28,6 +28,17 @@ export interface HealthCheckResult {
   };
 }
 
+/**
+ * Performs a comprehensive health check for a service
+ * @param serviceName - Name of the service being checked
+ * @param externalServices - Map of external service names to their health check URLs
+ * @returns Complete health check result with database, external services, and performance metrics
+ * @example
+ * const health = await performHealthCheck('inventory-service', {
+ *   'stripe': 'https://api.stripe.com/v1/health',
+ *   'twilio': 'https://api.twilio.com/health'
+ * });
+ */
 export async function performHealthCheck(
   serviceName: string,
   externalServices: { [key: string]: string } = {}
@@ -96,6 +107,18 @@ export async function performHealthCheck(
   };
 }
 
+/**
+ * Creates a health check API endpoint handler
+ * @param serviceName - Name of the service
+ * @param externalServices - Map of external service names to their health check URLs
+ * @returns Next.js API handler
+ * @example
+ * // pages/api/health.ts
+ * export default createHealthCheckEndpoint('ganger-inventory', {
+ *   'database': process.env.DATABASE_URL,
+ *   'redis': process.env.REDIS_URL
+ * });
+ */
 export function createHealthCheckEndpoint(
   serviceName: string,
   externalServices: { [key: string]: string } = {}
@@ -130,7 +153,13 @@ export function createHealthCheckEndpoint(
   };
 }
 
-// Database performance monitoring endpoint
+/**
+ * Creates an API endpoint for database performance statistics
+ * @returns Next.js API handler that returns database performance metrics
+ * @example
+ * // pages/api/db-stats.ts
+ * export default createDatabaseStatsEndpoint();
+ */
 export function createDatabaseStatsEndpoint() {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'GET') {
@@ -167,7 +196,15 @@ export function createDatabaseStatsEndpoint() {
   };
 }
 
-// Monitoring dashboard data endpoint
+/**
+ * Retrieves comprehensive monitoring dashboard data
+ * Combines health check, database stats, and recommendations
+ * @returns Monitoring dashboard data with health status, metrics, alerts, and recommendations
+ * @example
+ * const dashboard = await getMonitoringDashboard();
+ * console.log(dashboard.health.healthy); // true/false
+ * console.log(dashboard.recommendations); // ['Consider increasing connection pool size']
+ */
 export async function getMonitoringDashboard() {
   try {
     const [healthCheck, dbStats] = await Promise.all([
@@ -201,6 +238,12 @@ export async function getMonitoringDashboard() {
   }
 }
 
+/**
+ * Generates performance recommendations based on metrics
+ * @param connectionMetrics - Database connection metrics
+ * @param dbStats - Database performance statistics
+ * @returns Array of actionable recommendations
+ */
 function generateRecommendations(
   connectionMetrics: any, 
   dbStats: any

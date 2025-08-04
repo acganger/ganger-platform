@@ -1,6 +1,9 @@
-import { connectionMonitor } from '@ganger/db';
-import { cacheManager } from '@ganger/cache';
-export class PerformanceMonitor {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.performanceMonitor = exports.PerformanceMonitor = void 0;
+const db_1 = require("@ganger/db");
+const cache_1 = require("@ganger/cache");
+class PerformanceMonitor {
     constructor() {
         this.metricsHistory = new Map();
         this.apiMetrics = new Map();
@@ -43,7 +46,7 @@ export class PerformanceMonitor {
     }
     async getDatabaseMetrics() {
         try {
-            const dbStats = connectionMonitor.getMetrics();
+            const dbStats = db_1.connectionMonitor.getMetrics();
             return {
                 active_connections: dbStats.activeConnections || 0,
                 pool_utilization: ((dbStats.activeConnections || 0) / (dbStats.totalConnections || 10)) * 100,
@@ -71,7 +74,7 @@ export class PerformanceMonitor {
     }
     async getCacheMetrics() {
         try {
-            const cacheStats = cacheManager.getMetrics();
+            const cacheStats = cache_1.cacheManager.getMetrics();
             return {
                 hit_rate: cacheStats.hitRate || 0,
                 miss_rate: 100 - (cacheStats.hitRate || 0),
@@ -378,5 +381,6 @@ export class PerformanceMonitor {
         };
     }
 }
-export const performanceMonitor = new PerformanceMonitor();
+exports.PerformanceMonitor = PerformanceMonitor;
+exports.performanceMonitor = new PerformanceMonitor();
 //# sourceMappingURL=performance-monitor.js.map

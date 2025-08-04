@@ -1,4 +1,4 @@
-import { formatDate, formatTime } from '@/utils/formatting';
+import { formatDate, formatTime } from '@ganger/utils';
 import { ProviderScheduleGridProps, Provider, StaffSchedule } from '@/types/staffing';
 import { StaffCard } from '@/components/staff/StaffCard';
 import { useDragAndDrop, DropResult } from '@/hooks/useDragAndDrop';

@@ -1,7 +1,10 @@
-import { captureMessage } from './sentry';
-import { performanceMonitor } from './performance-monitor';
-import { integrationHealthMonitor } from './integration-health';
-export const DEFAULT_ALERTS = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.alertManager = exports.DEFAULT_ALERTS = void 0;
+const sentry_1 = require("./sentry");
+const performance_monitor_1 = require("./performance-monitor");
+const integration_health_1 = require("./integration-health");
+exports.DEFAULT_ALERTS = [
     {
         name: 'api_response_time',
         description: 'API response time exceeds threshold',
@@ -88,7 +91,7 @@ export const DEFAULT_ALERTS = [
 class AlertManager {
     constructor() {
         this.lastAlertTime = new Map();
-        this.alertConfigs = DEFAULT_ALERTS;
+        this.alertConfigs = exports.DEFAULT_ALERTS;
     }
     /**
      * Check if an alert should be triggered
@@ -111,7 +114,7 @@ Threshold: ${threshold.operator} ${threshold.value}
 Severity: ${threshold.severity}`;
         // Send to Sentry
         if (config.channels.includes('sentry')) {
-            captureMessage(message, threshold.severity, {
+            (0, sentry_1.captureMessage)(message, threshold.severity, {
                 alert: config.name,
                 metric: threshold.metric,
                 value: currentValue,
@@ -170,8 +173,8 @@ Severity: ${threshold.severity}`;
     async checkAlerts() {
         // Get current metrics
         const [performanceMetrics, integrationHealth] = await Promise.all([
-            performanceMonitor.getCurrentMetrics(),
-            integrationHealthMonitor.getAllHealth()
+            performance_monitor_1.performanceMonitor.getCurrentMetrics(),
+            integration_health_1.integrationHealthMonitor.getAllHealth()
         ]);
         // Prepare metric values
         const metrics = {
@@ -233,5 +236,5 @@ Severity: ${threshold.severity}`;
         }, intervalMinutes * 60 * 1000);
     }
 }
-export const alertManager = new AlertManager();
+exports.alertManager = new AlertManager();
 //# sourceMappingURL=alerts-config.js.map

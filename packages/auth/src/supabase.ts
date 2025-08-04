@@ -17,7 +17,22 @@ const defaultConfig: AuthConfig = {
 let supabaseInstance: SupabaseClient | null = null;
 
 /**
- * Get or create Supabase client instance
+ * Get or create singleton Supabase client instance.
+ * Creates a client with Ganger Platform specific configuration.
+ * 
+ * @param {Partial<AuthConfig>} [config] - Optional configuration overrides
+ * @returns {SupabaseClient} Configured Supabase client instance
+ * 
+ * @example
+ * // Get default client
+ * const supabase = getSupabaseClient();
+ * 
+ * @example
+ * // Get client with custom config
+ * const supabase = getSupabaseClient({
+ *   sessionTimeout: 3600,
+ *   enableAuditLogging: false
+ * });
  */
 export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient {
   if (!supabaseInstance) {
@@ -47,12 +62,40 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
 }
 
 /**
- * Default Supabase client for general use
+ * Default Supabase client instance for general use.
+ * Pre-configured with Ganger Platform settings.
+ * 
+ * @type {SupabaseClient}
+ * 
+ * @example
+ * import { supabase } from '@ganger/auth';
+ * 
+ * // Query data
+ * const { data, error } = await supabase
+ *   .from('profiles')
+ *   .select('*');
  */
 export const supabase = getSupabaseClient();
 
 /**
- * Create app-specific Supabase client with custom configuration
+ * Create app-specific Supabase client with custom configuration.
+ * Useful for apps that need different auth settings or redirect URLs.
+ * 
+ * @param {string} appName - Name of the application
+ * @param {Partial<AuthConfig>} [config] - Optional configuration overrides
+ * @returns {SupabaseClient} App-specific Supabase client
+ * 
+ * @example
+ * // Create client for inventory app
+ * const inventorySupabase = createAppSupabaseClient('inventory', {
+ *   redirectUrl: 'https://inventory.gangerdermatology.com/auth/callback'
+ * });
+ * 
+ * @example
+ * // Create client with custom session timeout
+ * const kioskSupabase = createAppSupabaseClient('kiosk', {
+ *   sessionTimeout: 1800 // 30 minutes for kiosk
+ * });
  */
 export function createAppSupabaseClient(appName: string, config?: Partial<AuthConfig>) {
   const appConfig = {
@@ -283,7 +326,21 @@ export interface Database {
 export type TypedSupabaseClient = SupabaseClient<Database>;
 
 /**
- * Get type-safe Supabase client
+ * Get type-safe Supabase client with full database type definitions.
+ * Provides TypeScript autocomplete for all database operations.
+ * 
+ * @param {Partial<AuthConfig>} [config] - Optional configuration overrides
+ * @returns {TypedSupabaseClient} Type-safe Supabase client
+ * 
+ * @example
+ * // Get typed client for type-safe queries
+ * const supabase = getTypedSupabaseClient();
+ * 
+ * // TypeScript knows the shape of profiles table
+ * const { data } = await supabase
+ *   .from('profiles')
+ *   .select('id, email, role') // Autocomplete available
+ *   .eq('role', 'admin'); // Type checking on values
  */
 export function getTypedSupabaseClient(config?: Partial<AuthConfig>): TypedSupabaseClient {
   return getSupabaseClient(config) as TypedSupabaseClient;

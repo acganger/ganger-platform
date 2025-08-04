@@ -1,13 +1,22 @@
+"use strict";
 /**
  * Error tracking module - now using Vercel's free logging
  * This module maintains the same API as the previous Sentry implementation
  * but routes all logging to Vercel logs instead
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Sentry = void 0;
+exports.initSentry = initSentry;
+exports.setSentryUser = setSentryUser;
+exports.captureError = captureError;
+exports.captureMessage = captureMessage;
+exports.trackEvent = trackEvent;
+exports.startTransaction = startTransaction;
 /**
  * Initialize error tracking (no-op for Vercel logging)
  * Kept for backwards compatibility
  */
-export function initSentry(config) {
+function initSentry(config) {
     if (!config.enabled) {
         console.log('[ErrorTracking] Monitoring disabled');
         return;
@@ -20,7 +29,7 @@ export function initSentry(config) {
 /**
  * Set user context for error tracking
  */
-export function setSentryUser(user) {
+function setSentryUser(user) {
     if (user && process.env.NODE_ENV === 'development') {
         console.log(`[ErrorTracking] User context set: ${user.id}`);
     }
@@ -28,7 +37,7 @@ export function setSentryUser(user) {
 /**
  * Capture custom errors with context
  */
-export function captureError(error, context) {
+function captureError(error, context) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : undefined;
     if (process.env.NODE_ENV === 'development') {
@@ -48,7 +57,7 @@ export function captureError(error, context) {
 /**
  * Capture messages with level
  */
-export function captureMessage(message, level = 'info', context) {
+function captureMessage(message, level = 'info', context) {
     const levelMap = {
         fatal: 'error',
         error: 'error',
@@ -73,7 +82,7 @@ export function captureMessage(message, level = 'info', context) {
 /**
  * Track custom events
  */
-export function trackEvent(eventName, data) {
+function trackEvent(eventName, data) {
     if (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_VERBOSE_LOGGING === 'true') {
         console.log(`📊 [ErrorTracking] Event: ${eventName}`, data || {});
     }
@@ -81,7 +90,7 @@ export function trackEvent(eventName, data) {
 /**
  * Performance monitoring
  */
-export function startTransaction(name, op) {
+function startTransaction(name, op) {
     const startTime = Date.now();
     const transactionData = {};
     return {
@@ -104,7 +113,7 @@ export function startTransaction(name, op) {
  * Export a mock Sentry object for compatibility
  * This allows code using Sentry.* methods to continue working
  */
-export const Sentry = {
+exports.Sentry = {
     init: initSentry,
     setUser: setSentryUser,
     captureException: captureError,

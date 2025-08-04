@@ -7,6 +7,45 @@ interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>
   error?: string;
 }
 
+/**
+ * Checkbox component for boolean selections
+ * 
+ * @description
+ * A styled checkbox component that supports labels, descriptions, and error states.
+ * Properly associates labels with inputs for accessibility and includes
+ * focus styles for keyboard navigation.
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Checkbox />
+ * 
+ * // With label
+ * <Checkbox label="I agree to the terms and conditions" />
+ * 
+ * // With label and description
+ * <Checkbox 
+ *   label="Subscribe to newsletter"
+ *   description="Get weekly updates about new features"
+ * />
+ * 
+ * // With error state
+ * <Checkbox 
+ *   label="Accept privacy policy"
+ *   error="You must accept the privacy policy"
+ * />
+ * 
+ * // Controlled component
+ * const [checked, setChecked] = useState(false);
+ * <Checkbox 
+ *   checked={checked}
+ *   onChange={(e) => setChecked(e.target.checked)}
+ *   label="Enable notifications"
+ * />
+ * ```
+ * 
+ * @component
+ */
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, label, description, error, id, ...props }, ref) => {
     const generatedId = React.useId();

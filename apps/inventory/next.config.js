@@ -21,6 +21,34 @@ const nextConfig = {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
     unoptimized: true,
   },
+
+  // Configure headers for PWA
+  async headers() {
+    return [
+      {
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/inventory/',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'no-cache',
+          },
+        ],
+      },
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

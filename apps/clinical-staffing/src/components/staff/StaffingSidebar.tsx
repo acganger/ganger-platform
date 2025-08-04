@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, StatCard } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
 import { StaffMember, StaffSchedule, Location as StaffingLocation, OptimizationSuggestion, CoverageMetrics } from '@/types/staffing';
-import { formatDate } from '@/utils/formatting';
+import { formatDate } from '@ganger/utils';
 import { apiClient } from '@/lib/api-client';
 import { StaffCard } from './StaffCard';
 

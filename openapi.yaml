@@ -1,0 +1,5928 @@
+openapi: 3.0.3
+info:
+  title: Ganger Platform API
+  description: Complete API documentation for all applications in the Ganger Platform
+  version: 2.0.1
+  contact:
+    name: Ganger Dermatology
+    email: tech@gangerdermatology.com
+servers:
+  - url: https://staff.gangerdermatology.com
+    description: Production server
+  - url: http://localhost:3000
+    description: Development server
+components:
+  securitySchemes:
+    googleOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.google.com/o/oauth2/v2/auth
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            openid: OpenID Connect scope
+            email: Access user email
+            profile: Access user profile
+      description: Google OAuth 2.0 authentication for staff.gangerdermatology.com users
+    supabaseAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Supabase JWT authentication token
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Unauthorized
+    NotFoundError:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Not found
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Internal server error
+paths:
+  /ai-purchasing-agent/analytics:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/analytics
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_analytics
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /ai-purchasing-agent/cart-interceptor:
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/cart-interceptor
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_POST__ai_purchasing_agent_cart_interceptor
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/contracts:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/contracts
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_contracts
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_0
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/contracts
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_POST__ai_purchasing_agent_contracts
+      parameters: []
+      responses: *ref_0
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/health:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/health
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /ai-purchasing-agent/price-comparison:
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/price-comparison
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_POST__ai_purchasing_agent_price_comparison
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/products:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/products
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_products
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_1
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/products
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_POST__ai_purchasing_agent_products
+      parameters: []
+      responses: *ref_1
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/products/{id}:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/products/{id}
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_products__id_
+      parameters:
+        - &ref_2
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_3
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - ai-purchasing-agent
+      summary: PATCH /ai-purchasing-agent/products/{id}
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_PATCH__ai_purchasing_agent_products__id_
+      parameters:
+        - *ref_2
+      responses: *ref_3
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - ai-purchasing-agent
+      summary: DELETE /ai-purchasing-agent/products/{id}
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_DELETE__ai_purchasing_agent_products__id_
+      parameters:
+        - *ref_2
+      responses: *ref_3
+  /ai-purchasing-agent/purchase-requests:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/purchase-requests
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_purchase_requests
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_4
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/purchase-requests
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_POST__ai_purchasing_agent_purchase_requests
+      parameters: []
+      responses: *ref_4
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    put:
+      tags:
+        - ai-purchasing-agent
+      summary: PUT /ai-purchasing-agent/purchase-requests
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_PUT__ai_purchasing_agent_purchase_requests
+      parameters: []
+      responses: *ref_4
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/purchase-requests/{id}/analyze:
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/purchase-requests/{id}/analyze
+      description: Endpoint in ai-purchasing-agent application
+      operationId: >-
+        ai-purchasing-agent_POST__ai_purchasing_agent_purchase_requests__id__analyze
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/purchase-requests/{id}/approve:
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/purchase-requests/{id}/approve
+      description: Endpoint in ai-purchasing-agent application
+      operationId: >-
+        ai-purchasing-agent_POST__ai_purchasing_agent_purchase_requests__id__approve
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/recommendations:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/recommendations
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_recommendations
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /ai-purchasing-agent/vendors:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/vendors
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_vendors
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_5
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - ai-purchasing-agent
+      summary: POST /ai-purchasing-agent/vendors
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_POST__ai_purchasing_agent_vendors
+      parameters: []
+      responses: *ref_5
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ai-purchasing-agent/vendors/{id}:
+    get:
+      tags:
+        - ai-purchasing-agent
+      summary: GET /ai-purchasing-agent/vendors/{id}
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_GET__ai_purchasing_agent_vendors__id_
+      parameters:
+        - &ref_6
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_7
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - ai-purchasing-agent
+      summary: PATCH /ai-purchasing-agent/vendors/{id}
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_PATCH__ai_purchasing_agent_vendors__id_
+      parameters:
+        - *ref_6
+      responses: *ref_7
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - ai-purchasing-agent
+      summary: DELETE /ai-purchasing-agent/vendors/{id}
+      description: Endpoint in ai-purchasing-agent application
+      operationId: ai-purchasing-agent_DELETE__ai_purchasing_agent_vendors__id_
+      parameters:
+        - *ref_6
+      responses: *ref_7
+  /batch-closeout/health:
+    get:
+      tags:
+        - batch-closeout
+      summary: GET /batch-closeout/health
+      description: Endpoint in batch-closeout application
+      operationId: batch-closeout_GET__batch_closeout_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_8
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - batch-closeout
+      summary: POST /batch-closeout/health
+      description: Endpoint in batch-closeout application
+      operationId: batch-closeout_POST__batch_closeout_health
+      parameters: []
+      responses: *ref_8
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /call-center-ops/health:
+    get:
+      tags:
+        - call-center-ops
+      summary: GET /call-center-ops/health
+      description: Endpoint in call-center-ops application
+      operationId: call-center-ops_GET__call_center_ops_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_9
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - call-center-ops
+      summary: POST /call-center-ops/health
+      description: Endpoint in call-center-ops application
+      operationId: call-center-ops_POST__call_center_ops_health
+      parameters: []
+      responses: *ref_9
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /checkin-kiosk/health:
+    get:
+      tags:
+        - checkin-kiosk
+      summary: GET /checkin-kiosk/health
+      description: Endpoint in checkin-kiosk application
+      operationId: checkin-kiosk_GET__checkin_kiosk_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_10
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - checkin-kiosk
+      summary: POST /checkin-kiosk/health
+      description: Endpoint in checkin-kiosk application
+      operationId: checkin-kiosk_POST__checkin_kiosk_health
+      parameters: []
+      responses: *ref_10
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /checkin-kiosk/payments/create-intent:
+    get:
+      tags:
+        - checkin-kiosk
+      summary: GET /checkin-kiosk/payments/create-intent
+      description: Endpoint in checkin-kiosk application
+      operationId: checkin-kiosk_GET__checkin_kiosk_payments_create_intent
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_11
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_12
+        - supabaseAuth: []
+    post:
+      tags:
+        - checkin-kiosk
+      summary: POST /checkin-kiosk/payments/create-intent
+      description: Endpoint in checkin-kiosk application
+      operationId: checkin-kiosk_POST__checkin_kiosk_payments_create_intent
+      parameters: []
+      responses: *ref_11
+      security: *ref_12
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /clinical-staffing/analytics/staffing:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/analytics/staffing
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_analytics_staffing
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - googleOAuth: []
+  /clinical-staffing/health:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/health
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /clinical-staffing/locations:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/locations
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_locations
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_13
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_14
+        - googleOAuth: []
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/locations
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_POST__clinical_staffing_locations
+      parameters: []
+      responses: *ref_13
+      security: *ref_14
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    put:
+      tags:
+        - clinical-staffing
+      summary: PUT /clinical-staffing/locations
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_PUT__clinical_staffing_locations
+      parameters: []
+      responses: *ref_13
+      security: *ref_14
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - clinical-staffing
+      summary: DELETE /clinical-staffing/locations
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_DELETE__clinical_staffing_locations
+      parameters: []
+      responses: *ref_13
+      security: *ref_14
+  /clinical-staffing/optimization/suggestions:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/optimization/suggestions
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_optimization_suggestions
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_15
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_16
+        - googleOAuth: []
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/optimization/suggestions
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_POST__clinical_staffing_optimization_suggestions
+      parameters: []
+      responses: *ref_15
+      security: *ref_16
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /clinical-staffing/providers:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/providers
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_providers
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_17
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_18
+        - googleOAuth: []
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/providers
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_POST__clinical_staffing_providers
+      parameters: []
+      responses: *ref_17
+      security: *ref_18
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    put:
+      tags:
+        - clinical-staffing
+      summary: PUT /clinical-staffing/providers
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_PUT__clinical_staffing_providers
+      parameters: []
+      responses: *ref_17
+      security: *ref_18
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - clinical-staffing
+      summary: DELETE /clinical-staffing/providers
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_DELETE__clinical_staffing_providers
+      parameters: []
+      responses: *ref_17
+      security: *ref_18
+  /clinical-staffing/staff-members:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/staff-members
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_staff_members
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_19
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_20
+        - googleOAuth: []
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/staff-members
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_POST__clinical_staffing_staff_members
+      parameters: []
+      responses: *ref_19
+      security: *ref_20
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    put:
+      tags:
+        - clinical-staffing
+      summary: PUT /clinical-staffing/staff-members
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_PUT__clinical_staffing_staff_members
+      parameters: []
+      responses: *ref_19
+      security: *ref_20
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - clinical-staffing
+      summary: DELETE /clinical-staffing/staff-members
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_DELETE__clinical_staffing_staff_members
+      parameters: []
+      responses: *ref_19
+      security: *ref_20
+  /clinical-staffing/staff-members/{id}/availability:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/staff-members/{id}/availability
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_staff_members__id__availability
+      parameters:
+        - &ref_21
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_22
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_23
+        - googleOAuth: []
+    put:
+      tags:
+        - clinical-staffing
+      summary: PUT /clinical-staffing/staff-members/{id}/availability
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_PUT__clinical_staffing_staff_members__id__availability
+      parameters:
+        - *ref_21
+      responses: *ref_22
+      security: *ref_23
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/staff-members/{id}/availability
+      description: Endpoint in clinical-staffing application
+      operationId: >-
+        clinical-staffing_POST__clinical_staffing_staff_members__id__availability
+      parameters:
+        - *ref_21
+      responses: *ref_22
+      security: *ref_23
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /clinical-staffing/staff-schedules:
+    get:
+      tags:
+        - clinical-staffing
+      summary: GET /clinical-staffing/staff-schedules
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_GET__clinical_staffing_staff_schedules
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_24
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_25
+        - googleOAuth: []
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/staff-schedules
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_POST__clinical_staffing_staff_schedules
+      parameters: []
+      responses: *ref_24
+      security: *ref_25
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    put:
+      tags:
+        - clinical-staffing
+      summary: PUT /clinical-staffing/staff-schedules
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_PUT__clinical_staffing_staff_schedules
+      parameters: []
+      responses: *ref_24
+      security: *ref_25
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - clinical-staffing
+      summary: DELETE /clinical-staffing/staff-schedules
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_DELETE__clinical_staffing_staff_schedules
+      parameters: []
+      responses: *ref_24
+      security: *ref_25
+  /clinical-staffing/staffing/auto-assign:
+    post:
+      tags:
+        - clinical-staffing
+      summary: POST /clinical-staffing/staffing/auto-assign
+      description: Endpoint in clinical-staffing application
+      operationId: clinical-staffing_POST__clinical_staffing_staffing_auto_assign
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - googleOAuth: []
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/compliance/__tests__/sync-google-users.test: {}
+  /compliance-training/compliance/cleanup-terminated:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/compliance/cleanup-terminated
+      description: Endpoint in compliance-training application
+      operationId: >-
+        compliance-training_GET__compliance_training_compliance_cleanup_terminated
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_26
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_27
+        - googleOAuth: []
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/compliance/cleanup-terminated
+      description: Endpoint in compliance-training application
+      operationId: >-
+        compliance-training_POST__compliance_training_compliance_cleanup_terminated
+      parameters: []
+      responses: *ref_26
+      security: *ref_27
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/compliance/dashboard:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/compliance/dashboard
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_compliance_dashboard
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_28
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_29
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/compliance/dashboard
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_compliance_dashboard
+      parameters: []
+      responses: *ref_28
+      security: *ref_29
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/compliance/employee/{id}:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/compliance/employee/{id}
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_compliance_employee__id_
+      parameters:
+        - &ref_30
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_31
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_32
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/compliance/employee/{id}
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_compliance_employee__id_
+      parameters:
+        - *ref_30
+      responses: *ref_31
+      security: *ref_32
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/compliance/export:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/compliance/export
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_compliance_export
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_33
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_34
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/compliance/export
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_compliance_export
+      parameters: []
+      responses: *ref_33
+      security: *ref_34
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/compliance/sync:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/compliance/sync
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_compliance_sync
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_35
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_36
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/compliance/sync
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_compliance_sync
+      parameters: []
+      responses: *ref_35
+      security: *ref_36
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/compliance/sync-google-users:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/compliance/sync-google-users
+      description: Endpoint in compliance-training application
+      operationId: >-
+        compliance-training_GET__compliance_training_compliance_sync_google_users
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_37
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_38
+        - googleOAuth: []
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/compliance/sync-google-users
+      description: Endpoint in compliance-training application
+      operationId: >-
+        compliance-training_POST__compliance_training_compliance_sync_google_users
+      parameters: []
+      responses: *ref_37
+      security: *ref_38
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/health:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/health
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /compliance-training/monitoring/metrics:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/monitoring/metrics
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_monitoring_metrics
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_39
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_40
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/monitoring/metrics
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_monitoring_metrics
+      parameters: []
+      responses: *ref_39
+      security: *ref_40
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/socials/content/adapt:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/socials/content/adapt
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_socials_content_adapt
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_41
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_42
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/socials/content/adapt
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_socials_content_adapt
+      parameters: []
+      responses: *ref_41
+      security: *ref_42
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/socials/reviews:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/socials/reviews
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_socials_reviews
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_43
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_44
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/socials/reviews
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_socials_reviews
+      parameters: []
+      responses: *ref_43
+      security: *ref_44
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/socials/reviews/generate-response:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/socials/reviews/generate-response
+      description: Endpoint in compliance-training application
+      operationId: >-
+        compliance-training_GET__compliance_training_socials_reviews_generate_response
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_45
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_46
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/socials/reviews/generate-response
+      description: Endpoint in compliance-training application
+      operationId: >-
+        compliance-training_POST__compliance_training_socials_reviews_generate_response
+      parameters: []
+      responses: *ref_45
+      security: *ref_46
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /compliance-training/socials/trending:
+    get:
+      tags:
+        - compliance-training
+      summary: GET /compliance-training/socials/trending
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_GET__compliance_training_socials_trending
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_47
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_48
+        - supabaseAuth: []
+    post:
+      tags:
+        - compliance-training
+      summary: POST /compliance-training/socials/trending
+      description: Endpoint in compliance-training application
+      operationId: compliance-training_POST__compliance_training_socials_trending
+      parameters: []
+      responses: *ref_47
+      security: *ref_48
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/applications:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/applications
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_applications
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_49
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_50
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/applications
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_applications
+      parameters: []
+      responses: *ref_49
+      security: *ref_50
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/applications/{id}:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/applications/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_applications__id_
+      parameters:
+        - &ref_51
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_52
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_53
+        - supabaseAuth: []
+    put:
+      tags:
+        - config-dashboard
+      summary: PUT /config-dashboard/applications/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_PUT__config_dashboard_applications__id_
+      parameters:
+        - *ref_51
+      responses: *ref_52
+      security: *ref_53
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - config-dashboard
+      summary: DELETE /config-dashboard/applications/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_DELETE__config_dashboard_applications__id_
+      parameters:
+        - *ref_51
+      responses: *ref_52
+      security: *ref_53
+  /config-dashboard/approval/pending:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/approval/pending
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_approval_pending
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_54
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_55
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/approval/pending
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_approval_pending
+      parameters: []
+      responses: *ref_54
+      security: *ref_55
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/approval/{id}/approve:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/approval/{id}/approve
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_approval__id__approve
+      parameters:
+        - &ref_56
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_57
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_58
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/approval/{id}/approve
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_approval__id__approve
+      parameters:
+        - *ref_56
+      responses: *ref_57
+      security: *ref_58
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/approval/{id}/reject:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/approval/{id}/reject
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_approval__id__reject
+      parameters:
+        - &ref_59
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_60
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_61
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/approval/{id}/reject
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_approval__id__reject
+      parameters:
+        - *ref_59
+      responses: *ref_60
+      security: *ref_61
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/audit-logs:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/audit-logs
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_audit_logs
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_62
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_63
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/audit-logs
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_audit_logs
+      parameters: []
+      responses: *ref_62
+      security: *ref_63
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/configurations:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/configurations
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_configurations
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_64
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_65
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/configurations
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_configurations
+      parameters: []
+      responses: *ref_64
+      security: *ref_65
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/configurations/{id}:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/configurations/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_configurations__id_
+      parameters:
+        - &ref_66
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_67
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '204':
+          description: No content
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_68
+        - supabaseAuth: []
+    put:
+      tags:
+        - config-dashboard
+      summary: PUT /config-dashboard/configurations/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_PUT__config_dashboard_configurations__id_
+      parameters:
+        - *ref_66
+      responses: *ref_67
+      security: *ref_68
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - config-dashboard
+      summary: DELETE /config-dashboard/configurations/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_DELETE__config_dashboard_configurations__id_
+      parameters:
+        - *ref_66
+      responses: *ref_67
+      security: *ref_68
+  /config-dashboard/health:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/health
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_69
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_70
+        - googleOAuth: []
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/health
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_health
+      parameters: []
+      responses: *ref_69
+      security: *ref_70
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/impersonation/end:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/impersonation/end
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_impersonation_end
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_71
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_72
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/impersonation/end
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_impersonation_end
+      parameters: []
+      responses: *ref_71
+      security: *ref_72
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/impersonation/start:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/impersonation/start
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_impersonation_start
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_73
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_74
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/impersonation/start
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_impersonation_start
+      parameters: []
+      responses: *ref_73
+      security: *ref_74
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/impersonation/status:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/impersonation/status
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_impersonation_status
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_75
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_76
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/impersonation/status
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_impersonation_status
+      parameters: []
+      responses: *ref_75
+      security: *ref_76
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/metrics:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/metrics
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_metrics
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_77
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_78
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/metrics
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_metrics
+      parameters: []
+      responses: *ref_77
+      security: *ref_78
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/permissions:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/permissions
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_permissions
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_79
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_80
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/permissions
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_permissions
+      parameters: []
+      responses: *ref_79
+      security: *ref_80
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /config-dashboard/permissions/{id}:
+    get:
+      tags:
+        - config-dashboard
+      summary: GET /config-dashboard/permissions/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_GET__config_dashboard_permissions__id_
+      parameters:
+        - &ref_81
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_82
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_83
+        - supabaseAuth: []
+    post:
+      tags:
+        - config-dashboard
+      summary: POST /config-dashboard/permissions/{id}
+      description: Endpoint in config-dashboard application
+      operationId: config-dashboard_POST__config_dashboard_permissions__id_
+      parameters:
+        - *ref_81
+      responses: *ref_82
+      security: *ref_83
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /consolidated-order-form/health:
+    get:
+      tags:
+        - consolidated-order-form
+      summary: GET /consolidated-order-form/health
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_GET__consolidated_order_form_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /consolidated-order-form/orders:
+    post:
+      tags:
+        - consolidated-order-form
+      summary: POST /consolidated-order-form/orders
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_POST__consolidated_order_form_orders
+      parameters: []
+      responses: &ref_84
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    get:
+      tags:
+        - consolidated-order-form
+      summary: GET /consolidated-order-form/orders
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_GET__consolidated_order_form_orders
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: *ref_84
+  /consolidated-order-form/orders/{id}:
+    get:
+      tags:
+        - consolidated-order-form
+      summary: GET /consolidated-order-form/orders/{id}
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_GET__consolidated_order_form_orders__id_
+      parameters:
+        - &ref_85
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_86
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    patch:
+      tags:
+        - consolidated-order-form
+      summary: PATCH /consolidated-order-form/orders/{id}
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_PATCH__consolidated_order_form_orders__id_
+      parameters:
+        - *ref_85
+      responses: *ref_86
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - consolidated-order-form
+      summary: DELETE /consolidated-order-form/orders/{id}
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_DELETE__consolidated_order_form_orders__id_
+      parameters:
+        - *ref_85
+      responses: *ref_86
+  /consolidated-order-form/orders/{id}/submit:
+    post:
+      tags:
+        - consolidated-order-form
+      summary: POST /consolidated-order-form/orders/{id}/submit
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_POST__consolidated_order_form_orders__id__submit
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /consolidated-order-form/products:
+    get:
+      tags:
+        - consolidated-order-form
+      summary: GET /consolidated-order-form/products
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_GET__consolidated_order_form_products
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_87
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - consolidated-order-form
+      summary: POST /consolidated-order-form/products
+      description: Endpoint in consolidated-order-form application
+      operationId: consolidated-order-form_POST__consolidated_order_form_products
+      parameters: []
+      responses: *ref_87
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /eos-l10/auth/google:
+    get:
+      tags:
+        - eos-l10
+      summary: GET /eos-l10/auth/google
+      description: Endpoint in eos-l10 application
+      operationId: eos-l10_GET__eos_l10_auth_google
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_88
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_89
+        - googleOAuth: []
+        - supabaseAuth: []
+    post:
+      tags:
+        - eos-l10
+      summary: POST /eos-l10/auth/google
+      description: Endpoint in eos-l10 application
+      operationId: eos-l10_POST__eos_l10_auth_google
+      parameters: []
+      responses: *ref_88
+      security: *ref_89
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /eos-l10/health:
+    get:
+      tags:
+        - eos-l10
+      summary: GET /eos-l10/health
+      description: Endpoint in eos-l10 application
+      operationId: eos-l10_GET__eos_l10_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_90
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - eos-l10
+      summary: POST /eos-l10/health
+      description: Endpoint in eos-l10 application
+      operationId: eos-l10_POST__eos_l10_health
+      parameters: []
+      responses: *ref_90
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /eos-l10/scorecard/entries:
+    get:
+      tags:
+        - eos-l10
+      summary: GET /eos-l10/scorecard/entries
+      description: Endpoint in eos-l10 application
+      operationId: eos-l10_GET__eos_l10_scorecard_entries
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_91
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_92
+        - supabaseAuth: []
+    post:
+      tags:
+        - eos-l10
+      summary: POST /eos-l10/scorecard/entries
+      description: Endpoint in eos-l10 application
+      operationId: eos-l10_POST__eos_l10_scorecard_entries
+      parameters: []
+      responses: *ref_91
+      security: *ref_92
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/admin/google-sync:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/admin/google-sync
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_admin_google_sync
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_93
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_94
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/admin/google-sync
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_admin_google_sync
+      parameters: []
+      responses: *ref_93
+      security: *ref_94
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/attachments:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/attachments
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_attachments
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_95
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_96
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/attachments
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_attachments
+      parameters: []
+      responses: *ref_95
+      security: *ref_96
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/attachments/{id}:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/attachments/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_attachments__id_
+      parameters:
+        - &ref_97
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_98
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_99
+        - supabaseAuth: []
+    delete:
+      tags:
+        - ganger-actions
+      summary: DELETE /ganger-actions/attachments/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_DELETE__ganger_actions_attachments__id_
+      parameters:
+        - *ref_97
+      responses: *ref_98
+      security: *ref_99
+  /ganger-actions/comments:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/comments
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_comments
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_100
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_101
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/comments
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_comments
+      parameters: []
+      responses: *ref_100
+      security: *ref_101
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/comments/{id}:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/comments/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_comments__id_
+      parameters:
+        - &ref_102
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_103
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_104
+        - supabaseAuth: []
+    put:
+      tags:
+        - ganger-actions
+      summary: PUT /ganger-actions/comments/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_PUT__ganger_actions_comments__id_
+      parameters:
+        - *ref_102
+      responses: *ref_103
+      security: *ref_104
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - ganger-actions
+      summary: DELETE /ganger-actions/comments/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_DELETE__ganger_actions_comments__id_
+      parameters:
+        - *ref_102
+      responses: *ref_103
+      security: *ref_104
+  /ganger-actions/dashboard/stats:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/dashboard/stats
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_dashboard_stats
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_105
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_106
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/dashboard/stats
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_dashboard_stats
+      parameters: []
+      responses: *ref_105
+      security: *ref_106
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/forms:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/forms
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_forms
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_107
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_108
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/forms
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_forms
+      parameters: []
+      responses: *ref_107
+      security: *ref_108
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/forms/{id}:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/forms/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_forms__id_
+      parameters:
+        - &ref_109
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_110
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_111
+        - supabaseAuth: []
+    put:
+      tags:
+        - ganger-actions
+      summary: PUT /ganger-actions/forms/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_PUT__ganger_actions_forms__id_
+      parameters:
+        - *ref_109
+      responses: *ref_110
+      security: *ref_111
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - ganger-actions
+      summary: DELETE /ganger-actions/forms/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_DELETE__ganger_actions_forms__id_
+      parameters:
+        - *ref_109
+      responses: *ref_110
+      security: *ref_111
+  /ganger-actions/monitoring/errors:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/monitoring/errors
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_monitoring_errors
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_112
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_113
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/monitoring/errors
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_monitoring_errors
+      parameters: []
+      responses: *ref_112
+      security: *ref_113
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/monitoring/performance:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/monitoring/performance
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_monitoring_performance
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_114
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_115
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/monitoring/performance
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_monitoring_performance
+      parameters: []
+      responses: *ref_114
+      security: *ref_115
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/notifications:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/notifications
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_notifications
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_116
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_117
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/notifications
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_notifications
+      parameters: []
+      responses: *ref_116
+      security: *ref_117
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/notifications/{id}:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/notifications/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_notifications__id_
+      parameters:
+        - &ref_118
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_119
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_120
+        - supabaseAuth: []
+    put:
+      tags:
+        - ganger-actions
+      summary: PUT /ganger-actions/notifications/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_PUT__ganger_actions_notifications__id_
+      parameters:
+        - *ref_118
+      responses: *ref_119
+      security: *ref_120
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+    delete:
+      tags:
+        - ganger-actions
+      summary: DELETE /ganger-actions/notifications/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_DELETE__ganger_actions_notifications__id_
+      parameters:
+        - *ref_118
+      responses: *ref_119
+      security: *ref_120
+  /ganger-actions/realtime/broadcast:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/realtime/broadcast
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_realtime_broadcast
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_121
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_122
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/realtime/broadcast
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_realtime_broadcast
+      parameters: []
+      responses: *ref_121
+      security: *ref_122
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/realtime/subscribe:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/realtime/subscribe
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_realtime_subscribe
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_123
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_124
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/realtime/subscribe
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_realtime_subscribe
+      parameters: []
+      responses: *ref_123
+      security: *ref_124
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/staff:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/staff
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_staff
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_125
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_126
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/staff
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_staff
+      parameters: []
+      responses: *ref_125
+      security: *ref_126
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/staff/directory:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/staff/directory
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_staff_directory
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_127
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_128
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/staff/directory
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_staff_directory
+      parameters: []
+      responses: *ref_127
+      security: *ref_128
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/tickets:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/tickets
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_tickets
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_129
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_130
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/tickets
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_tickets
+      parameters: []
+      responses: *ref_129
+      security: *ref_130
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/tickets/{id}:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/tickets/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_tickets__id_
+      parameters:
+        - &ref_131
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_132
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_133
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/tickets/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_tickets__id_
+      parameters:
+        - *ref_131
+      responses: *ref_132
+      security: *ref_133
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/tickets/{id}/comments:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/tickets/{id}/comments
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_tickets__id__comments
+      parameters:
+        - &ref_134
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_135
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_136
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/tickets/{id}/comments
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_tickets__id__comments
+      parameters:
+        - *ref_134
+      responses: *ref_135
+      security: *ref_136
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/users:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/users
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_users
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_137
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_138
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/users
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_users
+      parameters: []
+      responses: *ref_137
+      security: *ref_138
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/users/{id}:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/users/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_users__id_
+      parameters:
+        - &ref_139
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_140
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_141
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/users/{id}
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_users__id_
+      parameters:
+        - *ref_139
+      responses: *ref_140
+      security: *ref_141
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /ganger-actions/users/{id}/activity:
+    get:
+      tags:
+        - ganger-actions
+      summary: GET /ganger-actions/users/{id}/activity
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_GET__ganger_actions_users__id__activity
+      parameters:
+        - &ref_142
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_143
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_144
+        - supabaseAuth: []
+    post:
+      tags:
+        - ganger-actions
+      summary: POST /ganger-actions/users/{id}/activity
+      description: Endpoint in ganger-actions application
+      operationId: ganger-actions_POST__ganger_actions_users__id__activity
+      parameters:
+        - *ref_142
+      responses: *ref_143
+      security: *ref_144
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /handouts/handouts/history:
+    get:
+      tags:
+        - handouts
+      summary: GET /handouts/handouts/history
+      description: Endpoint in handouts application
+      operationId: handouts_GET__handouts_handouts_history
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /handouts/health:
+    get:
+      tags:
+        - handouts
+      summary: GET /handouts/health
+      description: Endpoint in handouts application
+      operationId: handouts_GET__handouts_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_145
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - handouts
+      summary: POST /handouts/health
+      description: Endpoint in handouts application
+      operationId: handouts_POST__handouts_health
+      parameters: []
+      responses: *ref_145
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /handouts/patients/lookup:
+    get:
+      tags:
+        - handouts
+      summary: GET /handouts/patients/lookup
+      description: Endpoint in handouts application
+      operationId: handouts_GET__handouts_patients_lookup
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /handouts/templates:
+    get:
+      tags:
+        - handouts
+      summary: GET /handouts/templates
+      description: Endpoint in handouts application
+      operationId: handouts_GET__handouts_templates
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /integration-status/integrations:
+    get:
+      tags:
+        - integration-status
+      summary: GET /integration-status/integrations
+      description: Endpoint in integration-status application
+      operationId: integration-status_GET__integration_status_integrations
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /integration-status/integrations/__tests__/index.test: {}
+  /integration-status/integrations/index-old:
+    get:
+      tags:
+        - integration-status
+      summary: GET /integration-status/integrations/index-old
+      description: Endpoint in integration-status application
+      operationId: integration-status_GET__integration_status_integrations_index_old
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_146
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_147
+        - supabaseAuth: []
+    post:
+      tags:
+        - integration-status
+      summary: POST /integration-status/integrations/index-old
+      description: Endpoint in integration-status application
+      operationId: integration-status_POST__integration_status_integrations_index_old
+      parameters: []
+      responses: *ref_146
+      security: *ref_147
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /integration-status/integrations/{id}/metrics:
+    get:
+      tags:
+        - integration-status
+      summary: GET /integration-status/integrations/{id}/metrics
+      description: Endpoint in integration-status application
+      operationId: integration-status_GET__integration_status_integrations__id__metrics
+      parameters:
+        - &ref_148
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_149
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_150
+        - supabaseAuth: []
+    post:
+      tags:
+        - integration-status
+      summary: POST /integration-status/integrations/{id}/metrics
+      description: Endpoint in integration-status application
+      operationId: integration-status_POST__integration_status_integrations__id__metrics
+      parameters:
+        - *ref_148
+      responses: *ref_149
+      security: *ref_150
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /integration-status/integrations/{id}/test:
+    get:
+      tags:
+        - integration-status
+      summary: GET /integration-status/integrations/{id}/test
+      description: Endpoint in integration-status application
+      operationId: integration-status_GET__integration_status_integrations__id__test
+      parameters:
+        - &ref_151
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_152
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_153
+        - supabaseAuth: []
+    post:
+      tags:
+        - integration-status
+      summary: POST /integration-status/integrations/{id}/test
+      description: Endpoint in integration-status application
+      operationId: integration-status_POST__integration_status_integrations__id__test
+      parameters:
+        - *ref_151
+      responses: *ref_152
+      security: *ref_153
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /inventory/health:
+    get:
+      tags:
+        - inventory
+      summary: GET /inventory/health
+      description: Endpoint in inventory application
+      operationId: inventory_GET__inventory_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_154
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - inventory
+      summary: POST /inventory/health
+      description: Endpoint in inventory application
+      operationId: inventory_POST__inventory_health
+      parameters: []
+      responses: *ref_154
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /inventory/items:
+    get:
+      tags:
+        - inventory
+      summary: GET /inventory/items
+      description: Endpoint in inventory application
+      operationId: inventory_GET__inventory_items
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_155
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_156
+        - supabaseAuth: []
+    post:
+      tags:
+        - inventory
+      summary: POST /inventory/items
+      description: Endpoint in inventory application
+      operationId: inventory_POST__inventory_items
+      parameters: []
+      responses: *ref_155
+      security: *ref_156
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /inventory/stats:
+    get:
+      tags:
+        - inventory
+      summary: GET /inventory/stats
+      description: Endpoint in inventory application
+      operationId: inventory_GET__inventory_stats
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_157
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_158
+        - supabaseAuth: []
+    post:
+      tags:
+        - inventory
+      summary: POST /inventory/stats
+      description: Endpoint in inventory application
+      operationId: inventory_POST__inventory_stats
+      parameters: []
+      responses: *ref_157
+      security: *ref_158
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /llm-demo/ai/chat:
+    get:
+      tags:
+        - llm-demo
+      summary: GET /llm-demo/ai/chat
+      description: Endpoint in llm-demo application
+      operationId: llm-demo_GET__llm_demo_ai_chat
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_159
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_160
+        - googleOAuth: []
+    post:
+      tags:
+        - llm-demo
+      summary: POST /llm-demo/ai/chat
+      description: Endpoint in llm-demo application
+      operationId: llm-demo_POST__llm_demo_ai_chat
+      parameters: []
+      responses: *ref_159
+      security: *ref_160
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /llm-demo/ai/chat-simple:
+    get:
+      tags:
+        - llm-demo
+      summary: GET /llm-demo/ai/chat-simple
+      description: Endpoint in llm-demo application
+      operationId: llm-demo_GET__llm_demo_ai_chat_simple
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_161
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_162
+        - googleOAuth: []
+    post:
+      tags:
+        - llm-demo
+      summary: POST /llm-demo/ai/chat-simple
+      description: Endpoint in llm-demo application
+      operationId: llm-demo_POST__llm_demo_ai_chat_simple
+      parameters: []
+      responses: *ref_161
+      security: *ref_162
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /llm-demo/auth/login:
+    get:
+      tags:
+        - llm-demo
+      summary: GET /llm-demo/auth/login
+      description: Endpoint in llm-demo application
+      operationId: llm-demo_GET__llm_demo_auth_login
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_163
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_164
+        - supabaseAuth: []
+    post:
+      tags:
+        - llm-demo
+      summary: POST /llm-demo/auth/login
+      description: Endpoint in llm-demo application
+      operationId: llm-demo_POST__llm_demo_auth_login
+      parameters: []
+      responses: *ref_163
+      security: *ref_164
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/ai/analyze:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/ai/analyze
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_ai_analyze
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_165
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_166
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/ai/analyze
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_ai_analyze
+      parameters: []
+      responses: *ref_165
+      security: *ref_166
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/analytics/dashboard:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/analytics/dashboard
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_analytics_dashboard
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_167
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_168
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/analytics/dashboard
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_analytics_dashboard
+      parameters: []
+      responses: *ref_167
+      security: *ref_168
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/authorizations:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/authorizations
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_authorizations
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_169
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '201':
+          description: Resource created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_170
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/authorizations
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_authorizations
+      parameters: []
+      responses: *ref_169
+      security: *ref_170
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/authorizations/{id}:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/authorizations/{id}
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_authorizations__id_
+      parameters:
+        - &ref_171
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_172
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_173
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/authorizations/{id}
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_authorizations__id_
+      parameters:
+        - *ref_171
+      responses: *ref_172
+      security: *ref_173
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/cache/example:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/cache/example
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_cache_example
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_174
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_175
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/cache/example
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_cache_example
+      parameters: []
+      responses: *ref_174
+      security: *ref_175
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/docs/{{slug}}:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/docs/{{slug}}
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_docs___slug__
+      parameters:
+        - &ref_176
+          name: '{slug'
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The {slug parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_177
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/docs/{{slug}}
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_docs___slug__
+      parameters:
+        - *ref_176
+      responses: *ref_177
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/example-migrated:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/example-migrated
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_example_migrated
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_178
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_179
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/example-migrated
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_example_migrated
+      parameters: []
+      responses: *ref_178
+      security: *ref_179
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/example-standardized:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/example-standardized
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_example_standardized
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_180
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_181
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/example-standardized
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_example_standardized
+      parameters: []
+      responses: *ref_180
+      security: *ref_181
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/health:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/health
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_182
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_183
+        - supabaseAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/health
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_health
+      parameters: []
+      responses: *ref_182
+      security: *ref_183
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/insurance/patient-info:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/insurance/patient-info
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_insurance_patient_info
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_184
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_185
+        - supabaseAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/insurance/patient-info
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_insurance_patient_info
+      parameters: []
+      responses: *ref_184
+      security: *ref_185
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/insurance/verify-coverage:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/insurance/verify-coverage
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_insurance_verify_coverage
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_186
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_187
+        - supabaseAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/insurance/verify-coverage
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_insurance_verify_coverage
+      parameters: []
+      responses: *ref_186
+      security: *ref_187
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/medications/search:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/medications/search
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_medications_search
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_188
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_189
+        - supabaseAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/medications/search
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_medications_search
+      parameters: []
+      responses: *ref_188
+      security: *ref_189
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/monitoring/database:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/monitoring/database
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_monitoring_database
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_190
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_191
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/monitoring/database
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_monitoring_database
+      parameters: []
+      responses: *ref_190
+      security: *ref_191
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/monitoring/health-dashboard:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/monitoring/health-dashboard
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_monitoring_health_dashboard
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_192
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_193
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/monitoring/health-dashboard
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_monitoring_health_dashboard
+      parameters: []
+      responses: *ref_192
+      security: *ref_193
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/monitoring/performance:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/monitoring/performance
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_monitoring_performance
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_194
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_195
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/monitoring/performance
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_monitoring_performance
+      parameters: []
+      responses: *ref_194
+      security: *ref_195
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/monitoring/rls-performance:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/monitoring/rls-performance
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_monitoring_rls_performance
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_196
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_197
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/monitoring/rls-performance
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_monitoring_rls_performance
+      parameters: []
+      responses: *ref_196
+      security: *ref_197
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/patients/{id}:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/patients/{id}
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_patients__id_
+      parameters:
+        - &ref_198
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The id parameter
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_199
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_200
+        - googleOAuth: []
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/patients/{id}
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_patients__id_
+      parameters:
+        - *ref_198
+      responses: *ref_199
+      security: *ref_200
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /medication-auth/rate-limit-status:
+    get:
+      tags:
+        - medication-auth
+      summary: GET /medication-auth/rate-limit-status
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_GET__medication_auth_rate_limit_status
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_201
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - medication-auth
+      summary: POST /medication-auth/rate-limit-status
+      description: Endpoint in medication-auth application
+      operationId: medication-auth_POST__medication_auth_rate_limit_status
+      parameters: []
+      responses: *ref_201
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /pharma-scheduling/health:
+    get:
+      tags:
+        - pharma-scheduling
+      summary: GET /pharma-scheduling/health
+      description: Endpoint in pharma-scheduling application
+      operationId: pharma-scheduling_GET__pharma_scheduling_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_202
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - pharma-scheduling
+      summary: POST /pharma-scheduling/health
+      description: Endpoint in pharma-scheduling application
+      operationId: pharma-scheduling_POST__pharma_scheduling_health
+      parameters: []
+      responses: *ref_202
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /platform-dashboard/applications/status:
+    get:
+      tags:
+        - platform-dashboard
+      summary: GET /platform-dashboard/applications/status
+      description: Endpoint in platform-dashboard application
+      operationId: platform-dashboard_GET__platform_dashboard_applications_status
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /platform-dashboard/health:
+    get:
+      tags:
+        - platform-dashboard
+      summary: GET /platform-dashboard/health
+      description: Endpoint in platform-dashboard application
+      operationId: platform-dashboard_GET__platform_dashboard_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_203
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - platform-dashboard
+      summary: POST /platform-dashboard/health
+      description: Endpoint in platform-dashboard application
+      operationId: platform-dashboard_POST__platform_dashboard_health
+      parameters: []
+      responses: *ref_203
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /platform-dashboard/metrics:
+    get:
+      tags:
+        - platform-dashboard
+      summary: GET /platform-dashboard/metrics
+      description: Endpoint in platform-dashboard application
+      operationId: platform-dashboard_GET__platform_dashboard_metrics
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /socials-reviews/content/library:
+    get:
+      tags:
+        - socials-reviews
+      summary: GET /socials-reviews/content/library
+      description: Endpoint in socials-reviews application
+      operationId: socials-reviews_GET__socials_reviews_content_library
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /socials-reviews/dashboard/stats:
+    get:
+      tags:
+        - socials-reviews
+      summary: GET /socials-reviews/dashboard/stats
+      description: Endpoint in socials-reviews application
+      operationId: socials-reviews_GET__socials_reviews_dashboard_stats
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+  /socials-reviews/health:
+    get:
+      tags:
+        - socials-reviews
+      summary: GET /socials-reviews/health
+      description: Endpoint in socials-reviews application
+      operationId: socials-reviews_GET__socials_reviews_health
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /socials-reviews/reviews:
+    get:
+      tags:
+        - socials-reviews
+      summary: GET /socials-reviews/reviews
+      description: Endpoint in socials-reviews application
+      operationId: socials-reviews_GET__socials_reviews_reviews
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses: &ref_204
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security: &ref_205
+        - supabaseAuth: []
+    post:
+      tags:
+        - socials-reviews
+      summary: POST /socials-reviews/reviews
+      description: Endpoint in socials-reviews application
+      operationId: socials-reviews_POST__socials_reviews_reviews
+      parameters: []
+      responses: *ref_204
+      security: *ref_205
+      requestBody:
+        description: Request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Request structure varies by endpoint
+  /socials-reviews/social/posts:
+    get:
+      tags:
+        - socials-reviews
+      summary: GET /socials-reviews/social/posts
+      description: Endpoint in socials-reviews application
+      operationId: socials-reviews_GET__socials_reviews_social_posts
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema:
+            type: object
+          description: Query parameters vary by endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response structure varies by endpoint
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      security:
+        - supabaseAuth: []
+tags:
+  - name: ai-purchasing-agent
+    description: API endpoints for the ai-purchasing-agent application
+  - name: ai-receptionist
+    description: API endpoints for the ai-receptionist application
+  - name: batch-closeout
+    description: API endpoints for the batch-closeout application
+  - name: call-center-ops
+    description: API endpoints for the call-center-ops application
+  - name: checkin-kiosk
+    description: API endpoints for the checkin-kiosk application
+  - name: clinical-staffing
+    description: API endpoints for the clinical-staffing application
+  - name: compliance-training
+    description: API endpoints for the compliance-training application
+  - name: component-showcase
+    description: API endpoints for the component-showcase application
+  - name: config-dashboard
+    description: API endpoints for the config-dashboard application
+  - name: consolidated-order-form
+    description: API endpoints for the consolidated-order-form application
+  - name: eos-l10
+    description: API endpoints for the eos-l10 application
+  - name: ganger-actions
+    description: API endpoints for the ganger-actions application
+  - name: ganger-staff
+    description: API endpoints for the ganger-staff application
+  - name: handouts
+    description: API endpoints for the handouts application
+  - name: integration-status
+    description: API endpoints for the integration-status application
+  - name: inventory
+    description: API endpoints for the inventory application
+  - name: llm-demo
+    description: API endpoints for the llm-demo application
+  - name: medication-auth
+    description: API endpoints for the medication-auth application
+  - name: pharma-scheduling
+    description: API endpoints for the pharma-scheduling application
+  - name: platform-dashboard
+    description: API endpoints for the platform-dashboard application
+  - name: socials-reviews
+    description: API endpoints for the socials-reviews application

@@ -1,13 +1,75 @@
 import React from 'react';
 import { cn } from '../utils/cn';
 
+/**
+ * Props for the LoadingSpinner component
+ */
 interface LoadingSpinnerProps {
+  /**
+   * Size of the spinner
+   * @default 'md'
+   * - sm: 16x16px
+   * - md: 24x24px
+   * - lg: 32x32px
+   */
   size?: 'sm' | 'md' | 'lg';
+  
+  /**
+   * Additional CSS classes to apply
+   */
   className?: string;
+  
+  /**
+   * Optional text to display next to the spinner
+   */
   text?: string;
+  
+  /**
+   * Whether to center the spinner in its container
+   * @default false
+   */
   center?: boolean;
 }
 
+/**
+ * LoadingSpinner component for loading states
+ * 
+ * @description
+ * An animated spinning indicator used to show loading states. Can be displayed
+ * alone or with accompanying text. Supports multiple sizes and centering options.
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <LoadingSpinner />
+ * 
+ * // Different sizes
+ * <LoadingSpinner size="sm" />
+ * <LoadingSpinner size="lg" />
+ * 
+ * // With text
+ * <LoadingSpinner text="Loading..." />
+ * <LoadingSpinner size="lg" text="Processing your request" />
+ * 
+ * // Centered in container
+ * <div className="h-64">
+ *   <LoadingSpinner center text="Loading data..." />
+ * </div>
+ * 
+ * // In a button
+ * <Button disabled>
+ *   <LoadingSpinner size="sm" className="mr-2" />
+ *   Saving...
+ * </Button>
+ * 
+ * // Full page loader
+ * <div className="fixed inset-0 bg-white/80 z-50">
+ *   <LoadingSpinner center size="lg" text="Please wait..." />
+ * </div>
+ * ```
+ * 
+ * @component
+ */
 export function LoadingSpinner({ 
   size = 'md', 
   className, 

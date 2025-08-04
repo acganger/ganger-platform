@@ -103,20 +103,41 @@ export async function auditLog(event: {
   resourceId?: string;
   metadata?: Record<string, unknown>;
 }): Promise<void> {
-  // In a real implementation, this would log to Supabase audit table
-  // For now, we'll log to console in development
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Audit Log:', {
-      timestamp: new Date().toISOString(),
-      ...event
+  try {
+    // Create Supabase client for audit logging
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    // Insert audit log entry
+    const { error } = await supabase.from('audit_logs').insert({
+      user_id: event.userId,
+      action: event.action,
+      resource_type: event.resourceType || 'system',
+      resource_id: event.resourceId,
+      metadata: {
+        userEmail: event.userEmail,
+        ...event.metadata,
+        timestamp: new Date().toISOString()
+      }
     });
+
+    if (error) {
+      console.error('Failed to write audit log:', error);
+    }
+
+    // Also log to console in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Audit Log:', {
+        timestamp: new Date().toISOString(),
+        ...event
+      });
+    }
+  } catch (error) {
+    console.error('Error in audit logging:', error);
   }
-  
-  // In production, this would send to logging service
-  // await supabase.from('audit_logs').insert({
-  //   timestamp: new Date().toISOString(),
-  //   ...event
-  // });
 }
 
 /**
@@ -155,13 +176,15 @@ export function getDefaultPermissions(role: string): string[] {
       'compliance:edit',
       'compliance:export',
       'compliance:sync',
-      'compliance:admin'
+      'compliance:admin',
+      'admin:users'
     ],
     hr_admin: [
       'compliance:view',
       'compliance:edit',
       'compliance:export',
-      'compliance:sync'
+      'compliance:sync',
+      'admin:users'
     ],
     manager: [
       'compliance:view',

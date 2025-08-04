@@ -1,5 +1,8 @@
-import { integrationHealthMonitor } from './integration-health';
-export class HealthAlertingService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.healthAlertingService = exports.HealthAlertingService = void 0;
+const integration_health_1 = require("./integration-health");
+class HealthAlertingService {
     constructor() {
         this.alertChannels = [];
         this.alertRules = [];
@@ -53,7 +56,7 @@ export class HealthAlertingService {
     }
     async checkAndSendAlerts() {
         try {
-            const integrations = await integrationHealthMonitor.getAllHealth();
+            const integrations = await integration_health_1.integrationHealthMonitor.getAllHealth();
             for (const rule of this.alertRules) {
                 if (this.shouldTriggerAlert(rule, integrations)) {
                     await this.sendAlert(rule);
@@ -146,5 +149,6 @@ export class HealthAlertingService {
         return colors[severity] || '#808080';
     }
 }
-export const healthAlertingService = new HealthAlertingService();
+exports.HealthAlertingService = HealthAlertingService;
+exports.healthAlertingService = new HealthAlertingService();
 //# sourceMappingURL=health-alerting.js.map

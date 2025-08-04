@@ -1,4 +1,10 @@
-import { getSupabaseClient } from '@ganger/auth';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorTracking = void 0;
+exports.logErrorToService = logErrorToService;
+exports.measureApiCall = measureApiCall;
+exports.measurePageLoad = measurePageLoad;
+const auth_1 = require("@ganger/auth");
 class ErrorTrackingService {
     constructor() {
         this.queue = [];
@@ -32,7 +38,7 @@ class ErrorTrackingService {
         // Add user ID if available
         if (typeof window !== 'undefined') {
             try {
-                const supabase = getSupabaseClient();
+                const supabase = (0, auth_1.getSupabaseClient)();
                 const { data: { user } } = await supabase.auth.getUser();
                 if (user) {
                     errorEvent.userId = user.id;
@@ -117,10 +123,10 @@ class ErrorTrackingService {
     }
 }
 // Singleton instance
-export const errorTracking = new ErrorTrackingService();
+exports.errorTracking = new ErrorTrackingService();
 // React Error Boundary integration
-export function logErrorToService(error, errorInfo) {
-    errorTracking.trackError({
+function logErrorToService(error, errorInfo) {
+    exports.errorTracking.trackError({
         message: error.message,
         stack: error.stack,
         componentStack: errorInfo?.componentStack,
@@ -130,8 +136,8 @@ export function logErrorToService(error, errorInfo) {
     });
 }
 // Performance monitoring helpers
-export function measureApiCall(endpoint, duration, status) {
-    errorTracking.trackPerformance({
+function measureApiCall(endpoint, duration, status) {
+    exports.errorTracking.trackPerformance({
         name: 'api_call_duration',
         value: duration,
         unit: 'ms',
@@ -143,13 +149,13 @@ export function measureApiCall(endpoint, duration, status) {
         }
     });
 }
-export function measurePageLoad() {
+function measurePageLoad() {
     if (typeof window !== 'undefined' && window.performance) {
         const perfData = window.performance.timing;
         const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
         const domReadyTime = perfData.domContentLoadedEventEnd - perfData.navigationStart;
         const ttfb = perfData.responseStart - perfData.navigationStart;
-        errorTracking.trackPerformance({
+        exports.errorTracking.trackPerformance({
             name: 'page_load_time',
             value: pageLoadTime,
             unit: 'ms',
@@ -158,7 +164,7 @@ export function measurePageLoad() {
                 page: window.location.pathname
             }
         });
-        errorTracking.trackPerformance({
+        exports.errorTracking.trackPerformance({
             name: 'dom_ready_time',
             value: domReadyTime,
             unit: 'ms',
@@ -167,7 +173,7 @@ export function measurePageLoad() {
                 page: window.location.pathname
             }
         });
-        errorTracking.trackPerformance({
+        exports.errorTracking.trackPerformance({
             name: 'time_to_first_byte',
             value: ttfb,
             unit: 'ms',

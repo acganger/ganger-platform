@@ -2,6 +2,45 @@ import React from 'react';
 import { cn } from '../utils/cn';
 import { ButtonProps } from '../types';
 
+/**
+ * Button component for interactive actions
+ * 
+ * @description
+ * A flexible button component that supports multiple visual variants, sizes, 
+ * loading states, and icons. Built with accessibility in mind and includes
+ * proper focus management and ARIA attributes.
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Button onClick={handleClick}>Click me</Button>
+ * 
+ * // With variant and size
+ * <Button variant="primary" size="lg">
+ *   Large Primary Button
+ * </Button>
+ * 
+ * // With loading state
+ * <Button loading onClick={handleSubmit}>
+ *   Submitting...
+ * </Button>
+ * 
+ * // With icons
+ * <Button 
+ *   leftIcon={<PlusIcon />}
+ *   rightIcon={<ArrowRightIcon />}
+ * >
+ *   Add Item
+ * </Button>
+ * 
+ * // Full width button
+ * <Button fullWidth variant="secondary">
+ *   Full Width Action
+ * </Button>
+ * ```
+ * 
+ * @component
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
     className, 

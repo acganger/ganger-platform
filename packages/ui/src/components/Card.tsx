@@ -1,6 +1,10 @@
 import React from 'react';
 import { cn } from '../utils/cn';
 
+/**
+ * Props for the Card component
+ * @extends React.HTMLAttributes<HTMLDivElement>
+ */
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   padding?: 'none' | 'sm' | 'md' | 'lg';
@@ -22,6 +26,53 @@ interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
+/**
+ * Card component for content containers
+ * 
+ * @description
+ * A flexible container component that provides consistent styling for grouped content.
+ * Supports customizable padding, shadows, borders, and rounded corners. Can be
+ * made interactive with onClick handlers.
+ * 
+ * @example
+ * ```tsx
+ * // Basic card
+ * <Card>
+ *   <CardHeader>
+ *     <CardTitle>Card Title</CardTitle>
+ *     <CardDescription>Card description goes here</CardDescription>
+ *   </CardHeader>
+ *   <CardContent>
+ *     <p>Card content goes here</p>
+ *   </CardContent>
+ *   <CardFooter>
+ *     <Button>Action</Button>
+ *   </CardFooter>
+ * </Card>
+ * 
+ * // Simple card without sections
+ * <Card padding="lg" shadow="md">
+ *   <h3>Simple Card</h3>
+ *   <p>Some content</p>
+ * </Card>
+ * 
+ * // Clickable card
+ * <Card onClick={handleClick} className="hover:shadow-lg">
+ *   <CardContent>
+ *     <p>Click me!</p>
+ *   </CardContent>
+ * </Card>
+ * 
+ * // Disabled card
+ * <Card disabled>
+ *   <CardContent>
+ *     <p>This card is disabled</p>
+ *   </CardContent>
+ * </Card>
+ * ```
+ * 
+ * @component
+ */
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ 
     className, 
@@ -78,6 +129,15 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 Card.displayName = 'Card';
 
+/**
+ * CardHeader component for card titles and descriptions
+ * 
+ * @description
+ * Container for card header content, typically used with CardTitle and CardDescription.
+ * Adds appropriate spacing and a border below the header.
+ * 
+ * @component
+ */
 const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, children, ...props }, ref) => (
     <div
@@ -96,6 +156,15 @@ interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
   size?: 'sm' | 'md' | 'lg';
 }
 
+/**
+ * CardTitle component for card headings
+ * 
+ * @description
+ * Displays the main title within a card. Supports different sizes and
+ * maintains consistent typography across the application.
+ * 
+ * @component
+ */
 const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ className, children, size = 'md', ...props }, ref) => {
     const sizeClasses = {
@@ -121,6 +190,15 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
 );
 CardTitle.displayName = 'CardTitle';
 
+/**
+ * CardDescription component for supplementary text
+ * 
+ * @description
+ * Displays secondary text within a card header, typically used for
+ * descriptions or subtitles beneath the CardTitle.
+ * 
+ * @component
+ */
 const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, children, ...props }, ref) => (
     <p
@@ -134,6 +212,15 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
 );
 CardDescription.displayName = 'CardDescription';
 
+/**
+ * CardContent component for main card content
+ * 
+ * @description
+ * Container for the main content of a card. Provides consistent
+ * padding and spacing for card body content.
+ * 
+ * @component
+ */
 const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
   ({ className, children, ...props }, ref) => (
     <div ref={ref} className={cn('pt-0', className)} {...props}>
@@ -143,6 +230,15 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
 );
 CardContent.displayName = 'CardContent';
 
+/**
+ * CardFooter component for card actions
+ * 
+ * @description
+ * Container for card footer content, typically used for action buttons
+ * or additional information. Adds a top border for visual separation.
+ * 
+ * @component
+ */
 const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, children, ...props }, ref) => (
     <div

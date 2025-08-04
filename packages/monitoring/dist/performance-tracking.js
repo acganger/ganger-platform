@@ -1,5 +1,10 @@
-import { startTransaction } from './sentry';
-export class PerformanceTracker {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.performanceTracker = exports.PerformanceTracker = void 0;
+exports.usePerformanceTracking = usePerformanceTracking;
+exports.trackWebVitals = trackWebVitals;
+const sentry_1 = require("./sentry");
+class PerformanceTracker {
     constructor() {
         this.marks = new Map();
         this.measures = [];
@@ -37,7 +42,7 @@ export class PerformanceTracker {
         this.measures.push(measure);
         // Send to Sentry if duration exceeds threshold
         if (duration > 3000) {
-            const transaction = startTransaction(name, 'performance');
+            const transaction = (0, sentry_1.startTransaction)(name, 'performance');
             transaction.setData('duration', duration);
             transaction.setData('metadata', metadata);
             transaction.finish();
@@ -90,10 +95,11 @@ export class PerformanceTracker {
         return entries;
     }
 }
+exports.PerformanceTracker = PerformanceTracker;
 // Global instance for easy access
-export const performanceTracker = new PerformanceTracker();
+exports.performanceTracker = new PerformanceTracker();
 // React hook for performance tracking
-export function usePerformanceTracking(componentName) {
+function usePerformanceTracking(componentName) {
     const tracker = new PerformanceTracker();
     const trackRender = () => {
         tracker.mark(`${componentName}-render-start`);
@@ -133,14 +139,14 @@ export function usePerformanceTracking(componentName) {
     };
 }
 // Web Vitals tracking
-export function trackWebVitals() {
+function trackWebVitals() {
     if (typeof window === 'undefined')
         return;
     // Track First Contentful Paint (FCP)
     new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
             if (entry.name === 'first-contentful-paint') {
-                performanceTracker.serverTiming('fcp', entry.startTime);
+                exports.performanceTracker.serverTiming('fcp', entry.startTime);
             }
         }
     }).observe({ entryTypes: ['paint'] });
@@ -148,13 +154,13 @@ export function trackWebVitals() {
     new PerformanceObserver((list) => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
-        performanceTracker.serverTiming('lcp', lastEntry.startTime);
+        exports.performanceTracker.serverTiming('lcp', lastEntry.startTime);
     }).observe({ entryTypes: ['largest-contentful-paint'] });
     // Track First Input Delay (FID)
     new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
             const fidEntry = entry;
-            performanceTracker.serverTiming('fid', fidEntry.processingStart - fidEntry.startTime);
+            exports.performanceTracker.serverTiming('fid', fidEntry.processingStart - fidEntry.startTime);
         }
     }).observe({ entryTypes: ['first-input'] });
     // Track Cumulative Layout Shift (CLS)
@@ -165,7 +171,7 @@ export function trackWebVitals() {
                 clsValue += entry.value;
             }
         }
-        performanceTracker.serverTiming('cls', clsValue);
+        exports.performanceTracker.serverTiming('cls', clsValue);
     }).observe({ entryTypes: ['layout-shift'] });
 }
 //# sourceMappingURL=performance-tracking.js.map

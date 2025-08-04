@@ -44,6 +44,48 @@ const getAvatarColors = (name: string): string => {
   return colors[Math.abs(hash) % colors.length];
 };
 
+/**
+ * Avatar component for user profile images
+ * 
+ * @description
+ * A flexible avatar component that displays user profile images with automatic
+ * fallback to initials. Supports multiple sizes and generates consistent colors
+ * based on the user's name for a personalized experience.
+ * 
+ * @example
+ * ```tsx
+ * // With image
+ * <Avatar 
+ *   src="/path/to/image.jpg" 
+ *   alt="John Doe"
+ * />
+ * 
+ * // With automatic initials (fallback)
+ * <Avatar alt="John Doe" />  // Shows "JD"
+ * 
+ * // With custom initials
+ * <Avatar initials="AD" />
+ * 
+ * // Different sizes
+ * <Avatar size="xs" alt="Jane Smith" />
+ * <Avatar size="lg" src="/avatar.jpg" alt="User" />
+ * 
+ * // Image with fallback on error
+ * <Avatar 
+ *   src="/broken-image.jpg" 
+ *   alt="Mike Johnson"  // Falls back to "MJ" on error
+ * />
+ * 
+ * // In a user list
+ * <div className="flex -space-x-2">
+ *   <Avatar src="/user1.jpg" alt="User 1" />
+ *   <Avatar src="/user2.jpg" alt="User 2" />
+ *   <Avatar alt="User 3" />
+ * </div>
+ * ```
+ * 
+ * @component
+ */
 export function Avatar({ 
   src, 
   alt = '', 

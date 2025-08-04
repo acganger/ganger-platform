@@ -1,4 +1,14 @@
-import { format, parseISO, isValid } from 'date-fns';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+/**
+ * Combine class names with tailwind-merge to handle conflicts
+ * @param inputs - Class values to combine
+ * @returns Combined class string
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 // Text formatting utilities
 export const capitalize = (str: string): string => {
@@ -100,27 +110,65 @@ export const parseCurrency = (currencyString: string): number => {
   return parseFloat(cleaned) || 0;
 };
 
-// Date formatting
-export const formatDate = (date: string | Date, formatStr = 'MM/dd/yyyy'): string => {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+// Date formatting (without date-fns dependency)
+export const formatDate = (date: string | Date, options?: Intl.DateTimeFormatOptions): string => {
+  const dateObj = new Date(date);
   
-  if (!isValid(dateObj)) {
+  if (isNaN(dateObj.getTime())) {
     return 'Invalid Date';
   }
   
-  return format(dateObj, formatStr);
+  // Default format: MM/dd/yyyy
+  const defaultOptions: Intl.DateTimeFormatOptions = {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric'
+  };
+  
+  return dateObj.toLocaleDateString('en-US', options || defaultOptions);
 };
 
-export const formatDateTime = (date: string | Date, formatStr = 'MM/dd/yyyy h:mm a'): string => {
-  return formatDate(date, formatStr);
+export const formatDateTime = (date: string | Date): string => {
+  const dateObj = new Date(date);
+  
+  if (isNaN(dateObj.getTime())) {
+    return 'Invalid Date';
+  }
+  
+  return dateObj.toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
 };
 
-export const formatTime = (date: string | Date, formatStr = 'h:mm a'): string => {
-  return formatDate(date, formatStr);
+export const formatTime = (time: string | Date): string => {
+  if (typeof time === 'string' && !time.includes('T') && time.includes(':')) {
+    // Handle time in HH:MM format
+    const [hours, minutes] = time.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    time = date;
+  }
+  
+  const dateObj = new Date(time);
+  
+  if (isNaN(dateObj.getTime())) {
+    return 'Invalid Time';
+  }
+  
+  return dateObj.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
 };
 
 export const formatRelativeTime = (date: string | Date): string => {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  const dateObj = new Date(date);
   const now = new Date();
   const diffInMs = now.getTime() - dateObj.getTime();
   const diffInHours = diffInMs / (1000 * 60 * 60);
@@ -141,7 +189,7 @@ export const formatRelativeTime = (date: string | Date): string => {
     return days === 1 ? '1 day ago' : `${days} days ago`;
   }
   
-  return formatDate(dateObj, 'MM/dd/yyyy');
+  return formatDate(dateObj);
 };
 
 // Medical formatting
@@ -155,11 +203,11 @@ export const formatMRN = (mrn: string): string => {
 };
 
 export const formatDOB = (dob: string): string => {
-  return formatDate(dob, 'MM/dd/yyyy');
+  return formatDate(dob);
 };
 
-export const calculateAge = (dob: string): number => {
-  const birthDate = typeof dob === 'string' ? parseISO(dob) : dob;
+export const calculateAge = (dob: string | Date): number => {
+  const birthDate = new Date(dob);
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -269,4 +317,67 @@ export const extractTemplateVariables = (template: string): string[] => {
   }
   
   return [...new Set(variables)];
+};
+
+// Additional utilities from apps
+
+/**
+ * Capitalize first letter (simple version)
+ */
+export const capitalizeFirst = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+/**
+ * Convert kebab-case to Title Case
+ */
+export const kebabToTitle = (str: string): string => {
+  return str
+    .split('-')
+    .map(word => capitalizeFirst(word))
+    .join(' ');
+};
+
+/**
+ * Format time ago in a concise format
+ */
+export const formatTimeAgo = (date: string | Date): string => {
+  const now = new Date();
+  const past = new Date(date);
+  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return 'just now';
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  return formatDate(date);
+};
+
+/**
+ * Truncate text with ellipsis
+ */
+export const truncateText = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
+};
+
+/**
+ * Generate avatar background color from name
+ */
+export const getAvatarColor = (name: string): string => {
+  const colors = [
+    'bg-red-500',
+    'bg-yellow-500', 
+    'bg-green-500',
+    'bg-blue-500',
+    'bg-indigo-500',
+    'bg-purple-500',
+    'bg-pink-500',
+  ];
+  
+  const hash = name.split('').reduce((acc, char) => {
+    return char.charCodeAt(0) + ((acc << 5) - acc);
+  }, 0);
+  
+  return colors[Math.abs(hash) % colors.length];
 };

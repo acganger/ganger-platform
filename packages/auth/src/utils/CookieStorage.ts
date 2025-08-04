@@ -18,9 +18,35 @@ interface CookieOptions {
   maxAge?: number;
 }
 
+/**
+ * Cookie-based storage adapter that implements the StorageAdapter interface.
+ * Enables cross-domain session sharing for Supabase Auth across subdomains.
+ * 
+ * @class CookieStorage
+ * @implements {StorageAdapter}
+ * 
+ * @example
+ * // Create storage for cross-domain auth
+ * const storage = new CookieStorage({
+ *   domain: '.gangerdermatology.com',
+ *   secure: true,
+ *   sameSite: 'lax',
+ *   maxAge: 86400 // 24 hours
+ * });
+ */
 export class CookieStorage implements StorageAdapter {
   private options: CookieOptions;
 
+  /**
+   * Creates a new CookieStorage instance.
+   * 
+   * @param {CookieOptions} options - Cookie configuration options
+   * @param {string} options.domain - Domain for cookies (use leading . for subdomains)
+   * @param {boolean} options.secure - Whether cookies require HTTPS
+   * @param {'strict'|'lax'|'none'} options.sameSite - SameSite cookie attribute
+   * @param {string} [options.path='/'] - Cookie path
+   * @param {number} [options.maxAge] - Cookie max age in seconds
+   */
   constructor(options: CookieOptions) {
     this.options = {
       path: '/',
@@ -28,6 +54,12 @@ export class CookieStorage implements StorageAdapter {
     };
   }
 
+  /**
+   * Retrieve a value from cookie storage.
+   * 
+   * @param {string} key - Cookie name to retrieve
+   * @returns {string | null} Cookie value or null if not found
+   */
   getItem(key: string): string | null {
     // Return null for server-side rendering
     if (typeof window === 'undefined') {
@@ -48,6 +80,12 @@ export class CookieStorage implements StorageAdapter {
     }
   }
 
+  /**
+   * Store a value in cookie storage.
+   * 
+   * @param {string} key - Cookie name
+   * @param {string} value - Value to store
+   */
   setItem(key: string, value: string): void {
     // Skip for server-side rendering
     if (typeof window === 'undefined') {
@@ -65,6 +103,11 @@ export class CookieStorage implements StorageAdapter {
     }
   }
 
+  /**
+   * Remove a value from cookie storage.
+   * 
+   * @param {string} key - Cookie name to remove
+   */
   removeItem(key: string): void {
     // Skip for server-side rendering
     if (typeof window === 'undefined') {
@@ -83,8 +126,21 @@ export class CookieStorage implements StorageAdapter {
 }
 
 /**
- * Pre-configured cookie storage for Ganger Platform
- * Uses .gangerdermatology.com domain for cross-subdomain access
+ * Pre-configured cookie storage instance for Ganger Platform.
+ * Uses .gangerdermatology.com domain for cross-subdomain access.
+ * Configured with 7-day expiry to match Supabase JWT tokens.
+ * 
+ * @type {CookieStorage}
+ * 
+ * @example
+ * import { gangerCookieStorage } from '@ganger/auth';
+ * 
+ * // Use with Supabase client
+ * const supabase = createClient(url, key, {
+ *   auth: {
+ *     storage: gangerCookieStorage
+ *   }
+ * });
  */
 export const gangerCookieStorage = new CookieStorage({
   domain: '.gangerdermatology.com',

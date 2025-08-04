@@ -35,7 +35,5 @@ export function getButtonProps(variant: 'primary' | 'secondary' | 'ghost' | 'des
   }
 }
 
-// Combine classNames safely
-export function cn(...classes: (string | undefined | null | false)[]): string {
-  return classes.filter(Boolean).join(' ');
-}
+// Re-export cn from @ganger/utils
+export { cn } from '@ganger/utils';

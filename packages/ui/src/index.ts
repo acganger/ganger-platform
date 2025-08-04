@@ -1,3 +1,37 @@
+/**
+ * @packageDocumentation
+ * @module @ganger/ui
+ * 
+ * @description
+ * The @ganger/ui package provides a comprehensive set of reusable React components
+ * for building consistent user interfaces across all Ganger Platform applications.
+ * 
+ * Components are built with:
+ * - TypeScript for type safety
+ * - Tailwind CSS for styling
+ * - Accessibility best practices
+ * - Medical-grade UI patterns
+ * 
+ * @example
+ * ```tsx
+ * import { Button, Card, Input, Alert } from '@ganger/ui';
+ * 
+ * function MyComponent() {
+ *   return (
+ *     <Card>
+ *       <CardHeader>
+ *         <CardTitle>User Form</CardTitle>
+ *       </CardHeader>
+ *       <CardContent>
+ *         <Input label="Name" placeholder="Enter your name" />
+ *         <Button variant="primary">Submit</Button>
+ *       </CardContent>
+ *     </Card>
+ *   );
+ * }
+ * ```
+ */
+
 // Core UI Components
 export { Button } from './components/Button';
 export { LoadingSpinner } from './components/LoadingSpinner';

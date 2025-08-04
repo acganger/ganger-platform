@@ -1,8 +1,19 @@
 /**
- * Authentication debugging utilities
- * Only active in development or when explicitly enabled
+ * Authentication debugging utilities.
+ * Only active in development or when explicitly enabled via localStorage.
  */
 
+/**
+ * Log authentication debug messages.
+ * Only logs in development mode or when debug_auth is enabled in localStorage.
+ * 
+ * @param {string} message - Debug message to log
+ * @param {any} [data] - Optional data to log with the message
+ * 
+ * @example
+ * debugAuth('User signed in', { email: user.email });
+ * debugAuth('Session expired');
+ */
 export function debugAuth(message: string, data?: any) {
   if (process.env.NODE_ENV === 'development' || 
       (typeof window !== 'undefined' && window.localStorage.getItem('debug_auth') === 'true')) {
@@ -10,6 +21,15 @@ export function debugAuth(message: string, data?: any) {
   }
 }
 
+/**
+ * Enable authentication debugging in the browser.
+ * Sets a flag in localStorage to enable debug logging.
+ * 
+ * @example
+ * // In browser console
+ * enableAuthDebugging();
+ * // Now refresh the page to see auth debug logs
+ */
 export function enableAuthDebugging() {
   if (typeof window !== 'undefined') {
     window.localStorage.setItem('debug_auth', 'true');
@@ -17,6 +37,14 @@ export function enableAuthDebugging() {
   }
 }
 
+/**
+ * Disable authentication debugging in the browser.
+ * Removes the debug flag from localStorage.
+ * 
+ * @example
+ * // In browser console
+ * disableAuthDebugging();
+ */
 export function disableAuthDebugging() {
   if (typeof window !== 'undefined') {
     window.localStorage.removeItem('debug_auth');
@@ -25,7 +53,20 @@ export function disableAuthDebugging() {
 }
 
 /**
- * Check current auth state and log diagnostic information
+ * Check current auth state and log comprehensive diagnostic information.
+ * Inspects session, cookies, localStorage, and URL parameters.
+ * Useful for troubleshooting authentication issues.
+ * 
+ * @param {any} supabase - Supabase client instance
+ * @returns {Promise<void>}
+ * 
+ * @example
+ * // Diagnose auth issues
+ * import { supabase } from '@ganger/auth';
+ * import { diagnoseAuth } from '@ganger/auth';
+ * 
+ * await diagnoseAuth(supabase);
+ * // Logs detailed auth state information to console
  */
 export async function diagnoseAuth(supabase: any) {
   console.group('[Auth Diagnosis]');

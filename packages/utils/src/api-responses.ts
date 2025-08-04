@@ -93,12 +93,19 @@ export enum ErrorSeverity {
   CRITICAL = 'critical'
 }
 
-// Generate request ID
+/**
+ * Generates a unique request ID for tracing
+ * @returns UUID v4 string
+ */
 function generateRequestId(): string {
   return randomUUID();
 }
 
-// Get request metadata
+/**
+ * Extracts metadata from the request for logging and tracing
+ * @param req - Next.js API request object
+ * @returns Object containing request ID, timestamp, path, and method
+ */
 function getRequestMetadata(req: NextApiRequest) {
   return {
     requestId: generateRequestId(),
@@ -108,7 +115,23 @@ function getRequestMetadata(req: NextApiRequest) {
   };
 }
 
-// Standard error response builder
+/**
+ * Creates a standardized error response object
+ * @param error - Error object or message string
+ * @param statusCode - HTTP status code
+ * @param code - Error code from ErrorCodes enum
+ * @param req - Next.js API request object
+ * @param details - Optional additional error details
+ * @returns Standardized error response
+ * @example
+ * const errorResponse = createErrorResponse(
+ *   new Error('User not found'),
+ *   404,
+ *   ErrorCodes.NOT_FOUND,
+ *   req,
+ *   { userId: '123' }
+ * );
+ */
 export function createErrorResponse(
   error: Error | string,
   statusCode: number,
@@ -128,7 +151,21 @@ export function createErrorResponse(
   };
 }
 
-// Standard success response builder
+/**
+ * Creates a standardized success response object
+ * @param data - The response data
+ * @param statusCode - HTTP status code (default: 200)
+ * @param req - Next.js API request object
+ * @param meta - Optional metadata (pagination, performance)
+ * @returns Standardized success response
+ * @example
+ * const response = createSuccessResponse(
+ *   { users: [{id: 1, name: 'John'}] },
+ *   200,
+ *   req,
+ *   { pagination: { page: 1, limit: 10, total: 100, totalPages: 10 } }
+ * );
+ */
 export function createSuccessResponse<T>(
   data: T,
   statusCode: number = 200,
@@ -146,7 +183,17 @@ export function createSuccessResponse<T>(
   };
 }
 
-// Validation error response builder
+/**
+ * Creates a standardized validation error response
+ * @param validationErrors - Array of field validation errors
+ * @param req - Next.js API request object
+ * @returns Validation error response with 400 status
+ * @example
+ * const response = createValidationErrorResponse([
+ *   { field: 'email', message: 'Invalid email format', code: 'INVALID_FORMAT' },
+ *   { field: 'password', message: 'Too short', code: 'MIN_LENGTH' }
+ * ], req);
+ */
 export function createValidationErrorResponse(
   validationErrors: { field: string; message: string; code: string; value?: any }[],
   req: NextApiRequest
@@ -163,7 +210,11 @@ export function createValidationErrorResponse(
   };
 }
 
-// Get user-friendly error message
+/**
+ * Maps error codes to user-friendly messages
+ * @param code - Error code from ErrorCodes enum
+ * @returns Human-readable error message
+ */
 function getErrorMessage(code: ErrorCodes): string {
   const messages: Record<ErrorCodes, string> = {
     [ErrorCodes.UNAUTHORIZED]: 'Authentication required to access this resource',
@@ -197,7 +248,23 @@ function getErrorMessage(code: ErrorCodes): string {
   return messages[code] || 'An unknown error occurred';
 }
 
-// Standard error handler middleware
+/**
+ * Wraps API handlers with standardized error handling
+ * Automatically catches and formats errors into standard responses
+ * @param handler - The async API handler function
+ * @returns Wrapped handler with error handling
+ * @example
+ * export default withStandardErrorHandling(async (req, res) => {
+ *   if (!req.body.email) {
+ *     throw new ValidationError([{
+ *       field: 'email',
+ *       message: 'Email is required',
+ *       code: 'REQUIRED'
+ *     }]);
+ *   }
+ *   // Handler logic...
+ * });
+ */
 export function withStandardErrorHandling(
   handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
 ) {
@@ -332,7 +399,17 @@ export class HIPAAError extends ApiError {
   }
 }
 
-// Utility functions for common response patterns
+/**
+ * Sends a standardized success response
+ * @param res - Next.js API response object
+ * @param data - The response data
+ * @param req - Next.js API request object
+ * @param statusCode - HTTP status code (default: 200)
+ * @param meta - Optional metadata
+ * @returns Next.js response object
+ * @example
+ * return respondWithSuccess(res, { user: userData }, req, 200);
+ */
 export function respondWithSuccess<T>(
   res: NextApiResponse,
   data: T,
@@ -344,6 +421,18 @@ export function respondWithSuccess<T>(
   return res.status(statusCode).json(response);
 }
 
+/**
+ * Sends a standardized error response
+ * @param res - Next.js API response object
+ * @param error - Error object or message
+ * @param statusCode - HTTP status code
+ * @param code - Error code from ErrorCodes enum
+ * @param req - Next.js API request object
+ * @param details - Optional error details
+ * @returns Next.js response object
+ * @example
+ * return respondWithError(res, 'Not found', 404, ErrorCodes.NOT_FOUND, req);
+ */
 export function respondWithError(
   res: NextApiResponse,
   error: Error | string,
@@ -356,6 +445,17 @@ export function respondWithError(
   return res.status(statusCode).json(response);
 }
 
+/**
+ * Sends a standardized validation error response (400)
+ * @param res - Next.js API response object
+ * @param validationErrors - Array of validation errors
+ * @param req - Next.js API request object
+ * @returns Next.js response object with 400 status
+ * @example
+ * return respondWithValidationError(res, [
+ *   { field: 'email', message: 'Invalid format', code: 'FORMAT' }
+ * ], req);
+ */
 export function respondWithValidationError(
   res: NextApiResponse,
   validationErrors: { field: string; message: string; code: string; value?: any }[],
@@ -365,7 +465,19 @@ export function respondWithValidationError(
   return res.status(400).json(response);
 }
 
-// Zod validation error transformer
+/**
+ * Transforms Zod validation errors into our ValidationError format
+ * @param zodError - Zod error object
+ * @returns ValidationError instance
+ * @example
+ * try {
+ *   const data = schema.parse(req.body);
+ * } catch (error) {
+ *   if (error instanceof ZodError) {
+ *     throw transformZodErrors(error);
+ *   }
+ * }
+ */
 export function transformZodErrors(zodError: any): ValidationError {
   const errors = zodError.errors.map((err: any) => ({
     field: err.path.join('.'),
@@ -377,7 +489,16 @@ export function transformZodErrors(zodError: any): ValidationError {
   return new ValidationError(errors);
 }
 
-// Supabase error transformer
+/**
+ * Transforms Supabase/PostgreSQL errors into our ApiError format
+ * @param supabaseError - Supabase error object
+ * @returns Appropriate ApiError subclass
+ * @example
+ * const { data, error } = await supabase.from('users').insert(userData);
+ * if (error) {
+ *   throw transformSupabaseError(error);
+ * }
+ */
 export function transformSupabaseError(supabaseError: any): ApiError {
   const message = supabaseError.message || 'Database operation failed';
   const code = supabaseError.code;
@@ -399,7 +520,18 @@ export function transformSupabaseError(supabaseError: any): ApiError {
   return new DatabaseError(message, { postgresCode: code });
 }
 
-// Method not allowed helper
+/**
+ * Handles HTTP method not allowed errors (405)
+ * Sets the Allow header with permitted methods
+ * @param req - Next.js API request object
+ * @param res - Next.js API response object
+ * @param allowedMethods - Array of allowed HTTP methods
+ * @returns 405 error response
+ * @example
+ * if (req.method !== 'POST') {
+ *   return handleMethodNotAllowed(req, res, ['POST']);
+ * }
+ */
 export function handleMethodNotAllowed(
   req: NextApiRequest,
   res: NextApiResponse,

@@ -3,6 +3,8 @@
 import { useStaffAuth } from '@ganger/auth';
 import { Button, StaffLoginRedirect } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
+import { useOfflineSchedule } from '../src/hooks/useOfflineSchedule';
+import { formatDate } from '@ganger/utils';
 
 // Cloudflare Workers Edge Runtime
 // export const runtime = 'edge'; // Removed for Vercel compatibility
@@ -10,6 +12,13 @@ export const dynamic = 'force-dynamic';
 
 export default function ClinicalStaffingPage() {
   const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const today = new Date().toISOString().split('T')[0];
+  const { 
+    data: todaySchedule, 
+    loading: scheduleLoading, 
+    isOffline, 
+    isFromCache 
+  } = useOfflineSchedule({ date: today });
   
   if (isLoading) {
     return (
@@ -86,30 +95,74 @@ export default function ClinicalStaffingPage() {
         <div className="mt-8">
           <Card>
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Today's Schedule</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between py-3 border-b">
-                  <div>
-                    <span className="font-medium text-gray-900">Dr. Ganger</span>
-                    <span className="text-gray-600 ml-2">- Main Clinic</span>
-                  </div>
-                  <span className="text-sm text-gray-500">8:00 AM - 5:00 PM</span>
-                </div>
-                <div className="flex items-center justify-between py-3 border-b">
-                  <div>
-                    <span className="font-medium text-gray-900">NP Johnson</span>
-                    <span className="text-gray-600 ml-2">- Dermatology Suite</span>
-                  </div>
-                  <span className="text-sm text-gray-500">9:00 AM - 4:00 PM</span>
-                </div>
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <span className="font-medium text-gray-900">PA Smith</span>
-                    <span className="text-gray-600 ml-2">- Cosmetic Services</span>
-                  </div>
-                  <span className="text-sm text-gray-500">10:00 AM - 6:00 PM</span>
-                </div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Today's Schedule</h3>
+                {isFromCache && (
+                  <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">
+                    {isOffline ? 'Offline' : 'Cached'}
+                  </span>
+                )}
               </div>
+              
+              {scheduleLoading ? (
+                <div className="space-y-3">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="flex items-center justify-between py-3 border-b">
+                        <div className="flex-1">
+                          <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+                          <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+                        </div>
+                        <div className="h-3 bg-gray-200 rounded w-24"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : todaySchedule?.schedules?.length > 0 ? (
+                <div className="space-y-3">
+                  {todaySchedule.schedules.slice(0, 5).map((schedule: any, index: number) => (
+                    <div key={schedule.id || index} className="flex items-center justify-between py-3 border-b">
+                      <div>
+                        <span className="font-medium text-gray-900">
+                          {schedule.provider_name || 'Provider'}
+                        </span>
+                        <span className="text-gray-600 ml-2">
+                          - {schedule.location || 'Main Clinic'}
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {schedule.start_time || '8:00 AM'} - {schedule.end_time || '5:00 PM'}
+                      </span>
+                    </div>
+                  ))}
+                  
+                  {todaySchedule.schedules.length > 5 && (
+                    <div className="text-center pt-2">
+                      <Button 
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => window.location.href = '/schedule-builder'}
+                      >
+                        View All ({todaySchedule.schedules.length} total)
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No schedules found for today</p>
+                  <Button 
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    className="mt-4"
+                    onClick={() => window.location.href = '/schedule-builder'}
+                  >
+                    Create Schedule
+                  </Button>
+                </div>
+              )}
             </div>
           </Card>
         </div>

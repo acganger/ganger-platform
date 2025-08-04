@@ -1,12 +1,16 @@
 // Validation utilities
 export * from './validation/schemas';
 
-// Formatting utilities - temporarily disabled due to date-fns dependency issue
-// TODO: Fix date-fns dependency resolution in monorepo
-// export * from './formatting/text';
+// Currency and number formatters - export only non-conflicting functions
+export {
+  formatCurrency,
+  formatPercentage,
+  formatNumber,
+  formatBytes,
+} from './formatters';
 
-// Currency and number formatters
-export * from './formatters';
+// Formatting utilities - includes formatDate, formatRelativeTime and more
+export * from './formatting/text';
 
 // Analytics utilities
 export {

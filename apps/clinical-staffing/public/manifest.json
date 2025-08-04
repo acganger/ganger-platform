@@ -1,0 +1,66 @@
+{
+  "name": "Ganger Platform - Clinical Staffing",
+  "short_name": "Clinical Staffing",
+  "description": "Provider scheduling and clinical staff management system",
+  "start_url": "/clinical-staffing",
+  "scope": "/clinical-staffing/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/clinical-staffing/icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/clinical-staffing/icon.svg", 
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["medical", "business", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Today's Schedule",
+      "short_name": "Today",
+      "description": "View today's provider schedule",
+      "url": "/clinical-staffing?view=today",
+      "icons": [{ "src": "/clinical-staffing/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Staff Availability",
+      "short_name": "Availability",
+      "description": "Check staff availability",
+      "url": "/clinical-staffing/staff-assignments",
+      "icons": [{ "src": "/clinical-staffing/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Schedule Builder",
+      "short_name": "Builder",
+      "description": "Create and edit schedules",
+      "url": "/clinical-staffing/schedule-builder",
+      "icons": [{ "src": "/clinical-staffing/icon.svg", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/clinical-staffing/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/clinical-staffing/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

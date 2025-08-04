@@ -23,6 +23,7 @@
     "@ganger/db": "workspace:*",
     "@ganger/cache": "workspace:*",
     "@ganger/auth": "workspace:*",
+    "@ganger/deps": "workspace:*",
     "typescript": "^5.5.0"
   },
   "devDependencies": {

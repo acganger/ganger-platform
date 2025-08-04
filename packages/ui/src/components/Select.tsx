@@ -15,6 +15,50 @@ interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>
   placeholder?: string;
 }
 
+/**
+ * Select dropdown component
+ * 
+ * @description
+ * A styled select dropdown that supports labels, error states, helper text,
+ * and placeholder options. Built with accessibility in mind and includes
+ * automatic label association.
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * const options = [
+ *   { value: 'option1', label: 'Option 1' },
+ *   { value: 'option2', label: 'Option 2' },
+ *   { value: 'option3', label: 'Option 3', disabled: true }
+ * ];
+ * 
+ * <Select options={options} placeholder="Choose an option" />
+ * 
+ * // With label and error
+ * <Select 
+ *   label="Country"
+ *   options={countryOptions}
+ *   error="Please select a country"
+ * />
+ * 
+ * // With helper text
+ * <Select 
+ *   label="Department"
+ *   options={departmentOptions}
+ *   helper="Select your primary department"
+ * />
+ * 
+ * // Controlled component
+ * const [selected, setSelected] = useState('');
+ * <Select 
+ *   value={selected}
+ *   onChange={(e) => setSelected(e.target.value)}
+ *   options={options}
+ * />
+ * ```
+ * 
+ * @component
+ */
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, label, error, helper, options, placeholder, ...props }, ref) => {
     const selectId = React.useId();

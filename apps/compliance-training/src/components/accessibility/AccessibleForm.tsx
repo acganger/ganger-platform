@@ -15,7 +15,7 @@ import {
   type InputHTMLAttributes,
   type SelectHTMLAttributes
 } from 'react';
-import { cn } from '../../../lib/utils';
+import { cn } from '@ganger/utils';
 import { useAccessibility, generateA11yId, createFormFieldAssociation } from '../../utils/accessibility';
 import { AlertTriangle, CheckCircle, Info, Eye, EyeOff } from 'lucide-react';
 

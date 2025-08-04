@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
 import { StaffMember, Provider, StaffSchedule } from '@/types/staffing';
-import { formatDate, formatTime } from '@/utils/formatting';
+import { formatDate, formatTime } from '@ganger/utils';
 import { StaffCard } from '@/components/staff/StaffCard';
 
 interface MobileScheduleViewProps {

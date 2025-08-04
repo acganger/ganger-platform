@@ -1,4 +1,7 @@
-// Analytics event tracking utilities
+/**
+ * Analytics event tracking utilities for the Ganger Platform
+ * Provides client-side event tracking, session management, and performance monitoring
+ */
 
 export interface AnalyticsEvent {
   name: string;
@@ -272,27 +275,75 @@ class AnalyticsTracker {
   }
 }
 
-// Singleton instance
+/**
+ * Singleton analytics tracker instance
+ * @example
+ * import { analytics } from '@ganger/utils';
+ * analytics.trackPageView('/inventory');
+ */
 export const analytics = new AnalyticsTracker();
 
-// Convenience functions
+/**
+ * Tracks a custom analytics event
+ * @param name - Event name (e.g., 'button_click', 'form_submit')
+ * @param category - Event category (e.g., 'interaction', 'navigation')
+ * @param properties - Optional event properties
+ * @example
+ * trackEvent('save_button_click', 'interaction', {
+ *   formName: 'patient_registration',
+ *   formValid: true
+ * });
+ */
 export const trackEvent = (name: string, category: string, properties?: Record<string, any>) => {
   analytics.track(name, category, properties);
 };
 
+/**
+ * Tracks a page view event
+ * @param path - Page path (e.g., '/inventory', '/handouts')
+ * @param title - Optional page title (defaults to document.title)
+ * @example
+ * trackPageView('/inventory', 'Inventory Management');
+ */
 export const trackPageView = (path: string, title?: string) => {
   analytics.trackPageView(path, title);
 };
 
+/**
+ * Tracks an error event for monitoring
+ * @param error - Error message or description
+ * @param context - Optional context about where/why the error occurred
+ * @example
+ * trackError('Failed to load patient data', {
+ *   endpoint: '/api/patients',
+ *   status: 500
+ * });
+ */
 export const trackError = (error: string, context?: Record<string, any>) => {
   analytics.trackError(error, context);
 };
 
+/**
+ * Sets the user ID for all subsequent analytics events
+ * @param userId - User identifier (e.g., email, staff ID)
+ * @example
+ * setUserId('john.doe@gangerdermatology.com');
+ */
 export const setUserId = (userId: string) => {
   analytics.setUserId(userId);
 };
 
-// Performance tracking helpers
+/**
+ * Measures and tracks the performance of an async operation
+ * @param name - Name of the operation being measured
+ * @param fn - Async function to measure
+ * @returns Result of the async function
+ * @example
+ * const data = await measurePerformance('fetch_patient_data', async () => {
+ *   return await fetch('/api/patients/123').then(r => r.json());
+ * });
+ * // Automatically tracks duration in analytics
+ */
 export const measurePerformance = async <T>(name: string, fn: () => Promise<T>): Promise<T> => {
   const start = performance.now();
   try {
@@ -307,7 +358,22 @@ export const measurePerformance = async <T>(name: string, fn: () => Promise<T>):
   }
 };
 
-// React Hook for analytics
+/**
+ * React hook for accessing analytics functions
+ * @returns Object with all analytics methods
+ * @example
+ * function MyComponent() {
+ *   const { track, trackPageView } = useAnalytics();
+ *   
+ *   useEffect(() => {
+ *     trackPageView('/my-page');
+ *   }, []);
+ *   
+ *   const handleClick = () => {
+ *     track('button_click', 'interaction', { buttonId: 'save' });
+ *   };
+ * }
+ */
 export const useAnalytics = () => {
   return {
     track: trackEvent,

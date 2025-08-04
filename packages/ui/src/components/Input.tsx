@@ -2,6 +2,51 @@ import React from 'react';
 import { cn } from '../utils/cn';
 import { InputProps } from '../types';
 
+/**
+ * Input component for text entry
+ * 
+ * @description
+ * A flexible input component that supports labels, error states, helper text,
+ * and all standard HTML input types. Includes built-in accessibility features
+ * with auto-generated IDs for label association.
+ * 
+ * @example
+ * ```tsx
+ * // Basic usage
+ * <Input placeholder="Enter your name" />
+ * 
+ * // With label
+ * <Input 
+ *   label="Email Address"
+ *   type="email"
+ *   placeholder="john@example.com"
+ * />
+ * 
+ * // With error state
+ * <Input 
+ *   label="Password"
+ *   type="password"
+ *   error="Password must be at least 8 characters"
+ * />
+ * 
+ * // With helper text
+ * <Input 
+ *   label="Phone Number"
+ *   type="tel"
+ *   helper="Include country code"
+ *   placeholder="+1 (555) 123-4567"
+ * />
+ * 
+ * // Controlled component
+ * const [value, setValue] = useState('');
+ * <Input 
+ *   value={value}
+ *   onChange={(e) => setValue(e.target.value)}
+ * />
+ * ```
+ * 
+ * @component
+ */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, label, error, helper, type = 'text', ...props }, ref) => {
     const inputId = React.useId();

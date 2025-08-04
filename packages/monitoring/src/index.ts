@@ -43,6 +43,94 @@ export {
 import { integrationHealthMonitor, type IntegrationHealthStatus } from './integration-health';
 import { performanceMonitor, type PerformanceMetrics } from './performance-monitor';
 import { alertManager } from './alerts-config';
+import { uptimeMonitor } from './uptime-monitor';
+import { monitoringDashboard } from './monitoring-dashboard';
+
+// Web Vitals exports
+export {
+  webVitalsTracker,
+  useWebVitals,
+  measureUserTiming,
+  type WebVitalsMetric
+} from './web-vitals';
+
+// HIPAA-compliant error tracking exports
+export {
+  hipaaErrorTracker,
+  useErrorTracking
+} from './hipaa-compliant-error-tracking';
+
+// API latency monitoring exports
+export {
+  apiLatencyMonitor,
+  monitoredFetch,
+  useAPIMonitoring,
+  type APIMetrics,
+  type EndpointStats,
+  type APIHealthStatus
+} from './api-latency-monitor';
+
+// Database performance monitoring exports
+export {
+  databasePerformanceMonitor,
+  monitoredQuery,
+  useDatabaseMonitoring,
+  type QueryMetrics,
+  type TableStats,
+  type QueryPattern,
+  type DatabaseHealth
+} from './database-performance-monitor';
+
+// Uptime monitoring exports
+export {
+  uptimeMonitor,
+  useUptimeMonitoring,
+  type UptimeCheck,
+  type UptimeCheckResult,
+  type UptimeStats,
+  type UptimeIncident,
+  type UptimeSummary
+} from './uptime-monitor';
+
+// Custom metrics exports
+export {
+  customMetrics,
+  useCustomMetrics,
+  BusinessMetrics,
+  type MetricDefinition,
+  type MetricValue,
+  type MetricSnapshot,
+  type MetricAlert
+} from './custom-metrics';
+
+// Monitoring dashboard exports
+export {
+  monitoringDashboard,
+  handleMonitoringDashboardRequest,
+  default as createMonitoringDashboardRoute,
+  type MonitoringDashboardData
+} from './monitoring-dashboard';
+
+// App health check exports
+export {
+  createHealthCheckEndpoint,
+  createNextHealthRoute,
+  healthCheckConfigs,
+  type AppHealthCheck,
+  type AppHealthResponse,
+  type HealthCheckConfig
+} from './app-health-endpoints';
+
+// User flow monitoring exports
+export {
+  userFlowMonitor,
+  useFlowMonitoring,
+  createFlowTrackingMiddleware,
+  CRITICAL_USER_FLOWS,
+  type UserFlowConfig,
+  type FlowExecution,
+  type FlowMetrics
+} from './user-flow-monitoring';
 
 // Convenience function to start all monitoring services
 export async function startMonitoring(): Promise<void> {
@@ -53,8 +141,17 @@ export async function startMonitoring(): Promise<void> {
   // Start alert monitoring
   alertManager.startMonitoring(5); // Check every 5 minutes
   
+  // Initialize uptime monitoring (already starts automatically)
+  // Initialize dashboard refresh (already starts automatically)
+  
   console.log('🔍 Ganger Platform monitoring services started');
   console.log('🚨 Alert monitoring active');
+  console.log('📊 Web Vitals tracking enabled');
+  console.log('🔒 HIPAA-compliant error tracking active');
+  console.log('⚡ API latency monitoring enabled');
+  console.log('🗄️ Database performance monitoring active');
+  console.log('🟢 Uptime monitoring running');
+  console.log('📈 Custom metrics tracking enabled');
 }
 
 // Convenience function to get complete system health

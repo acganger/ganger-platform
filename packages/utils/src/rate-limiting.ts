@@ -119,7 +119,14 @@ export interface RateLimitResult {
 // Global store instance
 let store: MemoryRateLimitStore | RedisRateLimitStore = new MemoryRateLimitStore();
 
-// Initialize Redis store if available
+/**
+ * Initializes Redis-based rate limiting store for production use
+ * @param redisClient - Redis client instance
+ * @example
+ * import Redis from 'ioredis';
+ * const redis = new Redis(process.env.REDIS_URL);
+ * initializeRedisStore(redis);
+ */
 export function initializeRedisStore(redisClient: any) {
   if (store instanceof MemoryRateLimitStore) {
     store.destroy();
@@ -149,7 +156,20 @@ function defaultKeyGenerator(req: NextApiRequest): string {
   return `rate_limit:${ip}:${endpoint}`;
 }
 
-// Core rate limiting function
+/**
+ * Checks if a request should be rate limited
+ * @param req - Next.js API request object
+ * @param config - Rate limiting configuration
+ * @returns Rate limit result with allowed status and metadata
+ * @example
+ * const result = await checkRateLimit(req, {
+ *   windowMs: 15 * 60 * 1000, // 15 minutes
+ *   max: 100 // 100 requests per window
+ * });
+ * if (!result.allowed) {
+ *   return res.status(429).json({ error: 'Too many requests' });
+ * }
+ */
 export async function checkRateLimit(
   req: NextApiRequest,
   config: RateLimitConfig
@@ -176,7 +196,20 @@ export async function checkRateLimit(
   };
 }
 
-// Rate limiting middleware
+/**
+ * Middleware wrapper that adds rate limiting to API endpoints
+ * @param handler - The API handler function to protect
+ * @param config - Rate limiting configuration
+ * @returns Wrapped handler with rate limiting
+ * @example
+ * export default withRateLimit(
+ *   async (req, res) => {
+ *     // Your API logic here
+ *     res.json({ data: 'protected' });
+ *   },
+ *   RateLimits.STANDARD
+ * );
+ */
 export function withRateLimit(
   handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>,
   config: RateLimitConfig
@@ -225,9 +258,20 @@ export function withRateLimit(
   };
 }
 
-// Predefined rate limit configurations
+/**
+ * Predefined rate limit configurations for common use cases
+ * @example
+ * // For authentication endpoints
+ * export default withRateLimit(loginHandler, RateLimits.AUTH);
+ * 
+ * // For standard API endpoints
+ * export default withRateLimit(apiHandler, RateLimits.STANDARD);
+ */
 export const RateLimits = {
-  // Very strict for sensitive operations
+  /**
+   * Very strict rate limiting for sensitive operations
+   * 5 requests per 15 minutes
+   */
   STRICT: {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 5, // 5 requests per 15 minutes
@@ -235,7 +279,10 @@ export const RateLimits = {
     legacyHeaders: true
   },
   
-  // Standard API endpoints
+  /**
+   * Standard rate limiting for API endpoints
+   * 100 requests per 15 minutes
+   */
   STANDARD: {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // 100 requests per 15 minutes
@@ -243,7 +290,10 @@ export const RateLimits = {
     legacyHeaders: true
   },
   
-  // More lenient for public endpoints
+  /**
+   * Lenient rate limiting for public endpoints
+   * 300 requests per 15 minutes
+   */
   LENIENT: {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 300, // 300 requests per 15 minutes
@@ -251,7 +301,10 @@ export const RateLimits = {
     legacyHeaders: true
   },
   
-  // For authentication endpoints
+  /**
+   * Authentication-specific rate limiting
+   * 10 login attempts per 15 minutes per IP + email combination
+   */
   AUTH: {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 10, // 10 login attempts per 15 minutes
@@ -265,7 +318,10 @@ export const RateLimits = {
     }
   },
   
-  // For health checks and monitoring
+  /**
+   * High-frequency rate limiting for monitoring endpoints
+   * 60 requests per minute
+   */
   MONITORING: {
     windowMs: 1 * 60 * 1000, // 1 minute
     max: 60, // 60 requests per minute
@@ -273,7 +329,10 @@ export const RateLimits = {
     legacyHeaders: false
   },
   
-  // For AI/ML endpoints (more expensive)
+  /**
+   * Strict rate limiting for expensive AI/ML operations
+   * 20 requests per 5 minutes
+   */
   AI_PROCESSING: {
     windowMs: 5 * 60 * 1000, // 5 minutes
     max: 20, // 20 requests per 5 minutes
@@ -282,7 +341,20 @@ export const RateLimits = {
   }
 };
 
-// User-based rate limiting (requires authentication)
+/**
+ * Creates a user-based rate limit configuration
+ * Rate limits are applied per authenticated user
+ * @param config - Base rate limit configuration
+ * @returns Configuration with user-based key generation
+ * @example
+ * export default withRateLimit(
+ *   handler,
+ *   createUserRateLimit({
+ *     windowMs: 15 * 60 * 1000,
+ *     max: 200 // 200 requests per user per 15 minutes
+ *   })
+ * );
+ */
 export function createUserRateLimit(config: RateLimitConfig) {
   return {
     ...config,
@@ -294,7 +366,20 @@ export function createUserRateLimit(config: RateLimitConfig) {
   };
 }
 
-// IP + User combined rate limiting
+/**
+ * Creates a combined IP + user rate limit configuration
+ * Provides defense against both per-IP and per-user abuse
+ * @param config - Base rate limit configuration
+ * @returns Configuration with combined key generation
+ * @example
+ * export default withRateLimit(
+ *   handler,
+ *   createCombinedRateLimit({
+ *     windowMs: 15 * 60 * 1000,
+ *     max: 150
+ *   })
+ * );
+ */
 export function createCombinedRateLimit(config: RateLimitConfig) {
   return {
     ...config,
@@ -307,7 +392,14 @@ export function createCombinedRateLimit(config: RateLimitConfig) {
   };
 }
 
-// Rate limit status endpoint
+/**
+ * Creates an API endpoint that returns rate limit status
+ * Useful for monitoring and debugging rate limits
+ * @returns API handler for rate limit status endpoint
+ * @example
+ * // pages/api/rate-limit-status.ts
+ * export default createRateLimitStatusEndpoint();
+ */
 export function createRateLimitStatusEndpoint() {
   return withRateLimit(
     async (req: NextApiRequest, res: NextApiResponse) => {
@@ -332,7 +424,18 @@ export function createRateLimitStatusEndpoint() {
   );
 }
 
-// Utility to check if request is rate limited without incrementing
+/**
+ * Checks if a request would be rate limited without incrementing the counter
+ * Useful for pre-flight checks or conditional logic
+ * @param req - Next.js API request object
+ * @param config - Rate limiting configuration
+ * @returns True if the request would be rate limited
+ * @example
+ * const wouldBeRateLimited = await isRateLimited(req, RateLimits.STANDARD);
+ * if (wouldBeRateLimited) {
+ *   // Show warning to user before they make the request
+ * }
+ */
 export async function isRateLimited(
   req: NextApiRequest,
   config: RateLimitConfig

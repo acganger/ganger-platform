@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Button } from '@ganger/ui';
 import { StaffMember, StaffSchedule } from '@/types/staffing';
-import { formatTime } from '@/utils/formatting';
+import { formatTime } from '@ganger/utils';
 
 interface StaffCardProps {
   staff: StaffMember;
