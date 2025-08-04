@@ -1,25 +1,47 @@
 export const dynamic = 'force-dynamic';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@ganger/auth';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { user, signIn } = useAuth();
+  const { user, signIn, loading } = useAuth();
   const returnUrl = router.query.returnUrl as string || '/';
+  const [status, setStatus] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
   useEffect(() => {
+    console.log('[LoginPage] Component mounted', {
+      hasUser: !!user,
+      userEmail: user?.email,
+      loading,
+      returnUrl
+    });
+    
     if (user) {
+      setStatus('User authenticated, redirecting...');
       router.push(returnUrl);
     }
-  }, [user, router, returnUrl]);
+  }, [user, router, returnUrl, loading]);
 
   const handleSignIn = async () => {
+    console.log('[LoginPage] Sign in button clicked');
+    setError('');
+    setStatus('Starting authentication...');
+    setIsSigningIn(true);
+    
     try {
+      setStatus('Connecting to authentication service...');
       await signIn();
-    } catch {
-      // Sign in failed
+      setStatus('Redirecting to Google...');
+    } catch (err) {
+      console.error('[LoginPage] Sign in error:', err);
+      const errorMessage = err?.message || 'Unknown error occurred';
+      setError(`Authentication failed: ${errorMessage}`);
+      setStatus('');
+      setIsSigningIn(false);
     }
   };
 

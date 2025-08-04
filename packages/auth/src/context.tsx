@@ -74,12 +74,18 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
 
   // Initialize auth on mount
   useEffect(() => {
+    console.log('[AuthContext] Component mounted, initializing auth...');
     initializeAuth();
     
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
+        console.log('[AuthContext] Auth state changed:', {
+          event,
+          user: session?.user?.email,
+          hasSession: !!session,
+          timestamp: new Date().toISOString()
+        });
         
         if (session?.user) {
           const authUser: AuthUser = {
@@ -148,14 +154,28 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
    * @private
    */
   async function initializeAuth() {
+    console.log('[AuthContext] Starting auth initialization...');
     try {
+      console.log('[AuthContext] Getting session from Supabase...');
       const { data: { session }, error } = await supabase.auth.getSession();
       
       if (error) {
-        console.error('Error getting session:', error);
+        console.error('[AuthContext] ❌ Error getting session:', {
+          error,
+          message: error.message,
+          status: error.status,
+          timestamp: new Date().toISOString()
+        });
         setLoading(false);
         return;
       }
+
+      console.log('[AuthContext] Session check result:', {
+        hasSession: !!session,
+        user: session?.user?.email,
+        expiresAt: session?.expires_at,
+        timestamp: new Date().toISOString()
+      });
 
       if (session?.user) {
         const authUser: AuthUser = {
@@ -320,15 +340,30 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
    * await signIn('/dashboard');
    */
   async function signIn(redirectTo?: string) {
+    console.log('[Auth] 🔐 SIGN IN PROCESS STARTED', {
+      timestamp: new Date().toISOString(),
+      currentUrl: typeof window !== 'undefined' ? window.location.href : 'SSR',
+      redirectTo
+    });
+    
     try {
       const redirectUrl = redirectTo || 
         (typeof window !== 'undefined' ? window.location.origin + '/auth/callback' : undefined);
       
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supa.gangerdermatology.com';
-      console.log('[Auth] Starting sign in with redirect to:', redirectUrl);
-      console.log('[Auth] Using Supabase URL:', supabaseUrl);
-      console.log('[Auth] Using custom domain:', supabaseUrl.includes('gangerdermatology.com'));
       
+      console.log('[Auth] 📋 Sign in configuration:', {
+        redirectUrl,
+        supabaseUrl,
+        isCustomDomain: supabaseUrl.includes('gangerdermatology.com'),
+        browserInfo: typeof window !== 'undefined' ? {
+          userAgent: window.navigator.userAgent,
+          cookiesEnabled: window.navigator.cookieEnabled,
+          onLine: window.navigator.onLine
+        } : 'SSR'
+      });
+      
+      console.log('[Auth] 🚀 Calling Supabase signInWithOAuth...');
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -344,23 +379,40 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       });
 
       if (error) {
-        console.error('[Auth] OAuth error:', error);
+        console.error('[Auth] ❌ OAuth error:', {
+          error,
+          message: error.message,
+          status: error.status,
+          name: error.name,
+          stack: error.stack
+        });
+        
         // Check if it's a network error
         if (error.message?.toLowerCase().includes('fetch')) {
-          console.error('[Auth] Network error detected. Possible causes:');
-          console.error('- Browser extensions blocking the request');
-          console.error('- CORS issues with custom domain');
-          console.error('- Network connectivity problems');
-          console.error('- Try using standard Supabase URL: https://pfqtzmxxxhhsxmlddrta.supabase.co');
+          console.error('[Auth] 🌐 Network error detected. Debugging info:');
+          console.error('- Supabase URL:', supabaseUrl);
+          console.error('- Browser extensions may be blocking');
+          console.error('- Check DevTools Network tab for failed requests');
+          console.error('- Alternative URL: https://pfqtzmxxxhhsxmlddrta.supabase.co');
         }
         throw error;
       }
       
-      console.log('[Auth] OAuth initiated successfully');
+      console.log('[Auth] ✅ OAuth initiated successfully', {
+        hasData: !!data,
+        dataUrl: data?.url,
+        timestamp: new Date().toISOString()
+      });
+      
       // Don't return data - the interface expects Promise<void>
       // The browser will redirect automatically
     } catch (error) {
-      console.error('[Auth] Sign in failed:', error);
+      console.error('[Auth] 💥 Sign in failed with exception:', {
+        error,
+        message: error?.message,
+        stack: error?.stack,
+        timestamp: new Date().toISOString()
+      });
       throw error;
     }
   }

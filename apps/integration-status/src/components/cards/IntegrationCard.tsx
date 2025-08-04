@@ -2,7 +2,7 @@
 
 import { useState, useEffect, memo } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import type { Integration, ServiceMetrics, IntegrationStatusCardProps } from '@/types'
+import type { ServiceMetrics, IntegrationStatusCardProps } from '@/types'
 import { LoadingSkeleton } from '@/components/ui/LoadingState'
 
 const IntegrationCardComponent = ({ 

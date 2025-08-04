@@ -303,7 +303,7 @@ export function TemplateEditor({ template, onSave, onCancel }: TemplateEditorPro
                         <div className="grid grid-cols-2 gap-2">
                           <Input
                             value={field.label}
-                            onChange={(e) => {
+                            onChange={() => {
                               // Update field logic would go here
                             }}
                             placeholder="Field label"
