@@ -28,6 +28,31 @@ interface AuthProviderProps {
   appName?: string;
 }
 
+/**
+ * AuthProvider component that provides authentication context to the entire application.
+ * Manages user authentication state, profile data, team memberships, and app permissions.
+ * 
+ * @param {AuthProviderProps} props - The provider props
+ * @param {ReactNode} props.children - Child components that will have access to auth context
+ * @param {Partial<AuthConfig>} [props.config] - Optional authentication configuration overrides
+ * @param {string} [props.appName='platform'] - Name of the application for app-specific features
+ * @returns {JSX.Element} Provider component wrapping children with auth context
+ * 
+ * @example
+ * // Basic usage
+ * <AuthProvider>
+ *   <App />
+ * </AuthProvider>
+ * 
+ * @example
+ * // With custom config and app name
+ * <AuthProvider 
+ *   appName="inventory"
+ *   config={{ enableAuditLogging: true }}
+ * >
+ *   <InventoryApp />
+ * </AuthProvider>
+ */
 export function AuthProvider({ children, config, appName = 'platform' }: AuthProviderProps) {
   // Core auth state
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -118,7 +143,9 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }, []);
 
   /**
-   * Initialize authentication state
+   * Initialize authentication state on component mount.
+   * Checks for existing session and loads user data if authenticated.
+   * @private
    */
   async function initializeAuth() {
     try {
@@ -164,7 +191,11 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Load user profile, teams, and permissions
+   * Load user profile, teams, and permissions from database.
+   * Creates profile if it doesn't exist for Ganger domain users.
+   * 
+   * @private
+   * @param {User} authUser - Authenticated user from Supabase
    */
   async function loadUserData(authUser: User) {
     try {
@@ -274,7 +305,19 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Sign in with Google OAuth
+   * Sign in with Google OAuth.
+   * Redirects to Google for authentication, then back to callback URL.
+   * 
+   * @param {string} [redirectTo] - Optional URL to redirect after sign in
+   * @throws {Error} If sign in fails
+   * 
+   * @example
+   * // Sign in and redirect to current page
+   * await signIn();
+   * 
+   * @example
+   * // Sign in and redirect to specific page
+   * await signIn('/dashboard');
    */
   async function signIn(redirectTo?: string) {
     try {
@@ -293,6 +336,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
           queryParams: {
             access_type: 'offline',
             prompt: 'select_account',
+            hd: 'gangerdermatology.com', // Restrict to Ganger domain
           },
           // Skip browser redirect to handle it manually (helps with ad blockers)
           skipBrowserRedirect: false,
@@ -322,7 +366,13 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Sign out
+   * Sign out the current user.
+   * Clears session, notifies other apps, and resets local state.
+   * 
+   * @throws {Error} If sign out fails
+   * 
+   * @example
+   * await signOut();
    */
   async function signOut() {
     try {
@@ -348,7 +398,14 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Set active team
+   * Set the active team for the current user.
+   * Updates team role and persists selection to localStorage.
+   * 
+   * @param {Team} team - Team to set as active
+   * 
+   * @example
+   * const team = userTeams[0];
+   * setActiveTeam(team);
    */
   function setActiveTeam(team: Team) {
     setActiveTeamState(team);
@@ -368,7 +425,12 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Refresh user profile and permissions
+   * Refresh user profile and permissions from database.
+   * Useful after permission changes or profile updates.
+   * 
+   * @example
+   * // After updating user permissions
+   * await refreshProfile();
    */
   async function refreshProfile() {
     if (user) {
@@ -377,7 +439,17 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Check if user has access to specific app
+   * Check if user has access to a specific app with required permission level.
+   * Admins always have full access. Staff defaults to write access.
+   * 
+   * @param {string} appName - Name of the application
+   * @param {AppPermission['permission_level']} [level='read'] - Required permission level
+   * @returns {boolean} True if user has sufficient access
+   * 
+   * @example
+   * if (hasAppAccess('inventory', 'write')) {
+   *   // User can modify inventory
+   * }
    */
   function hasAppAccess(appName: string, level: AppPermission['permission_level'] = 'read'): boolean {
     if (!profile) return false;
@@ -408,14 +480,30 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Check if user is member of specific team
+   * Check if user is a member of a specific team.
+   * 
+   * @param {string} teamId - ID of the team to check
+   * @returns {boolean} True if user is a team member
+   * 
+   * @example
+   * if (isTeamMember('team-123')) {
+   *   // Show team-specific content
+   * }
    */
   function isTeamMember(teamId: string): boolean {
     return userTeams.some(team => team.id === teamId);
   }
 
   /**
-   * Check if user is leader of specific team
+   * Check if user is a leader of a specific team.
+   * 
+   * @param {string} teamId - ID of the team to check
+   * @returns {boolean} True if user is a team leader
+   * 
+   * @example
+   * if (isTeamLeader('team-123')) {
+   *   // Show team management controls
+   * }
    */
   function isTeamLeader(teamId: string): boolean {
     const team = userTeams.find(t => t.id === teamId) as (Team & { userRole: TeamMember['role'] });
@@ -423,14 +511,38 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   }
 
   /**
-   * Check if user is admin
+   * Check if user has admin role.
+   * 
+   * @returns {boolean} True if user is an admin
+   * 
+   * @example
+   * if (isAdmin()) {
+   *   // Show admin controls
+   * }
    */
   function isAdmin(): boolean {
     return profile?.role === 'admin';
   }
 
   /**
-   * Log audit event
+   * Log an audit event for compliance and tracking.
+   * Only logs if audit logging is enabled in config.
+   * 
+   * @param {string} action - Action being performed
+   * @param {string} [resourceType] - Type of resource being acted upon
+   * @param {string} [resourceId] - ID of the specific resource
+   * @param {Record<string, any>} [details] - Additional event details
+   * 
+   * @example
+   * // Log a simple action
+   * await logAuditEvent('view_patient_list');
+   * 
+   * @example
+   * // Log action on specific resource
+   * await logAuditEvent('update_inventory', 'inventory_item', 'item-123', {
+   *   old_quantity: 10,
+   *   new_quantity: 15
+   * });
    */
   async function logAuditEvent(
     action: string,
@@ -495,7 +607,28 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
 }
 
 /**
- * Hook to use authentication context
+ * Hook to access the authentication context.
+ * Must be used within an AuthProvider component.
+ * 
+ * @returns {AuthContextType} The authentication context containing user data and auth methods
+ * @throws {Error} If used outside of AuthProvider
+ * 
+ * @example
+ * // Access user data and auth methods
+ * function MyComponent() {
+ *   const { user, profile, signIn, signOut } = useAuth();
+ *   
+ *   if (!user) {
+ *     return <button onClick={() => signIn()}>Sign In</button>;
+ *   }
+ *   
+ *   return (
+ *     <div>
+ *       <p>Welcome, {profile?.full_name}!</p>
+ *       <button onClick={() => signOut()}>Sign Out</button>
+ *     </div>
+ *   );
+ * }
  */
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
@@ -508,7 +641,30 @@ export function useAuth(): AuthContextType {
 }
 
 /**
- * Hook to use authentication with specific app context
+ * Hook to use authentication with app-specific context.
+ * Provides additional helper methods for app-level permissions and logging.
+ * 
+ * @param {string} appName - The name of the application
+ * @returns {object} Extended auth context with app-specific helpers
+ * @returns {Function} returns.hasAccess - Check if user has access to this app with optional permission level
+ * @returns {Function} returns.logAction - Log an audit event with app context automatically included
+ * 
+ * @example
+ * // Use in an app-specific component
+ * function InventoryDashboard() {
+ *   const auth = useAppAuth('inventory');
+ *   
+ *   // Check app-specific permissions
+ *   if (!auth.hasAccess('write')) {
+ *     return <div>Read-only access</div>;
+ *   }
+ *   
+ *   // Log app-specific actions
+ *   const handleDelete = async (itemId: string) => {
+ *     await auth.logAction('delete_item', 'inventory_item', itemId);
+ *     // ... delete logic
+ *   };
+ * }
  */
 export function useAppAuth(appName: string) {
   const auth = useAuth();
