@@ -209,3 +209,20 @@ export interface StockCount extends BaseEntity {
   
   notes?: string;
 }
+
+export interface ReorderRequest extends BaseEntity {
+  item_id: string;
+  requested_by: string;
+  reason: string;
+  current_stock: number;
+  suggested_quantity?: number;
+  status: 'pending' | 'approved' | 'rejected' | 'ordered';
+  
+  // Approval
+  reviewed_by?: string;
+  reviewed_at?: string;
+  review_notes?: string;
+  
+  // Order reference
+  purchase_order_id?: string;
+}

@@ -83,6 +83,7 @@ function MobileNavigation() {
           <Popover.Panel className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5">
             <MobileNavLink href="/dashboard">Dashboard</MobileNavLink>
             <MobileNavLink href="/items">Items</MobileNavLink>
+            <MobileNavLink href="/purchase-orders">Purchase Orders</MobileNavLink>
             <MobileNavLink href="/orders">Orders</MobileNavLink>
             <MobileNavLink href="/reports">Reports</MobileNavLink>
           </Popover.Panel>
@@ -121,6 +122,7 @@ function Header() {
             <div className="hidden md:flex md:gap-x-6">
               <NavLink href="/dashboard">Dashboard</NavLink>
               <NavLink href="/items">Items</NavLink>
+              <NavLink href="/purchase-orders">Purchase Orders</NavLink>
               <NavLink href="/orders">Orders</NavLink>
               <NavLink href="/reports">Reports</NavLink>
             </div>

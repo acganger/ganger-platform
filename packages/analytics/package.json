@@ -1,0 +1,28 @@
+{
+  "name": "@ganger/analytics",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ganger/auth": "workspace:*",
+    "@ganger/deps": "workspace:*",
+    "@ganger/types": "workspace:*",
+    "@ganger/ui": "workspace:*",
+    "@ganger/utils": "workspace:*",
+    "recharts": "^2.10.4",
+    "date-fns": "^3.6.0",
+    "react": "^18.3.1",
+    "xlsx": "^0.18.5",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
+    "@heroicons/react": "^2.1.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.17",
+    "typescript": "^5.4.5"
+  }
+}

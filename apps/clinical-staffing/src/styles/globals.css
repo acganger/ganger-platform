@@ -208,4 +208,23 @@
       transform-origin: bottom;
     }
   }
+  
+  /* Shift template specific styles */
+  .shift-template {
+    @apply select-none;
+  }
+  
+  .shift-template:active {
+    @apply cursor-grabbing;
+  }
+  
+  /* Touch gesture styles */
+  .touch-drag-active {
+    @apply shadow-2xl transform scale-105 z-50;
+  }
+  
+  /* Neutral color utilities for consistency */
+  .bg-neutral-25 {
+    @apply bg-neutral-50/50;
+  }
 }

@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 async function handleGetItems(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { search, category, status, limit = 50 } = req.query;
+    const { search, category, status, vendor, limit = 50 } = req.query;
 
     let query = supabase
       .from('inventory_items')
@@ -33,9 +33,12 @@ async function handleGetItems(req: NextApiRequest, res: NextApiResponse) {
         unit_of_measure,
         last_ordered,
         supplier,
+        vendor,
         cost_per_unit,
+        unit_price,
         status,
         location,
+        sku,
         created_at,
         updated_at
       `)
@@ -53,6 +56,10 @@ async function handleGetItems(req: NextApiRequest, res: NextApiResponse) {
 
     if (status) {
       query = query.eq('status', status);
+    }
+
+    if (vendor) {
+      query = query.eq('vendor', vendor);
     }
 
     const { data: items, error } = await query;
@@ -73,9 +80,13 @@ async function handleGetItems(req: NextApiRequest, res: NextApiResponse) {
       status: getStockStatus(item.current_stock, item.minimum_stock),
       description: item.description,
       unit: item.unit_of_measure,
+      unit_of_measure: item.unit_of_measure,
       supplier: item.supplier,
+      vendor: item.vendor || item.supplier,
       cost: item.cost_per_unit,
-      location: item.location
+      cost_per_unit: item.cost_per_unit || item.unit_price || 0,
+      location: item.location,
+      sku: item.sku
     })) || [];
 
     res.status(200).json({
