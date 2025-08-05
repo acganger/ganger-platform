@@ -28,7 +28,7 @@ interface GeneratedHandout {
 }
 
 function HistoryPage() {
-  const { user, profile } = useStaffAuth();
+  const { profile } = useStaffAuth();
   const [handouts, setHandouts] = useState<GeneratedHandout[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');

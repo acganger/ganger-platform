@@ -184,7 +184,6 @@ export class PDFService {
 
   static async generateHandouts(options: GenerationOptions): Promise<Blob> {
     const pdf = new jsPDF();
-    const pageWidth = pdf.internal.pageSize.getWidth();
     const margin = 20;
 
     // Standard variables available to all templates
@@ -205,6 +204,8 @@ export class PDFService {
     // Process each template
     for (let i = 0; i < options.templates.length; i++) {
       const template = options.templates[i];
+      
+      if (!template?.id) continue;
       
       if (i > 0) {
         pdf.addPage();
@@ -257,7 +258,7 @@ export class PDFService {
     return pdf.output('blob');
   }
 
-  static async uploadPDF(pdfBlob: Blob, options: UploadOptions): Promise<string> {
+  static async uploadPDF(pdfBlob: Blob, _options: UploadOptions): Promise<string> {
     // For now, create a temporary object URL
     const url = URL.createObjectURL(pdfBlob);
     

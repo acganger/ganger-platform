@@ -4,8 +4,7 @@ import type {
   ConsolidatedOrderItem,
   ConsolidatedOrderStatus,
   CreateConsolidatedOrderPayload,
-  StandardizedProduct,
-  OptimizedOrderRecommendation
+  StandardizedProduct
 } from '@ganger/types';
 import { z } from 'zod';
 
@@ -281,7 +280,7 @@ export class ConsolidatedOrdersRepository extends BaseRepository<ConsolidatedOrd
       average_quantity: Math.round(
         stats.quantities.reduce((sum, q) => sum + q, 0) / stats.quantities.length
       ),
-      last_ordered: stats.dates.sort().reverse()[0]
+      last_ordered: stats.dates.sort().reverse()[0] || ''
     }));
 
     return results

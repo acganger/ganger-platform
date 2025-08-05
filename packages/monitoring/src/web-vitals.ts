@@ -27,7 +27,6 @@ const THRESHOLDS: Record<string, WebVitalsThresholds> = {
 
 class WebVitalsTracker {
   private metrics: Map<string, WebVitalsMetric> = new Map();
-  private observer: PerformanceObserver | null = null;
   private reportingEndpoint = '/api/monitoring/web-vitals';
   private bufferSize = 10;
   private metricsBuffer: WebVitalsMetric[] = [];
@@ -89,7 +88,7 @@ class WebVitalsTracker {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
-        lcpValue = lastEntry.startTime;
+        lcpValue = lastEntry?.startTime || 0;
         
         this.recordMetric({
           name: 'LCP',
@@ -98,7 +97,7 @@ class WebVitalsTracker {
           delta: lcpValue,
           id: this.generateId(),
           navigationType: this.getNavigationType(),
-          entries: [lastEntry]
+          entries: lastEntry ? [lastEntry] : []
         });
       });
       observer.observe({ entryTypes: ['largest-contentful-paint'] });
@@ -145,7 +144,7 @@ class WebVitalsTracker {
             if (inpValues.length >= 10) {
               const sortedValues = [...inpValues].sort((a, b) => a - b);
               const p98Index = Math.floor(sortedValues.length * 0.98);
-              const inpValue = sortedValues[p98Index];
+              const inpValue = sortedValues[p98Index] || 0;
               
               this.recordMetric({
                 name: 'INP',

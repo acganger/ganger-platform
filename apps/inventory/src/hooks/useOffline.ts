@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { toast } from '@ganger/ui';
+import { useToast } from '@ganger/ui';
 import { 
   isOnline as checkOnline, 
   saveOfflineAction, 
@@ -18,6 +18,7 @@ export function useOffline(options: UseOfflineOptions = {}) {
   const { showToasts = true, syncOnReconnect = true } = options;
   const [isOnline, setIsOnline] = useState(true);
   const [pendingActions, setPendingActions] = useState<any[]>([]);
+  const { addToast } = useToast();
 
   useEffect(() => {
     // Set initial state
@@ -34,7 +35,11 @@ export function useOffline(options: UseOfflineOptions = {}) {
     const handleOnline = async () => {
       setIsOnline(true);
       if (showToasts) {
-        toast.success('Connection restored');
+        addToast({
+          title: 'Success',
+          message: 'Connection restored',
+          type: 'success'
+        });
       }
       
       if (syncOnReconnect) {
@@ -45,7 +50,11 @@ export function useOffline(options: UseOfflineOptions = {}) {
     const handleOffline = () => {
       setIsOnline(false);
       if (showToasts) {
-        toast.warning('You are offline. Changes will be saved locally.');
+        addToast({
+          title: 'Warning',
+          message: 'You are offline. Changes will be saved locally.',
+          type: 'warning'
+        });
       }
     };
 
@@ -87,11 +96,19 @@ export function useOffline(options: UseOfflineOptions = {}) {
     }
 
     if (successCount > 0) {
-      toast.success(`Synced ${successCount} offline changes`);
+      addToast({
+        title: 'Success',
+        message: `Synced ${successCount} offline changes`,
+        type: 'success'
+      });
     }
     
     if (failCount > 0) {
-      toast.error(`Failed to sync ${failCount} changes`);
+      addToast({
+        title: 'Error',
+        message: `Failed to sync ${failCount} changes`,
+        type: 'error'
+      });
     }
 
     // Reload pending actions
@@ -161,7 +178,11 @@ export function useOffline(options: UseOfflineOptions = {}) {
       setPendingActions(actions);
       
       if (showToasts) {
-        toast.info('Changes saved offline and will sync when connection is restored');
+        addToast({
+          title: 'Info',
+          message: 'Changes saved offline and will sync when connection is restored',
+          type: 'info'
+        });
       }
       
       return { success: true, offline: true, pending: true };

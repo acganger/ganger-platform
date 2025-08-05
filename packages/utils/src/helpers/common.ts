@@ -140,7 +140,7 @@ export const shuffle = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
   }
   return shuffled;
 };
@@ -721,7 +721,7 @@ export const randomFloat = (min: number, max: number): number => {
  * randomChoice([1, 2, 3, 4, 5]); // Random number from array
  */
 export const randomChoice = <T>(array: T[]): T => {
-  return array[Math.floor(Math.random() * array.length)];
+  return array[Math.floor(Math.random() * array.length)]!;
 };
 
 /**

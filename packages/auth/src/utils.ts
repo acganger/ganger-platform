@@ -65,6 +65,8 @@ export function formatUserDisplayName(profile: UserProfile): string {
   
   // Extract name from email
   const emailPart = profile.email.split('@')[0];
+  if (!emailPart) return 'User';
+  
   return emailPart
     .split('.')
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
@@ -88,7 +90,11 @@ export function getUserInitials(profile: UserProfile): string {
   const names = displayName.split(' ');
   
   if (names.length >= 2) {
-    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+    const first = names[0]?.charAt(0) || '';
+    const last = names[names.length - 1]?.charAt(0) || '';
+    if (first && last) {
+      return (first + last).toUpperCase();
+    }
   }
   
   return displayName.substring(0, 2).toUpperCase();

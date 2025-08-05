@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createSupabaseServerClient } from '@ganger/auth/server';
 import { cacheManager } from '@ganger/cache';
-import { z } from 'zod';
 
 const integrationsWithMetricsQueryKey = (filters: any) => 
   `integrations:${filters.status || 'all'}:${filters.category || 'all'}:${filters.search || ''}:${filters.page}:${filters.limit}`;
@@ -30,7 +29,7 @@ export default async function handler(
         status,
         category,
         search,
-        sortBy = 'display_name',
+        // sortBy = 'display_name', // unused parameter
         sortOrder = 'asc'
       } = req.query;
 

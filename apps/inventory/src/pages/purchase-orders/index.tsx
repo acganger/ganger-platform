@@ -1,14 +1,12 @@
 export const dynamic = 'force-dynamic';
 
 import React from 'react';
-import { useRouter } from 'next/router';
 import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { AppLayout, PageHeader } from '@ganger/ui';
 import { PurchaseOrderList } from '../../components/PurchaseOrderList';
 
 function PurchaseOrdersPage() {
-  const { user, profile } = useStaffAuth();
-  const router = useRouter();
+  const { user } = useStaffAuth();
 
   return (
     <AppLayout>

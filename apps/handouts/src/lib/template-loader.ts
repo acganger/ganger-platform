@@ -108,7 +108,7 @@ export class TemplateLoader {
   static async loadAllTemplates(): Promise<HandoutTemplate[]> {
     try {
       // Load from database
-      const { data: dbTemplates, error } = await supabase
+      const { data: dbTemplates, error: _error } = await supabase
         .from('handout_templates')
         .select('*')
         .eq('is_active', true)

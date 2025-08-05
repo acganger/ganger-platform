@@ -4,9 +4,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
+import { migrationAdapter } from '@ganger/db';
 import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
-import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 export const dynamic = 'force-dynamic';
@@ -106,7 +105,7 @@ export async function GET(request: NextRequest) {
     // Sort suggestions by priority and impact
     const prioritizedSuggestions = suggestions.sort((a, b) => {
       const priorityOrder: Record<string, number> = { high: 3, medium: 2, low: 1 };
-      return priorityOrder[b.priority] - priorityOrder[a.priority] || b.impact_score - a.impact_score;
+      return (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0) || b.impact_score - a.impact_score;
     });
 
     return NextResponse.json({ success: true, data: {

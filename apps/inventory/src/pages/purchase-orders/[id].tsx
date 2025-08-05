@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
-import { AppLayout, PageHeader, Button, LoadingSpinner, toast } from '@ganger/ui';
+import { AppLayout, PageHeader, Button, LoadingSpinner, useToast } from '@ganger/ui';
 
 interface PurchaseOrder {
   id: string;
@@ -32,7 +32,8 @@ interface PurchaseOrder {
 
 function PurchaseOrderDetailPage() {
   const router = useRouter();
-  const { user, profile } = useStaffAuth();
+  const { user } = useStaffAuth();
+  const { addToast } = useToast();
   const { id } = router.query;
   
   const [order, setOrder] = useState<PurchaseOrder | null>(null);
@@ -57,7 +58,11 @@ function PurchaseOrderDetailPage() {
       }
     } catch (err) {
       console.error('Error fetching order:', err);
-      toast.error('Failed to load purchase order');
+      addToast({
+        title: 'Error',
+        message: 'Failed to load purchase order',
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }
@@ -85,16 +90,28 @@ function PurchaseOrderDetailPage() {
       });
 
       if (response.ok) {
-        toast.success('Purchase order approved successfully');
+        addToast({
+          title: 'Success',
+          message: 'Purchase order approved successfully',
+          type: 'success'
+        });
         // Refresh the order
         fetchOrder();
       } else {
         const error = await response.json();
-        toast.error(error.message || 'Failed to approve order');
+        addToast({
+          title: 'Error',
+          message: error.message || 'Failed to approve order',
+          type: 'error'
+        });
       }
     } catch (err) {
       console.error('Error approving order:', err);
-      toast.error('Failed to approve order');
+      addToast({
+        title: 'Error',
+        message: 'Failed to approve order',
+        type: 'error'
+      });
     }
   };
 
@@ -113,24 +130,6 @@ function PurchaseOrderDetailPage() {
     window.URL.revokeObjectURL(url);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'draft':
-        return 'bg-gray-100 text-gray-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'approved':
-        return 'bg-green-100 text-green-800';
-      case 'ordered':
-        return 'bg-blue-100 text-blue-800';
-      case 'received':
-        return 'bg-purple-100 text-purple-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   const canApprove = () => {
     const email = user?.email;
@@ -177,16 +176,7 @@ function PurchaseOrderDetailPage() {
     <AppLayout>
       <PageHeader 
         title={`Purchase Order: ${order.order_number}`}
-        subtitle={
-          <div className="flex items-center gap-4">
-            <span className={`px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-            </span>
-            <span className="text-sm text-gray-500">
-              Created on {new Date(order.created_at).toLocaleDateString()}
-            </span>
-          </div>
-        }
+        subtitle={`${order.status.charAt(0).toUpperCase() + order.status.slice(1)} • Created on ${new Date(order.created_at).toLocaleDateString()}`}
         actions={
           <div className="flex gap-2">
             <Button
@@ -198,7 +188,7 @@ function PurchaseOrderDetailPage() {
             
             {canApprove() && (
               <Button
-                variant="success"
+                variant="primary"
                 onClick={handleApprove}
               >
                 Approve Order

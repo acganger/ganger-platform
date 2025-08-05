@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { LineChartDataPoint, BarChartDataPoint, PieChartDataPoint, TimeRange } from '../types';
+import { TimeRange } from '../types';
 import { generateMockChartData } from '../utils/mockData';
 
 interface UseChartDataOptions {
@@ -62,6 +62,7 @@ export function useChartData(
       const interval = setInterval(fetchData, refreshInterval);
       return () => clearInterval(interval);
     }
+    return;
   }, [fetchData, refreshInterval]);
 
   return {

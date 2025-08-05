@@ -144,7 +144,7 @@ function defaultKeyGenerator(req: NextApiRequest): string {
   let ip = req.socket.remoteAddress || 'unknown';
   
   if (typeof forwarded === 'string') {
-    ip = forwarded.split(',')[0].trim();
+    ip = forwarded.split(',')[0]?.trim() || 'unknown';
   } else if (typeof realIp === 'string') {
     ip = realIp;
   } else if (typeof cfConnectingIp === 'string') {

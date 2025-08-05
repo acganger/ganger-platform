@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import {
   AreaChart as RechartsAreaChart,
   Area,
@@ -98,7 +97,7 @@ export function AreaChart({
               iconType="rect"
             />
           )}
-          {areas.map((area, index) => (
+          {areas.map((area) => (
             <Area
               key={area.dataKey}
               type="monotone"

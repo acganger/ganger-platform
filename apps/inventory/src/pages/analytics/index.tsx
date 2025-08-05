@@ -5,18 +5,18 @@ import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import {
   DashboardLayout,
   MetricsGrid,
-  LineChart,
   BarChart,
   PieChart,
   AreaChart,
-  TimeRangeOption,
   KPIMetric,
   useAccessControl,
   exportMetricsToPDF,
   exportMetricsToExcel,
 } from '@ganger/analytics';
+// Use all valid TimeRangeOption values from analytics package
+type TimeRangeOption = 'today' | 'yesterday' | 'thisWeek' | 'lastWeek' | 'thisMonth' | 'lastMonth' | 'last7Days' | 'last30Days' | 'last90Days';
 import { Card } from '@ganger/ui-catalyst';
-import { toast } from '@ganger/ui';
+import { useToast } from '@ganger/ui';
 import { useOffline } from '../../hooks/useOffline';
 
 interface InventoryMetrics {
@@ -47,9 +47,10 @@ interface InventoryMetrics {
 }
 
 function InventoryAnalytics() {
-  const { profile } = useStaffAuth();
-  const { executeAction, isOnline } = useOffline();
+  const { profile: _profile } = useStaffAuth();
+  const { executeAction: _executeAction, isOnline } = useOffline();
   const { canExportData } = useAccessControl();
+  const { addToast } = useToast();
   
   const [timeRange, setTimeRange] = useState<TimeRangeOption>('last30Days');
   const [selectedTimeRange, setSelectedTimeRange] = useState({
@@ -285,11 +286,19 @@ function InventoryAnalytics() {
       setTopItems(topItemsData);
 
       if (!isOnline) {
-        toast.info('Showing cached analytics data');
+        addToast({
+          title: 'Info',
+          message: 'Showing cached analytics data',
+          type: 'info'
+        });
       }
     } catch (error) {
       console.error('Error loading analytics:', error);
-      toast.error('Failed to load analytics data');
+      addToast({
+        title: 'Error',
+        message: 'Failed to load analytics data',
+        type: 'error'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -302,20 +311,36 @@ function InventoryAnalytics() {
 
   const handleExportPDF = () => {
     if (!metrics || !canExportData) {
-      toast.error('You do not have permission to export data');
+      addToast({
+        title: 'Error',
+        message: 'You do not have permission to export data',
+        type: 'error'
+      });
       return;
     }
     exportMetricsToPDF(metrics as any, 'Inventory Analytics Report', 'inventory-analytics');
-    toast.success('PDF exported successfully');
+    addToast({
+      title: 'Success',
+      message: 'PDF exported successfully',
+      type: 'success'
+    });
   };
 
   const handleExportExcel = () => {
     if (!metrics || !canExportData) {
-      toast.error('You do not have permission to export data');
+      addToast({
+        title: 'Error',
+        message: 'You do not have permission to export data',
+        type: 'error'
+      });
       return;
     }
     exportMetricsToExcel(metrics as any, 'Inventory Analytics Report', 'inventory-analytics');
-    toast.success('Excel file exported successfully');
+    addToast({
+      title: 'Success',
+      message: 'Excel file exported successfully',
+      type: 'success'
+    });
   };
 
   const handleMetricClick = (metric: KPIMetric) => {

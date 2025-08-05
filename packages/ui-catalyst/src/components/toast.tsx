@@ -146,6 +146,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         }, duration)
         return () => clearTimeout(timer)
       }
+      return undefined
     }, [duration, id, onClose])
 
     const variantStyles = toastStyles.variants[type]

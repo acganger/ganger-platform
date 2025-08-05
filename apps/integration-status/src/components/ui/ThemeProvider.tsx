@@ -54,6 +54,7 @@ export function ThemeProvider({ children, defaultTheme = 'auto' }: ThemeProvider
       return () => mediaQuery.removeEventListener('change', handleChange)
     } else {
       setResolvedTheme(theme)
+      return undefined
     }
   }, [theme])
 

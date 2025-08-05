@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { cn } from '@ganger/utils';
 import { TimeRangeSelector, TimeRangeOption } from './TimeRangeSelector';
 import { ExportButton } from './ExportButton';

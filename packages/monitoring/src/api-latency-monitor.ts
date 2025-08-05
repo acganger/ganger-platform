@@ -188,7 +188,7 @@ class APILatencyMonitor {
 
   private normalizeEndpoint(endpoint: string): string {
     // Remove query parameters and IDs for grouping
-    let normalized = endpoint.split('?')[0];
+    let normalized = endpoint.split('?')[0] || endpoint;
     
     // Replace UUIDs with placeholder
     normalized = normalized.replace(
@@ -283,7 +283,7 @@ class APILatencyMonitor {
     
     const sorted = [...values].sort((a, b) => a - b);
     const index = Math.ceil((percentile / 100) * sorted.length) - 1;
-    return sorted[Math.max(0, index)];
+    return sorted[Math.max(0, index)] || 0;
   }
 
   private aggregateStats() {

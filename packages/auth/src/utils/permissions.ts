@@ -160,7 +160,7 @@ export function hasLocationAccess(
 export function canAccessRoute(
   userRole: string,
   route: string,
-  userPermissions?: UserPermission[]
+  _userPermissions?: UserPermission[]
 ): boolean {
   // Define route permissions
   const routePermissions: Record<string, string[]> = {

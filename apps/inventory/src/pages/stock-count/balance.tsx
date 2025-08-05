@@ -8,9 +8,9 @@ import {
   PageHeader, 
   Button,
   LoadingSpinner,
-  toast 
+  useToast 
 } from '@ganger/ui';
-import { Input, Badge, Select, SelectItem } from '@ganger/ui-catalyst';
+import { Input, Badge, Select } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
 
 interface VarianceItem {
@@ -30,6 +30,7 @@ interface VarianceItem {
 
 function StockBalancePage() {
   const { user, profile } = useStaffAuth();
+  const { addToast } = useToast();
   const router = useRouter();
   const [variances, setVariances] = useState<VarianceItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,8 +40,12 @@ function StockBalancePage() {
 
   useEffect(() => {
     // Verify supervisor access
-    if (profile?.role !== 'admin' && profile?.role !== 'supervisor') {
-      toast.error('Supervisor access required');
+    if (profile?.role !== 'admin') {
+      addToast({
+        title: 'Error',
+        message: 'Supervisor access required',
+        type: 'error'
+      });
       router.push('/stock-count');
       return;
     }
@@ -56,7 +61,11 @@ function StockBalancePage() {
         const data = await response.json();
         setVariances(data);
       } else {
-        toast.error('Failed to load variances');
+        addToast({
+          title: 'Error',
+          message: 'Failed to load variances',
+          type: 'error'
+        });
       }
 
       analytics.track('stock_balance_loaded', 'navigation', {
@@ -66,7 +75,11 @@ function StockBalancePage() {
 
     } catch (error) {
       console.error('Error loading variances:', error);
-      toast.error('Failed to load variance data');
+      addToast({
+        title: 'Error',
+        message: 'Failed to load variance data',
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }
@@ -74,7 +87,11 @@ function StockBalancePage() {
 
   const handleApproveVariances = async () => {
     if (selectedItems.size === 0) {
-      toast.error('Please select items to approve');
+      addToast({
+        title: 'Error',
+        message: 'Please select items to approve',
+        type: 'error'
+      });
       return;
     }
 
@@ -95,7 +112,11 @@ function StockBalancePage() {
       });
 
       if (response.ok) {
-        toast.success(`${selectedItems.size} variances approved`);
+        addToast({
+          title: 'Success',
+          message: `${selectedItems.size} variances approved`,
+          type: 'success'
+        });
         analytics.track('variances_approved', 'interaction', {
           count: selectedItems.size,
           approved_by: user?.email
@@ -106,11 +127,19 @@ function StockBalancePage() {
         setAdjustmentNotes({});
         await loadVariances();
       } else {
-        toast.error('Failed to approve variances');
+        addToast({
+          title: 'Error',
+          message: 'Failed to approve variances',
+          type: 'error'
+        });
       }
     } catch (error) {
       console.error('Error approving variances:', error);
-      toast.error('Failed to approve variances');
+      addToast({
+        title: 'Error',
+        message: 'Failed to approve variances',
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }
@@ -193,12 +222,12 @@ function StockBalancePage() {
             <div className="flex items-center gap-4">
               <Select
                 value={filterStatus}
-                onValueChange={(value) => setFilterStatus(value as any)}
+                onChange={(e) => setFilterStatus(e.target.value as 'all' | 'pending' | 'approved')}
                 className="w-40"
               >
-                <SelectItem value="all">All Variances</SelectItem>
-                <SelectItem value="pending">Pending Only</SelectItem>
-                <SelectItem value="approved">Approved Only</SelectItem>
+                <option value="all">All Variances</option>
+                <option value="pending">Pending Only</option>
+                <option value="approved">Approved Only</option>
               </Select>
               
               {pendingVariances.length > 0 && (

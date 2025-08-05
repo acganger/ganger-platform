@@ -113,9 +113,6 @@ export interface TabsListProps {
 }
 
 export function TabsList({ children, className }: TabsListProps) {
-  const context = useContext(TabsContext)
-  const parentVariant = context ? 'default' : 'default' // Could get from parent context if needed
-
   return (
     <div 
       className={clsx(

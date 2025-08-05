@@ -1,16 +1,16 @@
-import { useStaffAuth } from '@ganger/auth/staff';
+import { useStaffAuth } from '@ganger/auth';
 
 export function useAccessControl() {
   const { user, profile } = useStaffAuth();
 
-  const isManager = profile?.organizational_unit === 'managers';
+  const isManager = profile?.department === 'management';
   const isAdmin = profile?.role === 'admin';
   
   const canViewAllMetrics = isManager || isAdmin;
   const canExportData = isManager || isAdmin;
-  const canViewFinancialMetrics = isManager || isAdmin || profile?.role === 'billing';
-  const canViewStaffMetrics = isManager || isAdmin || profile?.role === 'hr';
-  const canViewClinicalMetrics = isManager || isAdmin || profile?.role === 'clinical';
+  const canViewFinancialMetrics = isManager || isAdmin || profile?.department === 'billing';
+  const canViewStaffMetrics = isManager || isAdmin || profile?.department === 'hr';
+  const canViewClinicalMetrics = isManager || isAdmin || profile?.department === 'clinical';
   
   return {
     isManager,

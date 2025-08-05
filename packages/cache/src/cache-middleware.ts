@@ -68,7 +68,6 @@ export function withCache(
       // Cache miss - execute handler and capture response
       const originalJson = res.json;
       const originalStatus = res.status;
-      let responseData: any;
       let statusCode = 200;
 
       // Override res.status to capture status code
@@ -79,7 +78,6 @@ export function withCache(
 
       // Override res.json to capture response data
       res.json = function(data: any) {
-        responseData = data;
         
         // Cache successful responses only (200-299)
         if (statusCode >= 200 && statusCode < 300) {

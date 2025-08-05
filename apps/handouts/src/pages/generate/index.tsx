@@ -37,8 +37,8 @@ interface Patient {
 }
 
 function HandoutGeneratorPage() {
-  const { user, profile } = useStaffAuth();
-  const { generateHandouts, isGenerating } = useHandoutGenerator();
+  const { profile } = useStaffAuth();
+  const { generateHandouts } = useHandoutGenerator();
   
   const [currentStep, setCurrentStep] = useState<'patient' | 'templates' | 'delivery' | 'generate'>('patient');
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -279,7 +279,10 @@ function HandoutGeneratorPage() {
                 const steps = ['patient', 'templates', 'delivery'] as const;
                 const currentIndex = steps.indexOf(currentStep as 'patient' | 'templates' | 'delivery');
                 if (currentIndex > 0) {
-                  setCurrentStep(steps[currentIndex - 1]);
+                  const previousStep = steps[currentIndex - 1];
+                  if (previousStep) {
+                    setCurrentStep(previousStep);
+                  }
                 }
               }}
               variant="outline"

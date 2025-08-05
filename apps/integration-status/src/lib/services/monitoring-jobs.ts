@@ -101,7 +101,7 @@ export class IntegrationMonitoringJobs {
 
   stopJobs(): void {
 
-    this.intervals.forEach((interval, jobId) => {
+    this.intervals.forEach((interval) => {
       clearInterval(interval);
     });
 
@@ -115,11 +115,7 @@ export class IntegrationMonitoringJobs {
     if (intervalMs > 0) {
       const interval = setInterval(async () => {
         try {
-          const startTime = Date.now();
-          
           await job.handler();
-          
-          const duration = Date.now() - startTime;
           
           // Update job status
           job.lastRun = new Date();
@@ -394,20 +390,20 @@ export class IntegrationMonitoringJobs {
       const healthCheckThreshold = new Date(Date.now() - healthCheckRetentionDays * 24 * 60 * 60 * 1000);
 
       // Clean up old metrics
-      const { error: metricsError, count: deletedMetrics } = await this.supabase
+      await this.supabase
         .from('integration_metrics')
         .delete({ count: 'exact' })
         .lt('created_at', metricsThreshold.toISOString());
 
       // Clean up old health checks
-      const { error: healthChecksError, count: deletedHealthChecks } = await this.supabase
+      await this.supabase
         .from('integration_health_checks')
         .delete({ count: 'exact' })
         .lt('check_timestamp', healthCheckThreshold.toISOString());
 
       // Clean up resolved incidents older than 30 days
       const incidentThreshold = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-      const { error: incidentsError, count: deletedIncidents } = await this.supabase
+      await this.supabase
         .from('alert_incidents')
         .delete({ count: 'exact' })
         .eq('status', 'resolved')

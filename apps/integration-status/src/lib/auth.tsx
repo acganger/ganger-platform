@@ -28,7 +28,7 @@ function getSupabaseClient() {
 
 // Create a proxy object that lazily initializes the client
 const supabase = new Proxy({} as ReturnType<typeof createClient>, {
-  get(target, prop) {
+  get(_, prop) {
     const client = getSupabaseClient();
     return client[prop as keyof typeof client];
   }

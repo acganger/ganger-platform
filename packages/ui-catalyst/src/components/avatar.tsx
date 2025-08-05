@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { clsx } from '../utils/clsx'
 
 const styles = {
@@ -80,7 +80,7 @@ export function Avatar({
       return char.charCodeAt(0) + ((acc << 5) - acc)
     }, 0)
     
-    return colors[Math.abs(hash) % colors.length]
+    return colors[Math.abs(hash) % colors.length] || 'zinc'
   }
 
   const avatarColor = getAvatarColor()

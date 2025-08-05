@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@ganger/db';
-import { withAuth } from '@ganger/auth/api';
+import { createPagesRouterSupabaseClient } from '@ganger/auth';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -14,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const supabase = createClient();
+    const supabase = createPagesRouterSupabaseClient(req, res);
     
     // Calculate date range based on period
     let startDate = new Date();
@@ -59,7 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Transform the data for easier consumption
-    const transformedSubmissions = (submissions || []).map(submission => ({
+    const transformedSubmissions = (submissions || []).map((submission: any) => ({
       id: submission.id,
       item_id: submission.item_id,
       item_name: submission.item?.name || 'Unknown Item',
@@ -81,4 +80,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withAuth(handler, { requiredLevel: 'staff' });
+export default handler;

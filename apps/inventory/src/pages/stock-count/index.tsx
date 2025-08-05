@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
@@ -8,12 +8,11 @@ import {
   PageHeader, 
   Button,
   LoadingSpinner,
-  toast 
+  useToast 
 } from '@ganger/ui';
 import { Badge } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
-import { useBarcodeScan } from '../../hooks/useBarcodeScan';
-import { StockCountSession, InventoryItem } from '../../types/inventory';
+import { StockCountSession } from '../../types/inventory';
 import Link from 'next/link';
 
 interface ActiveSession {
@@ -23,7 +22,8 @@ interface ActiveSession {
 }
 
 function StockCountDashboard() {
-  const { user, profile } = useStaffAuth();
+  const { profile } = useStaffAuth();
+  const { addToast } = useToast();
   const router = useRouter();
   const [activeSessions, setActiveSessions] = useState<ActiveSession[]>([]);
   const [recentCounts, setRecentCounts] = useState<any[]>([]);
@@ -32,7 +32,7 @@ function StockCountDashboard() {
 
   useEffect(() => {
     // Check if user is supervisor based on role or permissions
-    setIsSupervisor(profile?.role === 'admin' || profile?.role === 'supervisor');
+    setIsSupervisor(profile?.role === 'admin');
     loadStockCountData();
   }, [profile]);
 
@@ -60,7 +60,11 @@ function StockCountDashboard() {
 
     } catch (error) {
       console.error('Error loading stock count data:', error);
-      toast.error('Failed to load stock count data');
+      addToast({
+        title: 'Error',
+        message: 'Failed to load stock count data',
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }

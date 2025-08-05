@@ -138,7 +138,7 @@ export default async function handler(
       // Apply pagination
       query = query.range(offset, offset + limitNum - 1);
 
-      const { data: integrations, error, count } = await query;
+      const { data: integrations, error } = await query;
 
       if (error) {
         return res.status(500).json({

@@ -297,7 +297,7 @@ export class PerformanceMonitor {
   }
 
   private storeMetricsHistory(metrics: PerformanceMetrics): void {
-    const key = new Date(metrics.timestamp).toISOString().split('T')[0]; // Daily key
+    const key = new Date(metrics.timestamp).toISOString().split('T')[0] || 'unknown'; // Daily key
     
     if (!this.metricsHistory.has(key)) {
       this.metricsHistory.set(key, []);
@@ -325,7 +325,7 @@ export class PerformanceMonitor {
     const dataPoints: Array<{ timestamp: string; value: number }> = [];
 
     // Collect data points from history
-    Array.from(this.metricsHistory.entries()).forEach(([day, metrics]) => {
+    Array.from(this.metricsHistory.entries()).forEach(([_day, metrics]) => {
       for (const metric_data of metrics) {
         const metricTime = new Date(metric_data.timestamp);
         if (metricTime >= cutoff) {
@@ -348,8 +348,8 @@ export class PerformanceMonitor {
     dataPoints.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
     // Calculate trend
-    const firstValue = dataPoints[0].value;
-    const lastValue = dataPoints[dataPoints.length - 1].value;
+    const firstValue = dataPoints[0]?.value || 0;
+    const lastValue = dataPoints[dataPoints.length - 1]?.value || 0;
     const changePercentage = firstValue !== 0 ? ((lastValue - firstValue) / firstValue) * 100 : 0;
     
     let trendDirection: 'up' | 'down' | 'stable' = 'stable';
@@ -448,7 +448,7 @@ export class PerformanceMonitor {
     const cutoff = new Date(Date.now() - hours * 60 * 60 * 1000);
     const history: PerformanceMetrics[] = [];
     
-    Array.from(this.metricsHistory.entries()).forEach(([day, metrics]) => {
+    Array.from(this.metricsHistory.entries()).forEach(([_day, metrics]) => {
       for (const metric of metrics) {
         if (new Date(metric.timestamp) >= cutoff) {
           history.push(metric);

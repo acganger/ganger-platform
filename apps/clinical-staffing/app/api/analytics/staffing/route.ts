@@ -4,9 +4,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
+import { migrationAdapter } from '@ganger/db';
 import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
-import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 // Force dynamic rendering for API routes
@@ -30,7 +29,7 @@ migrationStaffingBusinessLogic.updateConfig({
  * Get comprehensive staffing analytics
  */
 export async function GET(request: NextRequest) {
-  return withAuth(async (request, { user }) => {
+  return withAuth(async () => {
     const { searchParams } = new URL(request.url);
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');

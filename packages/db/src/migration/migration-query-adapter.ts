@@ -6,7 +6,6 @@
 
 import { supabaseAdmin } from '../client';
 import { MigrationHelpers, TableMapping, StatusMapping } from '../types/migration-enums';
-import type { Database } from '../types/database';
 
 export interface MigrationConfig {
   enableMigrationMode: boolean;

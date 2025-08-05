@@ -22,6 +22,8 @@ export function InstallPrompt() {
 
       return () => clearTimeout(timer);
     }
+    
+    return undefined;
   }, []);
 
   const handleInstall = async () => {

@@ -1,4 +1,3 @@
-import { getSupabaseClient } from '@ganger/auth';
 import { performanceMonitor } from './performance-monitor';
 import { hipaaErrorTracker } from './hipaa-compliant-error-tracking';
 
@@ -335,7 +334,10 @@ class DatabasePerformanceMonitor {
         .sort((a, b) => a[1].count - b[1].count);
       
       for (let i = 0; i < 50; i++) {
-        this.queryPatterns.delete(sortedPatterns[i][0]);
+        const pattern = sortedPatterns[i]?.[0];
+        if (pattern) {
+          this.queryPatterns.delete(pattern);
+        }
       }
     }
   }
@@ -355,7 +357,7 @@ class DatabasePerformanceMonitor {
       if (pattern && durations.length > 0) {
         const sorted = [...durations].sort((a, b) => a - b);
         const p95Index = Math.ceil(0.95 * sorted.length) - 1;
-        pattern.p95Duration = sorted[Math.max(0, p95Index)];
+        pattern.p95Duration = sorted[Math.max(0, p95Index)] || 0;
       }
     }
   }

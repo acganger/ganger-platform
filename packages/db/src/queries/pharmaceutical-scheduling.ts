@@ -3,7 +3,6 @@
  * Comprehensive data access layer for pharmaceutical rep scheduling system
  */
 
-import { createClient } from '@supabase/supabase-js';
 
 // =====================================================
 // TYPE DEFINITIONS
@@ -637,7 +636,7 @@ export class PharmaSchedulingQueries {
     const end = new Date(endDate);
     
     for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = date.toISOString().split('T')[0]!;
       const dayOfWeek = date.getDay() === 0 ? 7 : date.getDay(); // Convert Sunday from 0 to 7
       
       // Check if activity is available on this day
@@ -653,11 +652,11 @@ export class PharmaSchedulingQueries {
 
       // Get available times for this day
       const dayName = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][date.getDay()];
-      let availableTimes = activity.availableTimes[dayName] || [];
+      let availableTimes = dayName ? (activity.availableTimes[dayName] || []) : [];
 
       // Use override times if special hours
       if (override && override.overrideType === 'special_hours' && override.customTimes) {
-        availableTimes = override.customTimes[dayName] || [];
+        availableTimes = dayName ? (override.customTimes[dayName] || []) : [];
       }
 
       // Generate time slots

@@ -287,17 +287,17 @@ function Header({ setIsOpen, currentApp }: { setIsOpen: (open: boolean) => void;
 export function StaffPortalLayout({
   children,
   currentApp,
-  relatedApps,
+  relatedApps: _relatedApps,
   quickActions,
   workflowConnections,
-  preservePWA,
-  hasExternalInterface,
+  preservePWA: _preservePWA,
+  hasExternalInterface: _hasExternalInterface,
   specialIntegrations,
-  preserveFinancialWorkflows,
-  complianceMode,
+  preserveFinancialWorkflows: _preserveFinancialWorkflows,
+  complianceMode: _complianceMode,
   appDescription,
   interfaceNote,
-  integrationNotes
+  integrationNotes: _integrationNotes
 }: StaffPortalLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

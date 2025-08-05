@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import type { UserRole, NotificationType, AppointmentStatus } from '../types/database';
 
 // Base schemas
 export const baseEntitySchema = z.object({

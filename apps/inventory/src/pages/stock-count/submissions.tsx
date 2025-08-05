@@ -8,9 +8,9 @@ import {
   PageHeader, 
   Button,
   LoadingSpinner,
-  toast 
+  useToast 
 } from '@ganger/ui';
-import { Badge, Select, SelectItem } from '@ganger/ui-catalyst';
+import { Badge } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
 
 interface StockCountSubmission {
@@ -29,11 +29,12 @@ interface StockCountSubmission {
 }
 
 function MySubmissionsPage() {
-  const { user, profile } = useStaffAuth();
+  const { user, profile: _profile } = useStaffAuth();
   const router = useRouter();
   const [submissions, setSubmissions] = useState<StockCountSubmission[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterPeriod, setFilterPeriod] = useState<'today' | 'week' | 'month' | 'all'>('week');
+  const { addToast } = useToast();
 
   useEffect(() => {
     loadSubmissions();
@@ -49,7 +50,11 @@ function MySubmissionsPage() {
         const data = await response.json();
         setSubmissions(data);
       } else {
-        toast.error('Failed to load submissions');
+        addToast({
+          title: 'Error',
+          message: 'Failed to load submissions',
+          type: 'error'
+        });
       }
 
       analytics.track('my_submissions_loaded', 'navigation', {
@@ -59,7 +64,11 @@ function MySubmissionsPage() {
 
     } catch (error) {
       console.error('Error loading submissions:', error);
-      toast.error('Failed to load submission data');
+      addToast({
+        title: 'Error',
+        message: 'Failed to load submission data',
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }
@@ -167,16 +176,16 @@ function MySubmissionsPage() {
         <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
           <div className="flex items-center gap-4">
             <label className="text-sm font-medium text-gray-700">Time Period:</label>
-            <Select
+            <select
               value={filterPeriod}
-              onValueChange={(value) => setFilterPeriod(value as any)}
-              className="w-40"
+              onChange={(e) => setFilterPeriod(e.target.value as any)}
+              className="w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <SelectItem value="today">Today</SelectItem>
-              <SelectItem value="week">This Week</SelectItem>
-              <SelectItem value="month">This Month</SelectItem>
-              <SelectItem value="all">All Time</SelectItem>
-            </Select>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="all">All Time</option>
+            </select>
           </div>
         </div>
 

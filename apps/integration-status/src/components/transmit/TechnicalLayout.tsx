@@ -1,8 +1,6 @@
 'use client'
 
-import { Fragment } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 // Local GangerLogo component
 const GangerLogo = ({ size = 'md', className = '' }: { size?: string; className?: string }) => {
   const sizeClass = size === 'lg' ? 'h-10 w-10' : 'h-8 w-8';

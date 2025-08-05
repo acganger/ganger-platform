@@ -1,6 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import handler from '../index';
-import { createMockSupabaseClient } from '@ganger/test-utils';
+
+// Local mock function for Supabase client
+function createMockSupabaseClient() {
+  return {
+    auth: {
+      getUser: jest.fn()
+    },
+    from: jest.fn()
+  };
+}
 
 // Mock the auth module
 jest.mock('@ganger/auth/server', () => ({

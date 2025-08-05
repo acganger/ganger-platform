@@ -252,7 +252,7 @@ Severity: ${threshold.severity}`;
   updateConfig(name: string, updates: Partial<AlertConfig>): void {
     const index = this.alertConfigs.findIndex(c => c.name === name);
     if (index !== -1) {
-      this.alertConfigs[index] = { ...this.alertConfigs[index], ...updates };
+      this.alertConfigs[index] = { ...this.alertConfigs[index], ...updates } as AlertConfig;
     }
   }
 

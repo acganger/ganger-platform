@@ -28,7 +28,7 @@ export class IntegrationHealthMonitor {
         return result.value;
       } else {
         return {
-          service: services[index],
+          service: services[index] || 'unknown',
           status: 'down' as const,
           last_check: new Date().toISOString(),
           error_message: result.reason?.message || 'Health check failed'

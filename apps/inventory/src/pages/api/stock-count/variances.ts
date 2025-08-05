@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@ganger/db';
-import { withAuth } from '@ganger/auth/api';
+import { createPagesRouterSupabaseClient } from '@ganger/auth';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -8,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const supabase = createClient();
+    const supabase = createPagesRouterSupabaseClient(req, res);
     const { status = 'all', session_id } = req.query;
 
     let query = supabase
@@ -50,11 +49,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Transform the data for easier consumption
-    const transformedVariances = (variances || []).map(variance => ({
+    const transformedVariances = (variances || []).map((variance: any) => ({
       id: variance.id,
       item_id: variance.item_id,
-      item_name: variance.item?.name || 'Unknown Item',
-      item_sku: variance.item?.sku,
+      item_name: variance.item?.[0]?.name || 'Unknown Item',
+      item_sku: variance.item?.[0]?.sku,
       expected_quantity: variance.expected_quantity,
       counted_quantity: variance.counted_quantity,
       variance: variance.variance,
@@ -74,4 +73,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withAuth(handler, { requiredLevel: 'staff' });
+export default handler;

@@ -11,7 +11,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default function AnalyticsPage() {
-  const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const { isAuthenticated, isLoading } = useStaffAuth();
   
   if (isLoading) {
     return (

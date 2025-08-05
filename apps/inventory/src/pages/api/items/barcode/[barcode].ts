@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@ganger/db';
-import { withAuth } from '@ganger/auth/api';
-import { analytics } from '@ganger/monitoring';
+import { createPagesRouterSupabaseClient } from '@ganger/auth';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -15,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const supabase = createClient();
+    const supabase = createPagesRouterSupabaseClient(req, res);
 
     // Look up item by barcode
     const { data: item, error } = await supabase
@@ -29,28 +27,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .single();
 
     if (error || !item) {
-      analytics.track('barcode_lookup_failed', 'api', {
-        barcode,
-        error: error?.message
-      });
+      console.log('barcode_lookup_failed', { barcode, error: error?.message });
       return res.status(404).json({ error: 'Item not found' });
     }
 
-    analytics.track('barcode_lookup_success', 'api', {
-      barcode,
-      item_id: item.id,
-      item_name: item.name
-    });
+    console.log('barcode_lookup_success', { barcode, item_id: item.id, item_name: item.name });
 
     return res.status(200).json(item);
   } catch (error) {
     console.error('Error fetching item by barcode:', error);
-    analytics.track('barcode_lookup_error', 'api', {
-      barcode,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
+    console.log('barcode_lookup_error', { barcode, error: error instanceof Error ? error.message : 'Unknown error' });
     return res.status(500).json({ error: 'Failed to fetch item' });
   }
 }
 
-export default withAuth(handler, { requiredLevel: 'staff' });
+export default handler;

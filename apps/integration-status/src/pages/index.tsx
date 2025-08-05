@@ -222,7 +222,7 @@ const Modal = ({
 
 function IntegrationStatusDashboard() {
   // Authentication
-  const { user, isLoading: authLoading } = useAuth()
+  const { isLoading: authLoading } = useAuth()
 
   // State management
   const [integrations, setIntegrations] = useState<Integration[]>([])

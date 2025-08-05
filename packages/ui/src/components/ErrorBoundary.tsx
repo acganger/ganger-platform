@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
@@ -190,7 +190,7 @@ export class ErrorBoundaryLegacy extends React.Component<ErrorBoundaryProps, Err
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     
     if (this.props.onError) {
@@ -202,7 +202,7 @@ export class ErrorBoundaryLegacy extends React.Component<ErrorBoundaryProps, Err
     }
   }
 
-  render() {
+  override render() {
     if (this.state.hasError && this.state.error) {
       const reset = () => this.setState({ hasError: false, error: null });
       

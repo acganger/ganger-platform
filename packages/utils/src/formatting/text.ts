@@ -150,7 +150,7 @@ export const formatTime = (time: string | Date): string => {
     // Handle time in HH:MM format
     const [hours, minutes] = time.split(':');
     const date = new Date();
-    date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    date.setHours(parseInt(hours || '0', 10), parseInt(minutes || '0', 10));
     time = date;
   }
   
@@ -313,7 +313,9 @@ export const extractTemplateVariables = (template: string): string[] => {
   let match;
   
   while ((match = regex.exec(template)) !== null) {
-    variables.push(match[1].trim());
+    if (match[1]) {
+      variables.push(match[1].trim());
+    }
   }
   
   return [...new Set(variables)];
@@ -379,5 +381,5 @@ export const getAvatarColor = (name: string): string => {
     return char.charCodeAt(0) + ((acc << 5) - acc);
   }, 0);
   
-  return colors[Math.abs(hash) % colors.length];
+  return colors[Math.abs(hash) % colors.length] || 'bg-gray-500';
 };

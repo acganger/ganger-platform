@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useStaffAuth, AuthGuard } from '@ganger/auth/staff';
 import { 
@@ -8,7 +8,7 @@ import {
   PageHeader, 
   Button,
   LoadingSpinner,
-  toast 
+  useToast 
 } from '@ganger/ui';
 import { Input, Badge } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
@@ -22,7 +22,8 @@ interface ScannedItem extends InventoryItem {
 }
 
 function StockCountScanner() {
-  const { user, profile } = useStaffAuth();
+  const { user } = useStaffAuth();
+  const { addToast } = useToast();
   const router = useRouter();
   const [scannedItems, setScannedItems] = useState<ScannedItem[]>([]);
   const [currentItem, setCurrentItem] = useState<ScannedItem | null>(null);
@@ -38,9 +39,17 @@ function StockCountScanner() {
       
       if (!response.ok) {
         if (response.status === 404) {
-          toast.error('Item not found. Please check the barcode.');
+          addToast({
+            title: 'Error',
+            message: 'Item not found. Please check the barcode.',
+            type: 'error'
+          });
         } else {
-          toast.error('Failed to fetch item details');
+          addToast({
+            title: 'Error',
+            message: 'Failed to fetch item details',
+            type: 'error'
+          });
         }
         return;
       }
@@ -51,12 +60,15 @@ function StockCountScanner() {
       const existingIndex = scannedItems.findIndex(si => si.id === item.id);
       if (existingIndex >= 0) {
         // Update existing item
-        setCurrentItem({
-          ...item,
-          scannedQuantity: scannedItems[existingIndex].scannedQuantity,
-          needsReorder: scannedItems[existingIndex].needsReorder,
-          notes: scannedItems[existingIndex].notes
-        });
+        const existingItem = scannedItems[existingIndex];
+        if (existingItem) {
+          setCurrentItem({
+            ...item,
+            scannedQuantity: existingItem.scannedQuantity,
+            needsReorder: existingItem.needsReorder,
+            notes: existingItem.notes
+          });
+        }
       } else {
         // New item
         setCurrentItem({
@@ -68,8 +80,10 @@ function StockCountScanner() {
 
       // Focus on quantity input
       setTimeout(() => {
-        quantityInputRef.current?.focus();
-        quantityInputRef.current?.select();
+        if (quantityInputRef.current) {
+          quantityInputRef.current.focus();
+          quantityInputRef.current.select();
+        }
       }, 100);
 
       analytics.track('item_scanned', 'interaction', {
@@ -80,7 +94,11 @@ function StockCountScanner() {
 
     } catch (error) {
       console.error('Error fetching item:', error);
-      toast.error('Failed to process scanned item');
+      addToast({
+        title: 'Error',
+        message: 'Failed to process scanned item',
+        type: 'error'
+      });
     } finally {
       setIsLoading(false);
     }
@@ -109,7 +127,11 @@ function StockCountScanner() {
 
   const handleQuantitySubmit = () => {
     if (!currentItem || currentItem.scannedQuantity <= 0) {
-      toast.error('Please enter a valid quantity');
+      addToast({
+        title: 'Error',
+        message: 'Please enter a valid quantity',
+        type: 'error'
+      });
       return;
     }
 
@@ -131,7 +153,11 @@ function StockCountScanner() {
       setScannedItems([...scannedItems, updatedItem]);
     }
 
-    toast.success(`${currentItem.name} - Count: ${currentItem.scannedQuantity}${needsReorder ? ' (Reorder needed)' : ''}`);
+    addToast({
+      title: 'Success',
+      message: `${currentItem.name} - Count: ${currentItem.scannedQuantity}${needsReorder ? ' (Reorder needed)' : ''}`,
+      type: 'success'
+    });
     
     // Clear current item and prepare for next scan
     setCurrentItem(null);
@@ -144,7 +170,11 @@ function StockCountScanner() {
 
   const handleSubmitCounts = async () => {
     if (scannedItems.length === 0) {
-      toast.error('No items to submit');
+      addToast({
+        title: 'Error',
+        message: 'No items to submit',
+        type: 'error'
+      });
       return;
     }
 
@@ -167,7 +197,11 @@ function StockCountScanner() {
       });
 
       if (response.ok) {
-        toast.success('Stock counts submitted successfully');
+        addToast({
+          title: 'Success',
+          message: 'Stock counts submitted successfully',
+          type: 'success'
+        });
         analytics.track('stock_counts_submitted', 'interaction', {
           item_count: scannedItems.length,
           reorder_count: scannedItems.filter(i => i.needsReorder).length
@@ -177,11 +211,19 @@ function StockCountScanner() {
         setScannedItems([]);
         router.push('/stock-count');
       } else {
-        toast.error('Failed to submit stock counts');
+        addToast({
+          title: 'Error',
+          message: 'Failed to submit stock counts',
+          type: 'error'
+        });
       }
     } catch (error) {
       console.error('Error submitting counts:', error);
-      toast.error('Failed to submit stock counts');
+      addToast({
+        title: 'Error',
+        message: 'Failed to submit stock counts',
+        type: 'error'
+      });
     } finally {
       setIsLoading(false);
     }

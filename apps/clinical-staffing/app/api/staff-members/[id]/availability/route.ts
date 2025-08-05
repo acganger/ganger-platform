@@ -4,8 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling } from '@ganger/utils';
+import { migrationAdapter } from '@ganger/db';
 import { withAuth } from '@ganger/auth/middleware';
 
 export const dynamic = 'force-dynamic';
@@ -136,7 +135,7 @@ export async function PUT(request: NextRequest) {
       for (const record of body.availability_records) {
         const availabilityData = {
           staff_member_id: memberId,
-          availability_type: MigrationHelpers.convertAvailabilityType(record.availability_type || 'available'),
+          availability_type: body.availability_type || "available",
           day_of_week: record.day_of_week,
           start_time: record.start_time,
           end_time: record.end_time,
@@ -197,7 +196,7 @@ export async function POST(request: NextRequest) {
     // Create availability record
     const availabilityData = {
       staff_member_id: memberId,
-      availability_type: MigrationHelpers.convertAvailabilityType(body.availability_type),
+      availability_type: body.availability_type || "available",
       day_of_week: body.day_of_week,
       start_time: body.start_time,
       end_time: body.end_time,

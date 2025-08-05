@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@ganger/db';
-import { withAuth } from '@ganger/auth/api';
+import { createPagesRouterSupabaseClient } from '@ganger/auth';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -8,7 +7,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const supabase = createClient();
+    const supabase = createPagesRouterSupabaseClient(req, res);
     const { user_email } = req.query;
 
     // Get recent stock counts (last 24 hours or last 20 items)
@@ -37,7 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Transform the data for easier consumption
-    const recentCounts = (counts || []).map(count => ({
+    const recentCounts = (counts || []).map((count: any) => ({
       id: count.id,
       item_id: count.item?.id,
       item_name: count.item?.name || 'Unknown Item',
@@ -56,4 +55,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withAuth(handler, { requiredLevel: 'staff' });
+export default handler;

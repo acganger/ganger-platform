@@ -1,5 +1,36 @@
 // PWA utilities for service worker and offline functionality
-import { toast } from '@ganger/ui';
+
+// Simple toast utility for class-based components
+const showToast = {
+  success: (message: string) => {
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { title: 'Success', message, type: 'success' } 
+      }));
+    }
+  },
+  info: (message: string) => {
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { title: 'Info', message, type: 'info' } 
+      }));
+    }
+  },
+  warning: (message: string) => {
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { title: 'Warning', message, type: 'warning' } 
+      }));
+    }
+  },
+  error: (message: string) => {
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { title: 'Error', message, type: 'error' } 
+      }));
+    }
+  }
+};
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -113,7 +144,7 @@ class ClinicalStaffingPWA {
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                toast.info('New version available! Please refresh for the latest updates.');
+                showToast.info('New version available! Please refresh for the latest updates.');
               }
             });
           }
@@ -145,14 +176,14 @@ class ClinicalStaffingPWA {
   // Handle online event
   private handleOnline = () => {
     this.isOnline = true;
-    toast.success('You are back online! Syncing changes...');
+    showToast.success('You are back online! Syncing changes...');
     this.syncOfflineData();
   };
 
   // Handle offline event
   private handleOffline = () => {
     this.isOnline = false;
-    toast.warning('You are offline. Changes will be saved and synced when connection is restored.');
+    showToast.warning('You are offline. Changes will be saved and synced when connection is restored.');
   };
 
   // Handle beforeinstallprompt event
@@ -168,13 +199,13 @@ class ClinicalStaffingPWA {
   private handleAppInstalled = () => {
     console.log('Clinical Staffing PWA was installed');
     this.deferredPrompt = null;
-    toast.success('App installed successfully! You can now use it offline.');
+    showToast.success('App installed successfully! You can now use it offline.');
   };
 
   // Handle service worker messages
   private handleSWMessage = (event: MessageEvent) => {
     if (event.data && event.data.type === 'SYNC_SUCCESS') {
-      toast.success('Schedule changes synced successfully');
+      showToast.success('Schedule changes synced successfully');
       // Refresh the UI data
       window.dispatchEvent(new CustomEvent('schedule-synced', { detail: event.data }));
     }
@@ -191,7 +222,7 @@ class ClinicalStaffingPWA {
     
     if (outcome === 'accepted') {
       console.log('User accepted the install prompt');
-      toast.success('Installing Clinical Staffing app...');
+      showToast.success('Installing Clinical Staffing app...');
     } else {
       console.log('User dismissed the install prompt');
     }
@@ -246,7 +277,7 @@ class ClinicalStaffingPWA {
       request.onsuccess = () => {
         resolve(request.result);
         if (!this.isOnline) {
-          toast.info('Schedule change saved offline. Will sync when online.');
+          showToast.info('Schedule change saved offline. Will sync when online.');
         }
       };
       request.onerror = () => reject(request.error);

@@ -30,24 +30,24 @@ interface AlertRule {
   business_days: number[];
 }
 
-interface AlertIncident {
-  id: string;
-  alert_rule_id: string;
-  integration_id: string;
-  triggered_at: string;
-  resolved_at: string | null;
-  alert_message: string;
-  severity: string;
-  trigger_value: number;
-  threshold_value: number;
-  status: 'open' | 'acknowledged' | 'resolved' | 'suppressed';
-  acknowledged_by: string | null;
-  acknowledged_at: string | null;
-  resolved_by: string | null;
-  resolution_note: string | null;
-  escalation_level: number;
-  notifications_sent: any;
-}
+// interface AlertIncident {
+//   id: string;
+//   alert_rule_id: string;
+//   integration_id: string;
+//   triggered_at: string;
+//   resolved_at: string | null;
+//   alert_message: string;
+//   severity: string;
+//   trigger_value: number;
+//   threshold_value: number;
+//   status: 'open' | 'acknowledged' | 'resolved' | 'suppressed';
+//   acknowledged_by: string | null;
+//   acknowledged_at: string | null;
+//   resolved_by: string | null;
+//   resolution_note: string | null;
+//   escalation_level: number;
+//   notifications_sent: any;
+// }
 
 export class AlertEngine {
   private supabase: ReturnType<typeof createClient<Database>>;
@@ -378,19 +378,19 @@ export class AlertEngine {
       .eq('id', incident.id);
   }
 
-  private async sendEmailNotification(rule: AlertRule, data: any): Promise<boolean> {
+  private async sendEmailNotification(_rule: AlertRule, _data: any): Promise<boolean> {
     return true; // Mock success
   }
 
-  private async sendSlackNotification(rule: AlertRule, data: any): Promise<boolean> {
+  private async sendSlackNotification(_rule: AlertRule, _data: any): Promise<boolean> {
     return true; // Mock success
   }
 
-  private async sendSMSNotification(rule: AlertRule, data: any): Promise<boolean> {
+  private async sendSMSNotification(_rule: AlertRule, _data: any): Promise<boolean> {
     return true; // Mock success
   }
 
-  private async sendWebhookNotification(rule: AlertRule, data: any): Promise<boolean> {
+  private async sendWebhookNotification(_rule: AlertRule, _data: any): Promise<boolean> {
     return true; // Mock success
   }
 
@@ -451,7 +451,7 @@ export class AlertEngine {
 
   private parseTime(timeString: string): number {
     const [hours, minutes] = timeString.split(':').map(Number);
-    return hours * 100 + minutes;
+    return (hours || 0) * 100 + (minutes || 0);
   }
 
   // Public methods for external use

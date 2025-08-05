@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { cn } from '@ganger/utils';
 import { KPICard } from './KPICard';
 import { KPIMetric } from '../types';

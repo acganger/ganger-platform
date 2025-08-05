@@ -3,7 +3,6 @@ import type {
   PurchaseRequest, 
   PurchaseRequestItem,
   RequestStatus,
-  RequestType,
   UrgencyLevel,
   CreatePurchaseRequestPayload
 } from '@ganger/types';

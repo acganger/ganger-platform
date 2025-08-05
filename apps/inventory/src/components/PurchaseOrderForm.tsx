@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { PurchaseOrderItem } from '../types/inventory';
 
 interface VendorOption {
   id: string;
@@ -112,7 +111,9 @@ export const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, 
     if (existingIndex >= 0) {
       // Increment quantity if item already added
       const updated = [...selectedItems];
-      updated[existingIndex].quantity += 1;
+      if (updated[existingIndex]) {
+        updated[existingIndex].quantity += 1;
+      }
       setSelectedItems(updated);
     } else {
       // Add new item
@@ -130,8 +131,11 @@ export const PurchaseOrderForm: React.FC<PurchaseOrderFormProps> = ({ onSubmit, 
 
   const handleUpdateItem = (index: number, field: keyof OrderItem, value: any) => {
     const updated = [...selectedItems];
-    updated[index] = { ...updated[index], [field]: value };
-    setSelectedItems(updated);
+    const item = updated[index];
+    if (item) {
+      updated[index] = { ...item, [field]: value };
+      setSelectedItems(updated);
+    }
   };
 
   const handleRemoveItem = (index: number) => {

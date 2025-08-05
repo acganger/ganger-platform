@@ -6,7 +6,7 @@ import {
   getCachedSchedulesByDate,
   saveScheduleUpdate 
 } from '../lib/pwa';
-import { toast } from '@ganger/ui';
+import { useToast } from '@ganger/ui';
 
 interface UseOfflineScheduleOptions {
   providerId?: string;
@@ -15,6 +15,7 @@ interface UseOfflineScheduleOptions {
 }
 
 export function useOfflineSchedule({ providerId, date, enableCache = true }: UseOfflineScheduleOptions) {
+  const { addToast } = useToast();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -75,7 +76,7 @@ export function useOfflineSchedule({ providerId, date, enableCache = true }: Use
           setIsFromCache(true);
           
           if (!isOnline()) {
-            toast.info('Showing cached schedule data');
+            addToast({ title: 'Offline', message: 'Showing cached schedule data', type: 'info' });
           }
         } else {
           throw new Error('No cached data available');
@@ -102,7 +103,7 @@ export function useOfflineSchedule({ providerId, date, enableCache = true }: Use
         if (response.ok) {
           const updatedData = await response.json();
           setData(updatedData);
-          toast.success('Schedule updated successfully');
+          addToast({ title: 'Success', message: 'Schedule updated successfully', type: 'success' });
           
           // Update cache
           if (enableCache && providerId) {
@@ -132,7 +133,7 @@ export function useOfflineSchedule({ providerId, date, enableCache = true }: Use
 
     // Optimistically update local state
     setData((prev: any) => ({ ...prev, ...updateData }));
-    toast.info('Schedule saved offline. Will sync when connection is restored.');
+    addToast({ title: 'Offline', message: 'Schedule saved offline. Will sync when connection is restored.', type: 'info' });
     
     return updateData;
   }, [providerId, date, enableCache]);

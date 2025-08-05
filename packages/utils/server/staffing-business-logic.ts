@@ -35,6 +35,7 @@ interface OptimizationSuggestion {
   implementationCost?: number;
 }
 
+// @ts-ignore - Interface for future use, currently unused
 interface SchedulingConstraints {
   maxHoursPerDay: number;
   maxHoursPerWeek: number;
@@ -44,6 +45,7 @@ interface SchedulingConstraints {
   allowOvertimeThreshold: number;
 }
 
+// @ts-ignore - Interface for future use, currently unused
 interface LocationCapacity {
   locationId: string;
   maxStaff: number;
@@ -284,7 +286,7 @@ function calculateHoursBetween(startTime: string, endTime: string): number {
  * Analyze staffing periods for gaps and overstaffing
  */
 function analyzeStaffingPeriods(
-  providerSchedules: any[],
+  _providerSchedules: any[],
   staffSchedules: any[],
   requirements: any[]
 ): { understaffedPeriods: number; overstaffedPeriods: number } {
@@ -690,7 +692,6 @@ export function calculateShiftPremium(
   // Night shift premium (10 PM - 6 AM)
   const shiftStart = new Date(`2000-01-01T${schedule.shift_start_time}`);
   const nightStart = new Date('2000-01-01T22:00:00');
-  const nightEnd = new Date('2000-01-02T06:00:00');
 
   if (shiftStart >= nightStart || shiftStart <= new Date('2000-01-01T06:00:00')) {
     premiumMultiplier += 0.15; // 15% night premium

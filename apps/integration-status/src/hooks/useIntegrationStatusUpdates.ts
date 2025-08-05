@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import type { 
-  Integration, 
   AlertRule, 
   WebSocketMessage, 
   IntegrationStatusUpdate,
@@ -201,7 +200,7 @@ export function useIntegrationStatusUpdates(
         }
       }
 
-      ws.onerror = (error) => {
+      ws.onerror = () => {
         setConnectionState(prev => ({
           ...prev,
           isConnecting: false,

@@ -39,7 +39,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         status: 'approved',
         ordered_by: approved_by,
         ordered_at: new Date().toISOString(),
-        metadata: supabase.sql`metadata || jsonb_build_object('approved_by', ${user_email}, 'approved_at', ${new Date().toISOString()})`
+        metadata: {
+          approved_by: user_email,
+          approved_at: new Date().toISOString()
+        }
       })
       .eq('id', id)
       .select(`

@@ -94,8 +94,8 @@ export function getCookie(name: string): string | null {
   const cookies = document.cookie.split(';');
 
   for (let i = 0; i < cookies.length; i++) {
-    let cookie = cookies[i].trim();
-    if (cookie.indexOf(nameEQ) === 0) {
+    const cookie = cookies[i]?.trim();
+    if (cookie && cookie.indexOf(nameEQ) === 0) {
       return decodeURIComponent(cookie.substring(nameEQ.length));
     }
   }
@@ -143,10 +143,12 @@ export function getAllCookies(): Record<string, string> {
   const cookieArray = document.cookie.split(';');
 
   for (let i = 0; i < cookieArray.length; i++) {
-    const cookie = cookieArray[i].trim();
-    const [name, value] = cookie.split('=');
-    if (name && value) {
-      cookies[decodeURIComponent(name)] = decodeURIComponent(value);
+    const cookie = cookieArray[i]?.trim();
+    if (cookie) {
+      const [name, value] = cookie.split('=');
+      if (name && value) {
+        cookies[decodeURIComponent(name)] = decodeURIComponent(value);
+      }
     }
   }
 

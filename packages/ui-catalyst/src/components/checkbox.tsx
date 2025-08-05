@@ -208,7 +208,7 @@ export interface CheckboxLegacyProps extends Omit<React.InputHTMLAttributes<HTML
 }
 
 export const CheckboxLegacy = React.forwardRef<HTMLInputElement, CheckboxLegacyProps>(
-  ({ className, label, description, error, id, checked, onChange, ...props }, ref) => {
+  ({ className, label, description, error, id, checked, onChange, ...props }, _ref) => {
     const handleChange = (isChecked: boolean) => {
       if (onChange) {
         // Create synthetic event for react-hook-form compatibility

@@ -5,14 +5,14 @@ import { DashboardMetrics, KPIMetric } from '../types';
 
 export function exportMetricsToPDF(
   metrics: DashboardMetrics,
-  title: string,
+  _title: string,
   filename: string
 ) {
   const doc = new jsPDF();
   
   // Title
   doc.setFontSize(20);
-  doc.text(title, 14, 20);
+  doc.text(_title, 14, 20);
   
   // Date
   doc.setFontSize(10);
@@ -73,7 +73,7 @@ export function exportMetricsToPDF(
 
 export function exportMetricsToExcel(
   metrics: DashboardMetrics,
-  title: string,
+  _title: string,
   filename: string
 ) {
   const wb = XLSX.utils.book_new();
@@ -85,7 +85,7 @@ export function exportMetricsToExcel(
     summaryData.push([category.toUpperCase(), '', '', '', '']);
     summaryData.push(['Metric', 'Current Value', 'Previous Value', 'Change %', 'Target']);
     
-    Object.values(categoryMetrics).forEach(metric => {
+    Object.values(categoryMetrics).forEach((metric: any) => {
       summaryData.push([
         metric.label,
         formatMetricValue(metric),
@@ -107,7 +107,7 @@ export function exportMetricsToExcel(
       ['Metric', 'Current Value', 'Previous Value', 'Change %', 'Target', 'Trend'],
     ];
     
-    Object.values(categoryMetrics).forEach(metric => {
+    Object.values(categoryMetrics).forEach((metric: any) => {
       sheetData.push([
         metric.label,
         formatMetricValue(metric),

@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@ganger/db';
-import { withAuth } from '@ganger/auth/api';
-import { analytics } from '@ganger/monitoring';
+import { createPagesRouterSupabaseClient } from '@ganger/auth';
 
 interface StockCountItem {
   item_id: string;
@@ -26,7 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const supabase = createClient();
+    const supabase = createPagesRouterSupabaseClient(req, res);
     const timestamp = new Date().toISOString();
     const results = [];
 
@@ -128,7 +126,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
-    analytics.track('stock_count_submitted', 'api', {
+    console.log('stock_count_submitted', {
       item_count: items.length,
       reorder_count: items.filter((i: StockCountItem) => i.needs_reorder).length,
       counted_by,
@@ -143,7 +141,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   } catch (error) {
     console.error('Error submitting stock counts:', error);
-    analytics.track('stock_count_submit_error', 'api', {
+    console.log('stock_count_submit_error', {
       error: error instanceof Error ? error.message : 'Unknown error',
       counted_by
     });
@@ -151,4 +149,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withAuth(handler, { requiredLevel: 'staff' });
+export default handler;

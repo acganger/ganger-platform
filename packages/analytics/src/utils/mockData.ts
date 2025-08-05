@@ -1,7 +1,7 @@
 import { DashboardMetrics, TimeRange, LineChartDataPoint, BarChartDataPoint, PieChartDataPoint } from '../types';
-import { eachDayOfInterval, format, differenceInDays } from 'date-fns';
+import { eachDayOfInterval, format } from 'date-fns';
 
-export function generateMockMetrics(timeRange: TimeRange): DashboardMetrics {
+export function generateMockMetrics(_timeRange: TimeRange): DashboardMetrics {
   // Generate random but realistic metrics
   const baseRevenue = 850000;
   const basePatientVolume = 1200;
@@ -263,5 +263,5 @@ function getRandomColor(): string {
     '#14B8A6', // teal
     '#F97316', // orange
   ];
-  return colors[Math.floor(Math.random() * colors.length)];
+  return colors[Math.floor(Math.random() * colors.length)] || '#3B82F6';
 }

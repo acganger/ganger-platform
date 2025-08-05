@@ -4,9 +4,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
+import { migrationAdapter } from '@ganger/db';
 import { migrationStaffingBusinessLogic } from '@ganger/utils/server';
-import { withStandardErrorHandling } from '@ganger/utils';
 import { withAuth } from '@ganger/auth/middleware';
 
 export const dynamic = 'force-dynamic';
@@ -65,7 +64,7 @@ export async function POST(request: NextRequest) {
       'staff_members',
       '*',
       {
-        employee_status: MigrationHelpers.convertEmployeeStatus('active'),
+        employee_status: 'active',
         is_active: true
       }
     );
@@ -134,7 +133,7 @@ export async function POST(request: NextRequest) {
           start_time: timeSlot.startTime,
           end_time: timeSlot.endTime,
           role: staff.role,
-          status: MigrationHelpers.convertScheduleStatus('scheduled'),
+          status: 'scheduled',
           assignment_type: 'auto_assigned',
           ai_confidence_score: Math.min(95, 70 + (suitableStaff.find(s => s.staff.id === staff.id)?.score || 0)),
           optimization_factors: {

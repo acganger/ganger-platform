@@ -7,7 +7,7 @@ import { AppLayout, PageHeader } from '@ganger/ui';
 import { PurchaseOrderForm } from '../../components/PurchaseOrderForm';
 
 function NewPurchaseOrderPage() {
-  const { user, profile } = useStaffAuth();
+  const { user } = useStaffAuth();
   const router = useRouter();
 
   const handleSubmit = async (data: any) => {
@@ -23,7 +23,7 @@ function NewPurchaseOrderPage() {
         throw new Error(error.details || error.error || 'Failed to create purchase order');
       }
 
-      const result = await response.json();
+      await response.json();
       
       // Redirect to the purchase orders list
       router.push('/purchase-orders');

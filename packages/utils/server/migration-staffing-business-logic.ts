@@ -4,7 +4,7 @@
  * Phase 2: Shared Package Migration
  */
 
-import { migrationAdapter, MigrationHelpers, type MigrationConfig } from '@ganger/db';
+import { migrationAdapter } from '@ganger/db';
 
 // Local audit logging function to avoid circular dependency
 const auditLog = async (entry: {
@@ -90,8 +90,6 @@ export class MigrationStaffingBusinessLogic {
       requiredSkills: string[];
     }>;
   }> {
-    const tables = this.getTableNames();
-    
     if (this.config.logMigrationOperations) {
       console.log(`[Migration Staffing] Calculating optimal staffing using ${this.config.useNewSchema ? 'new' : 'old'} schema`);
     }
@@ -563,15 +561,15 @@ export class MigrationStaffingBusinessLogic {
   }
 
   private analyzeStaffingPeriods(
-    providerSchedules: any[],
-    staffSchedules: any[],
-    requirements: any[]
+    _providerSchedules: any[],
+    _staffSchedules: any[],
+    _requirements: any[]
   ): { understaffedPeriods: number; overstaffedPeriods: number } {
     let understaffedPeriods = 0;
     let overstaffedPeriods = 0;
 
-    for (const requirement of requirements) {
-      const staffInSlot = staffSchedules.filter((schedule: any) =>
+    for (const requirement of _requirements) {
+      const staffInSlot = _staffSchedules.filter((schedule: any) =>
         this.timeOverlaps(schedule.shift_start_time, schedule.shift_end_time, requirement.startTime, requirement.endTime)
       );
 

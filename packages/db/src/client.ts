@@ -103,13 +103,13 @@ export function getSupabaseAdminClient() {
 
 // Export getters for backward compatibility
 export const supabase = new Proxy({} as any, {
-  get(target, prop) {
+  get(_target, prop) {
     return getSupabaseClient()[prop];
   }
 });
 
 export const supabaseAdmin = new Proxy({} as any, {
-  get(target, prop) {
+  get(_target, prop) {
     return getSupabaseAdminClient()[prop];
   }
 });
@@ -328,7 +328,7 @@ export async function monitoredQuery<T>(
 // Simple query wrapper without caching (for monorepo stability)
 export async function cachedQuery<T>(
   queryFn: () => Promise<T>,
-  cacheKey: string,
+  _cacheKey: string,
   options: {
     ttl?: number;
     queryName?: string;
@@ -516,7 +516,7 @@ export async function updateLocationWithCacheInvalidation(locationId: string, up
 }
 
 // Inventory update with cache invalidation
-export async function updateInventoryWithCacheInvalidation(itemId: string, updates: any, locationId?: string) {
+export async function updateInventoryWithCacheInvalidation(itemId: string, updates: any, _locationId?: string) {
   const result = await monitoredQuery(
     async () => {
       const { data, error } = await supabaseAdmin
@@ -540,7 +540,7 @@ export async function updateInventoryWithCacheInvalidation(itemId: string, updat
 // Connection health check
 export async function checkDatabaseHealth(): Promise<boolean> {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('users')
       .select('id')
       .limit(1);

@@ -1,7 +1,6 @@
 import { performanceTracker } from './performance-tracking';
 import { hipaaErrorTracker } from './hipaa-compliant-error-tracking';
 import { customMetrics } from './custom-metrics';
-import { apiLatencyMonitor } from './api-latency-monitor';
 
 export interface UserFlowStep {
   name: string;
@@ -431,7 +430,9 @@ class UserFlowMonitor {
         
         if (now - startTime > this.abandonmentTimeout) {
           const [flowId, sessionId] = executionId.split('-');
-          this.abandonFlow(flowId, sessionId);
+          if (flowId && sessionId) {
+            this.abandonFlow(flowId, sessionId);
+          }
         }
       }
     }
@@ -563,7 +564,7 @@ export function createFlowTrackingMiddleware(flowId: string) {
     const userId = req.user?.id;
 
     // Start flow
-    const execution = userFlowMonitor.startFlow(flowId, sessionId, userId, {
+    userFlowMonitor.startFlow(flowId, sessionId, userId, {
       userAgent: req.headers['user-agent'],
       ip: req.ip
     });

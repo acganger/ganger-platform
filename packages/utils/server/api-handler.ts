@@ -195,7 +195,7 @@ export function validateQuery(
   
   for (const [key, value] of Object.entries(query)) {
     if (validParams.includes(key) && value !== undefined) {
-      result[key] = Array.isArray(value) ? value[0] : value;
+      result[key] = Array.isArray(value) ? (value[0] || '') : value;
     }
   }
   

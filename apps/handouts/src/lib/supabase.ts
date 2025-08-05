@@ -64,11 +64,11 @@ export const supabase = new Proxy(mockClient, {
     
     // For runtime, return a promise that resolves to the real client
     return new Proxy(() => {}, {
-      apply: async (fn, thisArg, args) => {
+      apply: async (_fn, _thisArg, args) => {
         const client = await createSupabaseClient();
         return client[prop]?.apply(client, args);
       },
-      get: async (fn, innerProp) => {
+      get: async (_fn, innerProp) => {
         const client = await createSupabaseClient();
         return client[prop]?.[innerProp];
       }

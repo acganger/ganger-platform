@@ -357,7 +357,7 @@ export class GangerCacheManager {
   private parseRedisInfo(info: string, key: string): string | null {
     const lines = info.split('\r\n');
     const line = lines.find(line => line.startsWith(`${key}:`));
-    return line ? line.split(':')[1] : null;
+    return line ? (line.split(':')[1] || null) : null;
   }
 
   // Graceful shutdown
@@ -393,7 +393,7 @@ export const redisClient = {
     return count;
   },
   
-  async keys(pattern: string): Promise<string[]> {
+  async keys(_pattern: string): Promise<string[]> {
     // Basic pattern matching - would need Redis for full glob support
     return [];
   },
@@ -402,44 +402,44 @@ export const redisClient = {
     return 'PONG';
   },
   
-  async eval(script: string, numKeys: number, ...args: string[]): Promise<any> {
+  async eval(_script: string, _numKeys: number, ..._args: string[]): Promise<any> {
     // Lua script evaluation would need Redis
     throw new Error('Lua script evaluation requires Redis connection');
   },
   
-  async hmget(key: string, ...fields: string[]): Promise<(string | null)[]> {
+  async hmget(__key: string, ...fields: string[]): Promise<(string | null)[]> {
     // Hash operations would need Redis
     return fields.map(() => null);
   },
   
-  async hmset(key: string, ...fieldValues: string[]): Promise<void> {
+  async hmset(__key: string, ..._fieldValues: string[]): Promise<void> {
     // Hash operations would need Redis
   },
   
-  async expire(key: string, seconds: number): Promise<void> {
+  async expire(__key: string, _seconds: number): Promise<void> {
     // TTL operations would need Redis
   },
   
-  async zadd(key: string, score: number, member: string): Promise<void> {
+  async zadd(__key: string, _score: number, _member: string): Promise<void> {
     // Sorted set operations would need Redis
   },
   
-  async zremrangebyscore(key: string, min: number, max: number): Promise<number> {
-    // Sorted set operations would need Redis
-    return 0;
-  },
-  
-  async zcard(key: string): Promise<number> {
+  async zremrangebyscore(_key: string, _min: number, _max: number): Promise<number> {
     // Sorted set operations would need Redis
     return 0;
   },
   
-  async zrange(key: string, start: number, stop: number, ...options: string[]): Promise<string[]> {
+  async zcard(_key: string): Promise<number> {
+    // Sorted set operations would need Redis
+    return 0;
+  },
+  
+  async zrange(_key: string, _start: number, _stop: number, ..._options: string[]): Promise<string[]> {
     // Sorted set operations would need Redis
     return [];
   },
   
-  async incr(key: string): Promise<number> {
+  async incr(_key: string): Promise<number> {
     // Increment operations would need Redis
     return 1;
   }

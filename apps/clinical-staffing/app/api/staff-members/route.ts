@@ -4,8 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling } from '@ganger/utils';
+import { migrationAdapter } from '@ganger/db';
 import { withAuth } from '@ganger/auth/middleware';
 
 export const dynamic = 'force-dynamic';
@@ -46,7 +45,7 @@ export async function GET(request: NextRequest) {
     if (isActive !== null) {
       // Convert to employee_status for migration compatibility
       if (isActive === 'true') {
-        filters.employee_status = MigrationHelpers.convertEmployeeStatus('active');
+        filters.employee_status = 'active';
       } else {
         filters.employee_status = ['inactive', 'terminated'];
       }
@@ -123,7 +122,7 @@ export async function POST(request: NextRequest) {
       email: body.email,
       phone: body.phone,
       role: body.role,
-      employee_status: MigrationHelpers.convertEmployeeStatus(body.employee_status || 'active'),
+      employee_status: body.employee_status || "active",
       job_title: body.job_title || body.role,
       base_location_id: body.base_location_id,
       available_locations: body.location_preferences || [body.base_location_id],
@@ -181,7 +180,7 @@ export async function PUT(request: NextRequest) {
     };
 
     if (body.employee_status) {
-      updateData.employee_status = MigrationHelpers.convertEmployeeStatus(body.employee_status);
+      updateData.employee_status = body.employee_status || "active";
       updateData.is_active = body.employee_status === 'active';
     }
 
@@ -232,7 +231,7 @@ export async function DELETE(request: NextRequest) {
     await migrationAdapter.update(
       'staff_members',
       { 
-        employee_status: MigrationHelpers.convertEmployeeStatus('inactive'),
+        employee_status: 'inactive',
         is_active: false,
         updated_at: new Date().toISOString()
       },

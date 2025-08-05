@@ -43,8 +43,6 @@ export {
 import { integrationHealthMonitor, type IntegrationHealthStatus } from './integration-health';
 import { performanceMonitor, type PerformanceMetrics } from './performance-monitor';
 import { alertManager } from './alerts-config';
-import { uptimeMonitor } from './uptime-monitor';
-import { monitoringDashboard } from './monitoring-dashboard';
 
 // Web Vitals exports
 export {

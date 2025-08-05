@@ -83,8 +83,7 @@ export default async function handler(
   try {
     const { id: integrationId } = req.query;
     const { 
-      timeframe = '24h',
-      granularity = 'hour'
+      timeframe = '24h'
     } = req.query;
 
     if (!integrationId || typeof integrationId !== 'string') {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { toast } from '@ganger/ui';
+import { useToast } from '@ganger/ui';
 
 interface BarcodeScanOptions {
   onScan?: (barcode: string) => void;
@@ -17,6 +17,8 @@ export function useBarcodeScan(options: BarcodeScanOptions = {}) {
     beepOnScan = true,
     vibrateOnScan = true
   } = options;
+  
+  const { addToast } = useToast();
 
   const [isScanning, setIsScanning] = useState(false);
   const [lastScanned, setLastScanned] = useState<string | null>(null);
@@ -133,7 +135,11 @@ export function useBarcodeScan(options: BarcodeScanOptions = {}) {
         detectLoop();
       } else {
         // Fallback for browsers without BarcodeDetector API
-        toast.error('Your browser does not support barcode scanning. Please use Chrome on Android or Safari on iOS.');
+        addToast({
+          title: 'Error',
+          message: 'Your browser does not support barcode scanning. Please use Chrome on Android or Safari on iOS.',
+          type: 'error'
+        });
         if (onError) {
           onError(new Error('BarcodeDetector API not supported'));
         }
@@ -141,7 +147,11 @@ export function useBarcodeScan(options: BarcodeScanOptions = {}) {
       }
     } catch (error) {
       console.error('Error starting camera:', error);
-      toast.error('Failed to access camera. Please check permissions.');
+      addToast({
+        title: 'Error',
+        message: 'Failed to access camera. Please check permissions.',
+        type: 'error'
+      });
       if (onError) {
         onError(error as Error);
       }

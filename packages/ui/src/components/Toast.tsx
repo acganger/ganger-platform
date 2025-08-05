@@ -41,6 +41,7 @@ const Toast: React.FC<ToastProps> = ({
       }, duration);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [duration, id, onClose]);
 
   const typeStyles = {

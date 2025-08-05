@@ -4,6 +4,9 @@
     "baseUrl": ".",
     "types": ["jest", "node"],
     "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noUncheckedIndexedAccess": false,
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],

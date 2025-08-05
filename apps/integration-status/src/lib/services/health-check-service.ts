@@ -203,7 +203,7 @@ export class HealthCheckService {
 
   private evaluateErrorHealthStatus(
     error: any, 
-    integration: Integration
+    _integration: Integration
   ): 'healthy' | 'warning' | 'critical' {
     // Network errors are critical
     if (error.code === 'ECONNREFUSED' || 

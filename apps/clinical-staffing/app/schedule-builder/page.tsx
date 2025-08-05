@@ -38,7 +38,7 @@ export default function ScheduleBuilderPage() {
       const [providersResponse, staffResponse, schedulesResponse] = await Promise.all([
         apiClient.getProviders(),
         apiClient.getStaffMembers(),
-        apiClient.getSchedules()
+        apiClient.getSchedules(new Date().toISOString().split('T')[0] as string)
       ]);
 
       if (!providersResponse.success || !staffResponse.success || !schedulesResponse.success) {

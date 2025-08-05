@@ -1,6 +1,4 @@
 import { getSupabaseClient } from '@ganger/auth';
-import { performanceMonitor } from './performance-monitor';
-import { databasePerformanceMonitor } from './database-performance-monitor';
 import { apiLatencyMonitor } from './api-latency-monitor';
 import { customMetrics } from './custom-metrics';
 
@@ -133,7 +131,7 @@ class AppHealthChecker {
       const supabase = getSupabaseClient();
       
       // Try a simple query
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('health_checks')
         .select('id')
         .limit(1)
@@ -326,7 +324,7 @@ class AppHealthChecker {
 export function createHealthCheckEndpoint(config: HealthCheckConfig) {
   const checker = new AppHealthChecker();
   
-  return async (req: any, res: any) => {
+  return async (_req: any, res: any) => {
     try {
       const health = await checker.performHealthCheck(config);
       

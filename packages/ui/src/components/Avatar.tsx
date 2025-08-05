@@ -41,7 +41,7 @@ const getAvatarColors = (name: string): string => {
     return char.charCodeAt(0) + ((acc << 5) - acc);
   }, 0);
   
-  return colors[Math.abs(hash) % colors.length];
+  return colors[Math.abs(hash) % colors.length] || 'bg-gray-500 text-white';
 };
 
 /**

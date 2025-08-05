@@ -25,8 +25,8 @@ interface Template {
 }
 
 function TemplatesPage() {
-  const { user, profile } = useStaffAuth();
-  const { state, loadTemplates } = useHandoutContext();
+  const { profile } = useStaffAuth();
+  const { loadTemplates } = useHandoutContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [templates, setTemplates] = useState<Template[]>([]);

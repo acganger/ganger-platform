@@ -1,12 +1,10 @@
 'use client'
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@ganger/auth';
 import { LoadingSpinner } from '@ganger/ui';
 
 export default function AuthCallback() {
-  const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -14,19 +12,19 @@ export default function AuthCallback() {
       try {
         setTimeout(() => {
           if (user) {
-            router.push('/');
+            window.location.href = '/';
           } else {
-            router.push('/?error=no_session');
+            window.location.href = '/?error=no_session';
           }
         }, 1000);
       } catch (error) {
         console.error('Unexpected auth callback error:', error);
-        router.push('/?error=unexpected');
+        window.location.href = '/?error=unexpected';
       }
     };
 
     handleAuthCallback();
-  }, [router, user]);
+  }, [user]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

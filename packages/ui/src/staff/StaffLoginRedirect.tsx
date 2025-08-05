@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react';
+import React from 'react';
 import { Button } from '../components/Button';
 
 interface StaffLoginRedirectProps {

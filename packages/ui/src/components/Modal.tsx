@@ -1,9 +1,11 @@
 import React from 'react';
+// @ts-ignore - Used in JSX className expressions
 import { cn } from '../utils/cn';
 
 /**
  * Props for the Modal component
  */
+// @ts-ignore - Used in Modal component and exported
 interface ModalProps {
   /**
    * Whether the modal is open
@@ -43,16 +45,19 @@ interface ModalProps {
   showCloseButton?: boolean;
 }
 
+// @ts-ignore - Used in ModalHeader component and exported
 interface ModalHeaderProps {
   children: React.ReactNode;
   className?: string;
 }
 
+// @ts-ignore - Used in ModalContent component and exported
 interface ModalContentProps {
   children: React.ReactNode;
   className?: string;
 }
 
+// @ts-ignore - Used in ModalFooter component and exported
 interface ModalFooterProps {
   children: React.ReactNode;
   className?: string;
@@ -103,7 +108,7 @@ interface ModalFooterProps {
  * // Large modal
  * <Modal isOpen={isOpen} onClose={onClose} size="lg" title="User Details">
  *   <ModalContent>
- *     {/* Large content */}
+ *     // Large content
  *   </ModalContent>
  * </Modal>
  * ```

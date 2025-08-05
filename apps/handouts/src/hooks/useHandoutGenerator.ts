@@ -138,7 +138,7 @@ export function useHandoutGenerator() {
               title: 'SMS sent',
               message: `Download link sent to ${request.patient.phone}`
             });
-          }).catch(error => {
+          }).catch(() => {
             dispatch({
               type: 'UPDATE_DELIVERY_STATUS',
               payload: { id: generationId, method: 'sms', status: 'failed' }

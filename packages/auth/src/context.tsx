@@ -2,8 +2,8 @@
 
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, Session } from '@supabase/supabase-js';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { User } from '@supabase/supabase-js';
 import { getTypedSupabaseClient } from './supabase';
 import { 
   AuthContextType, 
@@ -12,12 +12,10 @@ import {
   TeamMember, 
   AppPermission,
   AuthConfig,
-  AuditLogEvent,
   AuthUser,
   AuthSession
 } from './types';
-import { sessionManager, isSSONavigation } from './cross-app';
-import { getCookie } from './utils/cookies';
+import { sessionManager } from './cross-app';
 
 // Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -406,8 +404,8 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
     } catch (error) {
       console.error('[Auth] 💥 Sign in failed with exception:', {
         error,
-        message: error?.message,
-        stack: error?.stack,
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
         timestamp: new Date().toISOString()
       });
       throw error;

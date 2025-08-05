@@ -43,8 +43,6 @@ export async function performHealthCheck(
   serviceName: string,
   externalServices: { [key: string]: string } = {}
 ): Promise<HealthCheckResult> {
-  const startTime = Date.now();
-  
   // Database health check
   const isDbHealthy = await checkDatabaseHealth();
   const dbHealthResult = { 

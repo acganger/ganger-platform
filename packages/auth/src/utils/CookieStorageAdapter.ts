@@ -16,7 +16,6 @@ import { getCookie, setCookie, deleteCookie } from './cookies';
  * });
  */
 export class CookieStorageAdapter {
-  private storageKey: string;
   private cookieOptions: {
     domain?: string;
     secure?: boolean;
@@ -45,7 +44,6 @@ export class CookieStorageAdapter {
     maxAge?: number;
   } = {}) {
     // Use the Supabase v2 storage key format
-    this.storageKey = options.storageKey || 'sb-auth-token';
     this.cookieOptions = {
       domain: options.domain || '.gangerdermatology.com',
       secure: options.secure !== undefined ? options.secure : process.env.NODE_ENV === 'production',
@@ -188,8 +186,12 @@ export function createGangerCookieStorage() {
   
   // If it's a standard Supabase URL, extract the project ID
   if (supabaseUrl.includes('.supabase.co')) {
-    const projectId = supabaseUrl.split('.')[0].split('://')[1];
-    storageKey = `sb-${projectId}-auth-token`;
+    const urlParts = supabaseUrl.split('.');
+    const protocolParts = urlParts[0]?.split('://');
+    const projectId = protocolParts?.[1];
+    if (projectId) {
+      storageKey = `sb-${projectId}-auth-token`;
+    }
   }
 
   return new CookieStorageAdapter({

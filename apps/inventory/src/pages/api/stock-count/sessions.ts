@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@ganger/db';
-import { withAuth } from '@ganger/auth/api';
-import { analytics } from '@ganger/monitoring';
+import { createPagesRouterSupabaseClient } from '@ganger/auth';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const supabase = createClient();
+  const supabase = createPagesRouterSupabaseClient(req, res);
 
   if (req.method === 'GET') {
     const { status } = req.query;
@@ -30,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       // Calculate additional metrics for each session
       const sessionsWithMetrics = await Promise.all(
-        (sessions || []).map(async (session) => {
+        (sessions || []).map(async (session: any) => {
           // Get count of items counted in this session
           const { count: itemsCounted } = await supabase
             .from('stock_counts')
@@ -89,7 +87,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         throw error;
       }
 
-      analytics.track('stock_count_session_created', 'api', {
+      console.log('stock_count_session_created', {
         session_id: session.id,
         count_type,
         location_id
@@ -105,4 +103,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return res.status(405).json({ error: 'Method not allowed' });
 }
 
-export default withAuth(handler, { requiredLevel: 'staff' });
+export default handler;

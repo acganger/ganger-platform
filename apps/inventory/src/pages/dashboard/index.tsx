@@ -7,8 +7,7 @@ import {
   PageHeader, 
   StatCard, 
   Button,
-  LoadingSpinner,
-  toast 
+  useToast
 } from '@ganger/ui';
 import { Input, DataTable, CardSkeleton, DataTableSkeleton } from '@ganger/ui-catalyst';
 import { analytics } from '@ganger/utils';
@@ -34,8 +33,9 @@ interface InventoryItem {
 }
 
 function InventoryDashboard() {
-  const { user, profile } = useStaffAuth();
+  const { profile } = useStaffAuth();
   const { executeAction, isOnline, hasPendingActions } = useOffline();
+  const { addToast } = useToast();
   const [stats, setStats] = useState<InventoryStats | null>(null);
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +53,11 @@ function InventoryDashboard() {
         if (statsResult.success) {
           setStats(statsResult.data);
           if (statsResult.offline && statsResult.cached) {
-            toast.info('Showing cached data while offline');
+            addToast({
+              title: 'Info',
+              message: 'Showing cached data while offline',
+              type: 'info'
+            });
           }
         }
 
@@ -79,7 +83,11 @@ function InventoryDashboard() {
         setItems([]);
         
         if (!isOnline) {
-          toast.error('Unable to load data while offline');
+          addToast({
+            title: 'Error',
+            message: 'Unable to load data while offline',
+            type: 'error'
+          });
         }
       } finally {
         setLoading(false);
@@ -108,9 +116,17 @@ function InventoryDashboard() {
 
     if (result.success) {
       if (result.offline) {
-        toast.info('Item will be added when connection is restored');
+        addToast({
+          title: 'Info',
+          message: 'Item will be added when connection is restored',
+          type: 'info'
+        });
       } else {
-        toast.success('Item added successfully');
+        addToast({
+          title: 'Success',
+          message: 'Item added successfully',
+          type: 'success'
+        });
         // Reload items
         const itemsResult = await executeAction('/api/items', { method: 'GET', cache: true });
         if (itemsResult.success) {
@@ -118,7 +134,11 @@ function InventoryDashboard() {
         }
       }
     } else {
-      toast.error('Failed to add item');
+      addToast({
+        title: 'Error',
+        message: 'Failed to add item',
+        type: 'error'
+      });
     }
   };
 

@@ -1,4 +1,3 @@
-import { getSupabaseClient } from '@ganger/auth';
 import { performanceMonitor } from './performance-monitor';
 
 interface SanitizedError {
@@ -426,7 +425,7 @@ class HIPAACompliantErrorTracker {
     
     for (const error of this.errorQueue) {
       total++;
-      bySeverity[error.severity]++;
+      bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
       byCategory[error.category] = (byCategory[error.category] || 0) + 1;
       
       if (new Date(error.timestamp).getTime() > now - recentWindow) {

@@ -240,6 +240,7 @@ export function createApiRoute<TParams = any, TBody = any, TResponse = any>(
 /**
  * Creates a CRUD API route set
  */
+// @ts-ignore - Generic T for future type safety, currently unused
 export function createCrudRoutes<T extends { id: string }>(
   table: string,
   config: {
@@ -282,9 +283,11 @@ export function createCrudRoutes<T extends { id: string }>(
         // Apply sorting
         if (query.sort) {
           const [column, direction] = (query.sort as string).split(':');
-          queryBuilder = queryBuilder.order(column, { 
-            ascending: direction !== 'desc' 
-          });
+          if (column) {
+            queryBuilder = queryBuilder.order(column, { 
+              ascending: direction !== 'desc' 
+            });
+          }
         }
         
         const { data, error, count } = await queryBuilder;

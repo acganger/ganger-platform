@@ -4,8 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
-import { withStandardErrorHandling } from '@ganger/utils';
+import { migrationAdapter } from '@ganger/db';
 import { withAuth } from '@ganger/auth/middleware';
 
 export const dynamic = 'force-dynamic';
@@ -42,7 +41,7 @@ export async function GET(request: NextRequest) {
     if (staffMemberId) filters.staff_member_id = staffMemberId;
     if (status) {
       // Convert status using migration helper if needed
-      filters.status = MigrationHelpers.convertScheduleStatus(status);
+      filters.status = status;
     }
 
     // Query using migration adapter
@@ -146,7 +145,7 @@ export async function POST(request: NextRequest) {
     // Convert status if needed for migration compatibility
     const scheduleData = {
       ...body,
-      status: MigrationHelpers.convertScheduleStatus(body.status || 'scheduled'),
+      status: body.status || "scheduled",
       created_by: user.id,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -193,7 +192,7 @@ export async function PUT(request: NextRequest) {
     };
 
     if (body.status) {
-      updateData.status = MigrationHelpers.convertScheduleStatus(body.status);
+      updateData.status = body.status || "scheduled";
     }
 
     // Update schedule using migration adapter

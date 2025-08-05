@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { ArrowUpIcon, ArrowDownIcon, MinusIcon } from '@heroicons/react/24/solid';
 import { KPIMetric } from '../types';
 import { cn } from '@ganger/utils';

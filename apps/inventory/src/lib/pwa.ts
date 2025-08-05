@@ -1,15 +1,34 @@
 // PWA utilities for service worker and offline functionality
-import { toast } from '@ganger/ui';
+// Global toast instance for use in non-component contexts
+
+// Initialize global toast when available
+if (typeof window !== 'undefined') {
+  // This will be set when the first component using useToast mounts
+  (window as any).__gangerToast = null;
+}
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+// Simple toast function for non-React contexts
+function showToast(message: string, type: 'success' | 'error' | 'info' = 'info') {
+  if (typeof window !== 'undefined' && (window as any).__gangerToast) {
+    (window as any).__gangerToast({
+      title: type.charAt(0).toUpperCase() + type.slice(1),
+      description: message,
+      variant: type === 'error' ? 'destructive' : 'default'
+    });
+  } else {
+    console.log(`[${type.toUpperCase()}] ${message}`);
+  }
+}
+
 class PWAManager {
   private deferredPrompt: BeforeInstallPromptEvent | null = null;
   private isOnline: boolean = true;
-  private syncManager: SyncManager | null = null;
+  private syncManager: any | null = null;
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -31,7 +50,7 @@ class PWAManager {
   }
 
   // Register service worker
-  async registerServiceWorker() {
+  async registerServiceWorker(): Promise<ServiceWorkerRegistration | undefined> {
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       try {
         const registration = await navigator.serviceWorker.register('/inventory/sw.js', {
@@ -46,7 +65,7 @@ class PWAManager {
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                toast.info('New version available! Please refresh the page.');
+                showToast('New version available! Please refresh the page.', 'info');
               }
             });
           }
@@ -60,21 +79,23 @@ class PWAManager {
         return registration;
       } catch (error) {
         console.error('Service Worker registration failed:', error);
+        return undefined;
       }
     }
+    return undefined;
   }
 
   // Handle online event
   private handleOnline = () => {
     this.isOnline = true;
-    toast.success('You are back online!');
+    showToast('You are back online!', 'success');
     this.syncOfflineData();
   };
 
   // Handle offline event
   private handleOffline = () => {
     this.isOnline = false;
-    toast.warning('You are offline. Some features may be limited.');
+    showToast('You are offline. Some features may be limited.', 'info');
   };
 
   // Handle beforeinstallprompt event
@@ -90,11 +111,11 @@ class PWAManager {
   private handleAppInstalled = () => {
     console.log('PWA was installed');
     this.deferredPrompt = null;
-    toast.success('App installed successfully!');
+    showToast('App installed successfully!', 'success');
   };
 
   // Show install prompt
-  async showInstallPrompt() {
+  async showInstallPrompt(): Promise<boolean> {
     if (!this.deferredPrompt) {
       return false;
     }
@@ -113,9 +134,10 @@ class PWAManager {
       }
       
       this.deferredPrompt = null;
+      return true;
     }
-
-    return true;
+    
+    return false;
   }
 
   // Show custom install UI

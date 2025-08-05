@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@ganger/utils';
 import { ExportOptions } from '../types';
 import * as XLSX from 'xlsx';

@@ -59,6 +59,7 @@ export function useAnalytics(
       const interval = setInterval(fetchMetrics, refreshInterval);
       return () => clearInterval(interval);
     }
+    return;
   }, [fetchMetrics, refreshInterval]);
 
   return {

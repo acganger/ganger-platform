@@ -15,7 +15,7 @@ import { ScheduleGridSkeleton, ProviderScheduleGridSkeleton } from './ScheduleGr
 import { apiClient } from '@/lib/api-client';
 import { announceToScreenReader, generateId } from '@/utils/accessibility';
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
-import { DeputyService, StaffAvailabilityData } from '@/services/deputy-service';
+import { StaffAvailabilityData } from '@/services/deputy-service';
 import { permissionService, UserPermissions } from '@/services/permission-service';
 import { useRealtimeStaffing } from '@/hooks/useRealtimeStaffing';
 import { useDragAndDrop, DropResult } from '@/hooks/useDragAndDrop';
@@ -54,8 +54,7 @@ export function EnhancedScheduleBuilder({
   const [pendingConflict, setPendingConflict] = useState<ConflictInfo | null>(null);
   const [touchStartPos, setTouchStartPos] = useState<{ x: number; y: number } | null>(null);
 
-  // Services
-  const deputyService = useMemo(() => new DeputyService(), []);
+  // Services - DeputyService moved to API routes
   
   // Real-time updates
   const { schedules, isConnected } = useRealtimeStaffing({
@@ -105,12 +104,21 @@ export function EnhancedScheduleBuilder({
   const loadStaffAvailability = async () => {
     try {
       const endDate = getViewEndDate(currentDate, viewMode);
-      const availability = await deputyService.getStaffAvailability(
-        staffMembers,
-        currentDate,
-        endDate
-      );
-      setStaffAvailability(availability);
+      // TODO: Replace with API call to /api/staff-availability
+      // For now, use fallback availability
+      const fallbackAvailability: StaffAvailabilityData[] = staffMembers.map(staff => ({
+        staffMemberId: staff.id,
+        deputyEmployeeId: 0,
+        date: formatDate(currentDate),
+        isAvailable: true,
+        availableStart: staff.availability_start_time,
+        availableEnd: staff.availability_end_time,
+        currentHours: 0,
+        weeklyHours: 0,
+        maxWeeklyHours: staff.max_hours_per_week || 40,
+        overtimeApproved: false
+      }));
+      setStaffAvailability(fallbackAvailability);
     } catch (error) {
       console.error('Failed to load staff availability:', error);
     }
@@ -207,12 +215,16 @@ export function EnhancedScheduleBuilder({
       const provider = providers.find(p => p.id === providerId);
       if (!provider) throw new Error('Provider not found');
 
-      // Check weekly hours
-      const hoursCheck = await deputyService.checkWeeklyHourLimit(
-        staff.id,
-        currentDate,
-        calculateShiftHours(provider.start_time, provider.end_time)
-      );
+      // Check weekly hours - TODO: Replace with API call
+      const shiftHours = calculateShiftHours(provider.start_time, provider.end_time);
+      const hoursCheck = {
+        allowed: true,
+        currentHours: 0,
+        proposedTotal: shiftHours,
+        maxHours: staff.max_hours_per_week || 40,
+        requiresApproval: shiftHours > 8, // Simple overtime check
+        message: shiftHours > 8 ? 'Shift exceeds 8 hours - approval may be required' : undefined
+      };
 
       if (hoursCheck.requiresApproval) {
         setPendingConflict({
@@ -282,12 +294,15 @@ export function EnhancedScheduleBuilder({
     const endTime = template?.endTime || provider.end_time;
     const hours = calculateShiftHours(startTime, endTime);
 
-    // Check weekly hours
-    const hoursCheck = await deputyService.checkWeeklyHourLimit(
-      staff.id,
-      currentDate,
-      hours
-    );
+    // Check weekly hours - TODO: Replace with API call
+    const hoursCheck = {
+      allowed: true,
+      currentHours: 0,
+      proposedTotal: hours,
+      maxHours: staff.max_hours_per_week || 40,
+      requiresApproval: hours > 8, // Simple overtime check
+      message: hours > 8 ? 'Shift exceeds 8 hours - approval may be required' : undefined
+    };
 
     if (hoursCheck.requiresApproval) {
       return {

@@ -1,5 +1,5 @@
 import { BaseRepository } from '../../utils/base-repository';
-import type { StandardizedProduct, PurchaseRequestItem } from '@ganger/types';
+import type { PurchaseRequestItem } from '@ganger/types';
 
 // TODO: Move this interface to @ganger/types
 export interface UsageHistory {

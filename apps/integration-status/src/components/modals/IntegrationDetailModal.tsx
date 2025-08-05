@@ -1,17 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import type { Integration, IntegrationDetailModalProps } from '@/types'
+import type { IntegrationDetailModalProps } from '@/types'
 
 export function IntegrationDetailModal({ 
   integration, 
   onClose,
   onTestConnection,
-  onAcknowledgeAlert,
   initialTab = 'overview'
 }: IntegrationDetailModalProps & {
   onTestConnection?: (integrationId: string) => void
-  onAcknowledgeAlert?: (alertId: string) => void
 }) {
   const [activeTab, setActiveTab] = useState(initialTab)
   const [isVisible, setIsVisible] = useState(false)
