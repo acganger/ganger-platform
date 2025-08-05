@@ -27,7 +27,7 @@ const DASHBOARD_ROUTES: DashboardRedirect = {
 };
 
 function HomePage() {
-  const { user, profile } = useStaffAuth();
+  const { profile } = useStaffAuth();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {

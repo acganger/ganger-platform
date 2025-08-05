@@ -541,7 +541,7 @@ export async function updateInventoryWithCacheInvalidation(itemId: string, updat
 export async function checkDatabaseHealth(): Promise<boolean> {
   try {
     const { error } = await supabase
-      .from('users')
+      .from('profiles')
       .select('id')
       .limit(1);
     

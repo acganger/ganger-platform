@@ -7,7 +7,10 @@ export type { Database, TypedSupabaseClient } from './supabase';
 export * from './utils';
 export { getCookie, setCookie, deleteCookie, getAllCookies, clearAllCookies } from './utils/cookies';
 export { CookieStorage, gangerCookieStorage } from './utils/CookieStorage';
+export { CookieStorageAdapter, createGangerCookieStorage } from './utils/CookieStorageAdapter';
+export { debugAuth, diagnoseAuth, enableAuthDebugging, disableAuthDebugging } from './utils/auth-debug';
 export * from './staff';
+export { createPagesRouterSupabaseClient, createServerSupabaseClient } from './utils/pages-router-supabase';
 export declare const DEFAULT_AUTH_CONFIG: {
     supabaseUrl: string;
     supabaseAnonKey: string;

@@ -1,9 +1,12 @@
-import { BaseRepository } from '../utils/base-repository';
+import { supabaseAdmin } from '../client';
 import type { AuditLog } from '../types/database';
 
-class AuditLogRepository extends BaseRepository<AuditLog> {
+class AuditLogRepository {
+  private tableName = 'audit_logs';
+  private client = supabaseAdmin;
+
   constructor() {
-    super('audit_logs', true); // Use admin client for audit logs
+    // Use admin client for audit logs
   }
 
   async logAction(

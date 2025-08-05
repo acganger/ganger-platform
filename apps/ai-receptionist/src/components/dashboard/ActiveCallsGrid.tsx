@@ -45,7 +45,7 @@ export const ActiveCallsGrid = ({
     return `${diffMins}:${diffSecs.toString().padStart(2, '0')}`;
   };
 
-  const activeCalls = calls.filter(call => call.call_status === 'active');
+  const activeCalls = calls?.filter(call => call.call_status === 'active') || [];
 
   if (activeCalls.length === 0) {
     return (

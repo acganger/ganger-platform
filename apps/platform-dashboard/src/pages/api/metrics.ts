@@ -7,24 +7,24 @@ export default createApiHandler(
     
     if (req.method === 'GET') {
       try {
-        // Get active applications count
+        // Get active applications count from app_configurations (closest existing table)
         const { count: appCount } = await supabase
-          .from('applications')
+          .from('app_configurations')
           .select('*', { count: 'exact', head: true })
           .eq('is_active', true);
         
-        // Get total users count
+        // Get total users count from profiles (not users!)
         const { count: userCount } = await supabase
-          .from('users')
+          .from('profiles')
           .select('*', { count: 'exact', head: true })
           .eq('is_active', true);
         
-        // Get today's API calls (from integration_metrics or a similar table)
+        // Get today's API calls from api_metrics (actual existing table)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         
         const { data: apiMetrics } = await supabase
-          .from('api_usage_logs')
+          .from('api_metrics')
           .select('request_count')
           .gte('created_at', today.toISOString())
           .lt('created_at', new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString());

@@ -38,7 +38,7 @@ export default function LoginPage() {
       setStatus('Redirecting to Google...');
     } catch (err) {
       console.error('[LoginPage] Sign in error:', err);
-      const errorMessage = err?.message || 'Unknown error occurred';
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
       setError(`Authentication failed: ${errorMessage}`);
       setStatus('');
       setIsSigningIn(false);

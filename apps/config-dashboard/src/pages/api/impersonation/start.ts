@@ -105,8 +105,8 @@ export default async function handler(
 
     // Verify target user exists
     const { data: targetUser, error: userError } = await supabase
-      .from('users')
-      .select('id, email, name')
+      .from('profiles')
+      .select('id, email, full_name')
       .eq('id', target_user_id)
       .single();
 

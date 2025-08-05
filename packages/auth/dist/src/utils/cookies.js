@@ -2,7 +2,27 @@
  * Cookie utility functions for cross-domain session management
  */
 /**
- * Set a cookie with the specified options
+ * Set a cookie with the specified options.
+ * Supports cross-domain cookies for Ganger Platform SSO.
+ *
+ * @param {string} name - Cookie name
+ * @param {string} value - Cookie value
+ * @param {CookieOptions} [options={}] - Cookie configuration options
+ * @param {string} [options.domain] - Domain for the cookie
+ * @param {string} [options.path='/'] - Path for the cookie
+ * @param {boolean} [options.secure=true] - HTTPS only flag
+ * @param {'strict'|'lax'|'none'} [options.sameSite='lax'] - SameSite policy
+ * @param {number} [options.maxAge] - Max age in seconds
+ * @param {Date} [options.expires] - Expiry date
+ *
+ * @example
+ * // Set session cookie
+ * setCookie('session', 'abc123', {
+ *   domain: '.gangerdermatology.com',
+ *   secure: true,
+ *   sameSite: 'lax',
+ *   maxAge: 86400 // 24 hours
+ * });
  */
 export function setCookie(name, value, options = {}) {
     if (typeof document === 'undefined')
@@ -31,7 +51,16 @@ export function setCookie(name, value, options = {}) {
     document.cookie = cookieString;
 }
 /**
- * Get a cookie value by name
+ * Get a cookie value by name.
+ *
+ * @param {string} name - Cookie name to retrieve
+ * @returns {string | null} Cookie value or null if not found
+ *
+ * @example
+ * const sessionId = getCookie('session');
+ * if (!sessionId) {
+ *   // No session cookie found
+ * }
  */
 export function getCookie(name) {
     if (typeof document === 'undefined')
@@ -39,15 +68,26 @@ export function getCookie(name) {
     const nameEQ = encodeURIComponent(name) + '=';
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
-        if (cookie.indexOf(nameEQ) === 0) {
+        const cookie = cookies[i]?.trim();
+        if (cookie && cookie.indexOf(nameEQ) === 0) {
             return decodeURIComponent(cookie.substring(nameEQ.length));
         }
     }
     return null;
 }
 /**
- * Delete a cookie by name
+ * Delete a cookie by name.
+ * Sets the cookie with an expired date to remove it.
+ *
+ * @param {string} name - Cookie name to delete
+ * @param {CookieOptions} [options={}] - Cookie options (domain, path must match original)
+ *
+ * @example
+ * // Delete session cookie
+ * deleteCookie('session', {
+ *   domain: '.gangerdermatology.com',
+ *   path: '/'
+ * });
  */
 export function deleteCookie(name, options = {}) {
     // To delete a cookie, set it with an expired date
@@ -58,7 +98,14 @@ export function deleteCookie(name, options = {}) {
     });
 }
 /**
- * Get all cookies as an object
+ * Get all cookies as a key-value object.
+ *
+ * @returns {Record<string, string>} Object with cookie names as keys and values
+ *
+ * @example
+ * const cookies = getAllCookies();
+ * console.log(cookies);
+ * // { session: 'abc123', theme: 'dark', lang: 'en' }
  */
 export function getAllCookies() {
     if (typeof document === 'undefined')
@@ -66,16 +113,29 @@ export function getAllCookies() {
     const cookies = {};
     const cookieArray = document.cookie.split(';');
     for (let i = 0; i < cookieArray.length; i++) {
-        const cookie = cookieArray[i].trim();
-        const [name, value] = cookie.split('=');
-        if (name && value) {
-            cookies[decodeURIComponent(name)] = decodeURIComponent(value);
+        const cookie = cookieArray[i]?.trim();
+        if (cookie) {
+            const [name, value] = cookie.split('=');
+            if (name && value) {
+                cookies[decodeURIComponent(name)] = decodeURIComponent(value);
+            }
         }
     }
     return cookies;
 }
 /**
- * Clear all cookies for a specific domain
+ * Clear all cookies for a specific domain.
+ * Attempts to delete cookies with various path combinations.
+ *
+ * @param {string} [domain] - Optional domain to clear cookies for
+ *
+ * @example
+ * // Clear all cookies for current domain
+ * clearAllCookies();
+ *
+ * @example
+ * // Clear all cookies for Ganger domain
+ * clearAllCookies('.gangerdermatology.com');
  */
 export function clearAllCookies(domain) {
     const cookies = getAllCookies();

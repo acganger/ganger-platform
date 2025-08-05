@@ -477,7 +477,7 @@ export class SupabaseMCPService {
     try {
       // Test basic database connection
       const { error: dbError } = await this.client
-        .from('users')
+        .from('profiles')
         .select('id')
         .limit(1);
       

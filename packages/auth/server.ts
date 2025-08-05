@@ -57,10 +57,10 @@ export async function getUserFromToken(req: any) {
     }
 
     const { data: user, error: userError } = await supabase
-      .from('users')
+      .from('profiles')
       .select('*')
       .eq('id', session.user_id)
-      .eq('active', true)
+      .eq('is_active', true)
       .single();
     
     if (userError || !user) {

@@ -35,24 +35,25 @@ export default createApiHandler(
           'Integration Status'
         ];
         
-        // Get application status from database
+        // Get application status from app_configurations (closest match)
         const { data: appData } = await supabase
-          .from('application_health')
+          .from('app_configurations')
           .select('*')
           .in('name', applicationNames)
           .order('name');
         
-        // Get active user counts per application
+        // Since user_sessions doesn't exist, we'll use audit_logs to estimate activity
         const { data: sessionData } = await supabase
-          .from('user_sessions')
-          .select('application, user_id')
-          .gte('last_activity', new Date(Date.now() - 30 * 60 * 1000).toISOString()); // Active in last 30 mins
+          .from('audit_logs')
+          .select('metadata, user_id')
+          .gte('created_at', new Date(Date.now() - 30 * 60 * 1000).toISOString()) // Active in last 30 mins
+          .not('metadata->application', 'is', null);
         
         // Count active users per app
         const activeUsersByApp = sessionData?.reduce((acc, session) => {
-          const app = session.application;
-          if (!acc[app]) acc[app] = new Set();
-          acc[app].add(session.user_id);
+          const app = session.metadata?.application as string;
+          if (app && !acc[app]) acc[app] = new Set();
+          if (app) acc[app].add(session.user_id);
           return acc;
         }, {} as Record<string, Set<string>>) || {};
         

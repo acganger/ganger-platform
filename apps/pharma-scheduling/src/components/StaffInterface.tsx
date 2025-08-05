@@ -8,7 +8,7 @@ interface StaffInterfaceProps {
 }
 
 export function StaffInterface({ children }: StaffInterfaceProps) {
-  const { user, isAuthenticated } = useStaffAuth();
+  useStaffAuth(); // Ensure authentication
 
   return (
     <StaffPortalLayout 

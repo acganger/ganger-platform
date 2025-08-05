@@ -1,8 +1,8 @@
 // Server-side Supabase utilities
 import { createClient } from '@supabase/supabase-js';
-const supabaseUrl = process.env.SUPABASE_URL || 'https://pfqtzmxxxhhsxmlddrta.supabase.co';
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseUrl = process.env.SUPABASE_URL || 'https://supa.gangerdermatology.com';
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || 'sb_publishable_q-yj56RH8zrMVH-4cRazWA_PI2pBoeh';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
 // Create server client for API routes
 export function createSupabaseServerClient() {
     return createClient(supabaseUrl, supabaseAnonKey, {

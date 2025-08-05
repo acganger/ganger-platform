@@ -23,7 +23,6 @@ interface PaymentProcessorProps {
 
 export function PaymentProcessor({ session, onPaymentComplete, onSkip }: PaymentProcessorProps) {
   const [loading, setLoading] = useState(false);
-  const [showNewCard, setShowNewCard] = useState(true);
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');

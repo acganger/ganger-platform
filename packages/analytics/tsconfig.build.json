@@ -1,15 +1,24 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../config/typescript/base.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "dist",
     "declaration": true,
     "noEmit": false,
-    "rootDir": "../../",
-    "baseUrl": "../../",
+    "baseUrl": ".",
     "paths": {
-      "@ganger/*": ["packages/*/src"]
-    }
+      "@ganger/auth": ["../auth/dist/src/index.d.ts"],
+      "@ganger/auth/*": ["../auth/dist/src/*"],
+      "@ganger/deps": ["../deps/src/index.ts"],
+      "@ganger/deps/*": ["../deps/src/*"],
+      "@ganger/types": ["../types/src/index.ts"],
+      "@ganger/types/*": ["../types/src/*"],
+      "@ganger/ui": ["../ui/dist/index.d.ts"],
+      "@ganger/ui/*": ["../ui/dist/*"],
+      "@ganger/utils": ["../utils/src/index.ts"],
+      "@ganger/utils/*": ["../utils/src/*"]
+    },
+    "jsx": "react-jsx"
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts", "**/*.test.tsx", "**/*.spec.tsx"]
 }

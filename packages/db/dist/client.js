@@ -406,7 +406,7 @@ export async function updateInventoryWithCacheInvalidation(itemId, updates, loca
 export async function checkDatabaseHealth() {
     try {
         const { data, error } = await supabase
-            .from('users')
+            .from('profiles')
             .select('id')
             .limit(1);
         return !error;

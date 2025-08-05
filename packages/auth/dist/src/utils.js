@@ -1,12 +1,29 @@
 // Authentication Utilities for Ganger Platform
 /**
- * Check if email belongs to Ganger Dermatology domain
+ * Check if email belongs to Ganger Dermatology domain.
+ * Used to validate staff email addresses.
+ *
+ * @param {string} email - Email address to check
+ * @returns {boolean} True if email ends with @gangerdermatology.com
+ *
+ * @example
+ * isGangerEmail('john@gangerdermatology.com'); // true
+ * isGangerEmail('external@gmail.com'); // false
  */
 export function isGangerEmail(email) {
     return email.endsWith('@gangerdermatology.com');
 }
 /**
- * Determine user role based on email
+ * Determine user role based on email address.
+ * Admin role for specific email, staff for Ganger domain, viewer for others.
+ *
+ * @param {string} email - User's email address
+ * @returns {'admin' | 'staff' | 'viewer'} User role based on email
+ *
+ * @example
+ * getUserRoleFromEmail('anand@gangerdermatology.com'); // 'admin'
+ * getUserRoleFromEmail('nurse@gangerdermatology.com'); // 'staff'
+ * getUserRoleFromEmail('patient@gmail.com'); // 'viewer'
  */
 export function getUserRoleFromEmail(email) {
     if (email === 'anand@gangerdermatology.com') {
@@ -18,7 +35,21 @@ export function getUserRoleFromEmail(email) {
     return 'viewer';
 }
 /**
- * Format user display name
+ * Format user display name from profile data.
+ * Uses full name if available, otherwise formats email prefix.
+ *
+ * @param {UserProfile} profile - User profile object
+ * @returns {string} Formatted display name
+ *
+ * @example
+ * // With full name
+ * formatUserDisplayName({ full_name: 'John Doe', email: 'john@example.com' });
+ * // Returns: 'John Doe'
+ *
+ * @example
+ * // Without full name
+ * formatUserDisplayName({ email: 'john.doe@example.com' });
+ * // Returns: 'John Doe'
  */
 export function formatUserDisplayName(profile) {
     if (profile.full_name) {
@@ -26,24 +57,49 @@ export function formatUserDisplayName(profile) {
     }
     // Extract name from email
     const emailPart = profile.email.split('@')[0];
+    if (!emailPart)
+        return 'User';
     return emailPart
         .split('.')
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
         .join(' ');
 }
 /**
- * Get user initials for avatar
+ * Get user initials for avatar display.
+ * Extracts first and last initials from name or email.
+ *
+ * @param {UserProfile} profile - User profile object
+ * @returns {string} Two-character initials in uppercase
+ *
+ * @example
+ * getUserInitials({ full_name: 'John Doe' }); // 'JD'
+ * getUserInitials({ email: 'jane.smith@example.com' }); // 'JS'
+ * getUserInitials({ email: 'admin@example.com' }); // 'AD'
  */
 export function getUserInitials(profile) {
     const displayName = formatUserDisplayName(profile);
     const names = displayName.split(' ');
     if (names.length >= 2) {
-        return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+        const first = names[0]?.charAt(0) || '';
+        const last = names[names.length - 1]?.charAt(0) || '';
+        if (first && last) {
+            return (first + last).toUpperCase();
+        }
     }
     return displayName.substring(0, 2).toUpperCase();
 }
 /**
- * Check if permission level is sufficient
+ * Check if user's permission level meets or exceeds required level.
+ * Permission hierarchy: none < read < write < admin
+ *
+ * @param {AppPermission['permission_level']} userLevel - User's current permission level
+ * @param {AppPermission['permission_level']} requiredLevel - Required permission level
+ * @returns {boolean} True if user level is sufficient
+ *
+ * @example
+ * hasPermissionLevel('write', 'read'); // true
+ * hasPermissionLevel('read', 'write'); // false
+ * hasPermissionLevel('admin', 'write'); // true
  */
 export function hasPermissionLevel(userLevel, requiredLevel) {
     const levels = ['none', 'read', 'write', 'admin'];
@@ -52,7 +108,15 @@ export function hasPermissionLevel(userLevel, requiredLevel) {
     return userIndex >= requiredIndex;
 }
 /**
- * Get permission level display text
+ * Get human-readable display text for permission level.
+ *
+ * @param {AppPermission['permission_level']} level - Permission level
+ * @returns {string} Display text for the permission level
+ *
+ * @example
+ * getPermissionLevelText('admin'); // 'Administrator'
+ * getPermissionLevelText('write'); // 'Full Access'
+ * getPermissionLevelText('read'); // 'Read Only'
  */
 export function getPermissionLevelText(level) {
     switch (level) {
@@ -69,7 +133,15 @@ export function getPermissionLevelText(level) {
     }
 }
 /**
- * Get role display text
+ * Get human-readable display text for user role.
+ *
+ * @param {UserProfile['role']} role - User role
+ * @returns {string} Display text for the role
+ *
+ * @example
+ * getRoleDisplayText('admin'); // 'Administrator'
+ * getRoleDisplayText('staff'); // 'Staff Member'
+ * getRoleDisplayText('viewer'); // 'Viewer'
  */
 export function getRoleDisplayText(role) {
     switch (role) {
@@ -84,7 +156,16 @@ export function getRoleDisplayText(role) {
     }
 }
 /**
- * Get role color for UI display
+ * Get Tailwind CSS classes for role badge/chip display.
+ *
+ * @param {UserProfile['role']} role - User role
+ * @returns {string} Tailwind CSS classes for role display
+ *
+ * @example
+ * // In a React component
+ * <span className={getRoleColor(user.role)}>
+ *   {getRoleDisplayText(user.role)}
+ * </span>
  */
 export function getRoleColor(role) {
     switch (role) {
@@ -99,7 +180,16 @@ export function getRoleColor(role) {
     }
 }
 /**
- * Format timestamp for display
+ * Format timestamp into human-readable relative time.
+ * Shows relative time for recent timestamps, date for older ones.
+ *
+ * @param {string} timestamp - ISO timestamp string
+ * @returns {string} Formatted time string
+ *
+ * @example
+ * formatTimestamp('2024-01-01T12:00:00Z'); // '5 minutes ago'
+ * formatTimestamp('2024-01-01T00:00:00Z'); // '12 hours ago'
+ * formatTimestamp('2023-12-25T00:00:00Z'); // '12/25/2023'
  */
 export function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
@@ -120,19 +210,47 @@ export function formatTimestamp(timestamp) {
     return date.toLocaleDateString();
 }
 /**
- * Validate session expiry
+ * Check if a session has expired based on expiry timestamp.
+ *
+ * @param {number} expiresAt - Session expiry timestamp in seconds
+ * @returns {boolean} True if session has expired
+ *
+ * @example
+ * const session = { expires_at: 1234567890 };
+ * if (isSessionExpired(session.expires_at)) {
+ *   // Refresh session
+ * }
  */
 export function isSessionExpired(expiresAt) {
     return Date.now() / 1000 > expiresAt;
 }
 /**
- * Get session expiry warning time (15 minutes before expiry)
+ * Get timestamp for when to show session expiry warning.
+ * Returns 15 minutes before actual expiry time.
+ *
+ * @param {number} expiresAt - Session expiry timestamp in seconds
+ * @returns {number} Warning timestamp in seconds
+ *
+ * @example
+ * const warningTime = getSessionWarningTime(session.expires_at);
+ * if (Date.now() / 1000 > warningTime) {
+ *   showExpiryWarning();
+ * }
  */
 export function getSessionWarningTime(expiresAt) {
     return expiresAt - (15 * 60); // 15 minutes before expiry
 }
 /**
- * Generate secure redirect URL
+ * Generate secure redirect URL with HTTPS enforcement in production.
+ *
+ * @param {string} baseUrl - Base URL for redirect
+ * @param {string} [path] - Optional path to append
+ * @returns {string} Secure redirect URL
+ *
+ * @example
+ * generateSecureRedirectUrl('http://example.com', '/dashboard');
+ * // In production: 'https://example.com/dashboard'
+ * // In development: 'http://example.com/dashboard'
  */
 export function generateSecureRedirectUrl(baseUrl, path) {
     const url = new URL(baseUrl);
@@ -146,7 +264,19 @@ export function generateSecureRedirectUrl(baseUrl, path) {
     return url.toString();
 }
 /**
- * Sanitize user input for logging
+ * Sanitize sensitive data for safe logging.
+ * Replaces passwords, tokens, keys, and secrets with [REDACTED].
+ *
+ * @param {any} input - Data to sanitize
+ * @returns {any} Sanitized data safe for logging
+ *
+ * @example
+ * sanitizeForLog({ username: 'john', password: 'secret123' });
+ * // Returns: { username: 'john', password: '[REDACTED]' }
+ *
+ * @example
+ * sanitizeForLog('My password is secret123');
+ * // Returns: 'My [REDACTED] is [REDACTED]'
  */
 export function sanitizeForLog(input) {
     if (typeof input === 'string') {
@@ -170,7 +300,21 @@ export function sanitizeForLog(input) {
     return input;
 }
 /**
- * Get user's browser and OS info for audit logs
+ * Get user's browser and operating system information for audit logs.
+ * Detects common browsers and operating systems from user agent.
+ *
+ * @returns {object} Browser information
+ * @returns {string} returns.userAgent - Full user agent string
+ * @returns {string} returns.browser - Detected browser name
+ * @returns {string} returns.os - Detected operating system
+ *
+ * @example
+ * const info = getBrowserInfo();
+ * // {
+ * //   userAgent: 'Mozilla/5.0...',
+ * //   browser: 'Chrome',
+ * //   os: 'Windows'
+ * // }
  */
 export function getBrowserInfo() {
     if (typeof window === 'undefined') {
@@ -202,7 +346,19 @@ export function getBrowserInfo() {
     return { userAgent, browser, os };
 }
 /**
- * Generate user-friendly error messages
+ * Convert authentication errors into user-friendly messages.
+ * Maps technical error messages to helpful user instructions.
+ *
+ * @param {any} error - Error object from authentication operation
+ * @returns {string} User-friendly error message
+ *
+ * @example
+ * try {
+ *   await signIn(email, password);
+ * } catch (error) {
+ *   const message = getAuthErrorMessage(error);
+ *   showToast(message); // 'Invalid email or password. Please try again.'
+ * }
  */
 export function getAuthErrorMessage(error) {
     if (!error)

@@ -8,7 +8,7 @@ interface FinancialLayoutProps {
 }
 
 export function FinancialLayout({ children }: FinancialLayoutProps) {
-  const { user, isAuthenticated } = useStaffAuth();
+  useStaffAuth(); // Ensure authentication
 
   return (
     <StaffPortalLayout 

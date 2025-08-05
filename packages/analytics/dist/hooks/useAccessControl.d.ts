@@ -6,6 +6,6 @@ export declare function useAccessControl(): {
     canViewFinancialMetrics: boolean;
     canViewStaffMetrics: boolean;
     canViewClinicalMetrics: boolean;
-    user: import("@ganger/auth").AuthUser | null;
-    profile: import("@ganger/auth").UserProfile | null;
+    user: any;
+    profile: any;
 };

@@ -13,6 +13,9 @@ export * from './utils';
 // Cookie utilities for session management
 export { getCookie, setCookie, deleteCookie, getAllCookies, clearAllCookies } from './utils/cookies';
 export { CookieStorage, gangerCookieStorage } from './utils/CookieStorage';
+export { CookieStorageAdapter, createGangerCookieStorage } from './utils/CookieStorageAdapter';
+// Debugging utilities (use only in development)
+export { debugAuth, diagnoseAuth, enableAuthDebugging, disableAuthDebugging } from './utils/auth-debug';
 // Staff portal authentication
 export * from './staff';
 // App Router API authentication middleware
@@ -28,10 +31,13 @@ export * from './staff';
 //   createApiRouteSupabaseClient,
 //   getCookiesToSet
 // } from './utils/supabase-ssr';
+// Pages Router API route Supabase client
+// This replaces createServerSupabaseClient from @supabase/auth-helpers-nextjs
+export { createPagesRouterSupabaseClient, createServerSupabaseClient } from './utils/pages-router-supabase';
 // Default configuration
 export const DEFAULT_AUTH_CONFIG = {
-    supabaseUrl: 'https://pfqtzmxxxhhsxmlddrta.supabase.co',
-    supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcXR6bXh4eGhoc3htbGRkcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwOTg1MjQsImV4cCI6MjA2NDY3NDUyNH0.v14_9iozO98QoNQq8JcaI9qMM6KKTlcWMYTkXyCDc5s',
+    supabaseUrl: 'https://supa.gangerdermatology.com',
+    supabaseAnonKey: 'sb_publishable_q-yj56RH8zrMVH-4cRazWA_PI2pBoeh',
     redirectUrl: 'https://staff.gangerdermatology.com/auth/callback',
     enableAuditLogging: true,
     sessionTimeout: 86400

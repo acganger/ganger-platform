@@ -101,9 +101,9 @@ async function gatherMetrics(): Promise<Metrics> {
     activeImpersonations,
     pendingApprovals
   ] = await Promise.all([
-    supabase.from('platform_applications').select('*', { count: 'exact', head: true }),
     supabase.from('app_configurations').select('*', { count: 'exact', head: true }),
-    supabase.from('app_config_permissions').select('*', { count: 'exact', head: true }),
+    supabase.from('app_configurations').select('*', { count: 'exact', head: true }),
+    supabase.from('app_permissions').select('*', { count: 'exact', head: true }),
     supabase.from('config_change_audit').select('*', { count: 'exact', head: true }),
     supabase
       .from('user_impersonation_sessions')

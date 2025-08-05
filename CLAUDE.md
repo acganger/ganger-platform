@@ -4,7 +4,7 @@
 *Platform Version: 2.0.1*  
 *Maintained by: Claude Code & Anand Ganger*
 
-The Ganger Platform is a private, medical-grade monorepo for Ganger Dermatology, hosting 17 Next.js 14 applications. Built with TypeScript, Supabase, and Vercel, it ensures HIPAA compliance, AI automation, and high-quality development.
+The Ganger Platform is a private, medical-grade monorepo for Ganger Dermatology, hosting 22 Next.js 14 applications. Built with TypeScript, Supabase, and Vercel, it ensures HIPAA compliance, AI automation, and high-quality development.
 
 ## 🛡️ Development Principles
 
@@ -69,10 +69,15 @@ Shortcuts waste time:
 3. **Dynamic properties**: Type as `const result: any = {}` or use proper interfaces
 4. **Array methods**: Add types to parameters `.filter((item: any) => ...)`
 5. **NEVER use** `typescript: { ignoreBuildErrors: true }` - fix the errors!
+6. **Unused imports/variables**: Remove immediately - they cause build warnings
+7. **Auth destructuring**: Use `useStaffAuth()` without destructuring if values aren't used
+8. **Null checks**: Always check optional chaining with `?.` or provide defaults with `|| []`
+9. **Function signatures**: Match the expected arguments (e.g., `exportMetricsToPDF()` takes no args)
+10. **TSConfig**: Add `"downlevelIteration": true` if using ES6 features with ES5 target
 
 ## 🚀 Platform Overview
 
-The Ganger Platform is a digital transformation for Ganger Dermatology, with 21 applications covering medical, staff, and business operations.
+The Ganger Platform is a digital transformation for Ganger Dermatology, with 22 applications covering medical, staff, and business operations.
 
 ### Applications
 | **Category**         | **App Name**            | **Path**                     | **Dev Port** | **Function**                              |
@@ -244,6 +249,32 @@ Reuse these to avoid duplication:
 - **Supabase**: Encrypted tokens, CSRF protection, HTTPS only.
 - **Access**: Staff, admin, guest roles with domain restrictions.
 
+## 🗄️ Database Schema Notes
+
+### Critical Schema Differences
+- **Users Table**: The actual production database uses `profiles` table, NOT `users`
+- **Authentication**: All user data is stored in `profiles` table with columns:
+  - `id`, `email`, `full_name`, `avatar_url`, `role`, `department`, `position`, `phone`, `is_active`, `last_login`
+- **Missing Tables**: Several tables referenced in code don't exist:
+  - `users` → use `profiles`
+  - `applications` → use `app_configurations`
+  - `user_sessions` → use Supabase auth sessions
+  - `platform_applications` → use `app_configurations`
+  - `app_config_permissions` → use `app_permissions`
+  - `api_usage_logs` → use `api_metrics`
+  - `application_health` → use `app_configurations` or health checks
+- **RPC Functions**: The following RPC functions don't exist and should be replaced with direct queries:
+  - `check_user_app_permission`
+  - `log_audit_event`
+  - `get_app_permission`
+  - `is_team_member`
+- **Type Exports**: Database types have been updated:
+  - `User` type → use `Profile` type
+  - `Permission` type → use `AppPermission` type
+  - `UserSession` type → removed (use Supabase auth)
+  - Import from `@ganger/db` for all database types
+- **Source of Truth**: Always check `/supabase/dump.json` for actual schema, not migration files
+
 ## 📚 Development Workflow
 
 ### Setup
@@ -309,7 +340,7 @@ bash scripts/verify-deployment-ready.sh
 ## 📂 Project Structure
 ```
 ganger-platform/
-├── apps/                   # 17 apps (e.g., inventory, staff, ai-receptionist)
+├── apps/                   # 22 apps (e.g., inventory, staff, ai-receptionist)
 ├── packages/              # Shared packages (auth, db, ui, etc.)
 ├── supabase/              # Database migrations, seed.sql
 ├── true-docs/             # Documentation (project_tracker.md, deployment/)
@@ -321,7 +352,7 @@ ganger-platform/
 ## 🚀 Deployment Readiness
 
 ### Status (August 1, 2025)
-- **17 Apps**: Production-ready, independent Vercel projects.
+- **22 Apps**: Production-ready, independent Vercel projects.
 - **Routing**: `ganger-staff` uses `vercel.json` rewrites.
 - **Performance**: 3-5 min deployments for changed apps, <30s for cached builds.
 - **Scripts**: Use `/true-docs/deployment/scripts/` for automation.
@@ -331,6 +362,13 @@ ganger-platform/
 2. **Auth in Static Pages**: Use `dynamic = 'force-dynamic'` or conditional rendering.
 3. **Env Variables**: Use `NEXT_PUBLIC_` for client-side.
 4. **Public Apps**: Avoid global staff auth.
+5. **Database Queries**: Always use `profiles` table instead of `users`.
+6. **Check table existence**: Verify tables exist in dump.json before querying.
+7. **TypeScript imports**: Use correct Next.js imports:
+   - `import { useRouter } from 'next/navigation'` (App Router)
+   - `import useRouter from 'next/router'` (Pages Router)
+8. **Repository patterns**: Not all tables extend BaseEntity - audit_logs has no updated_at
+9. **Package exports**: Always export types that other packages depend on
 
 ### Node.js Module Errors
 If you see errors like "Module not found: Can't resolve 'net'":

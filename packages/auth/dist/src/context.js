@@ -4,9 +4,33 @@ import { jsx as _jsx } from "react/jsx-runtime";
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getTypedSupabaseClient } from './supabase';
 import { sessionManager } from './cross-app';
-import { getCookie } from './utils/cookies';
 // Create context
 const AuthContext = createContext(undefined);
+/**
+ * AuthProvider component that provides authentication context to the entire application.
+ * Manages user authentication state, profile data, team memberships, and app permissions.
+ *
+ * @param {AuthProviderProps} props - The provider props
+ * @param {ReactNode} props.children - Child components that will have access to auth context
+ * @param {Partial<AuthConfig>} [props.config] - Optional authentication configuration overrides
+ * @param {string} [props.appName='platform'] - Name of the application for app-specific features
+ * @returns {JSX.Element} Provider component wrapping children with auth context
+ *
+ * @example
+ * // Basic usage
+ * <AuthProvider>
+ *   <App />
+ * </AuthProvider>
+ *
+ * @example
+ * // With custom config and app name
+ * <AuthProvider
+ *   appName="inventory"
+ *   config={{ enableAuditLogging: true }}
+ * >
+ *   <InventoryApp />
+ * </AuthProvider>
+ */
 export function AuthProvider({ children, config, appName = 'platform' }) {
     // Core auth state
     const [user, setUser] = useState(null);
@@ -23,10 +47,16 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
     const supabase = getTypedSupabaseClient(config);
     // Initialize auth on mount
     useEffect(() => {
+        console.log('[AuthContext] Component mounted, initializing auth...');
         initializeAuth();
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('Auth state changed:', event, session?.user?.email);
+            console.log('[AuthContext] Auth state changed:', {
+                event,
+                user: session?.user?.email,
+                hasSession: !!session,
+                timestamp: new Date().toISOString()
+            });
             if (session?.user) {
                 const authUser = {
                     id: session.user.id,
@@ -83,16 +113,31 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         };
     }, []);
     /**
-     * Initialize authentication state
+     * Initialize authentication state on component mount.
+     * Checks for existing session and loads user data if authenticated.
+     * @private
      */
     async function initializeAuth() {
+        console.log('[AuthContext] Starting auth initialization...');
         try {
+            console.log('[AuthContext] Getting session from Supabase...');
             const { data: { session }, error } = await supabase.auth.getSession();
             if (error) {
-                console.error('Error getting session:', error);
+                console.error('[AuthContext] ❌ Error getting session:', {
+                    error,
+                    message: error.message,
+                    status: error.status,
+                    timestamp: new Date().toISOString()
+                });
                 setLoading(false);
                 return;
             }
+            console.log('[AuthContext] Session check result:', {
+                hasSession: !!session,
+                user: session?.user?.email,
+                expiresAt: session?.expires_at,
+                timestamp: new Date().toISOString()
+            });
             if (session?.user) {
                 const authUser = {
                     id: session.user.id,
@@ -114,48 +159,9 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
                 await loadUserData(session.user);
             }
             else {
-                // Check for cookie-based session (cross-domain SSO)
-                const cookieAccessToken = getCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token.0');
-                const cookieRefreshToken = getCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token.1');
-                if (cookieAccessToken && cookieRefreshToken) {
-                    console.log('Found cookie session, attempting to restore...');
-                    try {
-                        const { data, error: sessionError } = await supabase.auth.setSession({
-                            access_token: cookieAccessToken,
-                            refresh_token: cookieRefreshToken
-                        });
-                        if (data?.session) {
-                            const authUser = {
-                                id: data.session.user.id,
-                                email: data.session.user.email || '',
-                                user_metadata: data.session.user.user_metadata || {},
-                                app_metadata: data.session.user.app_metadata || {},
-                                aud: data.session.user.aud || 'authenticated',
-                                created_at: data.session.user.created_at || new Date().toISOString()
-                            };
-                            const authSession = {
-                                access_token: data.session.access_token,
-                                refresh_token: data.session.refresh_token || '',
-                                expires_in: data.session.expires_in || 3600,
-                                token_type: data.session.token_type || 'bearer',
-                                user: authUser
-                            };
-                            setUser(authUser);
-                            setSession(authSession);
-                            await loadUserData(data.session.user);
-                            console.log('Cookie session restored successfully');
-                        }
-                        else if (sessionError) {
-                            console.error('Failed to restore cookie session:', sessionError);
-                            // Clear invalid cookies
-                            document.cookie = 'sb-pfqtzmxxxhhsxmlddrta-auth-token.0=; Max-Age=0; path=/; domain=.gangerdermatology.com';
-                            document.cookie = 'sb-pfqtzmxxxhhsxmlddrta-auth-token.1=; Max-Age=0; path=/; domain=.gangerdermatology.com';
-                        }
-                    }
-                    catch (error) {
-                        console.error('Error restoring cookie session:', error);
-                    }
-                }
+                // Session restoration is now handled by Supabase's detectSessionInUrl
+                // and the cookie storage adapter we configured
+                console.log('No active session found on initialization');
             }
         }
         catch (error) {
@@ -166,7 +172,11 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         }
     }
     /**
-     * Load user profile, teams, and permissions
+     * Load user profile, teams, and permissions from database.
+     * Creates profile if it doesn't exist for Ganger domain users.
+     *
+     * @private
+     * @param {User} authUser - Authenticated user from Supabase
      */
     async function loadUserData(authUser) {
         try {
@@ -178,6 +188,29 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
                 .single();
             if (profileError) {
                 console.error('Error loading profile:', profileError);
+                // If profile doesn't exist and user is authenticated, create it
+                if (profileError.code === 'PGRST116' && authUser.email?.endsWith('@gangerdermatology.com')) {
+                    console.log('Creating profile for new user:', authUser.email);
+                    const { data: newProfile, error: createError } = await supabase
+                        .from('profiles')
+                        .insert({
+                        id: authUser.id,
+                        email: authUser.email,
+                        full_name: authUser.user_metadata?.full_name || authUser.email,
+                        avatar_url: authUser.user_metadata?.avatar_url,
+                        role: authUser.email === 'anand@gangerdermatology.com' ? 'admin' : 'staff',
+                        department: 'Unknown',
+                        is_active: true
+                    })
+                        .select()
+                        .single();
+                    if (createError) {
+                        console.error('Error creating profile:', createError);
+                        return;
+                    }
+                    setProfile(newProfile);
+                    return;
+                }
                 return;
             }
             setProfile(profileData);
@@ -186,7 +219,6 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
                 .from('team_members')
                 .select(`
           role,
-          is_active,
           teams:team_id (
             id,
             name,
@@ -198,8 +230,7 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
             updated_at
           )
         `)
-                .eq('user_id', authUser.id)
-                .eq('is_active', true);
+                .eq('user_id', authUser.id);
             if (!teamsError && teamsData) {
                 const teams = teamsData
                     .filter(tm => tm.teams && tm.teams.is_active)
@@ -220,8 +251,7 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
             const { data: permissionsData, error: permissionsError } = await supabase
                 .from('app_permissions')
                 .select('app_name, permission_level')
-                .eq('user_id', authUser.id)
-                .or('expires_at.is.null,expires_at.gt.now()'); // Include non-expired permissions
+                .eq('user_id', authUser.id);
             if (!permissionsError && permissionsData) {
                 const permissions = {};
                 permissionsData.forEach(p => {
@@ -240,34 +270,98 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         }
     }
     /**
-     * Sign in with Google OAuth
+     * Sign in with Google OAuth.
+     * Redirects to Google for authentication, then back to callback URL.
+     *
+     * @param {string} [redirectTo] - Optional URL to redirect after sign in
+     * @throws {Error} If sign in fails
+     *
+     * @example
+     * // Sign in and redirect to current page
+     * await signIn();
+     *
+     * @example
+     * // Sign in and redirect to specific page
+     * await signIn('/dashboard');
      */
     async function signIn(redirectTo) {
+        console.log('[Auth] 🔐 SIGN IN PROCESS STARTED', {
+            timestamp: new Date().toISOString(),
+            currentUrl: typeof window !== 'undefined' ? window.location.href : 'SSR',
+            redirectTo
+        });
         try {
             const redirectUrl = redirectTo ||
                 (typeof window !== 'undefined' ? window.location.origin + '/auth/callback' : undefined);
-            const { error } = await supabase.auth.signInWithOAuth({
+            const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supa.gangerdermatology.com';
+            console.log('[Auth] 📋 Sign in configuration:', {
+                redirectUrl,
+                supabaseUrl,
+                isCustomDomain: supabaseUrl.includes('gangerdermatology.com'),
+                browserInfo: typeof window !== 'undefined' ? {
+                    userAgent: window.navigator.userAgent,
+                    cookiesEnabled: window.navigator.cookieEnabled,
+                    onLine: window.navigator.onLine
+                } : 'SSR'
+            });
+            console.log('[Auth] 🚀 Calling Supabase signInWithOAuth...');
+            const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
                     redirectTo: redirectUrl,
                     queryParams: {
                         access_type: 'offline',
-                        prompt: 'consent',
+                        prompt: 'select_account',
+                        hd: 'gangerdermatology.com', // Restrict to Ganger domain
                     },
+                    // Skip browser redirect to handle it manually (helps with ad blockers)
+                    skipBrowserRedirect: false,
                 },
             });
             if (error) {
-                console.error('Error signing in:', error);
+                console.error('[Auth] ❌ OAuth error:', {
+                    error,
+                    message: error.message,
+                    status: error.status,
+                    name: error.name,
+                    stack: error.stack
+                });
+                // Check if it's a network error
+                if (error.message?.toLowerCase().includes('fetch')) {
+                    console.error('[Auth] 🌐 Network error detected. Debugging info:');
+                    console.error('- Supabase URL:', supabaseUrl);
+                    console.error('- Browser extensions may be blocking');
+                    console.error('- Check DevTools Network tab for failed requests');
+                    console.error('- Alternative URL: https://pfqtzmxxxhhsxmlddrta.supabase.co');
+                }
                 throw error;
             }
+            console.log('[Auth] ✅ OAuth initiated successfully', {
+                hasData: !!data,
+                dataUrl: data?.url,
+                timestamp: new Date().toISOString()
+            });
+            // Don't return data - the interface expects Promise<void>
+            // The browser will redirect automatically
         }
         catch (error) {
-            console.error('Sign in failed:', error);
+            console.error('[Auth] 💥 Sign in failed with exception:', {
+                error,
+                message: error instanceof Error ? error.message : 'Unknown error',
+                stack: error instanceof Error ? error.stack : undefined,
+                timestamp: new Date().toISOString()
+            });
             throw error;
         }
     }
     /**
-     * Sign out
+     * Sign out the current user.
+     * Clears session, notifies other apps, and resets local state.
+     *
+     * @throws {Error} If sign out fails
+     *
+     * @example
+     * await signOut();
      */
     async function signOut() {
         try {
@@ -288,7 +382,14 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         }
     }
     /**
-     * Set active team
+     * Set the active team for the current user.
+     * Updates team role and persists selection to localStorage.
+     *
+     * @param {Team} team - Team to set as active
+     *
+     * @example
+     * const team = userTeams[0];
+     * setActiveTeam(team);
      */
     function setActiveTeam(team) {
         setActiveTeamState(team);
@@ -304,7 +405,12 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         });
     }
     /**
-     * Refresh user profile and permissions
+     * Refresh user profile and permissions from database.
+     * Useful after permission changes or profile updates.
+     *
+     * @example
+     * // After updating user permissions
+     * await refreshProfile();
      */
     async function refreshProfile() {
         if (user) {
@@ -312,7 +418,17 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         }
     }
     /**
-     * Check if user has access to specific app
+     * Check if user has access to a specific app with required permission level.
+     * Admins always have full access. Staff defaults to write access.
+     *
+     * @param {string} appName - Name of the application
+     * @param {AppPermission['permission_level']} [level='read'] - Required permission level
+     * @returns {boolean} True if user has sufficient access
+     *
+     * @example
+     * if (hasAppAccess('inventory', 'write')) {
+     *   // User can modify inventory
+     * }
      */
     function hasAppAccess(appName, level = 'read') {
         if (!profile)
@@ -338,26 +454,66 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
         return false;
     }
     /**
-     * Check if user is member of specific team
+     * Check if user is a member of a specific team.
+     *
+     * @param {string} teamId - ID of the team to check
+     * @returns {boolean} True if user is a team member
+     *
+     * @example
+     * if (isTeamMember('team-123')) {
+     *   // Show team-specific content
+     * }
      */
     function isTeamMember(teamId) {
         return userTeams.some(team => team.id === teamId);
     }
     /**
-     * Check if user is leader of specific team
+     * Check if user is a leader of a specific team.
+     *
+     * @param {string} teamId - ID of the team to check
+     * @returns {boolean} True if user is a team leader
+     *
+     * @example
+     * if (isTeamLeader('team-123')) {
+     *   // Show team management controls
+     * }
      */
     function isTeamLeader(teamId) {
         const team = userTeams.find(t => t.id === teamId);
         return team?.userRole === 'leader';
     }
     /**
-     * Check if user is admin
+     * Check if user has admin role.
+     *
+     * @returns {boolean} True if user is an admin
+     *
+     * @example
+     * if (isAdmin()) {
+     *   // Show admin controls
+     * }
      */
     function isAdmin() {
         return profile?.role === 'admin';
     }
     /**
-     * Log audit event
+     * Log an audit event for compliance and tracking.
+     * Only logs if audit logging is enabled in config.
+     *
+     * @param {string} action - Action being performed
+     * @param {string} [resourceType] - Type of resource being acted upon
+     * @param {string} [resourceId] - ID of the specific resource
+     * @param {Record<string, any>} [details] - Additional event details
+     *
+     * @example
+     * // Log a simple action
+     * await logAuditEvent('view_patient_list');
+     *
+     * @example
+     * // Log action on specific resource
+     * await logAuditEvent('update_inventory', 'inventory_item', 'item-123', {
+     *   old_quantity: 10,
+     *   new_quantity: 15
+     * });
      */
     async function logAuditEvent(action, resourceType, resourceId, details) {
         if (!config?.enableAuditLogging)
@@ -405,7 +561,28 @@ export function AuthProvider({ children, config, appName = 'platform' }) {
     return (_jsx(AuthContext.Provider, { value: contextValue, children: children }));
 }
 /**
- * Hook to use authentication context
+ * Hook to access the authentication context.
+ * Must be used within an AuthProvider component.
+ *
+ * @returns {AuthContextType} The authentication context containing user data and auth methods
+ * @throws {Error} If used outside of AuthProvider
+ *
+ * @example
+ * // Access user data and auth methods
+ * function MyComponent() {
+ *   const { user, profile, signIn, signOut } = useAuth();
+ *
+ *   if (!user) {
+ *     return <button onClick={() => signIn()}>Sign In</button>;
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       <p>Welcome, {profile?.full_name}!</p>
+ *       <button onClick={() => signOut()}>Sign Out</button>
+ *     </div>
+ *   );
+ * }
  */
 export function useAuth() {
     const context = useContext(AuthContext);
@@ -415,7 +592,30 @@ export function useAuth() {
     return context;
 }
 /**
- * Hook to use authentication with specific app context
+ * Hook to use authentication with app-specific context.
+ * Provides additional helper methods for app-level permissions and logging.
+ *
+ * @param {string} appName - The name of the application
+ * @returns {object} Extended auth context with app-specific helpers
+ * @returns {Function} returns.hasAccess - Check if user has access to this app with optional permission level
+ * @returns {Function} returns.logAction - Log an audit event with app context automatically included
+ *
+ * @example
+ * // Use in an app-specific component
+ * function InventoryDashboard() {
+ *   const auth = useAppAuth('inventory');
+ *
+ *   // Check app-specific permissions
+ *   if (!auth.hasAccess('write')) {
+ *     return <div>Read-only access</div>;
+ *   }
+ *
+ *   // Log app-specific actions
+ *   const handleDelete = async (itemId: string) => {
+ *     await auth.logAction('delete_item', 'inventory_item', itemId);
+ *     // ... delete logic
+ *   };
+ * }
  */
 export function useAppAuth(appName) {
     const auth = useAuth();

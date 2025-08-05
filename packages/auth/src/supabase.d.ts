@@ -145,7 +145,6 @@ export interface Database {
                     role: 'leader' | 'member' | 'viewer';
                     seat: string | null;
                     joined_at: string;
-                    is_active: boolean;
                 };
                 Insert: {
                     id?: string;
@@ -154,7 +153,6 @@ export interface Database {
                     role?: 'leader' | 'member' | 'viewer';
                     seat?: string | null;
                     joined_at?: string;
-                    is_active?: boolean;
                 };
                 Update: {
                     id?: string;
@@ -163,7 +161,6 @@ export interface Database {
                     role?: 'leader' | 'member' | 'viewer';
                     seat?: string | null;
                     joined_at?: string;
-                    is_active?: boolean;
                 };
             };
             app_permissions: {
@@ -174,7 +171,6 @@ export interface Database {
                     permission_level: 'admin' | 'write' | 'read' | 'none';
                     granted_by: string | null;
                     granted_at: string;
-                    expires_at: string | null;
                 };
                 Insert: {
                     id?: string;
@@ -183,7 +179,6 @@ export interface Database {
                     permission_level?: 'admin' | 'write' | 'read' | 'none';
                     granted_by?: string | null;
                     granted_at?: string;
-                    expires_at?: string | null;
                 };
                 Update: {
                     id?: string;
@@ -192,7 +187,6 @@ export interface Database {
                     permission_level?: 'admin' | 'write' | 'read' | 'none';
                     granted_by?: string | null;
                     granted_at?: string;
-                    expires_at?: string | null;
                 };
             };
             audit_logs: {

@@ -411,7 +411,7 @@ export function EnhancedCoverageAnalytics({ selectedLocation }: EnhancedCoverage
       addToast({ title: 'Error', message: 'You do not have permission to export data', type: 'error' });
       return;
     }
-    exportMetricsToPDF(metrics as any, 'Clinical Staffing Analytics', 'staffing-analytics');
+    exportMetricsToPDF();
     addToast({ title: 'Success', message: 'PDF exported successfully', type: 'success' });
   };
 
@@ -420,7 +420,7 @@ export function EnhancedCoverageAnalytics({ selectedLocation }: EnhancedCoverage
       addToast({ title: 'Error', message: 'You do not have permission to export data', type: 'error' });
       return;
     }
-    exportMetricsToExcel(metrics as any, 'Clinical Staffing Analytics', 'staffing-analytics');
+    exportMetricsToExcel();
     addToast({ title: 'Success', message: 'Excel file exported successfully', type: 'success' });
   };
 

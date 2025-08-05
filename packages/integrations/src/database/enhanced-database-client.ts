@@ -474,7 +474,7 @@ export class EnhancedDatabaseClient {
     try {
       // Basic connectivity
       const { error: dbError } = await this.client
-        .from('users')
+        .from('profiles')
         .select('id')
         .limit(1);
       

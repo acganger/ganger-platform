@@ -21,7 +21,34 @@ function LoginPromptComponent({ onSignIn }) {
     return (_jsx("div", { className: "min-h-screen flex items-center justify-center bg-gray-50", children: _jsxs("div", { className: "max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center", children: [_jsx("div", { className: "w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4", children: _jsx("svg", { className: "w-8 h-8 text-blue-600", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: _jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" }) }) }), _jsx("h1", { className: "text-xl font-semibold text-gray-900 mb-2", children: "Sign In Required" }), _jsx("p", { className: "text-gray-600 mb-6", children: "Please sign in with your Ganger Dermatology account to continue." }), _jsxs("button", { onClick: onSignIn, className: "w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center", children: [_jsxs("svg", { className: "w-5 h-5 mr-2", viewBox: "0 0 24 24", children: [_jsx("path", { fill: "currentColor", d: "M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" }), _jsx("path", { fill: "currentColor", d: "M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" }), _jsx("path", { fill: "currentColor", d: "M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" }), _jsx("path", { fill: "currentColor", d: "M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" })] }), "Sign in with Google"] })] }) }));
 }
 /**
- * Main authentication guard component
+ * Authentication guard component that controls access based on user permissions.
+ * Renders children only if the user meets the specified authentication requirements.
+ *
+ * @param {AuthGuardProps} props - The guard configuration
+ * @param {AuthGuardLevel} props.level - Required authentication level
+ * @param {string} [props.appName] - Optional app name for app-specific permission checks
+ * @param {string} [props.teamId] - Optional team ID for team-based permission checks
+ * @param {React.ComponentType} [props.fallback] - Custom component to render when access is denied
+ * @param {React.ReactNode} props.children - Content to render when access is granted
+ * @returns {JSX.Element} Protected content or fallback component
+ *
+ * @example
+ * // Basic authentication check
+ * <AuthGuard level="authenticated">
+ *   <ProtectedContent />
+ * </AuthGuard>
+ *
+ * @example
+ * // Admin-only access with custom fallback
+ * <AuthGuard level="admin" fallback={CustomUnauthorized}>
+ *   <AdminPanel />
+ * </AuthGuard>
+ *
+ * @example
+ * // App-specific permission check
+ * <AuthGuard level="staff" appName="inventory">
+ *   <InventoryManager />
+ * </AuthGuard>
  */
 export function AuthGuard({ level, appName, teamId, fallback: FallbackComponent, children }) {
     const { user, profile, loading, signIn, hasAppAccess, isTeamMember, isTeamLeader, isAdmin } = useAuth();
@@ -89,7 +116,26 @@ export function AuthGuard({ level, appName, teamId, fallback: FallbackComponent,
     }
 }
 /**
- * Higher-order component for authentication guards
+ * Higher-order component that wraps a component with authentication guards.
+ * Creates a new component that only renders the wrapped component if auth requirements are met.
+ *
+ * @template P - Props type of the wrapped component
+ * @param {React.ComponentType<P>} Component - Component to protect with auth guard
+ * @param {Omit<AuthGuardProps, 'children'>} guardProps - Authentication requirements
+ * @returns {React.ComponentType<P>} New component with authentication protection
+ *
+ * @example
+ * // Protect a component with staff-level access
+ * const ProtectedDashboard = withAuthGuard(Dashboard, {
+ *   level: 'staff',
+ *   appName: 'inventory'
+ * });
+ *
+ * @example
+ * // Use the protected component
+ * function App() {
+ *   return <ProtectedDashboard someProp="value" />;
+ * }
  */
 export function withAuthGuard(Component, guardProps) {
     return function AuthGuardedComponent(props) {
@@ -97,7 +143,40 @@ export function withAuthGuard(Component, guardProps) {
     };
 }
 /**
- * Hook for conditional rendering based on permissions
+ * Hook for checking authentication permissions programmatically.
+ * Provides a canAccess method for conditional logic based on auth levels.
+ *
+ * @returns {object} Auth guard utilities
+ * @returns {Function} returns.canAccess - Function to check if user has required access level
+ * @returns {AuthContextType} returns...auth - All auth context properties and methods
+ *
+ * @example
+ * // Conditional rendering based on permissions
+ * function FeatureToggle() {
+ *   const { canAccess } = useAuthGuard();
+ *
+ *   return (
+ *     <div>
+ *       {canAccess('staff') && <StaffFeatures />}
+ *       {canAccess('admin') && <AdminFeatures />}
+ *       {canAccess('team-member', undefined, teamId) && <TeamFeatures />}
+ *     </div>
+ *   );
+ * }
+ *
+ * @example
+ * // Conditional logic in event handlers
+ * function ActionButton() {
+ *   const { canAccess } = useAuthGuard();
+ *
+ *   const handleClick = () => {
+ *     if (!canAccess('admin')) {
+ *       alert('Admin access required');
+ *       return;
+ *     }
+ *     // Perform admin action
+ *   };
+ * }
  */
 export function useAuthGuard() {
     const auth = useAuth();
@@ -134,16 +213,78 @@ export function ConditionalRender({ condition, appName, teamId, fallback, childr
     }
     return _jsx(_Fragment, { children: fallback });
 }
-// Specific guard components for common use cases
+/**
+ * Component that only renders children for staff-level users and above.
+ * Convenience wrapper around ConditionalRender with staff-level access.
+ *
+ * @param {object} props - Component props
+ * @param {React.ReactNode} props.children - Content to show for staff users
+ * @param {React.ReactNode} [props.fallback] - Optional content for non-staff users
+ * @returns {JSX.Element} Protected content
+ *
+ * @example
+ * <StaffOnly>
+ *   <StaffDashboard />
+ * </StaffOnly>
+ *
+ * @example
+ * // With custom fallback
+ * <StaffOnly fallback={<GuestView />}>
+ *   <StaffView />
+ * </StaffOnly>
+ */
 export function StaffOnly({ children, fallback }) {
     return (_jsx(ConditionalRender, { condition: "staff", fallback: fallback, children: children }));
 }
+/**
+ * Component that only renders children for admin users.
+ * Convenience wrapper around ConditionalRender with admin-level access.
+ *
+ * @param {object} props - Component props
+ * @param {React.ReactNode} props.children - Content to show for admin users
+ * @param {React.ReactNode} [props.fallback] - Optional content for non-admin users
+ * @returns {JSX.Element} Protected content
+ *
+ * @example
+ * <AdminOnly>
+ *   <SystemSettings />
+ * </AdminOnly>
+ */
 export function AdminOnly({ children, fallback }) {
     return (_jsx(ConditionalRender, { condition: "admin", fallback: fallback, children: children }));
 }
+/**
+ * Component that only renders children for members of a specific team.
+ *
+ * @param {object} props - Component props
+ * @param {string} props.teamId - ID of the team to check membership for
+ * @param {React.ReactNode} props.children - Content to show for team members
+ * @param {React.ReactNode} [props.fallback] - Optional content for non-members
+ * @returns {JSX.Element} Protected content
+ *
+ * @example
+ * <TeamMemberOnly teamId="team-123">
+ *   <TeamDashboard />
+ * </TeamMemberOnly>
+ */
 export function TeamMemberOnly({ teamId, children, fallback }) {
     return (_jsx(ConditionalRender, { condition: "team-member", teamId: teamId, fallback: fallback, children: children }));
 }
+/**
+ * Component that only renders children for leaders of a specific team.
+ * Admins always have access regardless of team leadership.
+ *
+ * @param {object} props - Component props
+ * @param {string} props.teamId - ID of the team to check leadership for
+ * @param {React.ReactNode} props.children - Content to show for team leaders
+ * @param {React.ReactNode} [props.fallback] - Optional content for non-leaders
+ * @returns {JSX.Element} Protected content
+ *
+ * @example
+ * <TeamLeaderOnly teamId="team-123">
+ *   <TeamManagementTools />
+ * </TeamLeaderOnly>
+ */
 export function TeamLeaderOnly({ teamId, children, fallback }) {
     return (_jsx(ConditionalRender, { condition: "team-leader", teamId: teamId, fallback: fallback, children: children }));
 }

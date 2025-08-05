@@ -41,7 +41,7 @@ export function withAuth(handler, options) {
                 throw new AuthenticationError('Invalid or expired session');
             }
             const { data: user, error: userError } = await supabase
-                .from('users')
+                .from('profiles')
                 .select('*')
                 .eq('id', session.user_id)
                 .eq('is_active', true)

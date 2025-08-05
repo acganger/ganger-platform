@@ -3,14 +3,14 @@
 import { useStaffAuth } from '@ganger/auth/staff';
 import { Button, StaffLoginRedirect } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
-import { TrendingUp, TrendingDown, BarChart3, Star, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart3, Calendar } from 'lucide-react';
 
 // Cloudflare Workers Edge Runtime
 // export const runtime = 'edge'; // Removed for Vercel compatibility
 export const dynamic = 'force-dynamic';
 
 export default function SocialsAnalyticsPage() {
-  const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const { isAuthenticated, isLoading } = useStaffAuth();
   
   if (isLoading) {
     return (

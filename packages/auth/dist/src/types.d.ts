@@ -38,7 +38,6 @@ export interface TeamMember {
     role: 'leader' | 'member' | 'viewer';
     seat?: string;
     joined_at: string;
-    is_active: boolean;
 }
 export interface AppPermission {
     id: string;
@@ -47,7 +46,6 @@ export interface AppPermission {
     permission_level: 'admin' | 'write' | 'read' | 'none';
     granted_by?: string;
     granted_at: string;
-    expires_at?: string;
 }
 export interface AuthUser {
     id: string;

@@ -2,15 +2,35 @@
 export interface Database {
   public: {
     Tables: {
-      users: {
-        Row: User;
-        Insert: Omit<User, 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Omit<User, 'id' | 'created_at' | 'updated_at'>>;
+      profiles: {
+        Row: Profile;
+        Insert: Omit<Profile, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<Profile, 'id' | 'created_at' | 'updated_at'>>;
       };
       locations: {
         Row: Location;
         Insert: Omit<Location, 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Omit<Location, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      app_configurations: {
+        Row: AppConfiguration;
+        Insert: Omit<AppConfiguration, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<AppConfiguration, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      app_permissions: {
+        Row: AppPermission;
+        Insert: Omit<AppPermission, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<AppPermission, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      audit_logs: {
+        Row: AuditLog;
+        Insert: Omit<AuditLog, 'id' | 'created_at'>;
+        Update: Partial<Omit<AuditLog, 'id' | 'created_at'>>;
+      };
+      api_metrics: {
+        Row: ApiMetric;
+        Insert: Omit<ApiMetric, 'id' | 'created_at'>;
+        Update: Partial<Omit<ApiMetric, 'id' | 'created_at'>>;
       };
       staff_members: {
         Row: StaffMember;
@@ -59,18 +79,19 @@ export interface BaseEntity {
   updated_at: string;
 }
 
-export interface User extends BaseEntity {
+export interface Profile extends BaseEntity {
   email: string;
-  name?: string;
+  full_name?: string;
   avatar_url?: string;
-  role: UserRole;
-  locations: string[];
+  role: string;
+  department?: string;
+  position?: string;
+  phone?: string;
   is_active: boolean;
   last_login?: string;
-  metadata?: Record<string, any>;
 }
 
-export type UserRole = 'staff' | 'manager' | 'superadmin' | 'pharma_rep' | 'patient' | 'vinya_tech';
+export type UserRole = 'staff' | 'admin' | 'guest';
 
 export interface Location extends BaseEntity {
   name: string;
@@ -85,7 +106,8 @@ export interface Location extends BaseEntity {
   settings?: Record<string, any>;
 }
 
-export interface AuditLog extends BaseEntity {
+export interface AuditLog {
+  id: string;
   user_id?: string;
   action: string;
   resource_type: string;
@@ -93,23 +115,45 @@ export interface AuditLog extends BaseEntity {
   metadata?: Record<string, any>;
   ip_address?: string;
   user_agent?: string;
+  created_at: string;
 }
 
-export interface Permission extends BaseEntity {
-  user_id: string;
-  action: string;
-  resource: string;
-  conditions?: Record<string, any>;
-}
-
-export interface UserSession extends BaseEntity {
-  user_id: string;
-  session_token: string;
-  expires_at: string;
-  ip_address?: string;
-  user_agent?: string;
+export interface AppConfiguration extends BaseEntity {
+  name: string;
+  description?: string;
+  config?: Record<string, any>;
   is_active: boolean;
 }
+
+export interface ApiMetric {
+  id: string;
+  endpoint: string;
+  method: string;
+  status_code: number;
+  response_time: number;
+  user_id?: string;
+  metadata?: Record<string, any>;
+  request_count?: number;
+  created_at: string;
+}
+
+// The actual permissions are stored in app_permissions table
+export interface AppPermission extends BaseEntity {
+  user_id?: string;
+  app_id: string;
+  role_name?: string;
+  permission_level: 'read' | 'write' | 'admin';
+  config_section?: string;
+  specific_keys?: string[];
+  location_restricted: boolean;
+  allowed_locations?: string[];
+  is_active: boolean;
+  expires_at?: string;
+  granted_by?: string;
+}
+
+// UserSession table doesn't exist in actual database
+// Apps should use Supabase auth session handling instead
 
 export interface FileUpload extends BaseEntity {
   user_id: string;

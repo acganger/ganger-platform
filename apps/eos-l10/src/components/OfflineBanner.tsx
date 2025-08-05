@@ -29,6 +29,7 @@ export default function OfflineBanner() {
       try {
         const actions = JSON.parse(offlineData);
         // Process each action (implementation depends on backend setup)
+        console.log(`Syncing ${actions.length} offline actions...`);
         
         // Clear offline actions after successful sync
         localStorage.removeItem('eos-offline-actions');

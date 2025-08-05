@@ -42,7 +42,7 @@ export function withAuth(handler, options) {
             }
             // Get full user data
             const { data: userData, error: userError } = await supabase
-                .from('users')
+                .from('profiles')
                 .select('*')
                 .eq('email', user.email)
                 .eq('is_active', true)

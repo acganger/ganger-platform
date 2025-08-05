@@ -101,7 +101,7 @@ function errorResponse(code: string, message: string, details?: any): ApiRespons
 async function checkPermissionManagementAccess(supabase: any, userId: string, appId?: string): Promise<boolean> {
   // Check if user is superadmin
   const { data: userProfile } = await supabase
-    .from('users')
+    .from('profiles')
     .select('role')
     .eq('id', userId)
     .single();
@@ -113,13 +113,15 @@ async function checkPermissionManagementAccess(supabase: any, userId: string, ap
   // Managers can manage permissions for apps they have admin access to
   if (userProfile?.role === 'manager' && appId) {
     const { data: hasAdminPermission } = await supabase
-      .rpc('check_user_app_permission', {
-        user_id: userId,
-        app_id: appId,
-        required_level: 'admin'
-      });
+      .from('app_permissions')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('app_id', appId)
+      .eq('permission_level', 'admin')
+      .eq('is_active', true)
+      .single();
 
-    return hasAdminPermission || false;
+    return !!hasAdminPermission;
   }
 
   return false;
@@ -162,20 +164,20 @@ export default async function handler(
 
       // Build query with detailed information
       let query = supabase
-        .from('app_config_permissions')
+        .from('app_permissions')
         .select(`
           *,
-          platform_applications!inner(
-            app_name,
-            display_name
+          app_configurations!inner(
+            name,
+            description
           ),
-          users(
+          profiles!user_id(
             email,
-            name
+            full_name
           ),
-          granted_by_user:users!granted_by(
+          granted_by_user:profiles!granted_by(
             email,
-            name
+            full_name
           )
         `, { count: 'exact' });
 
@@ -194,7 +196,7 @@ export default async function handler(
       } else {
         // If no specific app, check if user is superadmin
         const { data: userProfile } = await supabase
-          .from('users')
+          .from('profiles')
           .select('role')
           .eq('id', user.id)
           .single();
@@ -289,7 +291,7 @@ export default async function handler(
       // Validate that the target user exists (if user permission)
       if (permissionData.permission_type === 'user') {
         const { data: targetUser } = await supabase
-          .from('users')
+          .from('profiles')
           .select('id')
           .eq('id', permissionData.user_id)
           .single();
@@ -304,7 +306,7 @@ export default async function handler(
 
       // Validate that the app exists
       const { data: app } = await supabase
-        .from('platform_applications')
+        .from('app_configurations')
         .select('id')
         .eq('id', permissionData.app_id)
         .single();
@@ -318,7 +320,7 @@ export default async function handler(
 
       // Check if similar permission already exists
       let duplicateQuery = supabase
-        .from('app_config_permissions')
+        .from('app_permissions')
         .select('id')
         .eq('app_id', permissionData.app_id)
         .eq('permission_type', permissionData.permission_type)
@@ -345,7 +347,7 @@ export default async function handler(
 
       // Create permission
       const { data: newPermission, error } = await supabase
-        .from('app_config_permissions')
+        .from('app_permissions')
         .insert({
           ...permissionData,
           granted_by: user.id,
@@ -353,17 +355,17 @@ export default async function handler(
         })
         .select(`
           *,
-          platform_applications!inner(
-            app_name,
-            display_name
+          app_configurations!inner(
+            name,
+            description
           ),
-          users(
+          profiles!user_id(
             email,
-            name
+            full_name
           ),
-          granted_by_user:users!granted_by(
+          granted_by_user:profiles!granted_by(
             email,
-            name
+            full_name
           )
         `)
         .single();
