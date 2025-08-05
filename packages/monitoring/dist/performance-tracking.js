@@ -154,7 +154,9 @@ function trackWebVitals() {
     new PerformanceObserver((list) => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
-        exports.performanceTracker.serverTiming('lcp', lastEntry.startTime);
+        if (lastEntry) {
+            exports.performanceTracker.serverTiming('lcp', lastEntry.startTime);
+        }
     }).observe({ entryTypes: ['largest-contentful-paint'] });
     // Track First Input Delay (FID)
     new PerformanceObserver((list) => {

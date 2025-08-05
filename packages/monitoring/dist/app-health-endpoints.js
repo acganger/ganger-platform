@@ -88,7 +88,7 @@ class AppHealthChecker {
         try {
             const supabase = (0, auth_1.getSupabaseClient)();
             // Try a simple query
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('health_checks')
                 .select('id')
                 .limit(1)
@@ -257,7 +257,7 @@ class AppHealthChecker {
 // Factory function to create health check endpoint
 function createHealthCheckEndpoint(config) {
     const checker = new AppHealthChecker();
-    return async (req, res) => {
+    return async (_req, res) => {
         try {
             const health = await checker.performHealthCheck(config);
             // Set appropriate status code

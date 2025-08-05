@@ -49,7 +49,7 @@ class IntegrationHealthMonitor {
             }
             else {
                 return {
-                    service: services[index],
+                    service: services[index] || 'unknown',
                     status: 'down',
                     last_check: new Date().toISOString(),
                     error_message: result.reason?.message || 'Health check failed'

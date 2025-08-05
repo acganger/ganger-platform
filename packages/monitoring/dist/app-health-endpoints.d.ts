@@ -35,7 +35,7 @@ export interface HealthCheckConfig {
     };
     includeMetrics?: boolean;
 }
-export declare function createHealthCheckEndpoint(config: HealthCheckConfig): (req: any, res: any) => Promise<void>;
+export declare function createHealthCheckEndpoint(config: HealthCheckConfig): (_req: any, res: any) => Promise<void>;
 export declare function createNextHealthRoute(config: HealthCheckConfig): (req: any, res: any) => Promise<void>;
 export declare const healthCheckConfigs: {
     inventory: {

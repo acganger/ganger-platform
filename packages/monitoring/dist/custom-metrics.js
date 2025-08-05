@@ -295,10 +295,12 @@ class CustomMetricsTracker {
         if (!match)
             return undefined;
         const labels = {};
-        const labelPairs = match[1].split(',');
+        const labelPairs = match[1]?.split(',') || [];
         for (const pair of labelPairs) {
             const [k, v] = pair.split('=');
-            labels[k] = v.replace(/"/g, '');
+            if (k && v) {
+                labels[k] = v.replace(/"/g, '');
+            }
         }
         return labels;
     }
@@ -318,8 +320,8 @@ class CustomMetricsTracker {
         const distribution = {
             count: values.length,
             sum,
-            min: sorted[0],
-            max: sorted[sorted.length - 1],
+            min: sorted[0] || 0,
+            max: sorted[sorted.length - 1] || 0,
             mean
         };
         // Calculate percentiles for summaries
@@ -327,7 +329,7 @@ class CustomMetricsTracker {
             distribution.percentiles = {};
             for (const p of metric.percentiles) {
                 const index = Math.ceil((p / 100) * sorted.length) - 1;
-                distribution.percentiles[`p${p}`] = sorted[Math.max(0, index)];
+                distribution.percentiles[`p${p}`] = sorted[Math.max(0, index)] || 0;
             }
         }
         // Calculate bucket counts for histograms

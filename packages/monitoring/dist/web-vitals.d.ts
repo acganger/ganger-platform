@@ -9,7 +9,6 @@ export interface WebVitalsMetric {
 }
 declare class WebVitalsTracker {
     private metrics;
-    private observer;
     private reportingEndpoint;
     private bufferSize;
     private metricsBuffer;

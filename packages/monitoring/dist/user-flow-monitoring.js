@@ -318,7 +318,9 @@ class UserFlowMonitor {
                 const startTime = new Date(execution.startTime).getTime();
                 if (now - startTime > this.abandonmentTimeout) {
                     const [flowId, sessionId] = executionId.split('-');
-                    this.abandonFlow(flowId, sessionId);
+                    if (flowId && sessionId) {
+                        this.abandonFlow(flowId, sessionId);
+                    }
                 }
             }
         }
@@ -410,7 +412,7 @@ function createFlowTrackingMiddleware(flowId) {
         const sessionId = req.sessionID || req.headers['x-session-id'] || 'anonymous';
         const userId = req.user?.id;
         // Start flow
-        const execution = exports.userFlowMonitor.startFlow(flowId, sessionId, userId, {
+        exports.userFlowMonitor.startFlow(flowId, sessionId, userId, {
             userAgent: req.headers['user-agent'],
             ip: req.ip
         });

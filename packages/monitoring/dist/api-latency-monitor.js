@@ -110,7 +110,7 @@ class APILatencyMonitor {
     }
     normalizeEndpoint(endpoint) {
         // Remove query parameters and IDs for grouping
-        let normalized = endpoint.split('?')[0];
+        let normalized = endpoint.split('?')[0] || endpoint;
         // Replace UUIDs with placeholder
         normalized = normalized.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, ':id');
         // Replace numeric IDs with placeholder
@@ -187,7 +187,7 @@ class APILatencyMonitor {
             return 0;
         const sorted = [...values].sort((a, b) => a - b);
         const index = Math.ceil((percentile / 100) * sorted.length) - 1;
-        return sorted[Math.max(0, index)];
+        return sorted[Math.max(0, index)] || 0;
     }
     aggregateStats() {
         // Update percentiles for all endpoints
