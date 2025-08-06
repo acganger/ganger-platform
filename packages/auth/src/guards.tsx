@@ -2,6 +2,7 @@
 
 'use client';
 
+import React from 'react';
 import { useAuth } from './context';
 import { AuthGuardProps, AuthGuardLevel } from './types';
 

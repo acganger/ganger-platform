@@ -1,5 +1,5 @@
 {
-  "extends": "../../packages/config/tsconfig.json",
+  "extends": "../config/typescript/base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -12,11 +12,11 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "rootDir": "./src",
-    "outDir": "./dist"
+    "downlevelIteration": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

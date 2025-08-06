@@ -302,9 +302,9 @@ export class TimeTradeToPharmaMigrationService {
         }
 
         // Create or find pharmaceutical representative
-        let _repId: string;
+        let repId: string;
         if (config.createRepresentatives) {
-          _repId = await this.createOrFindRepresentative(timetradeAppointment);
+          repId = await this.createOrFindRepresentative(timetradeAppointment);
         } else {
           const existingRep = await this.db.getPharmaRepByEmail(timetradeAppointment.repEmail);
           if (!existingRep) {
@@ -312,7 +312,7 @@ export class TimeTradeToPharmaMigrationService {
             report.failedMigrations++;
             continue;
           }
-          _repId = existingRep.id;
+          repId = existingRep.id;
         }
 
         // Create appointment
@@ -335,7 +335,7 @@ export class TimeTradeToPharmaMigrationService {
 
   private async createAppointmentFromTimeTrade(
     timetradeAppointment: TimeTradeAppointment,
-    _config: MigrationConfig
+    config: MigrationConfig
   ): Promise<string | null> {
     try {
       // Find or create representative

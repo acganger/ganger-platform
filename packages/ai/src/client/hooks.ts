@@ -153,8 +153,6 @@ export function useAI(options: UseAIOptions = {}): UseAIReturn {
     request: AIChatRequest, 
     lastError: AIError
   ): Promise<AIResponse> => {
-    // Log retry attempt with error context
-    console.debug('[useChat] Retrying after error:', lastError.message);
     const retryDelay = Math.min(1000 * Math.pow(2, requestCountRef.current), 10000);
     
     return new Promise((resolve, reject) => {

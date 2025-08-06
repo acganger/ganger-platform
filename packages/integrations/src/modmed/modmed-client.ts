@@ -520,24 +520,18 @@ export class ModMedClient extends BaseIntegrationClient {
   private async findExistingProvider(npiOrModMedId: string): Promise<any> {
     // This would query the database for existing staff member
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Looking for provider with NPI/ID: ${npiOrModMedId}`);
-    // TODO: Implement database query
     return null; // Placeholder
   }
 
   private async findStaffMemberByModMedId(modMedId: string): Promise<any> {
     // This would query the database for staff member by ModMed ID
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Looking for staff member with ModMed ID: ${modMedId}`);
-    // TODO: Implement database query
     return null; // Placeholder
   }
 
   private async findExistingSchedule(staffMemberId: string, dateTime: string): Promise<any> {
     // This would query the database for existing schedule
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Checking schedule for staff ${staffMemberId} at ${dateTime}`);
-    // TODO: Implement database query
     return null; // Placeholder
   }
 
@@ -550,33 +544,25 @@ export class ModMedClient extends BaseIntegrationClient {
   private async createStaffMember(data: any): Promise<any> {
     // This would create a new staff member in the database
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Creating staff member:`, data);
-    // TODO: Implement database creation
-    return { id: `temp_${Date.now()}`, ...data }; // Placeholder
+    return null; // Placeholder
   }
 
   private async updateStaffMember(id: string, data: any): Promise<any> {
     // This would update an existing staff member in the database
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Updating staff member ${id}:`, data);
-    // TODO: Implement database update
-    return { id, ...data, updated_at: new Date().toISOString() }; // Placeholder
+    return null; // Placeholder
   }
 
   private async createStaffSchedule(data: any): Promise<any> {
     // This would create a new schedule in the database
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Creating staff schedule:`, data);
-    // TODO: Implement database creation
-    return { id: `schedule_${Date.now()}`, ...data }; // Placeholder
+    return null; // Placeholder
   }
 
   private async updateStaffSchedule(id: string, data: any): Promise<any> {
     // This would update an existing schedule in the database
     // Implementation depends on the database client being used
-    console.log(`[ModMed] Updating staff schedule ${id}:`, data);
-    // TODO: Implement database update
-    return { id, ...data, updated_at: new Date().toISOString() }; // Placeholder
+    return null; // Placeholder
   }
 
   // =====================================================

@@ -6,13 +6,19 @@
     "declaration": true,
     "declarationMap": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
   ]
 }

@@ -11,15 +11,17 @@ import {
 import { TwilioMCPService, createTwilioMCPService, TwilioMCPConfig } from './twilio-mcp-service';
 
 export class HIPAACompliantSMSService {
+  private config: CommunicationConfig;
   private supabase: any;
   private twilioMCP: TwilioMCPService;
 
   constructor(
-    _config: CommunicationConfig, 
+    config: CommunicationConfig, 
     supabaseUrl: string, 
     supabaseKey: string,
     twilioConfig: TwilioMCPConfig
   ) {
+    this.config = config;
     this.supabase = createClient(supabaseUrl, supabaseKey);
     this.twilioMCP = createTwilioMCPService(twilioConfig);
   }

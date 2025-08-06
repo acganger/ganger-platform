@@ -370,26 +370,4 @@ export class PDFGenerator {
 
     return this.generateFromHTML(html, options);
   }
-
-  /**
-   * Generate a simple PDF using jsPDF (alternative to puppeteer for simple documents)
-   */
-  async generateSimplePDF(content: string, options?: PDFOptions): Promise<Buffer> {
-    console.log('[PDFGenerator] Generating simple PDF with jsPDF');
-    
-    const doc = new jsPDF({
-      orientation: options?.orientation || 'portrait',
-      unit: 'mm',
-      format: options?.format || 'a4'
-    });
-
-    // Add content (basic text support)
-    const lines = doc.splitTextToSize(content, 180);
-    doc.text(lines, 15, 15);
-
-    // TODO: Add more sophisticated formatting when needed
-    const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
-    
-    return pdfBuffer;
-  }
 }

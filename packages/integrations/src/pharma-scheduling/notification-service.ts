@@ -6,6 +6,8 @@
 import { 
   PharmaSchedulingQueries, 
   PharmaAppointment, 
+  PharmaRepresentative, 
+  SchedulingActivity 
 } from '@ganger/db';
 
 export interface NotificationTemplate {
@@ -667,7 +669,7 @@ export class PharmaNotificationService {
     });
 
     // Handle conditional blocks (simplified)
-    rendered = rendered.replace(/{{#if (\w+)}}(.*?){{\/if}}/gs, (_match, condition, content) => {
+    rendered = rendered.replace(/{{#if (\w+)}}(.*?){{\/if}}/gs, (match, condition, content) => {
       return data[condition] ? content : '';
     });
 
@@ -730,6 +732,7 @@ export class PharmaNotificationService {
     customData?: Record<string, any>
   ): Promise<Record<string, any>> {
     const rep = await this.db.getPharmaRepById(appointment.repId);
+    const activity = await this.db.getSchedulingActivityById(appointment.activityId);
 
     const baseData = {
       // Appointment data
@@ -748,13 +751,12 @@ export class PharmaNotificationService {
       companyName: rep?.companyName || 'Unknown Company',
       
       // Activity data
-      // TODO: Add activityName and description to PharmaAppointment type when implementing activity types
-      activityName: 'Pharmaceutical Meeting', // Default activity name
-      activityDescription: '', // Will be populated from appointment metadata
+      activityName: activity?.activityName || 'Pharmaceutical Meeting',
+      activityDescription: activity?.description || '',
       
       // System data
-      currentDate: this.formatDate(new Date().toISOString().split('T')[0] || ''),
-      currentTime: this.formatTime(new Date().toTimeString().split(' ')[0]?.substring(0, 5) || '')
+      currentDate: this.formatDate(new Date().toISOString().split('T')[0]),
+      currentTime: this.formatTime(new Date().toTimeString().split(' ')[0].substring(0, 5))
     };
 
     return { ...baseData, ...customData };
@@ -789,7 +791,7 @@ export class PharmaNotificationService {
     return defaultPrefs;
   }
 
-  private async checkDuplicateNotification(_request: NotificationRequest): Promise<boolean> {
+  private async checkDuplicateNotification(request: NotificationRequest): Promise<boolean> {
     // Check if similar notification was sent recently (within 1 hour)
     // This would query the pharma_communications table
     return false;
@@ -798,13 +800,13 @@ export class PharmaNotificationService {
   private async logCommunication(
     appointment: PharmaAppointment,
     request: NotificationRequest,
-    _result: NotificationResult
+    result: NotificationResult
   ): Promise<void> {
     // Log to pharma_communications table for compliance
     console.log(`Communication logged for appointment ${appointment.id}: ${request.type}`);
   }
 
-  private async getAppointmentParticipants(_appointmentId: string): Promise<any[]> {
+  private async getAppointmentParticipants(appointmentId: string): Promise<any[]> {
     // This would query the appointment_participants table
     return [];
   }
@@ -813,7 +815,7 @@ export class PharmaNotificationService {
     return `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  private generateConfirmationNumber(_appointmentId: string): string {
+  private generateConfirmationNumber(appointmentId: string): string {
     const timestamp = Date.now().toString(36);
     const random = Math.random().toString(36).substr(2, 4);
     return `PH${timestamp}${random}`.toUpperCase();
@@ -831,9 +833,6 @@ export class PharmaNotificationService {
 
   private formatTime(timeStr: string): string {
     const [hours, minutes] = timeStr.split(':').map(Number);
-    if (hours === undefined || minutes === undefined) {
-      return timeStr;
-    }
     const period = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
     return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;

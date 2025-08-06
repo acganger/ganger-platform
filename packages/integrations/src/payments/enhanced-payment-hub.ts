@@ -4,10 +4,17 @@
 import { UniversalPaymentHub } from './payment-hub';
 import { EnhancedDatabaseClient } from '../database/enhanced-database-client';
 import { 
+  PaymentRequest, 
   PaymentResult, 
   RefundRequest, 
   RefundResult,
-  CopayPaymentMessage
+  CopayPaymentMessage,
+  SubscriptionPaymentMessage,
+  DepositPaymentMessage,
+  FeePaymentMessage,
+  BillingAnalytics,
+  PatientSubscription,
+  PaymentMethod
 } from './types';
 
 export interface PaymentAnalytics {

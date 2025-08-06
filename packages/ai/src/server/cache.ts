@@ -254,9 +254,7 @@ export class AIResponseCache {
     if (messages.length === 0) return null;
 
     const lastMessage = messages[messages.length - 1];
-    if (!lastMessage) {
-      return null; // No messages to search for
-    }
+    if (!lastMessage) return null;
     const semanticKey = CacheKeyGenerator.generateSemanticKey(lastMessage.content);
 
     // Simple similarity search (in production, use vector similarity)

@@ -22,7 +22,7 @@ export class GoogleSheetsClient {
     this.sheets = google.sheets({ version: 'v4', auth });
   }
 
-  static createAuth(credentials: any, _scopes: string[]) {
+  static createAuth(credentials: any, scopes: string[]) {
     const { client_secret, client_id, redirect_uris } = credentials.installed || credentials.web;
     return new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
   }
@@ -150,7 +150,7 @@ export class GoogleSheetsClient {
           },
         },
       ]);
-      return response.replies?.[0]?.addSheet;
+      return response.replies?.[0].addSheet;
     } catch (error) {
       console.error('Error adding sheet:', error);
       throw error;
@@ -222,17 +222,5 @@ export class GoogleSheetsClient {
       console.error('Error exporting to CSV:', error);
       throw error;
     }
-  }
-
-  /**
-   * Get authentication configuration
-   */
-  public getAuthConfig() {
-    return {
-      hasAuth: !!this.auth,
-      authType: this.auth?.constructor?.name || 'none',
-      // TODO: Implement token refresh status
-      needsRefresh: false
-    };
   }
 }

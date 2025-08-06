@@ -66,7 +66,7 @@ export interface CrossLocationAssignment {
 }
 
 export interface LocationCoverage {
-  __locationId: string;
+  locationId: string;
   date: string;
   timeSlot: {
     startTime: string;
@@ -212,7 +212,7 @@ export class CrossLocationOptimizer {
 
   private async analyzeCoverageRequirements(
     startDate: string,
-    _endDate: string
+    endDate: string
   ): Promise<Map<string, CoverageRequirement[]>> {
     const coverageByLocation = new Map<string, CoverageRequirement[]>();
 
@@ -260,7 +260,7 @@ export class CrossLocationOptimizer {
 
   private async calculateTravelOptions(
     staffByLocation: Map<string, StaffMember[]>,
-    _coverageRequirements: Map<string, CoverageRequirement[]>
+    coverageRequirements: Map<string, CoverageRequirement[]>
   ): Promise<Map<string, TravelRoute[]>> {
     const travelOptions = new Map<string, TravelRoute[]>();
 
@@ -321,7 +321,7 @@ export class CrossLocationOptimizer {
   private async generateInitialAssignments(
     coverageRequirements: Map<string, CoverageRequirement[]>,
     staffByLocation: Map<string, StaffMember[]>,
-    _constraints: OptimizationConstraints
+    constraints: OptimizationConstraints
   ): Promise<CrossLocationAssignment[]> {
     const assignments: CrossLocationAssignment[] = [];
 
@@ -344,7 +344,6 @@ export class CrossLocationOptimizer {
 
         for (let i = 0; i < assignmentsNeeded; i++) {
           const staffMember = availableLocalStaff[i];
-          if (!staffMember) continue;
           
           assignments.push({
             staffMemberId: staffMember.id,
@@ -409,7 +408,7 @@ export class CrossLocationOptimizer {
     assignments: CrossLocationAssignment[],
     coverageRequirements: Map<string, CoverageRequirement[]>
   ): Promise<Array<{
-    __locationId: string;
+    locationId: string;
     date: string;
     startTime: string;
     endTime: string;
@@ -418,7 +417,7 @@ export class CrossLocationOptimizer {
     priority: number;
   }>> {
     const gaps: Array<{
-      __locationId: string;
+      locationId: string;
       date: string;
       startTime: string;
       endTime: string;
@@ -442,7 +441,7 @@ export class CrossLocationOptimizer {
 
         if (shortfall > 0) {
           gaps.push({
-            __locationId: locationId,
+            locationId,
             date: requirement.date,
             startTime: requirement.start_time,
             endTime: requirement.end_time,
@@ -459,7 +458,7 @@ export class CrossLocationOptimizer {
 
   private async findCrossLocationAssignments(
     gap: {
-      __locationId: string;
+      locationId: string;
       date: string;
       startTime: string;
       endTime: string;
@@ -500,7 +499,7 @@ export class CrossLocationOptimizer {
       }
 
       // Find route to gap location
-      const routeToLocation = routes.find(route => route.toLocationId === gap.__locationId);
+      const routeToLocation = routes.find(route => route.toLocationId === gap.locationId);
       
       if (!routeToLocation) continue;
 
@@ -519,7 +518,7 @@ export class CrossLocationOptimizer {
       const travelCost = this.calculateTravelCost(routeToLocation, constraints);
       const confidence = this.calculateAssignmentConfidence(
         staffMemberId,
-        gap.__locationId,
+        gap.locationId,
         routeToLocation
       );
       const efficiencyScore = this.calculateEfficiencyScore(
@@ -532,7 +531,7 @@ export class CrossLocationOptimizer {
       potentialAssignments.push({
         staffMemberId,
         primaryLocationId: routeToLocation.fromLocationId,
-        assignedLocationId: gap.__locationId,
+        assignedLocationId: gap.locationId,
         date: gap.date,
         startTime: gap.startTime,
         endTime: gap.endTime,
@@ -556,7 +555,7 @@ export class CrossLocationOptimizer {
   private async getAvailableStaffForRequirement(
     staff: StaffMember[],
     requirement: CoverageRequirement,
-    __locationId: string
+    locationId: string
   ): Promise<StaffMember[]> {
     const availableStaff: StaffMember[] = [];
 
@@ -646,7 +645,7 @@ export class CrossLocationOptimizer {
 
   private calculateAssignmentConfidence(
     staffMemberId: string,
-    __locationId: string,
+    locationId: string,
     route: TravelRoute
   ): number {
     const preferences = this.staffPreferences.get(staffMemberId);
@@ -654,7 +653,7 @@ export class CrossLocationOptimizer {
     let confidence = 0.7; // Base confidence for cross-location assignment
 
     // Increase confidence if location is preferred
-    if (preferences?.preferredLocations?.includes(__locationId)) {
+    if (preferences?.preferredLocations?.includes(locationId)) {
       confidence += 0.2;
     }
 
@@ -699,7 +698,7 @@ export class CrossLocationOptimizer {
     assignments: CrossLocationAssignment[],
     coverageRequirements: Map<string, CoverageRequirement[]>,
     constraints: OptimizationConstraints,
-    __computationTime: number
+    computationTime: number
   ): Promise<OptimizationResult> {
     // Calculate location coverage
     const locationCoverage = await this.calculateLocationCoverage(assignments, coverageRequirements);
@@ -747,7 +746,7 @@ export class CrossLocationOptimizer {
         const shortfall = Math.max(0, requirement.required_staff_count - assignedStaff);
 
         coverage.push({
-          __locationId: locationId,
+          locationId,
           date: requirement.date,
           timeSlot: {
             startTime: requirement.start_time,
@@ -829,10 +828,10 @@ export class CrossLocationOptimizer {
   }
 
   private generateRecommendations(
-    _assignments: CrossLocationAssignment[],
+    assignments: CrossLocationAssignment[],
     locationCoverage: LocationCoverage[],
     travelCosts: OptimizationResult['travelCosts'],
-    _constraints: OptimizationConstraints
+    constraints: OptimizationConstraints
   ): { recommendations: string[]; warnings: string[] } {
     const recommendations: string[] = [];
     const warnings: string[] = [];

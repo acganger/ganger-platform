@@ -3,7 +3,7 @@
  * Multi-stage approval process with escalation and notifications
  */
 
-import { PharmaSchedulingQueries, PharmaAppointment } from '@ganger/db';
+import { PharmaSchedulingQueries, PharmaAppointment, PharmaRepresentative } from '@ganger/db';
 
 export interface ApprovalWorkflowStage {
   id: string;
@@ -116,9 +116,6 @@ export class ApprovalWorkflowEngine {
     
     this.initializeDefaultWorkflows();
     this.startBackgroundProcesses();
-    
-    // Log initialization
-    console.log('[ApprovalWorkflowEngine] Initialized with escalation rules:', this.escalationRules.length);
   }
 
   // =====================================================
@@ -294,7 +291,6 @@ export class ApprovalWorkflowEngine {
   }
 
   async getPendingApprovals(approverEmail: string): Promise<ApprovalWorkflowStage[]> {
-    console.log(`[ApprovalWorkflowEngine] Getting pending approvals for: ${approverEmail}`);
     try {
       // This would query the approval_workflows table
       // For now, returning mock data structure
@@ -310,7 +306,6 @@ export class ApprovalWorkflowEngine {
     actor: string;
     details: Record<string, any>;
   }>> {
-    console.log(`[ApprovalWorkflowEngine] Getting workflow history for appointment: ${appointmentId}`);
     try {
       // This would query communication logs and workflow events
       // For now, returning mock data structure
@@ -720,22 +715,16 @@ export class ApprovalWorkflowEngine {
 
   private async updateWorkflowStageInDB(stageId: string, updates: Partial<ApprovalWorkflowStage>): Promise<ApprovalWorkflowStage> {
     // Would update stage in approval_workflows table
-    console.log(`[ApprovalWorkflowEngine] Updating workflow stage ${stageId}:`, updates);
-    // TODO: Implement database update
     return {} as ApprovalWorkflowStage;
   }
 
   private async getWorkflowStage(stageId: string): Promise<ApprovalWorkflowStage | null> {
     // Would query approval_workflows table
-    console.log(`[ApprovalWorkflowEngine] Getting workflow stage: ${stageId}`);
-    // TODO: Implement database query
     return null;
   }
 
   private async getWorkflowStages(appointmentId: string): Promise<ApprovalWorkflowStage[]> {
     // Would query approval_workflows table
-    console.log(`[ApprovalWorkflowEngine] Getting workflow stages for appointment: ${appointmentId}`);
-    // TODO: Implement database query
     return [];
   }
 
@@ -746,8 +735,6 @@ export class ApprovalWorkflowEngine {
 
   private async logWorkflowEvent(appointmentId: string, event: string, details: Record<string, any>): Promise<void> {
     // Would log to pharma_communications table
-    console.log(`[ApprovalWorkflowEngine] Workflow event for ${appointmentId}: ${event}`, details);
-    // TODO: Implement database logging
   }
 
   private logError(message: string, error: any): void {
@@ -756,42 +743,30 @@ export class ApprovalWorkflowEngine {
 
   // Additional utility methods would be implemented as needed
   private calculateNextDeadline(stages: ApprovalWorkflowStage[]): string | undefined {
-    console.log(`[ApprovalWorkflowEngine] Calculating next deadline for ${stages.length} stages`);
-    // TODO: Implement deadline calculation logic
     return undefined;
   }
 
   private estimateCompletionTime(stages: ApprovalWorkflowStage[]): string | undefined {
-    console.log(`[ApprovalWorkflowEngine] Estimating completion time for ${stages.length} stages`);
-    // TODO: Implement completion time estimation logic
     return undefined;
   }
 
   private checkBlockingIssues(stages: ApprovalWorkflowStage[]): { isBlocked: boolean; blockingReasons: string[] } {
-    console.log(`[ApprovalWorkflowEngine] Checking blocking issues for ${stages.length} stages`);
-    // TODO: Implement blocking issue detection logic
     return { isBlocked: false, blockingReasons: [] };
   }
 
   private isWorkflowComplete(status: WorkflowStatus): boolean {
-    console.log(`[ApprovalWorkflowEngine] Checking if workflow is complete: ${status.overallStatus}`);
     return status.overallStatus === 'approved' || status.overallStatus === 'denied';
   }
 
   private async finalizeWorkflow(status: WorkflowStatus): Promise<void> {
     // Perform final workflow cleanup and notifications
-    console.log(`[ApprovalWorkflowEngine] Finalizing workflow with status: ${status.overallStatus}`);
-    // TODO: Implement finalization logic
   }
 
   private async validateApprovalDecision(decision: ApprovalDecision): Promise<void> {
     // Validate decision parameters
-    console.log(`[ApprovalWorkflowEngine] Validating approval decision: ${decision.decision}`);
-    // TODO: Implement validation logic
   }
 
   private findEscalationTarget(stage: ApprovalWorkflowStage, config: ApprovalWorkflowConfig): string | null {
-    console.log(`[ApprovalWorkflowEngine] Finding escalation target for stage ${stage.id}`);
     return config.escalationChain[0] || null;
   }
 
@@ -801,19 +776,11 @@ export class ApprovalWorkflowEngine {
     escalationTarget: string,
     reason: string
   ): Promise<ApprovalWorkflowStage> {
-    console.log(`[ApprovalWorkflowEngine] Creating escalation stage for ${appointmentId}:`, {
-      originalStage: originalStage.id,
-      escalationTarget,
-      reason
-    });
-    // TODO: Implement escalation stage creation
     return {} as ApprovalWorkflowStage;
   }
 
   private async markStageEscalated(stageId: string, reason: string): Promise<void> {
     // Mark stage as escalated
-    console.log(`[ApprovalWorkflowEngine] Marking stage ${stageId} as escalated: ${reason}`);
-    // TODO: Implement database update
   }
 
   private async getWorkflowConfigForAppointment(appointmentId: string): Promise<ApprovalWorkflowConfig> {
@@ -838,13 +805,9 @@ export class ApprovalWorkflowEngine {
 
   private async skipRemainingStages(appointmentId: string, currentStage: number): Promise<void> {
     // Mark remaining stages as skipped
-    console.log(`[ApprovalWorkflowEngine] Skipping remaining stages for appointment: ${appointmentId}, current stage: ${currentStage}`);
-    // TODO: Implement stage skipping logic
   }
 
   private async updateReminderCount(stageId: string, count: number): Promise<void> {
     // Update reminder count
-    console.log(`[ApprovalWorkflowEngine] Updating reminder count for stage ${stageId}, count: ${count}`);
-    // TODO: Implement database update
   }
 }

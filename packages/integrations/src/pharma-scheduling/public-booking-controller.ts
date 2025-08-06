@@ -7,7 +7,7 @@
 type Request = any;
 type Response = any;
 import { PharmaSchedulingQueries } from '@ganger/db';
-import { PharmaLunchCalendarService, LunchBookingRequest } from './lunch-calendar-service';
+import { PharmaLunchCalendarService, LunchBookingRequest, LUNCH_CALENDARS } from './lunch-calendar-service';
 
 export interface PublicBookingAPIResponse<T = any> {
   success: boolean;
@@ -106,7 +106,7 @@ export class PublicBookingController {
    * GET /api/public/locations
    * Returns all available lunch locations with basic information
    */
-  async getLocations(_req: Request, res: Response): Promise<void> {
+  async getLocations(req: Request, res: Response): Promise<void> {
     try {
       const locations = await this.db.getActiveLunchLocations();
       
@@ -190,8 +190,8 @@ export class PublicBookingController {
         data: {
           location,
           dateRange: {
-            start: startDate.toISOString().split('T')[0] || '',
-            end: endDate.toISOString().split('T')[0] || ''
+            start: startDate.toISOString().split('T')[0],
+            end: endDate.toISOString().split('T')[0]
           },
           availableSlots: formattedSlots,
           bookingInstructions: `Select an available time slot for your lunch presentation in ${location}. Appointments are ${config.durationMinutes} minutes long.`,
@@ -552,7 +552,7 @@ export class PublicBookingController {
     return days.map(day => {
       // Handle Monday = 1, Sunday = 7 format
       const index = day === 7 ? 0 : day;
-      return dayNames[index] || '';
+      return dayNames[index];
     });
   }
 
@@ -568,9 +568,6 @@ export class PublicBookingController {
 
   private formatTime(timeStr: string): string {
     const [hours, minutes] = timeStr.split(':').map(Number);
-    if (hours === undefined || minutes === undefined) {
-      return timeStr;
-    }
     const period = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
     return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;

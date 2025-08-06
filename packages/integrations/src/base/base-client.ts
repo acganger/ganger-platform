@@ -174,7 +174,7 @@ export abstract class BaseIntegrationClient {
     
     switch (format) {
       case 'date':
-        return d.toISOString().split('T')[0] || '';
+        return d.toISOString().split('T')[0];
       case 'datetime':
         return d.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '');
       case 'iso':
@@ -308,13 +308,11 @@ class RateLimiter {
     if (this.requests.length >= this.maxRequests) {
       // Calculate how long to wait
       const oldestRequest = this.requests[0];
-      if (oldestRequest !== undefined) {
-        const waitTime = this.windowMs - (now - oldestRequest);
-        
-        if (waitTime > 0) {
-          await this.sleep(waitTime);
-          return this.acquire(); // Retry after waiting
-        }
+      const waitTime = this.windowMs - (now - oldestRequest);
+      
+      if (waitTime > 0) {
+        await this.sleep(waitTime);
+        return this.acquire(); // Retry after waiting
       }
     }
     

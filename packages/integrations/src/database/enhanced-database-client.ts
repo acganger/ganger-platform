@@ -614,7 +614,7 @@ export class EnhancedDatabaseClient {
     }
   }
 
-  private async validatePostMigration(_migrationName: string): Promise<void> {
+  private async validatePostMigration(migrationName: string): Promise<void> {
     // Basic post-migration checks
     try {
       const metrics = await this.mcpService?.getDatabaseMetrics();
@@ -650,7 +650,7 @@ export class EnhancedDatabaseClient {
     // In real implementation, this would send notifications via Slack, email, etc.
   }
 
-  private async alertSlowQuery(table: string, duration: number, _operation: DatabaseOperation): Promise<void> {
+  private async alertSlowQuery(table: string, duration: number, operation: DatabaseOperation): Promise<void> {
     console.warn(`🚨 SLOW QUERY ALERT: ${table} took ${duration}ms`);
     // In real implementation, this would trigger monitoring alerts
   }

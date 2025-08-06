@@ -43,7 +43,7 @@ export class GoogleCalendarClient {
     this.calendar = google.calendar({ version: 'v3', auth });
   }
 
-  static createAuth(credentials: any, _scopes: string[]) {
+  static createAuth(credentials: any, scopes: string[]) {
     const { client_secret, client_id, redirect_uris } = credentials.installed || credentials.web;
     return new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
   }
@@ -196,17 +196,5 @@ export class GoogleCalendarClient {
       console.error('Error finding available slots:', error);
       throw error;
     }
-  }
-
-  /**
-   * Get authentication status
-   */
-  public getAuthStatus() {
-    return {
-      authenticated: !!this.auth,
-      authType: this.auth?.constructor?.name || 'unknown',
-      // TODO: Add actual token validation when implementing refresh
-      tokenValid: !!this.auth
-    };
   }
 }

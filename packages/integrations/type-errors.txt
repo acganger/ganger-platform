@@ -1,0 +1,8 @@
+
+> @ganger/integrations@0.1.0 type-check /q/Projects/ganger-platform/packages/integrations
+> tsc --noEmit "2"
+
+error TS6231: Could not resolve the path '2' with the extensions: '.ts', '.tsx', '.d.ts', '.cts', '.d.cts', '.mts', '.d.mts'.
+  The file is in the program because:
+    Root file specified for compilation
+ ELIFECYCLE  Command failed with exit code 2.

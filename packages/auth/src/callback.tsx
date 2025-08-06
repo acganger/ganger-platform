@@ -3,7 +3,7 @@
 // Note: This component is for Pages Router apps only. App Router apps should implement their own callback page.
 
 import React, { useEffect, useState } from 'react';
-import Router from 'next/router';
+import useRouter from 'next/router';
 import { getTypedSupabaseClient } from './supabase';
 import { sessionManager, getCurrentApp, APP_URLS, type AppName } from './cross-app';
 
@@ -20,7 +20,7 @@ export function AuthCallback({
   onSuccess,
   onError 
 }: AuthCallbackProps) {
-  // Using Router directly for Pages Router compatibility
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -77,7 +77,7 @@ export function AuthCallback({
               window.location.href = redirectTo;
             } else {
               // Internal redirect
-              Router.push(redirectTo);
+              router.push(redirectTo);
             }
             
             return;
@@ -94,13 +94,13 @@ export function AuthCallback({
           if (redirectTo.startsWith('http')) {
             window.location.href = redirectTo;
           } else {
-            Router.push(redirectTo);
+            router.push(redirectTo);
           }
         } else {
           // No valid session, redirect to login
           const currentApp = getCurrentApp() || appName;
           const loginUrl = currentApp && currentApp in APP_URLS ? `${APP_URLS[currentApp as AppName]}/auth/login` : '/auth/login';
-          Router.push(loginUrl);
+          router.push(loginUrl);
         }
         
       } catch (err) {
@@ -116,7 +116,7 @@ export function AuthCallback({
         setTimeout(() => {
           const currentApp = getCurrentApp() || appName;
           const loginUrl = currentApp && currentApp in APP_URLS ? `${APP_URLS[currentApp as AppName]}/auth/login?error=${encodeURIComponent(errorMessage)}` : '/auth/login';
-          Router.push(loginUrl);
+          router.push(loginUrl);
         }, 3000);
       } finally {
         setLoading(false);
@@ -124,7 +124,7 @@ export function AuthCallback({
     };
     
     handleAuthCallback();
-  }, [appName, defaultRedirect, onSuccess, onError]);
+  }, [router, appName, defaultRedirect, onSuccess, onError]);
   
   if (loading) {
     return (
@@ -174,8 +174,10 @@ export function withAuthCallback<P extends object>(
   callbackProps?: Omit<AuthCallbackProps, 'children'>
 ) {
   return function AuthCallbackWrapper(props: P) {
-    // Check if this is an auth callback URL using window.location
-    const isCallback = window.location.pathname.includes('/auth/callback') || 
+    const router = useRouter();
+    
+    // Check if this is an auth callback URL
+    const isCallback = router.asPath.includes('/auth/callback') || 
                       window.location.hash.includes('access_token') ||
                       window.location.search.includes('access_token');
     

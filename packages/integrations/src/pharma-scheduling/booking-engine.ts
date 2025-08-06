@@ -780,7 +780,6 @@ export class PharmaceuticalBookingEngine {
   }
 
   private generateNextSteps(appointment: PharmaAppointment, approvalRequired: boolean): string[] {
-    console.log(`[BookingEngine] Generating next steps for appointment ${appointment.id}`);
     const steps: string[] = [];
 
     if (approvalRequired) {
@@ -798,7 +797,6 @@ export class PharmaceuticalBookingEngine {
   }
 
   private generateConfirmationNumber(appointmentId: string): string {
-    console.log(`[BookingEngine] Generating confirmation number for appointment: ${appointmentId}`);
     const timestamp = Date.now().toString(36);
     const random = Math.random().toString(36).substr(2, 4);
     return `PH${timestamp}${random}`.toUpperCase();
@@ -816,13 +814,7 @@ export class PharmaceuticalBookingEngine {
   }
 
   private calculateEndTime(startTime: string, durationMinutes: number): string {
-    const parts = startTime.split(':');
-    if (parts.length !== 2) return startTime;
-    
-    const hours = Number(parts[0]);
-    const minutes = Number(parts[1]);
-    if (isNaN(hours) || isNaN(minutes)) return startTime;
-    
+    const [hours, minutes] = startTime.split(':').map(Number);
     const startMinutes = hours * 60 + minutes;
     const endMinutes = startMinutes + durationMinutes;
     const endHours = Math.floor(endMinutes / 60);

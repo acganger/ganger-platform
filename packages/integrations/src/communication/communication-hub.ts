@@ -5,6 +5,7 @@ import { HIPAACompliantSMSService, MedicalSMSTemplates } from './sms-service';
 import { PatientConsentManager } from './consent-manager';
 import { 
   CommunicationConfig, 
+  CommunicationRequest, 
   SMSDeliveryResult,
   HandoutDeliveryMessage,
   AppointmentReminderMessage,
@@ -375,7 +376,7 @@ export class PatientCommunicationHub {
     
     try {
       // Test database connectivity
-      await this.consentManager.hasValidConsent('test', 'sms');
+      const testConsent = await this.consentManager.hasValidConsent('test', 'sms');
       
       // Test SMS service configuration
       const smsHealthy = !!this.config.twilio_account_sid && !!this.config.twilio_auth_token;

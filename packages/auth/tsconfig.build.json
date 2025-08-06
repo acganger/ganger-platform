@@ -9,5 +9,5 @@
     "jsx": "react-jsx"
   },
   "include": ["src/**/*", "*.ts"],
-  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "src/**/__tests__/**/*"]
 }

@@ -5,7 +5,7 @@
  */
 
 import { DeputyClient, type DeputyEmployee, type DeputyAvailability, type SyncAvailabilityResult } from './deputy-client';
-import { MigrationHelpers } from '@ganger/db';
+import { MigrationHelpers, StatusMapping, type OldEmployeeStatus, type NewEmployeeStatus } from '@ganger/db';
 
 export interface MigrationDeputyConfig {
   enableMigrationMode: boolean;
@@ -356,28 +356,28 @@ export class MigrationDeputyAdapter {
     return null; // Placeholder
   }
 
-  private async createStaffMemberWithMigration(_data: any): Promise<any> {
+  private async createStaffMemberWithMigration(data: any): Promise<any> {
     if (this.config.logMigrationOperations) {
       console.log(`[Migration Deputy] Creating staff member in ${this.getStaffTableName()}`);
     }
     return null; // Placeholder
   }
 
-  private async updateStaffMemberWithMigration(id: string, _data: any): Promise<any> {
+  private async updateStaffMemberWithMigration(id: string, data: any): Promise<any> {
     if (this.config.logMigrationOperations) {
       console.log(`[Migration Deputy] Updating staff member ${id} in ${this.getStaffTableName()}`);
     }
     return null; // Placeholder
   }
 
-  private async createStaffAvailabilityWithMigration(_data: any): Promise<any> {
+  private async createStaffAvailabilityWithMigration(data: any): Promise<any> {
     if (this.config.logMigrationOperations) {
       console.log(`[Migration Deputy] Creating availability in ${this.getAvailabilityTableName()}`);
     }
     return null; // Placeholder
   }
 
-  private async updateStaffAvailabilityWithMigration(id: string, _data: any): Promise<any> {
+  private async updateStaffAvailabilityWithMigration(id: string, data: any): Promise<any> {
     if (this.config.logMigrationOperations) {
       console.log(`[Migration Deputy] Updating availability ${id} in ${this.getAvailabilityTableName()}`);
     }

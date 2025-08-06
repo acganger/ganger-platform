@@ -36,11 +36,11 @@ export function useUser(): UseUserReturn {
 
   const hasRole = (role: string): boolean => {
     if (!userProfile) return false;
-    return (userProfile as any).role === role;
+    return userProfile.role === role;
   };
 
   return {
-    user: (userProfile as UserProfile) || null,
+    user: userProfile || null,
     loading: authLoading || isLoading,
     error: error as Error | null,
     isAdmin: hasRole('admin'),

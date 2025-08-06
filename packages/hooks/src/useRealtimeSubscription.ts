@@ -97,7 +97,7 @@ export function useRealtimeSubscription<T extends { id: string }>(
         const channel = supabase
           .channel(`${table}-changes`)
           .on(
-            'postgres_changes' as any,
+            'postgres_changes',
             {
               event: options.event || '*',
               schema: options.schema || 'public',
@@ -156,24 +156,30 @@ export function useRealtimeList<T extends { id: string }>(
 ) {
   const state = useRealtimeSubscription<T>(table, options);
   
-  // Note: Optimistic updates would require access to setState from the parent hook
-  // For now, these are placeholder implementations
   const optimisticUpdate = useCallback((
     id: string,
     updates: Partial<T>
   ) => {
-    console.log(`[RealtimeList] Optimistic update for ${id}:`, updates);
-    // TODO: Implement optimistic update mechanism
+    setState(prev => ({
+      ...prev,
+      data: prev.data.map(item =>
+        item.id === id ? { ...item, ...updates } : item
+      ),
+    }));
   }, []);
 
   const optimisticInsert = useCallback((newItem: T) => {
-    console.log(`[RealtimeList] Optimistic insert:`, newItem);
-    // TODO: Implement optimistic insert mechanism
+    setState(prev => ({
+      ...prev,
+      data: [...prev.data, newItem],
+    }));
   }, []);
 
   const optimisticDelete = useCallback((id: string) => {
-    console.log(`[RealtimeList] Optimistic delete: ${id}`);
-    // TODO: Implement optimistic delete mechanism
+    setState(prev => ({
+      ...prev,
+      data: prev.data.filter(item => item.id !== id),
+    }));
   }, []);
 
   return {

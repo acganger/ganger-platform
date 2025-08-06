@@ -145,8 +145,6 @@ export class EnhancedAIError extends Error {
    * Generate user-friendly error message
    */
   private generateUserMessage(category: ErrorCategory, technicalMessage: string): string {
-    // Log technical message for debugging
-    console.debug(`[ErrorHandler] Technical message for ${category}:`, technicalMessage);
     const messages: Record<ErrorCategory, string> = {
       authentication: 'Please log in to continue using AI features.',
       validation: 'Please check your input and try again.',
@@ -221,15 +219,6 @@ export class EnhancedAIError extends Error {
       timestamp: this.timestamp,
       stackTrace: this.stack
     };
-    
-    // Log cause information if available
-    if (cause) {
-      console.debug(`[ErrorHandler] Error cause:`, {
-        message: cause.message,
-        name: cause.name,
-        stack: cause.stack
-      });
-    }
 
     // Add browser information if available
     if (typeof window !== 'undefined') {

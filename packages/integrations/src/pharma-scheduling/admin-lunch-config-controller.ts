@@ -97,7 +97,6 @@ export interface AuditLogEntry {
 // Role-based access control decorator
 export function requireRole(roles: string[]): MethodDecorator {
   return function (target: any, propertyName: string | symbol | undefined, descriptor: PropertyDescriptor) {
-    console.log(`[RoleAuth] Applying role requirement to ${String(propertyName)} on ${target.constructor.name}`);
     const method = descriptor.value;
     descriptor.value = function (req: AuthenticatedRequest, res: Response, ...args: any[]) {
       if (!req.user) {
@@ -145,7 +144,7 @@ export class AdminLunchConfigController {
    * Get all lunch location configurations
    */
   // @requireRole(['manager', 'superadmin']) // TODO: Fix decorator signature
-  async getLunchConfigs(_req: AuthenticatedRequest, res: Response): Promise<void> {
+  async getLunchConfigs(req: AuthenticatedRequest, res: Response): Promise<void> {
     try {
       const configs = await this.db.getAllLunchConfigs();
       
@@ -188,17 +187,6 @@ export class AdminLunchConfigController {
   async getLunchConfig(req: AuthenticatedRequest, res: Response): Promise<void> {
     try {
       const { location } = req.params;
-      if (!location) {
-        const response: AdminAPIResponse = {
-          success: false,
-          error: 'Location parameter is required',
-          message: 'Location must be specified in the URL',
-          timestamp: new Date().toISOString(),
-          requestId: this.generateRequestId()
-        };
-        res.status(400).json(response);
-        return;
-      }
       const config = await this.db.getLunchConfigByLocation(location);
 
       if (!config) {
@@ -227,9 +215,9 @@ export class AdminLunchConfigController {
         stats: {
           upcomingBookings: upcomingBookings.length,
           nextBooking: upcomingBookings.length > 0 ? {
-            date: upcomingBookings[0] ? this.formatDate(upcomingBookings[0].appointmentDate) : '',
-            time: upcomingBookings[0] ? this.formatTime(upcomingBookings[0].startTime) : '',
-            repName: upcomingBookings[0]?.repId || 'Unknown',
+            date: this.formatDate(upcomingBookings[0].appointmentDate),
+            time: this.formatTime(upcomingBookings[0].startTime),
+            repName: upcomingBookings[0].repId,
             companyName: 'Loading...' // Would need to join with rep data
           } : null
         }
@@ -266,17 +254,6 @@ export class AdminLunchConfigController {
   async updateLunchConfig(req: AuthenticatedRequest, res: Response): Promise<void> {
     try {
       const { location } = req.params;
-      if (!location) {
-        const response: AdminAPIResponse = {
-          success: false,
-          error: 'Location parameter is required',
-          message: 'Location must be specified in the URL',
-          timestamp: new Date().toISOString(),
-          requestId: this.generateRequestId()
-        };
-        res.status(400).json(response);
-        return;
-      }
       const updateData: LunchConfigUpdateRequest = req.body;
       const userId = req.user!.id;
 
@@ -405,7 +382,7 @@ export class AdminLunchConfigController {
             testPeriod: `${testDays} days`,
             totalSlotsChecked: slots.length,
             availableSlots: availableSlots.length,
-            nextAvailableSlot: availableSlots.length > 0 && availableSlots[0] ? 
+            nextAvailableSlot: availableSlots.length > 0 ? 
               `${availableSlots[0].date} at ${availableSlots[0].startTime}` : 
               'None in test period'
           };
@@ -456,7 +433,7 @@ export class AdminLunchConfigController {
    * Get complete system overview with all locations
    */
   // @requireRole(['manager', 'superadmin']) // TODO: Fix decorator signature
-  async getSystemOverview(_req: AuthenticatedRequest, res: Response): Promise<void> {
+  async getSystemOverview(req: AuthenticatedRequest, res: Response): Promise<void> {
     try {
       // Get location summary from calendar service
       const locationSummary = await this.calendarService.getLocationSummary();
@@ -498,8 +475,8 @@ export class AdminLunchConfigController {
             bookings: {
               upcomingCount: recentBookings.length,
               nextBooking: recentBookings.length > 0 ? {
-                date: recentBookings[0] ? this.formatDate(recentBookings[0].appointmentDate) : '',
-                time: recentBookings[0] ? this.formatTime(recentBookings[0].startTime) : '',
+                date: this.formatDate(recentBookings[0].appointmentDate),
+                time: this.formatTime(recentBookings[0].startTime),
                 repName: 'Loading...',
                 companyName: 'Loading...'
               } : undefined
@@ -601,7 +578,7 @@ export class AdminLunchConfigController {
   private async logConfigurationChange(
     location: string,
     user: { id: string; email: string; role: string },
-    _oldConfig: LunchAvailabilityConfig,
+    oldConfig: LunchAvailabilityConfig,
     changes: LunchConfigUpdateRequest,
     userAgent?: string,
     ipAddress?: string
@@ -628,16 +605,12 @@ export class AdminLunchConfigController {
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days.map(day => {
       const index = day === 7 ? 0 : day;
-      return dayNames[index] || 'Unknown';
-    }).filter(name => name !== 'Unknown');
+      return dayNames[index];
+    });
   }
 
   private formatTime(timeStr: string): string {
-    const parts = timeStr.split(':');
-    if (parts.length !== 2) return timeStr;
-    const hours = Number(parts[0]);
-    const minutes = Number(parts[1]);
-    if (isNaN(hours) || isNaN(minutes)) return timeStr;
+    const [hours, minutes] = timeStr.split(':').map(Number);
     const period = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
     return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;

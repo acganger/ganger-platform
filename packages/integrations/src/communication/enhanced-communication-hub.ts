@@ -5,9 +5,13 @@ import { PatientCommunicationHub } from './communication-hub';
 import { EnhancedDatabaseClient } from '../database/enhanced-database-client';
 import { 
   CommunicationConfig, 
+  CommunicationRequest, 
   SMSDeliveryResult,
   HandoutDeliveryMessage,
   AppointmentReminderMessage,
+  MedicationUpdateMessage,
+  TrainingNotificationMessage,
+  StaffAlertMessage
 } from './types';
 
 export interface CommunicationAnalytics {
