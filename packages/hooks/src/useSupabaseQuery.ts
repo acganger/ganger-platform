@@ -4,7 +4,7 @@ import { errorTracking } from '@ganger/monitoring';
 
 interface SupabaseQueryOptions<T> extends Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'> {
   table: string;
-  select?: string;
+  columns?: string; // Renamed from select to avoid conflict
   filters?: Record<string, any>;
   orderBy?: { column: string; ascending?: boolean };
   limit?: number;
@@ -17,19 +17,23 @@ export function useSupabaseQuery<T = any>(
 ) {
   const supabase = getSupabaseClient();
   
+  // Destructure supabase-specific options from react-query options
+  const { table, columns, filters, orderBy, limit, single, ...queryOptions } = options;
+  
   return useQuery<T>({
     queryKey,
+    ...queryOptions,
     queryFn: async () => {
       const startTime = performance.now();
       
       try {
         let query = supabase
-          .from(options.table)
-          .select(options.select || '*');
+          .from(table)
+          .select(columns || '*');
 
         // Apply filters
-        if (options.filters) {
-          Object.entries(options.filters).forEach(([key, value]) => {
+        if (filters) {
+          Object.entries(filters).forEach(([key, value]) => {
             if (value === null) {
               query = query.is(key, null);
             } else if (Array.isArray(value)) {
@@ -48,19 +52,19 @@ export function useSupabaseQuery<T = any>(
         }
 
         // Apply ordering
-        if (options.orderBy) {
-          query = query.order(options.orderBy.column, {
-            ascending: options.orderBy.ascending ?? true
+        if (orderBy) {
+          query = query.order(orderBy.column, {
+            ascending: orderBy.ascending ?? true
           });
         }
 
         // Apply limit
-        if (options.limit) {
-          query = query.limit(options.limit);
+        if (limit) {
+          query = query.limit(limit);
         }
 
         // Execute query
-        const { data, error } = options.single 
+        const { data, error } = single 
           ? await query.single()
           : await query;
 
@@ -111,7 +115,7 @@ export function useSupabaseItem<T = any>(
     [table, id],
     {
       table,
-      select,
+      columns: select,
       filters: { id },
       single: true,
       enabled: !!id
@@ -132,7 +136,7 @@ export function useSupabaseList<T = any>(
     [table, 'list', JSON.stringify(filters)],
     {
       table,
-      select: options?.select,
+      columns: options?.select,
       filters,
       orderBy: options?.orderBy,
       limit: options?.limit

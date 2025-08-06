@@ -52,7 +52,6 @@ export class SupabaseMCPService {
   private adminClient: SupabaseClient<Database>;
   private config: SupabaseMCPConfig;
   private subscriptions: Map<string, RealTimeSubscription> = new Map();
-  private mcpProcess: any = null;
 
   constructor(config: SupabaseMCPConfig) {
     this.config = config;
@@ -215,7 +214,7 @@ export class SupabaseMCPService {
     try {
       console.log(`🔄 Rolling back migration: ${migrationId}`);
       
-      const { data, error } = await this.adminClient.rpc('rollback_migration', {
+      const { error } = await this.adminClient.rpc('rollback_migration', {
         migration_id: migrationId
       });
       
@@ -247,7 +246,7 @@ export class SupabaseMCPService {
   /**
    * Deploy Edge Function with MCP
    */
-  async deployEdgeFunction(functionName: string, functionCode: string): Promise<EdgeFunctionResult> {
+  async deployEdgeFunction(functionName: string, _functionCode: string): Promise<EdgeFunctionResult> {
     try {
       console.log(`🔄 Deploying Edge Function: ${functionName}`);
       
@@ -340,6 +339,14 @@ export class SupabaseMCPService {
         callback
       )
       .subscribe();
+    
+    // Log subscription details
+    console.log(`[SupabaseMCP] Created subscription ${subscriptionId}:`, {
+      table,
+      event,
+      channel: subscription.topic,
+      state: subscription.state
+    });
     
     this.subscriptions.set(subscriptionId, {
       id: subscriptionId,

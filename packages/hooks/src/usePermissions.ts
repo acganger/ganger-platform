@@ -35,14 +35,14 @@ export function usePermissions(): UsePermissionsReturn {
     if (isAdmin) return true;
     
     // Check specific permissions
-    return permissions.some(
+    return Array.isArray(permissions) && permissions.some(
       p => p.resource === resource && p.action === action
     );
   };
 
   return {
     can,
-    permissions,
+    permissions: permissions as Permission[],
     loading: isLoading,
     error: error as Error | null
   };

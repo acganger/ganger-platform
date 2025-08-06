@@ -10,17 +10,17 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // Temporarily ignore to see if TS checking is the issue
+    ignoreBuildErrors: false,
   },
   images: {
     domains: ['pfqtzmxxxhhsxmlddrta.supabase.co'],
     unoptimized: true,
   },
-  // output: 'standalone', // Disabled temporarily - can cause build hangs
+  output: 'standalone',
   
   // Generate source maps in production for better error tracking
   // These will be uploaded by Vercel's Sentry integration
-  // productionBrowserSourceMaps: true, // Disabled temporarily - can cause build hangs
+  productionBrowserSourceMaps: true,
 
   webpack: (config, { isServer }) => {
     if (!isServer) {

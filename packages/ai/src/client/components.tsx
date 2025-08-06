@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { ChatMessage, AIModel, ApplicationContext } from '../shared/types';
 
 /**

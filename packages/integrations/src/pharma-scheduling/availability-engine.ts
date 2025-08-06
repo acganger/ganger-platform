@@ -327,7 +327,7 @@ export class AvailabilityEngine {
           const slotEnd = slotStart + activity.durationMinutes;
           
           slots.push({
-            date: dateStr,
+            date: dateStr || '',
             startTime: this.minutesToTime(slotStart),
             endTime: this.minutesToTime(slotEnd),
             isAvailable: true // Will be updated by conflict detection
@@ -506,6 +506,7 @@ export class AvailabilityEngine {
 
     // This would check against the booking_rules table
     // For now, implementing basic rules
+    console.log(`[AvailabilityEngine] Checking business rules for activity ${activityId}: ${appointmentDate} ${startTime}-${endTime}`);
     
     // Example: Check holiday blackouts
     const holidays = ['2024-12-25', '2024-01-01', '2024-07-04', '2024-11-28'];
@@ -542,6 +543,7 @@ export class AvailabilityEngine {
   ): Promise<Map<string, boolean>> {
     // This would integrate with Google Calendar or staff scheduling system
     // For now, returning mock data
+    console.log(`[AvailabilityEngine] Getting staff availability for ${location}: ${startDate} to ${endDate}`);
     const staffAvailability = new Map<string, boolean>();
     
     // Mock staff members
@@ -560,6 +562,7 @@ export class AvailabilityEngine {
 
   private async getBusinessRules(activityId: string): Promise<BusinessRule[]> {
     // This would query the booking_rules table
+    console.log(`[AvailabilityEngine] Getting business rules for activity: ${activityId}`);
     return [];
   }
 
@@ -711,7 +714,7 @@ export class AvailabilityEngine {
   // Helper methods
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes;
+    return (hours || 0) * 60 + (minutes || 0);
   }
 
   private minutesToTime(minutes: number): string {
@@ -726,7 +729,7 @@ export class AvailabilityEngine {
 
   private getDayName(dayOfWeek: number): string {
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    return days[dayOfWeek];
+    return days[dayOfWeek] || 'unknown';
   }
 
   private getDateDayOfWeek(dateStr: string): number {
@@ -736,7 +739,7 @@ export class AvailabilityEngine {
   private addDays(dateStr: string, days: number): string {
     const date = new Date(dateStr);
     date.setDate(date.getDate() + days);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split('T')[0] || '';
   }
 
   private isCacheValid(key: string): boolean {

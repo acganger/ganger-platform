@@ -37,7 +37,7 @@ export function useThrottledCallback<T extends (...args: any[]) => any>(
   delay: number
 ): T {
   const lastRun = useRef(Date.now());
-  const timeout = useRef<NodeJS.Timeout>();
+  const timeout = useRef<number | undefined>(undefined);
   const callbackRef = useRef(callback);
 
   // Update the callback ref when it changes
@@ -63,7 +63,7 @@ export function useThrottledCallback<T extends (...args: any[]) => any>(
         if (timeout.current) {
           clearTimeout(timeout.current);
         }
-        timeout.current = setTimeout(run, delay - timeSinceLastRun);
+        timeout.current = window.setTimeout(run, delay - timeSinceLastRun);
       }
     },
     [delay]

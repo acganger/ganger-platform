@@ -12,7 +12,8 @@ export function getSupabaseProjectId(url: string): string {
     
     // Standard Supabase URL format: https://[project-id].supabase.co
     if (urlObj.hostname.endsWith('.supabase.co')) {
-      return urlObj.hostname.split('.')[0];
+      const projectId = urlObj.hostname.split('.')[0];
+      return projectId || 'unknown';
     }
     
     // Custom domain - we need to use a different approach

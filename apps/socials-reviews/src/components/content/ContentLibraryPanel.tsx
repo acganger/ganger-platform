@@ -56,14 +56,23 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
   const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'approved' | 'published'>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Mock data for development
+  // Load adapted content from API
   useEffect(() => {
-    const loadMockContent = () => {
+    const loadContent = async () => {
       setLoading(true);
       
-      // Simulate API delay
-      setTimeout(() => {
-        const mockContent: AdaptedContent[] = [
+      try {
+        const response = await fetch('/api/content');
+        if (!response.ok) {
+          throw new Error('Failed to fetch content');
+        }
+        
+        const data = await response.json();
+        setContent(data.content || []);
+      } catch (error) {
+        console.error('Error loading content:', error);
+        // Fallback to sample content for demo
+        const sampleContent: AdaptedContent[] = [
           {
             id: 'content_001',
             original_post_id: 'post_001',
@@ -160,8 +169,8 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
 
         // Filter by active tab
         const filteredContent = activeTab === 'all' 
-          ? mockContent 
-          : mockContent.filter(item => {
+          ? sampleContent 
+          : sampleContent.filter(item => {
               switch (activeTab) {
                 case 'pending':
                   return item.adaptation_status === 'pending';
@@ -176,12 +185,13 @@ export default function ContentLibraryPanel({ className = '' }: ContentLibraryPa
 
         setContent(filteredContent);
         setTotalPages(Math.ceil(filteredContent.length / 12));
-        setLoading(false);
-        setError(null);
-      }, 1000);
+      }
+      
+      setLoading(false);
+      setError(null);
     };
 
-    loadMockContent();
+    loadContent();
   }, [filters, sortBy, sortOrder, currentPage, activeTab]);
 
   const handleRefresh = () => {

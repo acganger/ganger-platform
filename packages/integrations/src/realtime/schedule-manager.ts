@@ -503,7 +503,7 @@ export class RealTimeScheduleManager {
   }
 
   private async broadcastEvent(event: WebSocketEvent): Promise<void> {
-    const eventJson = JSON.stringify(event);
+    const _eventJson = JSON.stringify(event);
     
     for (const [sessionId, session] of this.activeSessions) {
       if (session.isActive) {

@@ -12,7 +12,6 @@ export interface TwilioMCPConfig {
 
 export class TwilioMCPService {
   private config: TwilioMCPConfig;
-  private mcpServerUrl?: string;
 
   constructor(config: TwilioMCPConfig) {
     this.config = config;

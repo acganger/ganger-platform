@@ -17,10 +17,27 @@ body {
   box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px #3b82f650; /* ring-2 ring-primary-500 ring-offset-2 */
 }
 
-/* 
-TODO: Temporarily commented out until Tailwind v4 compatibility is resolved
-All custom component styles will be restored after deployment verification
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+  
+  .input-field {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm;
+  }
+}
 
-@layer components { ... }
-@layer utilities { ... }
-*/
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-delayed {
+    animation-delay: 150ms;
+  }
+}

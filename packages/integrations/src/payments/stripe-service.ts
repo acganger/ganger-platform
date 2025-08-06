@@ -230,6 +230,17 @@ export class MedicalPaymentService {
   }
 
   /**
+   * Get client configuration for Stripe Elements
+   * Used by frontend to initialize Stripe.js
+   */
+  getClientConfig(): { publishableKey: string; webhookUrl: string } {
+    return {
+      publishableKey: this.stripePublishableKey,
+      webhookUrl: `${this.baseUrl}/api/webhooks/stripe`
+    };
+  }
+
+  /**
    * Calculate payment processing fee
    */
   calculateProcessingFee(amount: number): number {
@@ -376,6 +387,30 @@ export class MedicalPaymentService {
       console.error('Webhook verification failed:', error);
       return null;
     }
+  }
+
+  /**
+   * Create a patient payment record
+   * Used for tracking payments in the medical system
+   */
+  public async createPatientPayment(payment: Partial<PatientPayment>): Promise<PatientPayment> {
+    // TODO: Implement patient payment creation in database
+    console.log('[MedicalPaymentService] Creating patient payment record:', payment);
+    
+    const patientPayment: PatientPayment = {
+      id: `pay_${Date.now()}`,
+      patient_id: payment.patient_id || '',
+      appointment_id: payment.appointment_id,
+      amount: payment.amount || 0,
+      currency: payment.currency || 'usd',
+      status: payment.status || 'pending',
+      payment_method_id: payment.payment_method_id,
+      stripe_payment_intent_id: payment.stripe_payment_intent_id,
+      created_at: new Date(),
+      updated_at: new Date()
+    };
+    
+    return patientPayment;
   }
 }
 

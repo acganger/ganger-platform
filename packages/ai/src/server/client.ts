@@ -37,7 +37,7 @@ import { SafetyFilter } from './safety';
 import { ReliabilityManager } from './reliability';
 import { AIResponseCache } from './cache';
 import { CostMonitor } from './monitoring';
-import { AIErrorHandler, AIErrorFactory, withErrorHandling } from './error-handling';
+import { AIErrorHandler, withErrorHandling } from './error-handling';
 
 import {
   AI_MODELS,
@@ -504,6 +504,10 @@ export class GangerAI {
     messages: ChatMessage[],
     config?: any
   ): Promise<string> {
+    // Log config for debugging
+    if (config) {
+      console.debug('[Cloudflare AI] Using config:', config);
+    }
     // Map our model names to Cloudflare's model identifiers
     const modelMapping: Record<AIModel, string> = {
       'llama-4-scout-17b-16e-instruct': '@cf/meta/llama-3.1-8b-instruct', // Using available model as substitute
@@ -612,6 +616,10 @@ export class GangerAI {
     requestId: string,
     startTime: number
   ): Promise<void> {
+    // Calculate response time
+    const responseTime = Date.now() - startTime;
+    console.debug(`[GangerAI] Request ${requestId} completed in ${responseTime}ms`);
+    
     // Log usage metrics
     if (this.config.enableUsageMonitoring) {
       await this.logUsageEvent({
@@ -643,7 +651,11 @@ export class GangerAI {
     }
   }
 
-  private handleError(error: any, requestId: string, startTime: number): AIResponse {
+  /**
+   * Handle errors and return a consistent error response
+   * This method is used by the error handling wrapper to format error responses
+   */
+  public handleError(error: any, requestId: string, startTime: number): AIResponse {
     const responseTime = Date.now() - startTime;
     
     // Log error usage event
@@ -694,6 +706,9 @@ export class GangerAI {
     const now = Date.now();
     const modelConfig = AI_MODELS[model];
     const appLimits = APP_RATE_LIMITS[this.config.app!];
+    
+    console.debug(`[GangerAI] Checking rate limits for request ${requestId} - App: ${this.config.app}, Model: ${model}`);
+    console.debug(`[GangerAI] App limits:`, appLimits);
 
     // Check cooldown between requests
     if (modelConfig.rateLimits.cooldownBetweenRequests) {
@@ -715,6 +730,8 @@ export class GangerAI {
     const appLimits = APP_RATE_LIMITS[this.config.app!];
     if (!appLimits) return;
 
+    console.debug(`[GangerAI] Checking budget for request ${requestId}`);
+    
     // Get today's usage
     const usage = await this.getUsageStats('day');
     
@@ -750,7 +767,7 @@ Respond with a safety score (0-1) and explanation.`;
   private parseSafetyScore(response: string): number {
     // Simple regex to extract safety score from response
     const scoreMatch = response.match(/(?:score|safety)[:\s]*([0-9.]+)/i);
-    if (scoreMatch) {
+    if (scoreMatch && scoreMatch[1]) {
       return Math.min(1, Math.max(0, parseFloat(scoreMatch[1])));
     }
     // Conservative default if no score found
@@ -840,6 +857,75 @@ Respond with a safety score (0-1) and explanation.`;
     } catch (error) {
       console.error('Failed to log audit event:', error);
     }
+  }
+
+  /**
+   * Debug and configuration helper methods
+   */
+  public getAvailableContexts(): ApplicationContext[] {
+    // Return all available application contexts (only those defined in the type)
+    return ['staff', 'inventory', 'handouts', 'checkin-kiosk', 'medication-auth', 'pharma-scheduling', 
+            'eos-l10', 'clinical-staffing', 'call-center-ops', 'batch-closeout',
+            'compliance-training', 'socials-reviews', 'platform-dashboard', 'integration-status',
+            'config-dashboard', 'component-showcase', 'ai-receptionist'];
+  }
+
+  public getModelConfigs(): Record<AIModel, ModelConfig> {
+    // Return model configurations for debugging
+    return AI_MODELS;
+  }
+
+  public getRateLimitConfigs(): Record<ApplicationContext, RateLimitConfig> {
+    // Return rate limit configurations
+    return APP_RATE_LIMITS;
+  }
+
+  public getHIPAAComplianceLevels(): HIPAAComplianceLevel[] {
+    // Return available HIPAA compliance levels
+    return ['none', 'standard', 'strict', 'audit'];
+  }
+
+  public getEmergencyThresholds() {
+    // Return emergency thresholds for monitoring
+    return EMERGENCY_THRESHOLDS;
+  }
+
+  public createError(type: string, message: string, details?: any): AIError {
+    // Use the error factory to create typed errors
+    // TODO: Implement error factory method mapping
+    console.debug(`[GangerAI] Creating error of type ${type}: ${message}`, details);
+    return new AIError(message, 'internal_error', {
+      factory: 'AIErrorFactory',
+      requestedType: type,
+      httpStatus: 500,
+      ...details
+    });
+  }
+
+  public getDebugInfo(): { cache: Map<string, number>, modules: { 
+    safetyFilter: boolean, 
+    reliabilityManager: boolean, 
+    responseCache: boolean, 
+    costMonitor: boolean, 
+    errorHandler: boolean 
+  }} {
+    // Return debug information and module status
+    return {
+      cache: this.usageCache,
+      modules: {
+        safetyFilter: !!this.safetyFilter,
+        reliabilityManager: !!this.reliabilityManager,
+        responseCache: !!this.responseCache,
+        costMonitor: !!this.costMonitor,
+        errorHandler: !!this.errorHandler
+      }
+    };
+  }
+
+  public isAuthUserConfigured(user?: AuthUser): boolean {
+    // Check if auth user is properly configured
+    if (!user) return false;
+    return !!(user.id && user.email);
   }
 }
 

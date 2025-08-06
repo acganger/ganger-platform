@@ -7,8 +7,7 @@ import {
   PaymentResult, 
   RefundRequest, 
   RefundResult,
-  PaymentMethod,
-  PaymentAuditLog
+  PaymentMethod
 } from './types';
 
 export interface StripeMCPConfig {
@@ -26,7 +25,7 @@ export class StripeMCPService {
   constructor(config: StripeMCPConfig) {
     this.config = config;
     this.stripe = new Stripe(config.apiKey, {
-      apiVersion: '2025-06-30.basil',
+      apiVersion: '2025-02-24.acacia',
       telemetry: false
     });
   }

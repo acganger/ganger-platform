@@ -683,7 +683,7 @@ export class GoogleCalendarService {
 
   private timeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes;
+    return (hours || 0) * 60 + (minutes || 0);
   }
 
   private minutesToTime(minutes: number): string {

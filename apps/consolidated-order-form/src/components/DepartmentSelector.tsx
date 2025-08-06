@@ -127,7 +127,7 @@ export function DepartmentSelector({
       </div>
 
       {/* Quick Actions */}
-      {showQuickActions && selectedDepartment && selectedDepartment !== 'all' && (
+      {showQuickActions && selectedDepartment && selectedDepartment !== 'all' && currentDept && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">

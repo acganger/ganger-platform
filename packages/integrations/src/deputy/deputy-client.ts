@@ -701,45 +701,138 @@ export class DeputyClient extends BaseIntegrationClient {
   }
 
   private async findExistingEmployee(employeeId: string): Promise<any> {
-    // This would query the database for existing staff member
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database query to find staff member by employee ID
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Searching for existing employee with ID: ${employeeId}`);
+    
+    // Example implementation structure:
+    // const { data, error } = await supabase
+    //   .from('staff_members')
+    //   .select('*')
+    //   .eq('employee_id', employeeId)
+    //   .single();
+    // return data;
+    
+    return null; // Placeholder until database integration is complete
   }
 
   private async findStaffMemberByDeputyId(deputyId: string): Promise<any> {
-    // This would query the database for staff member by Deputy ID
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database query to find staff member by Deputy ID
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Searching for staff member with Deputy ID: ${deputyId}`);
+    
+    // Example implementation structure:
+    // const { data, error } = await supabase
+    //   .from('staff_members')
+    //   .select('*')
+    //   .eq('deputy_employee_id', deputyId)
+    //   .single();
+    // return data;
+    
+    return null; // Placeholder until database integration is complete
   }
 
   private async findExistingAvailability(staffMemberId: string, deputyId: string): Promise<any> {
-    // This would query the database for existing availability
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database query to find existing availability record
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Searching for availability - Staff: ${staffMemberId}, Deputy ID: ${deputyId}`);
+    
+    // Example implementation structure:
+    // const { data, error } = await supabase
+    //   .from('staff_availability')
+    //   .select('*')
+    //   .eq('staff_member_id', staffMemberId)
+    //   .eq('deputy_availability_id', deputyId)
+    //   .single();
+    // return data;
+    
+    return null; // Placeholder until database integration is complete
   }
 
   private async createStaffMember(data: any): Promise<any> {
-    // This would create a new staff member in the database
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database insert for new staff member
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Creating new staff member:`, data);
+    
+    // Example implementation structure:
+    // const { data: newStaff, error } = await supabase
+    //   .from('staff_members')
+    //   .insert(data)
+    //   .select()
+    //   .single();
+    // return newStaff;
+    
+    // Return mock data for now
+    return {
+      id: `mock_${Date.now()}`,
+      ...data,
+      created_at: new Date().toISOString()
+    };
   }
 
   private async updateStaffMember(id: string, data: any): Promise<any> {
-    // This would update an existing staff member in the database
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database update for existing staff member
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Updating staff member ${id}:`, data);
+    
+    // Example implementation structure:
+    // const { data: updatedStaff, error } = await supabase
+    //   .from('staff_members')
+    //   .update(data)
+    //   .eq('id', id)
+    //   .select()
+    //   .single();
+    // return updatedStaff;
+    
+    // Return mock data for now
+    return {
+      id,
+      ...data,
+      updated_at: new Date().toISOString()
+    };
   }
 
   private async createStaffAvailability(data: any): Promise<any> {
-    // This would create new availability in the database
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database insert for new availability record
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Creating new staff availability:`, data);
+    
+    // Example implementation structure:
+    // const { data: newAvailability, error } = await supabase
+    //   .from('staff_availability')
+    //   .insert(data)
+    //   .select()
+    //   .single();
+    // return newAvailability;
+    
+    // Return mock data for now
+    return {
+      id: `mock_avail_${Date.now()}`,
+      ...data,
+      created_at: new Date().toISOString()
+    };
   }
 
   private async updateStaffAvailability(id: string, data: any): Promise<any> {
-    // This would update existing availability in the database
-    // Implementation depends on the database client being used
-    return null; // Placeholder
+    // TODO: Implement database update for existing availability
+    // This will use the database client (e.g., Supabase) once integrated
+    console.log(`[Deputy] Updating staff availability ${id}:`, data);
+    
+    // Example implementation structure:
+    // const { data: updatedAvailability, error } = await supabase
+    //   .from('staff_availability')
+    //   .update(data)
+    //   .eq('id', id)
+    //   .select()
+    //   .single();
+    // return updatedAvailability;
+    
+    // Return mock data for now
+    return {
+      id,
+      ...data,
+      updated_at: new Date().toISOString()
+    };
   }
 
   // =====================================================

@@ -84,6 +84,11 @@ export class SafetyFilter {
    */
   async checkSafety(content: string, context?: string): Promise<SafetyCheckResponse> {
     const startTime = Date.now();
+    
+    // Log context for debugging
+    if (context) {
+      console.debug(`[SafetyFilter] Checking safety with context: ${context}`);
+    }
 
     // Detect PHI
     const phiDetection = this.detectPHI(content);
@@ -97,6 +102,10 @@ export class SafetyFilter {
     // Get recommendations
     const recommendations = this.getRecommendations(phiDetection, safetyScore);
 
+    // Log processing time
+    const processingTime = Date.now() - startTime;
+    console.debug(`[SafetyFilter] Safety check completed in ${processingTime}ms`);
+    
     return {
       success: true,
       data: {
@@ -153,6 +162,7 @@ export class SafetyFilter {
     let sanitized = content;
 
     for (const [type, config] of Object.entries(PHI_PATTERNS)) {
+      console.debug(`[SafetyFilter] Sanitizing ${type} patterns`);
       sanitized = sanitized.replace(config.pattern, config.replacement);
     }
 

@@ -1,11 +1,7 @@
 import type { AppProps } from 'next/app';
-import { AuthProvider } from '@ganger/auth';
 import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
-  );
+  // Check-in kiosk is a public app - no authentication needed
+  return <Component {...pageProps} />;
 }

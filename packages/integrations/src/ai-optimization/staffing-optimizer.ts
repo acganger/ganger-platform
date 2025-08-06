@@ -3,7 +3,7 @@
  * Advanced algorithms for optimal staff allocation and scheduling
  */
 
-import { ClinicalStaffingQueries, StaffMember, StaffAvailability, CoverageRequirement, OptimalAssignment } from '@ganger/db';
+import { ClinicalStaffingQueries, StaffMember, OptimalAssignment } from '@ganger/db';
 
 export interface OptimizationConstraints {
   maxOvertimeHours?: number;
@@ -129,7 +129,7 @@ export class StaffingOptimizer {
 
   private async generateInitialAssignments(
     demands: StaffingDemand[],
-    availableStaff: Map<string, StaffMember[]>,
+    _availableStaff: Map<string, StaffMember[]>,
     constraints: OptimizationConstraints
   ): Promise<ScheduleAssignment[]> {
     const assignments: ScheduleAssignment[] = [];
@@ -138,7 +138,7 @@ export class StaffingOptimizer {
     const sortedDemands = demands.sort((a, b) => a.priority - b.priority);
     
     for (const demand of sortedDemands) {
-      const staffForLocation = availableStaff.get(demand.locationId) || [];
+      // const staffForLocation = availableStaff.get(demand.locationId) || [];
       
       // Get optimal assignments for this demand
       const optimalAssignments = await this.db.getOptimalStaffAssignment(
@@ -304,7 +304,7 @@ export class StaffingOptimizer {
 
   private async optimizeAssignments(
     initialAssignments: ScheduleAssignment[],
-    demands: StaffingDemand[],
+    _demands: StaffingDemand[],
     constraints: OptimizationConstraints,
     objective: OptimizationObjective
   ): Promise<ScheduleAssignment[]> {
@@ -324,6 +324,10 @@ export class StaffingOptimizer {
           const assignment1 = currentAssignments[i];
           const assignment2 = currentAssignments[j];
           
+          if (!assignment1 || !assignment2) {
+            continue;
+          }
+          
           // Skip if same staff member or incompatible swaps
           if (assignment1.staffMemberId === assignment2.staffMemberId ||
               assignment1.role !== assignment2.role) {
@@ -336,7 +340,14 @@ export class StaffingOptimizer {
           newAssignments[j] = { ...assignment2, staffMemberId: assignment1.staffMemberId };
           
           // Check if swap is valid and improves score
-          const isValid = await this.validateAssignmentSwap(newAssignments[i], newAssignments[j], constraints);
+          const assignment1New = newAssignments[i];
+          const assignment2New = newAssignments[j];
+          
+          if (!assignment1New || !assignment2New) {
+            continue; // Skip if assignments are invalid
+          }
+          
+          const isValid = await this.validateAssignmentSwap(assignment1New, assignment2New, constraints);
           
           if (isValid) {
             const newScore = await this.calculateObjectiveScore(newAssignments, objective);
@@ -353,6 +364,10 @@ export class StaffingOptimizer {
       // Try replacing assignments with alternatives
       for (let i = 0; i < currentAssignments.length; i++) {
         const assignment = currentAssignments[i];
+        
+        if (!assignment) {
+          continue;
+        }
         
         for (const alternative of assignment.alternatives) {
           const newAssignment: ScheduleAssignment = {
@@ -455,19 +470,19 @@ export class StaffingOptimizer {
   }
 
   private async calculateStaffCost(
-    staffMemberId: string,
-    startTime: string,
+    _staffMemberId: string,
+    _startTime: string,
     endTime: string
   ): Promise<number> {
     // Simplified cost calculation
     // In reality, this would consider hourly rates, overtime multipliers, etc.
-    const hours = this.calculateShiftHours(startTime, endTime);
+    const hours = this.calculateShiftHours(_startTime, endTime);
     const baseHourlyRate = 25; // Default rate
     return hours * baseHourlyRate;
   }
 
-  private calculateShiftHours(startTime: string, endTime: string): number {
-    const start = new Date(`1970-01-01T${startTime}`);
+  private calculateShiftHours(_startTime: string, endTime: string): number {
+    const start = new Date(`1970-01-01T${_startTime}`);
     const end = new Date(`1970-01-01T${endTime}`);
     
     if (end < start) {
@@ -490,17 +505,17 @@ export class StaffingOptimizer {
     return s1 < e2 && s2 < e1;
   }
 
-  private async calculateWeeklyHours(staffMemberId: string, date: string): Promise<number> {
+  private async calculateWeeklyHours(_staffMemberId: string, _date: string): Promise<number> {
     // Calculate weekly hours for the week containing the given date
     // This would query the database for existing schedules
     return 32; // Simplified for now
   }
 
   private async checkBreakBetweenShifts(
-    staffMemberId: string,
-    date: string,
-    startTime: string,
-    minBreakHours: number
+    _staffMemberId: string,
+    _date: string,
+    _startTime: string,
+    _minBreakHours: number
   ): Promise<boolean> {
     // Check if there's adequate break before/after this shift
     // This would query the database for adjacent schedules
@@ -508,18 +523,18 @@ export class StaffingOptimizer {
   }
 
   private async validateAssignmentSwap(
-    assignment1: ScheduleAssignment,
-    assignment2: ScheduleAssignment,
-    constraints: OptimizationConstraints
+    _assignment1: ScheduleAssignment,
+    _assignment2: ScheduleAssignment,
+    _constraints: OptimizationConstraints
   ): Promise<boolean> {
     // Validate that swapping these assignments doesn't violate constraints
     return true; // Simplified for now
   }
 
   private async validateSingleAssignment(
-    assignment: ScheduleAssignment,
-    constraints: OptimizationConstraints,
-    allAssignments: ScheduleAssignment[]
+    _assignment: ScheduleAssignment,
+    _constraints: OptimizationConstraints,
+    _allAssignments: ScheduleAssignment[]
   ): Promise<boolean> {
     // Validate that this assignment doesn't violate constraints
     return true; // Simplified for now
@@ -527,7 +542,7 @@ export class StaffingOptimizer {
 
   private validateOptimizationInputs(
     demands: StaffingDemand[],
-    constraints: OptimizationConstraints,
+    _constraints: OptimizationConstraints,
     objective: OptimizationObjective
   ): void {
     if (demands.length === 0) {
@@ -547,7 +562,7 @@ export class StaffingOptimizer {
   private async buildOptimizationResult(
     assignments: ScheduleAssignment[],
     demands: StaffingDemand[],
-    objective: OptimizationObjective,
+    _objective: OptimizationObjective,
     computationTimeMs: number
   ): Promise<OptimizationResult> {
     const metrics = await this.calculateAssignmentMetrics(assignments);

@@ -120,7 +120,7 @@ export class SubscriptionManager {
   /**
    * Get patient's active subscriptions
    */
-  async getPatientSubscriptions(patientId: string): Promise<PatientSubscription[]> {
+  async getPatientSubscriptions(_patientId: string): Promise<PatientSubscription[]> {
     try {
       // TODO: Implement database query
       // For now, return empty array
@@ -313,6 +313,17 @@ export class SubscriptionManager {
   private encryptSensitiveData(data: any): string {
     // TODO: Implement proper encryption
     return JSON.stringify(data);
+  }
+
+  /**
+   * Get configuration status (for debugging)
+   */
+  public getConfigStatus(): { hasSecretKey: boolean; keyPrefix: string } {
+    console.log('[SubscriptionManager] Checking configuration status');
+    return {
+      hasSecretKey: !!this.stripeSecretKey,
+      keyPrefix: this.stripeSecretKey ? this.stripeSecretKey.substring(0, 7) : 'not_set'
+    };
   }
 }
 

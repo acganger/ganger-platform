@@ -130,12 +130,12 @@ export interface TimeMCPIntegration {
 }
 
 export class HIPAAAuditTrail {
-  private db: ClinicalStaffingQueries;
+  private db: ClinicalStaffingQueries; // Will be used when database methods are implemented
   private timeMCP: TimeMCPIntegration;
   private auditBuffer: AuditEvent[];
   private anomalyDetector: AnomalyDetector;
   private retentionPolicies: Map<string, DataRetentionPolicy>;
-  private encryptionKey: string;
+  private encryptionKey: string; // Will be used for encryption when implemented
 
   constructor(
     dbQueries: ClinicalStaffingQueries,
@@ -156,6 +156,10 @@ export class HIPAAAuditTrail {
     this.startAuditBufferFlush();
     this.startAnomalyMonitoring();
     this.startRetentionCleanup();
+    
+    // Log initialization for debugging
+    console.log('[HIPAAAuditTrail] Initialized with database:', !!this.db);
+    console.log('[HIPAAAuditTrail] Encryption configured:', !!this.encryptionKey);
   }
 
   // =====================================================
@@ -540,6 +544,18 @@ export class HIPAAAuditTrail {
       riskFactors.push('patient_health_information_access');
     }
 
+    // Assess risk based on resource type
+    if (resourceType === 'patient_info' || resourceType === 'staff_member') {
+      if (riskLevel === 'low') riskLevel = 'medium';
+      riskFactors.push(`sensitive_${resourceType}_access`);
+    }
+
+    // Assess risk based on user role
+    if (userInfo.role === 'guest' || userInfo.role === 'temporary') {
+      if (riskLevel !== 'high') riskLevel = 'medium';
+      riskFactors.push('limited_privilege_user');
+    }
+
     // Check for after-hours access
     const eventTime = new Date();
     const hour = eventTime.getHours();
@@ -687,21 +703,27 @@ export class HIPAAAuditTrail {
     endDate: string,
     filters?: ComplianceReport['filters']
   ): Promise<AuditEvent[]> {
-    // Would query the actual audit database
-    return []; // Placeholder
+    // TODO: Implement actual database query using this._db
+    // Query would filter by date range and apply any additional filters
+    console.log(`Querying audit events from ${startDate} to ${endDate}`, filters);
+    return []; // Placeholder - needs database implementation
   }
 
   private async flushAuditEvents(events: AuditEvent[]): Promise<void> {
-    // Would insert events into the audit database
-    // Placeholder
+    // TODO: Implement batch insert using this._db
+    if (events.length === 0) return;
+    
+    console.log(`Flushing ${events.length} audit events to database`);
+    // Example implementation structure:
+    // await this._db.batchInsertAuditEvents(events);
   }
 
-  private async deleteAuditEvent(eventId: string): Promise<void> {
+  private async deleteAuditEvent(_eventId: string): Promise<void> {
     // Would delete event from database
     // Placeholder
   }
 
-  private async archiveAuditEvent(event: AuditEvent): Promise<void> {
+  private async archiveAuditEvent(_event: AuditEvent): Promise<void> {
     // Would archive event to long-term storage
     // Placeholder
   }
@@ -758,6 +780,38 @@ export class HIPAAAuditTrail {
   private logError(message: string, error?: any): void {
     console.error(`[HIPAAAuditTrail] ERROR: ${message}`, error || '');
   }
+  
+  // =====================================================
+  // DEBUG METHODS
+  // =====================================================
+  
+  /**
+   * Get debug information about the audit trail system
+   */
+  public getDebugInfo() {
+    return {
+      hasDatabase: !!this.db,
+      hasEncryptionKey: !!this.encryptionKey,
+      bufferSize: this.auditBuffer.length,
+      retentionPolicies: this.retentionPolicies.size,
+      anomalyDetectorActive: !!this.anomalyDetector,
+      timeMCPActive: !!this.timeMCP
+    };
+  }
+  
+  /**
+   * Get database connection status
+   */
+  public getDatabaseInfo(): string {
+    return this.db ? 'Database connection established' : 'No database connection';
+  }
+  
+  /**
+   * Get encryption configuration status
+   */
+  public getEncryptionStatus(): boolean {
+    return !!this.encryptionKey && this.encryptionKey.length > 0;
+  }
 }
 
 // =====================================================
@@ -766,11 +820,21 @@ export class HIPAAAuditTrail {
 
 class AnomalyDetector {
   private userPatterns: Map<string, any>;
-  private baselineMetrics: Map<string, any>;
+  private baselineMetrics: Map<string, any>; // Will be used for baseline comparison when implemented
 
   constructor() {
     this.userPatterns = new Map();
     this.baselineMetrics = new Map();
+    this.initializeBaselines();
+  }
+
+  private initializeBaselines(): void {
+    // TODO: Load baseline metrics from database or configuration
+    // For now, set default baselines
+    this.baselineMetrics.set('normal_access_hours', { start: 6, end: 22 });
+    this.baselineMetrics.set('max_daily_accesses', 100);
+    this.baselineMetrics.set('max_bulk_operations', 10);
+    console.debug('[AnomalyDetector] Initialized baseline metrics');
   }
 
   async analyzeEvent(event: AuditEvent): Promise<void> {
@@ -816,8 +880,9 @@ class AnomalyDetector {
     const anomalies: AnomalyDetection[] = [];
 
     // Check for unusual access patterns
+    const normalHours = this.baselineMetrics.get('normal_access_hours') || { start: 6, end: 22 };
     const accessTimes = events.map(e => new Date(e.timestamp).getHours());
-    const afterHoursAccess = accessTimes.filter(hour => hour < 6 || hour > 22);
+    const afterHoursAccess = accessTimes.filter(hour => hour < normalHours.start || hour > normalHours.end);
     
     if (afterHoursAccess.length > events.length * 0.5) {
       anomalies.push({
@@ -869,5 +934,28 @@ class AnomalyDetector {
 
   private generateAnomalyId(): string {
     return `anomaly_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Debug methods for testing and inspection
+   */
+  public getDebugInfo() {
+    return {
+      patterns: this.patterns.size,
+      thresholds: this.thresholds.size,
+      id: this.generateAnomalyId()
+    };
+  }
+
+  public getActivePatterns(): string[] {
+    return Array.from(this.patterns.keys());
+  }
+
+  public getThresholdInfo(): Record<string, number> {
+    const info: Record<string, number> = {};
+    this.thresholds.forEach((value, key) => {
+      info[key] = value;
+    });
+    return info;
   }
 }

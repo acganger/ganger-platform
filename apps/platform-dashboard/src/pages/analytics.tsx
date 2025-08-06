@@ -29,25 +29,25 @@ function PlatformAnalytics() {
   const { canViewAllMetrics, canExportData, canViewFinancialMetrics, canViewStaffMetrics } = useAccessControl();
   
   const { metrics, isLoading: metricsLoading, error: metricsError } = useAnalytics(selectedTimeRange, {
-    mockData: true,
+    mockData: false,
   });
 
   const { data: revenueData, isLoading: revenueLoading } = useChartData(selectedTimeRange, {
     type: 'line',
     dataSource: 'revenue',
-    mockData: true,
+    mockData: false,
   });
 
   const { data: departmentData, isLoading: departmentLoading } = useChartData(selectedTimeRange, {
     type: 'bar',
     dataSource: 'departments',
-    mockData: true,
+    mockData: false,
   });
 
   const { data: patientTypeData, isLoading: patientTypeLoading } = useChartData(selectedTimeRange, {
     type: 'pie',
     dataSource: 'patientTypes',
-    mockData: true,
+    mockData: false,
   });
 
   const handleTimeRangeChange = (range: TimeRangeOption, dates: typeof selectedTimeRange) => {

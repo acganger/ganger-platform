@@ -266,7 +266,7 @@ export class UniversalPaymentHub {
    * Get revenue data for EOS platform
    * Financial management integration
    */
-  async getRevenueData(periodStart: Date, periodEnd: Date): Promise<{
+  async getRevenueData(_periodStart: Date, _periodEnd: Date): Promise<{
     total_revenue: number;
     revenue_by_type: Record<string, number>;
     revenue_by_provider: Record<string, number>;

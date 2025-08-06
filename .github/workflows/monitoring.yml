@@ -1,0 +1,106 @@
+name: Platform Monitoring
+
+on:
+  schedule:
+    # Run every hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check Main Platform
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://staff.gangerdermatology.com)
+          if [ $response -eq 200 ]; then
+            echo "✅ Main platform is healthy"
+          else
+            echo "❌ Main platform returned $response"
+            exit 1
+          fi
+      
+      - name: Check Kiosk App
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://kiosk.gangerdermatology.com)
+          if [ $response -eq 200 ]; then
+            echo "✅ Kiosk app is healthy"
+          else
+            echo "❌ Kiosk app returned $response"
+            exit 1
+          fi
+      
+      - name: Check Pharma Scheduling
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://lunch.gangerdermatology.com)
+          if [ $response -eq 200 ]; then
+            echo "✅ Pharma scheduling is healthy"
+          else
+            echo "❌ Pharma scheduling returned $response"
+            exit 1
+          fi
+      
+      - name: Check L10 Platform
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://l10.gangerdermatology.com)
+          if [ $response -eq 200 ]; then
+            echo "✅ L10 platform is healthy"
+          else
+            echo "❌ L10 platform returned $response"
+            exit 1
+          fi
+      
+      - name: Check Supabase Health
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://pfqtzmxxxhhsxmlddrta.supabase.co/rest/v1/)
+          if [ $response -eq 200 ] || [ $response -eq 401 ]; then
+            echo "✅ Supabase is responding"
+          else
+            echo "❌ Supabase returned $response"
+            exit 1
+          fi
+      
+      - name: Notify on Failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Alert] Platform Health Check Failed - ${new Date().toISOString()}`,
+              body: `One or more platform health checks failed. Please check the [workflow logs](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.`,
+              labels: ['monitoring', 'urgent']
+            });
+            console.log(`Created issue #${issue.data.number}`);
+
+  performance-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check Main Platform Performance
+        run: |
+          start=$(date +%s%N)
+          curl -s -o /dev/null https://staff.gangerdermatology.com
+          end=$(date +%s%N)
+          duration=$((($end - $start) / 1000000))
+          echo "Main platform load time: ${duration}ms"
+          
+          if [ $duration -gt 3000 ]; then
+            echo "⚠️  Warning: Main platform is slow (>3s)"
+          fi
+      
+      - name: Check API Response Times
+        run: |
+          # Test a simple API endpoint
+          start=$(date +%s%N)
+          curl -s -o /dev/null "https://pfqtzmxxxhhsxmlddrta.supabase.co/rest/v1/profiles?limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}"
+          end=$(date +%s%N)
+          duration=$((($end - $start) / 1000000))
+          echo "API response time: ${duration}ms"
+          
+          if [ $duration -gt 1000 ]; then
+            echo "⚠️  Warning: API is slow (>1s)"
+          fi

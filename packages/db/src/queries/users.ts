@@ -1,12 +1,12 @@
 import { BaseRepository } from '../utils/base-repository';
-import type { User, UserRole } from '../types/database';
+import type { Profile, UserRole } from '../types/database';
 
-class UserRepository extends BaseRepository<User> {
+class UserRepository extends BaseRepository<Profile> {
   constructor() {
-    super('users', true); // Use admin client for user operations
+    super('profiles', true); // Use admin client for user operations
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<Profile | null> {
     const { data, error } = await this.client
       .from(this.tableName)
       .select('*')
@@ -18,10 +18,10 @@ class UserRepository extends BaseRepository<User> {
       throw error;
     }
 
-    return data as User;
+    return data as Profile;
   }
 
-  async findByRole(role: UserRole): Promise<User[]> {
+  async findByRole(role: UserRole): Promise<Profile[]> {
     const { data, error } = await this.client
       .from(this.tableName)
       .select('*')
@@ -29,18 +29,7 @@ class UserRepository extends BaseRepository<User> {
       .eq('is_active', true);
 
     if (error) throw error;
-    return (data || []) as User[];
-  }
-
-  async findByLocation(locationId: string): Promise<User[]> {
-    const { data, error } = await this.client
-      .from(this.tableName)
-      .select('*')
-      .contains('locations', [locationId])
-      .eq('is_active', true);
-
-    if (error) throw error;
-    return (data || []) as User[];
+    return (data || []) as Profile[];
   }
 
   async updateLastLogin(userId: string): Promise<void> {
@@ -52,28 +41,24 @@ class UserRepository extends BaseRepository<User> {
     if (error) throw error;
   }
 
-  async updateLocations(userId: string, locations: string[]): Promise<User> {
-    return this.update(userId, { locations });
-  }
-
-  async deactivateUser(userId: string): Promise<User> {
+  async deactivateUser(userId: string): Promise<Profile> {
     return this.update(userId, { is_active: false });
   }
 
-  async activateUser(userId: string): Promise<User> {
+  async activateUser(userId: string): Promise<Profile> {
     return this.update(userId, { is_active: true });
   }
 
-  async searchUsers(query: string): Promise<User[]> {
+  async searchUsers(query: string): Promise<Profile[]> {
     const { data, error } = await this.client
       .from(this.tableName)
       .select('*')
-      .or(`name.ilike.%${query}%,email.ilike.%${query}%`)
+      .or(`full_name.ilike.%${query}%,email.ilike.%${query}%`)
       .eq('is_active', true)
       .limit(50);
 
     if (error) throw error;
-    return (data || []) as User[];
+    return (data || []) as Profile[];
   }
 }
 

@@ -9,6 +9,43 @@ class AuditLogRepository {
     // Use admin client for audit logs
   }
 
+  private async create(data: Partial<AuditLog>): Promise<AuditLog> {
+    const { data: created, error } = await this.client
+      .from(this.tableName)
+      .insert(data)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return created as AuditLog;
+  }
+
+  private async findMany(options: {
+    filters?: Record<string, any>;
+    orderBy?: { field: string; direction: 'asc' | 'desc' };
+    limit?: number;
+  }): Promise<{ data: AuditLog[] }> {
+    let query = this.client.from(this.tableName).select('*');
+
+    if (options.filters) {
+      Object.entries(options.filters).forEach(([key, value]) => {
+        query = query.eq(key, value);
+      });
+    }
+
+    if (options.orderBy) {
+      query = query.order(options.orderBy.field, { ascending: options.orderBy.direction === 'asc' });
+    }
+
+    if (options.limit) {
+      query = query.limit(options.limit);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return { data: (data || []) as AuditLog[] };
+  }
+
   async logAction(
     userId: string | undefined,
     action: string,

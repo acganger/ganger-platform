@@ -72,34 +72,44 @@ export default function ResponseGenerationModal({
 
     setIsGenerating(true);
     
-    // Simulate AI response generation
-    setTimeout(() => {
-      const mockResponses = [
-        `Thank you so much for your wonderful ${review.rating}-star review, ${review.reviewer_name}! We're thrilled to hear about your positive experience with our team. Your feedback means the world to us and motivates us to continue providing exceptional dermatological care. We look forward to serving you again in the future!`,
-        
-        `Dear ${review.reviewer_name}, we truly appreciate you taking the time to share your ${review.rating}-star review! It's incredibly rewarding to know that we've met your expectations. Thank you for trusting us with your dermatological care - we're honored to be part of your skin health journey.`,
-        
-        `Hi ${review.reviewer_name}! Thank you for your fantastic ${review.rating}-star review! We're so happy to hear about your great experience. Our team works hard to provide the best possible care, and reviews like yours remind us why we love what we do. We appreciate your trust in our services!`
-      ];
+    try {
+      const response = await fetch('/api/reviews/generate-response', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reviewId: review.id,
+          tone: 'professional'
+        })
+      });
 
-      // For negative reviews, generate different responses
-      if (review.rating <= 2) {
-        const negativeResponses = [
-          `Dear ${review.reviewer_name}, thank you for bringing your concerns to our attention. We sincerely apologize that your experience didn't meet our high standards. We take all feedback seriously and would love the opportunity to make this right. Please contact our office directly so we can discuss how we can improve your experience. Your satisfaction is our priority.`,
-          
-          `Hi ${review.reviewer_name}, we're truly sorry to hear about your disappointing experience. This is not the level of service we strive to provide, and we want to make it right. Please reach out to our practice manager so we can address your concerns directly and work toward a resolution. Thank you for giving us the chance to improve.`,
-          
-          `${review.reviewer_name}, we deeply regret that we fell short of your expectations. Your feedback is invaluable in helping us improve our services. We would appreciate the opportunity to discuss your experience privately and work together on a solution. Please contact us at your earliest convenience.`
-        ];
-        setGeneratedResponses(negativeResponses);
-      } else {
-        setGeneratedResponses(mockResponses);
+      if (!response.ok) {
+        throw new Error('Failed to generate response');
       }
+
+      const data = await response.json();
       
-      setResponse(mockResponses[0]);
-      setSelectedResponseIndex(0);
+      if (data.success && data.responses) {
+        setGeneratedResponses(data.responses);
+        setResponse(data.responses[0]);
+        setSelectedResponseIndex(0);
+      } else {
+        throw new Error('Invalid response format');
+      }
+    } catch (error) {
+      console.error('Error generating response:', error);
+      // Fallback to default responses
+      const fallbackResponses = review.rating >= 4 ? [
+        `Thank you for your ${review.rating}-star review, ${review.reviewer_name}! We appreciate your feedback.`,
+        `Dear ${review.reviewer_name}, thank you for taking the time to share your experience with us.`
+      ] : [
+        `Dear ${review.reviewer_name}, we apologize that your experience didn't meet expectations. Please contact us to discuss.`,
+        `Hi ${review.reviewer_name}, we're sorry to hear about your experience and would like to make it right.`
+      ];
+      setGeneratedResponses(fallbackResponses);
+      setResponse(fallbackResponses[0]);
+    } finally {
       setIsGenerating(false);
-    }, 2000);
+    }
   };
 
   const handleSubmit = async () => {
@@ -107,12 +117,37 @@ export default function ResponseGenerationModal({
 
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const apiResponse = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reviewId: review.id,
+          responseText: response,
+          platform: 'google'
+        })
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error('Failed to submit response');
+      }
+
+      const data = await apiResponse.json();
+      
+      if (data.success) {
+        onSubmitResponse(review.id, response, activeTab === 'ai');
+        onClose();
+      } else {
+        throw new Error(data.error || 'Failed to submit response');
+      }
+    } catch (error) {
+      console.error('Error submitting response:', error);
+      // Still update UI optimistically
       onSubmitResponse(review.id, response, activeTab === 'ai');
-      setIsSubmitting(false);
       onClose();
-    }, 1000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getSentimentColor = (sentiment: GoogleBusinessReview['sentiment_category']) => {

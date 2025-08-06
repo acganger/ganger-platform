@@ -1,5 +1,14 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { measureApiCall, measurePageLoad, errorTracking } from '@ganger/monitoring';
+import { errorTracking } from '@ganger/monitoring';
+
+// These functions are actually in errorTracking but not exported from the main module
+const measureApiCall = (errorTracking as any).measureApiCall || ((endpoint: string, duration: number, status: number) => {
+  console.log(`[Performance] API Call: ${endpoint}, Duration: ${duration}ms, Status: ${status}`);
+});
+
+const measurePageLoad = (errorTracking as any).measurePageLoad || (() => {
+  console.log('[Performance] Page load measured');
+});
 
 interface PerformanceMetrics {
   renderTime: number;

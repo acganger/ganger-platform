@@ -2,7 +2,6 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { cookies } from 'next/headers'
 
 export interface AuthUser {
   id: string
@@ -46,8 +45,7 @@ function extractToken(request: NextRequest): string | null {
   }
 
   // Check cookies
-  const cookieStore = cookies()
-  const sessionCookie = cookieStore.get('sb-auth-token')
+  const sessionCookie = request.cookies.get('sb-auth-token')
   if (sessionCookie) {
     return sessionCookie.value
   }

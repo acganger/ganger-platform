@@ -1,11 +1,12 @@
 {
-  "extends": "@ganger/config/typescript/base.json",
+  "extends": "../config/typescript/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "downlevelIteration": true
   },
   "include": [
     "src/**/*"

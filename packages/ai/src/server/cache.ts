@@ -3,7 +3,7 @@
  * Reduces API calls, improves response times, and saves costs
  */
 
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 import type { ChatMessage, AIModel, ApplicationContext } from '../shared/types';
 
 /**
@@ -254,6 +254,9 @@ export class AIResponseCache {
     if (messages.length === 0) return null;
 
     const lastMessage = messages[messages.length - 1];
+    if (!lastMessage) {
+      return null; // No messages to search for
+    }
     const semanticKey = CacheKeyGenerator.generateSemanticKey(lastMessage.content);
 
     // Simple similarity search (in production, use vector similarity)
@@ -390,8 +393,11 @@ export class AIResponseCache {
     }
 
     for (let i = 0; i < Math.min(count, entries.length); i++) {
-      this.cache.delete(entries[i][0]);
-      this.stats.evictions++;
+      const entry = entries[i];
+      if (entry) {
+        this.cache.delete(entry[0]);
+        this.stats.evictions++;
+      }
     }
   }
 

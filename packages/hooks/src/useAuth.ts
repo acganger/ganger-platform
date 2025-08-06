@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import useRouter from 'next/router';
 import { getSupabaseClient } from '@ganger/auth';
 import type { User, Session } from '@supabase/supabase-js';
 

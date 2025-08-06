@@ -3,7 +3,8 @@
  * Provides exponential backoff, circuit breaker, and failover mechanisms
  */
 
-import type { AIModel, AIError } from '../shared/types';
+import type { AIModel } from '../shared/types';
+import { AIError } from '../shared/types';
 
 /**
  * Retry configuration
@@ -396,6 +397,20 @@ export class ReliabilityManager {
       circuitBreakers: this.retryHandler.getCircuitBreakerStats(),
       timestamp: new Date().toISOString()
     };
+  }
+
+  /**
+   * Create an AI error for reliability issues
+   */
+  public createReliabilityError(
+    message: string,
+    modelStatuses: Record<AIModel, CircuitState>
+  ): AIError {
+    return new AIError(message, 'model_unavailable', {
+      modelStatuses,
+      reliability: 'circuit_breaker_open',
+      timestamp: new Date().toISOString()
+    });
   }
 }
 
