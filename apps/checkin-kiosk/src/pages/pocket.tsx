@@ -12,7 +12,9 @@ import {
   Users,
   CheckCircle,
   Phone,
+  Printer,
   QrCode,
+  Smartphone,
   Calendar,
   AlertTriangle
 } from 'lucide-react'

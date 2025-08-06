@@ -123,26 +123,6 @@
     {
       "source": "/platform-dashboard/:path*",
       "destination": "https://ganger-platform-dashboard.vercel.app/platform-dashboard/:path*"
-    },
-    {
-      "source": "/ai-purchasing/:path*",
-      "destination": "https://ganger-ai-purchasing.vercel.app/ai-purchasing/:path*"
-    },
-    {
-      "source": "/purchasing/:path*",
-      "destination": "https://ganger-ai-purchasing.vercel.app/ai-purchasing/:path*"
-    },
-    {
-      "source": "/llm-demo/:path*",
-      "destination": "https://ganger-llm-demo.vercel.app/llm-demo/:path*"
-    },
-    {
-      "source": "/order-form/:path*",
-      "destination": "https://ganger-consolidated-order-form.vercel.app/order-form/:path*"
-    },
-    {
-      "source": "/consolidated-order-form/:path*",
-      "destination": "https://ganger-consolidated-order-form.vercel.app/order-form/:path*"
     }
   ],
   "headers": [

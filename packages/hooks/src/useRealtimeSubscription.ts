@@ -97,7 +97,7 @@ export function useRealtimeSubscription<T extends { id: string }>(
         const channel = supabase
           .channel(`${table}-changes`)
           .on(
-            'postgres_changes',
+            'postgres_changes' as any,
             {
               event: options.event || '*',
               schema: options.schema || 'public',
@@ -154,7 +154,20 @@ export function useRealtimeList<T extends { id: string }>(
   table: string,
   options: RealtimeOptions = {}
 ) {
-  const state = useRealtimeSubscription<T>(table, options);
+  const [state, setState] = useState<RealtimeSubscriptionState<T>>({
+    data: [],
+    isConnected: false,
+    isLoading: true,
+    error: null,
+  });
+  
+  // Use the realtime subscription
+  const realtimeState = useRealtimeSubscription<T>(table, options);
+  
+  // Sync realtime state with local state
+  useEffect(() => {
+    setState(realtimeState);
+  }, [realtimeState]);
   
   const optimisticUpdate = useCallback((
     id: string,

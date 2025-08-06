@@ -2,17 +2,8 @@
   "extends": "../config/typescript/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "jsx": "react-jsx"
+    "rootDir": "src"
   },
   "include": ["src/**/*"],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "src/__tests__/**/*"
-  ]
+  "exclude": ["dist", "node_modules"]
 }

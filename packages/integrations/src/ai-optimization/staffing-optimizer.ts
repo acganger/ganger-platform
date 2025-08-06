@@ -3,7 +3,7 @@
  * Advanced algorithms for optimal staff allocation and scheduling
  */
 
-import { ClinicalStaffingQueries, StaffMember, StaffAvailability, CoverageRequirement, OptimalAssignment } from '@ganger/db';
+import { ClinicalStaffingQueries, StaffMember, OptimalAssignment } from '@ganger/db';
 
 export interface OptimizationConstraints {
   maxOvertimeHours?: number;
@@ -325,15 +325,16 @@ export class StaffingOptimizer {
           const assignment2 = currentAssignments[j];
           
           // Skip if same staff member or incompatible swaps
-          if (assignment1.staffMemberId === assignment2.staffMemberId ||
+          if (!assignment1 || !assignment2 ||
+              assignment1.staffMemberId === assignment2.staffMemberId ||
               assignment1.role !== assignment2.role) {
             continue;
           }
           
           // Try swapping
           const newAssignments = [...currentAssignments];
-          newAssignments[i] = { ...assignment1, staffMemberId: assignment2.staffMemberId };
-          newAssignments[j] = { ...assignment2, staffMemberId: assignment1.staffMemberId };
+          newAssignments[i] = { ...assignment1!, staffMemberId: assignment2!.staffMemberId };
+          newAssignments[j] = { ...assignment2!, staffMemberId: assignment1!.staffMemberId };
           
           // Check if swap is valid and improves score
           const isValid = await this.validateAssignmentSwap(newAssignments[i], newAssignments[j], constraints);
@@ -354,7 +355,8 @@ export class StaffingOptimizer {
       for (let i = 0; i < currentAssignments.length; i++) {
         const assignment = currentAssignments[i];
         
-        for (const alternative of assignment.alternatives) {
+        if (!assignment) continue;
+        for (const alternative of assignment.alternatives || []) {
           const newAssignment: ScheduleAssignment = {
             ...assignment,
             staffMemberId: alternative.staff_member_id,
@@ -510,7 +512,7 @@ export class StaffingOptimizer {
   private async validateAssignmentSwap(
     assignment1: ScheduleAssignment,
     assignment2: ScheduleAssignment,
-    constraints: OptimizationConstraints
+    constraints: OptimizationConstraint[]
   ): Promise<boolean> {
     // Validate that swapping these assignments doesn't violate constraints
     return true; // Simplified for now

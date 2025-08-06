@@ -19,7 +19,7 @@ interface UsePermissionsReturn {
 export function usePermissions(): UsePermissionsReturn {
   const { user, isAdmin } = useUser();
   
-  const { data: permissions = [], isLoading, error } = useSupabaseQuery<Permission[]>(
+  const { data, isLoading, error } = useSupabaseQuery<Permission[]>(
     ['permissions', user?.id || 'none'],
     {
       table: 'permissions',
@@ -29,6 +29,8 @@ export function usePermissions(): UsePermissionsReturn {
       enabled: !!user?.id
     }
   );
+
+  const permissions: Permission[] = Array.isArray(data) ? data : [];
 
   const can = (resource: string, action: string): boolean => {
     // Admins can do everything

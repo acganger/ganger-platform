@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-// import { cookies } from 'next/headers' // TODO: Fix Next.js App Router types
+import { cookies } from 'next/headers'
 
 export interface AuthUser {
   id: string
@@ -46,8 +46,7 @@ function extractToken(request: NextRequest): string | null {
   }
 
   // Check cookies
-  // const cookieStore = cookies() // TODO: Fix Next.js App Router types
-  const cookieStore = { get: (_name: string) => ({ value: '' }) } // Placeholder
+  const cookieStore = cookies()
   const sessionCookie = cookieStore.get('sb-auth-token')
   if (sessionCookie) {
     return sessionCookie.value

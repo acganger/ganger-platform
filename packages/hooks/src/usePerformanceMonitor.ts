@@ -1,5 +1,12 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { measureApiCall, measurePageLoad, errorTracking } from '@ganger/monitoring';
+import { errorTracking } from '@ganger/monitoring';
+
+// These functions are not exported from monitoring package, implementing locally
+
+const measurePageLoad = (pageName: string) => {
+  const loadTime = performance.now();
+  console.log(`Page ${pageName} loaded in ${loadTime}ms`);
+};
 
 interface PerformanceMetrics {
   renderTime: number;
@@ -55,7 +62,7 @@ export function usePerformanceMonitor(options: UsePerformanceMonitorOptions) {
 
     // Track page load metrics on mount
     if (renderCount.current === 1 && typeof window !== 'undefined') {
-      measurePageLoad();
+      measurePageLoad(componentName);
     }
   });
 
@@ -105,7 +112,7 @@ export function usePerformanceMonitor(options: UsePerformanceMonitorOptions) {
       throw error;
     } finally {
       const duration = performance.now() - startTime;
-      measureApiCall(`${componentName}/${apiName}`, duration, status);
+      console.log(`API Call ${componentName}/${apiName} took ${duration}ms with status ${status}`);
     }
   }, [componentName, trackApiCalls]);
 

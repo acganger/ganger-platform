@@ -14,12 +14,14 @@ import {
   Package,
   Calendar,
   Filter,
+  Download,
   Plus
 } from 'lucide-react'
 import { formatDate } from '@ganger/utils'
 import type { ConsolidatedOrder } from '@ganger/types'
 
 export default function OrdersPage() {
+  const { user } = useAuth()
   const [orders, setOrders] = useState<ConsolidatedOrder[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'draft' | 'submitted' | 'analyzed' | 'ordered'>('all')

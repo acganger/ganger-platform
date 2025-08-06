@@ -101,33 +101,18 @@ export class HealthChecker {
         .from('health_checks')
         .select('id')
         .limit(1);
-      
-      if (error) {
-        console.error('[HealthCheck] Database check failed:', error.message);
-        return false;
-      }
-      
-      console.debug(`[HealthCheck] Database check successful, found ${data?.length || 0} records`);
-      return true;
-    } catch (err) {
-      console.error('[HealthCheck] Database check error:', err);
+        
+      return !error;
+    } catch {
       return false;
     }
   }
   
   private async checkAuthentication(): Promise<boolean> {
     try {
-      const { data: user, error } = await this.supabase.auth.getUser();
-      
-      if (error) {
-        console.debug('[HealthCheck] Auth check - no active session (expected in some contexts)');
-        return true; // Auth service is responding, even if no user
-      }
-      
-      console.debug(`[HealthCheck] Auth check successful${user ? `, user: ${user.id}` : ''}`);
+      const { data: user } = await this.supabase.auth.getUser();
       return true; // If no error, auth service is responding
-    } catch (err) {
-      console.error('[HealthCheck] Auth check error:', err);
+    } catch {
       return false;
     }
   }

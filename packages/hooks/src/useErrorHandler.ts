@@ -68,11 +68,7 @@ export function useErrorHandler() {
     // Show user-friendly toast
     if (showToast) {
       const message = customMessage || getUserFriendlyMessage(errorObj);
-      toast({
-        title: 'Error',
-        description: message,
-        type: 'error',
-      });
+      toast.error('Error', message);
     }
 
     // Call custom error handler

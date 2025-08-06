@@ -82,8 +82,7 @@ export class SafetyFilter {
   /**
    * Perform comprehensive safety check on content
    */
-  async checkSafety(content: string, context?: string): Promise<SafetyCheckResponse> {
-    const startTime = Date.now();
+  async checkSafety(content: string): Promise<SafetyCheckResponse> {
 
     // Detect PHI
     const phiDetection = this.detectPHI(content);
@@ -152,7 +151,7 @@ export class SafetyFilter {
   sanitizePHI(content: string): string {
     let sanitized = content;
 
-    for (const [type, config] of Object.entries(PHI_PATTERNS)) {
+    for (const config of Object.values(PHI_PATTERNS)) {
       sanitized = sanitized.replace(config.pattern, config.replacement);
     }
 

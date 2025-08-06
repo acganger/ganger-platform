@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ConsolidatedOrdersRepository } from '@ganger/db'
 import { withStaffAuth } from '@ganger/auth/middleware'
 
-export const GET = withStaffAuth(async (_request: NextRequest, { params }) => {
+export const GET = withStaffAuth(async (request: NextRequest, { user, params }) => {
   try {
     const repository = new ConsolidatedOrdersRepository()
     const order = await repository.findById(params.id)
@@ -40,7 +40,7 @@ export const GET = withStaffAuth(async (_request: NextRequest, { params }) => {
   }
 })
 
-export const PATCH = withStaffAuth(async (request: NextRequest, { params }) => {
+export const PATCH = withStaffAuth(async (request: NextRequest, { user, params }) => {
   try {
     const body = await request.json()
     const repository = new ConsolidatedOrdersRepository()
@@ -81,7 +81,7 @@ export const PATCH = withStaffAuth(async (request: NextRequest, { params }) => {
   }
 })
 
-export const DELETE = withStaffAuth(async (_request: NextRequest, { params }) => {
+export const DELETE = withStaffAuth(async (request: NextRequest, { user, params }) => {
   try {
     const repository = new ConsolidatedOrdersRepository()
     

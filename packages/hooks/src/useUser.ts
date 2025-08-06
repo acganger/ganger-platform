@@ -24,7 +24,7 @@ interface UseUserReturn {
 export function useUser(): UseUserReturn {
   const { user: authUser, loading: authLoading } = useAuth();
   
-  const { data: userProfile, isLoading, error } = useSupabaseQuery<UserProfile>(
+  const { data, isLoading, error } = useSupabaseQuery<UserProfile>(
     ['user_profile', authUser?.id || 'none'],
     {
       table: 'user_profiles',
@@ -34,13 +34,15 @@ export function useUser(): UseUserReturn {
     }
   );
 
+  const userProfile = data && typeof data === 'object' && 'role' in data ? data as UserProfile : null;
+
   const hasRole = (role: string): boolean => {
     if (!userProfile) return false;
     return userProfile.role === role;
   };
 
   return {
-    user: userProfile || null,
+    user: userProfile,
     loading: authLoading || isLoading,
     error: error as Error | null,
     isAdmin: hasRole('admin'),

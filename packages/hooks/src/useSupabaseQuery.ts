@@ -2,7 +2,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { getSupabaseClient } from '@ganger/auth';
 import { errorTracking } from '@ganger/monitoring';
 
-interface SupabaseQueryOptions<T> extends Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'> {
+interface SupabaseQueryOptions<T> extends Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn' | 'select'> {
   table: string;
   select?: string;
   filters?: Record<string, any>;
@@ -17,6 +17,8 @@ export function useSupabaseQuery<T = any>(
 ) {
   const supabase = getSupabaseClient();
   
+  const { table, select, filters, orderBy, limit, single, ...queryOptions } = options;
+  
   return useQuery<T>({
     queryKey,
     queryFn: async () => {
@@ -24,12 +26,12 @@ export function useSupabaseQuery<T = any>(
       
       try {
         let query = supabase
-          .from(options.table)
-          .select(options.select || '*');
+          .from(table)
+          .select(select || '*');
 
         // Apply filters
-        if (options.filters) {
-          Object.entries(options.filters).forEach(([key, value]) => {
+        if (filters) {
+          Object.entries(filters).forEach(([key, value]) => {
             if (value === null) {
               query = query.is(key, null);
             } else if (Array.isArray(value)) {
@@ -77,7 +79,7 @@ export function useSupabaseQuery<T = any>(
             unit: 'ms',
             timestamp: new Date().toISOString(),
             tags: {
-              table: options.table,
+              table,
               queryKey: queryKey.join(':'),
               resultCount: Array.isArray(data) ? data.length.toString() : '1'
             }
@@ -90,14 +92,14 @@ export function useSupabaseQuery<T = any>(
         if (typeof window !== 'undefined') {
           errorTracking.trackError(error as Error, {
             queryKey: queryKey.join(':'),
-            table: options.table,
-            filters: options.filters
+            table,
+            filters
           });
         }
         throw error;
       }
     },
-    ...options
+    ...queryOptions
   });
 }
 

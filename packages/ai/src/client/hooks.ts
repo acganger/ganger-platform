@@ -113,7 +113,7 @@ export function useAI(options: UseAIOptions = {}): UseAIReturn {
       
       // Handle retry logic
       if (config.autoRetry && shouldRetry(aiError) && requestCountRef.current < (config.retryAttempts || 3)) {
-        return await retryWithBackoff(request, aiError);
+        return await retryWithBackoff(request);
       }
       
       // Call error callback
@@ -150,8 +150,7 @@ export function useAI(options: UseAIOptions = {}): UseAIReturn {
    * Retry with exponential backoff
    */
   const retryWithBackoff = useCallback(async (
-    request: AIChatRequest, 
-    lastError: AIError
+    request: AIChatRequest
   ): Promise<AIResponse> => {
     const retryDelay = Math.min(1000 * Math.pow(2, requestCountRef.current), 10000);
     

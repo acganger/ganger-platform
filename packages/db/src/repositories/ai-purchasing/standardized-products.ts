@@ -170,10 +170,7 @@ export class StandardizedProductsRepository extends BaseRepository<StandardizedP
     // Validate input
     const validated = standardizedProductSchema.parse(input);
     
-    // Remove any extra fields that might have been added by schema defaults
-    const { ...createData } = validated;
-    
-    return this.create(createData as Omit<StandardizedProduct, 'id' | 'created_at' | 'updated_at'>);
+    return this.create(validated);
   }
 
   async toggleActive(productId: string, isActive: boolean): Promise<StandardizedProduct> {

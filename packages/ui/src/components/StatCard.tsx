@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface TrendData {
   value: number;
   direction: 'up' | 'down';

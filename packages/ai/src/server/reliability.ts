@@ -3,7 +3,7 @@
  * Provides exponential backoff, circuit breaker, and failover mechanisms
  */
 
-import type { AIModel, AIError } from '../shared/types';
+import type { AIModel } from '../shared/types';
 
 /**
  * Retry configuration

@@ -89,6 +89,8 @@ export class EnhancedAIError extends Error {
   public readonly recoveryActions: RecoveryAction[];
   public readonly diagnostics: DiagnosticInfo;
   public retryAfter?: number;
+  public readonly code: string;
+  public readonly details?: any;
 
   constructor(
     message: string,
@@ -112,11 +114,13 @@ export class EnhancedAIError extends Error {
     this.severity = severity;
     this.recoverable = options.recoverable ?? this.isRecoverableByDefault(category);
     this.technicalMessage = message;
-    this.userMessage = options.userMessage ?? this.generateUserMessage(category, message);
+    this.userMessage = options.userMessage ?? this.generateUserMessage(category);
     this.context = context;
     this.retryAfter = options.retryAfter;
     this.recoveryActions = this.generateRecoveryActions(category);
-    this.diagnostics = this.generateDiagnostics(options.cause);
+    this.diagnostics = this.generateDiagnostics();
+    this.code = this.generateErrorCode(category);
+    this.details = options.metadata;
 
     // Capture stack trace
     if (Error.captureStackTrace) {
@@ -132,6 +136,25 @@ export class EnhancedAIError extends Error {
   }
 
   /**
+   * Generate error code based on category
+   */
+  private generateErrorCode(category: ErrorCategory): string {
+    const codeMap: Record<ErrorCategory, string> = {
+      authentication: 'AUTH_ERROR',
+      validation: 'VALIDATION_ERROR',
+      safety: 'SAFETY_ERROR',
+      network: 'NETWORK_ERROR',
+      timeout: 'TIMEOUT_ERROR',
+      rate_limit: 'RATE_LIMIT_ERROR',
+      budget: 'BUDGET_ERROR',
+      model: 'MODEL_ERROR',
+      configuration: 'CONFIG_ERROR',
+      unknown: 'UNKNOWN_ERROR'
+    };
+    return codeMap[category] || 'UNKNOWN_ERROR';
+  }
+
+  /**
    * Determine if error is recoverable by default
    */
   private isRecoverableByDefault(category: ErrorCategory): boolean {
@@ -144,7 +167,7 @@ export class EnhancedAIError extends Error {
   /**
    * Generate user-friendly error message
    */
-  private generateUserMessage(category: ErrorCategory, technicalMessage: string): string {
+  private generateUserMessage(category: ErrorCategory): string {
     const messages: Record<ErrorCategory, string> = {
       authentication: 'Please log in to continue using AI features.',
       validation: 'Please check your input and try again.',
@@ -213,7 +236,7 @@ export class EnhancedAIError extends Error {
   /**
    * Generate diagnostic information
    */
-  private generateDiagnostics(cause?: Error): DiagnosticInfo {
+  private generateDiagnostics(): DiagnosticInfo {
     const diagnostics: DiagnosticInfo = {
       errorId: this.errorId,
       timestamp: this.timestamp,

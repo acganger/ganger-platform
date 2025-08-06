@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom';
 import HomePage from '../../pages/index';
 import { useRouter } from 'next/router';

@@ -42,4 +42,4 @@ export type { KeyboardShortcut, UseKeyboardShortcutsOptions } from './useKeyboar
 export { usePerformanceMonitor, useComponentLifecycle } from './usePerformanceMonitor';
 
 // Re-export types
-export type { ApiRequest, ApiResponse, ApiHandlerOptions, ApiError } from '@ganger/utils/server';
+// export type { ApiRequest, ApiResponse, ApiHandlerOptions, ApiError } from '@ganger/utils/server'; // These types are not exported from utils/server

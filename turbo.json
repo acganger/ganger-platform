@@ -9,29 +9,12 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": [
-        "src/**", 
-        "app/**", 
-        "pages/**", 
-        "components/**", 
-        "lib/**", 
-        "utils/**",
-        "styles/**/*.css",
-        "public/**",
-        "next.config.js", 
-        "tsconfig.json", 
-        "tailwind.config.js",
-        "postcss.config.js",
-        "package.json"
-      ],
+      "inputs": ["src/**", "next.config.js", "tsconfig.json", "package.json"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"],
       "env": [
         "NEXT_PUBLIC_SUPABASE_URL",
         "NEXT_PUBLIC_SUPABASE_ANON_KEY",
         "NEXT_PUBLIC_SITE_URL",
-        "NEXT_PUBLIC_STAFF_URL",
-        "NEXT_PUBLIC_LUNCH_URL",
-        "NEXT_PUBLIC_L10_URL",
         "NODE_ENV",
         "SKIP_ENV_VALIDATION"
       ]

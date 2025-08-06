@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ConsolidatedOrdersRepository } from '@ganger/db'
 import { withStaffAuth } from '@ganger/auth/middleware'
 
-export const POST = withStaffAuth(async (_request: NextRequest, { params }) => {
+export const POST = withStaffAuth(async (request: NextRequest, { user, params }) => {
   try {
     const repository = new ConsolidatedOrdersRepository()
     

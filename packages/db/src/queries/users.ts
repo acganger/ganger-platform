@@ -1,9 +1,9 @@
 import { BaseRepository } from '../utils/base-repository';
 import type { Profile, UserRole } from '../types/database';
 
-class UserRepository extends BaseRepository<Profile> {
+class ProfileRepository extends BaseRepository<Profile> {
   constructor() {
-    super('profiles', true); // Use admin client for user operations
+    super('users', true); // Use admin client for user operations
   }
 
   async findByEmail(email: string): Promise<Profile | null> {
@@ -32,6 +32,17 @@ class UserRepository extends BaseRepository<Profile> {
     return (data || []) as Profile[];
   }
 
+  async findByLocation(locationId: string): Promise<Profile[]> {
+    const { data, error } = await this.client
+      .from(this.tableName)
+      .select('*')
+      .contains('locations', [locationId])
+      .eq('is_active', true);
+
+    if (error) throw error;
+    return (data || []) as Profile[];
+  }
+
   async updateLastLogin(userId: string): Promise<void> {
     const { error } = await this.client
       .from(this.tableName)
@@ -41,19 +52,23 @@ class UserRepository extends BaseRepository<Profile> {
     if (error) throw error;
   }
 
-  async deactivateUser(userId: string): Promise<Profile> {
+  // async updateLocations(userId: string, locations: string[]): Promise<Profile> {
+  //   return this.update(userId, { locations });
+  // }
+
+  async deactivateProfile(userId: string): Promise<Profile> {
     return this.update(userId, { is_active: false });
   }
 
-  async activateUser(userId: string): Promise<Profile> {
+  async activateProfile(userId: string): Promise<Profile> {
     return this.update(userId, { is_active: true });
   }
 
-  async searchUsers(query: string): Promise<Profile[]> {
+  async searchProfiles(query: string): Promise<Profile[]> {
     const { data, error } = await this.client
       .from(this.tableName)
       .select('*')
-      .or(`full_name.ilike.%${query}%,email.ilike.%${query}%`)
+      .or(`name.ilike.%${query}%,email.ilike.%${query}%`)
       .eq('is_active', true)
       .limit(50);
 
@@ -62,4 +77,4 @@ class UserRepository extends BaseRepository<Profile> {
   }
 }
 
-export const userQueries = new UserRepository();
+export const userQueries = new ProfileRepository();

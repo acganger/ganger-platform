@@ -106,7 +106,12 @@ export class MigrationStaffingBusinessLogic {
 
       // Generate time slots (unchanged logic)
       const timeSlots = this.generateTimeSlots('07:00:00', '19:00:00', 30);
-      const timeSlotRequirements = [];
+      const timeSlotRequirements: Array<{
+        startTime: string;
+        endTime: string;
+        requiredStaff: number;
+        requiredSkills: string[];
+      }> = [];
       const allRequiredSkills = new Set<string>();
 
       for (const slot of timeSlots) {
@@ -460,7 +465,13 @@ export class MigrationStaffingBusinessLogic {
     }
 
     try {
-      const forecast = [];
+      const forecast: Array<{
+        date: Date;
+        predictedDemand: number;
+        recommendedStaff: number;
+        confidence: number;
+        factors: string[];
+      }> = [];
       const currentDate = new Date(startDate);
 
       while (currentDate <= endDate) {
@@ -524,7 +535,7 @@ export class MigrationStaffingBusinessLogic {
    * Helper methods (unchanged from original but made private)
    */
   private generateTimeSlots(startTime: string, endTime: string, intervalMinutes: number): Array<{ start: string; end: string }> {
-    const slots = [];
+    const slots: Array<{ start: string; end: string }> = [];
     const start = new Date(`2000-01-01T${startTime}`);
     const end = new Date(`2000-01-01T${endTime}`);
     
@@ -619,7 +630,7 @@ export class MigrationStaffingBusinessLogic {
   }
 
   private generateForecastFactors(date: Date, dayOfWeek: number): string[] {
-    const factors = [];
+    const factors: string[] = [];
     
     // Day of week factor
     if (dayOfWeek === 1) factors.push('Monday (typically high demand)');

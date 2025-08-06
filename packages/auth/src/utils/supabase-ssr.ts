@@ -1,6 +1,6 @@
 // SSR-compatible Supabase client with cross-domain cookie support
 import { createBrowserClient, createServerClient } from '@supabase/ssr';
-// import { cookies } from 'next/headers'; // TODO: Fix Next.js App Router types
+import { cookies } from 'next/headers';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supa.gangerdermatology.com';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_q-yj56RH8zrMVH-4cRazWA_PI2pBoeh';
@@ -50,12 +50,7 @@ export function createBrowserSupabaseClient() {
  * Create a Supabase client for server components/API routes
  */
 export function createServerSupabaseClient() {
-  // const cookieStore = cookies(); // TODO: Fix Next.js App Router types
-  const cookieStore = { 
-    get: (_name: string) => ({ value: '' }), 
-    set: (_name: string, _value: string, _options?: any) => {},
-    delete: (_name: string) => {} 
-  }; // Placeholder
+  const cookieStore = cookies();
 
   return createServerClient(
     supabaseUrl,

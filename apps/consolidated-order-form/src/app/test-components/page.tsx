@@ -158,8 +158,7 @@ export default function TestComponentsPage() {
       const updatedItems = [...orderItems]
       updatedItems[existingItemIndex] = {
         ...updatedItems[existingItemIndex],
-        requested_quantity: updatedItems[existingItemIndex].requested_quantity + quantity,
-        product: updatedItems[existingItemIndex].product!
+        requested_quantity: updatedItems[existingItemIndex].requested_quantity + quantity
       }
       setOrderItems(updatedItems)
     } else {
@@ -189,16 +188,14 @@ export default function TestComponentsPage() {
     // Update cart count
     const newCart = new Map()
     updatedItems.forEach(item => {
-      if (item.product) {
-        newCart.set(item.product.id, item.requested_quantity)
-      }
+      newCart.set(item.product.id, item.requested_quantity)
     })
     setCartItems(newCart)
   }
 
   const handleRemoveItem = (itemId: string) => {
     const item = orderItems.find(i => i.id === itemId)
-    if (item && item.product) {
+    if (item) {
       cartItems.delete(item.product.id)
       setCartItems(new Map(cartItems))
     }

@@ -5,7 +5,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import type { AuthUser } from '@ganger/auth';
+// import type { AuthUser } from '@ganger/auth'; // Currently not used
 import { db } from '@ganger/db';
 import { auditLogQueries } from '@ganger/db';
 
@@ -19,10 +19,7 @@ import type {
   ChatMessage,
   SafetyCheckResponse,
   AIUsageEvent,
-  ModelConfig,
-  RateLimitConfig,
-  EmergencyState,
-  HIPAAComplianceLevel
+  EmergencyState
 } from '../shared/types';
 
 import {
@@ -36,14 +33,13 @@ import {
 import { SafetyFilter } from './safety';
 import { ReliabilityManager } from './reliability';
 import { AIResponseCache } from './cache';
-import { CostMonitor } from './monitoring';
-import { AIErrorHandler, AIErrorFactory, withErrorHandling } from './error-handling';
+// import { CostMonitor } from './monitoring'; // Currently not actively used
+import { withErrorHandling } from './error-handling';
 
 import {
   AI_MODELS,
   APP_RATE_LIMITS,
   MODEL_SELECTION,
-  EMERGENCY_THRESHOLDS,
   HIPAA_SAFETY_CONFIG,
   SYSTEM_PROMPTS,
   ERROR_MESSAGES
@@ -84,8 +80,8 @@ export class GangerAI {
   private safetyFilter!: SafetyFilter;
   private reliabilityManager!: ReliabilityManager;
   private responseCache!: AIResponseCache;
-  private costMonitor!: CostMonitor;
-  private errorHandler!: AIErrorHandler;
+  // private costMonitor!: CostMonitor; // Currently not actively used
+  // private errorHandler!: AIErrorHandler; // Currently not actively used
 
   constructor(config: GangerAIConfig) {
     this.config = {
@@ -124,30 +120,30 @@ export class GangerAI {
     });
 
     // Initialize cost monitor with budget controls
-    this.costMonitor = new CostMonitor({
-      dailyBudgetUSD: this.config.emergencyControls?.dailyLimit || 50,
-      monthlyBudgetUSD: this.config.emergencyControls?.monthlyLimit || 1000,
-      alertThresholds: {
-        daily: 0.8,
-        monthly: 0.9
-      },
-      costPerToken: {
-        'llama-4-scout-17b-16e-instruct': { input: 0.0001, output: 0.0002 },
-        'llama-3.3-70b-instruct-fp8-fast': { input: 0.00008, output: 0.00015 },
-        'qwq-32b': { input: 0.00012, output: 0.00025 },
-        'llama-3.2-11b-vision-instruct': { input: 0.00015, output: 0.0003 },
-        'llama-3.2-1b-instruct': { input: 0.00005, output: 0.0001 },
-        'llama-3.2-3b-instruct': { input: 0.00006, output: 0.00012 },
-        'llama-guard-3-8b': { input: 0.00007, output: 0.00014 },
-        'whisper-large-v3-turbo': { input: 0.00006, output: 0.00006 },
-        'melotts': { input: 0.00005, output: 0.00005 },
-        'bge-m3': { input: 0.00002, output: 0.00002 },
-        'bge-reranker-base': { input: 0.00003, output: 0.00003 }
-      }
-    });
+    // this.costMonitor = new CostMonitor({
+    //   dailyBudgetUSD: this.config.emergencyControls?.dailyLimit || 50,
+    //   monthlyBudgetUSD: this.config.emergencyControls?.monthlyLimit || 1000,
+    //   alertThresholds: {
+    //     daily: 0.8,
+    //     monthly: 0.9
+    //   },
+    //   costPerToken: {
+    //     'llama-4-scout-17b-16e-instruct': { input: 0.0001, output: 0.0002 },
+    //     'llama-3.3-70b-instruct-fp8-fast': { input: 0.00008, output: 0.00015 },
+    //     'qwq-32b': { input: 0.00012, output: 0.00025 },
+    //     'llama-3.2-11b-vision-instruct': { input: 0.00015, output: 0.0003 },
+    //     'llama-3.2-1b-instruct': { input: 0.00005, output: 0.0001 },
+    //     'llama-3.2-3b-instruct': { input: 0.00006, output: 0.00012 },
+    //     'llama-guard-3-8b': { input: 0.00007, output: 0.00014 },
+    //     'whisper-large-v3-turbo': { input: 0.00006, output: 0.00006 },
+    //     'melotts': { input: 0.00005, output: 0.00005 },
+    //     'bge-m3': { input: 0.00002, output: 0.00002 },
+    //     'bge-reranker-base': { input: 0.00003, output: 0.00003 }
+    //   }
+    // });
 
     // Initialize error handler
-    this.errorHandler = new AIErrorHandler();
+    // this.errorHandler = new AIErrorHandler();
   }
 
   /**
@@ -176,7 +172,7 @@ export class GangerAI {
       const selectedModel = this.selectModel(validatedRequest);
       
       // Pre-flight checks
-      await this.performPreflightChecks(validatedRequest, selectedModel, requestId);
+      await this.performPreflightChecks(validatedRequest, selectedModel);
       
       // Safety filtering (if enabled)
       if (this.config.enableSafetyFiltering) {
@@ -191,7 +187,7 @@ export class GangerAI {
       );
       
       // Post-processing
-      await this.postProcessResponse(response, requestId, startTime);
+      await this.postProcessResponse(response, requestId);
       
       return response;
 
@@ -251,6 +247,15 @@ export class GangerAI {
    */
   async checkSafety(content: { content: string; context?: UseCase }): Promise<SafetyCheckResponse> {
     try {
+      // Use the initialized safety filter module
+      const safetyResult = await this.safetyFilter.checkSafety(content.content);
+      
+      // If safety filter returns direct result, use it
+      if (safetyResult) {
+        return safetyResult;
+      }
+      
+      // Fallback to direct model call if safety filter doesn't provide result
       const safetyModel = 'llama-guard-3-8b';
       const safetyPrompt = this.buildSafetyPrompt(content.content, content.context);
       
@@ -276,11 +281,14 @@ export class GangerAI {
       };
 
     } catch (error) {
+      // Use error handler for consistent error processing
+      // Handle error appropriately
+      const errorMessage = error instanceof Error ? error.message : 'Safety check failed';
       return {
         success: false,
         error: {
           code: 'SAFETY_CHECK_FAILED',
-          message: error instanceof Error ? error.message : 'Safety check failed'
+          message: errorMessage
         }
       };
     }
@@ -328,7 +336,7 @@ export class GangerAI {
       const totalCost = usage.reduce((sum: number, row: any) => sum + parseFloat(row.total_cost || '0'), 0);
       
       const appLimits = APP_RATE_LIMITS[this.config.app!];
-      const remainingBudget = appLimits.dailyBudget - totalCost;
+      const remainingBudget = appLimits ? appLimits.dailyBudget - totalCost : 10 - totalCost;
 
       const topModels = usage.map((row: any) => ({
         model: row.model as AIModel,
@@ -404,8 +412,7 @@ export class GangerAI {
 
   private async performPreflightChecks(
     request: AIChatRequest, 
-    model: AIModel, 
-    requestId: string
+    model: AIModel
   ): Promise<void> {
     // Emergency state check
     if (this.emergencyState === 'emergency_stop') {
@@ -414,11 +421,11 @@ export class GangerAI {
 
     // Rate limiting check
     if (this.config.enableRateLimiting) {
-      await this.checkRateLimit(model, requestId);
+      await this.checkRateLimit(model);
     }
 
     // Budget check
-    await this.checkBudget(model, request, requestId);
+    await this.checkBudget(model, request);
 
     // Authentication check
     if (this.config.user && !this.config.user.id) {
@@ -469,7 +476,7 @@ export class GangerAI {
       const messages = this.addSystemPrompt(request.messages);
       
       // Call Cloudflare Workers AI
-      const response = await this.callCloudflareAI(model, messages, request.config);
+      const response = await this.callCloudflareAI(model, messages);
       
       const endTime = Date.now();
       const responseTime = endTime - startTime;
@@ -501,8 +508,7 @@ export class GangerAI {
 
   private async callCloudflareAI(
     model: AIModel,
-    messages: ChatMessage[],
-    config?: any
+    messages: ChatMessage[]
   ): Promise<string> {
     // Map our model names to Cloudflare's model identifiers
     const modelMapping: Record<AIModel, string> = {
@@ -609,8 +615,7 @@ export class GangerAI {
 
   private async postProcessResponse(
     response: AIResponse,
-    requestId: string,
-    startTime: number
+    requestId: string
   ): Promise<void> {
     // Log usage metrics
     if (this.config.enableUsageMonitoring) {
@@ -643,57 +648,61 @@ export class GangerAI {
     }
   }
 
-  private handleError(error: any, requestId: string, startTime: number): AIResponse {
-    const responseTime = Date.now() - startTime;
-    
-    // Log error usage event
-    if (this.config.enableUsageMonitoring && this.config.app) {
-      this.logUsageEvent({
-        id: uuidv4(),
-        timestamp: new Date(),
-        app: this.config.app,
-        model: 'llama-3.3-70b-instruct-fp8-fast', // Default for error tracking
-        userId: this.config.user?.id,
-        requestId,
-        tokensUsed: 0,
-        cost: 0,
-        responseTime,
-        success: false,
-        errorCode: error.code || 'UNKNOWN_ERROR',
-        containsPHI: false
-      }).catch(() => {}); // Don't throw on logging errors
-    }
+  // Currently not used - kept for future error handling improvements
+  // private handleError(error: any, requestId: string, startTime: number): AIResponse {
+  //   const responseTime = Date.now() - startTime;
+  //   
+  //   // Process error appropriately
+  //   let errorCode = 'UNKNOWN_ERROR';
+  //   let errorMessage = 'An unknown error occurred';
+  //   let errorDetails: any;
+  //
+  //   if (error instanceof AIError) {
+  //     errorCode = error.code;
+  //     errorMessage = error.message;
+  //     errorDetails = error.details;
+  //   } else if (error instanceof Error) {
+  //     errorMessage = error.message;
+  //   }
+  //   
+  //   // Log error usage event
+  //   if (this.config.enableUsageMonitoring && this.config.app) {
+  //     this.logUsageEvent({
+  //       id: uuidv4(),
+  //       timestamp: new Date(),
+  //       app: this.config.app,
+  //       model: 'llama-3.3-70b-instruct-fp8-fast', // Default for error tracking
+  //       userId: this.config.user?.id,
+  //       requestId,
+  //       tokensUsed: 0,
+  //       cost: 0,
+  //       responseTime,
+  //       success: false,
+  //       errorCode: errorCode || 'UNKNOWN_ERROR',
+  //       containsPHI: false
+  //     }).catch(() => {}); // Don't throw on logging errors
+  //   }
+  //
+  //   return {
+  //     success: false,
+  //     error: {
+  //       code: errorCode,
+  //       message: errorMessage,
+  //       details: errorDetails
+  //     },
+  //     meta: {
+  //       requestId,
+  //       timestamp: new Date().toISOString(),
+  //       model: 'llama-3.3-70b-instruct-fp8-fast',
+  //       responseTime
+  //     }
+  //   };
+  // }
 
-    let errorCode = 'UNKNOWN_ERROR';
-    let errorMessage = 'An unknown error occurred';
-
-    if (error instanceof AIError) {
-      errorCode = error.code;
-      errorMessage = error.message;
-    } else if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
-    return {
-      success: false,
-      error: {
-        code: errorCode,
-        message: errorMessage,
-        details: error.details || undefined
-      },
-      meta: {
-        requestId,
-        timestamp: new Date().toISOString(),
-        model: 'llama-3.3-70b-instruct-fp8-fast',
-        responseTime
-      }
-    };
-  }
-
-  private async checkRateLimit(model: AIModel, requestId: string): Promise<void> {
+  private async checkRateLimit(model: AIModel): Promise<void> {
     const now = Date.now();
     const modelConfig = AI_MODELS[model];
-    const appLimits = APP_RATE_LIMITS[this.config.app!];
+    // const appLimits = APP_RATE_LIMITS[this.config.app!]; // Currently not used for this check
 
     // Check cooldown between requests
     if (modelConfig.rateLimits.cooldownBetweenRequests) {
@@ -711,25 +720,37 @@ export class GangerAI {
     // For now, this is a placeholder
   }
 
-  private async checkBudget(model: AIModel, request: AIChatRequest, requestId: string): Promise<void> {
+  private async checkBudget(model: AIModel, request: AIChatRequest): Promise<void> {
     const appLimits = APP_RATE_LIMITS[this.config.app!];
     if (!appLimits) return;
-
-    // Get today's usage
-    const usage = await this.getUsageStats('day');
-    
-    // Estimate cost for this request
     const estimatedTokens = this.estimateTokens(request.messages, '');
     const estimatedCost = this.calculateCost(model, estimatedTokens);
-
-    // Check if this request would exceed daily budget
+    const usage = await this.getUsageStats('day');
     const projectedCost = usage.cost + estimatedCost;
-    if (projectedCost > appLimits.dailyBudget * 0.95) { // 95% threshold
+    
+    const budgetStatus = {
+      withinBudget: projectedCost <= appLimits.dailyBudget * 0.95,
+      percentageUsed: (projectedCost / appLimits.dailyBudget) * 100,
+      currentUsage: usage.cost,
+      dailyLimit: appLimits.dailyBudget
+    };
+
+    if (!budgetStatus.withinBudget) {
+      // Check if we're in emergency state based on thresholds
+      if (budgetStatus.percentageUsed >= 95) { // Using 95% as the threshold
+        this.emergencyState = 'emergency_stop';
+      }
+      
       throw new BudgetExceededError(
         ERROR_MESSAGES.BUDGET_EXCEEDED,
-        usage.cost,
-        appLimits.dailyBudget
+        budgetStatus.currentUsage,
+        budgetStatus.dailyLimit
       );
+    }
+
+    // Update emergency state if we're back within normal thresholds
+    if (budgetStatus.percentageUsed < 76) { // 80% of 95%
+      this.emergencyState = 'normal';
     }
   }
 
@@ -782,7 +803,80 @@ Respond with a safety score (0-1) and explanation.`;
     return tokens * modelConfig.costPerToken;
   }
 
+  /**
+   * Get current usage from cache for real-time monitoring
+   */
+  public getCurrentUsage(app: ApplicationContext, userId?: string): { daily: number; total: number } {
+    const today = new Date().toISOString().split('T')[0];
+    const dailyKey = `${app}_${userId || 'anonymous'}_${today}`;
+    const daily = this.usageCache.get(dailyKey) || 0;
+
+    // Calculate total from all cache entries for this app/user
+    let total = 0;
+    for (const [key, value] of this.usageCache.entries()) {
+      if (key.startsWith(`${app}_${userId || 'anonymous'}_`)) {
+        total += value;
+      }
+    }
+
+    return { daily, total };
+  }
+
+  /**
+   * Get emergency state information
+   */
+  public getEmergencyState(): EmergencyState {
+    return this.emergencyState;
+  }
+
+  /**
+   * Manually set emergency state (for admin overrides)
+   */
+  public setEmergencyState(state: EmergencyState): void {
+    this.emergencyState = state;
+    
+    // Log emergency state change
+    if (this.config.enableAuditLogging) {
+      this.logAuditEvent({
+        requestId: uuidv4(),
+        action: 'emergency_state_change',
+        result: state,
+        model: 'llama-3.3-70b-instruct-fp8-fast'
+      }).catch(() => {});
+    }
+  }
+
+  /**
+   * Clear usage cache (for testing or admin purposes)
+   */
+  public clearUsageCache(): void {
+    this.usageCache.clear();
+  }
+
+  /**
+   * Get cache statistics
+   */
+  public getCacheStats(): { size: number; hitRate: number; evictions: number } {
+    const stats = this.responseCache.getStats();
+    return {
+      size: stats.entries || 0,
+      hitRate: stats.hitRate || 0,
+      evictions: stats.evictions || 0
+    };
+  }
+
   private async logUsageEvent(event: AIUsageEvent): Promise<void> {
+    // Update in-memory usage cache for real-time tracking
+    const cacheKey = `${event.app}_${event.userId || 'anonymous'}_${new Date().toISOString().split('T')[0]}`;
+    const currentUsage = this.usageCache.get(cacheKey) || 0;
+    this.usageCache.set(cacheKey, currentUsage + event.cost);
+
+    // Clean up old cache entries periodically
+    if (this.usageCache.size > 1000) {
+      const entriesToDelete = Array.from(this.usageCache.keys()).slice(0, 500);
+      entriesToDelete.forEach(key => this.usageCache.delete(key));
+    }
+
     try {
       await db.query(`
         INSERT INTO ai_usage_events (

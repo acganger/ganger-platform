@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { MedicalPaymentService } from '@ganger/integrations';
+import { getSupabaseClient } from '@ganger/auth';
 import { z } from 'zod';
 
 // Input validation schema
