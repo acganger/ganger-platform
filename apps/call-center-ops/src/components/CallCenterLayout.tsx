@@ -8,8 +8,7 @@ interface CallCenterLayoutProps {
 }
 
 export function CallCenterLayout({ children }: CallCenterLayoutProps) {
-  // @ts-expect-error - auth context may be used by child components
-  const { user, isAuthenticated } = useStaffAuth();
+  const { user: _user, isAuthenticated: _isAuthenticated } = useStaffAuth();
 
   return (
     <StaffPortalLayout 

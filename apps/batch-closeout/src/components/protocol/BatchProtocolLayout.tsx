@@ -77,8 +77,7 @@ export function BatchProtocolLayout({
 }: {
   children: React.ReactNode
 }) {
-  // @ts-expect-error - pathname may be used for active state or analytics
-  let pathname = usePathname()
+  const _pathname = usePathname()
 
   return (
     <div className="h-full lg:ml-72 xl:ml-80">

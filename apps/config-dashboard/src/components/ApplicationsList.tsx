@@ -32,8 +32,7 @@ interface ApiResponse<T> {
 }
 
 export function ApplicationsList() {
-  // @ts-expect-error - user context may be needed for permissions or logging
-  const { user } = useAuth();
+  const { user: _user } = useAuth();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
