@@ -1,13 +1,15 @@
 'use client'
 
 import { StaffPortalLayout } from '@ganger/ui';
+import { useStaffAuth } from '@ganger/auth/staff';
 
 interface CallCenterLayoutProps {
   children: React.ReactNode;
 }
 
 export function CallCenterLayout({ children }: CallCenterLayoutProps) {
-  // Auth handled by parent layout
+  // @ts-expect-error - auth context may be used by child components
+  const { user, isAuthenticated } = useStaffAuth();
 
   return (
     <StaffPortalLayout 

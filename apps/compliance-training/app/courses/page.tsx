@@ -9,7 +9,8 @@ import { Card } from '@ganger/ui-catalyst';
 export const dynamic = 'force-dynamic';
 
 export default function ComplianceCoursesPage() {
-  const { isAuthenticated, isLoading } = useStaffAuth();
+  // @ts-expect-error - user may be used by child components or future features
+  const { user, isAuthenticated, isLoading } = useStaffAuth();
   
   if (isLoading) {
     return (

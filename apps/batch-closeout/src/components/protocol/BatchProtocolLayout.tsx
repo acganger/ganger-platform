@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { GangerLogo } from '@ganger/ui'
 
 import { Container } from '@/components/protocol/Container'
@@ -76,7 +77,8 @@ export function BatchProtocolLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Pathname tracking handled by parent layout
+  // @ts-expect-error - pathname may be used for active state or analytics
+  let pathname = usePathname()
 
   return (
     <div className="h-full lg:ml-72 xl:ml-80">

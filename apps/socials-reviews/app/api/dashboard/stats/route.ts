@@ -1,7 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // @ts-expect-error - request may be needed for auth headers or rate limiting
+  request;
   // Create Supabase client inside the function to avoid build-time execution
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

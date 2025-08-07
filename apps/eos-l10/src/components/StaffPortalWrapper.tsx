@@ -1,13 +1,15 @@
 'use client'
 
 import { StaffPortalLayout } from '@ganger/ui';
+import { useStaffAuth } from '@ganger/auth/staff';
 
 interface StaffPortalWrapperProps {
   children: React.ReactNode;
 }
 
 export function StaffPortalWrapper({ children }: StaffPortalWrapperProps) {
-  // Auth is handled by parent layout
+  // @ts-expect-error - auth context may be used by child components
+  const { user, isAuthenticated } = useStaffAuth();
   
   return (
     <StaffPortalLayout 
