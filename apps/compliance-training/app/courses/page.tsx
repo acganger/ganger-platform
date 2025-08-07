@@ -9,7 +9,7 @@ import { Card } from '@ganger/ui-catalyst';
 export const dynamic = 'force-dynamic';
 
 export default function ComplianceCoursesPage() {
-  const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const { isAuthenticated, isLoading } = useStaffAuth();
   
   if (isLoading) {
     return (

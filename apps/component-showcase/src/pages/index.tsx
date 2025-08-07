@@ -55,7 +55,6 @@ import {
   CardContent as CatalystCardContent, 
   CardFooter as CatalystCardFooter, 
   Modal as CatalystModal, 
-  ModalHeader as CatalystModalHeader, 
   ModalContent as CatalystModalContent, 
   ModalFooter as CatalystModalFooter, 
   DataTable as CatalystDataTable,

@@ -10,7 +10,7 @@ interface CallMonitoringPanelProps {
 
 export const CallMonitoringPanel = ({ activeCalls, onSelectCall }: CallMonitoringPanelProps) => {
   const [selectedCallId, setSelectedCallId] = useState<string | null>(
-    activeCalls.length > 0 ? activeCalls[0].id : null
+    activeCalls.length > 0 && activeCalls[0] ? activeCalls[0].id : null
   );
 
   // Mock conversation data for demo

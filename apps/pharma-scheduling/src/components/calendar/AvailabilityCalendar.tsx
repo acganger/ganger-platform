@@ -60,7 +60,7 @@ const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
       for (let day = 0; day < 7; day++) {
         const currentDate = new Date(weekStart);
         currentDate.setDate(weekStart.getDate() + day);
-        const dateKey = currentDate.toISOString().split('T')[0];
+        const dateKey = currentDate.toISOString().split('T')[0] || '';
         const daySlots = byDate.get(dateKey) || [];
         
         const today = new Date();

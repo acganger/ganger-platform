@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@ganger/auth';
 import toast from 'react-hot-toast';
 
 interface Application {
@@ -32,7 +31,7 @@ interface ApiResponse<T> {
 }
 
 export function ApplicationsList() {
-  const { user } = useAuth();
+  // Auth handled by parent layout
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
