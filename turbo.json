@@ -8,9 +8,21 @@
   ],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["src/**", "next.config.js", "tsconfig.json", "package.json"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "src/**",
+        "next.config.js",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        "build/**"
+      ],
       "env": [
         "NEXT_PUBLIC_SUPABASE_URL",
         "NEXT_PUBLIC_SUPABASE_ANON_KEY",
@@ -24,27 +36,42 @@
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["^lint"],
+      "dependsOn": [
+        "^lint"
+      ],
       "outputs": []
     },
     "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
     },
     "type-check": {
-      "dependsOn": ["^type-check"],
+      "dependsOn": [
+        "^type-check"
+      ],
       "outputs": []
     },
     "check-types": {
-      "dependsOn": ["^check-types"],
+      "dependsOn": [
+        "^check-types"
+      ],
       "cache": false
     },
     "verify": {
-      "dependsOn": ["lint", "type-check"],
+      "dependsOn": [
+        "lint",
+        "type-check"
+      ],
       "cache": false
     },
     "deploy": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "cache": false
     },
     "clean": {
@@ -63,5 +90,9 @@
       "cache": false,
       "persistent": true
     }
+  },
+  "remoteCache": {
+    "enabled": true,
+    "teamId": "team_wpY7PcIsYQNnslNN39o7fWvS"
   }
 }

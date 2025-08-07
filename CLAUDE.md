@@ -24,6 +24,24 @@ The Ganger Platform is a private, medical-grade monorepo for Ganger Dermatology,
 3. Run `pnpm -F @ganger/[app-name] dev` and test in browser
 4. Only push when everything works locally
 
+### Vercel Local Testing (Added August 7, 2025)
+**Test production builds locally with Vercel CLI**
+- Vercel CLI installed globally: `npm install -g vercel`
+- Apps linked to Vercel: `vercel link --token [TOKEN] --yes`
+- Environment synced: `vercel pull --yes`
+
+**Testing Commands**:
+```bash
+# Emulate Vercel's production environment locally
+vercel dev --token [TOKEN]
+
+# Build using Vercel's build process
+vercel build --token [TOKEN]
+
+# Standard Next.js production test
+pnpm build && pnpm start
+```
+
 ### Definition of "Complete"
 A feature/app is complete only when:
 - [ ] **LOCAL BUILD PASSES**: `pnpm -F @ganger/[app-name] build` succeeds
