@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import SafeLink from '@/components/ui/SafeLink';
+import { useAuth } from '@/lib/auth-eos';
 import { 
   Home, 
   Target, 

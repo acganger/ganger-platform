@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/lib/auth-eos';
 import { 
   Menu, 
   Bell, 
@@ -17,7 +18,7 @@ export default function TopBar({ onMenuClick, showMenuButton }: TopBarProps) {
   const { user, signOut, activeTeam } = useAuth();
   const [isOnline, setIsOnline] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [notifications, setNotifications] = useState(0);
+  const [notifications] = useState(0);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);

@@ -1,7 +1,7 @@
 # Ganger Platform - Claude Code Documentation
 
-*Last Updated: August 1, 2025*  
-*Platform Version: 2.0.1*  
+*Last Updated: August 8, 2025*  
+*Platform Version: 2.0.2*  
 *Maintained by: Claude Code & Anand Ganger*
 
 The Ganger Platform is a private, medical-grade monorepo for Ganger Dermatology, hosting 22 Next.js 14 applications. Built with TypeScript, Supabase, and Vercel, it ensures HIPAA compliance, AI automation, and high-quality development.
@@ -87,11 +87,16 @@ Shortcuts waste time:
 3. **Dynamic properties**: Type as `const result: any = {}` or use proper interfaces
 4. **Array methods**: Add types to parameters `.filter((item: any) => ...)`
 5. **NEVER use** `typescript: { ignoreBuildErrors: true }` - fix the errors!
-6. **Unused imports/variables**: Remove immediately - they cause build warnings
+6. **Unused imports/variables**: 
+   - Remove if truly unused
+   - Prefix with underscore if intentionally unused: `const { user: _user } = useStaffAuth()`
+   - For React imports: Only import when using JSX or React APIs
 7. **Auth destructuring**: Use `useStaffAuth()` without destructuring if values aren't used
 8. **Null checks**: Always check optional chaining with `?.` or provide defaults with `|| []`
 9. **Function signatures**: Match the expected arguments (e.g., `exportMetricsToPDF()` takes no args)
 10. **TSConfig**: Add `"downlevelIteration": true` if using ES6 features with ES5 target
+11. **Array access**: Use non-null assertion when certain: `array[index]!`
+12. **Optional parameters**: Use underscore prefix for unused parameters: `(_param: Type)`
 
 ## 🚀 Platform Overview
 
@@ -411,6 +416,23 @@ webpack: (config, { isServer }) => {
 - All apps use ports 4000-4020 to avoid conflicts
 - Main router (ganger-staff) runs on port 4000
 - Some apps may exit immediately after starting - investigate middleware issues
+
+### WSL Performance Optimization (Added August 8, 2025)
+When using WSL2 with Windows-mounted drives, pnpm install can be extremely slow:
+- **Problem**: pnpm install times out on `/mnt/` paths due to filesystem overhead
+- **Solution**: Copy project to WSL native filesystem for development
+```bash
+# Copy to WSL native filesystem
+mkdir -p ~/projects
+rsync -av --exclude node_modules /mnt/q/Projects/ganger-platform/ ~/projects/ganger-platform/
+
+# Work in native filesystem (12 seconds vs timeout)
+cd ~/projects/ganger-platform
+pnpm install
+
+# Sync changes back when done
+rsync -av --exclude node_modules --exclude .next --exclude dist ~/projects/ganger-platform/ /mnt/q/Projects/ganger-platform/
+```
 
 ## 📝 Documentation Rules
 - **Single Source**: Update `/true-docs/` only; no new files.
