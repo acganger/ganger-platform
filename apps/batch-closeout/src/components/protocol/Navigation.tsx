@@ -1,40 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
-import { motion, useCycle } from 'framer-motion'
-
-import { useIsInsideMobileNavigation } from '@/components/protocol/useMobileNavigation'
-
-function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      viewBox="0 0 10 9"
-      fill="none"
-      strokeLinecap="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path d="m1.5 1 7 0M1.5 5 8.5 5M1.5 8 8.5 8" />
-    </svg>
-  )
-}
-
-function XIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      viewBox="0 0 10 9"
-      fill="none"
-      strokeLinecap="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path d="m1.5 1 7 7M8.5 1 l-7 7" />
-    </svg>
-  )
-}
+import { motion } from 'framer-motion'
 
 const navigation = [
   {
@@ -81,8 +50,6 @@ function NavGroup({
   group: { title: string; links: Array<{ title: string; href: string }> }
   className?: string
 }) {
-  let isInsideMobileNavigation = useIsInsideMobileNavigation()
-  let [isExpanded, toggleExpanded] = useCycle(false, true)
   let pathname = usePathname()
 
   return (

@@ -1,7 +1,6 @@
 'use client'
 
 import { EOSCompassLayout } from '@/components/compass/EOSCompassLayout'
-import { Container } from '@/components/compass/Container'
 import { Button } from '@/components/compass/Button'
 import { FadeIn } from '@/components/compass/FadeIn'
 import { 
@@ -13,8 +12,7 @@ import {
   Calendar,
   Award,
   ArrowUpRight,
-  Clock,
-  AlertTriangle
+  Clock
 } from 'lucide-react'
 
 const scorecardMetrics = [

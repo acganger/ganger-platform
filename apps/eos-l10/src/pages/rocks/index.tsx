@@ -1,31 +1,28 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SafeLink from '@/components/ui/SafeLink';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
 import { usePresence } from '@/hooks/usePresence';
 import Layout from '@/components/Layout';
 import PresenceIndicator from '@/components/PresenceIndicator';
 import { Rock } from '@/types/eos';
 import { supabase } from '@/lib/supabase';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { 
   Target, 
   Plus, 
   Calendar, 
   User, 
-  TrendingUp,
-  Filter,
   Search,
-  MoreVertical,
   Edit3,
   Trash2
 } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 
 export default function RocksPage() {
-  const { activeTeam, user, userRole } = useAuth();
+  const { userRole } = useAuth();
   const { rocks, loading, error } = useRealtimeData();
-  const { onlineUsers } = usePresence('rocks');
+  usePresence('rocks');
   
   const [selectedQuarter, setSelectedQuarter] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,6 +54,7 @@ export default function RocksPage() {
 
     const newRocks = Array.from(draggedRocks);
     const [movedRock] = newRocks.splice(source.index, 1);
+    if (!movedRock) return;
     newRocks.splice(destination.index, 0, movedRock);
 
     // Update priorities based on new order

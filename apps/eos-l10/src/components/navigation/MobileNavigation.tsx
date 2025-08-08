@@ -6,8 +6,7 @@ import {
   BarChart3, 
   AlertCircle, 
   CheckSquare, 
-  Calendar,
-  Users
+  Calendar
 } from 'lucide-react';
 
 const navigation = [

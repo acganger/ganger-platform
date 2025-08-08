@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/auth-eos';
 
 export interface PresenceUser {
   user_id: string;
@@ -78,9 +78,9 @@ export function usePresence(page: string = 'dashboard'): PresenceState {
 
         setOnlineUsers(otherUsers);
       })
-      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+      .on('presence', { event: 'join' }, () => {
       })
-      .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
+      .on('presence', { event: 'leave' }, () => {
       })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {

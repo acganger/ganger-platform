@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
-import { Team, Rock, Issue, Todo, L10Meeting } from '@/types/eos';
+import { Rock, Issue, Todo, L10Meeting } from '@/types/eos';
 import { Database } from '@/types/database';
 import { eosL10MigrationAdapter } from '@/lib/migration-adapter';
+import { useAuth } from '@/lib/auth-eos';
 
 type Tables = Database['public']['Tables'];
 

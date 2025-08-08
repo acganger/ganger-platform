@@ -1,7 +1,7 @@
 'use client'
 
 import { useStaffAuth } from '@ganger/auth/staff';
-import { Button, StaffLoginRedirect } from '@ganger/ui';
+import { StaffLoginRedirect } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
 import { TrendingUp, MessageSquare, Star, AlertCircle } from 'lucide-react';
 
@@ -10,7 +10,7 @@ import { TrendingUp, MessageSquare, Star, AlertCircle } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export default function SocialsDashboardPage() {
-  const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const { user: _user, isAuthenticated, isLoading } = useStaffAuth();
   
   if (isLoading) {
     return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { 
   X, 
   Filter, 
@@ -53,7 +52,6 @@ const dueDateOptions = [
 
 export default function TodoFilters({ filters, onFiltersChange, onClose }: TodoFiltersProps) {
   const teamMembers: any[] = []; // Fix team members access
-  const user = null; // Fix user access
 
   const handleFilterChange = (key: string, value: string) => {
     onFiltersChange({

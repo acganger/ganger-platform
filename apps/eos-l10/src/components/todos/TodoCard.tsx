@@ -53,7 +53,6 @@ export default function TodoCard({
 
   const priorityStyle = priorityConfig[todo.priority];
   const statusStyle = statusConfig[todo.status];
-  const StatusIcon = statusStyle.icon;
   const PriorityIcon = priorityStyle.icon;
 
   const handleStatusToggle = async () => {

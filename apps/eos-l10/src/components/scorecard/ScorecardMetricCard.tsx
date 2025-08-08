@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import SafeLink from '@/components/ui/SafeLink';
 import { ScorecardMetric, ScorecardEntry } from '@/types/eos';
 import { 
   TrendingUp, 
   TrendingDown, 
   Minus,
   Target,
-  Calendar,
   User,
   AlertCircle,
   CheckCircle,

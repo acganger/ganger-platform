@@ -14,9 +14,7 @@ import {
 import { Modal, FormField } from '@ganger/ui-catalyst';
 import { Card } from '@ganger/ui-catalyst';
 import { Input, Checkbox, Select } from '@ganger/ui-catalyst';
-// Temporary local implementation until @ganger/utils is available
-const validateForm = (data: any, schema: any) => ({ isValid: true, errors: {} });
-import type { CallRecord, JournalEntry } from '../../types';
+import type { CallRecord } from '../../types';
 
 interface JournalFormData {
   call_id: string;

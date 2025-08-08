@@ -10,7 +10,7 @@ import { MessageSquare, Send, Clock, AlertCircle, CheckCircle } from 'lucide-rea
 export const dynamic = 'force-dynamic';
 
 export default function SocialsRespondPage() {
-  const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const { user: _user, isAuthenticated, isLoading } = useStaffAuth();
   
   if (isLoading) {
     return (

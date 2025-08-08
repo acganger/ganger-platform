@@ -29,16 +29,6 @@ interface APIResponse<T = any> {
 }
 
 // Type definitions for ninety.io data structures
-interface NinetyUser {
-  _id: string;
-  primaryEmail: string;
-  metadata: {
-    name: {
-      first: string;
-      last: string;
-    };
-  };
-}
 
 interface NinetyTodo {
   _id: string;
@@ -87,14 +77,6 @@ interface NinetyRock {
   createdBy: string;
 }
 
-interface NinetyTeam {
-  _id: string;
-  name: string;
-  companyId: string;
-  project: boolean;
-  settings: any;
-  createdByUserId: string;
-}
 
 /**
  * Load JSON data from captured ninety.io files

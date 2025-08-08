@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { MessageSquare, Clock, CheckCircle, ThumbsUp, Heart } from 'lucide-react';
+import { useAuth } from '@/lib/auth-eos';
 
 interface MeetingSegueProps {
   onComplete: () => void;

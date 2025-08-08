@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SafeLink from '@/components/ui/SafeLink';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { usePresence } from '@/hooks/usePresence';
 import Layout from '@/components/Layout';
 import PresenceIndicator from '@/components/PresenceIndicator';
 import { Scorecard, ScorecardMetric } from '@/types/eos';
 import { supabase } from '@/lib/supabase';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { 
   Target, 
   Plus, 
@@ -33,7 +33,7 @@ interface MetricFormData {
 
 export default function ScorecardMetricsPage() {
   const { activeTeam, user, userRole } = useAuth();
-  const { onlineUsers } = usePresence('scorecard-metrics');
+  usePresence('scorecard-metrics');
   
   const [scorecard, setScorecard] = useState<Scorecard | null>(null);
   const [metrics, setMetrics] = useState<ScorecardMetric[]>([]);
@@ -127,6 +127,7 @@ export default function ScorecardMetricsPage() {
 
     const newMetrics = Array.from(metrics);
     const [movedMetric] = newMetrics.splice(source.index, 1);
+    if (!movedMetric) return;
     newMetrics.splice(destination.index, 0, movedMetric);
 
     // Update sort_order based on new positions

@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import SafeLink from '@/components/ui/SafeLink';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { usePresence } from '@/hooks/usePresence';
 import { supabase } from '@/lib/supabase';
 import Layout from '@/components/Layout';
 import PresenceIndicator from '@/components/PresenceIndicator';
 import { Rock } from '@/types/eos';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { 
   Target, 
   Calendar, 
@@ -25,7 +25,7 @@ import {
 export default function RockDetailPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { activeTeam, user, userRole } = useAuth();
+  const { activeTeam, user: _user, userRole } = useAuth();
   const { onlineUsers } = usePresence(`rock-${id}`);
   
   const [rock, setRock] = useState<Rock | null>(null);

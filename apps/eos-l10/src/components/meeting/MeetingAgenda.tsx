@@ -109,7 +109,6 @@ export default function MeetingAgenda({ agenda, currentSegment, onSegmentClick }
 
       <div className="space-y-3">
         {agendaItems.map((item, index) => {
-          const Icon = item.icon;
           const status = getSegmentStatus(item.key);
           const segment = agenda[item.key];
           

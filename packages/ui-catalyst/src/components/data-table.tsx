@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { clsx } from '../utils/clsx'
 
 // LoadingSpinner component for the table

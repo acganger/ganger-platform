@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Issue, CreateTodoForm } from '@/types/eos';
 import { useAuth } from '@/lib/auth-eos';
-import { Issue, Todo, CreateTodoForm } from '@/types/eos';
 import { 
   AlertCircle, 
   Clock, 
   CheckCircle, 
   Plus, 
-  Target,
-  MessageSquare,
-  CheckSquare,
   Eye,
   MessageCircle,
   Check
@@ -90,7 +87,7 @@ export default function MeetingIDS({ teamId, meetingId, onComplete, duration }: 
     setIsStarted(true);
     if (issues.length > 0) {
       setCurrentIDS({
-        issue: issues[0],
+        issue: issues[0]!,
         step: 'identify',
         discussion: [],
         todos: []
@@ -151,7 +148,7 @@ export default function MeetingIDS({ teamId, meetingId, onComplete, duration }: 
       
       if (remainingIssues.length > 0) {
         setCurrentIDS({
-          issue: remainingIssues[0],
+          issue: remainingIssues[0]!,
           step: 'identify',
           discussion: [],
           todos: []
@@ -213,12 +210,6 @@ export default function MeetingIDS({ teamId, meetingId, onComplete, duration }: 
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const getDefaultDueDate = () => {
-    const nextWeek = new Date();
-    nextWeek.setDate(nextWeek.getDate() + 7);
-    return nextWeek.toISOString().split('T')[0];
   };
 
   if (loading) {

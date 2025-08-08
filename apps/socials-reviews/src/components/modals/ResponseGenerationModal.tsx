@@ -96,7 +96,7 @@ export default function ResponseGenerationModal({
         setGeneratedResponses(mockResponses);
       }
       
-      setResponse(mockResponses[0]);
+      setResponse(mockResponses[0]!);
       setSelectedResponseIndex(0);
       setIsGenerating(false);
     }, 2000);

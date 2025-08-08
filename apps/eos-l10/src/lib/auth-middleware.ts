@@ -4,7 +4,7 @@
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@supabase/supabase-js';
+// import { createClient } from '@supabase/supabase-js';
 
 export interface AuthenticatedRequest extends NextApiRequest {
   user?: {
@@ -34,10 +34,7 @@ export function createResponse<T>(success: boolean, data?: T, error?: string): A
   };
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Removed unused supabase client
 
 // Simple staff authentication middleware
 export function withStaffAuth(

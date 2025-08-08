@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '@/lib/auth-eos';
 import { CreateIssueForm } from '@/types/eos';
 import { 
   X, 

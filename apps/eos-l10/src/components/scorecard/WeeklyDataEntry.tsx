@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { Scorecard, ScorecardMetric, ScorecardEntry } from '@/types/eos';
+import { useAuth } from '@/lib/auth-eos';
 import { 
   Save, 
   Target, 
-  TrendingUp, 
-  TrendingDown,
-  Minus,
   CheckCircle,
   AlertCircle,
   XCircle,
-  Calculator,
   StickyNote
 } from 'lucide-react';
 
@@ -71,6 +67,14 @@ export default function WeeklyDataEntry({
   const updateEntry = (metricId: string, field: keyof MetricEntryData, value: string) => {
     setEntries(prev => {
       const updated = { ...prev };
+      if (!updated[metricId]) {
+        updated[metricId] = {
+          metric_id: metricId,
+          value: '',
+          notes: '',
+          status: 'red'
+        };
+      }
       updated[metricId] = { ...updated[metricId], [field]: value };
       
       // Auto-calculate status when value changes

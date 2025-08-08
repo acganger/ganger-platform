@@ -3,9 +3,8 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
-import { supabase } from '@/lib/supabase';
+// import { supabase } from '@/lib/supabase';
 import { TeamAnalytics } from '@/types/eos';
 import Layout from '@/components/Layout';
 import DashboardStats from '@/components/dashboard/DashboardStats';
@@ -15,6 +14,7 @@ import RecentActivity from '@/components/dashboard/RecentActivity';
 import TeamSelector from '@/components/TeamSelector';
 import OfflineBanner from '@/components/OfflineBanner';
 import { TeamPresenceIndicator } from '@/components/PresenceIndicator';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 
 export default function Dashboard() {
   const { activeTeam, userRole } = useAuth();
@@ -57,9 +57,9 @@ export default function Dashboard() {
       const totalTodos = todos.length;
       const todo_completion_rate = totalTodos > 0 ? Math.round((completedTodos / totalTodos) * 100) : 0;
 
-      const solvedIssues = issues.filter(issue => issue.status === 'solved').length;
-      const totalIssues = issues.length;
-      const issue_resolution_rate = totalIssues > 0 ? Math.round((solvedIssues / totalIssues) * 100) : 0;
+      // const solvedIssues = issues.filter(issue => issue.status === 'solved').length;
+      // const totalIssues = issues.length;
+      // const _issue_resolution_rate = totalIssues > 0 ? Math.round((solvedIssues / totalIssues) * 100) : 0;
 
       // Calculate average issue resolution time
       const resolvedIssues = issues.filter(issue => issue.solved_at);

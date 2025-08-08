@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
-import { Users, Clock, CheckCircle, User, Building, TrendingUp } from 'lucide-react';
+import { Users, Clock, CheckCircle, User, Building } from 'lucide-react';
 
 interface MeetingHeadlinesProps {
   onComplete: () => void;

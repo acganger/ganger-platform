@@ -223,7 +223,7 @@ export default function SocialFilters({
                     max={10}
                     step={0.1}
                     value={[(filters?.min_engagement || 0) * 100]}
-                    onValueChange={(value: number[]) => updateFilter('min_engagement', value[0] / 100)}
+                    onValueChange={(value: number[]) => updateFilter('min_engagement', value[0]! / 100)}
                     className="mb-2"
                   />
                   <div className="text-sm text-gray-600 text-center">

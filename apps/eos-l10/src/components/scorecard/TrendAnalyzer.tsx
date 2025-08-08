@@ -1,16 +1,8 @@
 import { useState } from 'react';
 import { ScorecardMetric, ScorecardEntry } from '@/types/eos';
 import { 
-  TrendingUp, 
-  TrendingDown, 
-  BarChart3,
-  PieChart,
-  Target,
-  Calendar,
-  Activity,
   AlertTriangle,
-  CheckCircle,
-  Minus
+  CheckCircle
 } from 'lucide-react';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
