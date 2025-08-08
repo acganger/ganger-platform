@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { CheckCircle, Clock, Star, MessageSquare, CheckSquare, Users } from 'lucide-react';
 
 interface MeetingConcludeProps {
@@ -17,9 +16,8 @@ interface ConclusionItem {
   timestamp: string;
 }
 
-export default function MeetingConclude({ meetingId, onComplete, duration }: MeetingConcludeProps) {
-  const teamMembers: any[] = []; // Fix team members access
-  const user = null; // Fix user access
+export default function MeetingConclude({ meetingId: _meetingId, onComplete, duration }: MeetingConcludeProps) {
+  const user = { id: 'anonymous', full_name: 'Anonymous User' }; // TODO: Get from auth
   const [conclusions, setConclusions] = useState<ConclusionItem[]>([]);
   const [newItem, setNewItem] = useState('');
   const [itemType, setItemType] = useState<'recap' | 'action' | 'feedback'>('recap');

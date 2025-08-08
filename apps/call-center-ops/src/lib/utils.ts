@@ -256,9 +256,9 @@ export function generateChartColors(count: number): string[] {
     'rgb(34, 197, 94)'     // emerald
   ];
   
-  const colors = [];
+  const colors: string[] = [];
   for (let i = 0; i < count; i++) {
-    colors.push(baseColors[i % baseColors.length]);
+    colors.push(baseColors[i % baseColors.length]!);
   }
   
   return colors;
@@ -276,9 +276,9 @@ export function generateChartBackgroundColors(count: number, opacity: number = 0
     `rgba(34, 197, 94, ${opacity})`     // emerald
   ];
   
-  const colors = [];
+  const colors: string[] = [];
   for (let i = 0; i < count; i++) {
-    colors.push(baseColors[i % baseColors.length]);
+    colors.push(baseColors[i % baseColors.length]!);
   }
   
   return colors;
@@ -321,19 +321,19 @@ export function groupCallsByPeriod(
       case 'week':
         const weekStart = new Date(date);
         weekStart.setDate(date.getDate() - date.getDay());
-        key = weekStart.toISOString().split('T')[0];
+        key = weekStart.toISOString().split('T')[0]!;
         break;
       case 'month':
         key = `${date.getFullYear()}-${date.getMonth()}`;
         break;
       default:
-        key = date.toISOString().split('T')[0];
+        key = date.toISOString().split('T')[0]!;
     }
     
     if (!groups[key]) {
       groups[key] = [];
     }
-    groups[key].push(call);
+    groups[key]!.push(call);
   });
   
   return groups;

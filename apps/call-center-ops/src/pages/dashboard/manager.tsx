@@ -14,7 +14,6 @@ import {
 } from '@ganger/ui';
 import { Card, DataTable, Select } from '@ganger/ui-catalyst';
 // Temporary local implementations until @ganger/utils is available
-const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString();
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 import type { ExecutiveMetrics, LocationMetrics, CampaignPerformance } from '../../types';
 
@@ -26,7 +25,7 @@ interface ManagerDashboardData {
 }
 
 function ManagerDashboard() {
-  const { user } = useStaffAuth();
+  const { user: _user } = useStaffAuth();
   const [data, setData] = useState<ManagerDashboardData>({
     executiveMetrics: {} as ExecutiveMetrics,
     locationMetrics: [],

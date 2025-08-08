@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
 import { Team, Rock, Issue, Todo, L10Meeting } from '@/types/eos';
 import { Database } from '@/types/database';

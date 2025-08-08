@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
 import { supabase } from '@/lib/supabase';
 import { Issue, CreateIssueForm } from '@/types/eos';

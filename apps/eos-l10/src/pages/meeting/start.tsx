@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
 import { L10Meeting, L10Agenda, MeetingParticipant } from '@/types/eos';
 import { 

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SafeLink from '@/components/ui/SafeLink';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
 import { usePresence } from '@/hooks/usePresence';
 import Layout from '@/components/Layout';

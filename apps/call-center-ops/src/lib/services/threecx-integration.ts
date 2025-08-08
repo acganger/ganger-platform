@@ -189,7 +189,6 @@ export class ThreeCXIntegrationService {
     // Calculate timing metrics
     const startTime = new Date(cdrRecord.StartTime);
     const answerTime = cdrRecord.AnswerTime ? new Date(cdrRecord.AnswerTime) : null;
-    const endTime = cdrRecord.EndTime ? new Date(cdrRecord.EndTime) : null;
     
     const ringDuration = answerTime ? Math.round((answerTime.getTime() - startTime.getTime()) / 1000) : 0;
     
@@ -397,8 +396,8 @@ export class ThreeCXIntegrationService {
     const recordCount = Math.min(options.batchSize || 100, 500);
     
     for (let i = 0; i < recordCount; i++) {
-      const agent = agents[Math.floor(Math.random() * agents.length)];
-      const location = locations[Math.floor(Math.random() * locations.length)];
+      const agent = agents[Math.floor(Math.random() * agents.length)]!;
+      const location = locations[Math.floor(Math.random() * locations.length)]!;
       const callTime = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
       const talkDuration = Math.floor(Math.random() * 600) + 30; // 30 seconds to 10 minutes
       const answerTime = new Date(callTime.getTime() + Math.random() * 30000); // Up to 30 seconds ring time
@@ -441,7 +440,7 @@ export class ThreeCXIntegrationService {
       Extension: agent.extension,
       Name: agent.name,
       Email: agent.email,
-      Status: statuses[Math.floor(Math.random() * statuses.length)],
+      Status: statuses[Math.floor(Math.random() * statuses.length)]!,
       Queue: agent.location,
       Location: agent.location,
       CurrentCall: Math.random() > 0.7 ? `CALL-${Date.now()}` : undefined,
@@ -455,7 +454,7 @@ export class ThreeCXIntegrationService {
   async scheduleAutomaticSync(): Promise<void> {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    const yesterdayStr = yesterday.toISOString().split('T')[0]!;
     
     try {
       

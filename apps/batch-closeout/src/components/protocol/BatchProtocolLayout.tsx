@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { GangerLogo } from '@ganger/ui'
 
 import { Container } from '@/components/protocol/Container'
@@ -77,8 +76,6 @@ export function BatchProtocolLayout({
 }: {
   children: React.ReactNode
 }) {
-  const _pathname = usePathname()
-
   return (
     <div className="h-full lg:ml-72 xl:ml-80">
       <motion.header

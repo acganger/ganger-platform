@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import SafeLink from '@/components/ui/SafeLink';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { usePresence } from '@/hooks/usePresence';
 import { supabase } from '@/lib/supabase';
 import Layout from '@/components/Layout';

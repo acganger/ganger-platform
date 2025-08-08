@@ -2,7 +2,6 @@
 // Handles real-time data updates, WebSocket connections, and live metrics
 
 import { db } from '@ganger/db';
-import { CallCenterRecord, ThreeCXCallRecord, AgentShift } from '../../types/call-center';
 
 interface RealtimeEvent {
   type: 'call_started' | 'call_ended' | 'agent_status_changed' | 'metric_updated' | 'alert_triggered';
@@ -46,7 +45,6 @@ interface AlertConfig {
 export class RealtimeDataProcessor {
   private metricsCache: Map<string, any> = new Map();
   private alertConfigs: AlertConfig[] = [];
-  private lastMetricsUpdate: Date = new Date();
   private activeConnections: Set<any> = new Set();
   
   constructor() {
@@ -169,7 +167,6 @@ export class RealtimeDataProcessor {
       
       // Cache the metrics
       this.metricsCache.set('live_metrics', liveMetrics);
-      this.lastMetricsUpdate = new Date();
       
       return liveMetrics;
       
@@ -447,7 +444,7 @@ export class RealtimeDataProcessor {
     };
   }
   
-  private async calculateAgentUtilization(location?: string, startTime?: Date, endTime?: Date): Promise<number> {
+  private async calculateAgentUtilization(location?: string, _startTime?: Date, _endTime?: Date): Promise<number> {
     const utilizationQuery = `
       SELECT 
         AVG(utilization_percentage) as avg_utilization
@@ -603,7 +600,7 @@ export class RealtimeDataProcessor {
     }, 30000);
   }
   
-  private async sendInitialMetrics(connection: any, userRole: string, userLocations?: string[]): Promise<void> {
+  private async sendInitialMetrics(connection: any, _userRole: string, userLocations?: string[]): Promise<void> {
     try {
       const metrics = await this.getLiveMetrics(userLocations);
       connection.send(JSON.stringify({
@@ -615,7 +612,7 @@ export class RealtimeDataProcessor {
     }
   }
   
-  private async sendMetricsUpdate(connection: any, userRole: string, userLocations?: string[]): Promise<void> {
+  private async sendMetricsUpdate(connection: any, _userRole: string, userLocations?: string[]): Promise<void> {
     try {
       const metrics = await this.getLiveMetrics(userLocations);
       connection.send(JSON.stringify({

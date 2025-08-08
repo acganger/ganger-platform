@@ -132,12 +132,6 @@ function CallHistoryPage() {
     }));
   };
 
-  const handlePageChange = (page: number) => {
-    setData(prev => ({
-      ...prev,
-      pagination: { ...prev.pagination, page }
-    }));
-  };
 
   const viewCallDetails = (call: CallRecord) => {
     setSelectedCall(call);

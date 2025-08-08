@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/lib/auth-eos';
-import { Issue, Todo, CreateTodoForm } from '@/types/eos';
+import { Issue, CreateTodoForm } from '@/types/eos';
 import { 
   AlertCircle, 
   Clock, 

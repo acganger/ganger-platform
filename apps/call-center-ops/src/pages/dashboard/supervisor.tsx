@@ -17,7 +17,6 @@ import { Card } from '@ganger/ui-catalyst';
 import { Input, Select } from '@ganger/ui-catalyst';
 // Temporary local implementations until @ganger/utils is available
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString();
-const formatTime = (dateString: string) => new Date(dateString).toLocaleTimeString();
 import type { TeamMetrics, CallRecord, JournalEntry, AgentStatus } from '../../types';
 
 interface SupervisorDashboardData {
@@ -29,7 +28,7 @@ interface SupervisorDashboardData {
 }
 
 function SupervisorDashboard() {
-  const { user } = useStaffAuth();
+  const { user: _user } = useStaffAuth();
   const [data, setData] = useState<SupervisorDashboardData>({
     teamMetrics: {} as TeamMetrics,
     activeAgents: [],

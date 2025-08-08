@@ -541,87 +541,87 @@ export class PerformanceAnalyticsEngine {
   // Additional helper methods would be implemented here...
   // For brevity, I'm including placeholders for the remaining private methods
   
-  private async getTeamMetricsForLocation(location: string, options: AnalyticsOptions): Promise<TeamPerformanceMetrics> {
+  private async getTeamMetricsForLocation(_location: string, _options: AnalyticsOptions): Promise<TeamPerformanceMetrics> {
     // Implementation for team metrics calculation
     return {} as TeamPerformanceMetrics;
   }
   
-  private async getTeamComposition(location: string, options: AnalyticsOptions): Promise<any> {
+  private async getTeamComposition(_location: string, _options: AnalyticsOptions): Promise<any> {
     // Implementation for team composition analysis
     return { active_agents: 5, coverage_percentage: 85 };
   }
   
-  private async calculateWorkloadDistribution(location: string, options: AnalyticsOptions): Promise<number> {
+  private async calculateWorkloadDistribution(_location: string, _options: AnalyticsOptions): Promise<number> {
     // Implementation for workload distribution scoring
     return 75;
   }
   
-  private async calculateCrossTrainingScore(location: string, options: AnalyticsOptions): Promise<number> {
+  private async calculateCrossTrainingScore(_location: string, _options: AnalyticsOptions): Promise<number> {
     // Implementation for cross-training analysis
     return 60;
   }
   
-  private async calculateCollaborationScore(location: string, options: AnalyticsOptions): Promise<number> {
+  private async calculateCollaborationScore(_location: string, _options: AnalyticsOptions): Promise<number> {
     // Implementation for collaboration scoring
     return 80;
   }
   
-  private async generateEfficiencyTrends(location: string, options: AnalyticsOptions): Promise<PerformanceTrend[]> {
+  private async generateEfficiencyTrends(_location: string, _options: AnalyticsOptions): Promise<PerformanceTrend[]> {
     // Implementation for efficiency trend calculation
     return [];
   }
   
-  private async checkVolumeAlerts(options: AnalyticsOptions): Promise<PerformanceAlert[]> {
+  private async checkVolumeAlerts(_options: AnalyticsOptions): Promise<PerformanceAlert[]> {
     // Implementation for volume-based alerts
     return [];
   }
   
-  private async checkQualityAlerts(options: AnalyticsOptions): Promise<PerformanceAlert[]> {
+  private async checkQualityAlerts(_options: AnalyticsOptions): Promise<PerformanceAlert[]> {
     // Implementation for quality-based alerts
     return [];
   }
   
-  private async checkEfficiencyAlerts(options: AnalyticsOptions): Promise<PerformanceAlert[]> {
+  private async checkEfficiencyAlerts(_options: AnalyticsOptions): Promise<PerformanceAlert[]> {
     // Implementation for efficiency-based alerts
     return [];
   }
   
-  private async checkAttendanceAlerts(options: AnalyticsOptions): Promise<PerformanceAlert[]> {
+  private async checkAttendanceAlerts(_options: AnalyticsOptions): Promise<PerformanceAlert[]> {
     // Implementation for attendance-based alerts
     return [];
   }
   
-  private async getLocationBenchmarkMetrics(location: string, options: AnalyticsOptions): Promise<any> {
+  private async getLocationBenchmarkMetrics(_location: string, _options: AnalyticsOptions): Promise<any> {
     // Implementation for location benchmark calculation
     return {};
   }
   
-  private async calculateVolumeForecast(options: AnalyticsOptions): Promise<PerformanceTrend[]> {
+  private async calculateVolumeForecast(_options: AnalyticsOptions): Promise<PerformanceTrend[]> {
     // Implementation for volume forecasting
     return [];
   }
   
-  private async generateStaffingRecommendations(options: AnalyticsOptions): Promise<string[]> {
+  private async generateStaffingRecommendations(_options: AnalyticsOptions): Promise<string[]> {
     // Implementation for staffing recommendations
     return [];
   }
   
-  private async assessPerformanceRisks(options: AnalyticsOptions): Promise<PerformanceAlert[]> {
+  private async assessPerformanceRisks(_options: AnalyticsOptions): Promise<PerformanceAlert[]> {
     // Implementation for risk assessment
     return [];
   }
   
-  private async generateAgentRecommendations(agentEmail: string, options: AnalyticsOptions): Promise<string[]> {
+  private async generateAgentRecommendations(_agentEmail: string, _options: AnalyticsOptions): Promise<string[]> {
     // Implementation for agent-specific recommendations
     return [];
   }
   
-  private async generateAgentAlerts(agentEmail: string, options: AnalyticsOptions): Promise<PerformanceAlert[]> {
+  private async generateAgentAlerts(_agentEmail: string, _options: AnalyticsOptions): Promise<PerformanceAlert[]> {
     // Implementation for agent-specific alerts
     return [];
   }
   
-  private async calculateAgentBenchmarks(agentEmail: string, options: AnalyticsOptions): Promise<PerformanceBenchmark[]> {
+  private async calculateAgentBenchmarks(_agentEmail: string, _options: AnalyticsOptions): Promise<PerformanceBenchmark[]> {
     // Implementation for agent benchmark calculation
     return [];
   }

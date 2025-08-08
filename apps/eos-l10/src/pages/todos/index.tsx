@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
 import { Todo, CreateTodoForm } from '@/types/eos';
 import { 

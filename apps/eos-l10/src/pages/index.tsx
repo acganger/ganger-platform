@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
 import { supabase } from '@/lib/supabase';
 import { TeamAnalytics } from '@/types/eos';

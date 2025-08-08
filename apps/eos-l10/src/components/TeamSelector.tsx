@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '@/lib/auth-eos';
 import { ChevronDown, Check, Users } from 'lucide-react';
+import { useAuth } from '@/lib/auth-eos';
 
 export default function TeamSelector() {
   const { userTeams, activeTeam, setActiveTeam } = useAuth();

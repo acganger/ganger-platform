@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Issue } from '@/types/eos';
 import IssueCard from './IssueCard';
 import { Button } from '@ganger/ui';
