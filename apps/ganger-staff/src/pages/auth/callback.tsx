@@ -67,7 +67,8 @@ export default function CallbackPage() {
           addDebug(`🔐 OAuth code found: ${code.substring(0, 10)}...`);
           addDebug('🔄 Exchanging OAuth code for session...');
           
-          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          // Use the URL for PKCE flow
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(window.location.href);
           
           if (exchangeError) {
             addDebug(`❌ Code exchange error: ${exchangeError.message}`);
@@ -79,10 +80,12 @@ export default function CallbackPage() {
 
           if (data.session) {
             console.log('[Callback] Session established:', data.session.user.email);
+            // Immediately replace the URL to remove auth params
+            window.history.replaceState({}, document.title, '/auth/callback');
             // The auth context will pick up the new session via onAuthStateChange
             // Wait a moment for the context to update, then redirect
             setTimeout(() => {
-              router.push('/');
+              router.replace('/');
             }, 100);
             return;
           }

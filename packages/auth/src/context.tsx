@@ -53,6 +53,7 @@ interface AuthProviderProps {
  */
 export function AuthProvider({ children, config, appName = 'platform' }: AuthProviderProps) {
   // Core auth state
+  const [ready, setReady] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
   const [session, setSession] = useState<AuthSession | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -165,6 +166,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
           timestamp: new Date().toISOString()
         });
         setLoading(false);
+        setReady(true);
         return;
       }
 
@@ -205,6 +207,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
       console.error('Error initializing auth:', error);
     } finally {
       setLoading(false);
+      setReady(true);
     }
   }
 
@@ -654,6 +657,11 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
     // Audit logging
     logAuditEvent,
   };
+
+  // Block render until ready to prevent hydration mismatch
+  if (!ready) {
+    return null; // Or a loading skeleton
+  }
 
   return (
     <AuthContext.Provider value={contextValue}>

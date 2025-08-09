@@ -64,13 +64,16 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
           persistSession: true,
           autoRefreshToken: true,
           detectSessionInUrl: true,
-          storage: typeof window !== 'undefined' ? createGangerCookieStorage() : undefined,
+          flowType: 'pkce',
+          storageKey: 'sb-staff-auth', // Fixed storage key for custom domain
+          storage: typeof window !== 'undefined' ? window.localStorage : undefined,
           debug: true, // Enable auth debug mode
         },
         global: {
           headers: {
             'X-Application': 'ganger-platform',
-            'X-Version': '1.0.0'
+            'X-Version': '1.0.0',
+            'x-client-info': 'staff-web'
           }
         }
       }
@@ -138,12 +141,15 @@ export function createAppSupabaseClient(appName: string, config?: Partial<AuthCo
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        storage: typeof window !== 'undefined' ? createGangerCookieStorage() : undefined,
+        flowType: 'pkce',
+        storageKey: 'sb-staff-auth', // Fixed storage key for custom domain
+        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
       },
       global: {
         headers: {
           'X-Application': `ganger-platform-${appName}`,
-          'X-Version': '1.0.0'
+          'X-Version': '1.0.0',
+          'x-client-info': 'staff-web'
         }
       }
     }
