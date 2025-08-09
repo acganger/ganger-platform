@@ -84,6 +84,7 @@ export class CookieStorageAdapter {
       // Try multiple fallback patterns
       if (!value) {
         const fallbackKeys = [
+          'sb-supa-auth-token', // Custom domain key format
           'sb-pfqtzmxxxhhsxmlddrta-auth-token', // Our project ID
           'sb-auth-token',
           'supabase-auth-token',
@@ -140,14 +141,22 @@ export class CookieStorageAdapter {
       // For custom domains, we need to set multiple keys for compatibility
       const additionalKeys = [];
       
+      // If this is the custom domain key, also set other variations
+      if (key === 'sb-supa-auth-token') {
+        additionalKeys.push('sb-auth-token');
+        additionalKeys.push('sb-pfqtzmxxxhhsxmlddrta-auth-token');
+      }
+      
       // If this looks like a generic key, also set project-specific version
       if (key === 'sb-auth-token' || key === 'supabase-auth-token') {
+        additionalKeys.push('sb-supa-auth-token');
         additionalKeys.push('sb-pfqtzmxxxhhsxmlddrta-auth-token');
       }
       
       // If this is project-specific, also set generic version
       if (key.includes('pfqtzmxxxhhsxmlddrta')) {
         additionalKeys.push('sb-auth-token');
+        additionalKeys.push('sb-supa-auth-token');
       }
       
       // Set all additional keys
@@ -184,14 +193,27 @@ export class CookieStorageAdapter {
         maxAge: 0
       });
       
-      // Also remove the project-specific key
-      if (key === 'sb-auth-token') {
-        deleteCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token', {
+      // Also remove related keys for compatibility
+      const additionalKeys = [];
+      
+      if (key === 'sb-supa-auth-token') {
+        additionalKeys.push('sb-auth-token');
+        additionalKeys.push('sb-pfqtzmxxxhhsxmlddrta-auth-token');
+      } else if (key === 'sb-auth-token') {
+        additionalKeys.push('sb-supa-auth-token');
+        additionalKeys.push('sb-pfqtzmxxxhhsxmlddrta-auth-token');
+      } else if (key.includes('pfqtzmxxxhhsxmlddrta')) {
+        additionalKeys.push('sb-auth-token');
+        additionalKeys.push('sb-supa-auth-token');
+      }
+      
+      for (const additionalKey of additionalKeys) {
+        deleteCookie(additionalKey, {
           ...this.cookieOptions,
           maxAge: 0
         });
         if (process.env.NODE_ENV === 'development') {
-          console.log(`[CookieStorageAdapter] Also removed project-specific key`);
+          console.log(`[CookieStorageAdapter] Also removed ${additionalKey}`);
         }
       }
     } catch (error) {
