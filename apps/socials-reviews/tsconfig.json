@@ -3,13 +3,15 @@
   "compilerOptions": {
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
+    "preserveSymlinks": true,
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/utils/*": ["./src/utils/*"],
+      "@ganger/*": ["../../packages/*/src"]
     }
   },
   "include": [
