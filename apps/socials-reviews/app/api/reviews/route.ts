@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseClient } from '@ganger/auth';
 import { cacheManager } from '@ganger/cache';
-import { headers } from 'next/headers';
 
 // Review status and sentiment mappings
 const REVIEW_STATUS = ['new', 'responded', 'pending', 'archived'];
@@ -9,8 +8,7 @@ const SENTIMENT_CATEGORIES = ['positive', 'neutral', 'negative', 'mixed'];
 
 export async function GET(request: NextRequest) {
   try {
-    const headersList = headers();
-    const authorization = headersList.get('authorization');
+    const authorization = request.headers.get('authorization');
     
     if (!authorization) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
@@ -113,8 +111,7 @@ export async function GET(request: NextRequest) {
 // Handle review response posting
 export async function POST(request: NextRequest) {
   try {
-    const headersList = headers();
-    const authorization = headersList.get('authorization');
+    const authorization = request.headers.get('authorization');
     
     if (!authorization) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });

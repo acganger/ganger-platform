@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseClient } from '@ganger/auth';
 import { cacheManager } from '@ganger/cache';
-import { headers } from 'next/headers';
 
 export async function GET(request: NextRequest) {
   try {
-    const headersList = headers();
-    const authorization = headersList.get('authorization');
+    const authorization = request.headers.get('authorization');
     
     if (!authorization) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });

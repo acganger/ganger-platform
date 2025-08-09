@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { AuthProvider } from '@ganger/auth';
 import { ToastProvider } from '@ganger/ui-catalyst';
 import { ErrorBoundary } from '@ganger/ui';
-import { initSentry } from '@ganger/monitoring';
 import '@/styles/globals.css';
 
 // Create a QueryClient instance
@@ -30,15 +29,7 @@ function createQueryClient() {
   });
 }
 
-// Initialize Sentry
-if (typeof window !== 'undefined') {
-  initSentry({
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN || '',
-    environment: process.env.NEXT_PUBLIC_ENV || 'development',
-    enabled: process.env.NODE_ENV === 'production',
-    tracesSampleRate: 0.1,
-  });
-}
+// Sentry initialization removed - monitoring package not available
 
 export default function App({ 
   Component, 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useStaffAuth } from '@ganger/auth/staff';
+import { useAuth } from '@ganger/auth';
 import { Button, StaffLoginRedirect } from '@ganger/ui';
 import { Card } from '@ganger/ui-catalyst';
 import { TrendingUp, TrendingDown, BarChart3, Calendar } from 'lucide-react';
@@ -10,7 +10,9 @@ import { TrendingUp, TrendingDown, BarChart3, Calendar } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export default function SocialsAnalyticsPage() {
-  const { isAuthenticated, isLoading } = useStaffAuth();
+  const { user, loading } = useAuth();
+  const isAuthenticated = !!user;
+  const isLoading = loading;
   
   if (isLoading) {
     return (

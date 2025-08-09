@@ -27,7 +27,7 @@ const variantStyles = {
 
 type ButtonProps = {
   variant?: keyof typeof variantStyles
-  color?: keyof typeof variantStyles.solid & keyof typeof variantStyles.outline
+  color?: 'slate' | 'blue' | 'white'
 } & (
   | React.ComponentPropsWithoutRef<typeof Link>
   | (React.ComponentPropsWithoutRef<'button'> & { href?: undefined })

@@ -1,7 +1,5 @@
-'use client'
-
 import { StaffPortalLayout } from '@ganger/ui';
-import { useStaffAuth } from '@ganger/auth/staff';
+import { useStaffAuth } from '@ganger/auth';
 
 interface FinancialLayoutProps {
   children: React.ReactNode;

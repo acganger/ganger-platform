@@ -28,7 +28,7 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  className = clsx(variantStyles[variant], className)
+  className = clsx(variantStyles[variant as keyof typeof variantStyles], className)
 
   return typeof props.href === 'undefined' ? (
     <button className={className} {...props} />

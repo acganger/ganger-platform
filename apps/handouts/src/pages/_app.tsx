@@ -4,19 +4,25 @@
  */
 
 import React from 'react';
-import type { AppProps } from 'next/app';
+import type { NextPage } from 'next';
 import { AuthProvider } from '@ganger/auth';
 import { HandoutProvider } from '@/lib/handout-context';
 import '../styles/globals.css';
 
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
+interface AppProps {
+  Component: NextPageWithLayout;
+  pageProps: Record<string, unknown>;
+}
+
 function HandoutsApp({ Component, pageProps }: AppProps) {
-  // Workaround for React 19 type compatibility with Next.js
-  const SafeComponent = Component as any;
-  
   return (
     <AuthProvider>
       <HandoutProvider>
-        <SafeComponent {...pageProps} />
+        <Component {...pageProps} />
       </HandoutProvider>
     </AuthProvider>
   );

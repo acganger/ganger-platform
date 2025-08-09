@@ -114,7 +114,7 @@ export async function checkSupabaseHealth(client: SupabaseClient<Database>): Pro
   
   try {
     // Simple query to test connection
-    const { data, error } = await client
+    const { data: _data, error } = await client
       .from('health_check')
       .select('id')
       .limit(1)
@@ -197,7 +197,7 @@ export async function withSupabaseErrorHandling<T>(
  */
 export function createResilientSupabaseClient(
   appName: string,
-  maxRetries: number = 3
+  _maxRetries: number = 3
 ): SupabaseClient<Database> {
   // For now, return standard client to avoid TypeScript complications
   // TODO: Implement proper retry logic with correct types

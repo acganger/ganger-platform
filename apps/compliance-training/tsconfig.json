@@ -1,5 +1,4 @@
 {
-  "extends": "@ganger/config/typescript/nextjs.json",
   "compilerOptions": {
     "target": "es2017",
     "lib": [
