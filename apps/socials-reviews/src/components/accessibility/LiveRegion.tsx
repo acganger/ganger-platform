@@ -27,6 +27,7 @@ const LiveRegion: React.FC<LiveRegionProps> = ({
       
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [message, clearAfter]);
 
   if (!displayMessage) return null;

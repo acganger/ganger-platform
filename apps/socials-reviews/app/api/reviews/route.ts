@@ -6,7 +6,6 @@ import { headers } from 'next/headers';
 // Review status and sentiment mappings
 const REVIEW_STATUS = ['new', 'responded', 'pending', 'archived'];
 const SENTIMENT_CATEGORIES = ['positive', 'neutral', 'negative', 'mixed'];
-const URGENCY_LEVELS = ['low', 'medium', 'high', 'urgent'];
 
 export async function GET(request: NextRequest) {
   try {

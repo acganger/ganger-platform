@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
 import Layout from '@/components/Layout';
 import { Target, Calendar, User, FileText, TrendingUp, ArrowLeft } from 'lucide-react';
 import SafeLink from '@/components/ui/SafeLink';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 
 export default function NewRockPage() {
   const router = useRouter();

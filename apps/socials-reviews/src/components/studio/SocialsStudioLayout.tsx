@@ -14,7 +14,7 @@ import clsx from 'clsx'
 import { motion, MotionConfig, useReducedMotion } from 'framer-motion'
 import { GangerLogo } from '@ganger/ui'
 
-import { Button } from '@/components/studio/Button'
+// import { Button } from '@/components/studio/Button'
 import { Container } from '@/components/studio/Container'
 import { GridPattern } from '@/components/studio/GridPattern'
 

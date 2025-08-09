@@ -10,11 +10,8 @@ import ContentLibraryPanel from '@/components/content/ContentLibraryPanel';
 import { 
   Star, 
   MessageSquare, 
-  Eye, 
   TrendingUp,
   Users,
-  Heart,
-  Share,
   AlertTriangle
 } from 'lucide-react';
 
@@ -32,7 +29,7 @@ interface DashboardStats {
 }
 
 export default function SocialsReviewsPage() {
-  const { user, isAuthenticated, isLoading } = useStaffAuth();
+  const { user: _user, isAuthenticated, isLoading } = useStaffAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'social' | 'reviews' | 'content'>('overview');
   const [stats, setStats] = useState<DashboardStats>({
     totalReviews: 0,

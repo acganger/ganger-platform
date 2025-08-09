@@ -78,6 +78,7 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions = {}
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
+    return undefined;
   }, [handleKeyDown, enabled]);
 }
 
@@ -100,7 +101,7 @@ export function useListKeyboardNavigation<T>(
     },
     onEnter: () => {
       if (selectedIndex >= 0 && selectedIndex < items.length) {
-        onItemActivate?.(items[selectedIndex], selectedIndex);
+        onItemActivate?.(items[selectedIndex]!, selectedIndex);
       }
     },
     enabled,
@@ -119,11 +120,11 @@ export function useTabNavigation(
   useKeyboardNavigation({
     onArrowLeft: () => {
       const prevIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-      onTabChange(tabs[prevIndex]);
+      onTabChange(tabs[prevIndex]!);
     },
     onArrowRight: () => {
       const nextIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-      onTabChange(tabs[nextIndex]);
+      onTabChange(tabs[nextIndex]!);
     },
     enabled,
   });

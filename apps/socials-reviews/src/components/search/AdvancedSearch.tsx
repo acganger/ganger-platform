@@ -57,7 +57,7 @@ export default function AdvancedSearch({
     // Validate search query
     const validation = validateSearchQuery(searchQuery);
     if (!validation.isValid) {
-      setValidationError(validation.errors[0]);
+      setValidationError(validation.errors[0]!);
       return;
     }
     
