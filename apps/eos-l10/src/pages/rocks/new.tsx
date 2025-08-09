@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { supabase } from '@/lib/supabase';
 import Layout from '@/components/Layout';
 import { Target, Calendar, User, FileText, TrendingUp, ArrowLeft } from 'lucide-react';
@@ -49,6 +50,7 @@ export default function NewRockPage() {
   // Get default due date for quarter end
   const getQuarterEndDate = (quarterStr: string) => {
     const [q, year] = quarterStr.split(' ');
+    if (!q || !year) return '';
     const quarter = parseInt(q.replace('Q', ''));
     const yearNum = parseInt(year);
     
@@ -75,7 +77,7 @@ export default function NewRockPage() {
         .order('priority', { ascending: false })
         .limit(1);
 
-      const nextPriority = existingRocks && existingRocks.length > 0 
+      const nextPriority = existingRocks && existingRocks.length > 0 && existingRocks[0]
         ? existingRocks[0].priority + 1 
         : 1;
 

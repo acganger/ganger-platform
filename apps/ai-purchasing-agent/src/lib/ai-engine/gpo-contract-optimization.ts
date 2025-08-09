@@ -1,6 +1,5 @@
 import type { 
   VendorConfiguration,
-  StandardizedProduct,
   VendorQuote,
   PurchaseRequestItem
 } from '@ganger/types'

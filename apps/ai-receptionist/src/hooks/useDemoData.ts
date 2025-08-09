@@ -438,6 +438,8 @@ export const useDemoData = () => {
           setActiveCalls(prev => {
             if (prev.length > 0) {
               const callToComplete = prev[Math.floor(Math.random() * prev.length)];
+              if (!callToComplete) return prev;
+              
               const completedCall = {
                 ...callToComplete,
                 call_status: 'completed' as any,

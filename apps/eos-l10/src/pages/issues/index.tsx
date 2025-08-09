@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect as _useEffect } from 'react';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/auth-eos';
 import { Issue, CreateIssueForm } from '@/types/eos';
 import Layout from '@/components/Layout';
 import IssueCard from '@/components/issues/IssueCard';
@@ -23,7 +24,7 @@ export default function IssuesPage({}: IssuesPageProps) {
   const { issues, loading, error } = useRealtimeData();
   
   const [showForm, setShowForm] = useState(false);
-  const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
+  const [_selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [viewMode, setViewMode] = useState<'board' | 'list'>('board');
   const [filters, setFilters] = useState({
     status: 'all',

@@ -9,14 +9,14 @@ import {
   ConsolidatedOrdersRepository
 } from '@ganger/db'
 import { 
-  VendorRecommendationEngine,
-  PurchaseAnalysisEngine,
+  // VendorRecommendationEngine, // Future implementation
+  // PurchaseAnalysisEngine, // Future implementation
   GPOContractOptimizationEngine,
   UsagePatternAnalysisEngine
 } from '@/lib/ai-engine'
 import type { OrderItem } from '@ganger/types'
 
-export const GET = withStaffAuth(async (request: NextRequest) => {
+export const GET = withStaffAuth(async (_request: NextRequest) => {
   try {
     // Initialize repositories
     const productRepo = new StandardizedProductsRepository()
@@ -27,8 +27,8 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
     const orderRepo = new ConsolidatedOrdersRepository()
 
     // Initialize AI engines
-    const vendorEngine = new VendorRecommendationEngine()
-    const analysisEngine = new PurchaseAnalysisEngine()
+    // const vendorEngine = new VendorRecommendationEngine() // Future implementation
+    // const analysisEngine = new PurchaseAnalysisEngine() // Future implementation
     const contractEngine = new GPOContractOptimizationEngine()
     const usageEngine = new UsagePatternAnalysisEngine()
 
@@ -104,18 +104,19 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
     
     if (vendorRecommendations.consolidationOpportunities.length > 0) {
       const opp = vendorRecommendations.consolidationOpportunities[0]
-      recommendations.push({
-        id: `vendor-${Date.now()}`,
-        type: 'vendor_consolidation',
-        priority: opp.potentialSavings > 500 ? 'high' : 'medium',
-        title: 'Vendor Consolidation Opportunity',
-        description: opp.description,
-        estimatedSavings: opp.potentialSavings,
-        confidence: 0.85,
-        products: [],
-        vendors: activeVendors.filter(v => opp.vendorIds.includes(v.id)),
-        actionItems: [
-          `Consolidate ${opp.productCount} products to ${opp.targetVendor}`,
+      if (opp) {
+        recommendations.push({
+          id: `vendor-${Date.now()}`,
+          type: 'vendor_consolidation',
+          priority: opp.potentialSavings > 500 ? 'high' : 'medium',
+          title: 'Vendor Consolidation Opportunity',
+          description: opp.description,
+          estimatedSavings: opp.potentialSavings,
+          confidence: 0.85,
+          products: [],
+          vendors: activeVendors.filter(v => opp.vendorIds.includes(v.id)),
+          actionItems: [
+            `Consolidate ${opp.productCount} products to ${opp.targetVendor}`,
           'Review quality standards with new vendor',
           'Update standing order agreements'
         ],
@@ -125,7 +126,8 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
           implementationEffort: 'medium',
           timeToRealize: '1-2 months'
         }
-      })
+        })
+      }
     }
 
     // 3. Contract optimization
@@ -263,7 +265,7 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
         })
         
         // Add substitute product recommendations
-        if (product.substitute_product_ids.length > 0) {
+        if (product.substitute_product_ids.length > 0 && product.substitute_product_ids[0]) {
           const substitute = await productRepo.findById(product.substitute_product_ids[0])
           if (substitute) {
             const brandPrices = await priceRepo.findByProduct(product.id)

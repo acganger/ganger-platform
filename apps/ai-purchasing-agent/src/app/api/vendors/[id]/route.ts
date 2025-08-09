@@ -8,7 +8,7 @@ interface RouteContext {
   }
 }
 
-const getHandler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+const getHandler: AuthenticatedHandler = async (_request: NextRequest, context: any) => {
   const { params } = context as RouteContext
   try {
     const repository = new VendorManagementRepository()
@@ -95,7 +95,7 @@ const patchHandler: AuthenticatedHandler = async (request: NextRequest, context:
 
 export const PATCH = withStaffAuth(patchHandler)
 
-const deleteHandler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+const deleteHandler: AuthenticatedHandler = async (_request: NextRequest, context: any) => {
   const { params } = context as RouteContext
   try {
     const repository = new VendorManagementRepository()

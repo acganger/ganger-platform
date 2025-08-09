@@ -3,7 +3,7 @@
  * Handles table name mapping and status value conversion during database schema migration
  */
 
-import { migrationAdapter, MigrationHelpers } from '@ganger/db';
+import { migrationAdapter } from '@ganger/db';
 
 // Configure migration adapter for EOS L10
 migrationAdapter.updateConfig({
@@ -119,7 +119,7 @@ export class EOSL10MigrationAdapter {
   async insert<T = any>(
     tableName: string,
     data: any,
-    options?: { onConflict?: string; returning?: string }
+    _options?: { onConflict?: string; returning?: string }
   ): Promise<T[]> {
     const mappedTable = this.mapTableName(tableName);
     
@@ -145,7 +145,7 @@ export class EOSL10MigrationAdapter {
     tableName: string,
     data: any,
     filters: Record<string, any>,
-    options?: { returning?: string }
+    _options?: { returning?: string }
   ): Promise<T[]> {
     const mappedTable = this.mapTableName(tableName);
     
@@ -220,8 +220,8 @@ export class EOSL10MigrationAdapter {
    */
   setupRealtimeSubscription(
     tableName: string,
-    callback: (payload: any) => void,
-    eventType: 'INSERT' | 'UPDATE' | 'DELETE' | '*' = '*'
+    _callback: (payload: any) => void,
+    _eventType: 'INSERT' | 'UPDATE' | 'DELETE' | '*' = '*'
   ) {
     const mappedTable = this.mapTableName(tableName);
     

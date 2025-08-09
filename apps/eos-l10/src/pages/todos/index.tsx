@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/auth-eos';
 import { Todo, CreateTodoForm } from '@/types/eos';
 import { 
   Plus, 
   Filter, 
   Search, 
   Calendar,
-  Users,
+  Users as _Users,
   CheckSquare,
   AlertCircle,
   Clock,
   TrendingUp,
-  Archive,
-  ChevronDown
+  Archive as _Archive,
+  ChevronDown as _ChevronDown
 } from 'lucide-react';
 import TodoCard from '@/components/todos/TodoCard';
 import TodoForm from '@/components/todos/TodoForm';
@@ -31,7 +32,8 @@ export default function TodosPage() {
   const router = useRouter();
   const { activeTeam, user } = useAuth();
   const teamId = activeTeam?.id;
-  const teamMembers: any[] = []; // Temporary fix
+  const _teamMembers: any[] = []; // Temporary fix
+  void _teamMembers; // Suppress unused variable warning
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);

@@ -3,7 +3,7 @@ import { StandardizedProductsRepository } from '@ganger/db'
 import { withStaffAuth } from '@ganger/auth/middleware'
 import type { StandardizedProduct, ProductCategory } from '@ganger/types'
 import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/api-utils'
-import { validateRequest, searchProductsSchema, paginationSchema, checkRateLimit } from '@/lib/validation'
+import { checkRateLimit } from '@/lib/validation'
 
 const getHandler = async (request: NextRequest, context: any) => {
   try {
@@ -19,8 +19,8 @@ const getHandler = async (request: NextRequest, context: any) => {
     // Parse search parameters manually for now
     const search = searchParams.get('search') || undefined
     const category = searchParams.get('category') || undefined
-    const vendorId = searchParams.get('vendorId') || undefined
-    const inStock = searchParams.get('inStock') ? searchParams.get('inStock') === 'true' : undefined
+    // const vendorId = searchParams.get('vendorId') || undefined // Future filtering implementation
+    // const inStock = searchParams.get('inStock') ? searchParams.get('inStock') === 'true' : undefined // Future filtering
     
     const page = parseInt(searchParams.get('page') || '1')
     const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100)

@@ -93,10 +93,11 @@ export default function VendorComparisonPage() {
     return quotes.reduce((min, q) => q.total_price < min.total_price ? q : min)
   }
 
-  const getAverageDeliveryTime = (vendorId: string, vendors: VendorConfiguration[]) => {
-    const vendor = vendors.find(v => v.id === vendorId)
-    return vendor?.average_delivery_days || 'N/A'
-  }
+  // Future implementation for delivery time display
+  // const getAverageDeliveryTime = (vendorId: string, vendors: VendorConfiguration[]) => {
+  //   const vendor = vendors.find(v => v.id === vendorId)
+  //   return vendor?.average_delivery_days || 'N/A'
+  // }
 
   return (
     <PageLayout

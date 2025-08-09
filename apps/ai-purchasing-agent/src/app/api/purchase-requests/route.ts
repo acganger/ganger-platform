@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withStaffAuth } from '@ganger/auth/middleware'
 import { StandardizedProductsRepository } from '@ganger/db'
-import type { PurchaseRequest, CreatePurchaseRequestPayload } from '@ganger/types'
+import type { PurchaseRequest } from '@ganger/types'
 import { createSuccessResponse, createErrorResponse, handleApiError, generateRequestId } from '@/lib/api-utils'
-import { validateRequest, createPurchaseRequestSchema, paginationSchema, checkRateLimit } from '@/lib/validation'
+import { validateRequest, createPurchaseRequestSchema, checkRateLimit } from '@/lib/validation'
 import { PurchaseRequestsAdapter } from '@/repositories/purchase-requests-adapter'
 
 // GET /api/purchase-requests - List all purchase requests
@@ -16,16 +16,16 @@ export const GET = withStaffAuth(async (request: NextRequest, context: any) => {
     }
     
     const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status')
-    const department = searchParams.get('department')
-    const requesterEmail = searchParams.get('requester_email')
+    // const status = searchParams.get('status') // Future filtering
+    // const department = searchParams.get('department') // Future filtering
+    // const requesterEmail = searchParams.get('requester_email') // Future filtering
     
     // Parse pagination parameters
     const page = parseInt(searchParams.get('page') || '1')
     const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100)
     const offset = (page - 1) * limit
     
-    const requestRepo = new PurchaseRequestsAdapter()
+    // const requestRepo = new PurchaseRequestsAdapter() // TODO: Implement proper pagination
     
     // Apply filters
     let requests: PurchaseRequest[]
@@ -85,7 +85,7 @@ export const POST = withStaffAuth(async (request: NextRequest, context: any) => 
       productIds.map((id: string) => productRepo.findById(id))
     )
     
-    const missingProducts = productIds.filter((id: string, index: number) => !products[index])
+    const missingProducts = productIds.filter((_id: string, index: number) => !products[index])
     if (missingProducts.length > 0) {
       return createErrorResponse(
         `Products not found: ${missingProducts.join(', ')}`,

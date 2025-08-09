@@ -342,7 +342,7 @@ export default function PurchaseRequestDetailPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {request.items?.map((item, index) => (
+                  {request.items?.map((item, _index) => (
                     <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
                       <div className="flex-1">
                         <h4 className="font-medium">{item.product.name}</h4>
@@ -394,7 +394,7 @@ export default function PurchaseRequestDetailPage() {
                   </CardContent>
                 </Card>
 
-                {request.analysis.vendorQuotes && (
+                {request.analysis.vendorQuotes && request.items?.[0]?.product && (
                   <Card>
                     <CardHeader>
                       <h3 className="text-lg font-semibold">Vendor Price Comparison</h3>
@@ -403,7 +403,7 @@ export default function PurchaseRequestDetailPage() {
                       <VendorPriceGrid
                         quotes={request.analysis.vendorQuotes}
                         vendors={vendors}
-                        product={request.items?.[0]?.product}
+                        product={request.items[0].product}
                       />
                     </CardContent>
                   </Card>

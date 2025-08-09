@@ -45,7 +45,7 @@ export default function ProductsPage() {
     }
   }
 
-  const handleProductClick = (product: StandardizedProduct) => {
+  const handleProductClick = (_product: StandardizedProduct) => {
     // Could navigate to a product detail page
     // For now, we'll just let the catalog handle adding to cart
   }

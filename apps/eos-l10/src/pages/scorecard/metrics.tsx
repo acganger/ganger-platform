@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SafeLink from '@/components/ui/SafeLink';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { usePresence } from '@/hooks/usePresence';
 import Layout from '@/components/Layout';
 import PresenceIndicator from '@/components/PresenceIndicator';
@@ -31,8 +32,8 @@ interface MetricFormData {
 }
 
 export default function ScorecardMetricsPage() {
-  const { activeTeam, user, userRole } = useAuth();
-  const { onlineUsers } = usePresence('scorecard-metrics');
+  const { activeTeam, user: _user, userRole } = useAuth();
+  const { onlineUsers: _onlineUsers } = usePresence('scorecard-metrics');
   
   const [scorecard, setScorecard] = useState<Scorecard | null>(null);
   const [metrics, setMetrics] = useState<ScorecardMetric[]>([]);
@@ -48,7 +49,7 @@ export default function ScorecardMetricsPage() {
     goal: '',
     measurement_type: 'number',
     frequency: 'weekly',
-    owner_id: (user as any)?.id || ''
+    owner_id: (_user as any)?.id || ''
   });
 
   useEffect(() => {
@@ -58,10 +59,10 @@ export default function ScorecardMetricsPage() {
   }, [activeTeam]);
 
   useEffect(() => {
-    if (user && !formData.owner_id) {
-      setFormData(prev => ({ ...prev, owner_id: (user as any).id }));
+    if (_user && !formData.owner_id) {
+      setFormData(prev => ({ ...prev, owner_id: (_user as any).id }));
     }
-  }, [user]);
+  }, [_user]);
 
   const loadMetrics = async () => {
     if (!activeTeam) return;
@@ -103,7 +104,7 @@ export default function ScorecardMetricsPage() {
         .from('scorecard_metrics')
         .select(`
           *,
-          owner:users(full_name, email, avatar_url)
+          owner:_users(full_name, email, avatar_url)
         `)
         .eq('scorecard_id', (scorecardData as any).id as any)
         .order('sort_order');
@@ -126,6 +127,7 @@ export default function ScorecardMetricsPage() {
 
     const newMetrics = Array.from(metrics);
     const [movedMetric] = newMetrics.splice(source.index, 1);
+    if (!movedMetric) return; // Safety check
     newMetrics.splice(destination.index, 0, movedMetric);
 
     // Update sort_order based on new positions
@@ -157,7 +159,7 @@ export default function ScorecardMetricsPage() {
       goal: '',
       measurement_type: 'number',
       frequency: 'weekly',
-      owner_id: (user as any)?.id || ''
+      owner_id: (_user as any)?.id || ''
     });
     setEditingMetric(null);
   };
@@ -177,7 +179,7 @@ export default function ScorecardMetricsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!scorecard || !user) return;
+    if (!scorecard || !_user) return;
 
     setSaving(true);
     try {
@@ -485,8 +487,8 @@ export default function ScorecardMetricsPage() {
                           onChange={(e) => setFormData({ ...formData, owner_id: e.target.value })}
                           className="input"
                         >
-                          <option value={(user as any)?.id || ''}>
-                            Me ({(user as any)?.email || ''})
+                          <option value={(_user as any)?.id || ''}>
+                            Me ({(_user as any)?.email || ''})
                           </option>
                           {/* TODO: Add team members when available */}
                         </select>

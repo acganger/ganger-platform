@@ -11,12 +11,10 @@ import { RecommendationCard } from '@/components/RecommendationCard'
 import { 
   TrendingUp, 
   DollarSign, 
-  Package, 
   AlertTriangle,
   ShoppingCart,
   Lightbulb,
-  BarChart3,
-  Clock
+  BarChart3
 } from 'lucide-react'
 import type { StandardizedProduct, VendorConfiguration } from '@ganger/types'
 
@@ -54,7 +52,7 @@ export default function RecommendationsPage() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
   const [usageInsights, setUsageInsights] = useState<UsageInsight[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [_error, setError] = useState('') // Error display not yet implemented
   const [activeTab, setActiveTab] = useState('all')
   const [selectedRecommendations, setSelectedRecommendations] = useState<string[]>([])
 
@@ -218,7 +216,7 @@ export default function RecommendationsPage() {
                   priority: recommendation.priority,
                   savings: recommendation.estimatedSavings,
                   confidence: recommendation.confidence,
-                  actionRequired: recommendation.actionItems[0]
+                  actionRequired: recommendation.actionItems[0] || 'No action required'
                 }}
                 onAccept={() => {
                   setSelectedRecommendations([...selectedRecommendations, recommendation.id])

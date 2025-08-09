@@ -3,15 +3,14 @@ import { withStaffAuth, type AuthenticatedHandler } from '@ganger/auth/middlewar
 import { 
   PurchaseRequestsRepository,
   StandardizedProductsRepository,
-  VendorPricesRepository,
-  VendorConfigurationsRepository,
   VendorContractsRepository
 } from '@ganger/db'
-import { 
-  PurchaseAnalysisEngine,
-  VendorRecommendationEngine,
-  GPOContractOptimizationEngine
-} from '@/lib/ai-engine'
+// AI engines for future implementation
+// import { 
+//   PurchaseAnalysisEngine,
+//   VendorRecommendationEngine,
+//   GPOContractOptimizationEngine
+// } from '@/lib/ai-engine'
 import type { OrderItem } from '@ganger/types'
 
 interface RouteContext {
@@ -20,14 +19,14 @@ interface RouteContext {
   }
 }
 
-const handler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+const handler: AuthenticatedHandler = async (_request: NextRequest, context: any) => {
   const { params } = context as RouteContext
   
   try {
     const purchaseRepo = new PurchaseRequestsRepository()
     const productRepo = new StandardizedProductsRepository()
-    const priceRepo = new VendorPricesRepository()
-    const vendorRepo = new VendorConfigurationsRepository()
+    // const priceRepo = new VendorPricesRepository() // Future implementation
+    // const vendorRepo = new VendorConfigurationsRepository() // Future implementation
     const contractRepo = new VendorContractsRepository()
 
     // Get purchase request
@@ -64,10 +63,10 @@ const handler: AuthenticatedHandler = async (request: NextRequest, context: any)
       )
     }
 
-    // Initialize AI engines
-    const analysisEngine = new PurchaseAnalysisEngine()
-    const vendorEngine = new VendorRecommendationEngine()
-    const contractEngine = new GPOContractOptimizationEngine()
+    // Initialize AI engines (future implementation)
+    // const analysisEngine = new PurchaseAnalysisEngine()
+    // const vendorEngine = new VendorRecommendationEngine()
+    // const contractEngine = new GPOContractOptimizationEngine()
 
     // Prepare order items for analysis
     const orderItems: OrderItem[] = await Promise.all(
@@ -90,8 +89,8 @@ const handler: AuthenticatedHandler = async (request: NextRequest, context: any)
       })
     )
 
-    // Get vendors and contracts
-    const vendors = await vendorRepo.findAll()
+    // Get vendors and contracts (vendors for future implementation)
+    // const vendors = await vendorRepo.findAll()
     const contracts = await contractRepo.findAll()
     const activeContracts = contracts.filter(c => 
       c.status === 'active' && 
@@ -137,7 +136,7 @@ const handler: AuthenticatedHandler = async (request: NextRequest, context: any)
             potentialSavings: o.totalSavings
           })),
         itemAnalysis: items.map((item: any, index: number) => ({
-          productName: orderItems[index].product_name,
+          productName: orderItems[index]?.product_name || 'Unknown',
           requestedQuantity: item.requested_quantity,
           recommendedVendor: 'TBD',
           estimatedPrice: 0,

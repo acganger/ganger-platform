@@ -4,8 +4,7 @@ import {
   VendorContractsRepository,
   VendorPricesRepository,
   VendorConfigurationsRepository,
-  StandardizedProductsRepository,
-  ConsolidatedOrdersRepository
+  StandardizedProductsRepository
 } from '@ganger/db'
 import { GPOContractOptimizationEngine } from '@/lib/ai-engine'
 
@@ -19,7 +18,7 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
     const priceRepo = new VendorPricesRepository()
     const vendorRepo = new VendorConfigurationsRepository()
     const productRepo = new StandardizedProductsRepository()
-    const orderRepo = new ConsolidatedOrdersRepository()
+    // const orderRepo = new ConsolidatedOrdersRepository() // Future implementation
     
     const contractEngine = new GPOContractOptimizationEngine()
     
@@ -37,19 +36,17 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
       const annualSpend = new Map<string, number>()
       const productUsage = new Map<string, { vendorId: string; annualSpend: number }[]>()
       
-      // Get all orders for this vendor
-      const orders = await orderRepo.findAll()
-      const vendorOrders = orders.filter(o => {
-        // In a real implementation, we'd filter by vendor
-        return true
-      })
+      // Get all orders for this vendor (future implementation)
+      // const orders = await orderRepo.findAll()
+      // In a real implementation, we'd filter by vendor
+      // const vendorOrders = orders.filter(o => o.vendor_id === contract.vendor_id)
       
       // Calculate annual spend (simplified - using current spend * 12)
       annualSpend.set(contract.vendor_id, (contract.minimum_commitment || 0) * 0.8)
       
-      // Get all vendors for contract analysis
+      // Get all vendors for contract analysis (future implementation)
       const vendors = await vendorRepo.findAll()
-      const vendorConfig = vendors.find(v => v.id === contract.vendor_id)
+      // const vendorConfig = vendors.find(v => v.id === contract.vendor_id)
       
       // Create GPO contract format
       const gpoContract = {
@@ -230,8 +227,8 @@ export const POST = withStaffAuth(async (request: NextRequest) => {
     }
     
     const contractRepo = new VendorContractsRepository()
-    const priceRepo = new VendorPricesRepository()
-    const productRepo = new StandardizedProductsRepository()
+    // const priceRepo = new VendorPricesRepository() // Future implementation
+    // const productRepo = new StandardizedProductsRepository() // Future implementation
     
     const contract = await contractRepo.findContractById(contractId)
     if (!contract) {

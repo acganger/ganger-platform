@@ -18,9 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       navigator.serviceWorker
         .register('/sw.js')
-        .then((registration) => {
+        .then(() => {
         })
-        .catch((error) => {
+        .catch(() => {
         });
     }
 

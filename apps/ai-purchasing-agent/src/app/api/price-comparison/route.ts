@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { StandardizedProductsRepository, VendorPricesRepository, VendorConfigurationsRepository } from '@ganger/db'
 import { withStaffAuth } from '@ganger/auth/middleware'
-import { PurchaseAnalysisEngine } from '@/lib/ai-engine'
-import type { OrderItem } from '@ganger/types'
+// import { PurchaseAnalysisEngine } from '@/lib/ai-engine' // Future implementation
+// import type { OrderItem } from '@ganger/types' // Future implementation
 
 export const POST = withStaffAuth(async (request: NextRequest) => {
   try {
@@ -20,8 +20,8 @@ export const POST = withStaffAuth(async (request: NextRequest) => {
     const priceRepo = new VendorPricesRepository()
     const vendorRepo = new VendorConfigurationsRepository()
 
-    // Initialize AI engine
-    const analysisEngine = new PurchaseAnalysisEngine()
+    // Initialize AI engine (future implementation)
+    // const analysisEngine = new PurchaseAnalysisEngine()
 
     // Get products
     const products = await Promise.all(
@@ -32,18 +32,18 @@ export const POST = withStaffAuth(async (request: NextRequest) => {
     // Get all vendors
     const vendors = await vendorRepo.findAll(!includeInactive)
 
-    // Prepare order items for AI analysis
-    const orderItems: OrderItem[] = validProducts.map(product => ({
-      id: `item-${product.id}`,
-      order_id: 'comparison',
-      standardized_product_id: product.id,
-      product_name: product.name,
-      quantity: quantities[product.id] || 1,
-      unit_price: 0, // Will be determined by vendor prices
-      total_price: 0,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }))
+    // Prepare order items for AI analysis (future implementation)
+    // const orderItems: OrderItem[] = validProducts.map(product => ({
+    //   id: `item-${product.id}`,
+    //   order_id: 'comparison',
+    //   standardized_product_id: product.id,
+    //   product_name: product.name,
+    //   quantity: quantities[product.id] || 1,
+    //   unit_price: 0, // Will be determined by vendor prices
+    //   total_price: 0,
+    //   created_at: new Date().toISOString(),
+    //   updated_at: new Date().toISOString()
+    // }))
 
     // For now, we'll skip AI analysis since the method doesn't exist
     const aiAnalysis = {
@@ -105,7 +105,7 @@ export const POST = withStaffAuth(async (request: NextRequest) => {
           ai_insights: {
             recommendedVendor: sortedQuotes[0]?.vendor_name,
             potentialSavings: sortedQuotes.length > 1 ? 
-              sortedQuotes[sortedQuotes.length - 1].total_price - sortedQuotes[0].total_price : 0,
+              (sortedQuotes[sortedQuotes.length - 1]?.total_price || 0) - (sortedQuotes[0]?.total_price || 0) : 0,
             qualityConsiderations: product.is_critical ? 
               'Critical item - prioritize reliability over cost' : 
               'Non-critical item - cost optimization acceptable'

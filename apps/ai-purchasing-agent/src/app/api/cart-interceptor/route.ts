@@ -1,26 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PurchaseRequestsRepository, StandardizedProductsRepository } from '@ganger/db'
-import type { PurchaseRequest, PurchaseRequestItem, RequestType, UrgencyLevel } from '@ganger/types'
+import type { PurchaseRequest, PurchaseRequestItem, RequestType } from '@ganger/types'
 import { withStaffAuth } from '@ganger/auth/middleware'
-import { createSuccessResponse, createErrorResponse, handleApiError, generateRequestId } from '@/lib/api-utils'
-import { validateRequest, cartInterceptorSchema, checkRateLimit } from '@/lib/validation'
-
-interface CartInterceptorRequest {
-  items: Array<{
-    productName: string
-    quantity: number
-    unitOfMeasure: string
-    estimatedPrice?: number
-    vendorSku?: string
-    notes?: string
-  }>
-  requesterEmail: string
-  requesterName?: string
-  department?: string
-  urgency?: UrgencyLevel
-  notes?: string
-  originalCartData?: any // Raw shopping cart data from external system
-}
+import { createErrorResponse } from '@/lib/api-utils'
+import { checkRateLimit } from '@/lib/validation'
 
 export const POST = withStaffAuth(async (request: NextRequest, context: any) => {
   try {
@@ -45,8 +28,7 @@ export const POST = withStaffAuth(async (request: NextRequest, context: any) => 
       requesterName = session?.user?.name, 
       department = 'General', 
       urgency = 'routine', 
-      notes,
-      originalCartData 
+      notes
     } = body
 
     if (!requesterEmail) {
@@ -209,21 +191,21 @@ function calculateStringMatch(str1: string, str2: string): number {
 }
 
 function levenshteinDistance(str1: string, str2: string): number {
-  const matrix = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null))
+  const matrix: number[][] = Array(str2.length + 1).fill(0).map(() => Array(str1.length + 1).fill(0))
   
-  for (let i = 0; i <= str1.length; i++) matrix[0][i] = i
-  for (let j = 0; j <= str2.length; j++) matrix[j][0] = j
+  for (let i = 0; i <= str1.length; i++) matrix[0]![i] = i
+  for (let j = 0; j <= str2.length; j++) matrix[j]![0] = j
   
   for (let j = 1; j <= str2.length; j++) {
     for (let i = 1; i <= str1.length; i++) {
       const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1
-      matrix[j][i] = Math.min(
-        matrix[j][i - 1] + 1,
-        matrix[j - 1][i] + 1,
-        matrix[j - 1][i - 1] + indicator
+      matrix[j]![i] = Math.min(
+        matrix[j]![i - 1]! + 1,
+        matrix[j - 1]![i]! + 1,
+        matrix[j - 1]![i - 1]! + indicator
       )
     }
   }
   
-  return matrix[str2.length][str1.length]
+  return matrix[str2.length]![str1.length]!
 }

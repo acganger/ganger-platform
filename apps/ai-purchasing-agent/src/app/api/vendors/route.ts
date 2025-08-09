@@ -8,7 +8,7 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
     const { searchParams } = new URL(request.url)
     const onlyActive = searchParams.get('active') !== 'false'
     const hasContracts = searchParams.get('contracts')
-    const category = searchParams.get('category')
+    // const category = searchParams.get('category') // Future filtering implementation
 
     const repository = new VendorManagementRepository()
     let vendors = await repository.findAll(onlyActive)

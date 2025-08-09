@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Team, Rock, Issue, Todo, L10Meeting } from '@/types/eos';
+import { Rock, Issue, Todo, L10Meeting } from '@/types/eos';
 import { Database } from '@/types/database';
 import { eosL10MigrationAdapter } from '@/lib/migration-adapter';
+import { useAuth } from '@/lib/auth-eos';
 
 type Tables = Database['public']['Tables'];
 
@@ -257,7 +258,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
     };
 
     const handleRockChange = (payload: any) => {
-      const { eventType, new: newRecord, old: oldRecord } = payload;
+      const { eventType, new: newRecord, old: _oldRecord } = payload;
 
       setRocks(currentRocks => {
         switch (eventType) {
@@ -272,7 +273,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
               .sort((a, b) => a.priority - b.priority);
           
           case 'DELETE':
-            return currentRocks.filter(rock => rock.id !== oldRecord.id);
+            return currentRocks.filter(rock => rock.id !== _oldRecord.id);
           
           default:
             return currentRocks;
@@ -281,7 +282,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
     };
 
     const handleIssueChange = (payload: any) => {
-      const { eventType, new: newRecord, old: oldRecord } = payload;
+      const { eventType, new: newRecord, old: _oldRecord } = payload;
 
       setIssues(currentIssues => {
         switch (eventType) {
@@ -296,7 +297,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
             );
           
           case 'DELETE':
-            return currentIssues.filter(issue => issue.id !== oldRecord.id);
+            return currentIssues.filter(issue => issue.id !== _oldRecord.id);
           
           default:
             return currentIssues;
@@ -305,7 +306,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
     };
 
     const handleTodoChange = (payload: any) => {
-      const { eventType, new: newRecord, old: oldRecord } = payload;
+      const { eventType, new: newRecord, old: _oldRecord } = payload;
 
       setTodos(currentTodos => {
         switch (eventType) {
@@ -324,7 +325,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
               );
           
           case 'DELETE':
-            return currentTodos.filter(todo => todo.id !== oldRecord.id);
+            return currentTodos.filter(todo => todo.id !== _oldRecord.id);
           
           default:
             return currentTodos;
@@ -333,7 +334,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
     };
 
     const handleMeetingChange = (payload: any) => {
-      const { eventType, new: newRecord, old: oldRecord } = payload;
+      const { eventType, new: newRecord, old: _oldRecord } = payload;
 
       setMeetings(currentMeetings => {
         switch (eventType) {
@@ -348,7 +349,7 @@ export function useRealtimeData(teamId?: string): RealtimeTeamData {
             );
           
           case 'DELETE':
-            return currentMeetings.filter(meeting => meeting.id !== oldRecord.id);
+            return currentMeetings.filter(meeting => meeting.id !== _oldRecord.id);
           
           default:
             return currentMeetings;

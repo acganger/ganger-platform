@@ -6,8 +6,7 @@ import {
   Square, 
   Play, 
   CheckCircle, 
-  Pause,
-  Plus
+  Pause
 } from 'lucide-react';
 
 interface TodoKanbanProps {

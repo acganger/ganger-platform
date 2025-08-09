@@ -1,7 +1,5 @@
-'use client'
-
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/router'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
 
@@ -50,7 +48,8 @@ function NavGroup({
   group: { title: string; links: Array<{ title: string; href: string }> }
   className?: string
 }) {
-  let pathname = usePathname()
+  const router = useRouter()
+  const pathname = router.pathname
 
   return (
     <li className={clsx('relative', className)}>
@@ -120,7 +119,8 @@ function TopLevelNavItem({
   href: string
   children: React.ReactNode
 }) {
-  let pathname = usePathname()
+  const router = useRouter()
+  const pathname = router.pathname
   return (
     <li className="md:hidden">
       <Link

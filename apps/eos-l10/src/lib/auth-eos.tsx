@@ -2,8 +2,6 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-// Import universal auth components - testing workspace fix
-import { AuthProvider as UniversalAuthProvider } from '@ganger/auth';
 import { supabase } from './supabase';
 import { Team, TeamMember } from '@/types/eos';
 

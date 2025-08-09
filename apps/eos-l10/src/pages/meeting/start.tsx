@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/auth-eos';
 import { L10Meeting, L10Agenda, MeetingParticipant } from '@/types/eos';
 import { 
   PlayCircle,
   Clock,
   Users,
   CheckCircle,
-  ChevronRight,
+  ChevronRight as _ChevronRight,
   Target,
   BarChart3,
   AlertCircle,
   CheckSquare,
   MessageSquare,
-  Pause,
-  Play,
-  Square,
-  User,
-  Calendar
+  Pause as _Pause,
+  Play as _Play,
+  Square as _Square,
+  User as _User,
+  Calendar as _Calendar
 } from 'lucide-react';
 import MeetingTimer from '@/components/meeting/MeetingTimer';
 import MeetingParticipants from '@/components/meeting/MeetingParticipants';
@@ -50,7 +51,8 @@ export default function StartMeetingPage() {
   const [totalDuration, setTotalDuration] = useState(0);
   const [isStarting, setIsStarting] = useState(false);
   const [loading, setLoading] = useState(true);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const _intervalRef = useRef<NodeJS.Timeout | null>(null);
+  void _intervalRef; // Suppress unused variable warning
 
   // Check for existing meeting
   useEffect(() => {

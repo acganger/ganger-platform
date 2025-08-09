@@ -2,7 +2,6 @@ import type {
   StandardizedProduct, 
   VendorConfiguration, 
   VendorQuote,
-  PurchaseRequestItem,
   VendorProductMapping
 } from '@ganger/types'
 
@@ -40,7 +39,7 @@ export interface VendorAnalysis {
 }
 
 export interface OptimizationResult {
-  recommendedVendor: VendorConfiguration
+  recommendedVendor: VendorConfiguration | undefined
   vendorAnalyses: VendorAnalysis[]
   potentialSavings: number
   savingsPercentage: number
@@ -88,22 +87,22 @@ export class PurchaseAnalysisEngine {
     const savingsPercentage = highestPrice > 0 ? (potentialSavings / highestPrice) * 100 : 0
 
     // Find consolidation opportunities
-    const consolidationOpportunities = this.findConsolidationOpportunities(
+    const consolidationOpportunities = vendorAnalyses[0] ? this.findConsolidationOpportunities(
       vendorAnalyses[0].vendor,
       context
-    )
+    ) : []
 
     // Generate warnings
-    const warnings = this.generateWarnings(context, vendorAnalyses[0])
+    const warnings = vendorAnalyses[0] ? this.generateWarnings(context, vendorAnalyses[0]) : []
 
     return {
-      recommendedVendor: vendorAnalyses[0].vendor,
+      recommendedVendor: vendorAnalyses[0]?.vendor,
       vendorAnalyses,
       potentialSavings,
       savingsPercentage,
       consolidationOpportunities,
       warnings,
-      confidence: vendorAnalyses[0].recommendation.confidence
+      confidence: vendorAnalyses[0]?.recommendation.confidence || 0
     }
   }
 
@@ -224,14 +223,14 @@ export class PurchaseAnalysisEngine {
     return Math.min(score, 1)
   }
 
-  private calculateConsolidationScore(vendor: VendorConfiguration, context: AnalysisContext): number {
+  private calculateConsolidationScore(_vendor: VendorConfiguration, _context: AnalysisContext): number {
     // This would analyze if ordering from this vendor allows consolidation
     // For now, return a moderate score
     return 0.7
   }
 
   private generateRecommendation(
-    vendor: VendorConfiguration,
+    _vendor: VendorConfiguration,
     factors: VendorAnalysis['factors'],
     score: number
   ): VendorAnalysis['recommendation'] {
@@ -276,7 +275,7 @@ export class PurchaseAnalysisEngine {
 
   private findConsolidationOpportunities(
     vendor: VendorConfiguration,
-    context: AnalysisContext
+    _context: AnalysisContext
   ): string[] {
     const opportunities: string[] = []
 

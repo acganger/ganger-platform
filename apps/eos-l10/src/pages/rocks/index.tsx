@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SafeLink from '@/components/ui/SafeLink';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
 import { useRealtimeData } from '@/hooks/useRealtimeData';
 import { usePresence } from '@/hooks/usePresence';
 import Layout from '@/components/Layout';
@@ -12,19 +13,19 @@ import {
   Plus, 
   Calendar, 
   User, 
-  TrendingUp,
-  Filter,
+  TrendingUp as _TrendingUp,
+  Filter as _Filter,
   Search,
-  MoreVertical,
+  MoreVertical as _MoreVertical,
   Edit3,
   Trash2
 } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 
 export default function RocksPage() {
-  const { activeTeam, user, userRole } = useAuth();
+  const { activeTeam: _activeTeam, user: _user, userRole } = useAuth();
   const { rocks, loading, error } = useRealtimeData();
-  const { onlineUsers } = usePresence('rocks');
+  const { onlineUsers: _onlineUsers } = usePresence('rocks');
   
   const [selectedQuarter, setSelectedQuarter] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,6 +57,7 @@ export default function RocksPage() {
 
     const newRocks = Array.from(draggedRocks);
     const [movedRock] = newRocks.splice(source.index, 1);
+    if (!movedRock) return; // Safety check
     newRocks.splice(destination.index, 0, movedRock);
 
     // Update priorities based on new order

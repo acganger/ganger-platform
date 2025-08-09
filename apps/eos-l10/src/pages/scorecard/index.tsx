@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SafeLink from '@/components/ui/SafeLink';
-import { useRealtimeData } from '@/hooks/useRealtimeData';
+import { useAuth, AuthGuard, TeamGuard } from '@/lib/auth-eos';
+import { useRealtimeData as _useRealtimeData } from '@/hooks/useRealtimeData';
 import { usePresence } from '@/hooks/usePresence';
 import Layout from '@/components/Layout';
 import PresenceIndicator from '@/components/PresenceIndicator';
@@ -11,20 +12,20 @@ import TrendAnalyzer from '@/components/scorecard/TrendAnalyzer';
 import { Scorecard, ScorecardMetric, ScorecardEntry } from '@/types/eos';
 import { supabase } from '@/lib/supabase';
 import { 
-  TrendingUp, 
+  TrendingUp as _TrendingUp, 
   Plus, 
-  Calendar, 
-  Target,
+  Calendar as _Calendar, 
+  Target as _Target,
   BarChart3,
   RefreshCw,
-  Filter,
-  Download,
+  Filter as _Filter,
+  Download as _Download,
   Settings
 } from 'lucide-react';
 
 export default function ScorecardPage() {
-  const { activeTeam, user, userRole } = useAuth();
-  const { onlineUsers } = usePresence('scorecard');
+  const { activeTeam, user: _user, userRole } = useAuth();
+  const { onlineUsers: _onlineUsers } = usePresence('scorecard');
   
   const [scorecard, setScorecard] = useState<Scorecard | null>(null);
   const [metrics, setMetrics] = useState<ScorecardMetric[]>([]);
@@ -47,7 +48,7 @@ export default function ScorecardPage() {
     if (activeTeam) {
       loadScorecardData();
       if (!selectedWeek) {
-        setSelectedWeek(getCurrentWeekEnding());
+        setSelectedWeek(getCurrentWeekEnding() || '');
       }
     }
   }, [activeTeam]);
@@ -205,8 +206,8 @@ export default function ScorecardPage() {
       return acc;
     }, {} as Record<string, number>);
 
-    if (statusCounts.red > 0) return 'red';
-    if (statusCounts.yellow > 0) return 'yellow';
+    if ((statusCounts.red || 0) > 0) return 'red';
+    if ((statusCounts.yellow || 0) > 0) return 'yellow';
     return 'green';
   };
 

@@ -86,8 +86,9 @@ export function VendorPriceGrid({
           const isRecommended = vendor.id === recommendedVendorId
           const isSelected = vendor.id === selectedVendorId
           const isLowestPrice = index === 0
-          const savings = sortedQuotes[sortedQuotes.length - 1].total_price - quote.total_price
-          const savingsPercent = (savings / sortedQuotes[sortedQuotes.length - 1].total_price) * 100
+          const lastQuote = sortedQuotes[sortedQuotes.length - 1]
+          const savings = lastQuote ? lastQuote.total_price - quote.total_price : 0
+          const savingsPercent = lastQuote ? (savings / lastQuote.total_price) * 100 : 0
 
           return (
             <Card
@@ -204,13 +205,13 @@ export function VendorPriceGrid({
           <div>
             <p className="text-sm text-gray-600">Price Range</p>
             <p className="text-lg font-semibold text-gray-900">
-              {formatCurrency(sortedQuotes[0].total_price)} - {formatCurrency(sortedQuotes[sortedQuotes.length - 1].total_price)}
+              {formatCurrency(sortedQuotes[0]?.total_price || 0)} - {formatCurrency(sortedQuotes[sortedQuotes.length - 1]?.total_price || 0)}
             </p>
           </div>
           <div className="text-right">
             <p className="text-sm text-gray-600">Potential Savings</p>
             <p className="text-lg font-semibold text-green-600">
-              Up to {formatCurrency(sortedQuotes[sortedQuotes.length - 1].total_price - sortedQuotes[0].total_price)}
+              Up to {formatCurrency((sortedQuotes[sortedQuotes.length - 1]?.total_price || 0) - (sortedQuotes[0]?.total_price || 0))}
             </p>
           </div>
         </div>

@@ -20,7 +20,7 @@ import {
   Lightbulb
 } from 'lucide-react'
 import { formatCurrency } from '@ganger/utils'
-import type { StandardizedProduct, VendorQuote } from '@ganger/types'
+// import type { StandardizedProduct, VendorQuote } from '@ganger/types' // Future implementation
 
 interface AnalysisStep {
   id: string
@@ -71,7 +71,7 @@ export default function PurchaseRequestAnalysisPage() {
         await new Promise(resolve => setTimeout(resolve, 1500))
         
         // Perform actual analysis for each step
-        if (steps[i].id === 'pricing') {
+        if (steps[i]?.id === 'pricing') {
           // Get price comparison data
           const response = await fetch(`/api/purchase-requests/${id}/analyze`, {
             method: 'POST'

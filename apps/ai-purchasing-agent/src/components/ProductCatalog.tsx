@@ -10,7 +10,6 @@ import {
   Plus, 
   Search, 
   Filter, 
-  ShoppingCart,
   Check,
   AlertTriangle
 } from 'lucide-react'

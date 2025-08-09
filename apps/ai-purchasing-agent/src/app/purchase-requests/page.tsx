@@ -25,7 +25,7 @@ export default function PurchaseRequestsPage() {
   const router = useRouter()
   const [requests, setRequests] = useState<PurchaseRequest[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [_error, setError] = useState('') // Error display not yet implemented
   const [filter, setFilter] = useState<'all' | 'draft' | 'submitted' | 'approved' | 'ordered'>('all')
 
   useEffect(() => {
@@ -250,7 +250,7 @@ export default function PurchaseRequestsPage() {
                   {
                     header: 'Items',
                     key: 'items',
-                    render: (row) => '-'
+                    render: (_row) => '-'
                   },
                   {
                     header: 'Est. Cost',

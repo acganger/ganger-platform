@@ -5,9 +5,6 @@ import { CreateTodoForm } from '@/types/eos';
 import { 
   X, 
   Calendar,
-  User,
-  Flag,
-  AlertTriangle,
   Save,
   Plus,
   Clock
@@ -35,7 +32,6 @@ const dueDatePresets = [
 
 export default function TodoForm({ onSubmit, onClose, initialData }: TodoFormProps) {
   const teamMembers: any[] = []; // Fix team members access
-  const user = null; // Fix user access
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dueDatePreset, setDueDatePreset] = useState('this_week');
   
@@ -90,7 +86,7 @@ export default function TodoForm({ onSubmit, onClose, initialData }: TodoFormPro
           date = new Date();
       }
       
-      setValue('due_date', date.toISOString().split('T')[0]);
+      setValue('due_date', date.toISOString().split('T')[0]!);
     }
   };
 

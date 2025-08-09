@@ -14,7 +14,6 @@ export const GET = withStaffAuth(async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url)
     const productId = searchParams.get('productId')
-    const period = searchParams.get('period') || '6months'
     
     const usageRepo = new UsageHistoryRepository()
     const productRepo = new StandardizedProductsRepository()

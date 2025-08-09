@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { withStaffAuth, type AuthenticatedHandler } from '@ganger/auth/middleware'
 import { PurchaseRequestsAdapter } from '@/repositories/purchase-requests-adapter'
 import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/api-utils'
@@ -17,7 +17,7 @@ interface RouteContext {
   }
 }
 
-const handler: AuthenticatedHandler = async (request: NextRequest, context: any) => {
+const handler: AuthenticatedHandler = async (_request: NextRequest, context: any) => {
   const { params } = context as RouteContext
   const session = context.user ? { user: context.user } : undefined
   try {

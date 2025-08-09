@@ -16,7 +16,7 @@ interface CartProps {
 
 export function Cart({ onCheckout, showActions = true }: CartProps) {
   const { items, totalItems, updateQuantity, removeFromCart, clearCart } = useCart()
-  const [loading, setLoading] = useState(false)
+  const [loading, _setLoading] = useState(false) // Loading state for future checkout implementation
   const router = useRouter()
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {

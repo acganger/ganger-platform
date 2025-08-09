@@ -181,7 +181,7 @@ export class AppointmentSMSService {
       .filter(apt => apt.date > now && apt.status !== 'cancelled')
       .sort((a, b) => a.date.getTime() - b.date.getTime());
 
-    return upcomingAppointments.length > 0 ? upcomingAppointments[0] : null;
+    return upcomingAppointments.length > 0 ? upcomingAppointments[0]! : null;
   }
 
   /**
