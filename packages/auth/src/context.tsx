@@ -256,7 +256,10 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
 
       setProfile(profileData);
 
-      // Load user teams
+      // Load user teams - TEMPORARILY DISABLED
+      // The team_members table doesn't exist with the expected structure
+      // TODO: Fix when proper teams table is created
+      /*
       const { data: teamsData, error: teamsError } = await supabase
         .from('team_members')
         .select(`
@@ -293,6 +296,12 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
           setTeamRole(activeTeam.userRole);
         }
       }
+      */
+      
+      // For now, set empty teams
+      setUserTeams([]);
+      setActiveTeamState(null);
+      setTeamRole(null);
 
       // Load app permissions
       const { data: permissionsData, error: permissionsError } = await supabase

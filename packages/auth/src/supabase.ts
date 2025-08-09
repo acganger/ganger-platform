@@ -13,8 +13,13 @@ const defaultConfig: AuthConfig = {
   sessionTimeout: 86400 // 24 hours
 };
 
-// Global Supabase client instance
-let supabaseInstance: SupabaseClient | null = null;
+// Global Supabase client instance - using a symbol to ensure true singleton
+const SUPABASE_INSTANCE_KEY = Symbol.for('ganger.auth.supabase.instance');
+
+// Store instance globally to survive module reloads
+if (typeof globalThis !== 'undefined' && !(SUPABASE_INSTANCE_KEY in globalThis)) {
+  (globalThis as any)[SUPABASE_INSTANCE_KEY] = null;
+}
 
 /**
  * Get or create singleton Supabase client instance.
@@ -35,7 +40,11 @@ let supabaseInstance: SupabaseClient | null = null;
  * });
  */
 export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient {
-  if (!supabaseInstance) {
+  // Get instance from global store
+  const globalStore = globalThis as any;
+  let instance = globalStore[SUPABASE_INSTANCE_KEY];
+  
+  if (!instance) {
     const finalConfig = { ...defaultConfig, ...config };
     
     console.log('[Supabase] 🚀 Creating Supabase client with config:', {
@@ -47,7 +56,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
       timestamp: new Date().toISOString()
     });
     
-    supabaseInstance = createClient(
+    instance = createClient(
       finalConfig.supabaseUrl,
       finalConfig.supabaseAnonKey,
       {
@@ -67,10 +76,15 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
       }
     );
     
+    // Store in global
+    globalStore[SUPABASE_INSTANCE_KEY] = instance;
+    
     console.log('[Supabase] ✅ Supabase client created successfully');
+  } else {
+    console.log('[Supabase] ♻️ Reusing existing Supabase client instance');
   }
   
-  return supabaseInstance;
+  return instance;
 }
 
 /**

@@ -1,9 +1,13 @@
-import { getCookie, setCookie, deleteCookie } from './cookies';
+import { getCookie, setCookie, deleteCookie, getAllCookies } from './cookies';
 
 /**
  * Cookie-based storage adapter that matches Supabase v2 expectations.
  * This adapter stores the entire session as a single JSON string in a cookie.
  * Handles both custom domain and standard Supabase project storage keys.
+ * 
+ * IMPORTANT: Supabase v2 uses the following storage keys:
+ * - For custom domains: Uses the key as-is (e.g., 'sb-auth-token')
+ * - For standard domains: Adds project ID (e.g., 'sb-{projectId}-auth-token')
  * 
  * @class CookieStorageAdapter
  * 
@@ -66,20 +70,39 @@ export class CookieStorageAdapter {
     }
 
     try {
-      // For Supabase v2, the key format is different
-      // It expects to find the session data under a specific key
+      // Debug: log all cookies to understand what's available
+      if (process.env.NODE_ENV === 'development') {
+        const allCookies = getAllCookies();
+        const authCookies = Object.keys(allCookies).filter(k => k.includes('sb-') || k.includes('auth'));
+        console.log(`[CookieStorageAdapter] Available auth-related cookies:`, authCookies);
+      }
+      
+      // Try to get the value directly
       let value = getCookie(key);
       
-      // Fallback: If using custom domain, also check the project-specific key
-      if (!value && key === 'sb-auth-token') {
-        value = getCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token');
-        if (value && process.env.NODE_ENV === 'development') {
-          console.log(`[CookieStorageAdapter] Found session under project-specific key`);
+      // Supabase v2 with custom domains might store under different keys
+      // Try multiple fallback patterns
+      if (!value) {
+        const fallbackKeys = [
+          'sb-pfqtzmxxxhhsxmlddrta-auth-token', // Our project ID
+          'sb-auth-token',
+          'supabase-auth-token',
+          `${key}-session` // Sometimes adds -session suffix
+        ];
+        
+        for (const fallbackKey of fallbackKeys) {
+          value = getCookie(fallbackKey);
+          if (value) {
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`[CookieStorageAdapter] Found session under fallback key: ${fallbackKey}`);
+            }
+            break;
+          }
         }
       }
       
       if (process.env.NODE_ENV === 'development') {
-        console.log(`[CookieStorageAdapter] Getting ${key}:`, value ? 'found' : 'not found');
+        console.log(`[CookieStorageAdapter] Getting ${key}:`, value ? `found (${value.length} chars)` : 'not found');
       }
       
       return value || null;
@@ -106,17 +129,32 @@ export class CookieStorageAdapter {
       if (process.env.NODE_ENV === 'development') {
         console.log(`[CookieStorageAdapter] Setting ${key}`, {
           valueLength: value.length,
+          valuePreview: value.substring(0, 100) + '...',
           options: this.cookieOptions
         });
       }
 
+      // Set the primary key
       setCookie(key, value, this.cookieOptions);
       
-      // Also set the project-specific key for compatibility
-      if (key === 'sb-auth-token') {
-        setCookie('sb-pfqtzmxxxhhsxmlddrta-auth-token', value, this.cookieOptions);
+      // For custom domains, we need to set multiple keys for compatibility
+      const additionalKeys = [];
+      
+      // If this looks like a generic key, also set project-specific version
+      if (key === 'sb-auth-token' || key === 'supabase-auth-token') {
+        additionalKeys.push('sb-pfqtzmxxxhhsxmlddrta-auth-token');
+      }
+      
+      // If this is project-specific, also set generic version
+      if (key.includes('pfqtzmxxxhhsxmlddrta')) {
+        additionalKeys.push('sb-auth-token');
+      }
+      
+      // Set all additional keys
+      for (const additionalKey of additionalKeys) {
+        setCookie(additionalKey, value, this.cookieOptions);
         if (process.env.NODE_ENV === 'development') {
-          console.log(`[CookieStorageAdapter] Also set project-specific key for compatibility`);
+          console.log(`[CookieStorageAdapter] Also set ${additionalKey} for compatibility`);
         }
       }
     } catch (error) {
@@ -181,7 +219,7 @@ export function createGangerCookieStorage() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://supa.gangerdermatology.com';
   
   // For custom domains, we need to use a consistent storage key
-  // This should match what Supabase's auth client expects
+  // Supabase v2 expects the storage adapter to handle the key internally
   let storageKey = 'sb-auth-token';
   
   // If it's a standard Supabase URL, extract the project ID
@@ -191,6 +229,15 @@ export function createGangerCookieStorage() {
     const projectId = protocolParts?.[1];
     if (projectId) {
       storageKey = `sb-${projectId}-auth-token`;
+    }
+  } else {
+    // For custom domains, log which key we're using
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[CookieStorageAdapter] Using custom domain configuration:', {
+        url: supabaseUrl,
+        storageKey: storageKey,
+        projectKey: 'sb-pfqtzmxxxhhsxmlddrta-auth-token'
+      });
     }
   }
 

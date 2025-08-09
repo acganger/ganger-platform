@@ -103,29 +103,39 @@ Shortcuts waste time:
 The Ganger Platform is a digital transformation for Ganger Dermatology, with 22 applications covering medical, staff, and business operations.
 
 ### Applications
+
+#### Group 1 (Highest Priority - In Progress)
+| **Category**         | **App Name**            | **Path**                     | **Dev Port** | **Function**                              |
+|-----------------------|-------------------------|------------------------------|--------------|-------------------------------------------|
+| **Business Systems**  | Batch Closeout          | `/batch`                     | 4003         | Financial batch processing               |
+| **Core Medical**      | Check-in Kiosk          | `/kiosk` (public: kiosk.gangerdermatology.com) | 4005 | Patient self-service terminal |
+|                       | EOS L10                 | `/l10`                      | 4011         | Team management and EOS implementation   |
+| **Staff Operations**  | Ganger Actions          | `/actions`                   | 4012         | Employee forms & utility hub             |
+| **Infrastructure**    | Ganger Staff            | `/`                          | 4000         | Platform router (main entry point)       |
+| **Core Medical**      | Patient Handouts        | `/handouts`                  | 4013         | Educational materials with QR scanning    |
+| **Business Systems**  | Socials & Reviews       | `/socials`                   | 4020         | Review management                        |
+
+#### Group 2 (Medium Priority - Remaining)
 | **Category**         | **App Name**            | **Path**                     | **Dev Port** | **Function**                              |
 |-----------------------|-------------------------|------------------------------|--------------|-------------------------------------------|
 | **Core Medical**      | Inventory Management    | `/inventory`                 | 4015         | Medical supply tracking with barcode      |
-|                       | Patient Handouts        | `/handouts`                  | 4013         | Educational materials with QR scanning    |
-|                       | Check-in Kiosk          | `/kiosk` (public: kiosk.gangerdermatology.com) | 4005 | Patient self-service terminal |
-|                       | Medication Authorization | `/medication-auth`          | 4017         | Prior auth management                    |
-|                       | EOS L10                 | `/l10`                      | 4011         | Team management and EOS implementation   |
-| **Staff Operations**  | Ganger Actions          | `/actions`                   | 4012         | Employee forms & utility hub             |
-|                       | Clinical Staffing       | `/clinical-staffing`         | 4006         | Provider scheduling                      |
+| **Staff Operations**  | Clinical Staffing       | `/clinical-staffing`         | 4006         | Provider scheduling                      |
 |                       | Call Center Operations  | `/call-center`               | 4004         | Call management dashboard                |
-|                       | Pharma Scheduling       | `/pharma` (public: lunch.gangerdermatology.com) | 4018 | Rep visit coordination |
-| **Business Systems**  | Batch Closeout          | `/batch`                     | 4003         | Financial batch processing               |
-|                       | Compliance Training     | `/compliance`                | 4007         | Staff training platform                  |
-|                       | Socials & Reviews       | `/socials`                   | 4020         | Review management                        |
-| **Infrastructure**    | Ganger Staff            | `/`                          | 4000         | Platform router (main entry point)       |
-|                       | Platform Dashboard      | `/platform-dashboard`        | 4019         | System overview                          |
+| **Infrastructure**    | Platform Dashboard      | `/platform-dashboard`        | 4019         | System overview                          |
 |                       | Config Dashboard        | `/config`                    | 4009         | Configuration management                 |
-|                       | Integration Status      | `/status`                    | 4014         | Integration monitoring                   |
 |                       | Component Showcase      | `/component-showcase`        | 4008         | UI component library                     |
-|                       | AI Receptionist         | `/ai-receptionist`           | 4002         | AI phone agent demo                      |
+
+#### Group 3 (Lower Priority - Remaining)
+| **Category**         | **App Name**            | **Path**                     | **Dev Port** | **Function**                              |
+|-----------------------|-------------------------|------------------------------|--------------|-------------------------------------------|
+| **Infrastructure**    | AI Receptionist         | `/ai-receptionist`           | 4002         | AI phone agent demo                      |
 | **AI & Demos**        | AI Purchasing Agent     | `/ai-purchasing`             | 4001         | AI procurement assistant                  |
-|                       | LLM Demo                | `/llm-demo`                  | 4016         | Language model demonstrations             |
-|                       | Consolidated Order Form | `/order-form`                | 4010         | Unified ordering interface                |
+| **Business Systems**  | Compliance Training     | `/compliance`                | 4007         | Staff training platform                  |
+| **Infrastructure**    | Integration Status      | `/status`                    | 4014         | Integration monitoring                   |
+| **AI & Demos**        | LLM Demo                | `/llm-demo`                  | 4016         | Language model demonstrations             |
+| **Core Medical**      | Medication Authorization | `/medication-auth`          | 4017         | Prior auth management                    |
+| **Staff Operations**  | Pharma Scheduling       | `/pharma` (public: lunch.gangerdermatology.com) | 4018 | Rep visit coordination |
+| **AI & Demos**        | Consolidated Order Form | `/order-form`                | 4010         | Unified ordering interface                |
 
 ### Benefits
 - **Performance**: Next.js SSR/SSG with Vercel CDN.

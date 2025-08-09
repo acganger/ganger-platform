@@ -3,7 +3,7 @@
 // Note: This component is for Pages Router apps only. App Router apps should implement their own callback page.
 
 import React, { useEffect, useState } from 'react';
-import useRouter from 'next/router';
+import { useRouter } from 'next/router';
 import { getTypedSupabaseClient } from './supabase';
 import { sessionManager, getCurrentApp, APP_URLS, type AppName } from './cross-app';
 
@@ -44,6 +44,8 @@ export function AuthCallback({
         }
         
         if (accessToken) {
+          console.log('[AuthCallback] Found access token in URL, setting session...');
+          
           // Set the session with the tokens
           const { data: { session }, error: sessionError } = await supabase.auth.setSession({
             access_token: accessToken,
@@ -51,8 +53,21 @@ export function AuthCallback({
           });
           
           if (sessionError) {
+            console.error('[AuthCallback] Failed to set session:', sessionError);
             throw sessionError;
           }
+          
+          console.log('[AuthCallback] Session set successfully:', {
+            user: session?.user?.email,
+            expiresAt: session?.expires_at
+          });
+          
+          // Verify session was persisted
+          const { data: { session: verifySession } } = await supabase.auth.getSession();
+          console.log('[AuthCallback] Session verification:', {
+            persisted: !!verifySession,
+            user: verifySession?.user?.email
+          });
           
           if (session?.user) {
             // Notify other apps of successful sign in
@@ -70,6 +85,11 @@ export function AuthCallback({
             
             // Clear stored redirect
             sessionStorage.removeItem('auth_redirect');
+            
+            console.log('[AuthCallback] Redirecting to:', redirectTo);
+            
+            // Small delay to ensure session is fully persisted
+            await new Promise(resolve => setTimeout(resolve, 100));
             
             // Redirect to the appropriate page
             if (redirectTo.startsWith('http')) {

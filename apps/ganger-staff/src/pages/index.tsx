@@ -1,6 +1,3 @@
-export const dynamic = 'force-dynamic';
-export const revalidate = 0; // Disable caching completely
-
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useAuth } from '@ganger/auth';
@@ -37,6 +34,12 @@ export default function HomePage() {
   const [appMetadata, setAppMetadata] = useState<AppData>({});
   const [loadingApps, setLoadingApps] = useState(true);
   const [signInError, setSignInError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  
+  // Ensure component is mounted before rendering auth-dependent content
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Monitor auth state changes
   useEffect(() => {
@@ -164,7 +167,7 @@ export default function HomePage() {
     fetchAppMetadata();
   }, []);
 
-  if (auth.loading || loadingApps) {
+  if (!mounted || auth.loading || loadingApps) {
     return (
       <>
         <Head>
@@ -183,7 +186,7 @@ export default function HomePage() {
     );
   }
 
-  if (!auth.user) {
+  if (!mounted || !auth.user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full space-y-8">
