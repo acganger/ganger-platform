@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { AIModel, ChatMessage } from '@/types/ai';
+import type { AIModel } from '@/types/ai';
 import { withAuth, AuthenticatedRequest } from '@/lib/auth-middleware';
 import { trackUsage } from '@/lib/usage-tracking';
 
