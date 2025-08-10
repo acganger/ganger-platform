@@ -7,7 +7,7 @@ export default function AuthDiagnostics() {
   useEffect(() => {
     // Check Supabase client configuration
     const checkConfig = async () => {
-      const config = {
+      const config: any = {
         // @ts-ignore - accessing internal config
         storageKey: supabase.auth?.storage?.storageKey || 'not found',
         // @ts-ignore
