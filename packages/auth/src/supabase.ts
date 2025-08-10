@@ -12,12 +12,19 @@ const defaultConfig: AuthConfig = {
   sessionTimeout: 86400 // 24 hours
 };
 
-// Global Supabase client instance - using a symbol to ensure true singleton
-const SUPABASE_INSTANCE_KEY = Symbol.for('ganger.auth.supabase.instance');
+// Global Supabase client instance - use a string key for better compatibility
+const SUPABASE_INSTANCE_KEY = '__GANGER_SUPABASE_CLIENT__';
 
-// Store instance globally to survive module reloads
-if (typeof globalThis !== 'undefined' && !(SUPABASE_INSTANCE_KEY in globalThis)) {
-  (globalThis as any)[SUPABASE_INSTANCE_KEY] = null;
+// Store instance globally to survive module reloads and HMR
+declare global {
+  interface Window {
+    [SUPABASE_INSTANCE_KEY]?: SupabaseClient;
+  }
+}
+
+// Initialize global storage
+if (typeof window !== 'undefined' && !window[SUPABASE_INSTANCE_KEY]) {
+  window[SUPABASE_INSTANCE_KEY] = undefined;
 }
 
 /**
@@ -39,9 +46,32 @@ if (typeof globalThis !== 'undefined' && !(SUPABASE_INSTANCE_KEY in globalThis))
  * });
  */
 export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient {
-  // Get instance from global store
-  const globalStore = globalThis as any;
-  let instance = globalStore[SUPABASE_INSTANCE_KEY];
+  // Server-side: always create new instance
+  if (typeof window === 'undefined') {
+    const finalConfig = { ...defaultConfig, ...config };
+    return createClient(
+      finalConfig.supabaseUrl,
+      finalConfig.supabaseAnonKey,
+      {
+        auth: {
+          persistSession: false, // No persistence on server
+          autoRefreshToken: false,
+          detectSessionInUrl: false,
+          flowType: 'pkce',
+        },
+        global: {
+          headers: {
+            'X-Application': 'ganger-platform',
+            'X-Version': '1.0.0',
+            'x-client-info': 'staff-web-ssr'
+          }
+        }
+      }
+    );
+  }
+  
+  // Client-side: use singleton
+  let instance = window[SUPABASE_INSTANCE_KEY];
   
   if (!instance) {
     const finalConfig = { ...defaultConfig, ...config };
@@ -51,7 +81,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
       hasAnonKey: !!finalConfig.supabaseAnonKey,
       anonKeyPrefix: finalConfig.supabaseAnonKey.substring(0, 20) + '...',
       redirectUrl: finalConfig.redirectUrl,
-      isClientSide: typeof window !== 'undefined',
+      isClientSide: true,
       timestamp: new Date().toISOString()
     });
     
@@ -65,7 +95,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
           detectSessionInUrl: true,
           flowType: 'pkce',
           storageKey: 'sb-supa-auth-token', // Match the key Supabase v2 uses for custom domains
-          storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+          storage: window.localStorage,
           debug: true, // Enable auth debug mode
         },
         global: {
@@ -78,12 +108,12 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
       }
     );
     
-    // Store in global
-    globalStore[SUPABASE_INSTANCE_KEY] = instance;
+    // Store in window
+    window[SUPABASE_INSTANCE_KEY] = instance;
     
-    console.log('[Supabase] ✅ Supabase client created successfully');
+    console.log('[Supabase] ✅ Supabase client created and stored in window');
   } else {
-    console.log('[Supabase] ♻️ Reusing existing Supabase client instance');
+    console.log('[Supabase] ♻️ Reusing existing Supabase client instance from window');
   }
   
   return instance;
@@ -92,6 +122,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
 /**
  * Default Supabase client instance for general use.
  * Pre-configured with Ganger Platform settings.
+ * This is a getter to ensure we always use the singleton instance.
  * 
  * @type {SupabaseClient}
  * 
@@ -103,7 +134,12 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
  *   .from('profiles')
  *   .select('*');
  */
-export const supabase = getSupabaseClient();
+export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
+  get(target, prop, receiver) {
+    const client = getSupabaseClient();
+    return Reflect.get(client, prop, client);
+  }
+});
 
 /**
  * Create app-specific Supabase client with custom configuration.
