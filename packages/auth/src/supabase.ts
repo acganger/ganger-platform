@@ -2,7 +2,6 @@
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { AuthConfig } from './types';
-import { createGangerCookieStorage } from './utils/CookieStorageAdapter';
 
 // Default configuration
 const defaultConfig: AuthConfig = {
