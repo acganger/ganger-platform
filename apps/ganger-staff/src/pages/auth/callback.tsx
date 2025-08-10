@@ -91,36 +91,52 @@ export default function CallbackPage() {
           }
         }
 
-        // If no code and no session, check for hash params (magic links)
+        // If no code and no session, let Supabase handle the hash
+        // The detectSessionInUrl should handle this automatically
+        // but we need to give it time to process
         const hash = window.location.hash;
         if (hash && hash.includes('access_token')) {
-          console.log('[Callback] Hash params detected, processing...');
+          console.log('[Callback] Hash params detected, waiting for Supabase to process...');
           
-          // Actively process the hash tokens
-          const hashParams = new URLSearchParams(hash.substring(1));
-          const accessToken = hashParams.get('access_token');
-          const refreshToken = hashParams.get('refresh_token');
+          // Give Supabase a moment to process the hash
+          await new Promise(resolve => setTimeout(resolve, 500));
           
-          if (accessToken) {
-            console.log('[Callback] Setting session from hash params...');
-            const { data, error: sessionError } = await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken || ''
-            });
+          // Check if session was established
+          const { data: { session: newSession } } = await supabase.auth.getSession();
+          
+          if (newSession) {
+            console.log('[Callback] Session established by Supabase:', newSession.user.email);
+            setTimeout(() => {
+              router.push('/');
+            }, 100);
+            return;
+          } else {
+            console.log('[Callback] Session not established, trying manual setSession...');
+            // If Supabase didn't handle it, try manually
+            const hashParams = new URLSearchParams(hash.substring(1));
+            const accessToken = hashParams.get('access_token');
+            const refreshToken = hashParams.get('refresh_token');
             
-            if (sessionError) {
-              console.error('[Callback] Error setting session from hash:', sessionError);
-              setError(sessionError.message);
-              setIsProcessing(false);
-              return;
-            }
-            
-            if (data.session) {
-              console.log('[Callback] Session set successfully from hash params');
-              setTimeout(() => {
-                router.push('/');
-              }, 100);
-              return;
+            if (accessToken) {
+              const { data, error: sessionError } = await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken || ''
+              });
+              
+              if (sessionError) {
+                console.error('[Callback] Error setting session:', sessionError);
+                setError(sessionError.message);
+                setIsProcessing(false);
+                return;
+              }
+              
+              if (data.session) {
+                console.log('[Callback] Session set manually');
+                setTimeout(() => {
+                  router.push('/');
+                }, 100);
+                return;
+              }
             }
           }
         } else if (!code && !hash) {

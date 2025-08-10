@@ -74,7 +74,16 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
   // Initialize auth on mount
   useEffect(() => {
     console.log('[AuthContext] Component mounted, initializing auth...');
-    initializeAuth();
+    
+    // Don't initialize twice
+    let mounted = true;
+    
+    const init = async () => {
+      if (!mounted) return;
+      await initializeAuth();
+    };
+    
+    init();
     
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -86,7 +95,8 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
           timestamp: new Date().toISOString()
         });
         
-        if (session?.user) {
+        // Handle SIGNED_IN event specifically
+        if (event === 'SIGNED_IN' && session?.user) {
           const authUser: AuthUser = {
             id: session.user.id,
             email: session.user.email || '',
@@ -142,6 +152,7 @@ export function AuthProvider({ children, config, appName = 'platform' }: AuthPro
     });
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
       unsubscribeCrossApp();
     };
