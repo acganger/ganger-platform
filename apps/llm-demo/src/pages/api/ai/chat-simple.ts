@@ -12,16 +12,6 @@ const RATE_LIMIT = {
   message: 'Too many requests. Please wait a moment before trying again.'
 };
 
-// Get client identifier from request
-function getClientId(req: NextApiRequest): string {
-  const forwarded = req.headers['x-forwarded-for'];
-  const ip = typeof forwarded === 'string' 
-    ? forwarded.split(',')[0].trim()
-    : req.socket.remoteAddress || 'unknown';
-  
-  return ip;
-}
-
 // Check rate limit
 function checkRateLimit(clientId: string): { allowed: boolean; message?: string } {
   const now = Date.now();
