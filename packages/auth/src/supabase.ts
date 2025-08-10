@@ -135,7 +135,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
  *   .select('*');
  */
 export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
-  get(target, prop, receiver) {
+  get(_target, prop, _receiver) {
     const client = getSupabaseClient();
     return Reflect.get(client, prop, client);
   }
