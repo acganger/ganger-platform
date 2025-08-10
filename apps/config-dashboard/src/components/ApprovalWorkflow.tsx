@@ -64,7 +64,7 @@ interface ApiResponse<T> {
 }
 
 export function ApprovalWorkflow() {
-  const { user } = useAuth();
+  useAuth(); // Verify user is authenticated
   const [pendingChanges, setPendingChanges] = useState<PendingChange[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
