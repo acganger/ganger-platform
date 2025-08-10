@@ -22,24 +22,24 @@ export class ClientSafeCacheManager {
     lastReset: new Date()
   };
 
-  async get<T>(key: string): Promise<T | null> {
+  async get<T>(_key: string): Promise<T | null> {
     // On client side, always return cache miss
     this.metrics.misses++;
     this.metrics.totalRequests++;
     return null;
   }
 
-  async set<T>(key: string, value: T, ttl?: number): Promise<boolean> {
+  async set<T>(_key: string, _value: T, _ttl?: number): Promise<boolean> {
     // On client side, no-op
     return false;
   }
 
-  async del(key: string): Promise<boolean> {
+  async del(_key: string): Promise<boolean> {
     // On client side, no-op
     return false;
   }
 
-  async invalidatePattern(pattern: string): Promise<number> {
+  async invalidatePattern(_pattern: string): Promise<number> {
     // On client side, no-op
     return 0;
   }
@@ -68,19 +68,19 @@ export const cacheManager = new ClientSafeCacheManager();
 
 // Export compatible redisClient interface for compatibility
 export const redisClient = {
-  async get(key: string): Promise<string | null> {
+  async get(_key: string): Promise<string | null> {
     return null;
   },
   
-  async setex(key: string, ttl: number, value: string): Promise<void> {
+  async setex(_key: string, _ttl: number, _value: string): Promise<void> {
     // No-op
   },
   
-  async del(...keys: string[]): Promise<number> {
+  async del(..._keys: string[]): Promise<number> {
     return 0;
   },
   
-  async keys(pattern: string): Promise<string[]> {
+  async keys(_pattern: string): Promise<string[]> {
     return [];
   },
   
@@ -88,39 +88,39 @@ export const redisClient = {
     return 'PONG';
   },
   
-  async eval(script: string, numKeys: number, ...args: string[]): Promise<any> {
+  async eval(_script: string, _numKeys: number, ..._args: string[]): Promise<any> {
     throw new Error('Redis operations not available on client side');
   },
   
-  async hmget(key: string, ...fields: string[]): Promise<(string | null)[]> {
+  async hmget(_key: string, ...fields: string[]): Promise<(string | null)[]> {
     return fields.map(() => null);
   },
   
-  async hmset(key: string, ...fieldValues: string[]): Promise<void> {
+  async hmset(_key: string, ..._fieldValues: string[]): Promise<void> {
     // No-op
   },
   
-  async expire(key: string, seconds: number): Promise<void> {
+  async expire(_key: string, _seconds: number): Promise<void> {
     // No-op
   },
   
-  async zadd(key: string, score: number, member: string): Promise<void> {
+  async zadd(_key: string, _score: number, _member: string): Promise<void> {
     // No-op
   },
   
-  async zremrangebyscore(key: string, min: number, max: number): Promise<number> {
+  async zremrangebyscore(_key: string, _min: number, _max: number): Promise<number> {
     return 0;
   },
   
-  async zcard(key: string): Promise<number> {
+  async zcard(_key: string): Promise<number> {
     return 0;
   },
   
-  async zrange(key: string, start: number, stop: number, ...options: string[]): Promise<string[]> {
+  async zrange(_key: string, _start: number, _stop: number, ..._options: string[]): Promise<string[]> {
     return [];
   },
   
-  async incr(key: string): Promise<number> {
+  async incr(_key: string): Promise<number> {
     return 1;
   }
 };
