@@ -18,6 +18,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "noEmit": false,
     "baseUrl": ".",
     "paths": {},
     "jsx": "react-jsx",
