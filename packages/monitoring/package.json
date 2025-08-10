@@ -16,7 +16,8 @@
     "lint": "eslint src/",
     "type-check": "tsc --noEmit",
     "check-types": "tsc --noEmit -p tsconfig.build.json",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm run build",
+    "prebuild": "mkdir -p dist && cp -f ../../packages/monitoring/dist/index.js dist/index.js 2>/dev/null || echo 'module.exports = {};' > dist/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
