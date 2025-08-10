@@ -65,7 +65,7 @@ export function getSupabaseClient(config?: Partial<AuthConfig>): SupabaseClient 
           autoRefreshToken: true,
           detectSessionInUrl: true,
           flowType: 'pkce',
-          storageKey: 'sb-staff-auth', // Fixed storage key for custom domain
+          storageKey: 'sb-supa-auth-token', // Match the key Supabase v2 uses for custom domains
           storage: typeof window !== 'undefined' ? window.localStorage : undefined,
           debug: true, // Enable auth debug mode
         },
@@ -142,7 +142,7 @@ export function createAppSupabaseClient(appName: string, config?: Partial<AuthCo
         autoRefreshToken: true,
         detectSessionInUrl: true,
         flowType: 'pkce',
-        storageKey: 'sb-staff-auth', // Fixed storage key for custom domain
+        storageKey: 'sb-supa-auth-token', // Match the key Supabase v2 uses for custom domains
         storage: typeof window !== 'undefined' ? window.localStorage : undefined,
       },
       global: {
