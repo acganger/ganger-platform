@@ -1,0 +1,37 @@
+name: Deploy Shared Components
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'shared/**'
+  workflow_dispatch:
+
+jobs:
+  deploy-shared:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
+        
+    - name: Validate PHP syntax
+      run: find shared -name "*.php" -exec php -l {} \;
+      
+    - name: Deploy shared components to server
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: /shared/
+        local-dir: ./shared/
+        exclude: |
+          **/.git*
+          **/node_modules/**
+          **/*.md
