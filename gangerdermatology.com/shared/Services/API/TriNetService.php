@@ -22,9 +22,17 @@ class TriNetService
      */
     private function __construct()
     {
-        // Use environment variables or fallback to working credentials
-        $this->apiKey = $_ENV['TRINET_API_KEY'] ?? 'wn1Y6KKFRB2j+GCH47K0';
-        $this->companyId = $_ENV['TRINET_COMPANY_ID'] ?? '923571';
+        // Load from environment variables
+        $this->apiKey = $_ENV['TRINET_API_KEY'] ?? $_ENV['ZENEFITS_API_KEY'] ?? '';
+        $this->companyId = $_ENV['TRINET_COMPANY_ID'] ?? $_ENV['ZENEFITS_COMPANY_ID'] ?? '';
+        
+        // Validate required configuration
+        if (empty($this->apiKey)) {
+            throw new \Exception('TriNet/Zenefits API key not configured. Please set TRINET_API_KEY or ZENEFITS_API_KEY in environment.');
+        }
+        if (empty($this->companyId)) {
+            throw new \Exception('TriNet/Zenefits company ID not configured. Please set TRINET_COMPANY_ID or ZENEFITS_COMPANY_ID in environment.');
+        }
         
         // Check if we're in sandbox mode
         $this->sandboxMode = ($_ENV['TRINET_SANDBOX_MODE'] ?? false) === 'true';

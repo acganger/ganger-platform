@@ -16,14 +16,14 @@ namespace Ganger\Shared\Services\API;
 class ModMedAPI {
     /**
      * API Configuration
-     * These are the production credentials verified as working
+     * Loaded from environment variables
      */
     private static $config = [
-        'api_key' => 'd6544613-bac8-497e-97f9-8825012ad5bf',
-        'username' => 'fhir_cParg',
-        'password' => 'DdoHuMihUN',
-        'firm_id' => 'gangerderm',
-        'base_url' => 'https://mmapi.ema-api.com/ema-prod/firm/gangerderm/ema',
+        'api_key' => '',
+        'username' => '',
+        'password' => '',
+        'firm_id' => '',
+        'base_url' => '',
         'oauth_endpoint' => '/ws/oauth2/grant',
         'fhir_endpoint' => '/fhir/v2'
     ];
@@ -53,18 +53,23 @@ class ModMedAPI {
      * Private constructor for singleton
      */
     private function __construct() {
-        // Override with environment variables if available
-        if (getenv('MODMED_API_KEY')) {
-            self::$config['api_key'] = getenv('MODMED_API_KEY');
+        // Load configuration from environment variables
+        self::$config['api_key'] = $_ENV['MODMED_API_KEY'] ?? '';
+        self::$config['username'] = $_ENV['MODMED_OAUTH2_USER'] ?? '';
+        self::$config['password'] = $_ENV['MODMED_OAUTH2_PASS'] ?? '';
+        self::$config['firm_id'] = $_ENV['MODMED_FIRM_ID'] ?? $_ENV['MODMED_SITECODE'] ?? '';
+        
+        // Set base URL based on firm ID
+        if (!empty(self::$config['firm_id'])) {
+            self::$config['base_url'] = 'https://mmapi.ema-api.com/ema-prod/firm/' . self::$config['firm_id'] . '/ema';
         }
-        if (getenv('MODMED_OAUTH2_USER')) {
-            self::$config['username'] = getenv('MODMED_OAUTH2_USER');
-        }
-        if (getenv('MODMED_OAUTH2_PASS')) {
-            self::$config['password'] = getenv('MODMED_OAUTH2_PASS');
-        }
-        if (getenv('MODMED_FIRM_ID')) {
-            self::$config['firm_id'] = getenv('MODMED_FIRM_ID');
+        
+        // Validate required configuration
+        $requiredFields = ['api_key', 'username', 'password', 'firm_id'];
+        foreach ($requiredFields as $field) {
+            if (empty(self::$config[$field])) {
+                throw new \Exception("ModMed configuration error: Missing required field '$field'. Please set environment variables.");
+            }
         }
     }
     

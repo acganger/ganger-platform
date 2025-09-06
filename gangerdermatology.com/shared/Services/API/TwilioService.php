@@ -22,10 +22,21 @@ class TwilioService
      */
     private function __construct()
     {
-        // Use environment variables or fallback to working credentials
-        $this->accountSid = $_ENV['TWILIO_ACCOUNT_SID'] ?? 'AC9931ff9e0373b113ff74896254b46ee4';
-        $this->authToken = $_ENV['TWILIO_AUTH_TOKEN'] ?? '1842839203b725e0233d9a3f6179273e';
-        $this->fromNumber = $_ENV['TWILIO_PHONE_NUMBER'] ?? '+17348225566';
+        // Load from environment variables
+        $this->accountSid = $_ENV['TWILIO_ACCOUNT_SID'] ?? '';
+        $this->authToken = $_ENV['TWILIO_AUTH_TOKEN'] ?? '';
+        $this->fromNumber = $_ENV['TWILIO_PHONE_NUMBER'] ?? '';
+        
+        // Validate required configuration
+        if (empty($this->accountSid)) {
+            throw new \Exception('Twilio account SID not configured. Please set TWILIO_ACCOUNT_SID in environment.');
+        }
+        if (empty($this->authToken)) {
+            throw new \Exception('Twilio auth token not configured. Please set TWILIO_AUTH_TOKEN in environment.');
+        }
+        if (empty($this->fromNumber)) {
+            throw new \Exception('Twilio phone number not configured. Please set TWILIO_PHONE_NUMBER in environment.');
+        }
         
         // Check if we're in test mode
         $this->testMode = ($_ENV['TWILIO_TEST_MODE'] ?? false) === 'true';

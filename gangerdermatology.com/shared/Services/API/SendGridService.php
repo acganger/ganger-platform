@@ -22,10 +22,15 @@ class SendGridService
      */
     private function __construct()
     {
-        // Use environment variables or fallback to working credentials
-        $this->apiKey = $_ENV['SENDGRID_API_KEY'] ?? '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';
+        // Load from environment variables
+        $this->apiKey = $_ENV['SENDGRID_API_KEY'] ?? '';
         $this->fromEmail = $_ENV['SENDGRID_FROM_EMAIL'] ?? 'noreply@gangerdermatology.com';
         $this->fromName = $_ENV['SENDGRID_FROM_NAME'] ?? 'Ganger Dermatology';
+        
+        // Validate required configuration
+        if (empty($this->apiKey)) {
+            throw new \Exception('SendGrid API key not configured. Please set SENDGRID_API_KEY in environment.');
+        }
         
         // Sandbox mode for testing (doesn't actually send emails)
         $this->sandboxMode = ($_ENV['SENDGRID_SANDBOX_MODE'] ?? false) === 'true';
